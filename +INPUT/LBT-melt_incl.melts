@@ -1,0 +1,17 @@
+Title: LBT
+Initial Composition: SiO2 77.80
+Initial Composition: TiO2 0.09
+Initial Composition: Al2O3 12
+Initial Composition: FeO 0.65
+Initial Composition: MgO 0.04
+Initial Composition: CaO 0.45
+Initial Composition: Na2O 3.70
+Initial Composition: K2O 5.36
+Initial Composition: H2O 3.74
+Initial Temperature: 800
+Final Temperature: 800
+Increment Temperature: 5.0
+Initial Pressure: 1750.0
+Final Pressure: 1750.0
+Increment Pressure: 0.0
+log fo2 Path: NNO

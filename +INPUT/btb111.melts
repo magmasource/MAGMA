@@ -1,0 +1,21 @@
+Title: dummy
+Initial Composition: SiO2 54.2057
+Initial Composition: TiO2 0.9874
+Initial Composition: Al2O3 15.8400
+Initial Composition: FeO 6.7680
+Initial Composition: MnO 0.1131
+Initial Composition: MgO 6.2331
+Initial Composition: CaO 8.1771
+Initial Composition: Na2O 3.7131
+Initial Composition: K2O 2.4686
+Initial Composition: P2O5 0.4937
+Initial Composition: H2O 1.0000
+Initial Temperature: 720.00
+Final Temperature: 1400.00
+Initial Pressure: 1200.00
+Final Pressure: 1200.00
+Increment Temperature: 1.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: +2FMQ
+Mode: Fractionate Liquids

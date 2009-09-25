@@ -1,0 +1,50 @@
+Title: dummy
+Initial Composition: SiO2 45.4700
+Initial Composition: Fe2O3 0.0002
+Initial Composition: FeO 7.2217
+Initial Composition: MgO 38.5300
+Initial Temperature: 1600.00
+Final Temperature: 1600.00
+Initial Pressure: 10000.00
+Final Pressure: 10000.00
+Increment Temperature: 10.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: -1FMQ
+Suppress: aenigmatite
+Suppress: apatite
+Suppress: cordierite
+Suppress: corundum
+Suppress: cristobalite
+Suppress: density
+Suppress: enthalpy
+Suppress: entropy
+Suppress: liquid
+Suppress: merwinite
+Suppress: muscovite
+Suppress: o2
+Suppress: perovskite
+Suppress: periclase
+Suppress: pseudowollastonite
+Suppress: rutile
+Suppress: s2
+Suppress: sphene
+Suppress: water
+Suppress: whitlockite
+Suppress: wollastonite
+Suppress: wustite
+Suppress: caperovskite-sx
+Suppress: alloy-liquid
+Suppress: alloy-solid
+Suppress: amphibole
+Suppress: biotite
+Suppress: clinopyroxene
+Suppress: hornblende
+Suppress: kalsilite ss
+Suppress: leucite ss
+Suppress: majorite ss
+Suppress: melilite
+Suppress: nepheline ss
+Suppress: ortho oxide
+Suppress: msg oxide
+Suppress: spinel

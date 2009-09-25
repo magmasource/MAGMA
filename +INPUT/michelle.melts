@@ -1,0 +1,18 @@
+Title: test
+Initial Composition: SiO2 44.5400
+Initial Composition: Al2O3 12.9700
+Initial Composition: Cr2O3 0.1100
+Initial Composition: FeO 7.6600
+Initial Composition: MgO 16.1600
+Initial Composition: CaO 13.9900
+Initial Composition: Na2O 1.0400
+Initial Composition: P2O5 1.2200
+Initial Composition: MnO 0.6300
+Initial Temperature: 1400.00
+Final Temperature: 1000.00
+Initial Pressure: 1.00
+Final Pressure: 1.00
+Increment Temperature: 20.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: None

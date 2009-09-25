@@ -1,0 +1,57 @@
+Title: dummy
+Initial Composition: SiO2 57.7900
+Initial Composition: TiO2 0.6000
+Initial Composition: Al2O3 14.4000
+Initial Composition: FeO 5.7400
+Initial Composition: MgO 9.1400
+Initial Composition: CaO 8.1700
+Initial Composition: Na2O 3.1100
+Initial Composition: K2O 0.7100
+Initial Composition: H2O 5.0000
+Initial Temperature: 1200.00
+Final Temperature: 900.00
+Initial Pressure: 2000.00
+Final Pressure: 2000.00
+Increment Temperature: 10.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: FMQ
+Suppress: aenigmatite
+Suppress: apatite
+Suppress: cordierite
+Suppress: corundum
+Suppress: cristobalite
+Suppress: density
+Suppress: enthalpy
+Suppress: entropy
+Suppress: liquid
+Suppress: merwinite
+Suppress: muscovite
+Suppress: o2
+Suppress: perovskite
+Suppress: periclase
+Suppress: pseudowollastonite
+Suppress: rutile
+Suppress: s2
+Suppress: sphene
+Suppress: tridymite
+Suppress: whitlockite
+Suppress: wollastonite
+Suppress: wustite
+Suppress: caperovskite-sx
+Suppress: coesite-sx
+Suppress: stishovite-sx
+Suppress: alloy-liquid
+Suppress: alloy-solid
+Suppress: amphibole
+Suppress: biotite
+Suppress: hornblende
+Suppress: kalsilite ss
+Suppress: leucite ss
+Suppress: melilite
+Suppress: nepheline ss
+Suppress: ortho oxide
+Suppress: perovskite ss
+Suppress: ringwoodite ss
+Suppress: wadsleyite ss
+Suppress: wustite ss

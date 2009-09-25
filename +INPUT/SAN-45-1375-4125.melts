@@ -1,0 +1,32 @@
+Title: dummy
+Initial Composition: SiO2 45.0000
+Initial Composition: Al2O3 13.7500
+Initial Composition: Na2O 41.2500
+Initial Temperature: 1500.00
+Final Temperature: 1500.00
+Initial Pressure: 1.00
+Final Pressure: 1.00
+Increment Temperature: 0.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: None
+Suppress: enthalpy
+Suppress: entropy
+Suppress: kalsilitehex
+Suppress: kalsiliteortho
+Suppress: kdisilicate
+Suppress: kmetasilicate
+Suppress: ktetrasilicate
+Suppress: leucite
+Suppress: liquid
+Suppress: muscovite
+Suppress: nepheline
+Suppress: pseudowollastonite
+Suppress: highsanidine
+Suppress: water
+Suppress: wollastonite
+Suppress: coesite-sx
+Suppress: stishovite-sx
+Suppress: feldspar
+Suppress: kalsilite ss
+Suppress: leucite ss
