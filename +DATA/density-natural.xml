@@ -1,0 +1,3812 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="LEPRdatabase.xsd">
+    <experiment>
+        <number>150001</number>
+        <name>Miller001</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1476.85</t>
+        <p>5.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.13</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150002</number>
+        <name>Miller002</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1426.85</t>
+        <p>5.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.19</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150003</number>
+        <name>Miller003</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1526.85</t>
+        <p>7.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.25</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150004</number>
+        <name>Miller004</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1601.85</t>
+        <p>8.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.34</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150005</number>
+        <name>Miller005</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1526.85</t>
+        <p>9.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.39</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150006</number>
+        <name>Miller006</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1726.85</t>
+        <p>12.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.52</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150007</number>
+        <name>Miller007</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1826.85</t>
+        <p>14.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.57</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150008</number>
+        <name>Miller008</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>2176.85</t>
+        <p>15.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.6</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150009</number>
+        <name>Miller009</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1876.85</t>
+        <p>17.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.71</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150010</number>
+        <name>Miller010</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>2626.85</t>
+        <p>24.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.88</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150011</number>
+        <name>Miller011</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>3476.85</t>
+        <p>27.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.94</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150012</number>
+        <name>Miller012</name>
+        <author>Miller and others (1991)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>4076.85</t>
+        <p>35.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.5</sio2>
+            <tio2>0.4</tio2>
+            <al2o3>8.0</al2o3>
+            <cr2o3>0.3</cr2o3>
+            <feo>8.5</feo>
+            <mgo>27.7</mgo>
+            <cao>7.7</cao>
+            <na2o>0.9</na2o>
+            <k2o>0.2</k2o>
+        </liquid>
+        <phase type="density">
+            <value>4.15</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150013</number>
+        <name>Rowan001</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1206.85</t>
+        <p>2.77</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.04</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150014</number>
+        <name>Rowan002</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1226.85</t>
+        <p>3.38</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.19</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150015</number>
+        <name>Rowan003</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1256.85</t>
+        <p>4.10</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.29</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150016</number>
+        <name>Rowan004</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1261.85</t>
+        <p>4.16</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.35</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150017</number>
+        <name>Rowan005</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1316.85</t>
+        <p>5.16</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.23</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150018</number>
+        <name>Rowan006</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1376.85</t>
+        <p>6.08</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.29</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150019</number>
+        <name>Rowan007</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1416.85</t>
+        <p>6.59</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.44</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150020</number>
+        <name>Rowan008</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1826.85</t>
+        <p>10.43</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.7</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150021</number>
+        <name>Rowan009</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>2546.85</t>
+        <p>15.29</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.74</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150022</number>
+        <name>Rowan010</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>2796.85</t>
+        <p>16.76</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.94</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150023</number>
+        <name>Rowan011</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>2926.85</t>
+        <p>17.55</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.93</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150124</number>
+        <name>Rowan012</name>
+        <author>Rowan (1993)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>3456.85</t>
+        <p>20.14</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>49.24</sio2>
+            <tio2>1.25</tio2>
+            <al2o3>15.27</al2o3>
+            <feo>10.26</feo>
+            <mgo>7.73</mgo>
+            <cao>12.73</cao>
+            <na2o>2.69</na2o>
+            <k2o>0.09</k2o>
+        </liquid>
+        <phase type="density">
+            <value>3.94</value>
+        </phase>
+    </experiment>
+    
+    
+    
+    
+    
+    
+    
+    <experiment>
+        <number>150132</number>
+        <name>Rigden001</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1608.85</t>
+        <p>8.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>55.50</sio2>
+            <mgo>18.60</mgo>
+            <cao>25.90</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.13</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150133</number>
+        <name>Rigden002</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1663.85</t>
+        <p>13.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>55.50</sio2>
+            <mgo>18.60</mgo>
+            <cao>25.90</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.38</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150134</number>
+        <name>Rigden003</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1711.85</t>
+        <p>19.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>55.50</sio2>
+            <mgo>18.60</mgo>
+            <cao>25.90</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.59</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150135</number>
+        <name>Rigden004</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1769.85</t>
+        <p>31.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>55.50</sio2>
+            <mgo>18.60</mgo>
+            <cao>25.90</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.84</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150136</number>
+        <name>Rigden005</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1802.85</t>
+        <p>38</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>55.50</sio2>
+            <mgo>18.60</mgo>
+            <cao>25.90</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.98</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150137</number>
+        <name>Rigden001</name>
+        <author>Rigden and others (1984, 1988)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1400</t>
+        <p>4.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>50.34</sio2>
+            <al2o3>15.38</al2o3>
+            <mgo>10.80</mgo>
+            <cao>23.48</cao>
+        </liquid>
+        <phase type="density">
+            <value>2.95</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150138</number>
+        <name>Rigden001</name>
+        <author>Rigden and others (1984, 1988)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1400</t>
+        <p>6.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>50.34</sio2>
+            <al2o3>15.38</al2o3>
+            <mgo>10.80</mgo>
+            <cao>23.48</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.14</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150139</number>
+        <name>Rigden002</name>
+        <author>Rigden and others (1984, 1988)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1400</t>
+        <p>9.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>50.34</sio2>
+            <al2o3>15.38</al2o3>
+            <mgo>10.80</mgo>
+            <cao>23.48</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.28</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150140</number>
+        <name>Rigden003</name>
+        <author>Rigden and others (1984, 1988)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1400</t>
+        <p>15.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>50.34</sio2>
+            <al2o3>15.38</al2o3>
+            <mgo>10.80</mgo>
+            <cao>23.48</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.50</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150141</number>
+        <name>Rigden004</name>
+        <author>Rigden and others (1984, 1988)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1400</t>
+        <p>24.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>50.34</sio2>
+            <al2o3>15.38</al2o3>
+            <mgo>10.80</mgo>
+            <cao>23.48</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.83</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150142</number>
+        <name>Rigden005</name>
+        <author>Rigden and others (1984, 1988)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1400</t>
+        <p>29.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>50.34</sio2>
+            <al2o3>15.38</al2o3>
+            <mgo>10.80</mgo>
+            <cao>23.48</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.88</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150143</number>
+        <name>Rigden006</name>
+        <author>Rigden and others (1984, 1988)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1400</t>
+        <p>33.9</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>50.34</sio2>
+            <al2o3>15.38</al2o3>
+            <mgo>10.80</mgo>
+            <cao>23.48</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.88</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150144</number>
+        <name>Rigden001</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1754.85</t>
+        <p>9.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.20</sio2>
+            <al2o3>36.65</al2o3>
+            <cao>20.15</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.31</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150145</number>
+        <name>Rigden002</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1763.85</t>
+        <p>9.6</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.20</sio2>
+            <al2o3>36.65</al2o3>
+            <cao>20.15</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.37</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150146</number>
+        <name>Rigden003</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1770.85</t>
+        <p>12.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.20</sio2>
+            <al2o3>36.65</al2o3>
+            <cao>20.15</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.42</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150147</number>
+        <name>Rigden004</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1790.85</t>
+        <p>15.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.20</sio2>
+            <al2o3>36.65</al2o3>
+            <cao>20.15</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.56</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150148</number>
+        <name>Rigden005</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1854.85</t>
+        <p>26.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.20</sio2>
+            <al2o3>36.65</al2o3>
+            <cao>20.15</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.99</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150149</number>
+        <name>Rigden006</name>
+        <author>Rigden and others (1989)</author>
+        <lab>CalTech Shock Wave Lab</lab>
+        <device>PC</device>
+        <t>1907.85</t>
+        <p>34.9</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.20</sio2>
+            <al2o3>36.65</al2o3>
+            <cao>20.15</cao>
+        </liquid>
+        <phase type="density">
+            <value>4.33</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150150</number>
+        <name>SuzukiPerF001</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1860</t>
+        <p>6.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.32</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150151</number>
+        <name>SuzukiPerF002</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1980</t>
+        <p>8.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.40</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150152</number>
+        <name>SuzukiPerF003</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1980</t>
+        <p>8.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.36</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150153</number>
+        <name>SuzukiPerF004</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2330</t>
+        <p>16.9</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.56</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150154</number>
+        <name>SuzukiPerF005</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2340</t>
+        <p>17.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.56</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150155</number>
+        <name>SuzukiPerF006</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2560</t>
+        <p>17.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.55</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150156</number>
+        <name>SuzukiPerF007</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2350</t>
+        <p>18.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.57</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150157</number>
+        <name>SuzukiPerF008</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1975</t>
+        <p>8.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.35</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150158</number>
+        <name>SuzukiPerF009</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1975</t>
+        <p>8.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.23</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150159</number>
+        <name>SuzukiPerF010</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1950</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.20</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150160</number>
+        <name>SuzukiPerN011</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1800</t>
+        <p>6.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.35</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150161</number>
+        <name>SuzukiPerN012</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2370</t>
+        <p>15.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.55</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150162</number>
+        <name>SuzukiPerN013</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2330</t>
+        <p>15.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.55</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150163</number>
+        <name>SuzukiPerN014</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2330</t>
+        <p>16.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.55</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150164</number>
+        <name>SuzukiPerN015</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2300</t>
+        <p>16.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.56</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150165</number>
+        <name>SuzukiPerN016</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>16.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.55</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150166</number>
+        <name>SuzukiPerN017</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2570</t>
+        <p>17.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.55</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150167</number>
+        <name>SuzukiPerN018</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1800</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.25</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150168</number>
+        <name>SuzukiPerN019</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1890</t>
+        <p>7.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.39</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150169</number>
+        <name>SuzukiPerN020</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2330</t>
+        <p>16.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.56</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150170</number>
+        <name>SuzukiPerS021</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1800</t>
+        <p>6.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.37</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150171</number>
+        <name>SuzukiPerS022</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2400</t>
+        <p>11.6</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.51</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150172</number>
+        <name>SuzukiPerS023</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2400</t>
+        <p>14.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.53</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150173</number>
+        <name>SuzukiPerS024</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2330</t>
+        <p>15.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.55</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150174</number>
+        <name>SuzukiPerS025</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1800</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.10</sio2>
+            <al2o3>6.50</al2o3>
+            <feo>16.00</feo>
+            <mgo>30.20</mgo>
+            <cao>5.30</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.30</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150175</number>
+        <name>SuzukiPerF026</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1980</t>
+        <p>13.9</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.53</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150176</number>
+        <name>SuzukiPerF027</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>20.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.59</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150177</number>
+        <name>SuzukiPerF028</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>21.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.60</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150178</number>
+        <name>SuzukiPerF029</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>22.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.61</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150179</number>
+        <name>SuzukiPerN030</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2030</t>
+        <p>13.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.51</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150180</number>
+        <name>SuzukiPerN031</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2040</t>
+        <p>13.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.51</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150181</number>
+        <name>SuzukiPerN032</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>20.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.58</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150182</number>
+        <name>SuzukiPerN033</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>20.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.59</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150183</number>
+        <name>SuzukiPerS034</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1870</t>
+        <p>10.6</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.46</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150184</number>
+        <name>SuzukiPerS035</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1950</t>
+        <p>12.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.49</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150185</number>
+        <name>SuzukiPerS036</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2400</t>
+        <p>15.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.54</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150186</number>
+        <name>SuzukiPerS037</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>20.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.10</sio2>
+            <al2o3>2.80</al2o3>
+            <feo>10.40</feo>
+            <mgo>38.40</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.59</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150187</number>
+        <name>SuzukiPerN037</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2270</t>
+        <p>16.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>41.2</sio2>
+            <al2o3>3.70</al2o3>
+            <feo>15.10</feo>
+            <mgo>33.00</mgo>
+            <cao>7.00</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.55</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150188</number>
+        <name>SuzukiPerN038</name>
+        <author>Suzuki</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2270</t>
+        <p>16.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>41.2</sio2>
+            <al2o3>3.70</al2o3>
+            <feo>15.10</feo>
+            <mgo>33.00</mgo>
+            <cao>7.00</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.56</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150189</number>
+        <name>OhtaniPerS001</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1985</t>
+        <p>8.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.20</sio2>
+            <al2o3>4.40</al2o3>
+            <feo>8.00</feo>
+            <mgo>39.00</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.29</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150190</number>
+        <name>OhtaniPerS002</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>10.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.20</sio2>
+            <al2o3>4.40</al2o3>
+            <feo>8.00</feo>
+            <mgo>39.00</mgo>
+            <cao>3.40</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.35</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150191</number>
+        <name>OhtaniPerS003</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>1985</t>
+        <p>8.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.20</sio2>
+            <al2o3>3.60</al2o3>
+            <feo>8.70</feo>
+            <mgo>38.30</mgo>
+            <cao>3.20</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.38</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150192</number>
+        <name>OhtaniPerS004</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>10.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.20</sio2>
+            <al2o3>3.60</al2o3>
+            <feo>8.70</feo>
+            <mgo>38.30</mgo>
+            <cao>3.20</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.44</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150193</number>
+        <name>OhtaniPerN005</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>22.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.20</sio2>
+            <al2o3>3.60</al2o3>
+            <feo>8.70</feo>
+            <mgo>38.30</mgo>
+            <cao>3.20</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.61</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150194</number>
+        <name>OhtaniPerS006</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2320</t>
+        <p>14.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.20</sio2>
+            <al2o3>5.10</al2o3>
+            <feo>8.20</feo>
+            <mgo>38.20</mgo>
+            <cao>4.10</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.54</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150195</number>
+        <name>OhtaniPerS007</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2220</t>
+        <p>18.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.20</sio2>
+            <al2o3>5.10</al2o3>
+            <feo>8.20</feo>
+            <mgo>38.20</mgo>
+            <cao>4.10</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.58</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150196</number>
+        <name>OhtaniPerS008</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>20.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.20</sio2>
+            <al2o3>5.10</al2o3>
+            <feo>8.20</feo>
+            <mgo>38.20</mgo>
+            <cao>4.10</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.58</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150197</number>
+        <name>OhtaniPerS009</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>20.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.20</sio2>
+            <al2o3>5.10</al2o3>
+            <feo>8.20</feo>
+            <mgo>38.20</mgo>
+            <cao>4.10</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.59</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150198</number>
+        <name>OhtaniPerS010</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2360</t>
+        <p>22.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.20</sio2>
+            <al2o3>5.10</al2o3>
+            <feo>8.20</feo>
+            <mgo>38.20</mgo>
+            <cao>4.10</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.61</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150199</number>
+        <name>OhtaniMaedaBasF001</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2200</t>
+        <p>15.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>51.81</sio2>
+            <al2o3>15.95</al2o3>
+            <feo>9.97</feo>
+            <mgo>7.86</mgo>
+            <cao>11.69</cao>
+            <na2o>2.72</na2o>
+        </liquid>
+        <phase type="density">
+            <minimum>3.56</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150200</number>
+        <name>OhtaniMaedaBasF002</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>15.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>51.81</sio2>
+            <al2o3>15.95</al2o3>
+            <feo>9.97</feo>
+            <mgo>7.86</mgo>
+            <cao>11.69</cao>
+            <na2o>2.72</na2o>
+        </liquid>
+        <phase type="density">
+            <minimum>3.54</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150201</number>
+        <name>OhtaniMaedaBasF003</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>16.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>51.81</sio2>
+            <al2o3>15.95</al2o3>
+            <feo>9.97</feo>
+            <mgo>7.86</mgo>
+            <cao>11.69</cao>
+            <na2o>2.72</na2o>
+        </liquid>
+        <phase type="density">
+            <minimum>3.54</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150202</number>
+        <name>OhtaniMaedaBasF004</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2200</t>
+        <p>16.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>51.81</sio2>
+            <al2o3>15.95</al2o3>
+            <feo>9.97</feo>
+            <mgo>7.86</mgo>
+            <cao>11.69</cao>
+            <na2o>2.72</na2o>
+        </liquid>
+        <phase type="density">
+            <minimum>3.57</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150203</number>
+        <name>OhtaniMaedaBasN005</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2200</t>
+        <p>14.9</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>51.81</sio2>
+            <al2o3>15.95</al2o3>
+            <feo>9.97</feo>
+            <mgo>7.86</mgo>
+            <cao>11.69</cao>
+            <na2o>2.72</na2o>
+        </liquid>
+        <phase type="density">
+            <value>3.56</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150204</number>
+        <name>OhtaniMaedaBasN006</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>15.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>51.81</sio2>
+            <al2o3>15.95</al2o3>
+            <feo>9.97</feo>
+            <mgo>7.86</mgo>
+            <cao>11.69</cao>
+            <na2o>2.72</na2o>
+        </liquid>
+        <phase type="density">
+            <value>3.54</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150205</number>
+        <name>OhtaniMaedaBasS007</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2200</t>
+        <p>14.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>51.81</sio2>
+            <al2o3>15.95</al2o3>
+            <feo>9.97</feo>
+            <mgo>7.86</mgo>
+            <cao>11.69</cao>
+            <na2o>2.72</na2o>
+        </liquid>
+        <phase type="density">
+            <maximum>3.55</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150206</number>
+        <name>OhtaniMaedaBasS008</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>14.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>51.81</sio2>
+            <al2o3>15.95</al2o3>
+            <feo>9.97</feo>
+            <mgo>7.86</mgo>
+            <cao>11.69</cao>
+            <na2o>2.72</na2o>
+        </liquid>
+        <phase type="density">
+            <maximum>3.53</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150207</number>
+        <name>OhtaniMaedaPicF001</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>15.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>48.0</sio2>
+            <tio2>0.26</tio2>
+            <al2o3>7.74</al2o3>
+            <feo>16.50</feo>
+            <mgo>18.20</mgo>
+            <cao>8.57</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.54</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150208</number>
+        <name>OhtaniMaedaPicF002</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>16.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>48.0</sio2>
+            <tio2>0.26</tio2>
+            <al2o3>7.74</al2o3>
+            <feo>16.50</feo>
+            <mgo>18.20</mgo>
+            <cao>8.57</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.54</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150209</number>
+        <name>OhtaniMaedaPicS003</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>12.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>48.0</sio2>
+            <tio2>0.26</tio2>
+            <al2o3>7.74</al2o3>
+            <feo>16.50</feo>
+            <mgo>18.20</mgo>
+            <cao>8.57</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.51</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150210</number>
+        <name>OhtaniMaedaPicS004</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>12.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>48.0</sio2>
+            <tio2>0.26</tio2>
+            <al2o3>7.74</al2o3>
+            <feo>16.50</feo>
+            <mgo>18.20</mgo>
+            <cao>8.57</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.51</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150211</number>
+        <name>OhtaniMaedaPicS005</name>
+        <author>Ohtani</author>
+        <lab>Japan</lab>
+        <device>PC</device>
+        <t>2500</t>
+        <p>14.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>48.0</sio2>
+            <tio2>0.26</tio2>
+            <al2o3>7.74</al2o3>
+            <feo>16.50</feo>
+            <mgo>18.20</mgo>
+            <cao>8.57</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.53</maximum>
+        </phase>
+    </experiment>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <experiment>
+        <number>150230</number>
+        <name>Sanidine001</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1216</t>
+        <p>0.0723</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.33</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150231</number>
+        <name>Sanidine002</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1232</t>
+        <p>0.1503</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.34</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150232</number>
+        <name>Sanidine003</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1248</t>
+        <p>0.2343</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.36</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150233</number>
+        <name>Sanidine004</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1264</t>
+        <p>0.3247</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.37</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150234</number>
+        <name>Sanidine005</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1280</t>
+        <p>0.4219</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.38</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150235</number>
+        <name>Sanidine006</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1296</t>
+        <p>0.5265</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.40</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150236</number>
+        <name>Sanidine007</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1312</t>
+        <p>0.6388</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.41</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150237</number>
+        <name>Sanidine008</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1328</t>
+        <p>0.7593</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.42</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150238</number>
+        <name>Sanidine009</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1344</t>
+        <p>0.8886</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.43</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150239</number>
+        <name>Sanidine010</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1360</t>
+        <p>1.0271</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.45</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150240</number>
+        <name>Sanidine011</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1376</t>
+        <p>1.1755</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.46</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150241</number>
+        <name>Sanidine012</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1392</t>
+        <p>1.3344</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.47</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150242</number>
+        <name>Sanidine013</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1408</t>
+        <p>1.5043</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.49</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150243</number>
+        <name>Sanidine014</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1424</t>
+        <p>1.6859</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.50</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150244</number>
+        <name>Sanidine015</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1440</t>
+        <p>1.8800</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.51</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150245</number>
+        <name>Sanidine016</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1456</t>
+        <p>2.0872</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.52</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150246</number>
+        <name>Sanidine017</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1472</t>
+        <p>2.3082</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.54</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150247</number>
+        <name>Sanidine018</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1488</t>
+        <p>2.5440</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.55</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150248</number>
+        <name>Sanidine019</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1504</t>
+        <p>2.7952</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.57</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150249</number>
+        <name>Sanidine020</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1520</t>
+        <p>3.0628</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.58</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150250</number>
+        <name>Sanidine021</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1536</t>
+        <p>3.3477</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.60</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150251</number>
+        <name>Sanidine022</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1552</t>
+        <p>3.6508</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.61</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150252</number>
+        <name>Sanidine023</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1568</t>
+        <p>3.9731</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.63</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150253</number>
+        <name>Sanidine024</name>
+        <author>Sanidine Fusion</author>
+        <lab>US</lab>
+        <device>PC</device>
+        <t>1584</t>
+        <p>4.3156</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>64.76</sio2>
+            <al2o3>18.32</al2o3>
+            <k2o>16.92</k2o>
+        </liquid>
+        <phase type="density">
+            <value>2.64</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150254</number>
+        <name>50K/50F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1450</t>
+        <p>1.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>38.34</sio2>
+            <al2o3>4.43</al2o3>
+            <feo>37.78</feo>
+            <mgo>13.68</mgo>
+            <cao>3.56</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.227</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150255</number>
+        <name>65K/35F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1525</t>
+        <p>1.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>40.69</sio2>
+            <al2o3>5.28</al2o3>
+            <feo>29.68</feo>
+            <mgo>17.78</mgo>
+            <cao>4.51</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.135</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150256</number>
+        <name>50K/50F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1460</t>
+        <p>1.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>37.92</sio2>
+            <al2o3>4.27</al2o3>
+            <feo>37.48</feo>
+            <mgo>14.12</mgo>
+            <cao>3.34</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.252</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150257</number>
+        <name>65K/35F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1550</t>
+        <p>1.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>40.96</sio2>
+            <al2o3>5.25</al2o3>
+            <feo>29.53</feo>
+            <mgo>17.79</mgo>
+            <cao>4.5</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.145</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150258</number>
+        <name>61K/39F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1585</t>
+        <p>2.6</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>40.07</sio2>
+            <al2o3>4.76</al2o3>
+            <feo>30.94</feo>
+            <mgo>18.7</mgo>
+            <cao>3.75</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.239</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150259</number>
+        <name>75K/25F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1680</t>
+        <p>3.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.71</sio2>
+            <al2o3>5.32</al2o3>
+            <feo>21.61</feo>
+            <mgo>23.45</mgo>
+            <cao>4.96</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.206</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150260</number>
+        <name>72.5K/27.5F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1690</t>
+        <p>4.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.68</sio2>
+            <al2o3>5.62</al2o3>
+            <feo>25.66</feo>
+            <mgo>19.87</mgo>
+            <cao>5.12</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.213</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150261</number>
+        <name>90K/10F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1800</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.54</sio2>
+            <al2o3>7.00</al2o3>
+            <feo>14.11</feo>
+            <mgo>23.9</mgo>
+            <cao>6.51</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.22</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150262</number>
+        <name>90K/10F*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1795</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.98</sio2>
+            <al2o3>6.15</al2o3>
+            <feo>17.84</feo>
+            <mgo>24.94</mgo>
+            <cao>5.73</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.239</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150263</number>
+        <name>AW93/1/1</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1900</t>
+        <p>9.3</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.47</sio2>
+            <al2o3>5.46</al2o3>
+            <feo>9.47</feo>
+            <mgo>30.39</mgo>
+            <cao>5.77</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.39</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150264</number>
+        <name>65K/35F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1500</t>
+        <p>1.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>41.64</sio2>
+            <al2o3>5.72</al2o3>
+            <feo>29.71</feo>
+            <mgo>16.28</mgo>
+            <cao>5.01</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.092</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150265</number>
+        <name>50K/50F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1425</t>
+        <p>1.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>38.34</sio2>
+            <al2o3>4.33</al2o3>
+            <feo>37.48</feo>
+            <mgo>13.48</mgo>
+            <cao>3.48</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.235</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150266</number>
+        <name>50K/50F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1400</t>
+        <p>1.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>38.64</sio2>
+            <al2o3>4.51</al2o3>
+            <feo>39.23</feo>
+            <mgo>12.65</mgo>
+            <cao>3.68</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.242</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150267</number>
+        <name>65K/35F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1545</t>
+        <p>1.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>41.88</sio2>
+            <al2o3>5.27</al2o3>
+            <feo>28.24</feo>
+            <mgo>18.46</mgo>
+            <cao>4.39</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.13</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150268</number>
+        <name>61K/39F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1560</t>
+        <p>2.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>40.53</sio2>
+            <al2o3>4.85</al2o3>
+            <feo>30.85</feo>
+            <mgo>18.08</mgo>
+            <cao>3.83</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.237</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150269</number>
+        <name>68K/32F*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1660</t>
+        <p>3.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>41.58</sio2>
+            <al2o3>5.28</al2o3>
+            <feo>28.07</feo>
+            <mgo>19.31</mgo>
+            <cao>4.45</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.272</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150270</number>
+        <name>77.5K/22.5F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1700</t>
+        <p>3.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.97</sio2>
+            <al2o3>5.8</al2o3>
+            <feo>23.19</feo>
+            <mgo>21.13</mgo>
+            <cao>5.1</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.2</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150271</number>
+        <name>68K/32F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1660</t>
+        <p>3.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>41.95</sio2>
+            <al2o3>5.39</al2o3>
+            <feo>26.83</feo>
+            <mgo>19.17</mgo>
+            <cao>4.62</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.296</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150272</number>
+        <name>90K/10F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1760</t>
+        <p>4.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.91</sio2>
+            <al2o3>8.03</al2o3>
+            <feo>13.98</feo>
+            <mgo>24.15</mgo>
+            <cao>5.19</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.167</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150273</number>
+        <name>95K/5F*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1805</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>46.48</sio2>
+            <al2o3>6.7</al2o3>
+            <feo>13.77</feo>
+            <mgo>25.4</mgo>
+            <cao>6.42</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.229</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150274</number>
+        <name>AW93/1/2</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1900</t>
+        <p>8.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.65</sio2>
+            <al2o3>5.74</al2o3>
+            <feo>11.18</feo>
+            <mgo>28.83</mgo>
+            <cao>5.79</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.34</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150275</number>
+        <name>60P/40F</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1730</t>
+        <p>3.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>37.48</sio2>
+            <al2o3>2.86</al2o3>
+            <feo>34.07</feo>
+            <mgo>23.49</mgo>
+            <cao>1.83</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.315</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150276</number>
+        <name>60P/40F*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1770</t>
+        <p>4.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>37.54</sio2>
+            <al2o3>2.99</al2o3>
+            <feo>31.69</feo>
+            <mgo>23.91</mgo>
+            <cao>2.01</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.316</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150277</number>
+        <name>60P/40F*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1770</t>
+        <p>4.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>37.54</sio2>
+            <al2o3>2.99</al2o3>
+            <feo>31.69</feo>
+            <mgo>23.91</mgo>
+            <cao>2.01</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.389</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150278</number>
+        <name>60P/40F*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1810</t>
+        <p>5.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>37.93</sio2>
+            <al2o3>3.32</al2o3>
+            <feo>31.18</feo>
+            <mgo>23.21</mgo>
+            <cao>2.19</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.327</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150279</number>
+        <name>60P/40F*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1810</t>
+        <p>5.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>37.93</sio2>
+            <al2o3>3.32</al2o3>
+            <feo>31.18</feo>
+            <mgo>23.21</mgo>
+            <cao>2.19</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.405</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150280</number>
+        <name>AW93/1/7</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>8.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.64</sio2>
+            <al2o3>3.39</al2o3>
+            <feo>7.84</feo>
+            <mgo>39.1</mgo>
+            <cao>2.8</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.22</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150281</number>
+        <name>AW93/1/6</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>9.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.56</sio2>
+            <al2o3>3.13</al2o3>
+            <feo>6.86</feo>
+            <mgo>39.12</mgo>
+            <cao>2.77</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.23</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150282</number>
+        <name>AW93/1/3</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>10.1</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.66</sio2>
+            <al2o3>3.06</al2o3>
+            <feo>5.21</feo>
+            <mgo>38.38</mgo>
+            <cao>2.82</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.26</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150283</number>
+        <name>100P*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1970</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.66</sio2>
+            <al2o3>5.19</al2o3>
+            <feo>12.72</feo>
+            <mgo>32.14</mgo>
+            <cao>4.3</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.23</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150284</number>
+        <name>100P*</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1970</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>42.66</sio2>
+            <al2o3>5.19</al2o3>
+            <feo>12.72</feo>
+            <mgo>32.14</mgo>
+            <cao>4.3</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.26</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150285</number>
+        <name>AW93/1/9</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>7.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.56</sio2>
+            <al2o3>4.15</al2o3>
+            <feo>7.78</feo>
+            <mgo>38.36</mgo>
+            <cao>3.34</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.19</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150286</number>
+        <name>AW93/1/8</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>7.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>43.28</sio2>
+            <al2o3>3.28</al2o3>
+            <feo>6.48</feo>
+            <mgo>41.27</mgo>
+            <cao>2.69</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.2</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150287</number>
+        <name>AW93/1/5</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>9.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>45.06</sio2>
+            <al2o3>3.96</al2o3>
+            <feo>5.04</feo>
+            <mgo>39.49</mgo>
+            <cao>3.34</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.36</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150288</number>
+        <name>AW93/1/4</name>
+        <author>Agee and Walker (1993, 1998) </author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2000</t>
+        <p>9.7</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>44.9</sio2>
+            <al2o3>3.85</al2o3>
+            <feo>5.19</feo>
+            <mgo>40.84</mgo>
+            <cao>3.11</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.36</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150289</number>
+        <name>67PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1415</t>
+        <p>1.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.65</sio2>
+            <tio2>15.03</tio2>
+            <al2o3>4.71</al2o3>
+            <feo>22.79</feo>
+            <mgo>14.0</mgo>
+            <cao>6.67</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.22</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150290</number>
+        <name>64PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1435</t>
+        <p>1.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.26</sio2>
+            <tio2>15.63</tio2>
+            <al2o3>4.74</al2o3>
+            <feo>22.86</feo>
+            <mgo>14.38</mgo>
+            <cao>6.41</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.23</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150291</number>
+        <name>63PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1465</t>
+        <p>2.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>33.69</sio2>
+            <tio2>15.36</tio2>
+            <al2o3>4.73</al2o3>
+            <feo>23.19</feo>
+            <mgo>13.88</mgo>
+            <cao>6.49</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.25</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150292</number>
+        <name>84PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1465</t>
+        <p>2.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.32</sio2>
+            <tio2>15.4</tio2>
+            <al2o3>4.74</al2o3>
+            <feo>22.64</feo>
+            <mgo>14.25</mgo>
+            <cao>6.6</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.31</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150293</number>
+        <name>62PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1485</t>
+        <p>2.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.22</sio2>
+            <tio2>15.74</tio2>
+            <al2o3>4.77</al2o3>
+            <feo>22.01</feo>
+            <mgo>14.84</mgo>
+            <cao>6.35</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.26</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150294</number>
+        <name>310A8</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1804</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.53</sio2>
+            <tio2>14.61</tio2>
+            <al2o3>3.89</al2o3>
+            <feo>22.04</feo>
+            <mgo>14.31</mgo>
+            <cao>6.79</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.66</minimum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150295</number>
+        <name>88PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1434</t>
+        <p>1.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.2</sio2>
+            <tio2>15.23</tio2>
+            <al2o3>4.74</al2o3>
+            <feo>22.73</feo>
+            <mgo>14.19</mgo>
+            <cao>6.56</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.3</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150296</number>
+        <name>321AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1800</t>
+        <p>5.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>33.47</sio2>
+            <tio2>15.09</tio2>
+            <al2o3>4.91</al2o3>
+            <feo>22.3</feo>
+            <mgo>13.99</mgo>
+            <cao>6.53</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.65</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150297</number>
+        <name>401AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1835</t>
+        <p>6.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.85</sio2>
+            <tio2>14.45</tio2>
+            <al2o3>5.13</al2o3>
+            <feo>22.12</feo>
+            <mgo>14.43</mgo>
+            <cao>6.7</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.66</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150298</number>
+        <name>426AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2055</t>
+        <p>10.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.27</sio2>
+            <tio2>14.15</tio2>
+            <al2o3>5.95</al2o3>
+            <feo>21.54</feo>
+            <mgo>14.05</mgo>
+            <cao>6.49</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.83</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150299</number>
+        <name>455AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2080</t>
+        <p>11.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>35.5</sio2>
+            <tio2>17.2</tio2>
+            <al2o3>4.55</al2o3>
+            <feo>17.71</feo>
+            <mgo>14.32</mgo>
+            <cao>7.05</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.86</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150300</number>
+        <name>301AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1710</t>
+        <p>4.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.64</sio2>
+            <tio2>15.1</tio2>
+            <al2o3>3.81</al2o3>
+            <feo>23.03</feo>
+            <mgo>14.29</mgo>
+            <cao>6.75</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.62</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150301</number>
+        <name>308AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1775</t>
+        <p>5.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.44</sio2>
+            <tio2>14.72</tio2>
+            <al2o3>4.43</al2o3>
+            <feo>22.44</feo>
+            <mgo>14.32</mgo>
+            <cao>6.64</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.64</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150302</number>
+        <name>402AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1965</t>
+        <p>8.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>32.72</sio2>
+            <tio2>15.95</tio2>
+            <al2o3>3.78</al2o3>
+            <feo>23.65</feo>
+            <mgo>13.11</mgo>
+            <cao>6.54</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.79</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150303</number>
+        <name>405AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1985</t>
+        <p>8.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>33.39</sio2>
+            <tio2>15.38</tio2>
+            <al2o3>4.49</al2o3>
+            <feo>22.69</feo>
+            <mgo>13.44</mgo>
+            <cao>6.56</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.8</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150304</number>
+        <name>397AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1995</t>
+        <p>8.8</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>33.93</sio2>
+            <tio2>14.92</tio2>
+            <al2o3>5.08</al2o3>
+            <feo>21.96</feo>
+            <mgo>13.8</mgo>
+            <cao>6.6</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.85</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150305</number>
+        <name>410AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2010</t>
+        <p>9.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.09</sio2>
+            <tio2>14.97</tio2>
+            <al2o3>4.85</al2o3>
+            <feo>21.67</feo>
+            <mgo>13.9</mgo>
+            <cao>6.75</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.81</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150306</number>
+        <name>399AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2010</t>
+        <p>9.2</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>34.05</sio2>
+            <tio2>14.84</tio2>
+            <al2o3>5.65</al2o3>
+            <feo>20.87</feo>
+            <mgo>14.06</mgo>
+            <cao>6.44</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.86</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150307</number>
+        <name>412AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2060</t>
+        <p>10.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>33.57</sio2>
+            <tio2>15.08</tio2>
+            <al2o3>4.96</al2o3>
+            <feo>22.0</feo>
+            <mgo>13.78</mgo>
+            <cao>6.58</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.88</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150308</number>
+        <name>390AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2020</t>
+        <p>9.4</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>33.83</sio2>
+            <tio2>15.59</tio2>
+            <al2o3>5.2</al2o3>
+            <feo>20.72</feo>
+            <mgo>13.78</mgo>
+            <cao>6.51</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.95</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150309</number>
+        <name>411AB</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>2075</t>
+        <p>10.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>35.06</sio2>
+            <tio2>15.56</tio2>
+            <al2o3>6.3</al2o3>
+            <feo>17.85</feo>
+            <mgo>14.28</mgo>
+            <cao>6.86</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.95</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150310</number>
+        <name>SA165PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1600</t>
+        <p>2.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>47.16</sio2>
+            <tio2>0.2</tio2>
+            <al2o3>6.81</al2o3>
+            <feo>14.44</feo>
+            <mgo>20.98</mgo>
+            <cao>7.32</cao>
+        </liquid>
+        <phase type="density">
+            <maximum>3.108</maximum>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150311</number>
+        <name>SA180PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1645</t>
+        <p>3.0</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>47.18</sio2>
+            <tio2>0.2</tio2>
+            <al2o3>6.9</al2o3>
+            <feo>14.13</feo>
+            <mgo>20.83</mgo>
+            <cao>7.52</cao>
+        </liquid>
+        <phase type="density">
+            <value>3.116</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>150312</number>
+        <name>SA537PC</name>
+        <author>Circone (Smith) and Agee (1996, 1997)</author>
+        <lab>Harvard</lab>
+        <device>PC</device>
+        <t>1720</t>
+        <p>3.5</p>
+        <fo2val>-20.0</fo2val>
+        <liquid>
+            <sio2>47.27</sio2>
+            <tio2>0.22</tio2>
+            <al2o3>7.2</al2o3>
+            <feo>14.95</feo>
+            <mgo>20.22</mgo>
+            <cao>7.7</cao>
+        </liquid>
+        <phase type="density">
+            <minimum>3.12</minimum>
+        </phase>
+    </experiment>
+</LEPRdatabase>

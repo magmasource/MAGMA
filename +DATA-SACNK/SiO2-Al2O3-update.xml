@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xMelts/LEPRdatabase.xsd">
+    <experiment>
+        <number>4665</number>
+        <name>Fig.1 Aramaki 1</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1685.22</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>98.0426</sio2>
+            <al2o3>1.95736</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>98.0426</sio2>
+            <al2o3>1.95736</al2o3>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4666</number>
+        <name>Fig.1 Aramaki 2</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1643.19</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>96.1165</sio2>
+            <al2o3>3.88349</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>96.1165</sio2>
+            <al2o3>3.88349</al2o3>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4667</number>
+        <name>Fig.1 Aramaki 3</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1594.17</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>93.8036</sio2>
+            <al2o3>6.19635</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>93.8036</sio2>
+            <al2o3>6.19635</al2o3>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4668</number>
+        <name>Fig.1 Aramaki 4</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1636.19</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>88.7097</sio2>
+            <al2o3>11.2903</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>88.7097</sio2>
+            <al2o3>11.2903</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4669</number>
+        <name>Fig.1 Aramaki 5</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1678.21</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>83.8298</sio2>
+            <al2o3>16.1702</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>83.8298</sio2>
+            <al2o3>16.1702</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4670</number>
+        <name>Fig.1 Aramaki 6</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1708.56</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>80.2561</sio2>
+            <al2o3>19.7439</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>80.2561</sio2>
+            <al2o3>19.7439</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4671</number>
+        <name>Fig.1 Aramaki 7</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1769.26</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>67.0187</sio2>
+            <al2o3>32.9813</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>67.0187</sio2>
+            <al2o3>32.9813</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4672</number>
+        <name>Fig.1 Aramaki 8</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1792.61</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>60.6617</sio2>
+            <al2o3>39.3383</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>60.6617</sio2>
+            <al2o3>39.3383</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4673</number>
+        <name>Fig.1 Aramaki 9</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1811.29</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>55.1142</sio2>
+            <al2o3>44.8858</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>55.1142</sio2>
+            <al2o3>44.8858</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4674</number>
+        <name>Fig.1 Aramaki 10</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1942.03</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>15.3378</sio2>
+            <al2o3>84.6622</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>15.3378</sio2>
+            <al2o3>84.6622</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4675</number>
+        <name>Fig.1 Aramaki 11</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1974.71</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>12.4978</sio2>
+            <al2o3>87.5022</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>12.4978</sio2>
+            <al2o3>87.5022</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4676</number>
+        <name>Fig.1 Aramaki 12</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2026.07</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>5.53504</sio2>
+            <al2o3>94.465</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>5.53504</sio2>
+            <al2o3>94.465</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4677</number>
+        <name>Fig.1 Aramaki 13</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2044.75</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>2.55726</sio2>
+            <al2o3>97.4427</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>2.55726</sio2>
+            <al2o3>97.4427</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4678</number>
+        <name>Fig.1 Klug 1</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1722.57</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>100</sio2>
+        </bulkComp>
+        <liquid>
+            <sio2>100</sio2>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4679</number>
+        <name>Fig.1 Klug 2</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1589.5</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>92.1494</sio2>
+            <al2o3>7.85057</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>92.1494</sio2>
+            <al2o3>7.85057</al2o3>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4680</number>
+        <name>Fig.1 Klug 3</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1729.57</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>76.0776</sio2>
+            <al2o3>23.9224</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>76.0776</sio2>
+            <al2o3>23.9224</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4681</number>
+        <name>Fig.1 Klug 4</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1846.31</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>47.1342</sio2>
+            <al2o3>52.8658</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>47.1342</sio2>
+            <al2o3>52.8658</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4682</number>
+        <name>Fig.1 Klug 5</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1862.65</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>41.2733</sio2>
+            <al2o3>58.7267</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>41.2733</sio2>
+            <al2o3>58.7267</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4683</number>
+        <name>Fig.1 Klug 6</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1881.32</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>27.5968</sio2>
+            <al2o3>72.4032</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>27.5968</sio2>
+            <al2o3>72.4032</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4684</number>
+        <name>Fig.1 Klug 7</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1895.33</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>24.933</sio2>
+            <al2o3>75.067</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>24.933</sio2>
+            <al2o3>75.067</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4685</number>
+        <name>Fig.1 Klug 8</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1888.33</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>23.0658</sio2>
+            <al2o3>76.9342</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>23.0658</sio2>
+            <al2o3>76.9342</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4686</number>
+        <name>Fig.1 Klug 9</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2037.74</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>3.11147</sio2>
+            <al2o3>96.8885</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>3.11147</sio2>
+            <al2o3>96.8885</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4687</number>
+        <name>Fig.1 Horibe 1</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1867.32</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>38.1703</sio2>
+            <al2o3>61.8297</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>38.1703</sio2>
+            <al2o3>61.8297</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4688</number>
+        <name>Fig.1 Horibe 2</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1885.99</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>29.845</sio2>
+            <al2o3>70.155</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>29.845</sio2>
+            <al2o3>70.155</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4689</number>
+        <name>Fig.1 Horibe 3</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1900</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>21.7428</sio2>
+            <al2o3>78.2572</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>21.7428</sio2>
+            <al2o3>78.2572</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4690</number>
+        <name>Fig.1 Horibe 4</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1918.68</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>19.2569</sio2>
+            <al2o3>80.7431</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>19.2569</sio2>
+            <al2o3>80.7431</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4691</number>
+        <name>Fig.1 Horibe 5</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1935.02</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>16.6546</sio2>
+            <al2o3>83.3454</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>16.6546</sio2>
+            <al2o3>83.3454</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4692</number>
+        <name>Fig.1 Horibe 6</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1960.7</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>13.4028</sio2>
+            <al2o3>86.5972</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>13.4028</sio2>
+            <al2o3>86.5972</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4693</number>
+        <name>Fig.1 Horibe 7</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1979.38</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>10.2804</sio2>
+            <al2o3>89.7196</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>10.2804</sio2>
+            <al2o3>89.7196</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4694</number>
+        <name>Fig.1 Horibe 8</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2026.07</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>2.63617</sio2>
+            <al2o3>97.3638</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>2.63617</sio2>
+            <al2o3>97.3638</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4695</number>
+        <name>Fig.1 Horibe 9</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2035.41</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>1.30609</sio2>
+            <al2o3>98.6939</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>1.30609</sio2>
+            <al2o3>98.693</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4696</number>
+        <name>Fig.1 Aksay/Pask 1</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1645.53</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>96.5419</sio2>
+            <al2o3>3.45812</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>96.5419</sio2>
+            <al2o3>3.45812</al2o3>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4697</number>
+        <name>Fig.1 Aksay/Pask 2</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1589.5</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>92.9736</sio2>
+            <al2o3>7.02636</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>92.9736</sio2>
+            <al2o3>7.02636</al2o3>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4698</number>
+        <name>Fig.1 Aksay/Pask 3</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1885.99</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>25.4591</sio2>
+            <al2o3>74.5409</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>25.4591</sio2>
+            <al2o3>74.5409</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4699</number>
+        <name>Fig.1 Welch 1</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1881.32</t>
+        <p>0.0001</p>
+        <phaselist>liq+mull+cor</phaselist>
+        <bulkComp>
+            <sio2>23.6835</sio2>
+            <al2o3>76.3165</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>23.6835</sio2>
+            <al2o3>76.3165</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4700</number>
+        <name>Fig.1 Welch 2</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1916.34</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>20.8392</sio2>
+            <al2o3>79.1608</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>20.8392</sio2>
+            <al2o3>79.1608</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4701</number>
+        <name>Fig.1 Welch 3</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1958.37</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>15.5246</sio2>
+            <al2o3>84.4754</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>15.5246</sio2>
+            <al2o3>84.4754</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4702</number>
+        <name>Fig.1 Welch 4</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1988.72</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>11.6922</sio2>
+            <al2o3>88.3078</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>11.6922</sio2>
+            <al2o3>88.3078</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4703</number>
+        <name>Fig.1 Welch 5</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2008)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2012.06</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <sio2>6.52708</sio2>
+            <al2o3>93.4729</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>6.52708</sio2>
+            <al2o3>93.4729</al2o3>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+</LEPRdatabase>

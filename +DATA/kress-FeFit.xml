@@ -1,0 +1,6658 @@
+<LEPRdatabase>
+<experiment>
+<number>90001</number>
+<name>BFEQ-51</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1353.80</t>
+<p>0.0001</p>
+<fo2val>     -.678</fo2val>
+<liquid>
+<sio2>     44.71</sio2>
+<tio2>      3.00</tio2>
+<al2o3>     13.00</al2o3>
+<fe2o3>     17.05</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      5.10</feo>
+<mno>      0.18</mno>
+<mgo>      5.46</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.06</cao>
+<na2o>      0.68</na2o>
+<k2o>      0.54</k2o>
+<p2o5>      0.31</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90002</number>
+<name>BFEQ-52</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1353.80</t>
+<p>0.0001</p>
+<fo2val>     -.678</fo2val>
+<liquid>
+<sio2>     46.56</sio2>
+<tio2>      3.56</tio2>
+<al2o3>     15.25</al2o3>
+<fe2o3>     13.75</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      5.05</feo>
+<mno>      0.25</mno>
+<mgo>      4.65</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.48</cao>
+<na2o>      1.10</na2o>
+<k2o>      0.85</k2o>
+<p2o5>      0.38</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90003</number>
+<name>BFEQ-53</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1353.80</t>
+<p>0.0001</p>
+<fo2val>     -.678</fo2val>
+<liquid>
+<sio2>     45.56</sio2>
+<tio2>      2.95</tio2>
+<al2o3>     13.02</al2o3>
+<fe2o3>     16.72</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      5.00</feo>
+<mno>      0.16</mno>
+<mgo>      5.45</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.11</cao>
+<na2o>      0.70</na2o>
+<k2o>      0.57</k2o>
+<p2o5>      0.31</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90004</number>
+<name>BFEQ-61</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1451.10</t>
+<p>0.0001</p>
+<fo2val>     -.678</fo2val>
+<liquid>
+<sio2>     45.36</sio2>
+<tio2>      2.98</tio2>
+<al2o3>     12.77</al2o3>
+<fe2o3>     15.50</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      6.97</feo>
+<mno>      0.16</mno>
+<mgo>      5.47</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.09</cao>
+<na2o>      0.74</na2o>
+<k2o>      0.46</k2o>
+<p2o5>      0.32</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90005</number>
+<name>BFEQ-62</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1451.10</t>
+<p>0.0001</p>
+<fo2val>     -.678</fo2val>
+<liquid>
+<sio2>     47.91</sio2>
+<tio2>      3.60</tio2>
+<al2o3>     15.23</al2o3>
+<fe2o3>     11.89</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      6.33</feo>
+<mno>      0.22</mno>
+<mgo>      4.59</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.45</cao>
+<na2o>      1.31</na2o>
+<k2o>      0.74</k2o>
+<p2o5>      0.26</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90006</number>
+<name>BFEQ-64</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1451.10</t>
+<p>0.0001</p>
+<fo2val>     -.678</fo2val>
+<liquid>
+<sio2>     46.66</sio2>
+<tio2>      3.51</tio2>
+<al2o3>     15.35</al2o3>
+<fe2o3>     12.44</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      6.36</feo>
+<mno>      0.26</mno>
+<mgo>      4.69</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.52</cao>
+<na2o>      1.36</na2o>
+<k2o>      0.70</k2o>
+<p2o5>      0.26</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90007</number>
+<name>BFEQ-65</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1451.10</t>
+<p>0.0001</p>
+<fo2val>     -.678</fo2val>
+<liquid>
+<sio2>     46.86</sio2>
+<tio2>      3.40</tio2>
+<al2o3>     18.19</al2o3>
+<fe2o3>     11.30</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      5.82</feo>
+<mno>      0.21</mno>
+<mgo>      4.17</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.01</cao>
+<na2o>      2.06</na2o>
+<k2o>      0.79</k2o>
+<p2o5>      0.24</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90008</number>
+<name>BFEQ-66</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1451.10</t>
+<p>0.0001</p>
+<fo2val>     -.678</fo2val>
+<liquid>
+<sio2>     46.66</sio2>
+<tio2>      3.29</tio2>
+<al2o3>     19.32</al2o3>
+<fe2o3>     10.59</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      5.83</feo>
+<mno>      0.21</mno>
+<mgo>      4.11</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      6.91</cao>
+<na2o>      1.98</na2o>
+<k2o>      0.80</k2o>
+<p2o5>      0.26</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90009</number>
+<name>B27</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1437.40</t>
+<p>0.0001</p>
+<fo2val>     -0.68</fo2val>
+<liquid>
+<sio2>     50.46</sio2>
+<tio2>      1.88</tio2>
+<al2o3>     13.87</al2o3>
+<fe2o3>      9.54</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      3.42</feo>
+<mno>      0.17</mno>
+<mgo>      6.84</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.65</cao>
+<na2o>      2.68</na2o>
+<k2o>      0.19</k2o>
+<p2o5>      0.10</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90010</number>
+<name>B34</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1388.60</t>
+<p>0.0001</p>
+<fo2val>     -0.68</fo2val>
+<liquid>
+<sio2>     50.64</sio2>
+<tio2>      1.89</tio2>
+<al2o3>     13.93</al2o3>
+<fe2o3>     10.01</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      2.83</feo>
+<mno>      0.17</mno>
+<mgo>      6.76</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.66</cao>
+<na2o>      2.66</na2o>
+<k2o>      0.19</k2o>
+<p2o5>      0.16</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90011</number>
+<name>B44</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1485.80</t>
+<p>0.0001</p>
+<fo2val>     -0.68</fo2val>
+<liquid>
+<sio2>     50.61</sio2>
+<tio2>      1.90</tio2>
+<al2o3>     14.03</al2o3>
+<fe2o3>      8.39</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      4.45</feo>
+<mno>      0.17</mno>
+<mgo>      6.66</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.61</cao>
+<na2o>      2.43</na2o>
+<k2o>      0.17</k2o>
+<p2o5>      0.05</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90012</number>
+<name>B54</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1535.30</t>
+<p>0.0001</p>
+<fo2val>     -0.68</fo2val>
+<liquid>
+<sio2>     51.09</sio2>
+<tio2>      1.89</tio2>
+<al2o3>     13.94</al2o3>
+<fe2o3>      8.41</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      4.43</feo>
+<mno>      0.17</mno>
+<mgo>      6.77</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.67</cao>
+<na2o>      2.43</na2o>
+<k2o>      0.17</k2o>
+<p2o5>      0.04</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90013</number>
+<name>B64</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1584.80</t>
+<p>0.0001</p>
+<fo2val>     -0.68</fo2val>
+<liquid>
+<sio2>     51.00</sio2>
+<tio2>      1.92</tio2>
+<al2o3>     13.96</al2o3>
+<fe2o3>      7.59</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      5.13</feo>
+<mno>      0.17</mno>
+<mgo>      6.86</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.69</cao>
+<na2o>      2.32</na2o>
+<k2o>      0.16</k2o>
+<p2o5>      0.02</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90014</number>
+<name>B73</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1635.20</t>
+<p>0.0001</p>
+<fo2val>     -0.68</fo2val>
+<liquid>
+<sio2>     51.22</sio2>
+<tio2>      1.93</tio2>
+<al2o3>     13.91</al2o3>
+<fe2o3>      7.02</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      5.58</feo>
+<mno>      0.17</mno>
+<mgo>      6.80</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.66</cao>
+<na2o>      2.22</na2o>
+<k2o>      0.15</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90015</number>
+<name>B74                     BFE008 probing</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1635.20</t>
+<p>0.0001</p>
+<fo2val>     -0.68</fo2val>
+<liquid>
+<sio2>     50.85</sio2>
+<tio2>      1.89</tio2>
+<al2o3>     13.73</al2o3>
+<fe2o3>      6.82</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      5.56</feo>
+<mno>      0.17</mno>
+<mgo>      6.75</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.78</cao>
+<na2o>      2.20</na2o>
+<k2o>      0.16</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90016</number>
+<name>B76</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1342.20</t>
+<p>0.0001</p>
+<fo2val>     -2.88</fo2val>
+<liquid>
+<sio2>     51.24</sio2>
+<tio2>      1.91</tio2>
+<al2o3>     13.81</al2o3>
+<fe2o3>      7.56</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      5.14</feo>
+<mno>      0.17</mno>
+<mgo>      6.78</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.52</cao>
+<na2o>      2.67</na2o>
+<k2o>      0.21</k2o>
+<p2o5>      0.20</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90017</number>
+<name>B79</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1296.10</t>
+<p>0.0001</p>
+<fo2val>     -3.06</fo2val>
+<liquid>
+<sio2>     50.90</sio2>
+<tio2>      1.91</tio2>
+<al2o3>     13.85</al2o3>
+<fe2o3>      8.18</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      4.71</feo>
+<mno>      0.17</mno>
+<mgo>      6.82</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.61</cao>
+<na2o>      2.69</na2o>
+<k2o>      0.20</k2o>
+<p2o5>      0.24</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90018</number>
+<name>B82</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1249.20</t>
+<p>0.0001</p>
+<fo2val>     -3.26</fo2val>
+<liquid>
+<sio2>     50.38</sio2>
+<tio2>      1.93</tio2>
+<al2o3>     13.70</al2o3>
+<fe2o3>      8.91</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      3.99</feo>
+<mno>      0.17</mno>
+<mgo>      6.93</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.54</cao>
+<na2o>      2.70</na2o>
+<k2o>      0.20</k2o>
+<p2o5>      0.21</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90019</number>
+<name>B105                     BFE008 probing</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1636.56</t>
+<p>0.0001</p>
+<fo2val>     -6.29</fo2val>
+<liquid>
+<sio2>     52.41</sio2>
+<tio2>      2.00</tio2>
+<al2o3>     14.26</al2o3>
+<fe2o3>      0.52</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>     10.89</feo>
+<mno>      0.22</mno>
+<mgo>      6.79</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     11.17</cao>
+<na2o>      0.56</na2o>
+<k2o>      0.13</k2o>
+<p2o5>      0.17</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90020</number>
+<name>B108                     BFE008 probing</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1548.50</t>
+<p>0.0001</p>
+<fo2val>     -5.40</fo2val>
+<liquid>
+<sio2>     50.19</sio2>
+<tio2>      1.89</tio2>
+<al2o3>     13.50</al2o3>
+<fe2o3>      2.11</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>     12.61</feo>
+<mno>      0.22</mno>
+<mgo>      6.54</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.53</cao>
+<na2o>      1.48</na2o>
+<k2o>      0.15</k2o>
+<p2o5>      0.17</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90021</number>
+<name>B113                     BFE008 probing</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1299.90</t>
+<p>0.0001</p>
+<fo2val>     -7.38</fo2val>
+<liquid>
+<sio2>     51.94</sio2>
+<tio2>      1.93</tio2>
+<al2o3>     13.86</al2o3>
+<fe2o3>      2.06</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      9.18</feo>
+<mno>      0.22</mno>
+<mgo>      6.81</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     11.01</cao>
+<na2o>      2.59</na2o>
+<k2o>      0.22</k2o>
+<p2o5>      0.24</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90022</number>
+<name>B118                     BFE008 probing</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1544.40</t>
+<p>0.0001</p>
+<fo2val>     -5.42</fo2val>
+<liquid>
+<sio2>     52.27</sio2>
+<tio2>      1.95</tio2>
+<al2o3>     13.95</al2o3>
+<fe2o3>      1.82</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>     10.39</feo>
+<mno>      0.21</mno>
+<mgo>      6.69</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.90</cao>
+<na2o>      1.23</na2o>
+<k2o>      0.14</k2o>
+<p2o5>      0.05</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90023</number>
+<name>B120                     BFE008 probing</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>   1632.10</t>
+<p>0.0001</p>
+<fo2val>     -4.74</fo2val>
+<liquid>
+<sio2>     52.83</sio2>
+<tio2>      1.95</tio2>
+<al2o3>     13.95</al2o3>
+<fe2o3>      1.80</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>     10.38</feo>
+<mno>      0.23</mno>
+<mgo>      6.87</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.93</cao>
+<na2o>      0.87</na2o>
+<k2o>      0.13</k2o>
+<p2o5>      0.03</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90024</number>
+<name>71A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1461.0</t>
+<p>0.0001</p>
+<fo2val>   -7.1700</fo2val>
+<liquid>
+<sio2>     51.36</sio2>
+<tio2>      1.90</tio2>
+<al2o3>     14.02</al2o3>
+<fe2o3>      1.09</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>     10.34</feo>
+<mno>      0.25</mno>
+<mgo>      6.93</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.50</cao>
+<na2o>      2.29</na2o>
+<k2o>      0.72</k2o>
+<p2o5>      0.20</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90025</number>
+<name>74F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1461.0</t>
+<p>0.0001</p>
+<fo2val>   -7.1700</fo2val>
+<liquid>
+<sio2>     42.12</sio2>
+<tio2>      6.06</tio2>
+<al2o3>     10.58</al2o3>
+<fe2o3>      1.93</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>     11.66</feo>
+<mno>      0.31</mno>
+<mgo>      7.33</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.51</cao>
+<na2o>      0.62</na2o>
+<k2o>      1.53</k2o>
+<p2o5>      0.09</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90026</number>
+<name>79A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -8.2100</fo2val>
+<liquid>
+<sio2>     52.57</sio2>
+<tio2>      1.94</tio2>
+<al2o3>     14.23</al2o3>
+<fe2o3>      0.76</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      8.79</feo>
+<mno>      0.25</mno>
+<mgo>      7.03</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.70</cao>
+<na2o>      2.38</na2o>
+<k2o>      1.08</k2o>
+<p2o5>      0.13</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90027</number>
+<name>83A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -8.2100</fo2val>
+<liquid>
+<sio2>     51.76</sio2>
+<tio2>      1.95</tio2>
+<al2o3>     14.16</al2o3>
+<fe2o3>      0.78</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>     10.00</feo>
+<mno>      0.24</mno>
+<mgo>      7.06</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.53</cao>
+<na2o>      2.26</na2o>
+<k2o>      0.84</k2o>
+<p2o5>      0.15</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90028</number>
+<name>86F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -8.2100</fo2val>
+<liquid>
+<sio2>     42.78</sio2>
+<tio2>      6.19</tio2>
+<al2o3>     10.65</al2o3>
+<fe2o3>      0.98</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>     11.97</feo>
+<mno>      0.32</mno>
+<mgo>      7.40</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.90</cao>
+<na2o>      0.70</na2o>
+<k2o>      0.52</k2o>
+<p2o5>      0.10</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90029</number>
+<name>89A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -9.2100</fo2val>
+<liquid>
+<sio2>     52.03</sio2>
+<tio2>      1.95</tio2>
+<al2o3>     14.23</al2o3>
+<fe2o3>      0.58</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      8.81</feo>
+<mno>      0.25</mno>
+<mgo>      7.04</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.77</cao>
+<na2o>      2.06</na2o>
+<k2o>      1.64</k2o>
+<p2o5>      0.14</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90030</number>
+<name>91C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -9.2100</fo2val>
+<liquid>
+<sio2>     42.75</sio2>
+<tio2>      3.20</tio2>
+<al2o3>     14.77</al2o3>
+<fe2o3>      0.70</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      9.50</feo>
+<mno>      0.43</mno>
+<mgo>      6.40</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     18.79</cao>
+<na2o>      0.63</na2o>
+<k2o>      0.33</k2o>
+<p2o5>      0.21</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90031</number>
+<name>100B vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -6.1500</fo2val>
+<liquid>
+<sio2>     56.81</sio2>
+<tio2>      0.74</tio2>
+<al2o3>     17.01</al2o3>
+<fe2o3>      0.68</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>      5.09</feo>
+<mno>      0.15</mno>
+<mgo>      6.26</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.28</cao>
+<na2o>      4.12</na2o>
+<k2o>      1.80</k2o>
+<p2o5>      0.15</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90032</number>
+<name>101C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -6.1500</fo2val>
+<liquid>
+<sio2>     41.11</sio2>
+<tio2>      3.07</tio2>
+<al2o3>     14.36</al2o3>
+<fe2o3>      2.06</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      9.31</feo>
+<mno>      0.41</mno>
+<mgo>      6.30</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     18.02</cao>
+<na2o>      1.42</na2o>
+<k2o>      1.32</k2o>
+<p2o5>      0.42</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90033</number>
+<name>102F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -6.1500</fo2val>
+<liquid>
+<sio2>     41.84</sio2>
+<tio2>      5.91</tio2>
+<al2o3>     10.48</al2o3>
+<fe2o3>      2.88</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>     10.37</feo>
+<mno>      0.32</mno>
+<mgo>      7.05</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.48</cao>
+<na2o>      1.30</na2o>
+<k2o>      1.87</k2o>
+<p2o5>      0.19</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90034</number>
+<name>103A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -6.1500</fo2val>
+<liquid>
+<sio2>     51.28</sio2>
+<tio2>      1.91</tio2>
+<al2o3>     13.99</al2o3>
+<fe2o3>      2.04</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      9.47</feo>
+<mno>      0.25</mno>
+<mgo>      6.93</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.35</cao>
+<na2o>      2.77</na2o>
+<k2o>      0.66</k2o>
+<p2o5>      0.16</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90035</number>
+<name>107D vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1459.0</t>
+<p>0.0001</p>
+<fo2val>   -6.1500</fo2val>
+<liquid>
+<sio2>     49.97</sio2>
+<tio2>      2.86</tio2>
+<al2o3>     14.04</al2o3>
+<fe2o3>      1.58</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>      9.09</feo>
+<mno>      0.19</mno>
+<mgo>      7.17</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.89</cao>
+<na2o>      2.74</na2o>
+<k2o>      1.20</k2o>
+<p2o5>      0.25</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90036</number>
+<name>121C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1458.0</t>
+<p>0.0001</p>
+<fo2val>  -10.2300</fo2val>
+<liquid>
+<sio2>     43.62</sio2>
+<tio2>      3.24</tio2>
+<al2o3>     15.39</al2o3>
+<fe2o3>      0.52</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      8.44</feo>
+<mno>      0.43</mno>
+<mgo>      6.49</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     18.86</cao>
+<na2o>      0.62</na2o>
+<k2o>      0.34</k2o>
+<p2o5>      0.08</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90037</number>
+<name>125C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1458.0</t>
+<p>0.0001</p>
+<fo2val>  -10.2300</fo2val>
+<liquid>
+<sio2>     43.98</sio2>
+<tio2>      3.21</tio2>
+<al2o3>     14.71</al2o3>
+<fe2o3>      0.68</fe2o3>
+<cr2o3>      0.14</cr2o3>
+<feo>      8.46</feo>
+<mno>      0.40</mno>
+<mgo>      6.59</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     19.14</cao>
+<na2o>      0.53</na2o>
+<k2o>      0.29</k2o>
+<p2o5>      0.07</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90038</number>
+<name>129A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1455.0</t>
+<p>0.0001</p>
+<fo2val>   -2.4200</fo2val>
+<liquid>
+<sio2>     49.08</sio2>
+<tio2>      1.81</tio2>
+<al2o3>     13.65</al2o3>
+<fe2o3>      7.43</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      6.93</feo>
+<mno>      0.22</mno>
+<mgo>      6.61</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.27</cao>
+<na2o>      2.95</na2o>
+<k2o>      0.70</k2o>
+<p2o5>      0.29</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90039</number>
+<name>130B vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1455.0</t>
+<p>0.0001</p>
+<fo2val>   -2.4200</fo2val>
+<liquid>
+<sio2>     56.89</sio2>
+<tio2>      0.74</tio2>
+<al2o3>     16.91</al2o3>
+<fe2o3>      2.89</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>      3.75</feo>
+<mno>      0.13</mno>
+<mgo>      6.39</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.31</cao>
+<na2o>      3.87</na2o>
+<k2o>      1.44</k2o>
+<p2o5>      0.20</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90040</number>
+<name>131C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1455.0</t>
+<p>0.0001</p>
+<fo2val>   -2.4200</fo2val>
+<liquid>
+<sio2>     39.41</sio2>
+<tio2>      2.84</tio2>
+<al2o3>     14.21</al2o3>
+<fe2o3>      8.23</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>      3.98</feo>
+<mno>      0.17</mno>
+<mgo>      5.87</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     17.29</cao>
+<na2o>      3.67</na2o>
+<k2o>      2.80</k2o>
+<p2o5>      0.59</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90041</number>
+<name>132F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1455.0</t>
+<p>0.0001</p>
+<fo2val>   -2.4200</fo2val>
+<liquid>
+<sio2>     39.77</sio2>
+<tio2>      5.84</tio2>
+<al2o3>     10.06</al2o3>
+<fe2o3>      9.21</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      5.19</feo>
+<mno>      0.13</mno>
+<mgo>      6.90</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     14.89</cao>
+<na2o>      2.29</na2o>
+<k2o>      3.83</k2o>
+<p2o5>      0.22</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90042</number>
+<name>137D vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1455.0</t>
+<p>0.0001</p>
+<fo2val>   -2.4200</fo2val>
+<liquid>
+<sio2>     49.22</sio2>
+<tio2>      2.75</tio2>
+<al2o3>     13.82</al2o3>
+<fe2o3>      5.80</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>      5.36</feo>
+<mno>      0.09</mno>
+<mgo>      6.91</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.82</cao>
+<na2o>      2.83</na2o>
+<k2o>      1.55</k2o>
+<p2o5>      0.37</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90043</number>
+<name>139A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1362.0</t>
+<p>0.0001</p>
+<fo2val>   -7.9300</fo2val>
+<liquid>
+<sio2>     51.11</sio2>
+<tio2>      1.95</tio2>
+<al2o3>     14.09</al2o3>
+<fe2o3>      1.10</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>      9.68</feo>
+<mno>      0.11</mno>
+<mgo>      6.94</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.53</cao>
+<na2o>      3.11</na2o>
+<k2o>      0.94</k2o>
+<p2o5>      0.35</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90044</number>
+<name>141C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1362.0</t>
+<p>0.0001</p>
+<fo2val>   -7.9300</fo2val>
+<liquid>
+<sio2>     40.34</sio2>
+<tio2>      3.01</tio2>
+<al2o3>     13.90</al2o3>
+<fe2o3>      1.12</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>      9.97</feo>
+<mno>      0.19</mno>
+<mgo>      6.11</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     17.70</cao>
+<na2o>      2.50</na2o>
+<k2o>      2.49</k2o>
+<p2o5>      1.27</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90045</number>
+<name>142F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1362.0</t>
+<p>0.0001</p>
+<fo2val>   -7.9300</fo2val>
+<liquid>
+<sio2>     41.12</sio2>
+<tio2>      6.11</tio2>
+<al2o3>     10.60</al2o3>
+<fe2o3>      1.23</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>     11.56</feo>
+<mno>      0.14</mno>
+<mgo>      7.17</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.45</cao>
+<na2o>      1.60</na2o>
+<k2o>      3.12</k2o>
+<p2o5>      0.66</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90046</number>
+<name>147E vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1362.0</t>
+<p>0.0001</p>
+<fo2val>   -7.9300</fo2val>
+<liquid>
+<sio2>     50.06</sio2>
+<tio2>      3.24</tio2>
+<al2o3>     13.85</al2o3>
+<fe2o3>      1.17</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>     10.37</feo>
+<mno>      0.08</mno>
+<mgo>      6.29</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.79</cao>
+<na2o>      3.03</na2o>
+<k2o>      1.29</k2o>
+<p2o5>      0.38</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90047</number>
+<name>151C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1361.0</t>
+<p>0.0001</p>
+<fo2val>   -9.9700</fo2val>
+<liquid>
+<sio2>     42.08</sio2>
+<tio2>      3.03</tio2>
+<al2o3>     14.85</al2o3>
+<fe2o3>      0.79</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>     10.10</feo>
+<mno>      0.19</mno>
+<mgo>      6.25</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     18.62</cao>
+<na2o>      1.12</na2o>
+<k2o>      0.98</k2o>
+<p2o5>      0.50</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90048</number>
+<name>155C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1361.0</t>
+<p>0.0001</p>
+<fo2val>   -9.9700</fo2val>
+<liquid>
+<sio2>     42.30</sio2>
+<tio2>      3.16</tio2>
+<al2o3>     14.41</al2o3>
+<fe2o3>      0.67</fe2o3>
+<cr2o3>      0.13</cr2o3>
+<feo>      9.62</feo>
+<mno>      0.42</mno>
+<mgo>      6.37</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     18.58</cao>
+<na2o>      1.05</na2o>
+<k2o>      0.91</k2o>
+<p2o5>      0.45</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90049</number>
+<name>159A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1361.0</t>
+<p>0.0001</p>
+<fo2val>   -2.7400</fo2val>
+<liquid>
+<sio2>     50.22</sio2>
+<tio2>      1.91</tio2>
+<al2o3>     13.77</al2o3>
+<fe2o3>      7.18</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      5.34</feo>
+<mno>      0.13</mno>
+<mgo>      6.74</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.39</cao>
+<na2o>      2.81</na2o>
+<k2o>      0.53</k2o>
+<p2o5>      0.46</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90050</number>
+<name>160B vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1361.0</t>
+<p>0.0001</p>
+<fo2val>   -2.7400</fo2val>
+<liquid>
+<sio2>     56.77</sio2>
+<tio2>      0.74</tio2>
+<al2o3>     16.91</al2o3>
+<fe2o3>      3.65</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>      3.22</feo>
+<mno>      0.06</mno>
+<mgo>      6.27</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.34</cao>
+<na2o>      3.84</na2o>
+<k2o>      1.24</k2o>
+<p2o5>      0.29</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90051</number>
+<name>161C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1361.0</t>
+<p>0.0001</p>
+<fo2val>   -2.7400</fo2val>
+<liquid>
+<sio2>     38.67</sio2>
+<tio2>      2.88</tio2>
+<al2o3>     13.35</al2o3>
+<fe2o3>      8.27</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>      3.89</feo>
+<mno>      0.18</mno>
+<mgo>      5.83</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     17.12</cao>
+<na2o>      4.15</na2o>
+<k2o>      3.22</k2o>
+<p2o5>      0.89</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90052</number>
+<name>167E vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1361.0</t>
+<p>0.0001</p>
+<fo2val>   -2.7400</fo2val>
+<liquid>
+<sio2>     50.45</sio2>
+<tio2>      3.21</tio2>
+<al2o3>     13.13</al2o3>
+<fe2o3>      6.99</fe2o3>
+<cr2o3>      0.05</cr2o3>
+<feo>      4.84</feo>
+<mno>      0.19</mno>
+<mgo>      6.28</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.85</cao>
+<na2o>      2.54</na2o>
+<k2o>      0.91</k2o>
+<p2o5>      0.49</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90053</number>
+<name>169A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1364.0</t>
+<p>0.0001</p>
+<fo2val>   -5.8600</fo2val>
+<liquid>
+<sio2>     50.65</sio2>
+<tio2>      1.93</tio2>
+<al2o3>     13.50</al2o3>
+<fe2o3>      1.96</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>      9.38</feo>
+<mno>      0.22</mno>
+<mgo>      6.79</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.57</cao>
+<na2o>      2.94</na2o>
+<k2o>      0.69</k2o>
+<p2o5>      0.35</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90054</number>
+<name>171C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1364.0</t>
+<p>0.0001</p>
+<fo2val>   -5.8600</fo2val>
+<liquid>
+<sio2>     39.60</sio2>
+<tio2>      2.91</tio2>
+<al2o3>     13.58</al2o3>
+<fe2o3>      3.28</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>      7.83</feo>
+<mno>      0.39</mno>
+<mgo>      6.08</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     17.54</cao>
+<na2o>      3.15</na2o>
+<k2o>      3.00</k2o>
+<p2o5>      1.09</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90055</number>
+<name>172F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1364.0</t>
+<p>0.0001</p>
+<fo2val>   -5.8600</fo2val>
+<liquid>
+<sio2>     39.89</sio2>
+<tio2>      5.84</tio2>
+<al2o3>      9.99</al2o3>
+<fe2o3>      3.51</fe2o3>
+<cr2o3>      0.04</cr2o3>
+<feo>      9.62</feo>
+<mno>      0.29</mno>
+<mgo>      7.07</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.13</cao>
+<na2o>      2.05</na2o>
+<k2o>      4.38</k2o>
+<p2o5>      0.59</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90056</number>
+<name>174B vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1364.0</t>
+<p>0.0001</p>
+<fo2val>   -5.8600</fo2val>
+<liquid>
+<sio2>     57.17</sio2>
+<tio2>      0.73</tio2>
+<al2o3>     16.89</al2o3>
+<fe2o3>      1.01</fe2o3>
+<cr2o3>      0.10</cr2o3>
+<feo>      4.95</feo>
+<mno>      0.13</mno>
+<mgo>      6.26</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.29</cao>
+<na2o>      4.04</na2o>
+<k2o>      1.45</k2o>
+<p2o5>      0.23</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90057</number>
+<name>177E vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1364.0</t>
+<p>0.0001</p>
+<fo2val>   -5.8600</fo2val>
+<liquid>
+<sio2>     50.77</sio2>
+<tio2>      3.23</tio2>
+<al2o3>     13.56</al2o3>
+<fe2o3>      2.17</fe2o3>
+<cr2o3>      0.10</cr2o3>
+<feo>      8.78</feo>
+<mno>      0.17</mno>
+<mgo>      6.29</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.60</cao>
+<na2o>      3.05</na2o>
+<k2o>      1.39</k2o>
+<p2o5>      0.50</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90058</number>
+<name>199A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1366.0</t>
+<p>0.0001</p>
+<fo2val>   -8.9100</fo2val>
+<liquid>
+<sio2>     51.93</sio2>
+<tio2>      1.97</tio2>
+<al2o3>     14.41</al2o3>
+<fe2o3>      0.69</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>     10.08</feo>
+<mno>      0.10</mno>
+<mgo>      6.88</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.87</cao>
+<na2o>      1.72</na2o>
+<k2o>      0.68</k2o>
+<p2o5>      0.56</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90059</number>
+<name>202F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1366.0</t>
+<p>0.0001</p>
+<fo2val>   -8.9100</fo2val>
+<liquid>
+<sio2>     41.47</sio2>
+<tio2>      6.06</tio2>
+<al2o3>     10.65</al2o3>
+<fe2o3>      1.03</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>     13.68</feo>
+<mno>      0.13</mno>
+<mgo>      7.15</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.72</cao>
+<na2o>      0.55</na2o>
+<k2o>      1.44</k2o>
+<p2o5>      0.55</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90060</number>
+<name>205C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1366.0</t>
+<p>0.0001</p>
+<fo2val>   -8.9100</fo2val>
+<liquid>
+<sio2>     41.92</sio2>
+<tio2>      3.19</tio2>
+<al2o3>     14.38</al2o3>
+<fe2o3>      1.05</fe2o3>
+<cr2o3>      0.14</cr2o3>
+<feo>     10.40</feo>
+<mno>      0.41</mno>
+<mgo>      6.32</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     18.37</cao>
+<na2o>      0.47</na2o>
+<k2o>      0.54</k2o>
+<p2o5>      1.10</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90061</number>
+<name>208E vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1366.0</t>
+<p>0.0001</p>
+<fo2val>   -8.9100</fo2val>
+<liquid>
+<sio2>     51.41</sio2>
+<tio2>      3.29</tio2>
+<al2o3>     13.64</al2o3>
+<fe2o3>      0.57</fe2o3>
+<cr2o3>      0.10</cr2o3>
+<feo>     10.49</feo>
+<mno>      0.19</mno>
+<mgo>      6.46</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.86</cao>
+<na2o>      2.09</na2o>
+<k2o>      0.83</k2o>
+<p2o5>      0.43</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90062</number>
+<name>209A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1360.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     50.55</sio2>
+<tio2>      1.89</tio2>
+<al2o3>     13.69</al2o3>
+<fe2o3>      9.77</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      3.10</feo>
+<mno>      0.22</mno>
+<mgo>      6.71</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.40</cao>
+<na2o>      2.58</na2o>
+<k2o>      0.43</k2o>
+<p2o5>      0.21</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90063</number>
+<name>210B vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1360.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     56.81</sio2>
+<tio2>      0.71</tio2>
+<al2o3>     16.71</al2o3>
+<fe2o3>      5.12</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.82</feo>
+<mno>      0.13</mno>
+<mgo>      6.20</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.43</cao>
+<na2o>      3.63</na2o>
+<k2o>      1.10</k2o>
+<p2o5>      0.11</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90064</number>
+<name>211F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1360.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     40.33</sio2>
+<tio2>      5.87</tio2>
+<al2o3>     10.05</al2o3>
+<fe2o3>     12.59</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      2.51</feo>
+<mno>      0.28</mno>
+<mgo>      6.91</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.09</cao>
+<na2o>      1.88</na2o>
+<k2o>      2.77</k2o>
+<p2o5>      0.09</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90065</number>
+<name>212C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1360.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     38.85</sio2>
+<tio2>      2.91</tio2>
+<al2o3>     13.46</al2o3>
+<fe2o3>     10.69</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      1.97</feo>
+<mno>      0.37</mno>
+<mgo>      5.80</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     17.53</cao>
+<na2o>      3.52</na2o>
+<k2o>      1.90</k2o>
+<p2o5>      0.51</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90066</number>
+<name>218E vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1360.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     50.66</sio2>
+<tio2>      3.21</tio2>
+<al2o3>     13.53</al2o3>
+<fe2o3>      9.33</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      3.06</feo>
+<mno>      0.18</mno>
+<mgo>      6.30</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.72</cao>
+<na2o>      2.37</na2o>
+<k2o>      0.67</k2o>
+<p2o5>      0.15</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90067</number>
+<name>229A vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1458.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     50.93</sio2>
+<tio2>      1.91</tio2>
+<al2o3>     13.67</al2o3>
+<fe2o3>      8.69</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      4.14</feo>
+<mno>      0.22</mno>
+<mgo>      6.96</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     10.40</cao>
+<na2o>      2.47</na2o>
+<k2o>      0.36</k2o>
+<p2o5>      0.09</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90068</number>
+<name>230B vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1458.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     57.27</sio2>
+<tio2>      0.74</tio2>
+<al2o3>     16.76</al2o3>
+<fe2o3>      4.51</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      2.45</feo>
+<mno>      0.13</mno>
+<mgo>      6.32</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.42</cao>
+<na2o>      3.60</na2o>
+<k2o>      1.02</k2o>
+<p2o5>      0.10</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90069</number>
+<name>231C vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1458.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     40.78</sio2>
+<tio2>      3.01</tio2>
+<al2o3>     13.49</al2o3>
+<fe2o3>     10.02</fe2o3>
+<cr2o3>      0.03</cr2o3>
+<feo>      3.00</feo>
+<mno>      0.38</mno>
+<mgo>      6.04</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     17.97</cao>
+<na2o>      2.68</na2o>
+<k2o>      0.97</k2o>
+<p2o5>      0.09</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90070</number>
+<name>236F vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1458.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     41.14</sio2>
+<tio2>      5.93</tio2>
+<al2o3>     10.25</al2o3>
+<fe2o3>     11.24</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      3.65</feo>
+<mno>      0.27</mno>
+<mgo>      7.12</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.40</cao>
+<na2o>      1.39</na2o>
+<k2o>      1.70</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90071</number>
+<name>238E vck</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1458.0</t>
+<p>0.0001</p>
+<fo2val>   -0.6800</fo2val>
+<liquid>
+<sio2>     51.15</sio2>
+<tio2>      3.28</tio2>
+<al2o3>     13.77</al2o3>
+<fe2o3>      8.29</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      3.81</feo>
+<mno>      0.17</mno>
+<mgo>      6.14</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.79</cao>
+<na2o>      2.29</na2o>
+<k2o>      0.61</k2o>
+<p2o5>      0.04</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90072</number>
+<name>ak19 G-24</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1429.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     58.64</sio2>
+<tio2>      1.13</tio2>
+<al2o3>     17.34</al2o3>
+<fe2o3>      4.54</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.06</feo>
+<mno>      0.12</mno>
+<mgo>      1.66</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      2.76</cao>
+<na2o>      5.21</na2o>
+<k2o>      5.82</k2o>
+<p2o5>      0.29</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90073</number>
+<name>ak28 944-F</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1434.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     49.93</sio2>
+<tio2>      3.31</tio2>
+<al2o3>     13.57</al2o3>
+<fe2o3>      9.89</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.74</feo>
+<mno>      0.16</mno>
+<mgo>      6.37</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.81</cao>
+<na2o>      2.64</na2o>
+<k2o>      0.63</k2o>
+<p2o5>      0.28</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90074</number>
+<name>ak7 780-U-105</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1350.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     39.50</sio2>
+<tio2>      5.64</tio2>
+<al2o3>      9.89</al2o3>
+<fe2o3>     11.66</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.63</feo>
+<mno>      0.24</mno>
+<mgo>      6.69</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     14.82</cao>
+<na2o>      2.27</na2o>
+<k2o>      4.23</k2o>
+<p2o5>      0.61</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90075</number>
+<name>ak23 H-96A (first set)</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1434.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     56.32</sio2>
+<tio2>      0.74</tio2>
+<al2o3>     16.82</al2o3>
+<fe2o3>      4.78</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.22</feo>
+<mno>      0.12</mno>
+<mgo>      6.07</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.42</cao>
+<na2o>      3.84</na2o>
+<k2o>      0.98</k2o>
+<p2o5>      0.04</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90076</number>
+<name>ak18 A-1770</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1429.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     59.26</sio2>
+<tio2>      2.87</tio2>
+<al2o3>     11.40</al2o3>
+<fe2o3>      2.71</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.37</feo>
+<mno>      0.06</mno>
+<mgo>      6.96</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      3.94</cao>
+<na2o>      1.12</na2o>
+<k2o>      8.91</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90077</number>
+<name>ak27 Kil-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1430.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     50.29</sio2>
+<tio2>      3.31</tio2>
+<al2o3>     13.91</al2o3>
+<fe2o3>      9.17</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      3.45</feo>
+<mno>      0.17</mno>
+<mgo>      6.01</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.78</cao>
+<na2o>      2.34</na2o>
+<k2o>      0.54</k2o>
+<p2o5>      0.05</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90078</number>
+<name>ak31 766-263</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1436.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     48.55</sio2>
+<tio2>      2.20</tio2>
+<al2o3>     16.26</al2o3>
+<fe2o3>      7.71</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.90</feo>
+<mno>      0.17</mno>
+<mgo>      8.34</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      8.53</cao>
+<na2o>      3.41</na2o>
+<k2o>      1.39</k2o>
+<p2o5>      0.05</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90079</number>
+<name>ak30 A-1805</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1434.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     48.78</sio2>
+<tio2>      2.81</tio2>
+<al2o3>      8.80</al2o3>
+<fe2o3>      5.76</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      1.78</feo>
+<mno>      0.14</mno>
+<mgo>     11.96</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     12.81</cao>
+<na2o>      0.64</na2o>
+<k2o>      3.06</k2o>
+<p2o5>      0.00</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90080</number>
+<name>ak43 CSQ-3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1430.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     46.84</sio2>
+<tio2>      2.43</tio2>
+<al2o3>     15.67</al2o3>
+<fe2o3>      8.58</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      2.88</feo>
+<mno>      0.16</mno>
+<mgo>      9.48</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.11</cao>
+<na2o>      2.98</na2o>
+<k2o>      0.92</k2o>
+<p2o5>      0.04</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90081</number>
+<name>ak46 IC-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1430.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     73.87</sio2>
+<tio2>      0.25</tio2>
+<al2o3>     12.21</al2o3>
+<fe2o3>      2.24</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      1.20</feo>
+<mno>      0.09</mno>
+<mgo>      0.09</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      1.60</cao>
+<na2o>      4.14</na2o>
+<k2o>      2.64</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90082</number>
+<name>ak42 G-247</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1436.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     56.44</sio2>
+<tio2>      2.44</tio2>
+<al2o3>     13.87</al2o3>
+<fe2o3>      8.24</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      3.91</feo>
+<mno>      0.26</mno>
+<mgo>      2.85</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      6.28</cao>
+<na2o>      3.39</na2o>
+<k2o>      1.10</k2o>
+<p2o5>      0.07</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90083</number>
+<name>ak44 CSQ-3 (duplicate run)</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1430.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     46.73</sio2>
+<tio2>      2.45</tio2>
+<al2o3>     15.58</al2o3>
+<fe2o3>      8.32</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      3.04</feo>
+<mno>      0.16</mno>
+<mgo>      9.49</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      9.13</cao>
+<na2o>      3.00</na2o>
+<k2o>      0.91</k2o>
+<p2o5>      0.03</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90084</number>
+<name>ak   3114+1004-501</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1430.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     67.72</sio2>
+<tio2>      0.73</tio2>
+<al2o3>     11.28</al2o3>
+<fe2o3>      5.07</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.95</feo>
+<mno>      0.22</mno>
+<mgo>      0.98</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      2.00</cao>
+<na2o>      4.84</na2o>
+<k2o>      3.51</k2o>
+<p2o5>      0.05</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90085</number>
+<name>ak14 NIC-8</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1430.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     61.43</sio2>
+<tio2>      0.70</tio2>
+<al2o3>     16.40</al2o3>
+<fe2o3>      4.76</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.66</feo>
+<mno>      0.17</mno>
+<mgo>      1.46</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      3.70</cao>
+<na2o>      5.17</na2o>
+<k2o>      3.30</k2o>
+<p2o5>      0.10</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90086</number>
+<name>ak22 1910-199</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1428.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     56.74</sio2>
+<tio2>      1.23</tio2>
+<al2o3>     20.15</al2o3>
+<fe2o3>      3.72</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.49</feo>
+<mno>      0.19</mno>
+<mgo>      1.04</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      3.09</cao>
+<na2o>      7.13</na2o>
+<k2o>      3.52</k2o>
+<p2o5>      0.08</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90087</number>
+<name>ak17 COL-17</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1430.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     60.21</sio2>
+<tio2>      0.75</tio2>
+<al2o3>     17.36</al2o3>
+<fe2o3>      4.19</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.96</feo>
+<mno>      0.12</mno>
+<mgo>      3.21</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      5.64</cao>
+<na2o>      4.43</na2o>
+<k2o>      1.27</k2o>
+<p2o5>      0.11</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90088</number>
+<name>ak40 94-8</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1340.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     48.10</sio2>
+<tio2>      1.05</tio2>
+<al2o3>     18.10</al2o3>
+<fe2o3>      7.39</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.46</feo>
+<mno>      0.15</mno>
+<mgo>      4.02</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      8.47</cao>
+<na2o>      2.63</na2o>
+<k2o>      7.10</k2o>
+<p2o5>      0.31</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90089</number>
+<name>ak37 IC-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1344.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     74.38</sio2>
+<tio2>      0.23</tio2>
+<al2o3>     12.02</al2o3>
+<fe2o3>      2.09</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.28</feo>
+<mno>      0.09</mno>
+<mgo>      0.10</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      1.64</cao>
+<na2o>      4.34</na2o>
+<k2o>      2.72</k2o>
+<p2o5>      0.00</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90090</number>
+<name>ak2 121</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1344.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     71.03</sio2>
+<tio2>      0.28</tio2>
+<al2o3>      8.03</al2o3>
+<fe2o3>      7.29</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.58</feo>
+<mno>      0.24</mno>
+<mgo>      0.18</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      0.52</cao>
+<na2o>      6.08</na2o>
+<k2o>      3.81</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90091</number>
+<name>ak3 3114</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1340.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     69.15</sio2>
+<tio2>      0.49</tio2>
+<al2o3>     11.26</al2o3>
+<fe2o3>      5.71</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      0.71</feo>
+<mno>      0.27</mno>
+<mgo>      0.21</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      0.40</cao>
+<na2o>      5.82</na2o>
+<k2o>      4.38</k2o>
+<p2o5>      0.04</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90092</number>
+<name>ak4 NIC-8</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1344.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     61.59</sio2>
+<tio2>      0.67</tio2>
+<al2o3>     15.66</al2o3>
+<fe2o3>      5.08</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.31</feo>
+<mno>      0.15</mno>
+<mgo>      1.43</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      3.55</cao>
+<na2o>      5.66</na2o>
+<k2o>      3.77</k2o>
+<p2o5>      0.10</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90093</number>
+<name>ak49 94-8</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1344.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     48.28</sio2>
+<tio2>      1.06</tio2>
+<al2o3>     18.15</al2o3>
+<fe2o3>      7.49</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.37</feo>
+<mno>      0.25</mno>
+<mgo>      3.91</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      8.47</cao>
+<na2o>      2.63</na2o>
+<k2o>      6.92</k2o>
+<p2o5>      0.03</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90094</number>
+<name>ak6 780-u-111</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1344.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     43.68</sio2>
+<tio2>      4.42</tio2>
+<al2o3>      9.89</al2o3>
+<fe2o3>     10.92</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.83</feo>
+<mno>      0.02</mno>
+<mgo>      9.00</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     11.38</cao>
+<na2o>      2.72</na2o>
+<k2o>      4.11</k2o>
+<p2o5>      0.03</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90095</number>
+<name>ak5 867-114</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1349.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     58.06</sio2>
+<tio2>      0.85</tio2>
+<al2o3>     15.44</al2o3>
+<fe2o3>      7.12</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.34</feo>
+<mno>      0.16</mno>
+<mgo>      3.19</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      6.83</cao>
+<na2o>      3.70</na2o>
+<k2o>      1.22</k2o>
+<p2o5>      0.09</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90096</number>
+<name>ak26 G-84</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     51.17</sio2>
+<tio2>      3.27</tio2>
+<al2o3>     12.75</al2o3>
+<fe2o3>     10.09</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      4.60</feo>
+<mno>      0.31</mno>
+<mgo>      4.09</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      8.60</cao>
+<na2o>      2.85</na2o>
+<k2o>      0.50</k2o>
+<p2o5>      0.08</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90097</number>
+<name>ak21 COL 11</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1446.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     57.07</sio2>
+<tio2>      0.74</tio2>
+<al2o3>     16.91</al2o3>
+<fe2o3>      4.94</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.11</feo>
+<mno>      0.12</mno>
+<mgo>      5.87</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      7.42</cao>
+<na2o>      3.63</na2o>
+<k2o>      0.95</k2o>
+<p2o5>      0.00</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90098</number>
+<name>ak35 944-E (x-964)</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     38.68</sio2>
+<tio2>      4.33</tio2>
+<al2o3>     21.66</al2o3>
+<fe2o3>      8.93</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      2.84</feo>
+<mno>      0.26</mno>
+<mgo>      5.07</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     13.22</cao>
+<na2o>      2.37</na2o>
+<k2o>      0.92</k2o>
+<p2o5>      0.00</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90099</number>
+<name>ak24 90-05</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     55.63</sio2>
+<tio2>      0.54</tio2>
+<al2o3>     21.31</al2o3>
+<fe2o3>      2.75</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.06</feo>
+<mno>      0.18</mno>
+<mgo>      0.72</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      3.21</cao>
+<na2o>      3.94</na2o>
+<k2o>      8.91</k2o>
+<p2o5>      0.04</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90100</number>
+<name>ak32 780-U-111</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     44.62</sio2>
+<tio2>      4.70</tio2>
+<al2o3>     10.12</al2o3>
+<fe2o3>      9.73</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.95</feo>
+<mno>      0.16</mno>
+<mgo>      9.22</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     11.76</cao>
+<na2o>      2.14</na2o>
+<k2o>      3.55</k2o>
+<p2o5>      0.03</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90101</number>
+<name>ak11 CAM 49</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1434.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     72.38</sio2>
+<tio2>      0.27</tio2>
+<al2o3>     13.94</al2o3>
+<fe2o3>      1.09</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      0.63</feo>
+<mno>      0.04</mno>
+<mgo>      0.25</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      1.23</cao>
+<na2o>      4.21</na2o>
+<k2o>      4.23</k2o>
+<p2o5>      0.03</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90102</number>
+<name>ak33 X-973</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     40.86</sio2>
+<tio2>      4.65</tio2>
+<al2o3>     14.67</al2o3>
+<fe2o3>     10.43</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.99</feo>
+<mno>      0.28</mno>
+<mgo>      6.10</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     14.37</cao>
+<na2o>      2.82</na2o>
+<k2o>      0.88</k2o>
+<p2o5>      0.02</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90103</number>
+<name>ak9 121</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     72.53</sio2>
+<tio2>      0.29</tio2>
+<al2o3>      8.06</al2o3>
+<fe2o3>      7.11</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.33</feo>
+<mno>      0.26</mno>
+<mgo>      0.05</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      0.46</cao>
+<na2o>      5.95</na2o>
+<k2o>      3.54</k2o>
+<p2o5>      0.00</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90104</number>
+<name>ak16 TC-19</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1447.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     60.28</sio2>
+<tio2>      0.75</tio2>
+<al2o3>     19.57</al2o3>
+<fe2o3>      3.01</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      0.79</feo>
+<mno>      0.20</mno>
+<mgo>      0.41</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      0.77</cao>
+<na2o>      8.19</na2o>
+<k2o>      5.09</k2o>
+<p2o5>      0.06</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90105</number>
+<name>ak15 G-24</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1447.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     60.84</sio2>
+<tio2>      0.93</tio2>
+<al2o3>     17.70</al2o3>
+<fe2o3>      3.75</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      1.40</feo>
+<mno>      0.12</mno>
+<mgo>      0.91</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      2.32</cao>
+<na2o>      5.49</na2o>
+<k2o>      5.56</k2o>
+<p2o5>      0.23</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90106</number>
+<name>ak29 94-8</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1447.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     49.46</sio2>
+<tio2>      1.12</tio2>
+<al2o3>     18.50</al2o3>
+<fe2o3>      6.64</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.14</feo>
+<mno>      0.15</mno>
+<mgo>      3.96</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      8.64</cao>
+<na2o>      2.49</na2o>
+<k2o>      5.83</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90107</number>
+<name>ak41 G-247</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1443.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     56.71</sio2>
+<tio2>      2.40</tio2>
+<al2o3>     13.84</al2o3>
+<fe2o3>      8.42</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      3.74</feo>
+<mno>      0.26</mno>
+<mgo>      2.78</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      6.22</cao>
+<na2o>      3.33</na2o>
+<k2o>      1.11</k2o>
+<p2o5>      0.02</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90108</number>
+<name>ak34 780-U-105</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     40.49</sio2>
+<tio2>      5.96</tio2>
+<al2o3>      9.97</al2o3>
+<fe2o3>     11.62</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      3.27</feo>
+<mno>      0.26</mno>
+<mgo>      7.10</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     15.53</cao>
+<na2o>      1.57</na2o>
+<k2o>      2.89</k2o>
+<p2o5>      0.00</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90109</number>
+<name>ak20 442</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     57.40</sio2>
+<tio2>      1.49</tio2>
+<al2o3>     18.50</al2o3>
+<fe2o3>      4.04</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.55</feo>
+<mno>      0.13</mno>
+<mgo>      1.79</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      4.05</cao>
+<na2o>      4.81</na2o>
+<k2o>      4.89</k2o>
+<p2o5>      0.44</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90110</number>
+<name>ak12 3114</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1454.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     69.59</sio2>
+<tio2>      0.49</tio2>
+<al2o3>     11.10</al2o3>
+<fe2o3>      5.32</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.23</feo>
+<mno>      0.27</mno>
+<mgo>      0.22</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      0.36</cao>
+<na2o>      5.42</na2o>
+<k2o>      4.23</k2o>
+<p2o5>      0.02</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90111</number>
+<name>ak10 NZC-4</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1454.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     72.51</sio2>
+<tio2>      0.24</tio2>
+<al2o3>     10.12</al2o3>
+<fe2o3>      5.08</fe2o3>
+<cr2o3>      0.02</cr2o3>
+<feo>      1.12</feo>
+<mno>      0.12</mno>
+<mgo>      0.02</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      0.27</cao>
+<na2o>      4.98</na2o>
+<k2o>      4.10</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90112</number>
+<name>ak25 20424</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1447.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     39.84</sio2>
+<tio2>      2.97</tio2>
+<al2o3>     14.21</al2o3>
+<fe2o3>     10.72</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.41</feo>
+<mno>      0.38</mno>
+<mgo>      6.18</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     17.81</cao>
+<na2o>      2.80</na2o>
+<k2o>      1.10</k2o>
+<p2o5>      0.02</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90113</number>
+<name>ak45 IC-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1443.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     74.22</sio2>
+<tio2>      0.26</tio2>
+<al2o3>     12.26</al2o3>
+<fe2o3>      2.28</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.34</feo>
+<mno>      0.10</mno>
+<mgo>      0.08</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      1.71</cao>
+<na2o>      4.11</na2o>
+<k2o>      2.64</k2o>
+<p2o5>      0.02</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90114</number>
+<name>ak36 780 K 15</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1445.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     49.24</sio2>
+<tio2>      1.65</tio2>
+<al2o3>     19.78</al2o3>
+<fe2o3>      6.78</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      2.48</feo>
+<mno>      0.21</mno>
+<mgo>      3.45</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      8.04</cao>
+<na2o>      4.85</na2o>
+<k2o>      2.36</k2o>
+<p2o5>      0.01</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90115</number>
+<name>ak8 20424</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1342.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     38.98</sio2>
+<tio2>      2.93</tio2>
+<al2o3>     13.42</al2o3>
+<fe2o3>     11.29</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      1.28</feo>
+<mno>      0.36</mno>
+<mgo>      5.79</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>     16.99</cao>
+<na2o>      4.04</na2o>
+<k2o>      2.73</k2o>
+<p2o5>      0.89</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90116</number>
+<name>ak1 Cam 49</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1342.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     72.21</sio2>
+<tio2>      0.26</tio2>
+<al2o3>     14.04</al2o3>
+<fe2o3>      1.13</fe2o3>
+<cr2o3>      0.00</cr2o3>
+<feo>      0.64</feo>
+<mno>      0.04</mno>
+<mgo>      0.27</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      1.27</cao>
+<na2o>      4.04</na2o>
+<k2o>      4.38</k2o>
+<p2o5>      0.04</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90117</number>
+<name>ak38 IC-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>     1342.</t>
+<p>0.0001</p>
+<fo2val>   -0.6780</fo2val>
+<liquid>
+<sio2>     72.59</sio2>
+<tio2>      0.24</tio2>
+<al2o3>     12.13</al2o3>
+<fe2o3>      2.13</fe2o3>
+<cr2o3>      0.01</cr2o3>
+<feo>      1.38</feo>
+<mno>      0.22</mno>
+<mgo>      0.10</mgo>
+<nio>      0.00</nio>
+<coo>      0.00</coo>
+<cao>      1.60</cao>
+<na2o>      4.22</na2o>
+<k2o>      2.75</k2o>
+<p2o5>      0.02</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90118</number>
+<name>ros1 CAM 71 (199) 71-4</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  56.53000</sio2>
+<tio2>   1.32000</tio2>
+<al2o3>  16.21000</al2o3>
+<fe2o3>   0.81000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   6.60000</feo>
+<mno>   0.13000</mno>
+<mgo>   4.60000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.34000</cao>
+<na2o>   4.04000</na2o>
+<k2o>   1.93000</k2o>
+<p2o5>   0.50000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90119</number>
+<name>ros2 G-247-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  57.66000</sio2>
+<tio2>   2.48000</tio2>
+<al2o3>  13.67000</al2o3>
+<fe2o3>   1.59000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.17000</feo>
+<mno>   0.26000</mno>
+<mgo>   2.89000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.38000</cao>
+<na2o>   2.92000</na2o>
+<k2o>   1.32000</k2o>
+<p2o5>   0.76000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90120</number>
+<name>ros3 11-96A-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  64.67000</sio2>
+<tio2>   0.84000</tio2>
+<al2o3>  14.71000</al2o3>
+<fe2o3>   1.71000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.67000</feo>
+<mno>   0.24000</mno>
+<mgo>   0.78000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   4.04000</cao>
+<na2o>   2.43000</na2o>
+<k2o>   2.43000</k2o>
+<p2o5>   0.20000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90121</number>
+<name>ros5 X-973-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  40.56000</sio2>
+<tio2>   4.58000</tio2>
+<al2o3>  13.78000</al2o3>
+<fe2o3>   1.87000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.53000</feo>
+<mno>   0.26000</mno>
+<mgo>   5.70000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  14.10000</cao>
+<na2o>   4.09000</na2o>
+<k2o>   2.19000</k2o>
+<p2o5>   1.25000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90122</number>
+<name>ros6 RG69010-4</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  41.31000</sio2>
+<tio2>   2.63000</tio2>
+<al2o3>  17.98000</al2o3>
+<fe2o3>   3.11000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.38000</feo>
+<mno>   0.26000</mno>
+<mgo>   3.68000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.86000</cao>
+<na2o>   5.57000</na2o>
+<k2o>   5.20000</k2o>
+<p2o5>   0.88000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90123</number>
+<name>ros7 20421-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  49.35000</sio2>
+<tio2>   1.13000</tio2>
+<al2o3>  22.00000</al2o3>
+<fe2o3>   1.16000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   5.60000</feo>
+<mno>   0.18000</mno>
+<mgo>   1.27000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   4.62000</cao>
+<na2o>   5.75000</na2o>
+<k2o>   8.51000</k2o>
+<p2o5>   0.29000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90124</number>
+<name>ros8 U-105-6</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  39.40000</sio2>
+<tio2>   5.95000</tio2>
+<al2o3>   9.37000</al2o3>
+<fe2o3>   2.83000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.93000</feo>
+<mno>   0.28000</mno>
+<mgo>   6.39000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  14.76000</cao>
+<na2o>   2.25000</na2o>
+<k2o>   5.13000</k2o>
+<p2o5>   1.14000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90125</number>
+<name>ros9 U-105-7</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  39.19000</sio2>
+<tio2>   5.91000</tio2>
+<al2o3>   9.64000</al2o3>
+<fe2o3>   2.80000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.82000</feo>
+<mno>   0.27000</mno>
+<mgo>   6.55000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  14.96000</cao>
+<na2o>   2.14000</na2o>
+<k2o>   4.97000</k2o>
+<p2o5>   1.07000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90126</number>
+<name>ros10 U-50</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  42.06000</sio2>
+<tio2>   5.87000</tio2>
+<al2o3>   8.51000</al2o3>
+<fe2o3>   2.45000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  11.09000</feo>
+<mno>   0.21000</mno>
+<mgo>   9.79000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  13.21000</cao>
+<na2o>   2.34000</na2o>
+<k2o>   3.17000</k2o>
+<p2o5>   0.40000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90127</number>
+<name>ros11 NIC-8-8</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  63.71000</sio2>
+<tio2>   0.74000</tio2>
+<al2o3>  15.38000</al2o3>
+<fe2o3>   1.68000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   5.49000</feo>
+<mno>   0.17000</mno>
+<mgo>   1.46000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   3.59000</cao>
+<na2o>   3.40000</na2o>
+<k2o>   3.78000</k2o>
+<p2o5>   0.09000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90128</number>
+<name>ros12 SSC-2-7</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  50.46000</sio2>
+<tio2>   2.49000</tio2>
+<al2o3>  16.27000</al2o3>
+<fe2o3>   1.94000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.19000</feo>
+<mno>   0.24000</mno>
+<mgo>   3.49000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.58000</cao>
+<na2o>   4.71000</na2o>
+<k2o>   2.42000</k2o>
+<p2o5>   0.82000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90129</number>
+<name>ros13 K-15-6</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  49.13000</sio2>
+<tio2>   1.61000</tio2>
+<al2o3>  18.73000</al2o3>
+<fe2o3>   1.44000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.90000</feo>
+<mno>   0.23000</mno>
+<mgo>   3.27000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.07000</cao>
+<na2o>   5.51000</na2o>
+<k2o>   2.85000</k2o>
+<p2o5>   0.47000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90130</number>
+<name>ros15 CSQ-11</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  47.21000</sio2>
+<tio2>   2.41000</tio2>
+<al2o3>  14.93000</al2o3>
+<fe2o3>   2.01000</fe2o3>
+<cr2o3>   0.06000</cr2o3>
+<feo>   9.73000</feo>
+<mno>   0.18000</mno>
+<mgo>   9.36000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.12000</cao>
+<na2o>   3.58000</na2o>
+<k2o>   1.19000</k2o>
+<p2o5>   0.46000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90131</number>
+<name>ros16 WS-11</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  51.73000</sio2>
+<tio2>   2.49000</tio2>
+<al2o3>  13.82000</al2o3>
+<fe2o3>   2.04000</fe2o3>
+<cr2o3>   0.06000</cr2o3>
+<feo>  10.49000</feo>
+<mno>   0.21000</mno>
+<mgo>   5.67000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.51000</cao>
+<na2o>   2.65000</na2o>
+<k2o>   0.96000</k2o>
+<p2o5>   0.32000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90132</number>
+<name>ros17 FG-11-10</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  48.45000</sio2>
+<tio2>   0.75000</tio2>
+<al2o3>  15.30000</al2o3>
+<fe2o3>   1.28000</fe2o3>
+<cr2o3>   0.06000</cr2o3>
+<feo>   9.00000</feo>
+<mno>   0.16000</mno>
+<mgo>  10.25000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  11.82000</cao>
+<na2o>   2.24000</na2o>
+<k2o>   0.26000</k2o>
+<p2o5>   0.16000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90133</number>
+<name>ros18 TB-10</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  47.74000</sio2>
+<tio2>   2.17000</tio2>
+<al2o3>  15.51000</al2o3>
+<fe2o3>   1.57000</fe2o3>
+<cr2o3>   0.07000</cr2o3>
+<feo>   9.51000</feo>
+<mno>   0.19000</mno>
+<mgo>   8.06000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.59000</cao>
+<na2o>   3.86000</na2o>
+<k2o>   1.59000</k2o>
+<p2o5>   0.47000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90134</number>
+<name>ros19 U-111-5</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  44.14000</sio2>
+<tio2>   4.59000</tio2>
+<al2o3>   9.51000</al2o3>
+<fe2o3>   2.52000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.97000</feo>
+<mno>   0.21000</mno>
+<mgo>   8.88000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  11.54000</cao>
+<na2o>   2.89000</na2o>
+<k2o>   4.29000</k2o>
+<p2o5>   0.63000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90135</number>
+<name>ros20 SSC-1-5</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  46.43000</sio2>
+<tio2>   2.46000</tio2>
+<al2o3>  14.62000</al2o3>
+<fe2o3>   1.61000</fe2o3>
+<cr2o3>   0.05000</cr2o3>
+<feo>   9.75000</feo>
+<mno>   0.19000</mno>
+<mgo>   8.25000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  11.54000</cao>
+<na2o>   3.27000</na2o>
+<k2o>   0.97000</k2o>
+<p2o5>   0.69000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90136</number>
+<name>ros21 U-150-7</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  41.21000</sio2>
+<tio2>   5.04000</tio2>
+<al2o3>   7.99000</al2o3>
+<fe2o3>   2.70000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.22000</feo>
+<mno>   0.21000</mno>
+<mgo>   9.36000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  14.49000</cao>
+<na2o>   1.12000</na2o>
+<k2o>   5.22000</k2o>
+<p2o5>   0.80000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90137</number>
+<name>ros22 COL-11-10</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  56.64000</sio2>
+<tio2>   0.78000</tio2>
+<al2o3>  16.33000</al2o3>
+<fe2o3>   0.99000</fe2o3>
+<cr2o3>   0.07000</cr2o3>
+<feo>   6.25000</feo>
+<mno>   0.13000</mno>
+<mgo>   5.87000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.44000</cao>
+<na2o>   4.16000</na2o>
+<k2o>   1.19000</k2o>
+<p2o5>   0.20000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90138</number>
+<name>ros23 HC-11</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  48.72000</sio2>
+<tio2>   1.10000</tio2>
+<al2o3>  17.04000</al2o3>
+<fe2o3>   1.02000</fe2o3>
+<cr2o3>   0.06000</cr2o3>
+<feo>   8.60000</feo>
+<mno>   0.17000</mno>
+<mgo>   8.44000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.94000</cao>
+<na2o>   2.98000</na2o>
+<k2o>   0.25000</k2o>
+<p2o5>   0.13000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90139</number>
+<name>ros24 LBA-10</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  49.26000</sio2>
+<tio2>   1.04000</tio2>
+<al2o3>  17.80000</al2o3>
+<fe2o3>   1.56000</fe2o3>
+<cr2o3>   0.04000</cr2o3>
+<feo>   6.84000</feo>
+<mno>   0.18000</mno>
+<mgo>   4.04000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.49000</cao>
+<na2o>   2.82000</na2o>
+<k2o>   6.99000</k2o>
+<p2o5>   0.62000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90140</number>
+<name>ros25 PRT-10</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  52.48000</sio2>
+<tio2>   2.18000</tio2>
+<al2o3>  15.92000</al2o3>
+<fe2o3>   1.54000</fe2o3>
+<cr2o3>   0.06000</cr2o3>
+<feo>   8.55000</feo>
+<mno>   0.09000</mno>
+<mgo>   6.85000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.43000</cao>
+<na2o>   4.25000</na2o>
+<k2o>   0.73000</k2o>
+<p2o5>   0.24000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90141</number>
+<name>ros26 K-14-6</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  46.99000</sio2>
+<tio2>   2.34000</tio2>
+<al2o3>  16.81000</al2o3>
+<fe2o3>   1.42000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.85000</feo>
+<mno>   0.20000</mno>
+<mgo>   7.29000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.55000</cao>
+<na2o>   4.18000</na2o>
+<k2o>   2.10000</k2o>
+<p2o5>   0.50000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90142</number>
+<name>ros27 X-964-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1293.0</t>
+<p>0.0001</p>
+<fo2val>  -7.20000</fo2val>
+<liquid>
+<sio2>  41.18000</sio2>
+<tio2>   4.73000</tio2>
+<al2o3>  15.19000</al2o3>
+<fe2o3>   1.97000</fe2o3>
+<cr2o3>   0.02000</cr2o3>
+<feo>   9.23000</feo>
+<mno>   0.30000</mno>
+<mgo>   5.45000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  14.02000</cao>
+<na2o>   3.68000</na2o>
+<k2o>   2.16000</k2o>
+<p2o5>   1.32000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90143</number>
+<name>ros28 20424-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1293.0</t>
+<p>0.0001</p>
+<fo2val>  -7.20000</fo2val>
+<liquid>
+<sio2>  38.95000</sio2>
+<tio2>   3.00000</tio2>
+<al2o3>  13.16000</al2o3>
+<fe2o3>   2.70000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.82000</feo>
+<mno>   0.36000</mno>
+<mgo>   5.66000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  17.34000</cao>
+<na2o>   3.83000</na2o>
+<k2o>   3.40000</k2o>
+<p2o5>   1.66000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90144</number>
+<name>ros29 1910-199-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1293.0</t>
+<p>0.0001</p>
+<fo2val>  -7.20000</fo2val>
+<liquid>
+<sio2>  59.24000</sio2>
+<tio2>   1.32000</tio2>
+<al2o3>  20.33000</al2o3>
+<fe2o3>   1.28000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.06000</feo>
+<mno>   0.20000</mno>
+<mgo>   1.08000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   3.36000</cao>
+<na2o>   5.32000</na2o>
+<k2o>   4.18000</k2o>
+<p2o5>   0.43000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90145</number>
+<name>ros30 442-8</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.12000</fo2val>
+<liquid>
+<sio2>  58.63000</sio2>
+<tio2>   1.74000</tio2>
+<al2o3>  18.46000</al2o3>
+<fe2o3>   0.97000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.75000</feo>
+<mno>   0.13000</mno>
+<mgo>   1.79000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   4.05000</cao>
+<na2o>   4.04000</na2o>
+<k2o>   5.52000</k2o>
+<p2o5>   0.40000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90146</number>
+<name>ros32 439-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1302.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  66.98000</sio2>
+<tio2>   0.34000</tio2>
+<al2o3>  19.69000</al2o3>
+<fe2o3>   0.38000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   1.53000</feo>
+<mno>   0.11000</mno>
+<mgo>   0.28000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   1.24000</cao>
+<na2o>   4.41000</na2o>
+<k2o>   7.16000</k2o>
+<p2o5>   0.01000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90147</number>
+<name>ros34 TC-19-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1302.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  64.69000</sio2>
+<tio2>   0.78000</tio2>
+<al2o3>  20.46000</al2o3>
+<fe2o3>   0.80000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   2.91000</feo>
+<mno>   0.22000</mno>
+<mgo>   0.42000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   0.77000</cao>
+<na2o>   4.18000</na2o>
+<k2o>   4.87000</k2o>
+<p2o5>   0.07000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90148</number>
+<name>ros35 G24-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1302.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  62.96000</sio2>
+<tio2>   1.02000</tio2>
+<al2o3>  18.28000</al2o3>
+<fe2o3>   0.87000</fe2o3>
+<cr2o3>   0.01000</cr2o3>
+<feo>   4.33000</feo>
+<mno>   0.13000</mno>
+<mgo>   0.96000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   2.33000</cao>
+<na2o>   3.32000</na2o>
+<k2o>   6.00000</k2o>
+<p2o5>   0.31000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90149</number>
+<name>ros36 1910-199-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  59.99000</sio2>
+<tio2>   1.23000</tio2>
+<al2o3>  20.59000</al2o3>
+<fe2o3>   0.76000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.22000</feo>
+<mno>   0.22000</mno>
+<mgo>   1.17000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   3.38000</cao>
+<na2o>   4.08000</na2o>
+<k2o>   3.97000</k2o>
+<p2o5>   0.37000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90150</number>
+<name>ros37 20424-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1302.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  39.48000</sio2>
+<tio2>   3.04000</tio2>
+<al2o3>  13.32000</al2o3>
+<fe2o3>   3.09000</fe2o3>
+<cr2o3>   0.06000</cr2o3>
+<feo>   9.58000</feo>
+<mno>   0.37000</mno>
+<mgo>   5.63000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  17.20000</cao>
+<na2o>   3.04000</na2o>
+<k2o>   2.46000</k2o>
+<p2o5>   1.29000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90151</number>
+<name>ros38 867-114-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1302.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  60.23000</sio2>
+<tio2>   0.89000</tio2>
+<al2o3>  15.48000</al2o3>
+<fe2o3>   1.10000</fe2o3>
+<cr2o3>   0.02000</cr2o3>
+<feo>   7.58000</feo>
+<mno>   0.18000</mno>
+<mgo>   3.13000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.91000</cao>
+<na2o>   3.34000</na2o>
+<k2o>   1.38000</k2o>
+<p2o5>   0.21000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90152</number>
+<name>ros39 G84-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  50.77000</sio2>
+<tio2>   3.30000</tio2>
+<al2o3>  12.64000</al2o3>
+<fe2o3>   2.19000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  13.01000</feo>
+<mno>   0.31000</mno>
+<mgo>   4.16000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.42000</cao>
+<na2o>   3.17000</na2o>
+<k2o>   0.75000</k2o>
+<p2o5>   0.87000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90153</number>
+<name>ros40 COL-17-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1302.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  61.52000</sio2>
+<tio2>   0.73000</tio2>
+<al2o3>  17.59000</al2o3>
+<fe2o3>   0.68000</fe2o3>
+<cr2o3>   0.02000</cr2o3>
+<feo>   5.31000</feo>
+<mno>   0.12000</mno>
+<mgo>   3.25000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.32000</cao>
+<na2o>   3.52000</na2o>
+<k2o>   1.61000</k2o>
+<p2o5>   0.21000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90154</number>
+<name>ros41 G247-14</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1302.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  57.24000</sio2>
+<tio2>   2.38000</tio2>
+<al2o3>  13.68000</al2o3>
+<fe2o3>   1.88000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.73000</feo>
+<mno>   0.27000</mno>
+<mgo>   2.90000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.85000</cao>
+<na2o>   2.62000</na2o>
+<k2o>   1.56000</k2o>
+<p2o5>   0.79000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90155</number>
+<name>ros42 HC-9</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1302.0</t>
+<p>0.0001</p>
+<fo2val>  -7.10000</fo2val>
+<liquid>
+<sio2>  48.32000</sio2>
+<tio2>   1.05000</tio2>
+<al2o3>  17.56000</al2o3>
+<fe2o3>   0.69000</fe2o3>
+<cr2o3>   0.06000</cr2o3>
+<feo>   9.36000</feo>
+<mno>   0.17000</mno>
+<mgo>   8.59000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.94000</cao>
+<na2o>   2.44000</na2o>
+<k2o>   0.48000</k2o>
+<p2o5>   0.26000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90156</number>
+<name>ros43 A-1805-11</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1330.0</t>
+<p>0.0001</p>
+<fo2val>  -6.77000</fo2val>
+<liquid>
+<sio2>  47.94000</sio2>
+<tio2>   2.75000</tio2>
+<al2o3>   8.20000</al2o3>
+<fe2o3>   1.31000</fe2o3>
+<cr2o3>   0.08000</cr2o3>
+<feo>   5.13000</feo>
+<mno>   0.15000</mno>
+<mgo>  11.29000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  12.18000</cao>
+<na2o>   0.82000</na2o>
+<k2o>   6.31000</k2o>
+<p2o5>   0.94000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90157</number>
+<name>ros44 K-8-11</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1330.0</t>
+<p>0.0001</p>
+<fo2val>  -6.77000</fo2val>
+<liquid>
+<sio2>  44.84000</sio2>
+<tio2>   2.62000</tio2>
+<al2o3>  16.13020</al2o3>
+<fe2o3>   1.78000</fe2o3>
+<cr2o3>   0.04000</cr2o3>
+<feo>   8.25000</feo>
+<mno>   0.17000</mno>
+<mgo>   9.48000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  11.88000</cao>
+<na2o>   3.06000</na2o>
+<k2o>   1.50000</k2o>
+<p2o5>   0.57000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90158</number>
+<name>ros45 96-6-11</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1330.0</t>
+<p>0.0001</p>
+<fo2val>  -6.77000</fo2val>
+<liquid>
+<sio2>  45.64000</sio2>
+<tio2>   0.92000</tio2>
+<al2o3>  16.14000</al2o3>
+<fe2o3>   2.00000</fe2o3>
+<cr2o3>   0.02000</cr2o3>
+<feo>   6.47000</feo>
+<mno>   0.20000</mno>
+<mgo>   4.36000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  12.46000</cao>
+<na2o>   2.39000</na2o>
+<k2o>   8.34000</k2o>
+<p2o5>   0.38000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90159</number>
+<name>ros46 LBB-13</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1328.0</t>
+<p>0.0001</p>
+<fo2val>  -6.80000</fo2val>
+<liquid>
+<sio2>  49.26000</sio2>
+<tio2>   1.12000</tio2>
+<al2o3>  18.24000</al2o3>
+<fe2o3>   1.28000</fe2o3>
+<cr2o3>   0.05000</cr2o3>
+<feo>   7.13000</feo>
+<mno>   0.18000</mno>
+<mgo>   3.92000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.61000</cao>
+<na2o>   2.49000</na2o>
+<k2o>   6.84000</k2o>
+<p2o5>   0.37000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90160</number>
+<name>ros47 A1770-12</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1328.0</t>
+<p>0.0001</p>
+<fo2val>  -6.80000</fo2val>
+<liquid>
+<sio2>  59.52000</sio2>
+<tio2>   2.79000</tio2>
+<al2o3>  10.89000</al2o3>
+<fe2o3>   0.64000</fe2o3>
+<cr2o3>   0.06000</cr2o3>
+<feo>   3.32000</feo>
+<mno>   0.07000</mno>
+<mgo>   6.81000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   3.85000</cao>
+<na2o>   1.27000</na2o>
+<k2o>  10.38000</k2o>
+<p2o5>   0.35000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90161</number>
+<name>ros48 BS-12</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1328.0</t>
+<p>0.0001</p>
+<fo2val>  -6.80000</fo2val>
+<liquid>
+<sio2>  50.66000</sio2>
+<tio2>   1.65000</tio2>
+<al2o3>  13.52000</al2o3>
+<fe2o3>   1.20000</fe2o3>
+<cr2o3>   0.10000</cr2o3>
+<feo>   6.90000</feo>
+<mno>   0.15000</mno>
+<mgo>   9.72000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.97000</cao>
+<na2o>   2.33000</na2o>
+<k2o>   3.51000</k2o>
+<p2o5>   0.75000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90162</number>
+<name>ros49 U-105-17</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1201.0</t>
+<p>0.0001</p>
+<fo2val>  -8.46000</fo2val>
+<liquid>
+<sio2>  39.84000</sio2>
+<tio2>   5.92000</tio2>
+<al2o3>   9.64000</al2o3>
+<fe2o3>   3.53000</fe2o3>
+<cr2o3>   0.02000</cr2o3>
+<feo>  11.22000</feo>
+<mno>   0.26000</mno>
+<mgo>   6.76000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  15.08000</cao>
+<na2o>   1.98000</na2o>
+<k2o>   4.01000</k2o>
+<p2o5>   1.13000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90163</number>
+<name>ros50 20424-16</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1234.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  39.06000</sio2>
+<tio2>   2.76000</tio2>
+<al2o3>  13.51000</al2o3>
+<fe2o3>   2.78000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.02000</feo>
+<mno>   0.34000</mno>
+<mgo>   5.62000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  16.79000</cao>
+<na2o>   2.96000</na2o>
+<k2o>   3.01000</k2o>
+<p2o5>   1.46000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90164</number>
+<name>ros51 RG6910-16</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1234.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  41.08000</sio2>
+<tio2>   2.61000</tio2>
+<al2o3>  17.35000</al2o3>
+<fe2o3>   2.61000</fe2o3>
+<cr2o3>   0.05000</cr2o3>
+<feo>   9.10000</feo>
+<mno>   0.23000</mno>
+<mgo>   3.89000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.35000</cao>
+<na2o>   5.02000</na2o>
+<k2o>   5.14000</k2o>
+<p2o5>   0.88000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90165</number>
+<name>ros52 SSC-2-16</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1234.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  51.21000</sio2>
+<tio2>   2.42000</tio2>
+<al2o3>  16.84000</al2o3>
+<fe2o3>   1.59000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.80000</feo>
+<mno>   0.23000</mno>
+<mgo>   3.42000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.13000</cao>
+<na2o>   5.51000</na2o>
+<k2o>   2.62000</k2o>
+<p2o5>   0.68000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90166</number>
+<name>ros53 20421-16</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1234.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  49.84000</sio2>
+<tio2>   1.33000</tio2>
+<al2o3>  21.74000</al2o3>
+<fe2o3>   1.76000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.94000</feo>
+<mno>   0.19000</mno>
+<mgo>   1.29000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   4.56000</cao>
+<na2o>   6.30000</na2o>
+<k2o>   8.28000</k2o>
+<p2o5>   0.28000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90167</number>
+<name>ros54 X-973-17</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1201.0</t>
+<p>0.0001</p>
+<fo2val>  -8.46000</fo2val>
+<liquid>
+<sio2>  40.14000</sio2>
+<tio2>   4.92000</tio2>
+<al2o3>  14.33000</al2o3>
+<fe2o3>   3.18000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.66000</feo>
+<mno>   0.27000</mno>
+<mgo>   5.82000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  13.68000</cao>
+<na2o>   3.62000</na2o>
+<k2o>   1.80000</k2o>
+<p2o5>   1.21000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90168</number>
+<name>ros55 K14-16</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1234.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  47.68000</sio2>
+<tio2>   2.26000</tio2>
+<al2o3>  17.08000</al2o3>
+<fe2o3>   1.34000</fe2o3>
+<cr2o3>   0.03000</cr2o3>
+<feo>   7.88000</feo>
+<mno>   0.20000</mno>
+<mgo>  6.980000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   10.2600</cao>
+<na2o>   4.00000</na2o>
+<k2o>   2.33000</k2o>
+<p2o5>   0.48000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90169</number>
+<name>ros56 K15-17</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1201.0</t>
+<p>0.0001</p>
+<fo2val>  -8.46000</fo2val>
+<liquid>
+<sio2>  49.36000</sio2>
+<tio2>   1.59000</tio2>
+<al2o3>  19.28000</al2o3>
+<fe2o3>   1.53000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.18000</feo>
+<mno>   0.19000</mno>
+<mgo>   3.15000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.77000</cao>
+<na2o>   5.83000</na2o>
+<k2o>   3.33000</k2o>
+<p2o5>   0.46000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90170</number>
+<name>ros57 NIC-8-16</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1234.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  61.12000</sio2>
+<tio2>   0.67000</tio2>
+<al2o3>  15.41000</al2o3>
+<fe2o3>   1.40000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.72000</feo>
+<mno>   0.15000</mno>
+<mgo>   1.39000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   3.47000</cao>
+<na2o>   6.06000</na2o>
+<k2o>   4.51000</k2o>
+<p2o5>   0.11000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90171</number>
+<name>crt54</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  49.45000</sio2>
+<tio2>   1.78000</tio2>
+<al2o3>  15.48000</al2o3>
+<fe2o3>   1.71000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  11.01000</feo>
+<mno>   0.23000</mno>
+<mgo>   6.67000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.49000</cao>
+<na2o>   2.99000</na2o>
+<k2o>   0.83000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90172</number>
+<name>crt61</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  49.33000</sio2>
+<tio2>   1.89000</tio2>
+<al2o3>  15.40000</al2o3>
+<fe2o3>   1.99000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.60000</feo>
+<mno>   0.14000</mno>
+<mgo>   6.56000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.80000</cao>
+<na2o>   2.92000</na2o>
+<k2o>   0.90000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90173</number>
+<name>crt51</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  49.47000</sio2>
+<tio2>   2.10000</tio2>
+<al2o3>  15.30000</al2o3>
+<fe2o3>   1.37000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  11.12000</feo>
+<mno>   0.18000</mno>
+<mgo>   6.74000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.67000</cao>
+<na2o>   3.25000</na2o>
+<k2o>   0.77000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90174</number>
+<name>crt52</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1250.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  49.70000</sio2>
+<tio2>   1.90000</tio2>
+<al2o3>  15.58000</al2o3>
+<fe2o3>   1.61000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.88000</feo>
+<mno>   0.00000</mno>
+<mgo>   6.62000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.74000</cao>
+<na2o>   3.11000</na2o>
+<k2o>   0.87000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90175</number>
+<name>crt98</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1359.0</t>
+<p>0.0001</p>
+<fo2val>  -6.11000</fo2val>
+<liquid>
+<sio2>  49.33000</sio2>
+<tio2>   1.83000</tio2>
+<al2o3>  15.04000</al2o3>
+<fe2o3>   2.66000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.03000</feo>
+<mno>   0.19000</mno>
+<mgo>   6.57000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.95000</cao>
+<na2o>   2.70000</na2o>
+<k2o>   0.81000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90176</number>
+<name>crt118</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1355.0</t>
+<p>0.0001</p>
+<fo2val>  -6.15000</fo2val>
+<liquid>
+<sio2>  49.64000</sio2>
+<tio2>   1.98000</tio2>
+<al2o3>  15.16000</al2o3>
+<fe2o3>   2.78000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.98000</feo>
+<mno>   0.18000</mno>
+<mgo>   6.68000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.87000</cao>
+<na2o>   2.80000</na2o>
+<k2o>   0.80000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90177</number>
+<name>crt142</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  49.68000</sio2>
+<tio2>   1.73000</tio2>
+<al2o3>  15.34000</al2o3>
+<fe2o3>   1.57000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.68000</feo>
+<mno>   0.18000</mno>
+<mgo>   6.62000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.73000</cao>
+<na2o>   3.12000</na2o>
+<k2o>   0.89000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90178</number>
+<name>crt110</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  47.58000</sio2>
+<tio2>   1.77000</tio2>
+<al2o3>  14.62000</al2o3>
+<fe2o3>   2.71000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.40000</feo>
+<mno>   0.12000</mno>
+<mgo>   6.41000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.41000</cao>
+<na2o>   2.75000</na2o>
+<k2o>   4.48000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90179</number>
+<name>crt121</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1359.0</t>
+<p>0.0001</p>
+<fo2val>  -6.11000</fo2val>
+<liquid>
+<sio2>  47.74000</sio2>
+<tio2>   1.99000</tio2>
+<al2o3>  14.79000</al2o3>
+<fe2o3>   2.52000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.55000</feo>
+<mno>   0.08000</mno>
+<mgo>   6.49000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.48000</cao>
+<na2o>   2.51000</na2o>
+<k2o>   4.50000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90180</number>
+<name>crt111</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  47.60000</sio2>
+<tio2>   1.60000</tio2>
+<al2o3>  14.64000</al2o3>
+<fe2o3>   2.49000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.92000</feo>
+<mno>   0.20000</mno>
+<mgo>   6.40000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.10000</cao>
+<na2o>   1.83000</na2o>
+<k2o>   5.98000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90181</number>
+<name>crt22</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1359.0</t>
+<p>0.0001</p>
+<fo2val>  -6.11000</fo2val>
+<liquid>
+<sio2>  47.41000</sio2>
+<tio2>   1.79000</tio2>
+<al2o3>  14.51000</al2o3>
+<fe2o3>   2.98000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.93000</feo>
+<mno>   0.16000</mno>
+<mgo>   6.48000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.39000</cao>
+<na2o>   2.01000</na2o>
+<k2o>   6.28000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90182</number>
+<name>crt131</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1366.0</t>
+<p>0.0001</p>
+<fo2val>  -6.02000</fo2val>
+<liquid>
+<sio2>  45.52000</sio2>
+<tio2>   1.77000</tio2>
+<al2o3>  14.09000</al2o3>
+<fe2o3>   2.90000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.11000</feo>
+<mno>   0.22000</mno>
+<mgo>   6.30000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.00000</cao>
+<na2o>   2.52000</na2o>
+<k2o>   7.63000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90183</number>
+<name>crt53</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  49.71000</sio2>
+<tio2>   1.82000</tio2>
+<al2o3>  15.40000</al2o3>
+<fe2o3>   0.87000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.68000</feo>
+<mno>   0.13000</mno>
+<mgo>   6.59000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.58000</cao>
+<na2o>   3.98000</na2o>
+<k2o>   0.87000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90184</number>
+<name>crt55</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1202.0</t>
+<p>0.0001</p>
+<fo2val>  -8.01000</fo2val>
+<liquid>
+<sio2>  48.42000</sio2>
+<tio2>   1.74000</tio2>
+<al2o3>  15.18000</al2o3>
+<fe2o3>   1.64000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.36000</feo>
+<mno>   0.06000</mno>
+<mgo>   6.53000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.56000</cao>
+<na2o>   5.53000</na2o>
+<k2o>   0.85000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90185</number>
+<name>crt56</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1197.0</t>
+<p>0.0001</p>
+<fo2val>  -8.09000</fo2val>
+<liquid>
+<sio2>  48.51000</sio2>
+<tio2>   1.82000</tio2>
+<al2o3>  14.94000</al2o3>
+<fe2o3>   1.81000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.22000</feo>
+<mno>   0.26000</mno>
+<mgo>   6.56000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.48000</cao>
+<na2o>   5.60000</na2o>
+<k2o>   0.70000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90186</number>
+<name>crt57</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1199.0</t>
+<p>0.0001</p>
+<fo2val>  -8.08000</fo2val>
+<liquid>
+<sio2>  48.20000</sio2>
+<tio2>   1.82000</tio2>
+<al2o3>  14.93000</al2o3>
+<fe2o3>   1.53000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.20000</feo>
+<mno>   0.12000</mno>
+<mgo>   6.48000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.44000</cao>
+<na2o>   5.85000</na2o>
+<k2o>   0.85000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90187</number>
+<name>crt58</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  47.12000</sio2>
+<tio2>   1.95000</tio2>
+<al2o3>  14.74000</al2o3>
+<fe2o3>   2.49000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.08000</feo>
+<mno>   0.22000</mno>
+<mgo>   6.15000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.61000</cao>
+<na2o>   5.45000</na2o>
+<k2o>   0.82000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90188</number>
+<name>crt63</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1206.0</t>
+<p>0.0001</p>
+<fo2val>  -7.98000</fo2val>
+<liquid>
+<sio2>  48.06000</sio2>
+<tio2>   1.69000</tio2>
+<al2o3>  14.78000</al2o3>
+<fe2o3>   2.68000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.51000</feo>
+<mno>   0.01000</mno>
+<mgo>   6.58000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.36000</cao>
+<na2o>   7.71000</na2o>
+<k2o>   0.79000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90189</number>
+<name>crt64</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.05000</fo2val>
+<liquid>
+<sio2>  47.40000</sio2>
+<tio2>   1.78000</tio2>
+<al2o3>  14.65000</al2o3>
+<fe2o3>   2.42000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.61000</feo>
+<mno>   0.28000</mno>
+<mgo>   6.73000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.18000</cao>
+<na2o>   7.93000</na2o>
+<k2o>   0.77000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90190</number>
+<name>crt95</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1205.0</t>
+<p>0.0001</p>
+<fo2val>  -7.99000</fo2val>
+<liquid>
+<sio2>  48.26000</sio2>
+<tio2>   1.77000</tio2>
+<al2o3>  14.92000</al2o3>
+<fe2o3>   2.01000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.75000</feo>
+<mno>   0.17000</mno>
+<mgo>   6.46000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  11.56000</cao>
+<na2o>   2.07000</na2o>
+<k2o>   0.87000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90191</number>
+<name>crt96</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1205.0</t>
+<p>0.0001</p>
+<fo2val>  -7.99000</fo2val>
+<liquid>
+<sio2>  47.78000</sio2>
+<tio2>   1.81000</tio2>
+<al2o3>  14.71000</al2o3>
+<fe2o3>   2.23000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.93000</feo>
+<mno>   0.13000</mno>
+<mgo>   6.70000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  11.39000</cao>
+<na2o>   2.91000</na2o>
+<k2o>   0.80000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90192</number>
+<name>crt148</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.05000</fo2val>
+<liquid>
+<sio2>  46.45000</sio2>
+<tio2>   1.69000</tio2>
+<al2o3>  14.20000</al2o3>
+<fe2o3>   1.63000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.06000</feo>
+<mno>   0.10000</mno>
+<mgo>   6.14000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  14.33000</cao>
+<na2o>   2.62000</na2o>
+<k2o>   0.83000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90193</number>
+<name>crt124</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1207.0</t>
+<p>0.0001</p>
+<fo2val>  -7.99000</fo2val>
+<liquid>
+<sio2>  41.93000</sio2>
+<tio2>   1.61000</tio2>
+<al2o3>  13.31000</al2o3>
+<fe2o3>   2.68000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.73000</feo>
+<mno>   0.10000</mno>
+<mgo>   5.72000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  23.82000</cao>
+<na2o>   2.40000</na2o>
+<k2o>   0.70000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90194</number>
+<name>crt133</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1211.0</t>
+<p>0.0001</p>
+<fo2val>  -7.94000</fo2val>
+<liquid>
+<sio2>  41.46000</sio2>
+<tio2>   1.72000</tio2>
+<al2o3>  12.85000</al2o3>
+<fe2o3>   2.29000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.10000</feo>
+<mno>   0.12000</mno>
+<mgo>   5.70000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  23.40000</cao>
+<na2o>   2.40000</na2o>
+<k2o>   0.59000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90195</number>
+<name>crt105</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  48.28000</sio2>
+<tio2>   1.86000</tio2>
+<al2o3>  14.80000</al2o3>
+<fe2o3>   2.32000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.66000</feo>
+<mno>   0.23000</mno>
+<mgo>   6.72000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  11.62000</cao>
+<na2o>   2.72000</na2o>
+<k2o>   0.80000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90196</number>
+<name>crt109</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  47.98000</sio2>
+<tio2>   1.74000</tio2>
+<al2o3>  15.25000</al2o3>
+<fe2o3>   2.12000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.70000</feo>
+<mno>   0.18000</mno>
+<mgo>   6.35000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  11.67000</cao>
+<na2o>   2.31000</na2o>
+<k2o>   0.71000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90197</number>
+<name>crt123</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1357.0</t>
+<p>0.0001</p>
+<fo2val>  -6.13000</fo2val>
+<liquid>
+<sio2>  42.25000</sio2>
+<tio2>   1.66000</tio2>
+<al2o3>  13.08000</al2o3>
+<fe2o3>   3.54000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   6.76000</feo>
+<mno>   0.07000</mno>
+<mgo>   6.02000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  24.07000</cao>
+<na2o>   1.57000</na2o>
+<k2o>   0.33000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90198</number>
+<name>crt129</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1359.0</t>
+<p>0.0001</p>
+<fo2val>  -6.11000</fo2val>
+<liquid>
+<sio2>  42.14000</sio2>
+<tio2>   1.58000</tio2>
+<al2o3>  13.48000</al2o3>
+<fe2o3>   1.98000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.87000</feo>
+<mno>   0.19000</mno>
+<mgo>   5.72000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  24.25000</cao>
+<na2o>   1.13000</na2o>
+<k2o>   0.23000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90199</number>
+<name>crt141</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  41.72000</sio2>
+<tio2>   1.45000</tio2>
+<al2o3>  12.88000</al2o3>
+<fe2o3>   2.54000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.82000</feo>
+<mno>   0.25000</mno>
+<mgo>   5.46000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  23.92000</cao>
+<na2o>   1.85000</na2o>
+<k2o>   0.62000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90200</number>
+<name>crt67</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  47.66000</sio2>
+<tio2>   1.78000</tio2>
+<al2o3>  14.67000</al2o3>
+<fe2o3>   2.32000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.42000</feo>
+<mno>   0.07000</mno>
+<mgo>   6.54000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.24000</cao>
+<na2o>   8.50000</na2o>
+<k2o>   0.84000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90201</number>
+<name>crt68</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.05000</fo2val>
+<liquid>
+<sio2>  46.88000</sio2>
+<tio2>   1.85000</tio2>
+<al2o3>  14.76000</al2o3>
+<fe2o3>   3.19000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.89000</feo>
+<mno>   0.28000</mno>
+<mgo>   6.43000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.17000</cao>
+<na2o>   8.28000</na2o>
+<k2o>   0.89000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90202</number>
+<name>crt147</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.05000</fo2val>
+<liquid>
+<sio2>  46.05000</sio2>
+<tio2>   1.64000</tio2>
+<al2o3>  14.38000</al2o3>
+<fe2o3>   2.48000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.77000</feo>
+<mno>   0.12000</mno>
+<mgo>   6.24000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.20000</cao>
+<na2o>   7.87000</na2o>
+<k2o>   0.87000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90203</number>
+<name>crt119</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1360.0</t>
+<p>0.0001</p>
+<fo2val>  -6.10000</fo2val>
+<liquid>
+<sio2>  48.03000</sio2>
+<tio2>   1.91000</tio2>
+<al2o3>  14.66000</al2o3>
+<fe2o3>   2.98000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.42000</feo>
+<mno>   0.14000</mno>
+<mgo>   6.53000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.36000</cao>
+<na2o>   4.84000</na2o>
+<k2o>   0.83000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90204</number>
+<name>crt120</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1356.0</t>
+<p>0.0001</p>
+<fo2val>  -6.14000</fo2val>
+<liquid>
+<sio2>  47.86000</sio2>
+<tio2>   1.74000</tio2>
+<al2o3>  14.87000</al2o3>
+<fe2o3>   2.46000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.02000</feo>
+<mno>   0.23000</mno>
+<mgo>   6.42000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.53000</cao>
+<na2o>   5.55000</na2o>
+<k2o>   0.62000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90205</number>
+<name>crt129</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1360.0</t>
+<p>0.0001</p>
+<fo2val>  -6.10000</fo2val>
+<liquid>
+<sio2>  47.01000</sio2>
+<tio2>   1.83000</tio2>
+<al2o3>  14.60000</al2o3>
+<fe2o3>   2.93000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.99000</feo>
+<mno>   0.12000</mno>
+<mgo>   6.32000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.17000</cao>
+<na2o>   6.77000</na2o>
+<k2o>   0.80000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90206</number>
+<name>crt139</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1364.0</t>
+<p>0.0001</p>
+<fo2val>  -6.05000</fo2val>
+<liquid>
+<sio2>  47.84000</sio2>
+<tio2>   1.59000</tio2>
+<al2o3>  15.11000</al2o3>
+<fe2o3>   2.44000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.82000</feo>
+<mno>   0.19000</mno>
+<mgo>   6.10000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.32000</cao>
+<na2o>   6.96000</na2o>
+<k2o>   0.79000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90207</number>
+<name>crt102</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1359.0</t>
+<p>0.0001</p>
+<fo2val>  -6.11000</fo2val>
+<liquid>
+<sio2>  46.96000</sio2>
+<tio2>   1.67000</tio2>
+<al2o3>  20.32000</al2o3>
+<fe2o3>   1.29000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.63000</feo>
+<mno>   0.16000</mno>
+<mgo>   6.53000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.36000</cao>
+<na2o>   2.62000</na2o>
+<k2o>   0.71000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90208</number>
+<name>crt103</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  46.74000</sio2>
+<tio2>   1.72000</tio2>
+<al2o3>  20.49000</al2o3>
+<fe2o3>   1.81000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.61000</feo>
+<mno>   0.34000</mno>
+<mgo>   6.49000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.31000</cao>
+<na2o>   2.59000</na2o>
+<k2o>   0.78000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90209</number>
+<name>crt108</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  44.93000</sio2>
+<tio2>   1.69000</tio2>
+<al2o3>  25.08000</al2o3>
+<fe2o3>   1.70000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.65000</feo>
+<mno>   0.05000</mno>
+<mgo>   6.14000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.92000</cao>
+<na2o>   2.57000</na2o>
+<k2o>   0.71000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90210</number>
+<name>crt130</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1359.0</t>
+<p>0.0001</p>
+<fo2val>  -6.11000</fo2val>
+<liquid>
+<sio2>  43.35000</sio2>
+<tio2>   1.57000</tio2>
+<al2o3>  24.50000</al2o3>
+<fe2o3>   1.58000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.36000</feo>
+<mno>   0.26000</mno>
+<mgo>   5.92000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.80000</cao>
+<na2o>   2.53000</na2o>
+<k2o>   0.72000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90211</number>
+<name>crt112</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1207.0</t>
+<p>0.0001</p>
+<fo2val>  -7.97000</fo2val>
+<liquid>
+<sio2>  55.02000</sio2>
+<tio2>   1.59000</tio2>
+<al2o3>  14.40000</al2o3>
+<fe2o3>   1.43000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.88000</feo>
+<mno>   0.16000</mno>
+<mgo>   6.12000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.03000</cao>
+<na2o>   2.85000</na2o>
+<k2o>   0.78000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90212</number>
+<name>crt114</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1207.0</t>
+<p>0.0001</p>
+<fo2val>  -7.97000</fo2val>
+<liquid>
+<sio2>  56.83000</sio2>
+<tio2>   1.59000</tio2>
+<al2o3>  13.25000</al2o3>
+<fe2o3>   2.01000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.36000</feo>
+<mno>   0.15000</mno>
+<mgo>   5.70000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.64000</cao>
+<na2o>   2.23000</na2o>
+<k2o>   0.62000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90213</number>
+<name>crt146</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1196.0</t>
+<p>0.0001</p>
+<fo2val>  -8.10000</fo2val>
+<liquid>
+<sio2>  53.12000</sio2>
+<tio2>   1.66000</tio2>
+<al2o3>  13.89000</al2o3>
+<fe2o3>   2.09000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.18000</feo>
+<mno>   0.22000</mno>
+<mgo>   6.35000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.19000</cao>
+<na2o>   2.71000</na2o>
+<k2o>   0.85000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90214</number>
+<name>crt116</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.03000</fo2val>
+<liquid>
+<sio2>  57.84000</sio2>
+<tio2>   1.66000</tio2>
+<al2o3>  12.90000</al2o3>
+<fe2o3>   2.42000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.97000</feo>
+<mno>   0.08000</mno>
+<mgo>   5.95000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.40000</cao>
+<na2o>   2.38000</na2o>
+<k2o>   0.64000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90215</number>
+<name>crt137</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1198.0</t>
+<p>0.0001</p>
+<fo2val>  -8.09000</fo2val>
+<liquid>
+<sio2>  56.99000</sio2>
+<tio2>   1.40000</tio2>
+<al2o3>  12.63000</al2o3>
+<fe2o3>   1.78000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.75000</feo>
+<mno>   0.23000</mno>
+<mgo>   5.62000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.37000</cao>
+<na2o>   2.38000</na2o>
+<k2o>   0.70000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90216</number>
+<name>crt113</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  53.98000</sio2>
+<tio2>   1.77000</tio2>
+<al2o3>  13.79000</al2o3>
+<fe2o3>   2.60000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.72000</feo>
+<mno>   0.17000</mno>
+<mgo>   6.43000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.03000</cao>
+<na2o>   2.38000</na2o>
+<k2o>   0.81000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90217</number>
+<name>crt138</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1360.0</t>
+<p>0.0001</p>
+<fo2val>  -6.10000</fo2val>
+<liquid>
+<sio2>  53.44000</sio2>
+<tio2>   1.64000</tio2>
+<al2o3>  13.87000</al2o3>
+<fe2o3>   2.30000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.69000</feo>
+<mno>   0.27000</mno>
+<mgo>   6.45000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.14000</cao>
+<na2o>   2.62000</na2o>
+<k2o>   0.79000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90218</number>
+<name>crt117</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1362.0</t>
+<p>0.0001</p>
+<fo2val>  -6.08000</fo2val>
+<liquid>
+<sio2>  58.68000</sio2>
+<tio2>   1.38000</tio2>
+<al2o3>  12.67000</al2o3>
+<fe2o3>   1.68000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.10000</feo>
+<mno>   0.21000</mno>
+<mgo>   5.33000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.14000</cao>
+<na2o>   2.31000</na2o>
+<k2o>   0.71000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90219</number>
+<name>crt132</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1363.0</t>
+<p>0.0001</p>
+<fo2val>  -6.07000</fo2val>
+<liquid>
+<sio2>  57.68000</sio2>
+<tio2>   1.52000</tio2>
+<al2o3>  12.43000</al2o3>
+<fe2o3>   1.54000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.62000</feo>
+<mno>   0.00000</mno>
+<mgo>   5.51000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.48000</cao>
+<na2o>   2.23000</na2o>
+<k2o>   0.66000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90220</number>
+<name>gckKEN1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -0.68000</fo2val>
+<liquid>
+<sio2>  50.87000</sio2>
+<tio2>   0.79000</tio2>
+<al2o3>  17.62000</al2o3>
+<fe2o3>  10.79000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   1.62000</feo>
+<mno>   0.08000</mno>
+<mgo>   6.25000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.32000</cao>
+<na2o>   2.94000</na2o>
+<k2o>   0.59000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90221</number>
+<name>gckKEN3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -0.68000</fo2val>
+<liquid>
+<sio2>  50.87000</sio2>
+<tio2>   0.79000</tio2>
+<al2o3>  17.62000</al2o3>
+<fe2o3>   9.93000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   2.39000</feo>
+<mno>   0.08000</mno>
+<mgo>   6.25000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.32000</cao>
+<na2o>   2.94000</na2o>
+<k2o>   0.59000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90222</number>
+<name>gckKEN7</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1400.0</t>
+<p>0.0001</p>
+<fo2val>  -0.68000</fo2val>
+<liquid>
+<sio2>  50.87000</sio2>
+<tio2>   0.79000</tio2>
+<al2o3>  17.62000</al2o3>
+<fe2o3>   9.02000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   3.20000</feo>
+<mno>   0.08000</mno>
+<mgo>   6.25000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.32000</cao>
+<na2o>   2.94000</na2o>
+<k2o>   0.59000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90223</number>
+<name>gckKEN8</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1430.0</t>
+<p>0.0001</p>
+<fo2val>  -0.68000</fo2val>
+<liquid>
+<sio2>  50.87000</sio2>
+<tio2>   0.79000</tio2>
+<al2o3>  17.62000</al2o3>
+<fe2o3>   8.88000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   3.32000</feo>
+<mno>   0.08000</mno>
+<mgo>   6.25000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.32000</cao>
+<na2o>   2.94000</na2o>
+<k2o>   0.59000</k2o>
+<p2o5>   0.00000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90224</number>
+<name>?shiSH1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -0.68000</fo2val>
+<liquid>
+<sio2>  52.43000</sio2>
+<tio2>   1.57000</tio2>
+<al2o3>  15.01000</al2o3>
+<fe2o3>  10.95000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   2.90000</feo>
+<mno>   0.12000</mno>
+<mgo>   4.81000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.73000</cao>
+<na2o>   1.79000</na2o>
+<k2o>   0.35000</k2o>
+<p2o5>   0.14000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90225</number>
+<name>?shiSH3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -3.60000</fo2val>
+<liquid>
+<sio2>  52.43000</sio2>
+<tio2>   1.57000</tio2>
+<al2o3>  15.01000</al2o3>
+<fe2o3>   5.93000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.50000</feo>
+<mno>   0.12000</mno>
+<mgo>   4.81000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.73000</cao>
+<na2o>   1.79000</na2o>
+<k2o>   0.35000</k2o>
+<p2o5>   0.14000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90226</number>
+<name>?shiSH13</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -5.70000</fo2val>
+<liquid>
+<sio2>  52.43000</sio2>
+<tio2>   1.57000</tio2>
+<al2o3>  15.01000</al2o3>
+<fe2o3>   2.80000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.20000</feo>
+<mno>   0.12000</mno>
+<mgo>   4.81000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.73000</cao>
+<na2o>   1.79000</na2o>
+<k2o>   0.35000</k2o>
+<p2o5>   0.14000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90227</number>
+<name>?shiSH15</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.90000</fo2val>
+<liquid>
+<sio2>  52.43000</sio2>
+<tio2>   1.57000</tio2>
+<al2o3>  15.01000</al2o3>
+<fe2o3>   3.13000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  9.780000</feo>
+<mno>   0.12000</mno>
+<mgo>   4.81000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.73000</cao>
+<na2o>   1.79000</na2o>
+<k2o>   0.35000</k2o>
+<p2o5>   0.14000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90228</number>
+<name>?shiSH19</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.20000</fo2val>
+<liquid>
+<sio2>  52.43000</sio2>
+<tio2>   1.57000</tio2>
+<al2o3>  15.01000</al2o3>
+<fe2o3>   1.60000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.70000</feo>
+<mno>   0.12000</mno>
+<mgo>   4.81000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.73000</cao>
+<na2o>   1.79000</na2o>
+<k2o>   0.35000</k2o>
+<p2o5>   0.14000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90229</number>
+<name>?shiSH21</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1300.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  52.43000</sio2>
+<tio2>   1.57000</tio2>
+<al2o3>  15.01000</al2o3>
+<fe2o3>   1.03000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  11.00000</feo>
+<mno>   0.12000</mno>
+<mgo>   4.81000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.73000</cao>
+<na2o>   1.79000</na2o>
+<k2o>   0.35000</k2o>
+<p2o5>   0.14000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90230</number>
+<name>rff1921-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  49.11000</sio2>
+<tio2>   2.51000</tio2>
+<al2o3>  12.74000</al2o3>
+<fe2o3>   2.08000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.03000</feo>
+<mno>   0.17000</mno>
+<mgo>  10.31000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.73000</cao>
+<na2o>   1.97000</na2o>
+<k2o>   0.49000</k2o>
+<p2o5>   0.27000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90231</number>
+<name>rff1921-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.20000</fo2val>
+<liquid>
+<sio2>  49.11000</sio2>
+<tio2>   2.51000</tio2>
+<al2o3>  12.74000</al2o3>
+<fe2o3>   1.85000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.06000</feo>
+<mno>   0.17000</mno>
+<mgo>  10.31000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.73000</cao>
+<na2o>   1.97000</na2o>
+<k2o>   0.49000</k2o>
+<p2o5>   0.27000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90232</number>
+<name>rff1921-3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.50000</fo2val>
+<liquid>
+<sio2>  49.11000</sio2>
+<tio2>   2.51000</tio2>
+<al2o3>  12.74000</al2o3>
+<fe2o3>   1.48000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.46000</feo>
+<mno>   0.17000</mno>
+<mgo>  10.31000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.73000</cao>
+<na2o>   1.97000</na2o>
+<k2o>   0.49000</k2o>
+<p2o5>   0.27000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90233</number>
+<name>rff101233-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  47.08000</sio2>
+<tio2>   3.02000</tio2>
+<al2o3>  15.90000</al2o3>
+<fe2o3>   2.40000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.55000</feo>
+<mno>   0.16000</mno>
+<mgo>   6.14000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.71000</cao>
+<na2o>   2.86000</na2o>
+<k2o>   0.86000</k2o>
+<p2o5>   0.48000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90234</number>
+<name>rff101233-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.00000</fo2val>
+<liquid>
+<sio2>  47.08000</sio2>
+<tio2>   3.02000</tio2>
+<al2o3>  15.90000</al2o3>
+<fe2o3>   4.82000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.54000</feo>
+<mno>   0.16000</mno>
+<mgo>   6.14000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.71000</cao>
+<na2o>   2.86000</na2o>
+<k2o>   0.86000</k2o>
+<p2o5>   0.48000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90235</number>
+<name>rff101233-3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.90000</fo2val>
+<liquid>
+<sio2>  47.08000</sio2>
+<tio2>   3.02000</tio2>
+<al2o3>  15.90000</al2o3>
+<fe2o3>   3.52000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.76000</feo>
+<mno>   0.16000</mno>
+<mgo>   6.14000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>  10.71000</cao>
+<na2o>   2.86000</na2o>
+<k2o>   0.86000</k2o>
+<p2o5>   0.48000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90236</number>
+<name>rff101232-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  49.69000</sio2>
+<tio2>   2.63000</tio2>
+<al2o3>  17.53000</al2o3>
+<fe2o3>   2.40000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.40000</feo>
+<mno>   0.21000</mno>
+<mgo>   3.85000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.90000</cao>
+<na2o>   4.74000</na2o>
+<k2o>   1.93000</k2o>
+<p2o5>   1.07000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90237</number>
+<name>rff101232-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.00000</fo2val>
+<liquid>
+<sio2>  49.69000</sio2>
+<tio2>   2.63000</tio2>
+<al2o3>  17.53000</al2o3>
+<fe2o3>   4.60000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   6.50000</feo>
+<mno>   0.21000</mno>
+<mgo>   3.85000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.90000</cao>
+<na2o>   4.74000</na2o>
+<k2o>   1.93000</k2o>
+<p2o5>   1.07000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90238</number>
+<name>rff101232-3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.83000</fo2val>
+<liquid>
+<sio2>  49.69000</sio2>
+<tio2>   2.63000</tio2>
+<al2o3>  17.53000</al2o3>
+<fe2o3>   3.59000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.52000</feo>
+<mno>   0.21000</mno>
+<mgo>   3.85000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.90000</cao>
+<na2o>   4.74000</na2o>
+<k2o>   1.93000</k2o>
+<p2o5>   1.07000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90239</number>
+<name>rff101232-4</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -3.80000</fo2val>
+<liquid>
+<sio2>  49.69000</sio2>
+<tio2>   2.63000</tio2>
+<al2o3>  17.53000</al2o3>
+<fe2o3>   7.40000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   3.94000</feo>
+<mno>   0.21000</mno>
+<mgo>   3.85000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.90000</cao>
+<na2o>   4.74000</na2o>
+<k2o>   1.93000</k2o>
+<p2o5>   1.07000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90240</number>
+<name>rff101232-5</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -0.68000</fo2val>
+<liquid>
+<sio2>  49.69000</sio2>
+<tio2>   2.63000</tio2>
+<al2o3>  17.53000</al2o3>
+<fe2o3>  10.20000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   1.25000</feo>
+<mno>   0.21000</mno>
+<mgo>   3.85000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.90000</cao>
+<na2o>   4.74000</na2o>
+<k2o>   1.93000</k2o>
+<p2o5>   1.07000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90241</number>
+<name>rffPGG2-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  51.04000</sio2>
+<tio2>   1.71000</tio2>
+<al2o3>  14.58000</al2o3>
+<fe2o3>   3.06000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>  10.55000</feo>
+<mno>   0.22000</mno>
+<mgo>   4.70000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.89000</cao>
+<na2o>   3.17000</na2o>
+<k2o>   0.78000</k2o>
+<p2o5>   0.36000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90242</number>
+<name>rffPGG2-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.00000</fo2val>
+<liquid>
+<sio2>  51.04000</sio2>
+<tio2>   1.71000</tio2>
+<al2o3>  14.58000</al2o3>
+<fe2o3>   5.21000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.65000</feo>
+<mno>   0.22000</mno>
+<mgo>   4.70000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.89000</cao>
+<na2o>   3.17000</na2o>
+<k2o>   0.78000</k2o>
+<p2o5>   0.36000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90243</number>
+<name>rffPGG2-3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -5.80000</fo2val>
+<liquid>
+<sio2>  51.04000</sio2>
+<tio2>   1.71000</tio2>
+<al2o3>  14.58000</al2o3>
+<fe2o3>   5.48000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.40000</feo>
+<mno>   0.22000</mno>
+<mgo>   4.70000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.89000</cao>
+<na2o>   3.17000</na2o>
+<k2o>   0.78000</k2o>
+<p2o5>   0.36000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90244</number>
+<name>rffPGG3-4</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.36000</fo2val>
+<liquid>
+<sio2>  51.04000</sio2>
+<tio2>   1.71000</tio2>
+<al2o3>  14.58000</al2o3>
+<fe2o3>   4.87000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.92000</feo>
+<mno>   0.22000</mno>
+<mgo>   4.70000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   8.89000</cao>
+<na2o>   3.17000</na2o>
+<k2o>   0.78000</k2o>
+<p2o5>   0.36000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90245</number>
+<name>rffRIF-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  54.46000</sio2>
+<tio2>   1.80000</tio2>
+<al2o3>  13.61000</al2o3>
+<fe2o3>   2.13000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   9.92000</feo>
+<mno>   0.18000</mno>
+<mgo>   4.05000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.69000</cao>
+<na2o>   3.10000</na2o>
+<k2o>   1.51000</k2o>
+<p2o5>   0.38000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90246</number>
+<name>rffRIF-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.00000</fo2val>
+<liquid>
+<sio2>  54.46000</sio2>
+<tio2>   1.80000</tio2>
+<al2o3>  13.61000</al2o3>
+<fe2o3>   4.24000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   7.90000</feo>
+<mno>   0.18000</mno>
+<mgo>   4.05000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.69000</cao>
+<na2o>   3.10000</na2o>
+<k2o>   1.51000</k2o>
+<p2o5>   0.38000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90247</number>
+<name>rff340409-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.50000</fo2val>
+<liquid>
+<sio2>  49.38000</sio2>
+<tio2>   1.40000</tio2>
+<al2o3>  16.92000</al2o3>
+<fe2o3>   1.32000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.22000</feo>
+<mno>   0.17000</mno>
+<mgo>   8.56000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.80000</cao>
+<na2o>   3.10000</na2o>
+<k2o>   0.40000</k2o>
+<p2o5>   0.19000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90248</number>
+<name>rff340409-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  49.38000</sio2>
+<tio2>   1.40000</tio2>
+<al2o3>  16.92000</al2o3>
+<fe2o3>   1.59000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   8.00000</feo>
+<mno>   0.17000</mno>
+<mgo>   8.56000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   9.80000</cao>
+<na2o>   3.10000</na2o>
+<k2o>   0.40000</k2o>
+<p2o5>   0.19000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90249</number>
+<name>rff290109-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -7.00000</fo2val>
+<liquid>
+<sio2>  53.26000</sio2>
+<tio2>   1.32000</tio2>
+<al2o3>  16.88000</al2o3>
+<fe2o3>   2.53000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   5.49000</feo>
+<mno>   0.13000</mno>
+<mgo>   6.83000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.90000</cao>
+<na2o>   3.54000</na2o>
+<k2o>   1.06000</k2o>
+<p2o5>   0.35000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90250</number>
+<name>rff290109?2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -7.60000</fo2val>
+<liquid>
+<sio2>  53.26000</sio2>
+<tio2>   1.32000</tio2>
+<al2o3>  16.88000</al2o3>
+<fe2o3>   1.90000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   6.06000</feo>
+<mno>   0.13000</mno>
+<mgo>   6.83000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.90000</cao>
+<na2o>   3.54000</na2o>
+<k2o>   1.06000</k2o>
+<p2o5>   0.35000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90251</number>
+<name>rff290109-3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  53.26000</sio2>
+<tio2>   1.32000</tio2>
+<al2o3>  16.88000</al2o3>
+<fe2o3>   1.55000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   6.31000</feo>
+<mno>   0.13000</mno>
+<mgo>   6.83000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   7.90000</cao>
+<na2o>   3.54000</na2o>
+<k2o>   1.06000</k2o>
+<p2o5>   0.35000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90252</number>
+<name>rff120509-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.20000</fo2val>
+<liquid>
+<sio2>  58.41000</sio2>
+<tio2>   1.15000</tio2>
+<al2o3>  18.25000</al2o3>
+<fe2o3>   1.28000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.95000</feo>
+<mno>   0.10000</mno>
+<mgo>   3.39000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.70000</cao>
+<na2o>   4.35000</na2o>
+<k2o>   0.82000</k2o>
+<p2o5>   0.26000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90253</number>
+<name>rff120509-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  58.41000</sio2>
+<tio2>   1.15000</tio2>
+<al2o3>  18.25000</al2o3>
+<fe2o3>   1.52000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.92000</feo>
+<mno>   0.10000</mno>
+<mgo>   3.39000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   6.70000</cao>
+<na2o>   4.35000</na2o>
+<k2o>   0.82000</k2o>
+<p2o5>   0.26000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90254</number>
+<name>rff240301-1</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -8.00000</fo2val>
+<liquid>
+<sio2>  61.26000</sio2>
+<tio2>   0.72000</tio2>
+<al2o3>  17.44000</al2o3>
+<fe2o3>   1.19000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.43000</feo>
+<mno>   0.10000</mno>
+<mgo>   3.16000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   5.84000</cao>
+<na2o>   4.27000</na2o>
+<k2o>   1.17000</k2o>
+<p2o5>   0.20000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90255</number>
+<name>rff240308-2</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -6.00000</fo2val>
+<liquid>
+<sio2>  61.26000</sio2>
+<tio2>   0.72000</tio2>
+<al2o3>  17.44000</al2o3>
+<fe2o3>   2.04000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   3.66000</feo>
+<mno>   0.10000</mno>
+<mgo>   3.16000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   5.84000</cao>
+<na2o>   4.27000</na2o>
+<k2o>   1.17000</k2o>
+<p2o5>   0.20000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+<experiment>
+<number>90256</number>
+<name>rff240308-3</name>
+<author>Kress and Carmichael (1991)</author>
+<lab>0</lab>
+<t>    1200.0</t>
+<p>0.0001</p>
+<fo2val>  -7.00000</fo2val>
+<liquid>
+<sio2>  61.26000</sio2>
+<tio2>   0.72000</tio2>
+<al2o3>  17.44000</al2o3>
+<fe2o3>   1.63000</fe2o3>
+<cr2o3>   0.00000</cr2o3>
+<feo>   4.02000</feo>
+<mno>   0.10000</mno>
+<mgo>   3.16000</mgo>
+<nio>   0.00000</nio>
+<coo>   0.00000</coo>
+<cao>   5.84000</cao>
+<na2o>   4.27000</na2o>
+<k2o>   1.17000</k2o>
+<p2o5>   0.20000</p2o5>
+</liquid>
+<phase type="o2"></phase>
+</experiment>
+</LEPRdatabase>

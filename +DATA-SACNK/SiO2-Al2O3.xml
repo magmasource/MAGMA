@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xMelts/LEPRdatabase.xsd">
+    <experiment>
+        <number>4616</number>
+        <name>Table Ia-1</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.833333</time>
+        <t>1615</t>
+        <terr>5</terr>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>95</sio2>
+            <al2o3>5</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>95</sio2>
+            <al2o3>5</al2o3>
+        </liquid>
+        <phase type="cristobalite">
+            <sio2>100</sio2>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>4617</number>
+        <name>Table Ia-eutectic</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1545</t>
+        <terr>5</terr>
+        <p>0.0001</p>
+        <phaselist>liq+crst+mull</phaselist>
+        <bulkComp>
+            <sio2>94.5</sio2>
+            <al2o3>5.5</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>94.5</sio2>
+            <al2o3>5.5</al2o3>
+        </liquid>
+        <phase type="cristobalite">
+            <sio2>100</sio2>
+        </phase>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4618</number>
+        <name>Table Ia-3</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.666667</time>
+        <t>1615</t>
+        <terr>5</terr>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>93</sio2>
+            <al2o3>7</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>93</sio2>
+            <al2o3>7</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4619</number>
+        <name>Table Ia-4</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1665</t>
+        <terr>5</terr>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>90</sio2>
+            <al2o3>10</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>90</sio2>
+            <al2o3>10</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4620</number>
+        <name>Table Ia-5</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.5</time>
+        <t>1705</t>
+        <terr>5</terr>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>85</sio2>
+            <al2o3>15</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>85</sio2>
+            <al2o3>15</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4621</number>
+        <name>Table Ib-1</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1740</t>
+        <terr>13</terr>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>75</sio2>
+            <al2o3>25</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>75</sio2>
+            <al2o3>25</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4623</number>
+        <name>Table Ib-2</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1800</t>
+        <terr>10</terr>
+        <p>0.0001</p>
+        <phaselist>liq+mull</phaselist>
+        <bulkComp>
+            <sio2>50</sio2>
+            <al2o3>50</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>50</sio2>
+            <al2o3>50</al2o3>
+        </liquid>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4624</number>
+        <name>Table Ib-invariant point</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1810</t>
+        <terr>10</terr>
+        <p>0.0001</p>
+        <phaselist>liq+mull+cor</phaselist>
+        <bulkComp/>
+        <liquid/>
+        <phase type="corundum">
+            <al2o3>100</al2o3>
+        </phase>
+        <phase type="mullite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4625</number>
+        <name>Table Ib-4</name>
+        <author>Bowen N. L., Greig J. W. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.2</time>
+        <t>1912</t>
+        <terr>10</terr>
+        <p>0.0001</p>
+        <phaselist>liq+mull+cor</phaselist>
+        <bulkComp>
+            <sio2>29.4</sio2>
+            <al2o3>70.6</al2o3>
+        </bulkComp>
+        <liquid>
+            <sio2>29.4</sio2>
+            <al2o3>70.6</al2o3>
+            <sio2ERR>1.8</sio2ERR>
+            <al2o3ERR>1.8</al2o3ERR>
+        </liquid>
+        <phase type="corundum">
+            <al2o3>100</al2o3>
+        </phase>
+    </experiment>
+</LEPRdatabase>

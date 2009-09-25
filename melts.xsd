@@ -1,0 +1,127 @@
+<MELTSinput> (required)
+ <title>text</title>
+ <bulk> (required)
+  <SiO2>  float </SiO2>   (required)
+  <TiO2>  float </TiO2>
+  <Al2O3> float </Al2O3>  (required)
+  <Fe2O3> float </Fe2O3>
+  <Cr2O3> float </Cr2O3>
+  <FeO>   float </FeO>    (required)
+  <MnO>   float </MnO>
+  <MgO>   float </MgO>    (required)
+  <NiO>   float </NiO>
+  <CoO>   float </CoO>
+  <CaO>   float </CaO>    (required)
+  <Na2O>  float </Na2O>   (required)
+  <K2O>   float </K2O>
+  <P2O5>  float </P2O5>
+  <H2O>   float </H2O>
+ </bulk>
+ <constraints> (choice of child elements; but one is required)
+  <setTP> (negates isochoric/isenthalpic/isentropic mode)
+   <initialT> float </initialT>   (required)
+   <finalT>   float </finalT>
+   <incT>     float </incT>
+   <initialP> float </initialP>   (required)
+   <finalP>   float </finalP>
+   <incP>     float </incP>
+   <dpdt>     float </dpdt>
+   <fo2Path>  text  </fo2Path>
+   <fo2Offset>float </fo2Offset>
+  </setTP>
+  <setTV> (sets isochoric mode)
+   <initialT> float </initialT>   (required)
+   <finalT>   float </finalT>
+   <incT>     float </incT>
+   <initialV> float </initialV>   (required)
+   <finalV>   float </finalV>
+   <incV>     float </incV>
+   <dvdt>     float </dvdt>
+  </setTV>
+  <setHP> (sets isenthalpic mode)
+   <initialH> float </initialH>   (required)
+   <finalH>   float </finalH>
+   <incH>     float </incH>
+   <initialP> float </initialP>   (required)
+   <finalP>   float </finalP>
+   <incP>     float </incP>
+   <dhdp>     float </dhdp>
+  </setHP>
+  <setSP> (sets isentropic mode)
+   <initialS> float </initialS>   (required)
+   <finalS>   float </finalS>
+   <incS>     float </incS>
+   <initialP> float </initialP>   (required)
+   <finalP>   float </finalP>
+   <incP>     float </incP>
+   <dsdp>     float </dsdp>
+  </setHP>
+ </constraints>
+ <suppressPhase> (optional)
+   <name> text </name>
+ </suppressPhase>
+ <mode> (optional)
+   <fractionate> (choice of one of the children)
+     <solids>  empty </solids>
+     <liquids> empty </liquids>
+   </fractionate>
+   <multLiquids> empty </multLiquids>
+ </mode>
+ <assimilant> 
+  <temperature> float </temperature> (required)
+  <increments> integer </increments> (required)
+  <mass> float </mass>               (required)
+  <units> (choice of one of the children)
+    <vol> empty </vol>
+    <wt>  empty </wt>
+  </units>
+  
+  <solid> (choice of amorphous or phase(s))
+   <amorphous>
+    <massFrac> float </float>        (required)
+    <SiO2>  float </SiO2> 
+    <TiO2>  float </TiO2> 
+    <Al2O3> float </Al2O3>
+    <Fe2O3> float </Fe2O3>
+    <Cr2O3> float </Cr2O3>
+    <FeO>   float </FeO>  
+    <MnO>   float </MnO>  
+    <MgO>   float </MgO>  
+    <NiO>   float </NiO>  
+    <CoO>   float </CoO>  
+    <CaO>   float </CaO>  
+    <Na2O>  float </Na2O> 
+    <K2O>   float </K2O>  
+    <P2O5>  float </P2O5> 
+    <H2O>   float </H2O>  
+   </amorphous>
+   <phase> (there can be multiple instances of this tab group)
+    <name> text </name>            (required)
+    <massFrac> float </massFrac>   (required)
+    <component>
+     <name> text </name>           (required)
+     <molFrac> float </molFrac>    (required)
+    </component>
+   </phase>
+  </solid>
+  
+  <liquid>
+   <massFrac> float </float>  (required)
+   <SiO2>  float </SiO2>      (required)
+   <TiO2>  float </TiO2> 
+   <Al2O3> float </Al2O3>     (required)
+   <Fe2O3> float </Fe2O3>
+   <Cr2O3> float </Cr2O3>
+   <FeO>   float </FeO>       (required)
+   <MnO>   float </MnO>  
+   <MgO>   float </MgO>       (required)
+   <NiO>   float </NiO>  
+   <CoO>   float </CoO>  
+   <CaO>   float </CaO>       (required)
+   <Na2O>  float </Na2O>      (required)
+   <K2O>   float </K2O>  
+   <P2O5>  float </P2O5> 
+   <H2O>   float </H2O>  
+  </liquid>
+  
+ </assimilant>

@@ -1,0 +1,83 @@
+
+
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+            $$$    $$$  $$  $$     $$$      $$     $$$
+            $$  $$  $$  $$  $$  $$  $$  $$$$$$  $$  $$
+            $$  $$$$$$  $$  $$  $$  $$  $$$$$$  $$  $$
+            $$$  $$$$$  $$  $$     $$$      $$     $$$
+            $$$$  $$$$  $$  $$  $$$$$$  $$$$$$  $  $$$
+            $$  $$  $$  $$  $$  $$$$$$  $$$$$$  $$  $$
+            $$$    $$$$    $$$  $$$$$$      $$  $$$ $$
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+                      SUPERFLUID PROGRAM
+                      *******************
+
+    This program is created for calculation of Gibbs free energy 
+G (J/mole) and molar volume V (cm3/mole) of the C-H-O-S-N-Ar fluids
+under specified temperature T (K) and pressure P (bar).
+
+    Program works in the interactive mode, calculating point by point.
+To specify point, one should specify T, P and composition. To specify
+composition, one should specify the numbers of components and their mole 
+fractions (Xi).
+
+    The applicable T-P ranges are as follows:
+                 Crttical Points ---> 2273.15 K,  1  bar - 1 kbar;
+                                      3273.15 K,  1 kbar - 5 kbar;
+                                      4000.00 K,  5 kbar - 1000 kbar.
+
+    The component numbers are:
+     ---------------------------------------------------------------------  
+      1     2     3     4    5    6    7    8     9    10    11   12   13
+     H2O,  CO2,  CH4,  CO,  O2,  H2,  S2,  SO2,  COS,  H2S,  N2,  NH3, Ar
+     ---------------------------------------------------------------------  
+A sum of Xi must be equal to 1.0
+
+    To finish input of a point, one should type a negative number of a
+component. All results are saved and appended to the SUPER.OUT file.
+
+    The program gives the detailed information as users want to make several
+calculations at different T-P-X conditions.
+
+    For details see: A.B. Belonoshko, Pingfang Shi, and S.K. Saxena (1992),
+          SUPERFLUID: a FORTRAN-77 program for calculation of Gibbs free 
+             energy and volume of C-H-O-N-S-Ar mixtures. 
+                 Computers and Geosciences, 18: 1267-1269.
+
+    If any problem, please contact to  
+
+            Anatoly B. Belonoshko
+            Dept. of Materials science and Engineering
+            The Royal Institute of Technology
+            S-100 44 Stockholm, Sweden  
+
+                   Phone :   +46-8-790 88 68
+                   Fax   :   +46-8-20 76 81
+                   E-mail:   anatoly@fysik.uu.se
+
+    We will appreciate receiving your comments about the program.
+
+
+                                           Anatoly B. Belonoshko
+                                                
+                                              Stockholm, April 2001
+
+
+LIST OF REFERENCES:
+^^^^^^^^^^^^^^^^^^^
+1.  Belonoshko AB, Shi PF, and Saxena SK  (1992),
+              Computers and Geosciences, 18:1267-1269.
+2.  Belonoshko AB, and Saxena SK  (1991a),
+              Geochimica et Cosmochimica Acta, 55:383-388.
+3.  Belonoshko AB, and Saxena SK  (1991b),
+              Geochimica et Cosmochimica Acta, 55:3191-3208.
+4.  Belonoshko AB  (1992),
+              High Pressure Research, 10:583-597.
+5.  Belonoshko AB, and Saxena SK  (1992),
+              Geochimica et Cosmochimica Acta, 56:3611-3626.
+6.  Shi PF, and Saxena SK  (1992),
+              American Mineralogist, 77:1038-1049.
+7.  Shi PF  (1992),
+              American Mineralogist, 77:1050-1066.

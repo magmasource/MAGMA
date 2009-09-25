@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xMelts/LEPRdatabase.xsd">
+    <experiment>
+        <number>900001</number>
+        <name>Na2SiO3 (sodium metasilicate fusion)</name>
+        <author>Stebbins</author>
+        <lab>none</lab>
+        <t>1088.15</t>
+        <p>0.0001</p>
+        <liquid>
+            <na2o>50.78</na2o>
+            <sio2>49.22</sio2>
+        </liquid>
+        <phase type="enthalpy">
+            <value>-1102.756</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>900002</number>
+        <name>Na2SiO3 (sodium metasilicate fusion)</name>
+        <author>Stebbins</author>
+        <lab>none</lab>
+        <t>1088.15</t>
+        <p>0.0001</p>
+        <liquid>
+            <na2o>50.78</na2o>
+            <sio2>49.22</sio2>
+        </liquid>
+        <phase type="entropy">
+            <value>306.088</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>900003</number>
+        <name>Na2Si2O5 (sodium disilicate fusion)</name>
+        <author>JANAF</author>
+        <lab>none</lab>
+        <t>873.85</t>
+        <p>0.0001</p>
+        <liquid>
+            <na2o>34.03</na2o>
+            <sio2>65.97</sio2>
+        </liquid>
+        <phase type="enthalpy">
+            <value>-1234.669</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>900004</number>
+        <name>Na2Si2O5  (sodium disilicate fusion)</name>
+        <author>JANAF</author>
+        <lab>none</lab>
+        <t>873.85</t>
+        <p>0.0001</p>
+        <liquid>
+            <na2o>34.03</na2o>
+            <sio2>65.97</sio2>
+        </liquid>
+        <phase type="entropy">
+            <value>262.50</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>4626</number>
+        <name>Table II-2154A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.25</time>
+        <t>1086.5</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>49.44</sio2>
+            <na2o>50.4</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>49.44</sio2>
+            <na2o>50.4</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4627</number>
+        <name>Table II-2330A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.25</time>
+        <t>1031</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>54.03</sio2>
+            <na2o>45.88</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>54.03</sio2>
+            <na2o>45.88</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4628</number>
+        <name>Table II-2142A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>1001</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>54.93</sio2>
+            <na2o>44.92</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>54.93</sio2>
+            <na2o>44.92</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4629</number>
+        <name>Table II-2115A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>863</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>60.45</sio2>
+            <na2o>39.55</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>60.45</sio2>
+            <na2o>39.55</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4630</number>
+        <name>Table II-2512A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>847</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>62.17</sio2>
+            <na2o>37.83</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>62.17</sio2>
+            <na2o>37.83</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4631</number>
+        <name>Table II-2144A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>859</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>62.29</sio2>
+            <na2o>37.59</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>62.29</sio2>
+            <na2o>37.59</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4632</number>
+        <name>Table II-2510A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>871</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>65</sio2>
+            <na2o>35</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>65</sio2>
+            <na2o>35</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4633</number>
+        <name>Table II-2518A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>873.5</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>65.96</sio2>
+            <na2o>34.04</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>65.96</sio2>
+            <na2o>34.04</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4634</number>
+        <name>Table II-2414A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>873</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>66.01</sio2>
+            <na2o>33.99</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>66.01</sio2>
+            <na2o>33.99</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4635</number>
+        <name>Table II-2034A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>872.5</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>66.74</sio2>
+            <na2o>33.26</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>66.74</sio2>
+            <na2o>33.26</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4636</number>
+        <name>Table II-2411A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>868</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>67.25</sio2>
+            <na2o>32.83</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>67.25</sio2>
+            <na2o>32.83</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4637</number>
+        <name>Table II-2530A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>831</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>70.8</sio2>
+            <na2o>29.2</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>70.8</sio2>
+            <na2o>29.2</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4638</number>
+        <name>Table II-2530B</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>802</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>72.68</sio2>
+            <na2o>27.32</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>72.68</sio2>
+            <na2o>27.32</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4639</number>
+        <name>Table II-2530C</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>4</time>
+        <t>830</t>
+        <p>0.0001</p>
+        <phaselist>liq+qz</phaselist>
+        <bulkComp>
+            <sio2>74.22</sio2>
+            <na2o>25.78</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>74.22</sio2>
+            <na2o>25.78</na2o>
+        </liquid>
+        <phase type="quartz"> </phase>
+    </experiment>
+    <experiment>
+        <number>4640</number>
+        <name>Table II-2520A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>14</time>
+        <t>841</t>
+        <p>0.0001</p>
+        <phaselist>liq+qz</phaselist>
+        <bulkComp>
+            <sio2>75.19</sio2>
+            <na2o>24.81</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>75.19</sio2>
+            <na2o>24.81</na2o>
+        </liquid>
+        <phase type="quartz"> </phase>
+    </experiment>
+    <experiment>
+        <number>4641</number>
+        <name>Table II-2429A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>1145</t>
+        <p>0.0001</p>
+        <phaselist>liq+trid</phaselist>
+        <bulkComp>
+            <sio2>80.46</sio2>
+            <na2o>19.54</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>80.46</sio2>
+            <na2o>19.54</na2o>
+        </liquid>
+        <phase type="tridymite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4642</number>
+        <name>Table II-2429B</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>1457</t>
+        <p>0.0001</p>
+        <phaselist>liq+trid</phaselist>
+        <bulkComp>
+            <sio2>88.33</sio2>
+            <na2o>11.67</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>88.33</sio2>
+            <na2o>11.67</na2o>
+        </liquid>
+        <phase type="tridymite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4643</number>
+        <name>Table II-2431A</name>
+        <author>Morey G. W., Bowen N. L. (1924)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>1596</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>95.93</sio2>
+            <na2o>4.07</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>95.93</sio2>
+            <na2o>4.07</na2o>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4644</number>
+        <name>Table I-572</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>1069</t>
+        <p>0.0001</p>
+        <phaselist>liq+naor</phaselist>
+        <bulkComp>
+            <sio2>42.1</sio2>
+            <na2o>67.9</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>42.1</sio2>
+            <na2o>67.9</na2o>
+        </liquid>
+        <phase type="naorthosilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4645</number>
+        <name>Table I-565</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.5</time>
+        <t>1035</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>43.57</sio2>
+            <na2o>56.43</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>43.57</sio2>
+            <na2o>56.43</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4646</number>
+        <name>Table I-563</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.5</time>
+        <t>1065</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>45.11</sio2>
+            <na2o>54.89</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>45.11</sio2>
+            <na2o>54.89</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4647</number>
+        <name>Table I-574</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>1089</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>49.18</sio2>
+            <na2o>50.82</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>49.18</sio2>
+            <na2o>50.82</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4648</number>
+        <name>Table I-555</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>955</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>57.91</sio2>
+            <na2o>42.09</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>57.91</sio2>
+            <na2o>42.09</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4649</number>
+        <name>Table I-558</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>3</time>
+        <t>904</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>59.98</sio2>
+            <na2o>40.02</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>59.98</sio2>
+            <na2o>40.02</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4650</number>
+        <name>Table I-557</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>862</t>
+        <p>0.0001</p>
+        <phaselist>liq+namt</phaselist>
+        <bulkComp>
+            <sio2>61.5</sio2>
+            <na2o>38.5</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>61.5</sio2>
+            <na2o>38.5</na2o>
+        </liquid>
+        <phase type="nametasilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4651</number>
+        <name>Table I-559</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>5</time>
+        <t>851</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>62.49</sio2>
+            <na2o>37.51</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>62.49</sio2>
+            <na2o>37.51</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4652</number>
+        <name>Table I-350</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>874</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>65.94</sio2>
+            <na2o>34.06</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>65.94</sio2>
+            <na2o>34.06</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4653</number>
+        <name>Table I-561</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>829</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>71.49</sio2>
+            <na2o>28.51</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>71.49</sio2>
+            <na2o>28.51</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4654</number>
+        <name>Table I-551</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>806</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>73</sio2>
+            <na2o>27</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>73</sio2>
+            <na2o>27</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4655</number>
+        <name>Table I-556</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>795</t>
+        <p>0.0001</p>
+        <phaselist>liq+nadi</phaselist>
+        <bulkComp>
+            <sio2>74</sio2>
+            <na2o>26</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>74</sio2>
+            <na2o>26</na2o>
+        </liquid>
+        <phase type="nadisilicate"> </phase>
+    </experiment>
+    <experiment>
+        <number>4656</number>
+        <name>Table I-571</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>838</t>
+        <p>0.0001</p>
+        <phaselist>liq+qz</phaselist>
+        <bulkComp>
+            <sio2>74.81</sio2>
+            <na2o>25.19</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>74.81</sio2>
+            <na2o>25.19</na2o>
+        </liquid>
+        <phase type="quartz"> </phase>
+    </experiment>
+    <experiment>
+        <number>4657</number>
+        <name>Table I-554</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>905</t>
+        <p>0.0001</p>
+        <phaselist>liq+trid</phaselist>
+        <bulkComp>
+            <sio2>75.98</sio2>
+            <na2o>24.02</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>75.98</sio2>
+            <na2o>24.02</na2o>
+        </liquid>
+        <phase type="tridymite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4658</number>
+        <name>Table I-553</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>995</t>
+        <p>0.0001</p>
+        <phaselist>liq+trid</phaselist>
+        <bulkComp>
+            <sio2>77.48</sio2>
+            <na2o>22.52</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>77.48</sio2>
+            <na2o>22.52</na2o>
+        </liquid>
+        <phase type="tridymite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4659</number>
+        <name>Table I-552</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>5</time>
+        <t>1075</t>
+        <p>0.0001</p>
+        <phaselist>liq+trid</phaselist>
+        <bulkComp>
+            <sio2>78.97</sio2>
+            <na2o>21.03</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>78.97</sio2>
+            <na2o>21.03</na2o>
+        </liquid>
+        <phase type="tridymite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4660</number>
+        <name>Table I-570</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>1</time>
+        <t>1365</t>
+        <p>0.0001</p>
+        <phaselist>liq+trid</phaselist>
+        <bulkComp>
+            <sio2>85.44</sio2>
+            <na2o>14.56</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>85.44</sio2>
+            <na2o>14.56</na2o>
+        </liquid>
+        <phase type="tridymite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4661</number>
+        <name>Table I-560</name>
+        <author>Kracek F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>1450</t>
+        <p>0.0001</p>
+        <phaselist>liq+trid</phaselist>
+        <bulkComp>
+            <sio2>87.97</sio2>
+            <na2o>12.03</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>87.97</sio2>
+            <na2o>12.03</na2o>
+        </liquid>
+        <phase type="tridymite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4662</number>
+        <name>Table I-566</name>
+        <author>Kracek, F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>1551</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>91.46</sio2>
+            <na2o>8.54</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>91.46</sio2>
+            <na2o>8.54</na2o>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4663</number>
+        <name>Table I-567</name>
+        <author>Kracek, F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>1593</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>95</sio2>
+            <na2o>5</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>95</sio2>
+            <na2o>5</na2o>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+    <experiment>
+        <number>4664</number>
+        <name>Table I-568</name>
+        <author>Kracek, F. C. (1930)</author>
+        <lab>Geophysical Laboratory</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <time>0.333333</time>
+        <t>1644</t>
+        <p>0.0001</p>
+        <phaselist>liq+crst</phaselist>
+        <bulkComp>
+            <sio2>97.5</sio2>
+            <na2o>2.5</na2o>
+        </bulkComp>
+        <liquid>
+            <sio2>97.5</sio2>
+            <na2o>2.5</na2o>
+        </liquid>
+        <phase type="cristobalite"> </phase>
+    </experiment>
+</LEPRdatabase>

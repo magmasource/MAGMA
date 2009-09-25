@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           version="1.0">
+	   
+<!-- XML output produced from Melts-batch -->
+<!-- M S Ghiorso - coded December 2007 -->
+	   
+<xs:element name="MELTSstatus">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Success: Find liquidus"/>				  
+      <xs:enumeration value="Error: Maximum temperature in Find Liquidus"/>	  
+      <xs:enumeration value="Error: Minimum temperature in Find Liquidus"/>	  
+      <xs:enumeration value="Error: Maximum time limit exceeded in Find Liquidus"/>
+      <xs:enumeration value="Error: Cannot specify multiple liquids in Find Liquidus"/>
+      <xs:enumeration value="Success: Equilibrate"/>				  
+      <xs:enumeration value="Error: Quadratic Iterations exceeded"/>		  
+      <xs:enumeration value="Error: Zero steplength computed in linear search"/>   
+      <xs:enumeration value="Error: Maximum iterations exceeded in linear search"/>
+      <xs:enumeration value="Error: Cannot add a solid phase to liquid(+solids)"/> 
+      <xs:enumeration value="Error: Cannot add a solid phase to solid(s)"/>	  
+      <xs:enumeration value="Error: Cannot add a liquid phase to solid(s)"/>	  
+      <xs:enumeration value="Error: Phase rule violation (rank deficiency)"/>	  
+      <xs:enumeration value="Error: Maximum time limit exceeded in Silmin"/>	  
+      <xs:enumeration value="Error: Internal"/>  				  
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+</xs:schema>

@@ -1,0 +1,493 @@
+#ifndef _Param_Struct_Data_h
+#define _Param_Struct_Data_h
+
+/*
+MELTS Source Code: RCS $Log: param_struct_data.blank,v $
+MELTS Source Code: RCS Revision 1.1.1.1  2006/08/15 16:57:36  ghiorso
+MELTS Source Code: RCS xMELTS gcc 3.x sources
+MELTS Source Code: RCS
+MELTS Source Code: RCS Revision 1.1.1.1  2004/01/02 19:21:49  cvsaccount
+MELTS Source Code: RCS CTserver University of Chicago
+MELTS Source Code: RCS
+MELTS Source Code: RCS Revision 1.1.1.1  2001/12/20 03:25:03  ghiorso
+MELTS Source Code: RCS Sources for MELTS 5.x (xMELTS)
+MELTS Source Code: RCS
+MELTS Source Code: RCS Revision 5.1  2000/02/15 17:48:56  ghiorso
+MELTS Source Code: RCS MELTS 5.0 - xMELTS (associated solutions, multiple liquids)
+MELTS Source Code: RCS
+*/
+
+/*
+**++
+**  FACILITY:  Silicate Melts Regression/Crystallization Package
+**
+**  MODULE DESCRIPTION:
+**
+**      Include file for initializing values of liquidinteraction
+**         parameters (file: PARAM_STRUCT_DATA.H)
+**--
+*/
+
+/*
+ *=============================================================================
+ * Initialize global values of interaction parameters
+ */
+
+ModelParameters modelParameters[] = {
+  { "W(TiO2         ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Al2O3        ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Fe2O3        ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cr2O3        ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Fe2SiO4      ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mn2SiO4      ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mg2SiO4      ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ni2SiO4      ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Co2SiO4      ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Si2O4       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Al2O3        ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Fe2O3        ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cr2O3        ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Fe2SiO4      ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mn2SiO4      ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mg2SiO4      ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ni2SiO4      ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Co2SiO4      ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,TiO2        )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Fe2O3        ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cr2O3        ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Fe2SiO4      ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mn2SiO4      ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mg2SiO4      ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ni2SiO4      ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Co2SiO4      ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Al2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Cr2O3        ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Fe2SiO4      ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mn2SiO4      ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mg2SiO4      ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ni2SiO4      ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Co2SiO4      ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Fe2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Fe2SiO4      ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mn2SiO4      ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mg2SiO4      ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ni2SiO4      ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Co2SiO4      ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Cr2O3       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Mn2SiO4      ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Mg2SiO4      ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ni2SiO4      ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Co2SiO4      ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Fe2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Mg2SiO4      ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ni2SiO4      ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Co2SiO4      ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Mn2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Ni2SiO4      ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Co2SiO4      ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Mg2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Co2SiO4      ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca2SiO4      ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Ni2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Ca2SiO4      ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Na2SiO3      ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Co2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Na2SiO3      ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(K2SiO3       ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Ca2SiO4     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(K2SiO3       ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Ca3(PO4)2    ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Na2SiO3     )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Ca3(PO4)2    ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(CO2          ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,K2SiO3      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(CO2          ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(SO3          ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Ca3(PO4)2   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(SO3          ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(Cl2O-1       ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,CO2         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Cl2O-1       ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(F2O-1        ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,SO3         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(F2O-1        ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "W(H2O          ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Cl2O-1      )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(H2O          ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "W(Mg2Si2O6     ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,F2O-1       )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+ 
+  { "W(Mg2Si2O6     ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaMgSi2O6    ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,H2O         )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(CaMgSi2O6    ,Mg2Si2O6    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(CaAl2Si2O8   ,Mg2Si2O6    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,Mg2Si2O6    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,Mg2Si2O6    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,Mg2Si2O6    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,Mg2Si2O6    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Mg2Si2O6    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Mg2Si2O6    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(CaAl2Si2O8   ,CaMgSi2O6   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi3O8    ,CaMgSi2O6   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,CaMgSi2O6   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,CaMgSi2O6   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,CaMgSi2O6   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,CaMgSi2O6   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,CaMgSi2O6   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(NaAlSi3O8    ,CaAl2Si2O8  )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(KAlSi3O8     ,CaAl2Si2O8  )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,CaAl2Si2O8  )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,CaAl2Si2O8  )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,CaAl2Si2O8  )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,CaAl2Si2O8  )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(KAlSi3O8     ,NaAlSi3O8   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Mg3Al2Si3O12 ,NaAlSi3O8   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,NaAlSi3O8   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,NaAlSi3O8   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,NaAlSi3O8   )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Mg3Al2Si3O12 ,KAlSi3O8    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(NaAlSi2O6    ,KAlSi3O8    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,KAlSi3O8    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,KAlSi3O8    )",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(NaAlSi2O6    ,Mg3Al2Si3O12)",       0.0,       0.0,       0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(FeO1.3       ,Mg3Al2Si3O12)",       0.0,       0.0,       0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,Mg3Al2Si3O12)",       0.0,       0.0,       0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(FeO1.3       ,NaAlSi2O6   )",       0.0,       0.0,       0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "W(Si0.25OH     ,NaAlSi2O6   )",       0.0,       0.0,       0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "W(Si0.25OH     ,FeO1.3      )",       0.0,       0.0,       0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+
+  { "Si2O4                        ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "TiO2                         ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Al2O3                        ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Fe2O3                        ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Cr2O3                        ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Fe2SiO4                      ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Mn2SiO4                      ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Mg2SiO4                      ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Ni2SiO4                      ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Co2SiO4                      ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Ca2SiO4                      ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Na2SiO3                      ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "K2SiO3                       ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Ca3(PO4)2                    ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "CO2                          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "SO3                          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "Cl2O-1                       ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "F2O-1                        ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+  { "H2O                          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Basis species	  */
+ 
+  { "Mg2Si2O6	 	          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "CaMgSi2O6   	          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "CaAl2Si2O8  	          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "NaAlSi3O8   	          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "KAlSi3O8	 	          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "Mg3Al2Si3O12	          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "NaAlSi2O6   	          ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "FeO1.3                       ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }, /* Dependent species */
+  { "Si0.25OH                     ",	   0.0,       0.0,	 0.0,  FALSE, FALSE, FALSE, FALSE }  /* Dependent species */
+  
+  
+};
+
+#endif /* _Param_Struct_Data_h */

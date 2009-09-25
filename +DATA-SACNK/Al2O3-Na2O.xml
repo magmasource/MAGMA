@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xMelts/LEPRdatabase.xsd">
+    <experiment>
+        <number>4704</number>
+        <name>Fig.1 Rolin/Thanh 1</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1678.4</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>77.3588</al2o3>
+            <na2o>22.6411</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>77.3588</al2o3>
+            <na2o>22.6411</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4705</number>
+        <name>Fig.1 Rolin/Thanh 2</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1755.05</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>79.3327</al2o3>
+            <na2o>20.6673</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>79.3327</al2o3>
+            <na2o>20.6673</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4706</number>
+        <name>Fig.1 Rolin/Thanh 3</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1817.77</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>81.1266</al2o3>
+            <na2o>18.8734</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>81.1266</al2o3>
+            <na2o>18.8734</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4707</number>
+        <name>Fig.1 Rolin/Thanh 4</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1870.03</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>83.1516</al2o3>
+            <na2o>16.8484</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>83.1516</al2o3>
+            <na2o>16.8484</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4708</number>
+        <name>Fig.1 Rolin/Thanh 5</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1904.88</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>84.9995</al2o3>
+            <na2o>15.0005</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>84.9995</al2o3>
+            <na2o>15.0005</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4709</number>
+        <name>Fig.1 Rolin/Thanh 6</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1939.72</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>86.8081</al2o3>
+            <na2o>13.1919</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>86.8081</al2o3>
+            <na2o>13.1919</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4710</number>
+        <name>Fig.1 De Vris/Roth 1</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1626.13</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>75.9216</al2o3>
+            <na2o>24.0784</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>75.9216</al2o3>
+            <na2o>24.0784</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4711</number>
+        <name>Fig.1 De Vris/Roth 2</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1709.76</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>77.6435</al2o3>
+            <na2o>22.3565</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>77.6435</al2o3>
+            <na2o>22.3565</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4712</number>
+        <name>Fig.1 De Vris/Roth 3</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1786.41</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>79.8886</al2o3>
+            <na2o>20.1114</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>79.8886</al2o3>
+            <na2o>20.1114</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4713</number>
+        <name>Fig.1 De Vris/Roth 4</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1852.61</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>82.6162</al2o3>
+            <na2o>17.3838</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>82.6162</al2o3>
+            <na2o>17.3838</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4714</number>
+        <name>Fig.1 De Vris/Roth 5</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1915.33</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>85.3903</al2o3>
+            <na2o>14.6097</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>85.3903</al2o3>
+            <na2o>14.6097</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4715</number>
+        <name>Fig.1 De Vris/Roth 6</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1960.63</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl</phaselist>
+        <bulkComp>
+            <al2o3>88.4533</al2o3>
+            <na2o>11.5467</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>88.4533</al2o3>
+            <na2o>11.5467</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+    </experiment>
+    <experiment>
+        <number>4716</number>
+        <name>Fig.1 De Vris/Roth 7</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1998.95</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <al2o3>93.5555</al2o3>
+            <na2o>6.44446</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>93.5555</al2o3>
+            <na2o>6.44446</na2o>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4717</number>
+        <name>Fig.1 De Vris/Roth 8</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2019.86</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <al2o3>94.8406</al2o3>
+            <na2o>5.15939</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>94.8406</al2o3>
+            <na2o>5.15939</na2o>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4718</number>
+        <name>Fig.1 De Vris/Roth 9</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2033.8</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <al2o3>96.7868</al2o3>
+            <na2o>3.21315</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>96.7868</al2o3>
+            <na2o>3.21315</na2o>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+    <experiment>
+        <number>4719</number>
+        <name>Fig.1 Weber/Venero 1</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1870.03</t>
+        <p>0.0001</p>
+        <phaselist>liq+naal</phaselist>
+        <bulkComp>
+            <al2o3>62.1942</al2o3>
+            <na2o>37.8058</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>62.1942</al2o3>
+            <na2o>37.8058</na2o>
+        </liquid>
+        <phase type="naalo2"> </phase>
+    </experiment>
+    <experiment>
+        <number>4720</number>
+        <name>Fig.1 Weber/Venero 2</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1789.9</t>
+        <p>0.0001</p>
+        <phaselist>liq+naal</phaselist>
+        <bulkComp>
+            <al2o3>72.8264</al2o3>
+            <na2o>27.1736</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>72.8264</al2o3>
+            <na2o>27.1736</na2o>
+        </liquid>
+        <phase type="naalo2"> </phase>
+    </experiment>
+    <experiment>
+        <number>4721</number>
+        <name>Fig.1 Weber/Venero 3</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1702.79</t>
+        <p>0.0001</p>
+        <phaselist>liq+naal</phaselist>
+        <bulkComp>
+            <al2o3>74.3135</al2o3>
+            <na2o>25.6865</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>74.3135</al2o3>
+            <na2o>25.6865</na2o>
+        </liquid>
+        <phase type="naalo2"> </phase>
+    </experiment>
+    <experiment>
+        <number>4722</number>
+        <name>Fig.1 Weber/Venero 4</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>1580.84</t>
+        <p>0.0001</p>
+        <phaselist>liq+betaAl+naal</phaselist>
+        <bulkComp>
+            <al2o3>75.1942</al2o3>
+            <na2o>24.8058</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>75.1942</al2o3>
+            <na2o>24.8058</na2o>
+        </liquid>
+        <phase type="naal9o14"> </phase>
+        <phase type="naalo2"> </phase>
+    </experiment>
+    <experiment>
+        <number>4723</number>
+        <name>Fig.1 Weber/Venero 5</name>
+        <author>Yazhenskikh E., Hack K., Müller, M. (2006)</author>
+        <lab>Multi-laboratory reference</lab>
+        <device>1-atm</device>
+        <container>Pt</container>
+        <t>2054.7</t>
+        <p>0.0001</p>
+        <phaselist>liq+cor</phaselist>
+        <bulkComp>
+            <al2o3>99.8914</al2o3>
+            <na2o>0.108641</na2o>
+        </bulkComp>
+        <liquid>
+            <al2o3>99.8914</al2o3>
+            <na2o>0.108641</na2o>
+        </liquid>
+        <phase type="corundum"> </phase>
+    </experiment>
+</LEPRdatabase>

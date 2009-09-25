@@ -1,0 +1,76 @@
+# ================================================================================
+# Makefile for build of the xMELTS package on Pentium computers (RedHat Linux 7.1)
+#   $Id: Makefile.intel,v 1.2 2006/08/17 16:47:18 ghiorso Exp $
+# ================================================================================
+
+# Compilation options
+# ===================
+
+PROTO  = XTFUNCPROTO
+VLIST  = _NO_DRAWINGA_VLIST_PARENT
+ENTRYC = _NO_WHITE_TEXTW
+ACEPLT =     GRACE_PIPE
+
+# Environment variable defaults
+# =============================
+
+MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
+MELTS_DATA_DIR         = .
+MELTS_DATA_SUFFIX      = *.xml
+MELTS_HARDWARE_VERSION = Intel Hardware 
+MELTS_INPUT_DIR        = .
+MELTS_INPUT_SUFFIX     = *.melts
+MELTS_MOTIF_VERSION    = 3.0
+MELTS_OS_VERSION       = Linux Generic
+MELTS_OUTPUT_FILE      = melts.out
+MELTS_WWW_BROWSER      = 
+MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
+MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
+MELTS_X_VERSION        = XFree86/OpenMotif3
+MELTS_RELEASE_DATE     = October 2006
+MELTS_RELEASE_VERSION  = 5.6.0 (Linux, gcc 4.1)
+
+# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
+# ======================================================================================
+
+INCC   = .
+INCXM  = /usr/X11R6/include
+INCX   = /usr/X11R6/include
+INCF2C = .
+INCXML = .
+
+# Compiler choice and flags (floating point problems may require for cc add -std -ieee_with_no_inexact)
+# =====================================================================================================
+
+AR         = ar
+ARFLAGS    = rv
+CC         = gcc
+CFLAGS     = -ansi -c -fwritable-strings -g -O2 -mcpu=i686 -mieee-fp -Q -Wall $(BATCH) \
+             -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__
+FFLAGS     = -O2
+RANLIB     = ranlib
+RANLIBFG   = 
+RM         = rm
+RMFLAGS    = -f
+MPICC      = 
+MPICCFLAGS = 
+MPILDFLAGS = 
+
+# Loader flags (default is shared, add -non_shared)
+# =================================================
+
+LDFLAGS =
+
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions (including port)
+# ===============================================================================================
+
+LIBS     = -L/usr/local/lib -lgrace_np -L/usr/X11R6/lib -lMrm -lXm -lXt -lX11 -L/home/ghiorso/port3 -lport -lg2c -lm  -lc
+PUBLIBS  = $(LIBS)
+LIBF2C   = 
+LIBXML   = 
+LIBBATCH = 
+
+include Makefile.common
+
+# end of Makefile
+# ===============

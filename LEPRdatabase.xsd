@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           version="1.0">
+
+<!-- XML schema for LEPER database      -->
+<!-- M S Ghiorso - coded February 2007  -->
+	   
+<xs:element name="LEPRdatabase">
+  <xs:complexType>
+    <xs:sequence>
+
+      <xs:element name="experiment" minOccurs="1" maxOccurs="unbounded">
+        <xs:complexType>	
+          <xs:sequence>
+	  
+            <xs:element name="number"    type="xs:integer" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="name"      type="xs:string"  minOccurs="1" maxOccurs="1"/>
+            <xs:element name="author"    type="xs:string"  minOccurs="1" maxOccurs="1"/>
+            <xs:element name="lab"       type="xs:string"  minOccurs="1" maxOccurs="1"/>
+            <xs:element name="device" minOccurs="0" maxOccurs="1">
+	      <xs:simpleType>
+	        <xs:restriction base="xs:string">
+	          <xs:enumeration value="1-atm"/>
+	          <xs:enumeration value="Belt"/>
+	          <xs:enumeration value="CSPV"/>
+	          <xs:enumeration value="IHPV"/>
+	          <xs:enumeration value="MA"/>
+	          <xs:enumeration value="PC"/>
+	        </xs:restriction>
+	      </xs:simpleType>
+	    </xs:element>
+            <xs:element name="container" minOccurs="0" maxOccurs="unbounded">
+	      <xs:simpleType>
+	        <xs:restriction base="xs:string">
+	          <xs:enumeration value="Ag"/>
+	          <xs:enumeration value="AgPd"/>
+	          <xs:enumeration value="Au"/>
+	          <xs:enumeration value="AuPd"/>
+	          <xs:enumeration value="AuPd/Pt"/>
+	          <xs:enumeration value="C"/>
+	          <xs:enumeration value="Fe"/>
+	          <xs:enumeration value="FePt"/>
+	          <xs:enumeration value="Mo"/>
+	          <xs:enumeration value="Oliv/Pt"/>
+	          <xs:enumeration value="Pt"/>
+	          <xs:enumeration value="PtC"/>
+	          <xs:enumeration value="PtRh"/>
+	          <xs:enumeration value="Re"/>
+	        </xs:restriction>
+	      </xs:simpleType>
+	    </xs:element>	    
+            <xs:element name="method" minOccurs="0" maxOccurs="unbounded">
+	      <xs:simpleType>
+	        <xs:restriction base="xs:string">
+	          <xs:enumeration value="CO2"/>
+	          <xs:enumeration value="EDS"/>
+	          <xs:enumeration value="EMP"/>
+	          <xs:enumeration value="FTIR"/>
+	          <xs:enumeration value="ICP-MS"/>
+	          <xs:enumeration value="IR"/>
+	          <xs:enumeration value="KFT"/>
+	          <xs:enumeration value="LECO"/>
+	          <xs:enumeration value="SEM"/>
+	          <xs:enumeration value="SIMS"/>
+	          <xs:enumeration value="XRD"/>
+	        </xs:restriction>
+	      </xs:simpleType>
+	    </xs:element>
+            <xs:element name="time"      type="xs:double" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="t"         type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="terr"      type="xs:double" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="p"         type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="perr"      type="xs:double" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="fo2"       type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="fo2val"    type="xs:double" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="fo2min"    type="xs:double" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="fo2max"    type="xs:double" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="phaselist" type="xs:string" minOccurs="0" maxOccurs="1"/>
+	    
+	    <xs:element name="bulkComp" minOccurs="0" maxOccurs="1">
+	      <xs:complexType>
+	        <xs:all>
+           	  <xs:element name="sio2"  type="xs:double" minOccurs="0"/>
+           	  <xs:element name="tio2"  type="xs:double" minOccurs="0"/>
+           	  <xs:element name="al2o3" type="xs:double" minOccurs="0"/>
+           	  <xs:element name="fe2o3" type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cr2o3" type="xs:double" minOccurs="0"/>
+           	  <xs:element name="feo"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mno"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mgo"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="nio"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="coo"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cao"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="na2o"  type="xs:double" minOccurs="0"/>
+           	  <xs:element name="k2o"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="rb2o"  type="xs:double" minOccurs="0"/>
+           	  <xs:element name="p2o5"  type="xs:double" minOccurs="0"/>
+           	  <xs:element name="sro"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="bao"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="li2o"  type="xs:double" minOccurs="0"/>
+           	  <xs:element name="zro2"  type="xs:double" minOccurs="0"/>
+           	  <xs:element name="h2o_p" type="xs:double" minOccurs="0"/>
+           	  <xs:element name="h2o_m" type="xs:double" minOccurs="0"/>
+           	  <xs:element name="co2"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="f"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="s"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cl"   type="xs:double" minOccurs="0"/>
+           	  <xs:element name="loi"   type="xs:double" minOccurs="0"/>
+		</xs:all>
+	      </xs:complexType>
+	    </xs:element>
+
+	    <xs:element name="liquid" minOccurs="1" maxOccurs="1">
+	      <xs:complexType>
+	   	<xs:all>
+           	  <xs:element name="sio2"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="tio2"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="al2o3"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="fe2o3"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cr2o3"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="feo"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mno"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mgo"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="nio"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="coo"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cao"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="sro"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="bao"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="li2o"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="na2o"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="k2o"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="p2o5"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="te_oxides"    type="xs:double" minOccurs="0"/>
+           	  <xs:element name="h2o"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="co2"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="so3"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="f"            type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cl"           type="xs:double" minOccurs="0"/>
+           	  <xs:element name="p"            type="xs:double" minOccurs="0"/>
+           	  <xs:element name="total"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="sio2ERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="tio2ERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="al2o3ERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="fe2o3ERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cr2o3ERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="feoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mnoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mgoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="nioERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cooERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="caoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="sroERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="baoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="li2oERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="na2oERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="k2oERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="p2o5ERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="te_oxidesERR" type="xs:double" minOccurs="0"/>
+           	  <xs:element name="h2oERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="co2ERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="so3ERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="fERR"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="clERR"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="pERR"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="totalERR"     type="xs:double" minOccurs="0"/>
+	   	</xs:all>
+	      </xs:complexType>
+	    </xs:element>
+
+	    <xs:element name="phase" minOccurs="0" maxOccurs="unbounded">
+	      <xs:complexType>
+	   	<xs:all>
+           	  <xs:element name="sio2"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="tio2"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="al2o3"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="fe2o3"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cr2o3"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="feo"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mno"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mgo"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="nio"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="coo"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cao"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="na2o"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="k2o"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="p2o5"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="te_oxides"    type="xs:double" minOccurs="0"/>
+           	  <xs:element name="h2o"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="co2"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="sro"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="bao"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="v2o3"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="so3"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="f"            type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cl"           type="xs:double" minOccurs="0"/>
+           	  <xs:element name="p"            type="xs:double" minOccurs="0"/>
+           	  <xs:element name="s"            type="xs:double" minOccurs="0"/>
+           	  <xs:element name="f_o"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="sio2ERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="tio2ERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="al2o3ERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="fe2o3ERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cr2o3ERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="feoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mnoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mgoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="nioERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="cooERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="caoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="na2oERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="k2oERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="p2o5ERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="te_oxidesERR" type="xs:double" minOccurs="0"/>
+           	  <xs:element name="h2oERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="co2ERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="sroERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="baoERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="v2o3ERR"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="so3ERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="fERR"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="clERR"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="pERR"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="sERR"         type="xs:double" minOccurs="0"/>
+           	  <xs:element name="f_oERR"       type="xs:double" minOccurs="0"/>
+           	  <xs:element name="value"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="valueERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="minimum"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="maximum"      type="xs:double" minOccurs="0"/>
+	   	</xs:all>
+ 	        <xs:attribute name="type"   type="xs:string" use="required"/>
+	      </xs:complexType>
+	    </xs:element>
+	  
+	  </xs:sequence>	  
+        </xs:complexType>
+      </xs:element>
+      	  
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

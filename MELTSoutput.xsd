@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0">
+
+  <!-- XML output produced from Melts-batch -->
+  <!--   temperature               is output in centigrade -->
+  <!--   pressure                  is output in bars -->
+  <!--   fO2                       is output in base 10 log units -->
+  <!--   mass                      is output in grams -->
+  <!--   density                   is output in grams/cc -->
+  <!--   viscosity                 is output in poise -->
+  <!--   thermodynamic properties are output in joules or cc - they are extensive -->
+  <!--   oxide composition data   are output in wt% -->
+  <!-- M S Ghiorso - coded October 2006 -->
+
+  <xs:element name="MELTSoutput">
+    <xs:complexType>
+      <xs:sequence>
+
+        <xs:element name="inputFile" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="outputFile" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="time" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="release" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="buildDate" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="buildTime" type="xs:string" minOccurs="1" maxOccurs="1"/>
+
+        <xs:element name="temperature" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="pressure" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="log_fO2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="deltaHM" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="deltaNNO" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="deltaFMQ" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="deltaCOH" type="xs:double" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="deltaIW" type="xs:double" minOccurs="1" maxOccurs="1"/>
+
+        <xs:element name="liquid" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="density" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="viscosity" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="gibbsFreeEnergy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="SiO2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="Al2O3" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="Fe2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="Cr2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="FeO" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="MnO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="MgO" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="NiO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="CoO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="CaO" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="Na2O" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="solid" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="formula" type="xs:string" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="density" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="gibbsFreeEnergy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="SiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="Al2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="Fe2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="Cr2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="FeO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="MnO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="MgO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="NiO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="CoO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="CaO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="Na2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+
+              <xs:element name="component" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="formula" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="moleFraction" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="totalSolids" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="density" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="gibbsFreeEnergy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="fractionate" minOccurs="0" maxOccurs="2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+
+              <xs:element name="solid" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+
+                    <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="formula" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="density" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="gibbsFreeEnergy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="SiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Al2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Fe2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Cr2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="FeO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="MnO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="MgO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="NiO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="CoO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="CaO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Na2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+
+                    <xs:element name="component" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="formula" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="moleFraction" type="xs:double" minOccurs="1"
+                            maxOccurs="1"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="liquid" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="density" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="gibbsFreeEnergy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="SiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Al2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Fe2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Cr2O3" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="FeO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="MnO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="MgO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="NiO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="CoO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="CaO" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Na2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+            </xs:sequence>
+            <xs:attribute name="type" form="unqualified" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="current"/>
+                  <xs:enumeration value="previous"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="system" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="density" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="viscosity" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="gibbsFreeEnergy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="oxygen" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="moles" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="gibbsFreeEnergy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="assimilant" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="temperature" type="xs:double" minOccurs="1" maxOccurs="1"/>
+
+              <xs:element name="solid" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
+
+                    <xs:element name="component" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="molFrac" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

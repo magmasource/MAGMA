@@ -1,0 +1,79 @@
+# =================================================================================
+# Makefile for build of the xMELTS package on Power PC computers (MacOS X - 10.1.1)
+#   $Id: Makefile.cluster,v 1.7 2007/06/08 17:43:07 ghiorso Exp $
+# =================================================================================
+
+# Compilation options
+# ===================
+
+PROTO   = XTFUNCPROTO
+VLIST   = _NO_DRAWINGA_VLIST_PARENT
+ENTRYC  = _NO_WHITE_TEXTW
+ACEPLT  =     GRACE_PIPE
+
+# Environment variable defaults
+# =============================
+
+MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
+MELTS_DATA_DIR         = .
+MELTS_DATA_SUFFIX      = *.xml
+MELTS_HARDWARE_VERSION = PowerPC G4/G5 
+MELTS_INPUT_DIR        = .
+MELTS_INPUT_SUFFIX     = *.melts
+MELTS_MOTIF_VERSION    = 3.0
+MELTS_OS_VERSION       = Mac OS X - 10.5.8
+MELTS_OUTPUT_FILE      = melts.out
+MELTS_WWW_BROWSER      = 
+MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
+MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
+MELTS_X_VERSION        = XFree86/OpenMotif3
+MELTS_RELEASE_DATE     = October 2006
+MELTS_RELEASE_VERSION  = 5.6.0 (Mac OS X - 10.5.8 mpi, gcc 4.1)
+
+# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
+# ======================================================================================
+
+INCC   = .
+INCXM  = /sw/include
+INCX   = /usr/X11R6/include
+INCF2C = /sw/include
+INCXML = /sw/include/libxml2
+
+# Compiler choice and flags - Do not delete the $(BATCH) macro
+# ============================================================
+
+AR         = ar
+ARFLAGS    = rv
+CC         = gcc
+FC         = fort77
+CFLAGS     = -ansi -c -fno-common -g -O2 -Wall $(BATCH) \
+             -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__
+FFLAGS     = -O2
+RANLIB     = ranlib
+RANLIBFG   = -s
+RM         = rm
+RMFLAGS    = -f
+MPICC      = mpicc
+MPICCFLAGS = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/cluster/openmpi-1.1.4/include
+MPILDFLAGS = -L/cluster/openmpi-1.1.4/lib -lmpi
+
+# Loader flags (default is shared, add -non_shared)
+# =================================================
+
+LDFLAGS = 
+
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions
+# =============================================================================
+
+LIBS   = -L/sw/lib -lMrm -lXm -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
+         ../port3/libport.a /sw/lib/libf2c.a  
+PUBLIBS = /sw/lib/libMrm.a /sw/lib/libXm.a -L/sw/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
+          ../port3/libport.a /sw/lib/libf2c.a
+LIBF2C = /sw/lib/libf2c.a
+LIBXML = -L/sw/lib -lxml2
+LIBBATCH = /sw/lib/libxml2.a -lz -liconv
+
+include Makefile.common
+
+# end of Makefile
+# ===============

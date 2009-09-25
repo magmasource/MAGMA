@@ -1,0 +1,2212 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase>
+    <experiment>
+        <number>900001</number>
+        <name>SiO2 (cristobalite fusion)</name>
+        <author>Stebbins</author>
+        <lab>none</lab>
+        <t>1725.85</t>
+        <p>0.0001</p>
+        <liquid>
+            <sio2>60.0843</sio2>
+        </liquid>
+        <phase type="enthalpy">
+            <value>-781.45646</value>
+        </phase>
+    </experiment>
+    <experiment>
+        <number>900002</number>
+        <name>SiO2 (cristobalite fusion)</name>
+        <author>Stebbins</author>
+        <lab>none</lab>
+        <t>1725.85</t>
+        <p>0.0001</p>
+        <liquid>
+            <sio2>60.0843</sio2>
+        </liquid>
+        <phase type="entropy">
+            <value>172.76</value>
+        </phase>
+    </experiment>
+<experiment>
+<number>5649</number>
+<name>Table I-51</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1577</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>95</sio2>
+<k2o>5</k2o>
+</bulkComp>
+<liquid>
+<sio2>95</sio2>
+<k2o>5</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5650</number>
+<name>Table I-52</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>0.5</time>
+<t>1577</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>95</sio2>
+<k2o>5</k2o>
+</bulkComp>
+<liquid>
+<sio2>95</sio2>
+<k2o>5</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5651</number>
+<name>Table I-53</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1539</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>93</sio2>
+<k2o>7</k2o>
+</bulkComp>
+<liquid>
+<sio2>93</sio2>
+<k2o>7</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5652</number>
+<name>Table I-54</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1517</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>92</sio2>
+<k2o>8</k2o>
+</bulkComp>
+<liquid>
+<sio2>92</sio2>
+<k2o>8</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5653</number>
+<name>Table I-55</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1497.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>91</sio2>
+<k2o>9</k2o>
+</bulkComp>
+<liquid>
+<sio2>91</sio2>
+<k2o>9</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5654</number>
+<name>Table I-90</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1552.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>94</sio2>
+<k2o>6</k2o>
+</bulkComp>
+<liquid>
+<sio2>94</sio2>
+<k2o>6</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5655</number>
+<name>Table I-91</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1532.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>93</sio2>
+<k2o>7</k2o>
+</bulkComp>
+<liquid>
+<sio2>93</sio2>
+<k2o>7</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5656</number>
+<name>Table I-92</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>3</time>
+<t>1502.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>91.5</sio2>
+<k2o>8.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>91.5</sio2>
+<k2o>8.5</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5657</number>
+<name>Table I-93</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>3</time>
+<t>1472.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>90</sio2>
+<k2o>10</k2o>
+</bulkComp>
+<liquid>
+<sio2>90</sio2>
+<k2o>10</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5658</number>
+<name>Table I-56</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1457.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>89</sio2>
+<k2o>11</k2o>
+</bulkComp>
+<liquid>
+<sio2>89</sio2>
+<k2o>11</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5659</number>
+<name>Table I-57</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1379.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>86</sio2>
+<k2o>14</k2o>
+</bulkComp>
+<liquid>
+<sio2>86</sio2>
+<k2o>14</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5660</number>
+<name>Table I-58</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>3</time>
+<t>1247.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>82</sio2>
+<k2o>18</k2o>
+</bulkComp>
+<liquid>
+<sio2>82</sio2>
+<k2o>18</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5661</number>
+<name>Table I-59</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>12</time>
+<t>1126.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>78.9</sio2>
+<k2o>21.1</k2o>
+</bulkComp>
+<liquid>
+<sio2>78.9</sio2>
+<k2o>21.1</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5662</number>
+<name>Table I-60</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>12</time>
+<t>992</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>77</sio2>
+<k2o>23</k2o>
+</bulkComp>
+<liquid>
+<sio2>77</sio2>
+<k2o>23</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5663</number>
+<name>Table I-61</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>890</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>75.5</sio2>
+<k2o>24.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>75.5</sio2>
+<k2o>24.5</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5664</number>
+<name>Table I-62</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>826.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>74.4</sio2>
+<k2o>25.6</k2o>
+</bulkComp>
+<liquid>
+<sio2>74.4</sio2>
+<k2o>25.6</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5665</number>
+<name>Table I-63</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>100</time>
+<t>768</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>73.4</sio2>
+<k2o>26.6</k2o>
+</bulkComp>
+<liquid>
+<sio2>73.4</sio2>
+<k2o>26.6</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5666</number>
+<name>Table I-4</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>12</time>
+<t>1033.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>77.5</sio2>
+<k2o>22.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>77.5</sio2>
+<k2o>22.5</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5667</number>
+<name>Table I-7</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>16</time>
+<t>833.5</t>
+<terr>4.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>74.8</sio2>
+<k2o>25.2</k2o>
+</bulkComp>
+<liquid>
+<sio2>74.8</sio2>
+<k2o>25.2</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5668</number>
+<name>Table I-9</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>780</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>73.7</sio2>
+<k2o>26.3</k2o>
+</bulkComp>
+<liquid>
+<sio2>73.7</sio2>
+<k2o>26.3</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5669</number>
+<name>Table I-93</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>3</time>
+<t>1472.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>90</sio2>
+<k2o>10</k2o>
+</bulkComp>
+<liquid>
+<sio2>90</sio2>
+<k2o>10</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5670</number>
+<name>Table I-94</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1432.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>88</sio2>
+<k2o>12</k2o>
+</bulkComp>
+<liquid>
+<sio2>88</sio2>
+<k2o>12</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5671</number>
+<name>Table I-95</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>5</time>
+<t>1382.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>86</sio2>
+<k2o>14</k2o>
+</bulkComp>
+<liquid>
+<sio2>86</sio2>
+<k2o>14</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5672</number>
+<name>Table I-96</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>4</time>
+<t>1342.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>84.5</sio2>
+<k2o>15.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>84.5</sio2>
+<k2o>15.5</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5673</number>
+<name>Table I-97</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>5</time>
+<t>1282.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>83</sio2>
+<k2o>17</k2o>
+</bulkComp>
+<liquid>
+<sio2>83</sio2>
+<k2o>17</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5674</number>
+<name>Table I-98</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>46</time>
+<t>1132.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>79.3</sio2>
+<k2o>20.7</k2o>
+</bulkComp>
+<liquid>
+<sio2>79.3</sio2>
+<k2o>20.7</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5675</number>
+<name>Table I-99</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>150</time>
+<t>1012.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>77</sio2>
+<k2o>23</k2o>
+</bulkComp>
+<liquid>
+<sio2>77</sio2>
+<k2o>23</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5676</number>
+<name>Table I-100</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>150</time>
+<t>857.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>75</sio2>
+<k2o>25</k2o>
+</bulkComp>
+<liquid>
+<sio2>75</sio2>
+<k2o>25</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5677</number>
+<name>Table I-101</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>150</time>
+<t>785</t>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>74</sio2>
+<k2o>26</k2o>
+</bulkComp>
+<liquid>
+<sio2>74</sio2>
+<k2o>26</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5678</number>
+<name>Table I-102</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>160</time>
+<t>770</t>
+<p>0.0001</p>
+<phaselist>liq+trid</phaselist>
+<bulkComp>
+<sio2>73.5</sio2>
+<k2o>26.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>73.5</sio2>
+<k2o>26.5</k2o>
+</liquid>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5679</number>
+<name>Table I-63</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>100</time>
+<t>767.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>73.4</sio2>
+<k2o>26.6</k2o>
+</bulkComp>
+<liquid>
+<sio2>73.4</sio2>
+<k2o>26.6</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5680</number>
+<name>Table I-64</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>15</time>
+<t>767</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>73</sio2>
+<k2o>27</k2o>
+</bulkComp>
+<liquid>
+<sio2>73</sio2>
+<k2o>27</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5681</number>
+<name>Table I-65</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>15</time>
+<t>768</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>72.5</sio2>
+<k2o>27.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>72.5</sio2>
+<k2o>27.5</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5682</number>
+<name>Table I-66</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>769.5</t>
+<terr>0.5</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>71.9</sio2>
+<k2o>28.1</k2o>
+</bulkComp>
+<liquid>
+<sio2>71.9</sio2>
+<k2o>28.1</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5683</number>
+<name>Table I-67</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>769.5</t>
+<terr>0.5</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>71.8</sio2>
+<k2o>28.2</k2o>
+</bulkComp>
+<liquid>
+<sio2>71.8</sio2>
+<k2o>28.2</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5684</number>
+<name>Table I-68</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>768</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>71</sio2>
+<k2o>29</k2o>
+</bulkComp>
+<liquid>
+<sio2>71</sio2>
+<k2o>29</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5685</number>
+<name>Table I-69</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>766.5</t>
+<terr>0.5</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>69.9</sio2>
+<k2o>30.1</k2o>
+</bulkComp>
+<liquid>
+<sio2>69.9</sio2>
+<k2o>30.1</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5686</number>
+<name>Table I-70</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>40</time>
+<t>759</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>68.9</sio2>
+<k2o>31.1</k2o>
+</bulkComp>
+<liquid>
+<sio2>68.9</sio2>
+<k2o>31.1</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5687</number>
+<name>Table I-71</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>40</time>
+<t>748</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>68</sio2>
+<k2o>32</k2o>
+</bulkComp>
+<liquid>
+<sio2>68</sio2>
+<k2o>32</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5688</number>
+<name>Table I-103</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>100</time>
+<t>771</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>72.5</sio2>
+<k2o>27.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>72.5</sio2>
+<k2o>27.5</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5689</number>
+<name>Table I-104</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>771.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>71.8</sio2>
+<k2o>28.2</k2o>
+</bulkComp>
+<liquid>
+<sio2>71.8</sio2>
+<k2o>28.2</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5690</number>
+<name>Table I-105</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>100</time>
+<t>771</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>71</sio2>
+<k2o>29</k2o>
+</bulkComp>
+<liquid>
+<sio2>71</sio2>
+<k2o>29</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5691</number>
+<name>Table I-106</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>150</time>
+<t>769</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>70</sio2>
+<k2o>30</k2o>
+</bulkComp>
+<liquid>
+<sio2>70</sio2>
+<k2o>30</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5692</number>
+<name>Table I-107</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>150</time>
+<t>761</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>69</sio2>
+<k2o>31</k2o>
+</bulkComp>
+<liquid>
+<sio2>69</sio2>
+<k2o>31</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5693</number>
+<name>Table I-108</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>150</time>
+<t>750.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>68</sio2>
+<k2o>32</k2o>
+</bulkComp>
+<liquid>
+<sio2>68</sio2>
+<k2o>32</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5694</number>
+<name>Table I-72</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>20</time>
+<t>763.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>67.3</sio2>
+<k2o>32.7</k2o>
+</bulkComp>
+<liquid>
+<sio2>67.3</sio2>
+<k2o>32.7</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5695</number>
+<name>Table I-73</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>24</time>
+<t>771.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>66.9</sio2>
+<k2o>33.1</k2o>
+</bulkComp>
+<liquid>
+<sio2>66.9</sio2>
+<k2o>33.1</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5696</number>
+<name>Table I-74</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>5</time>
+<t>812</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>66</sio2>
+<k2o>34</k2o>
+</bulkComp>
+<liquid>
+<sio2>66</sio2>
+<k2o>34</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5697</number>
+<name>Table I-75</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>5</time>
+<t>897</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>64</sio2>
+<k2o>36</k2o>
+</bulkComp>
+<liquid>
+<sio2>64</sio2>
+<k2o>36</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5698</number>
+<name>Table I-76</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>953</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>62.1</sio2>
+<k2o>37.9</k2o>
+</bulkComp>
+<liquid>
+<sio2>62.1</sio2>
+<k2o>37.9</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5699</number>
+<name>Table I-77</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1009</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>60</sio2>
+<k2o>40</k2o>
+</bulkComp>
+<liquid>
+<sio2>60</sio2>
+<k2o>40</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5700</number>
+<name>Table I-78</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1035</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>58</sio2>
+<k2o>42</k2o>
+</bulkComp>
+<liquid>
+<sio2>58</sio2>
+<k2o>42</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5701</number>
+<name>Table I-79</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1044</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>56.4</sio2>
+<k2o>43.6</k2o>
+</bulkComp>
+<liquid>
+<sio2>56.4</sio2>
+<k2o>43.6</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5702</number>
+<name>Table I-80</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1045.5</t>
+<terr>0.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>56.1</sio2>
+<k2o>43.9</k2o>
+</bulkComp>
+<liquid>
+<sio2>56.1</sio2>
+<k2o>43.9</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5703</number>
+<name>Table I-81</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1044</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>56</sio2>
+<k2o>44</k2o>
+</bulkComp>
+<liquid>
+<sio2>56</sio2>
+<k2o>44</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5704</number>
+<name>Table I-82</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1037.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>54</sio2>
+<k2o>46</k2o>
+</bulkComp>
+<liquid>
+<sio2>54</sio2>
+<k2o>46</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5705</number>
+<name>Table I-83</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1012.5</t>
+<terr>1.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>52</sio2>
+<k2o>48</k2o>
+</bulkComp>
+<liquid>
+<sio2>52</sio2>
+<k2o>48</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5706</number>
+<name>Table I-84</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>970</t>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>49.9</sio2>
+<k2o>50.1</k2o>
+</bulkComp>
+<liquid>
+<sio2>49.9</sio2>
+<k2o>50.1</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5707</number>
+<name>Table I-85</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>919</t>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>48.4</sio2>
+<k2o>51.6</k2o>
+</bulkComp>
+<liquid>
+<sio2>48.4</sio2>
+<k2o>51.6</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5708</number>
+<name>Table I-86</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>826</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>46.4</sio2>
+<k2o>53.6</k2o>
+</bulkComp>
+<liquid>
+<sio2>46.4</sio2>
+<k2o>53.6</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5709</number>
+<name>Table I-109</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>150</time>
+<t>775</t>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>67</sio2>
+<k2o>33</k2o>
+</bulkComp>
+<liquid>
+<sio2>67</sio2>
+<k2o>33</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5710</number>
+<name>Table I-110</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>3</time>
+<t>817.5</t>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>66</sio2>
+<k2o>34</k2o>
+</bulkComp>
+<liquid>
+<sio2>66</sio2>
+<k2o>34</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5711</number>
+<name>Table I-111</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>902.5</t>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>64</sio2>
+<k2o>36</k2o>
+</bulkComp>
+<liquid>
+<sio2>64</sio2>
+<k2o>36</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5712</number>
+<name>Table I-112</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>962.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>62</sio2>
+<k2o>38</k2o>
+</bulkComp>
+<liquid>
+<sio2>62</sio2>
+<k2o>38</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5713</number>
+<name>Table I-113</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1001.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>60</sio2>
+<k2o>40</k2o>
+</bulkComp>
+<liquid>
+<sio2>60</sio2>
+<k2o>40</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5714</number>
+<name>Table I-113</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1001.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>60</sio2>
+<k2o>40</k2o>
+</bulkComp>
+<liquid>
+<sio2>60</sio2>
+<k2o>40</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5715</number>
+<name>Table I-114</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1039.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>58</sio2>
+<k2o>42</k2o>
+</bulkComp>
+<liquid>
+<sio2>58</sio2>
+<k2o>42</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5716</number>
+<name>Table I-115</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>1</time>
+<t>1044</t>
+<terr>1</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>56.1</sio2>
+<k2o>43.9</k2o>
+</bulkComp>
+<liquid>
+<sio2>56.1</sio2>
+<k2o>43.9</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5717</number>
+<name>Table I-116</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1039.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>54</sio2>
+<k2o>46</k2o>
+</bulkComp>
+<liquid>
+<sio2>54</sio2>
+<k2o>46</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5718</number>
+<name>Table I-117</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>1014.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>52</sio2>
+<k2o>48</k2o>
+</bulkComp>
+<liquid>
+<sio2>52</sio2>
+<k2o>48</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5719</number>
+<name>Table I-118</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>977.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>50</sio2>
+<k2o>50</k2o>
+</bulkComp>
+<liquid>
+<sio2>50</sio2>
+<k2o>50</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5720</number>
+<name>Table I-119</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>917.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>48</sio2>
+<k2o>52</k2o>
+</bulkComp>
+<liquid>
+<sio2>48</sio2>
+<k2o>52</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5721</number>
+<name>Table I-120</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>817.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>46</sio2>
+<k2o>54</k2o>
+</bulkComp>
+<liquid>
+<sio2>46</sio2>
+<k2o>54</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5722</number>
+<name>Table I-121</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>952</t>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>62.2</sio2>
+<k2o>37.8</k2o>
+</bulkComp>
+<liquid>
+<sio2>62.2</sio2>
+<k2o>37.8</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5723</number>
+<name>Table I-122</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>815</t>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>66.1</sio2>
+<k2o>33.9</k2o>
+</bulkComp>
+<liquid>
+<sio2>66.1</sio2>
+<k2o>33.9</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5724</number>
+<name>Table I-22</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>839.5</t>
+<terr>2.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>65.6</sio2>
+<k2o>34.4</k2o>
+</bulkComp>
+<liquid>
+<sio2>65.6</sio2>
+<k2o>34.4</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5725</number>
+<name>Table I-23</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>4</time>
+<t>878</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>64.8</sio2>
+<k2o>35.2</k2o>
+</bulkComp>
+<liquid>
+<sio2>64.8</sio2>
+<k2o>35.2</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5726</number>
+<name>Table I-24</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>5</time>
+<t>899</t>
+<terr>2</terr>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>63.7</sio2>
+<k2o>36.3</k2o>
+</bulkComp>
+<liquid>
+<sio2>63.7</sio2>
+<k2o>36.3</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5727</number>
+<name>Table I-87</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<time>2</time>
+<t>791.5</t>
+<terr>4.5</terr>
+<p>0.0001</p>
+<phaselist>liq+kmeta</phaselist>
+<bulkComp>
+<sio2>44.9</sio2>
+<k2o>55.1</k2o>
+</bulkComp>
+<liquid>
+<sio2>44.9</sio2>
+<k2o>55.1</k2o>
+</liquid>
+<phase type="kmetasilicate">
+<sio2>38.9449</sio2>
+<k2o>61.0551</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5728</number>
+<name>Table I-crist melting</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>1713</t>
+<p>0.0001</p>
+<phaselist>liq+crst</phaselist>
+<bulkComp>
+<sio2>100</sio2>
+</bulkComp>
+<liquid>
+<sio2>100</sio2>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5729</number>
+<name>Table I-crist trid inversion</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>1470</t>
+<p>0.0001</p>
+<phaselist>liq+crst+trid</phaselist>
+<bulkComp>
+<sio2>89.7</sio2>
+<k2o>10.3</k2o>
+</bulkComp>
+<liquid>
+<sio2>89.7</sio2>
+<k2o>10.3</k2o>
+</liquid>
+<phase type="cristobalite">
+<sio2>100</sio2>
+</phase>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5730</number>
+<name>Table I-trid qtz inversion</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>870</t>
+<p>0.0001</p>
+<phaselist>liq+trid+qz</phaselist>
+<bulkComp>
+<sio2>74.9</sio2>
+<k2o>25.1</k2o>
+</bulkComp>
+<liquid>
+<sio2>74.9</sio2>
+<k2o>25.1</k2o>
+</liquid>
+<phase type="quartz">
+<sio2>100</sio2>
+</phase>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5731</number>
+<name>Table I-trid ktetra eutectic</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>767</t>
+<p>0.0001</p>
+<phaselist>liq+trid+ktetr</phaselist>
+<bulkComp>
+<sio2>73.6</sio2>
+<k2o>26.4</k2o>
+</bulkComp>
+<liquid>
+<sio2>73.6</sio2>
+<k2o>26.4</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+<phase type="tridymite">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5732</number>
+<name>Table I-qz ktetra eutectic</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>769</t>
+<p>0.0001</p>
+<phaselist>liq+qz+ktetr</phaselist>
+<bulkComp>
+<sio2>72.5</sio2>
+<k2o>27.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>72.5</sio2>
+<k2o>27.5</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+<phase type="quartz">
+<sio2>100</sio2>
+</phase>
+</experiment>
+<experiment>
+<number>5733</number>
+<name>Table I-ktetra melting</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>770</t>
+<p>0.0001</p>
+<phaselist>liq+ktetr</phaselist>
+<bulkComp>
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</bulkComp>
+<liquid>
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</liquid>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5734</number>
+<name>Table I-ktetra kdi eutectic</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>742</t>
+<p>0.0001</p>
+<phaselist>liq+ktetr+kdi</phaselist>
+<bulkComp>
+<sio2>67.6</sio2>
+<k2o>32.4</k2o>
+</bulkComp>
+<liquid>
+<sio2>67.6</sio2>
+<k2o>32.4</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+<phase type="ktetrasilicate">
+<sio2>71.8426</sio2>
+<k2o>28.1574</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5735</number>
+<name>Table I-kdi melting</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>1045</t>
+<p>0.0001</p>
+<phaselist>liq+kdi</phaselist>
+<bulkComp>
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</bulkComp>
+<liquid>
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+</experiment>
+<experiment>
+<number>5736</number>
+<name>Table I-kdi kmeta eutectic</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>780</t>
+<p>0.0001</p>
+<phaselist>liq+kdi+kmeta</phaselist>
+<bulkComp>
+<sio2>45.5</sio2>
+<k2o>54.5</k2o>
+</bulkComp>
+<liquid>
+<sio2>45.5</sio2>
+<k2o>54.5</k2o>
+</liquid>
+<phase type="kdisilicate">
+<sio2>56.058</sio2>
+<k2o>43.942</k2o>
+</phase>
+<phase type="kmetasilicate">
+<sio2>38.9449</sio2>
+<k2o>61.0551</k2o>
+</phase>
+</experiment>
+<!-- Experiment deleted
+<experiment>
+<number>5737</number>
+<name>Table I-kmeta melting</name>
+<author>Kracek F.C., Brown N.L., Morey G.W. (1937)</author>
+<lab>Geophysical Laboratory</lab>
+<device>1-atm</device>
+<container>Pt</container>
+<t>976</t>
+<p>0.0001</p>
+<phaselist>liq+kmeta</phaselist>
+<bulkComp>
+<sio2>38.9449</sio2>
+<k2o>61.0551</k2o>
+</bulkComp>
+<liquid>
+<sio2>38.9449</sio2>
+<k2o>61.0551</k2o>
+</liquid>
+<phase type="kmetasilicate">
+<sio2>38.9449</sio2>
+<k2o>61.0551</k2o>
+</phase>
+</experiment>
+-->
+</LEPRdatabase>
