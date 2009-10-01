@@ -61,8 +61,9 @@ MELTS Source Code: RCS
 
 /*===================================================================================================================================================*/
 
-extern int nEqn;          /* Number of equations in the regression matrix                                                                            */
-extern int nLiquid;  /* Number of experimets, equals number of instances of residualDataOutput and residualOutput                                       */
+extern int nEqn;           /* Number of equations in the regression matrix                                                                            */
+extern int nLiquid;        /* Number of experimets, equals number of instances of residualDataOutput and residualOutput */
+extern int useTregression; /* resdual computed on delta T */
 
 
 /*===================================================================================================================================================*/
@@ -86,18 +87,19 @@ extern int nes;
 /*===================================================================================================================================================*/
 
 typedef struct _residualDataInput {
-  int    LEPRnum;  /* LEPRnum,                 unique LEPR database experiment index number                                                          */
-  double t;        /* t,                       temperature of the experiment in Kelvin                                       			     */
-  double p;        /* p,                       pressure of the experiment in bars                                            			     */
-  double fo2;      /* fo2,                     log 10 fo2 of the experiment                                                  			     */
-  int    nLiq;     /* nLiq,                    number of liquids in this experiment                                          			     */
-  double **rLiq;   /* rLiq[0->nLiq][0->nc-1],  vector of independent composition variables for liquid(s) in this experiment  			     */
-  int    nSol;     /* nSol,                    number of solids in this experiment                                           			     */
-  int    *pIndex;  /* pIndex[0->nSol],         phase index of solid                                                          			     */
-  int    *cIndex;  /* pIndex[0->nSol],         component index of solid                                                      			     */
-  double **rSol;   /* rSol[0->nSol][0->nr],    vector of independent composition variables for solid(s) in this experiment   			     */
-  int    *isEqual; /* isEqual[0->nSol],        TRUE if equality constraint; FALSE if bound                                   			     */  
-  double *depen;   /* depen[0->nsol],          Dependent variable in regresion problem                                       			     */
+  int    LEPRnum;    /* LEPRnum,                 unique LEPR database experiment index number                                                        */
+  double t;          /* t,                       temperature of the experiment in Kelvin                                       			     */
+  double p;          /* p,                       pressure of the experiment in bars                                            			     */
+  double fo2;        /* fo2,                     log 10 fo2 of the experiment                                                  			     */
+  int    nLiq;       /* nLiq,                    number of liquids in this experiment                                          			     */
+  double **rLiq;     /* rLiq[0->nLiq][0->nc-1],  vector of independent composition variables for liquid(s) in this experiment  			     */
+  int    nSol;       /* nSol,                    number of solids in this experiment                                           			     */
+  int    *pIndex;    /* pIndex[0->nSol],         phase index of solid                                                          			     */
+  int    *cIndex;    /* pIndex[0->nSol],         component index of solid                                                      			     */
+  double **rSol;     /* rSol[0->nSol][0->nr],    vector of independent composition variables for solid(s) in this experiment   			     */
+  int    *isEqual;   /* isEqual[0->nSol],        TRUE if equality constraint; FALSE if bound                                   			     */  
+  double *depenG;    /* depen[0->nsol],          Dependent variable in regresion problem (Gibbs free energy)                                         */
+  double *dependGdT; /* depen[0->nsol],          Dependent variable in regresion problem (negative of the entropy)                                   */
 } ResidualDataInput;
 extern ResidualDataInput *residualDataInput;
 

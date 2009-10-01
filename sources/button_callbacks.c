@@ -737,6 +737,7 @@ void mb_tg_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 
         if (XtIsSensitive(tg_trust_region_method))  XtSetSensitive(tg_trust_region_method, FALSE);
         if (XtIsSensitive(tg_implement_bounds))     XtSetSensitive(tg_implement_bounds, FALSE);
+        if (XtIsSensitive(tg_t_regression))         XtSetSensitive(tg_t_regression, FALSE);
       }
 
     } else if (tag == k_mb_tg_mode_pre) {
@@ -785,6 +786,7 @@ void mb_tg_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 
         if (!XtIsSensitive(tg_trust_region_method)) XtSetSensitive(tg_trust_region_method, TRUE);
         if (!XtIsSensitive(tg_implement_bounds))    XtSetSensitive(tg_implement_bounds, TRUE);
+        if (!XtIsSensitive(tg_t_regression))        XtSetSensitive(tg_t_regression, TRUE);
       }
 
     } else if (tag == k_mb_tg_mode_post) {
@@ -833,6 +835,7 @@ void mb_tg_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 
         if (!XtIsSensitive(tg_trust_region_method)) XtSetSensitive(tg_trust_region_method, TRUE);
         if (!XtIsSensitive(tg_implement_bounds))    XtSetSensitive(tg_implement_bounds, TRUE);
+        if (!XtIsSensitive(tg_t_regression))        XtSetSensitive(tg_t_regression, TRUE);
       }
 
     } else if (tag == k_mb_tg_composition_fo2path_abs) {
@@ -984,6 +987,11 @@ void mb_tg_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
       }
 
     } else if (tag == k_mb_tg_options_implement_bounds) {
+      if (callback_data->set) {
+        ;
+      }
+
+    } else if (tag == k_mb_tg_options_t_regression) {
       if (callback_data->set) {
         ;
       }

@@ -1,0 +1,39 @@
+Title: dummy
+Initial Composition: SiO2 71.1069
+Initial Composition: TiO2 0.7112
+Initial Composition: Al2O3 13.1668
+Initial Composition: Fe2O3 3.2139
+Initial Composition: FeO 2.0098
+Initial Composition: MgO 2.3977
+Initial Composition: CaO 1.6967
+Initial Composition: Na2O 2.9971
+Initial Composition: K2O 2.4484
+Initial Composition: H2O 0.1500
+Initial Temperature: 790.00
+Final Temperature: 790.00
+Initial Pressure: 2000.00
+Final Pressure: 2000.00
+Increment Temperature: 2.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: FMQ
+Suppress: fayalite
+Suppress: sphene
+Suppress: garnet
+Suppress: melilite
+Suppress: aegirine
+Suppress: aenigmatite
+Suppress: cummingtonite
+Suppress: amphibole
+Suppress: hornblende
+Suppress: tridymite
+Suppress: cristobalite
+Suppress: nepheline
+Suppress: kalsilite
+Suppress: leucite
+Suppress: perovskite
+Suppress: ortho-oxide
+Suppress: whitlockite
+Suppress: apatite
+Suppress: alloy-solid
+Suppress: alloy-liquid

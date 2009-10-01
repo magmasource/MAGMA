@@ -9,6 +9,7 @@ core
 *.plt
 *.preclb
 *.res
+*.inp
 XML_IN/
 XML_OUT/
 XML_PROCESSED/

@@ -230,6 +230,7 @@ Widget caution,              /* caution dialog box = warning_message */
        /* <- end radio group !!!!! */
        /* !!!!! The following gadgets are either on or off -> */
        tg_oxygen_calib, tg_trust_region_method, tg_implement_bounds, 
+       tg_t_regression,
        /* <- end radio group !!!!! */
 
 
@@ -309,7 +310,8 @@ int k_mb_tg_mode_normal, k_mb_tg_mode_pre,
     k_mb_tg_options_1_bar_only, k_mb_tg_options_low_p_only, k_mb_tg_options_high_p_only,
     k_mb_tg_options_anhydrous_only, k_mb_tg_options_hydrous_only,
     k_mb_tg_options_oxygen_calib, k_mb_tg_options_trust_region_method, 
-    k_mb_tg_options_implement_bounds, k_mb_tg_options_fractionate_fluids;
+    k_mb_tg_options_implement_bounds, k_mb_tg_options_t_regression, 
+    k_mb_tg_options_fractionate_fluids;
 
 extern /* button widdgets (button_callback) defined in create_menu_bar.c     */
 int k_mb_bt_command_liquidus, k_mb_bt_command_execute_halt, 

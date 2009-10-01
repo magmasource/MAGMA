@@ -179,7 +179,7 @@ Widget tg_path_none, tg_path_hm, tg_path_nno, tg_path_fmq, tg_path_coh, tg_path_
        tg_path_fmq_m3, tg_isentropic, tg_1_bar_only, tg_low_p_only, tg_high_p_only,
        tg_path_fmq_m4, tg_path_fmq_m5, tg_path_fmq_m6, tg_path_fmq_m7, 
        tg_path_fmq_m8, tg_path_fmq_m9, tg_anhydrous_only, tg_hydrous_only,
-       tg_oxygen_calib, tg_trust_region_method, tg_implement_bounds;
+       tg_oxygen_calib, tg_trust_region_method, tg_implement_bounds, tg_t_regression;
 
 int k_mb_tg_mode_normal                 =  1, /* mb_tg_callback     */
     k_mb_tg_mode_pre                    =  2,
@@ -216,7 +216,8 @@ int k_mb_tg_mode_normal                 =  1, /* mb_tg_callback     */
     k_mb_tg_options_hydrous_only        = 34,
     k_mb_tg_options_oxygen_calib        = 35,
     k_mb_tg_options_trust_region_method = 36,
-    k_mb_tg_options_implement_bounds    = 37;
+    k_mb_tg_options_implement_bounds    = 37,
+    k_mb_tg_options_t_regression        = 38;
 int k_mb_bt_command_liquidus            =  1, /* mb_bt_callback     */
     k_mb_bt_command_execute_halt        =  2,
     k_mb_bt_command_open                =  3,
@@ -446,6 +447,9 @@ void create_menu_bar()
   ADD_TOGGLE(tg_implement_bounds, "Bounds on W(H)", options_menu, 
     mb_tg_callback, k_mb_tg_options_implement_bounds, FALSE, 'B');
   XtSetSensitive(tg_implement_bounds, FALSE);
+  ADD_TOGGLE(tg_t_regression, "Optimize on T", options_menu, 
+    mb_tg_callback, k_mb_tg_options_t_regression, FALSE, '*');
+  XtSetSensitive(tg_t_regression, FALSE);
   ADD_SEPARATOR(op7_separator, options_menu, XmHORIZONTAL);
   ADD_BUTTON(bt_increase_quad_tol, "Increase Quad Tol (X 10)", options_menu, mb_bt_callback, 
     k_mb_bt_options_increase_quad_tol, 'I');

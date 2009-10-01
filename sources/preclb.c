@@ -213,7 +213,8 @@ static void seed(int islave) {
   for (i=0; i<pt->nSol; i++) if (solids[(pt->pIndex)[i]].convert != NULL)
     MPI_Pack((pt->rSol)[i], solids[(pt->pIndex)[i]].nr, MPI_DOUBLE, bufferOut, maxSizeOut, &position, icomm_slaves[islave]);
   MPI_Pack( (pt->isEqual), pt->nSol,  MPI_INT,    bufferOut, maxSizeOut, &position, icomm_slaves[islave]);
-  MPI_Pack( (pt->depen),   pt->nSol,  MPI_DOUBLE, bufferOut, maxSizeOut, &position, icomm_slaves[islave]);
+  MPI_Pack( (pt->depenG),    pt->nSol,  MPI_DOUBLE, bufferOut, maxSizeOut, &position, icomm_slaves[islave]);
+  MPI_Pack( (pt->dependGdT), pt->nSol,  MPI_DOUBLE, bufferOut, maxSizeOut, &position, icomm_slaves[islave]);
 
   if (VERBOSE_DEBUG_MPI) printf("MPI:seed[preclb.c at line %d]--> Calling MPI_Send(slave = %d) with a %d byte message.\n", 
                    __LINE__, islave+1, position);
@@ -983,25 +984,66 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
 /*===================================================================================*/
 /*************************************************************************************/
 
-static int getDeltaGofSolid(double *deltaG, double *x, double t, double p, Boolean *lowWtFlag, double a, int solidID)
-{
-  int i, j;
+int useTregression; /* extern in calibration.h and passed to preclb_slave.c */
 
- *deltaG = 0.0;
+typedef struct _dependent {
+  double g;
+  double dgdt;
+} Dependent;
+
+static Dependent delta;
+
+static int getDependentOfSolid(double *x, double t, double p, Boolean *lowWtFlag, 
+                               int solidID, int componentID, double *rSol, int useSaved) {
+  int i;
+  delta.g    = 0.0;
+  delta.dgdt = 0.0;
  
- for (i=0; i<nlc; i++) {
+  for (i=0; i<nlc; i++) {
     if( (solids[solidID].solToLiq)[i] != 0.0) {
       Boolean lowMolFlag;
+      int j;
       for (j=0, lowMolFlag=False; j<nc; j++) lowMolFlag |= ((liquid[i].liqToOx)[j] != 0.0) && lowWtFlag[j];
       if (x[i] == 0.0 || lowMolFlag) return FALSE; 
     }
   }
 
-  if (a > 0.0) { *deltaG += R*t*log(a); } else { return FALSE; }
+  if (solidID < 0) return TRUE;
   
-  gibbs(t, p, (char *) solids[solidID].label, &(solids[solidID].ref), NULL, NULL, &(solids[solidID].cur));
-  *deltaG += (solids[solidID].cur).g;
+  if(componentID < 0) {
+    gibbs(t, p, (char *) solids[solidID].label, &(solids[solidID].ref), NULL, NULL, &(solids[solidID].cur));
+    delta.g += (solids[solidID].cur).g;
+    if (useTregression) delta.dgdt += -(solids[solidID].cur).s;
+
+  } else {
+    static double *mu = NULL, *dmudt = NULL;
+    if (!useSaved) {
+      if (mu != NULL) free(mu);
+      mu = (double *) malloc((size_t) solids[solidID].na*sizeof(double));
+    }
+    
+    if (!useSaved) (*solids[solidID].activity) (SECOND | FOURTH, t, p, rSol, NULL, mu, NULL);
+    if (mu[componentID] == 0.0) return FALSE;
+    delta.g = mu[componentID];
+    
+    if (useTregression) {
+      double small = sqrt(DBL_EPSILON);
+      if (!useSaved) {
+        if (dmudt != NULL) free(dmudt);
+        dmudt = (double *) malloc((size_t) solids[solidID].na*sizeof(double));
+        (*solids[solidID].activity) (SECOND | FOURTH, t*(1.0+small), p, rSol, NULL, dmudt, NULL);
+      }
+      if (dmudt[componentID] == 0.0) return FALSE;
+      delta.dgdt = (dmudt[componentID] - mu[componentID])/small;
+    }    
+        
+    gibbs(t, p, (char *) solids[solidID+1+componentID].label, &(solids[solidID+1+componentID].ref), 
+          NULL, NULL, &(solids[solidID+1+componentID].cur));
+    delta.g += (solids[solidID+1+componentID].cur).g;
+    if (useTregression) delta.dgdt += -(solids[solidID+1+componentID].cur).s;
    
+  }
+    
   return TRUE;
 }
 
@@ -1166,7 +1208,8 @@ Boolean preclb(XtPointer client_data)
   /* Variables and definitions dependent on database structure */
   static char    **oxNamesLC = NULL;
   static int     ma, *iaMrqrdt, loop, o2Index, nrMAX, nParam, H2Oindex = -1, CO2index = -1; 
-  static Boolean oneBarOnly, lowPonly, highPonly, anhydrousOnly, hydrousOnly, calibrateOxygen, useTrustRegionMethod, implementBounds;
+  static Boolean oneBarOnly, lowPonly, highPonly, anhydrousOnly, hydrousOnly, calibrateOxygen, useTrustRegionMethod, 
+                 implementBounds;
   static Boolean *lowWtFlag, *zeroWtFlag, *phasesPresent, validLiquid=FALSE;
   static double  molesElmSol[107], *molesLiqCmp, *moles, *indep, *activity, *xMrqrdt, *yMrqrdt, *sigMrqrdt, *aMrqrdt, 
     **covar, **alpha, chisq, alamda, oldChisq, oldAlamda, t, p, logfo2, *sigWeights, *wt;
@@ -1283,6 +1326,8 @@ Boolean preclb(XtPointer client_data)
     if (useTrustRegionMethod) printf("Regression method set to Trust Region algorithm.\n");
     implementBounds = XmToggleButtonGadgetGetState(tg_implement_bounds);
     if (implementBounds) printf("Bounds on W(H) parameters will be implemented.\n");
+    useTregression = XmToggleButtonGadgetGetState(tg_t_regression);
+    if (useTregression) printf("Optimization will be performed on T rather than energy.\n");
 
     /* 5a -> compute number of moles of elements in each solid              */
     sigWeights = (double *) calloc((size_t) (npc+nes), sizeof(double));
@@ -1622,21 +1667,22 @@ Boolean preclb(XtPointer client_data)
 
         	nLiquid++;
         	residualDataInput = (ResidualDataInput *) REALLOC(residualDataInput, (size_t) nLiquid*sizeof(struct _residualDataInput));
-        	pRDI	       = &(residualDataInput[nLiquid-1]);
-        	pRDI->LEPRnum  = LEPRnum;
-        	pRDI->t        = t;
-        	pRDI->p        = p;
-        	pRDI->fo2      = logfo2;
-        	pRDI->nLiq     = 1; /* Check against nLiqCoexistMax */
-        	pRDI->rLiq     = (double **) malloc(sizeof(double *));
-               (pRDI->rLiq)[0] = (double *) malloc((size_t) (nlc-1)*sizeof(double));
-        	pRDI->nSol     = 0;
-        	pRDI->pIndex   = NULL;  
-        	pRDI->cIndex   = NULL;  
-        	pRDI->rSol     = NULL;  
-        	pRDI->pIndex   = NULL;  
-        	pRDI->isEqual  = NULL;  
-        	pRDI->depen    = NULL;  
+        	pRDI	        = &(residualDataInput[nLiquid-1]);
+        	pRDI->LEPRnum   = LEPRnum;
+        	pRDI->t         = t;
+        	pRDI->p         = p;
+        	pRDI->fo2       = logfo2;
+        	pRDI->nLiq      = 1; /* Check against nLiqCoexistMax */
+        	pRDI->rLiq      = (double **) malloc(sizeof(double *));
+               (pRDI->rLiq)[0]  = (double *) malloc((size_t) (nlc-1)*sizeof(double));
+        	pRDI->nSol      = 0;
+        	pRDI->pIndex    = NULL;  
+        	pRDI->cIndex    = NULL;  
+        	pRDI->rSol      = NULL;  
+        	pRDI->pIndex    = NULL;  
+        	pRDI->isEqual   = NULL;  
+        	pRDI->depenG    = NULL;  
+        	pRDI->dependGdT = NULL;  
 
         	residualOutput  = (ResidualOutput *) REALLOC(residualOutput, (size_t)  nLiquid*sizeof(struct _residualOutput));
         	pRO = &(residualOutput[nLiquid-1]);
@@ -1680,8 +1726,7 @@ Boolean preclb(XtPointer client_data)
 #endif
 #endif
                  ) {
-		double deltaG;
- 		if(getDeltaGofSolid(&deltaG, molesLiqCmp, t, p, lowWtFlag, (double) 1.0, o2Index)) {
+ 		if(getDependentOfSolid(molesLiqCmp, t, p, lowWtFlag, o2Index, -1, NULL, FALSE)) {
  		   ResidualDataInput *pRDI = &(residualDataInput[nLiquid-1]);
  		   nEqn++;
  		   pRDI->nSol++; if (pRDI->nSol > nSolCoexistMax) 
@@ -1690,11 +1735,13 @@ Boolean preclb(XtPointer client_data)
  		   pRDI->cIndex  = (int *)     REALLOC(pRDI->cIndex, (size_t) (pRDI->nSol)*sizeof(int));
  		   pRDI->rSol	 = (double **) REALLOC(pRDI->rSol,   (size_t) (pRDI->nSol)*sizeof(double *));
  		   pRDI->isEqual = (int *)     REALLOC(pRDI->isEqual,(size_t) (pRDI->nSol)*sizeof(int));
- 		   pRDI->depen   = (double *)  REALLOC(pRDI->depen,  (size_t) (pRDI->nSol)*sizeof(double));
+ 		   pRDI->depenG  = (double *)  REALLOC(pRDI->depenG, (size_t) (pRDI->nSol)*sizeof(double));
+		   if (useTregression) pRDI->dependGdT = (double *)  REALLOC(pRDI->dependGdT, (size_t) (pRDI->nSol)*sizeof(double));
  		  (pRDI->pIndex) [pRDI->nSol-1] = o2Index;
  		  (pRDI->cIndex) [pRDI->nSol-1] = o2Index; 
  		  (pRDI->isEqual)[pRDI->nSol-1] = TRUE;
- 		  (pRDI->depen)  [pRDI->nSol-1] = (deltaG + R*t*log(10.0)*logfo2)/SCALE;	  
+ 		  (pRDI->depenG) [pRDI->nSol-1] = (delta.g + R*t*log(10.0)*logfo2)/SCALE;
+		   if (useTregression) (pRDI->dependGdT) [pRDI->nSol-1] = (delta.dgdt + R*log(10.0)*logfo2)/SCALE;
  		  (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)	(pRDI->nSol)*sizeof(double));
  		  (pRO->dr)	   = (double *) REALLOC(pRO->dr,	(size_t) nParam*(pRDI->nSol)*sizeof(double));
  		}      
@@ -1830,7 +1877,6 @@ Boolean preclb(XtPointer client_data)
 
                   /* Determine if phase data may be included */
                   if (preclbCount[id].usePhase) {
-                    double deltaG;
                     ResidualDataInput *pRDI = &(residualDataInput[nLiquid-1]);
 
                     if (solids[id].convert != NULL) {
@@ -1847,6 +1893,7 @@ Boolean preclb(XtPointer client_data)
 		      for (i=0; i<solids[id].na; i++) sumMoles += moles[i];
 	              
 	              if ((sumMoles > 0.0) && (*solids[id].test) (SIXTH, t, p, 0, 0, NULL, NULL, NULL, moles)) {
+		        int useSaved;
 
                 	/* Convert moles of endmember components to independent variables */
                 	(*solids[id].convert) (SECOND, THIRD, t, p, NULL, moles, indep, NULL, NULL, NULL, NULL, NULL);
@@ -1883,9 +1930,8 @@ Boolean preclb(XtPointer client_data)
 			}
 			
                 	/* Compute activities of endmember components/exclude dilute comp */
-                	(*solids[id].activity) (FIRST | FOURTH, t, p, indep, activity, NULL, NULL);
-                	for (j=0; j<solids[id].na; j++) {
-                	  if(preclbCount[id+1+j].usePhase && getDeltaGofSolid(&deltaG, molesLiqCmp, t, p, lowWtFlag, activity[j], id+1+j)) {
+                	for (j=0, useSaved=FALSE; j<solids[id].na; j++) {
+                	  if(preclbCount[id+1+j].usePhase && getDependentOfSolid(molesLiqCmp, t, p, lowWtFlag, id, j, indep, useSaved)) {
                 	    nEqn++;
                 	    pRDI->nSol++; if (pRDI->nSol > nSolCoexistMax) 
 	        			  printf("ERROR:preclb[preclb.c at line %d] nSolCoexistMax[=%d] exceeded.\n", __LINE__, nSolCoexistMax);
@@ -1894,11 +1940,13 @@ Boolean preclb(XtPointer client_data)
 	        	    pRDI->rSol    = (double **) REALLOC(pRDI->rSol,   (size_t) (pRDI->nSol)*sizeof(double *));
 	        	   (pRDI->rSol)[pRDI->nSol-1] = (double *) malloc((size_t) (solids[id].nr)*sizeof(double));
 	        	    pRDI->isEqual = (int *)	REALLOC(pRDI->isEqual,(size_t) (pRDI->nSol)*sizeof(int));
-	        	    pRDI->depen   = (double *)  REALLOC(pRDI->depen,  (size_t) (pRDI->nSol)*sizeof(double));
+	        	    pRDI->depenG  = (double *)  REALLOC(pRDI->depenG,  (size_t) (pRDI->nSol)*sizeof(double));
+                            if (useTregression) pRDI->dependGdT = (double *)  REALLOC(pRDI->dependGdT, (size_t) (pRDI->nSol)*sizeof(double));
 	        	   (pRDI->pIndex) [pRDI->nSol-1] = id;
 	        	   (pRDI->cIndex) [pRDI->nSol-1] = id+1+j; 
 	        	   (pRDI->isEqual)[pRDI->nSol-1] = TRUE;
-	        	   (pRDI->depen)  [pRDI->nSol-1] = deltaG/SCALE;
+	        	   (pRDI->depenG) [pRDI->nSol-1] = delta.g/SCALE;
+                            if (useTregression) (pRDI->dependGdT) [pRDI->nSol-1] = delta.dgdt/SCALE;
 	        	    for (i=0; i<solids[id].nr; i++) (pRDI->rSol)[pRDI->nSol-1][i] = indep[i];
 	        	   (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)	 (pRDI->nSol)*sizeof(double));
 	        	   (pRO->dr)	    = (double *) REALLOC(pRO->dr,	 (size_t) nParam*(pRDI->nSol)*sizeof(double));
@@ -1906,12 +1954,14 @@ Boolean preclb(XtPointer client_data)
                    	   sprintf(value, "%5.5d", preclbCount[id+1+j].np);
                    	   DISPLAY(preclbCount[id+1+j].present, value)
                 	  }
+			  useSaved = TRUE;
                 	}
 	              
 	        	/* dependent species used as regression constraints */
 	        	for (k=0; k<nes; k++) if (extraSolids[k].index == id) {
 	        	  double sumMoles, newMoles = 0.0;
 	        	  Boolean notSuitable = False;
+			  int useSaved;
 	        	  for (j=0; j<solids[id].na; j++) newMoles += (extraSolids[k].m)[j]*moles[j];
 	
 	        	  newMoles = (extraSolids[k].norm > 0.0)   ? newMoles/extraSolids[k].norm	  : 0.0;
@@ -1936,24 +1986,27 @@ Boolean preclb(XtPointer client_data)
 	        	  pRDI->rSol	= (double **) REALLOC(pRDI->rSol,   (size_t) (pRDI->nSol)*sizeof(double *));
 	        	 (pRDI->rSol)[pRDI->nSol-1] = (double *) malloc((size_t) (solids[id].nr)*sizeof(double));
 	        	  pRDI->isEqual = (int *)     REALLOC(pRDI->isEqual,(size_t) (pRDI->nSol)*sizeof(int));
-	        	  pRDI->depen	= (double *)  REALLOC(pRDI->depen,  (size_t) (pRDI->nSol)*sizeof(double));
+	        	  pRDI->depenG	= (double *)  REALLOC(pRDI->depenG,  (size_t) (pRDI->nSol)*sizeof(double));
+		          if (useTregression) pRDI->dependGdT = (double *)  REALLOC(pRDI->dependGdT, (size_t) (pRDI->nSol)*sizeof(double));
 	        	 (pRDI->pIndex) [pRDI->nSol-1] = id;
 	        	 (pRDI->cIndex) [pRDI->nSol-1] = npc+k; 
 	        	 (pRDI->isEqual)[pRDI->nSol-1] = TRUE;
-	        	 (pRDI->depen)  [pRDI->nSol-1] = 0.0;
+	        	 (pRDI->depenG) [pRDI->nSol-1] = 0.0;
 	        	  for (i=0; i<solids[id].nr; i++) (pRDI->rSol)[pRDI->nSol-1][i] = indep[i];
 	        	 (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)        (pRDI->nSol)*sizeof(double));
 	        	 (pRO->dr)	  = (double *) REALLOC(pRO->dr,        (size_t) nParam*(pRDI->nSol)*sizeof(double));
 	
-                	  for (j=0; j<solids[id].na; j++) {
-                	    if(getDeltaGofSolid(&deltaG, molesLiqCmp, t, p, lowWtFlag, activity[j], id+1+j)) {
-                	      (pRDI->depen)  [pRDI->nSol-1] += (extraSolids[k].m)[j]*deltaG/SCALE;
+                	  for (j=0, useSaved=FALSE; j<solids[id].na; j++) {
+                	    if(getDependentOfSolid(molesLiqCmp, t, p, lowWtFlag, id, j, indep, useSaved)) {
+                	      (pRDI->depenG)[pRDI->nSol-1] += (extraSolids[k].m)[j]*delta.g/SCALE;
+                               if (useTregression) (pRDI->dependGdT) [pRDI->nSol-1] = delta.dgdt/SCALE;
                 	    } else {
 	        	      nEqn--;
 	        	      free((pRDI->rSol)[pRDI->nSol-1]);
 	        	      pRDI->nSol--;
 	        	      break;
 	        	    }
+			    useSaved = TRUE;
                 	  }
 	        	}
 	        	
@@ -1973,12 +2026,13 @@ Boolean preclb(XtPointer client_data)
 	        	  pRDI->cIndex  = (int *)   REALLOC(pRDI->cIndex, (size_t) (pRDI->nSol)*sizeof(int));
 	        	  pRDI->rSol	= (double **) REALLOC(pRDI->rSol, (size_t) (pRDI->nSol)*sizeof(double *));
 	        	  pRDI->isEqual = (int *)   REALLOC(pRDI->isEqual,(size_t) (pRDI->nSol)*sizeof(int));
-	        	  pRDI->depen	= (double *)  REALLOC(pRDI->depen,  (size_t) (pRDI->nSol)*sizeof(double));
+	        	  pRDI->depenG	= (double *)  REALLOC(pRDI->depenG, (size_t) (pRDI->nSol)*sizeof(double));
+                          if (useTregression) pRDI->dependGdT = (double *)  REALLOC(pRDI->dependGdT, (size_t) (pRDI->nSol)*sizeof(double));
 	        	 (pRDI->pIndex) [pRDI->nSol-1] = id;
 	        	 (pRDI->cIndex) [pRDI->nSol-1] = id; 
 	        	 (pRDI->isEqual)[pRDI->nSol-1] = TRUE;
-			 if      (strncmp(solids[id].label, "density", 7)  == 0) (pRDI->depen)  [pRDI->nSol-1] = hORsORdCON;
-	        	 else (pRDI->depen)  [pRDI->nSol-1] = hORsORdCON/molesLiqTot; /* Scale the entropy/enthalpy for one mole of liquid */
+			 if      (strncmp(solids[id].label, "density", 7)  == 0) (pRDI->depenG)  [pRDI->nSol-1] = hORsORdCON;
+	        	 else (pRDI->depenG)  [pRDI->nSol-1] = hORsORdCON/molesLiqTot; /* Scale the entropy/enthalpy for one mole of liquid */
 	        	 (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)        (pRDI->nSol)*sizeof(double));
 	        	 (pRO->dr)	  = (double *) REALLOC(pRO->dr,        (size_t) nParam*(pRDI->nSol)*sizeof(double));
 	        	}
@@ -2013,11 +2067,13 @@ Boolean preclb(XtPointer client_data)
 	        		pRDI->rSol    = (double **) REALLOC(pRDI->rSol, (size_t) (pRDI->nSol)*sizeof(double *));
 	        	       (pRDI->rSol)[pRDI->nSol-1] = (double *) malloc((size_t) (nlc-1)*sizeof(double));
 	        		pRDI->isEqual = (int *)   REALLOC(pRDI->isEqual,(size_t) (pRDI->nSol)*sizeof(int));
-	        		pRDI->depen   = (double *)  REALLOC(pRDI->depen,  (size_t) (pRDI->nSol)*sizeof(double));
+	        		pRDI->depenG   = (double *)  REALLOC(pRDI->depenG,  (size_t) (pRDI->nSol)*sizeof(double));
+                                if (useTregression) pRDI->dependGdT = (double *)  REALLOC(pRDI->dependGdT, (size_t) (pRDI->nSol)*sizeof(double));
 	        	       (pRDI->pIndex) [pRDI->nSol-1] = id;
 	        	       (pRDI->cIndex) [pRDI->nSol-1] = id; 
 	        	       (pRDI->isEqual)[pRDI->nSol-1] = TRUE + i; /* Still TRUE, but it also carries the component index */
-	        	       (pRDI->depen)  [pRDI->nSol-1] = 0.0;
+	        	       (pRDI->depenG)  [pRDI->nSol-1] = 0.0;
+                                if (useTregression) (pRDI->dependGdT) [pRDI->nSol-1] = 0.0;
 	        		for (j=0; j<(nlc-1); j++) (pRDI->rSol)[pRDI->nSol-1][j] = rTmp[j];
 	        	       (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)	     (pRDI->nSol)*sizeof(double));
 	        	       (pRO->dr)	= (double *) REALLOC(pRO->dr,	     (size_t) nParam*(pRDI->nSol)*sizeof(double));
@@ -2027,7 +2083,7 @@ Boolean preclb(XtPointer client_data)
 	        	  }
 	        	}
 			
-                      } else if(getDeltaGofSolid(&deltaG, molesLiqCmp, t, p, lowWtFlag, (double) 1.0, id)) { 
+                      } else if(getDependentOfSolid(molesLiqCmp, t, p, lowWtFlag, id, -1, NULL, FALSE)) { 
                 	nEqn++;
                 	pRDI->nSol++; if (pRDI->nSol > nSolCoexistMax) 
 	        		      printf("ERROR:preclb[preclb.c at line %d] nSolCoexistMax[=%d] exceeded.\n", __LINE__, nSolCoexistMax);
@@ -2035,11 +2091,13 @@ Boolean preclb(XtPointer client_data)
 	        	pRDI->cIndex  = (int *)     REALLOC(pRDI->cIndex, (size_t) (pRDI->nSol)*sizeof(int));
 	        	pRDI->rSol    = (double **) REALLOC(pRDI->rSol,   (size_t) (pRDI->nSol)*sizeof(double *));
 	        	pRDI->isEqual = (int *)     REALLOC(pRDI->isEqual,(size_t) (pRDI->nSol)*sizeof(int));
-	        	pRDI->depen   = (double *)  REALLOC(pRDI->depen,  (size_t) (pRDI->nSol)*sizeof(double));
+	        	pRDI->depenG  = (double *)  REALLOC(pRDI->depenG, (size_t) (pRDI->nSol)*sizeof(double));
+                        if (useTregression) pRDI->dependGdT = (double *)  REALLOC(pRDI->dependGdT, (size_t) (pRDI->nSol)*sizeof(double));
 	               (pRDI->pIndex) [pRDI->nSol-1] = id;
 	               (pRDI->cIndex) [pRDI->nSol-1] = id; 
 	               (pRDI->isEqual)[pRDI->nSol-1] = TRUE;
-	               (pRDI->depen)  [pRDI->nSol-1] = deltaG/SCALE + ((id == o2Index) ? R*t*log(10.0)*logfo2/SCALE : 0.0);
+	               (pRDI->depenG) [pRDI->nSol-1] = delta.g/SCALE + ((id == o2Index) ? R*t*log(10.0)*logfo2/SCALE : 0.0);
+                        if (useTregression) (pRDI->dependGdT) [pRDI->nSol-1] = delta.dgdt/SCALE + ((id == o2Index) ? R*log(10.0)*logfo2/SCALE : 0.0);
 	               (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)	     (pRDI->nSol)*sizeof(double));
 	               (pRO->dr)	= (double *) REALLOC(pRO->dr,	     (size_t) nParam*(pRDI->nSol)*sizeof(double));
                       }
@@ -2060,7 +2118,6 @@ Boolean preclb(XtPointer client_data)
         /* Assign Phase absent constraints for previous liquid */
         for (j=0; j<npc; j++) {
           if (!phasesPresent[j] && preclbCount[j].absPhase) {
-            double deltaG;
 
             if (validLiquid && ((lowPonly && (p < 100000.0)) || !lowPonly) && ((highPonly && (p > 100000.0)) || !highPonly) &&
 	                       ((oneBarOnly && (p < 2.0))    || !oneBarOnly)
@@ -2072,7 +2129,7 @@ Boolean preclb(XtPointer client_data)
 	      ) {
 
               if (solids[j].convert == NULL) {
-        	if(getDeltaGofSolid(&deltaG, molesLiqCmp, t, p, zeroWtFlag, (double) 1.0, j)) { 
+        	if(getDependentOfSolid(molesLiqCmp, t, p, zeroWtFlag, j, -1, NULL, FALSE)) { 
         	  preclbCount[j].na++;
         	  sprintf(value, "%5.5d", preclbCount[j].na);
         	  DISPLAY(preclbCount[j].absent, value)
@@ -2083,17 +2140,20 @@ Boolean preclb(XtPointer client_data)
         	  pRDI->cIndex  = (int *)     REALLOC(pRDI->cIndex, (size_t) (pRDI->nSol)*sizeof(int));
         	  pRDI->rSol	= (double **) REALLOC(pRDI->rSol,   (size_t) (pRDI->nSol)*sizeof(double *));
         	  pRDI->isEqual = (int *)     REALLOC(pRDI->isEqual,(size_t) (pRDI->nSol)*sizeof(int));
-        	  pRDI->depen	= (double *)  REALLOC(pRDI->depen,  (size_t) (pRDI->nSol)*sizeof(double));
+        	  pRDI->depenG	= (double *)  REALLOC(pRDI->depenG, (size_t) (pRDI->nSol)*sizeof(double));
+                  if (useTregression) pRDI->dependGdT = (double *)  REALLOC(pRDI->dependGdT, (size_t) (pRDI->nSol)*sizeof(double));
         	 (pRDI->pIndex) [pRDI->nSol-1] = j;
         	 (pRDI->cIndex) [pRDI->nSol-1] = j; 
         	 (pRDI->isEqual)[pRDI->nSol-1] = FALSE;
-        	 (pRDI->depen)  [pRDI->nSol-1] = deltaG/SCALE;
+        	 (pRDI->depenG) [pRDI->nSol-1] = delta.g/SCALE;
+                  if (useTregression) (pRDI->dependGdT) [pRDI->nSol-1] = delta.dgdt/SCALE;
         	 (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)        (pRDI->nSol)*sizeof(double));
         	 (pRO->dr)	  = (double *) REALLOC(pRO->dr,        (size_t) nParam*(pRDI->nSol)*sizeof(double));
         	}
               } else if (solids[j].convert != NULL) {
-        	for (k=0, l=0; k<solids[j].na; k++) {
-        	  if(getDeltaGofSolid(&deltaG, molesLiqCmp, t, p, zeroWtFlag, (double) 1.0, j+1+k)) { 
+	        int useSaved;
+        	for (k=0, l=0, useSaved=FALSE; k<solids[j].na; k++) {
+        	  if(getDependentOfSolid(molesLiqCmp, t, p, zeroWtFlag, j, k, NULL, useSaved)) { 
         	    nEqn++;
         	    pRDI->nSol++; if (pRDI->nSol > nSolCoexistMax) 
         			  printf("ERROR:preclb[preclb.c at line %d] nSolCoexistMax[=%d] exceeded.\n", __LINE__, nSolCoexistMax);
@@ -2102,16 +2162,19 @@ Boolean preclb(XtPointer client_data)
         	    pRDI->rSol    = (double **) REALLOC(pRDI->rSol,   (size_t) (pRDI->nSol)*sizeof(double *));
         	   (pRDI->rSol)[pRDI->nSol-1] = (double *) malloc((size_t) (solids[j].nr)*sizeof(double));
         	    pRDI->isEqual = (int *)	REALLOC(pRDI->isEqual,(size_t) (pRDI->nSol)*sizeof(int));
-        	    pRDI->depen   = (double *)  REALLOC(pRDI->depen,  (size_t) (pRDI->nSol)*sizeof(double));
+        	    pRDI->depenG  = (double *)  REALLOC(pRDI->depenG, (size_t) (pRDI->nSol)*sizeof(double));
+                    if (useTregression) pRDI->dependGdT = (double *)  REALLOC(pRDI->dependGdT, (size_t) (pRDI->nSol)*sizeof(double));
         	   (pRDI->pIndex) [pRDI->nSol-1] = j;
         	   (pRDI->cIndex) [pRDI->nSol-1] = j+1+k; 
         	   (pRDI->isEqual)[pRDI->nSol-1] = FALSE;
-        	   (pRDI->depen)  [pRDI->nSol-1] = deltaG/SCALE;
+        	   (pRDI->depenG) [pRDI->nSol-1] = delta.g/SCALE;
+                    if (useTregression) (pRDI->dependGdT) [pRDI->nSol-1] = delta.dgdt/SCALE;
         	    for (i=0; i<solids[j].nr; i++) (pRDI->rSol)[pRDI->nSol-1][i] = 0.0;
         	   (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)	 (pRDI->nSol)*sizeof(double));
         	   (pRO->dr)	    = (double *) REALLOC(pRO->dr,	 (size_t) nParam*(pRDI->nSol)*sizeof(double));
         	    l++;
         	  }
+		  useSaved = TRUE;
         	}
         	if (l > 0) {
         	  preclbCount[j].na++;
@@ -2268,15 +2331,16 @@ Boolean preclb(XtPointer client_data)
   
     /* Tell each slave who they are, how many processes there are, and initilaize a few constants */
     for (i=0; i<ntasks; i++) {
-      int info[6];
+      int info[7];
       info[0] = i+1;
       info[1] = ntasks+1;
       info[2] = nLiqCoexistMax;
       info[3] = nSolCoexistMax;
       info[4] = nrMAX;
       info[5] = nParam;
+      info[6] = useTregression;
       if (DEBUG_MPI) printf("MPI:preclb[preclb.c at line %d]--> Calling MPI_Send(slave = %d)...\n", __LINE__, i+1);
-      MPI_Send(info, 6, MPI_INT, 0, WORKTAG, icomm_slaves[i]);
+      MPI_Send(info, 7, MPI_INT, 0, WORKTAG, icomm_slaves[i]);
     }
 
     /* Allocate slave receive request array. */
@@ -2289,7 +2353,7 @@ Boolean preclb(XtPointer client_data)
     if (work_slaves == NULL) MPI_Abort(MPI_COMM_WORLD, (errno << 16) + 1);
 
     MPI_Pack_size(2 + 3*nSolCoexistMax, MPI_INT,    MPI_COMM_WORLD, &membersize); maxSizeOut  = membersize;
-    MPI_Pack_size(3 + nSolCoexistMax + (nlc-1)*nLiqCoexistMax + nrMAX*nSolCoexistMax, 
+    MPI_Pack_size(3 + 2*nSolCoexistMax + (nlc-1)*nLiqCoexistMax + nrMAX*nSolCoexistMax, 
                   MPI_DOUBLE, MPI_COMM_WORLD, &membersize); maxSizeOut += membersize;
     bufferOut = (char *) malloc((size_t) maxSizeOut);
     
@@ -2390,8 +2454,13 @@ Boolean preclb(XtPointer client_data)
  
     for (i=0, k=0, chisq=0.0; i<nLiquid; i++) if ((nSol = residualDataInput[i].nSol) > 0) for (j=0; j<nSol; j++) {
       xMrqrdt[  k + 1] = (double) k;
-      yMrqrdt[  k + 1] = (residualDataInput[i].depen)[j];                   /* kJ/atom					            */
-      sigMrqrdt[k + 1] = 1.0; /* sigWeights[(residualDataInput[i].cIndex)[j]]/14.0; kJ - 7 atoms in molecule --> 0.5 kJ uncertainty */
+      if (useTregression) {
+        yMrqrdt[  k + 1] = residualDataInput[i].t;
+        sigMrqrdt[k + 1] = 1.0;
+      } else {
+        yMrqrdt[  k + 1] = (residualDataInput[i].depenG)[j];                   /* kJ/atom					            */
+        sigMrqrdt[k + 1] = 1.0; /* sigWeights[(residualDataInput[i].cIndex)[j]]/14.0; kJ - 7 atoms in molecule --> 0.5 kJ uncertainty */
+      }
       /* This is a kludge, assumed initial guess for parameters is zero */
       chisq += 0.0; /* yMrqrdt[k+1]*yMrqrdt[k+1]/(sigMrqrdt[k+1]*sigMrqrdt[k+1]); */
       k++;

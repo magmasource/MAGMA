@@ -292,8 +292,8 @@ Boolean postclb(XtPointer client_data)
   for (i=0, bAVE = 0.0, bSTD = 0.0, resAVE = 0.0, resSTD = 0.0; i<nLiquid; i++) {
     int nSol = residualDataInput[i].nSol;
     if(nSol > 0) for (j=0; j<nSol; j++) {
-      bAVE +=   ((residualDataInput[i].isEqual)[j]) ? (residualDataInput[i].depen)[j]          : 0.0; 
-      bSTD +=   ((residualDataInput[i].isEqual)[j]) ? SQUARE((residualDataInput[i].depen)[j])  : 0.0; 
+      bAVE +=   ((residualDataInput[i].isEqual)[j]) ? (residualDataInput[i].depenG)[j]          : 0.0; 
+      bSTD +=   ((residualDataInput[i].isEqual)[j]) ? SQUARE((residualDataInput[i].depenG)[j])  : 0.0; 
       resAVE += ((residualDataInput[i].isEqual)[j]) ? (residualOutput[i].residuals)[j]         : 0.0;
       resSTD += ((residualDataInput[i].isEqual)[j]) ? SQUARE((residualOutput[i].residuals)[j]) : 0.0;
     }
@@ -586,21 +586,21 @@ Boolean postclb(XtPointer client_data)
       /* One-component phase */
       if (solids[i].convert == NULL) {
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
-        if ((residualDataInput[j].depen)[l] != 0.0) 
+        if ((residualDataInput[j].depenG)[l] != 0.0) 
           fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
-	    (residualDataInput[j].depen)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
+	    (residualDataInput[j].depenG)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
 	else
           fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
 #else
-        if ((residualDataInput[j].depen)[l] != 0.0) 
+        if ((residualDataInput[j].depenG)[l] != 0.0) 
           fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
-	    (residualDataInput[j].depen)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
+	    (residualDataInput[j].depenG)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
 	else
           fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
@@ -632,13 +632,13 @@ Boolean postclb(XtPointer client_data)
 	  (*solids[i].convert)(THIRD, FOURTH, residualDataInput[j].t, residualDataInput[j].p, NULL, NULL, 
 	    (residualDataInput[j].rSol)[l], xSol, NULL, NULL, NULL, NULL);
 	    xVar[k] = xSol[k];
-	  depVar[k] = (residualDataInput[j].depen)[l]; 
+	  depVar[k] = (residualDataInput[j].depenG)[l]; 
 	  resVar[k] = (residualOutput[j].residuals)[l]; 
 	  break; 
 	}
 	if (ne > 0) for (k=0; k<ne; k++) if ( (npc+neIndex[k]) == (residualDataInput[j].cIndex)[l]) {
 	    xVar[solids[i].na+k] = 0.0;
-	  depVar[solids[i].na+k] = (residualDataInput[j].depen)[l]; 
+	  depVar[solids[i].na+k] = (residualDataInput[j].depenG)[l]; 
 	  resVar[solids[i].na+k] = (residualOutput[j].residuals)[l]; 
 	  break;
 	} 
@@ -731,7 +731,7 @@ Boolean postclb(XtPointer client_data)
         aveT += (isEqual) ? tvec[nRES-1]         : 0.0;
         stdT += (isEqual) ? SQUARE(tvec[nRES-1]) : 0.0;
         /*--------------------------------------------------------------------*/
-        xvec[nRES-1] = ((residualDataInput[i].depen)[l]-bAVE)/((bSTD > DBL_EPSILON) ? bSTD : 1.0);
+        xvec[nRES-1] = ((residualDataInput[i].depenG)[l]-bAVE)/((bSTD > DBL_EPSILON) ? bSTD : 1.0);
         aveDep += (isEqual) ? xvec[nRES-1]         : 0.0;
         stdDep += (isEqual) ? SQUARE(xvec[nRES-1]) : 0.0;
         /*--------------------------------------------------------------------*/

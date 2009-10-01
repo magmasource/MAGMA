@@ -106,7 +106,7 @@ int fcn_(integer *n, doublereal *theta, doublereal*h) {
 static
 #endif
 void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOutput *localResidualOutput) {
-  static double *mu, *muTmp, *muTmpTmp, **dmudw, **dmudwTmp, *dsdw;
+  static double *mu, *muTmp, *muTmpTmp, **dmudw, **dmudwTmp, *dsdw, *dmudt, **d2mudtdw,  *dmudtTmp, **d2muTmpdtdw;
   static int nH2O = -1, nSiOH = -1, nAlOH = -1, nFe3OH = -1, nFe2OH = -1, nMgOH = -1, nCaOH = -1, nNaOH = -1, nKOH = -1,
              nEnthalpy = -1, nEntropy = -1, nDensity = -1, nAdditionalLiquid = -1, 
 	     *equivH2OSi, *equivH2OAl, *equivH2OFe3, *equivH2OFe2, *equivH2OMg, *equivH2OCa, *equivH2ONa, *equivH2OK;
@@ -124,12 +124,16 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
   if (mu == NULL) {
     int j, k;
     int **indIJ = imatrix(0, nls-1, 0, nls-1); 
-    mu       = vector(0, nlc-1); 
-    muTmp    = vector(0, nlc-1); 
-    muTmpTmp = vector(0, nlc-1); 
-    dmudw    = matrix(0, nlc-1, 0, 3*(nls*(nls-1)/2 + nls)+3*(nc+1)-1);
-    dmudwTmp = matrix(0, nlc-1, 0, 3*(nls*(nls-1)/2 + nls)+3*(nc+1)-1);
-    dsdw     = vector(0, 3*(nls*(nls-1)/2 + nls)-1);
+    mu          = vector(0, nlc-1); 
+    muTmp       = vector(0, nlc-1); 
+    muTmpTmp    = vector(0, nlc-1); 
+    dmudw       = matrix(0, nlc-1, 0, 3*(nls*(nls-1)/2 + nls)+3*(nc+1)-1);
+    dmudwTmp    = matrix(0, nlc-1, 0, 3*(nls*(nls-1)/2 + nls)+3*(nc+1)-1);
+    dsdw        = vector(0, 3*(nls*(nls-1)/2 + nls)-1);
+    dmudt       = vector(0, nlc-1); 
+    dmudtTmp    = vector(0, nlc-1); 
+    d2mudtdw    = matrix(0, nlc-1, 0, 3*(nls*(nls-1)/2 + nls)+3*(nc+1)-1);
+    d2muTmpdtdw = matrix(0, nlc-1, 0, 3*(nls*(nls-1)/2 + nls)+3*(nc+1)-1);
     equivH2OSi  = ivector(0, (nls*(nls-1)/2 + nls)-1);
     equivH2OAl  = ivector(0, (nls*(nls-1)/2 + nls)-1);
     equivH2OFe3 = ivector(0, (nls*(nls-1)/2 + nls)-1);
@@ -258,25 +262,26 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
   if (VERBOSE_DEBUG_MPI) printf("MPI:calculateResidualPack[preclb_slave.c at line %d]--> ...finished initialization block...\n", __LINE__);
 #endif
 
-  /* typedef struct _residualDataInput {										      */
-  /*   int    LEPRnum;  LEPRnum,              unique LEPR database experiment index number                                    */
-  /*   double t;	t,		      temperature of the experiment in Kelvin				              */
-  /*   double p;	p,		      pressure of the experiment in bars				              */
-  /*   double fo2;	fo2,		      log 10 fo2 of the experiment						      */
-  /*   int    nLiq;	nLiq,		      number of liquids in this experiment					      */
-  /*   double **rLiq;	rLiq[0->nLiq][0->nc-1],  vector of independent composition variables for liquid(s) in this experiment */
-  /*   int    nSol;	nSol,		      number of solids in this experiment					      */
-  /*   int    *pIndex;  pIndex[0->nSol],      phase index of solid							      */
-  /*   int    *cIndex;  pIndex[0->nSol],      component index of solid  						      */
-  /*   double **rSol;	rSol[0->nSol][0->nr],	 vector of independent composition variables for solid(s) in this experiment  */
-  /*   int    *isEqual; isEqual[0->nSol],     TRUE if equality constraint; FALSE if bound				      */  
-  /*   double *depen;	depen[0->nsol],       Dependent variable in regresion problem					      */
-  /* } ResidualDataInput;												      */
-  /*															      */
-  /* typedef struct _residualOutput {											      */
-  /*   int flag;	  flag, TRUE if valid output retuned; false otherwise						      */
-  /*   double *residuals; vector of returned residuals. Undef if valid == FALSE 					      */
-  /* } ResidualOutput;  												      */
+  /* typedef struct _residualDataInput {										       */
+  /*   int    LEPRnum;    LEPRnum,                unique LEPR database experiment index number                                 */
+  /*   double t;	  t,		          temperature of the experiment in Kelvin				       */
+  /*   double p;	  p,		          pressure of the experiment in bars				               */
+  /*   double fo2;	  fo2,		          log 10 fo2 of the experiment						       */
+  /*   int    nLiq;	  nLiq,		          number of liquids in this experiment					       */
+  /*   double **rLiq;	  rLiq[0->nLiq][0->nc-1], vector of independent composition variables for liquid(s) in this experiment */
+  /*   int    nSol;	  nSol,		          number of solids in this experiment					       */
+  /*   int    *pIndex;    pIndex[0->nSol],        phase index of solid							       */
+  /*   int    *cIndex;    pIndex[0->nSol],        component index of solid  						       */
+  /*   double **rSol;	  rSol[0->nSol][0->nr],	  vector of independent composition variables for solid(s) in this experiment  */
+  /*   int    *isEqual;   isEqual[0->nSol],       TRUE if equality constraint; FALSE if bound				       */  
+  /*   double *depenG;	  depen[0->nsol],         Dependent variable in regresion problem (Gibbs free energy)		       */
+  /*   double *dependGdT; depen[0->nsol],         Dependent variable in regresion problem (nagative entropy)		       */
+  /* } ResidualDataInput;												       */
+  /*															       */
+  /* typedef struct _residualOutput {											       */
+  /*   int flag;	  flag, TRUE if valid output retuned; false otherwise						       */
+  /*   double *residuals; vector of returned residuals. Undef if valid == FALSE 					       */
+  /* } ResidualOutput;  												       */
   
   localResidualOutput->flag = TRUE;
   if ( (localResidualDataInput->nLiq > 1) || (localResidualDataInput->nSol > 0) ) {
@@ -441,6 +446,7 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
       actLiq (SECOND | FOURTH, t, p, rLiq, NULL, mu, NULL, dmudw);
       /* Fill in eos derivatives using finite differences */
       if(testLiq (EIGHTH, t, p, 0, 0, NULL, NULL, NULL, NULL) && testLiq (SEVENTH, t, p, 0, 0, NULL, NULL, NULL, NULL)) {
+        if (useTregression) actLiq (EIGHTH | NINTH, t, p, rLiq, NULL, dmudt, NULL, d2mudtdw);
 #ifdef BUILD_MGO_SIO2_VERSION
         for (i=0; i<nc; i++) {
 #elif BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
@@ -471,10 +477,12 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
      	      eosModelParameters[i].v3 = (K != 0.0) ? (Kpp*K - (2.0*Kp+1.0)*(Kp+1.0))*v0/K/K/K : 0.0;
      	      eosModelParameters[i].v4 = (K != 0.0) ? (Kppp*K*K - Kpp*K*(4.0+6.0*Kp) + (3.0*Kp+1.0)*(2.0*Kp+1.0)*(Kp+1.0))*v0/K/K/K/K : 0.0;
               actLiq (SECOND, t, p, rLiq, NULL, muTmp, NULL, NULL);
+	      if (useTregression) actLiq (EIGHTH, t, p, rLiq, NULL, dmudtTmp, NULL, NULL);
               eosModelParameters[i].v2 = v2;
               eosModelParameters[i].v3 = v3;
               eosModelParameters[i].v4 = v4;
               for (j=0; j<nlc; j++) dmudw[j][3*(nls*(nls-1)/2 + nls) + 3*i] = (muTmp[j]-mu[j])/(Kp-KpR);
+	      if (useTregression) for (j=0; j<nlc; j++) d2mudtdw[j][3*(nls*(nls-1)/2 + nls) + 3*i] = (dmudtTmp[j]-dmudt[j])/(Kp-KpR);
             }
             if (eosModelParameters[i].activeKpp) {
               double v2   = eosModelParameters[i].v2;
@@ -487,10 +495,12 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
      	      eosModelParameters[i].v3 = (K != 0.0) ? (Kpp*K - (2.0*Kp+1.0)*(Kp+1.0))*v0/K/K/K : 0.0;
      	      eosModelParameters[i].v4 = (K != 0.0) ? (Kppp*K*K - Kpp*K*(4.0+6.0*Kp) + (3.0*Kp+1.0)*(2.0*Kp+1.0)*(Kp+1.0))*v0/K/K/K/K : 0.0;
               actLiq (SECOND, t, p, rLiq, NULL, muTmp, NULL, NULL);
+	      if (useTregression) actLiq (EIGHTH, t, p, rLiq, NULL, dmudtTmp, NULL, NULL);
               eosModelParameters[i].v2 = v2;
               eosModelParameters[i].v3 = v3;
               eosModelParameters[i].v4 = v4;
               for (j=0; j<nlc; j++) dmudw[j][3*(nls*(nls-1)/2 + nls) + 3*i + 1] = (muTmp[j]-mu[j])/(Kpp-KppR);
+              if (useTregression) for (j=0; j<nlc; j++) d2mudtdw[j][3*(nls*(nls-1)/2 + nls) + 3*i + 1] = (dmudtTmp[j]-dmudt[j])/(Kpp-KppR);
             }
             if (eosModelParameters[i].activeKppp) {
               double v2   = eosModelParameters[i].v2;
@@ -503,10 +513,12 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
      	      eosModelParameters[i].v3 = (K != 0.0) ? (Kpp*K - (2.0*Kp+1.0)*(Kp+1.0))*v0/K/K/K : 0.0;
      	      eosModelParameters[i].v4 = (K != 0.0) ? (Kppp*K*K - Kpp*K*(4.0+6.0*Kp) + (3.0*Kp+1.0)*(2.0*Kp+1.0)*(Kp+1.0))*v0/K/K/K/K : 0.0;
               actLiq (SECOND, t, p, rLiq, NULL, muTmp, NULL, NULL);
+	      if (useTregression) actLiq (EIGHTH, t, p, rLiq, NULL, dmudtTmp, NULL, NULL);
               eosModelParameters[i].v2 = v2;
               eosModelParameters[i].v3 = v3;
               eosModelParameters[i].v4 = v4;
               for (j=0; j<nlc; j++) dmudw[j][3*(nls*(nls-1)/2 + nls) + 3*i + 2] = (muTmp[j]-mu[j])/(Kppp-KpppR);
+              if (useTregression) for (j=0; j<nlc; j++) d2mudtdw[j][3*(nls*(nls-1)/2 + nls) + 3*i + 2] = (dmudtTmp[j]-dmudt[j])/(Kppp-KpppR);
             }	   
           } /* end test if Kp, Kpp, Kppp are active parameters */
 	} /* end loop on oxides */
@@ -625,7 +637,7 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
         if (VERBOSE_DEBUG_MPI) printf("MPI:calculateResidualPack[preclb_slave.c at line %d]--> ...in nSol loop (j = %d)...\n", __LINE__, j);
 #endif
     
-        r[j] = (localResidualDataInput->depen)[j];
+        r[j] = (localResidualDataInput->depenG)[j];
 	for (k=0; k<nParam; k++) dr[j*nParam +k] = 0.0;
 	if (sID == nDensity) {
 	  static double *xLiq = NULL;
@@ -1141,22 +1153,52 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
 	  } else localResidualOutput->flag = FALSE;
 	  
         } else if (sID < npc) {
+	  double delG=0.0, deldGdT=0.0;
+	  static double *drTmp;
+	  if (useTregression && (drTmp == NULL)) drTmp = (double *) malloc((size_t) nParam*sizeof(double));
+	  if (useTregression) {
+	    delG    = (localResidualDataInput->depenG)[j];
+	    deldGdT = (localResidualDataInput->dependGdT)[j];
+	    for (i=0; i<nParam; i++) drTmp[i] = 0.0;
+	  }
           for (i=0; i<nlc; i++) if (solids[sID].solToLiq[i] != 0.0) {
-            r[j] -= (solids[sID].solToLiq[i])*mu[i]/SCALE;
+	    if (useTregression) {
+              delG    -= (solids[sID].solToLiq[i])*mu[i]/SCALE;
+	      deldGdT -= (solids[sID].solToLiq[i])*dmudt[i]/SCALE;
+	    } else r[j] -= (solids[sID].solToLiq[i])*mu[i]/SCALE;
+	    
             for (k=0,l=0; k<(nls*(nls-1)/2 + nls); k++) {
-              if (modelParameters[k].activeH && !modelParameters[k].activeF)
-	                                      dr[j*nParam+(l++)] -= (solids[sID].solToLiq[i])*dmudw[i][			         k]*SCALE/SCALE;
-              if (modelParameters[k].activeS) dr[j*nParam+(l++)] -= (solids[sID].solToLiq[i])*dmudw[i][  (nls*(nls-1)/2 + nls) + k]/SCALE;
-              if (modelParameters[k].activeV) dr[j*nParam+(l++)] -= (solids[sID].solToLiq[i])*dmudw[i][2*(nls*(nls-1)/2 + nls) + k]/SCALE;
+              if (modelParameters[k].activeH && !modelParameters[k].activeF) {
+	        if (useTregression) drTmp[          l] -= (solids[sID].solToLiq[i])*d2mudtdw[i][			  k]*SCALE/SCALE;
+	                            dr[j*nParam+(l++)] -= (solids[sID].solToLiq[i])*dmudw   [i][			  k]*SCALE/SCALE;
+	      }
+              if (modelParameters[k].activeS) {
+	        if (useTregression) drTmp[          l] -= (solids[sID].solToLiq[i])*d2mudtdw[i][  (nls*(nls-1)/2 + nls) + k]/SCALE;
+	                            dr[j*nParam+(l++)] -= (solids[sID].solToLiq[i])*dmudw   [i][  (nls*(nls-1)/2 + nls) + k]/SCALE;
+	      }
+              if (modelParameters[k].activeV) {
+	        if (useTregression) drTmp[          l] -= (solids[sID].solToLiq[i])*d2mudtdw[i][2*(nls*(nls-1)/2 + nls) + k]/SCALE;
+	                            dr[j*nParam+(l++)] -= (solids[sID].solToLiq[i])*dmudw   [i][2*(nls*(nls-1)/2 + nls) + k]/SCALE;
+	      }
             }
           }
 	  
-	  if (modelParameters[nls*(nls-1)/2+nls+sID].activeH) r[j] +=         modelParameters[nls*(nls-1)/2+nls+sID].enthalpy/SCALE;
-	  if (modelParameters[nls*(nls-1)/2+nls+sID].activeS) r[j] +=      -t*modelParameters[nls*(nls-1)/2+nls+sID].entropy/SCALE;
-	  if (modelParameters[nls*(nls-1)/2+nls+sID].activeV) r[j] += (p-1.0)*modelParameters[nls*(nls-1)/2+nls+sID].volume/SCALE;
+	  if (useTregression) {
+	    if (modelParameters[nls*(nls-1)/2+nls+sID].activeH) delG    +=         modelParameters[nls*(nls-1)/2+nls+sID].enthalpy/SCALE;
+	    if (modelParameters[nls*(nls-1)/2+nls+sID].activeS) delG    +=      -t*modelParameters[nls*(nls-1)/2+nls+sID].entropy/SCALE;
+	    if (modelParameters[nls*(nls-1)/2+nls+sID].activeV) delG    += (p-1.0)*modelParameters[nls*(nls-1)/2+nls+sID].volume/SCALE;
+	    if (modelParameters[nls*(nls-1)/2+nls+sID].activeS) deldGdT +=        -modelParameters[nls*(nls-1)/2+nls+sID].entropy/SCALE;
+	  } else {
+	    if (modelParameters[nls*(nls-1)/2+nls+sID].activeH) r[j] +=         modelParameters[nls*(nls-1)/2+nls+sID].enthalpy/SCALE;
+	    if (modelParameters[nls*(nls-1)/2+nls+sID].activeS) r[j] +=      -t*modelParameters[nls*(nls-1)/2+nls+sID].entropy/SCALE;
+	    if (modelParameters[nls*(nls-1)/2+nls+sID].activeV) r[j] += (p-1.0)*modelParameters[nls*(nls-1)/2+nls+sID].volume/SCALE;
+	  }
 	  for (k=nls*(nls-1)/2 + nls; k<(nls*(nls-1)/2 + nls + npc); k++) {
 	    if (modelParameters[k].activeH && !modelParameters[k].activeF) dr[j*nParam+(l++)] += (sID == (k - nls*(nls-1)/2 - nls)) ?      1.0*SCALE/SCALE : 0.0;
-	    if (modelParameters[k].activeS)                                dr[j*nParam+(l++)] += (sID == (k - nls*(nls-1)/2 - nls)) ?       -t/SCALE       : 0.0;
+	    if (modelParameters[k].activeS) {
+	      if (useTregression)                                          drTmp[          l] += (sID == (k - nls*(nls-1)/2 - nls)) ?       -1.0/SCALE     : 0.0;
+	                                                                   dr[j*nParam+(l++)] += (sID == (k - nls*(nls-1)/2 - nls)) ?       -t/SCALE       : 0.0;
+	    }
 	    if (modelParameters[k].activeV)                                dr[j*nParam+(l++)] += (sID == (k - nls*(nls-1)/2 - nls)) ?  (p-1.0)/SCALE       : 0.0;
 	  }
 
@@ -1169,19 +1211,33 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
 #else
             for (k=0; k<(nc+1); k++) {
 #endif
-              if (eosModelParameters[k].activeKp)   dr[j*nParam+(m++)] -= (solids[sID].solToLiq[i])*dmudw[i][3*(nls*(nls-1)/2 + nls) + 3*k    ]/SCALE;
-              if (eosModelParameters[k].activeKpp)  dr[j*nParam+(m++)] -= (solids[sID].solToLiq[i])*dmudw[i][3*(nls*(nls-1)/2 + nls) + 3*k + 1]/SCALE;
-              if (eosModelParameters[k].activeKppp) dr[j*nParam+(m++)] -= (solids[sID].solToLiq[i])*dmudw[i][3*(nls*(nls-1)/2 + nls) + 3*k + 2]/SCALE;
+              if (eosModelParameters[k].activeKp) {
+	        if (useTregression) drTmp[          m] -= (solids[sID].solToLiq[i])*d2mudtdw[i][3*(nls*(nls-1)/2 + nls) + 3*k    ]/SCALE;
+	                            dr[j*nParam+(m++)] -= (solids[sID].solToLiq[i])*dmudw   [i][3*(nls*(nls-1)/2 + nls) + 3*k    ]/SCALE;
+	      }
+              if (eosModelParameters[k].activeKpp) {
+	        if (useTregression) drTmp[          m] -= (solids[sID].solToLiq[i])*d2mudtdw[i][3*(nls*(nls-1)/2 + nls) + 3*k + 1]/SCALE;
+	                            dr[j*nParam+(m++)] -= (solids[sID].solToLiq[i])*dmudw   [i][3*(nls*(nls-1)/2 + nls) + 3*k + 1]/SCALE;
+	      }
+              if (eosModelParameters[k].activeKppp) {
+	        if (useTregression) drTmp[          m] -= (solids[sID].solToLiq[i])*d2mudtdw[i][3*(nls*(nls-1)/2 + nls) + 3*k + 2]/SCALE;
+	                            dr[j*nParam+(m++)] -= (solids[sID].solToLiq[i])*dmudw   [i][3*(nls*(nls-1)/2 + nls) + 3*k + 2]/SCALE;
+              }
             }
 	  }
+
+	  if (useTregression) {
+	    r[j] = (deldGdT != 0.0) ? -delG/deldGdT : 0.0;
+	    for (i=0; i<nParam; i++) dr[j*nParam+i] = (deldGdT != 0.0) ? -dr[j*nParam+i]/deldGdT + delG*drTmp[i]/(deldGdT*deldGdT) : 0.0;
+	  }
 	  
-	  if (!isEqual && (r[j] > 0.0)) {
+	  if (!isEqual && ((!useTregression && (r[j] > 0.0)) || (useTregression && (delG > 0.0)))) {
 	    r[j] = 0.0;
 	    for (i=0; i<nParam; i++) dr[j*nParam+i] = 0.0;
-	  } else if (!isEqual && (r[j] < 0.0)) {
+	  } else if (!useTregression && !isEqual && (r[j] < 0.0)) {
 	    r[j] /= solids[sID].nAtoms;
 	    for (i=0; i<nParam; i++) dr[j*nParam+i] /= solids[sID].nAtoms;
-	  } else { 
+	  } else if (!useTregression) { 
 	    r[j] /= solids[sID].nAtoms;
 	    for (i=0; i<nParam; i++) dr[j*nParam+i] /= solids[sID].nAtoms;
 	  }
@@ -1189,28 +1245,58 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
         } else {
 	  int eID = extraSolids[sID-npc].index;
 	  int kk;
+	  double delG=0.0, deldGdT=0.0;
+	  static double *drTmp;
+	  if (useTregression && (drTmp == NULL)) drTmp = (double *) malloc((size_t) nParam*sizeof(double));
+	  if (useTregression) {
+	    delG    = (localResidualDataInput->depenG)[j];
+	    deldGdT = (localResidualDataInput->dependGdT)[j];
+	    for (i=0; i<nParam; i++) drTmp[i] = 0.0;
+	  }
           for (i=0; i<nlc; i++) if (extraSolids[sID-npc].solToLiq[i] != 0.0) {
-            r[j] -= (extraSolids[sID-npc].solToLiq[i])*mu[i]/SCALE;
+	    if (useTregression) {
+	      delG    -= (extraSolids[sID-npc].solToLiq[i])*mu[i]/SCALE;
+	      deldGdT -= (extraSolids[sID-npc].solToLiq[i])*dmudt[i]/SCALE;
+            } else r[j] -= (extraSolids[sID-npc].solToLiq[i])*mu[i]/SCALE;
+	    
             for (k=0,l=0; k<(nls*(nls-1)/2 + nls); k++) {
-              if (modelParameters[k].activeH  && !modelParameters[k].activeF) 
-	                                      dr[j*nParam+(l++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw[i][			  k]*SCALE/SCALE;
-              if (modelParameters[k].activeS) dr[j*nParam+(l++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw[i][  (nls*(nls-1)/2 + nls) + k]/SCALE;
-              if (modelParameters[k].activeV) dr[j*nParam+(l++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw[i][2*(nls*(nls-1)/2 + nls) + k]/SCALE;
+              if (modelParameters[k].activeH  && !modelParameters[k].activeF) {
+	        if (useTregression) drTmp[          l] -= (extraSolids[sID-npc].solToLiq[i])*d2mudtdw[i][			   k]*SCALE/SCALE;
+	                            dr[j*nParam+(l++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw   [i][			   k]*SCALE/SCALE;
+	      }
+              if (modelParameters[k].activeS) {
+	        if (useTregression) drTmp[          l] -= (extraSolids[sID-npc].solToLiq[i])*d2mudtdw[i][  (nls*(nls-1)/2 + nls) + k]/SCALE;
+	                            dr[j*nParam+(l++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw   [i][  (nls*(nls-1)/2 + nls) + k]/SCALE;
+	      }
+              if (modelParameters[k].activeV) {
+	        if (useTregression) drTmp[          l] -= (extraSolids[sID-npc].solToLiq[i])*d2mudtdw[i][2*(nls*(nls-1)/2 + nls) + k]/SCALE;
+	                            dr[j*nParam+(l++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw   [i][2*(nls*(nls-1)/2 + nls) + k]/SCALE;
+	      }
             }
 	  }
 
-          for (kk=0; kk<solids[eID].na; kk++) {
-	    if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeH) r[j] +=         (extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].enthalpy/SCALE;
-	    if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeS) r[j] +=      -t*(extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].entropy/SCALE;
-	    if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeV) r[j] += (p-1.0)*(extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].volume/SCALE;
-	  }  
+          if (useTregression) {
+            for (kk=0; kk<solids[eID].na; kk++) {
+	      if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeH) delG    +=         (extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].enthalpy/SCALE;
+	      if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeS) delG    +=      -t*(extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].entropy/SCALE;
+	      if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeV) delG    += (p-1.0)*(extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].volume/SCALE;
+	      if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeS) deldGdT +=        -(extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].entropy/SCALE;
+	    }
+	  } else {
+            for (kk=0; kk<solids[eID].na; kk++) {
+	      if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeH) r[j] +=         (extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].enthalpy/SCALE;
+	      if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeS) r[j] +=      -t*(extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].entropy/SCALE;
+	      if (modelParameters[nls*(nls-1)/2+nls+eID+1+kk].activeV) r[j] += (p-1.0)*(extraSolids[sID-npc].m)[kk]*modelParameters[nls*(nls-1)/2+nls+eID+1+kk].volume/SCALE;
+	    }
+	  }
 	  for (k=nls*(nls-1)/2 + nls; k<(nls*(nls-1)/2 + nls + npc); k++) {
 	    if (modelParameters[k].activeH && !modelParameters[k].activeF) {
 	      for (kk=0; kk<solids[eID].na; kk++) dr[j*nParam+l] += (eID+1+kk == (k - nls*(nls-1)/2 - nls)) ?    (extraSolids[sID-npc].m)[kk]*SCALE/SCALE : 0.0;
 	      l++;
 	    }
 	    if (modelParameters[k].activeS) {
-	      for (kk=0; kk<solids[eID].na; kk++) dr[j*nParam+l] += (eID+1+kk == (k - nls*(nls-1)/2 - nls)) ? -t*(extraSolids[sID-npc].m)[kk]/SCALE       : 0.0;
+	      if (useTregression) for (kk=0; kk<solids[eID].na; kk++) drTmp[      l] += (eID+1+kk == (k - nls*(nls-1)/2 - nls)) ?   -(extraSolids[sID-npc].m)[kk]/SCALE       : 0.0;
+	                          for (kk=0; kk<solids[eID].na; kk++) dr[j*nParam+l] += (eID+1+kk == (k - nls*(nls-1)/2 - nls)) ? -t*(extraSolids[sID-npc].m)[kk]/SCALE       : 0.0;
 	      l++;
 	    }
 	    if (modelParameters[k].activeV) {
@@ -1228,14 +1314,28 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
 #else
             for (k=0; k<(nc+1); k++) {
 #endif
-              if (eosModelParameters[k].activeKp)   dr[j*nParam+(m++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw[i][3*(nls*(nls-1)/2 + nls) + 3*k    ]/SCALE;
-              if (eosModelParameters[k].activeKpp)  dr[j*nParam+(m++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw[i][3*(nls*(nls-1)/2 + nls) + 3*k + 1]/SCALE;
-              if (eosModelParameters[k].activeKppp) dr[j*nParam+(m++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw[i][3*(nls*(nls-1)/2 + nls) + 3*k + 2]/SCALE;
+              if (eosModelParameters[k].activeKp) {
+	        if (useTregression) drTmp[          m] -= (extraSolids[sID-npc].solToLiq[i])*d2mudtdw[i][3*(nls*(nls-1)/2 + nls) + 3*k    ]/SCALE;
+	                            dr[j*nParam+(m++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw   [i][3*(nls*(nls-1)/2 + nls) + 3*k    ]/SCALE;
+	      }
+              if (eosModelParameters[k].activeKpp) {
+	        if (useTregression) drTmp[          m] -= (extraSolids[sID-npc].solToLiq[i])*d2mudtdw[i][3*(nls*(nls-1)/2 + nls) + 3*k + 1]/SCALE;
+	                            dr[j*nParam+(m++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw   [i][3*(nls*(nls-1)/2 + nls) + 3*k + 1]/SCALE;
+	      }
+              if (eosModelParameters[k].activeKppp) {
+	        if (useTregression) dr[             m] -= (extraSolids[sID-npc].solToLiq[i])*d2mudtdw[i][3*(nls*(nls-1)/2 + nls) + 3*k + 2]/SCALE;
+	                            dr[j*nParam+(m++)] -= (extraSolids[sID-npc].solToLiq[i])*dmudw   [i][3*(nls*(nls-1)/2 + nls) + 3*k + 2]/SCALE;
+	      }
             }
           }
 	  
-	  r[j] /= extraSolids[sID-npc].nAtoms;
-	  for (i=0; i<nParam; i++) dr[j*nParam+i] /= extraSolids[sID-npc].nAtoms;
+	  if (useTregression) {
+	    r[j] = (deldGdT != 0.0) ? -delG/deldGdT : 0.0;
+	    for (i=0; i<nParam; i++) dr[j*nParam+i] = (deldGdT != 0.0) ? -dr[j*nParam+i]/deldGdT + delG*drTmp[i]/(deldGdT*deldGdT) : 0.0;
+	  } else {
+	    r[j] /= extraSolids[sID-npc].nAtoms;
+	    for (i=0; i<nParam; i++) dr[j*nParam+i] /= extraSolids[sID-npc].nAtoms;
+	  }
 	  
         }
       }
@@ -1263,6 +1363,7 @@ MeltsStatus meltsStatus;
 
 int calculationMode = MODE_xMELTS;
 int quad_tol_modifier = 1;
+int useTregression;
 
 void (*additionalOutput) (char *filename) = NULL;
 char *addOutputFileName = NULL;
@@ -1319,15 +1420,17 @@ int main(int argc, char *argv[]) {
   }
   
   if (VERBOSE_DEBUG_MPI) printf("MPI:main[preclb_slave.c at line %d]--> Calling MPI_Recv()[pre-loop]...\n", __LINE__);
-  MPI_Recv(info, 6, MPI_INT, 0, MPI_ANY_TAG, comm, &status);
+  MPI_Recv(info, 7, MPI_INT, 0, MPI_ANY_TAG, comm, &status);
   nLiqCoexistMax = info[2];
   nSolCoexistMax = info[3];
   nrMAX          = info[4];
   nParam         = info[5];
+  useTregression = info[6];
   if (VERBOSE_DEBUG_MPI) printf("  				        ...nLiqCoexistMax = %d...\n", nLiqCoexistMax);
   if (VERBOSE_DEBUG_MPI) printf("  				        ...nSolCoexistMax = %d...\n", nSolCoexistMax);
   if (VERBOSE_DEBUG_MPI) printf("  				        ...nrMAX	  = %d...\n", nrMAX);
   if (VERBOSE_DEBUG_MPI) printf("  				        ...nParam	  = %d...\n", nParam);
+  if (VERBOSE_DEBUG_MPI) printf("  				        ...useTregression = %d...\n", useTregression);
 
 #ifdef USE_LAM_XLED
    (void) lam_ledinit(info[0], info[1]);
@@ -1336,18 +1439,19 @@ int main(int argc, char *argv[]) {
 #endif
  
   /* Allocate enough storage to hold incoming case and its buffer */
-  localResidualDataInput.rLiq    = (double **) malloc((size_t) nLiqCoexistMax*sizeof(double *));
+  localResidualDataInput.rLiq      = (double **) malloc((size_t) nLiqCoexistMax*sizeof(double *));
   for (i=0; i<nLiqCoexistMax; i++) (localResidualDataInput.rLiq)[i] = (double *) malloc((size_t) (nlc-1)*sizeof(double));
-  localResidualDataInput.pIndex  = (int *)     malloc((size_t) nSolCoexistMax*sizeof(int));
-  localResidualDataInput.cIndex  = (int *)     malloc((size_t) nSolCoexistMax*sizeof(int));
-  localResidualDataInput.rSol    = (double **) malloc((size_t) nSolCoexistMax*sizeof(double *));
+  localResidualDataInput.pIndex    = (int *)     malloc((size_t) nSolCoexistMax*sizeof(int));
+  localResidualDataInput.cIndex    = (int *)     malloc((size_t) nSolCoexistMax*sizeof(int));
+  localResidualDataInput.rSol      = (double **) malloc((size_t) nSolCoexistMax*sizeof(double *));
   for (i=0; i<nSolCoexistMax; i++) (localResidualDataInput.rSol)[i] = (double *) malloc((size_t) nrMAX*sizeof(double));
-  localResidualDataInput.isEqual = (int *)     malloc((size_t) nSolCoexistMax*sizeof(int));
-  localResidualDataInput.depen   = (double *)  malloc((size_t) nSolCoexistMax*sizeof(double));
+  localResidualDataInput.isEqual   = (int *)     malloc((size_t) nSolCoexistMax*sizeof(int));
+  localResidualDataInput.depenG    = (double *)  malloc((size_t) nSolCoexistMax*sizeof(double));
+  localResidualDataInput.dependGdT = (double *)  malloc((size_t) nSolCoexistMax*sizeof(double));
 
   MPI_Pack_size(2 + 3*nSolCoexistMax, MPI_INT, comm, &membersize); 
   maxSizeIn  = membersize;
-  MPI_Pack_size(3 + nSolCoexistMax + (nlc-1)*nLiqCoexistMax + nrMAX*nSolCoexistMax, MPI_DOUBLE, comm, &membersize); 
+  MPI_Pack_size(3 + 2*nSolCoexistMax + (nlc-1)*nLiqCoexistMax + nrMAX*nSolCoexistMax, MPI_DOUBLE, comm, &membersize); 
   maxSizeIn += membersize;
   
   MPI_Pack_size(4*(nls*(nls-1)/2+nls+npc)+3*nc, MPI_INT, comm, &membersize);    if (membersize > maxSizeIn) maxSizeIn = membersize;
@@ -1459,7 +1563,8 @@ int main(int argc, char *argv[]) {
       for (i=0; i<localResidualDataInput.nSol; i++) if (solids[j = (localResidualDataInput.pIndex)[i]].convert != NULL)
       MPI_Unpack(bufferIn, msgsize, &position,  (localResidualDataInput.rSol)[i],  solids[j].nr,	        MPI_DOUBLE, comm);
       MPI_Unpack(bufferIn, msgsize, &position,   localResidualDataInput.isEqual,   localResidualDataInput.nSol, MPI_INT,    comm);
-      MPI_Unpack(bufferIn, msgsize, &position,   localResidualDataInput.depen,     localResidualDataInput.nSol, MPI_DOUBLE, comm);
+      MPI_Unpack(bufferIn, msgsize, &position,   localResidualDataInput.depenG,    localResidualDataInput.nSol, MPI_DOUBLE, comm);
+      MPI_Unpack(bufferIn, msgsize, &position,   localResidualDataInput.dependGdT, localResidualDataInput.nSol, MPI_DOUBLE, comm);
       
       if (VERBOSE_DEBUG_MPI) {
         printf("MPI:main[preclb_slave.c at line %d]--> Finished unpacking liquid input structure...\n", __LINE__);
@@ -1467,8 +1572,8 @@ int main(int argc, char *argv[]) {
 	  localResidualDataInput.fo2, localResidualDataInput.nSol);
 	printf("     pIndex cIndex flag dependent\n");
 	for (i=0; i<localResidualDataInput.nSol; i++) {
-	  printf("       %3.3d    %3.3d    %1.1d %lf\n", (localResidualDataInput.pIndex)[i], (localResidualDataInput.cIndex)[i],
-	    (localResidualDataInput.isEqual)[i], (localResidualDataInput.depen)[i]);
+	  printf("       %3.3d    %3.3d    %1.1d %lf %lf\n", (localResidualDataInput.pIndex)[i], (localResidualDataInput.cIndex)[i],
+	    (localResidualDataInput.isEqual)[i], (localResidualDataInput.depenG)[i],(localResidualDataInput.dependGdT)[i]);
 	}
       }
       if (VERBOSE_DEBUG_MPI) printf("MPI:main[preclb_slave.c at line %d]--> About to enter calculateResidualPack().\n", __LINE__);
