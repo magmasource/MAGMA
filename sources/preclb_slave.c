@@ -446,7 +446,36 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
       actLiq (SECOND | FOURTH, t, p, rLiq, NULL, mu, NULL, dmudw);
       /* Fill in eos derivatives using finite differences */
       if(testLiq (EIGHTH, t, p, 0, 0, NULL, NULL, NULL, NULL) && testLiq (SEVENTH, t, p, 0, 0, NULL, NULL, NULL, NULL)) {
-        if (useTregression) actLiq (EIGHTH | NINTH, t, p, rLiq, NULL, dmudt, NULL, d2mudtdw);
+        if (useTregression) {
+#ifdef NEVER_DEFINED
+	  actLiq (EIGHTH | NINTH, t, p, rLiq, NULL, dmudt, NULL, d2mudtdw);
+#else
+          actLiq (EIGHTH, t, p, rLiq, NULL, dmudt, NULL, NULL);
+	  for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+	    if (modelParameters[i].activeH) {
+	      double hOld = modelParameters[i].enthalpy;
+	      modelParameters[i].enthalpy = hOld + ((hOld != 0.0) ? fabs(hOld)*sqrt(DBL_EPSILON) : sqrt(DBL_EPSILON));
+	      actLiq (EIGHTH, t, p, rLiq, NULL, dmudtTmp, NULL, NULL);
+	      for (j=0; j<nlc; j++) d2mudtdw[j][i] = (dmudtTmp[j]-dmudt[j])/(modelParameters[i].enthalpy-hOld);
+	      modelParameters[i].enthalpy = hOld;
+	    }
+	    if (modelParameters[i].activeS) {
+	      double sOld = modelParameters[i].entropy;
+	      modelParameters[i].entropy = sOld + ((sOld != 0.0) ? fabs(sOld)*sqrt(DBL_EPSILON) : sqrt(DBL_EPSILON));
+	      actLiq (EIGHTH, t, p, rLiq, NULL, dmudtTmp, NULL, NULL);
+	      for (j=0; j<nlc; j++) d2mudtdw[j][i+nls*(nls-1)/2+nls] = (dmudtTmp[j]-dmudt[j])/(modelParameters[i].entropy-sOld);
+	      modelParameters[i].entropy = sOld;
+	    }
+	    if (modelParameters[i].activeV) {
+	      double vOld = modelParameters[i].volume;
+	      modelParameters[i].volume = vOld + ((vOld != 0.0) ? fabs(vOld)*sqrt(DBL_EPSILON) : sqrt(DBL_EPSILON));
+	      actLiq (EIGHTH, t, p, rLiq, NULL, dmudtTmp, NULL, NULL);
+	      for (j=0; j<nlc; j++) d2mudtdw[j][i+2*nls*(nls-1)/2+2*nls] = (dmudtTmp[j]-dmudt[j])/(modelParameters[i].volume-vOld);
+	      modelParameters[i].volume = vOld;
+	    }
+	  }
+#endif
+	}
 #ifdef BUILD_MGO_SIO2_VERSION
         for (i=0; i<nc; i++) {
 #elif BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION

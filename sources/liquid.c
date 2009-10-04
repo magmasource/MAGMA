@@ -757,47 +757,16 @@ static int rANDsTOx (double r[NR], double s[NT]) {
 
 #elif BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
 static int rANDsTOx (double r[NR], double s[NT]) {
-  static double tolerance;
-  double rSum, coeff, dcoeffds[NS], denom, dDenomds[NS];
+  static int firstTime = TRUE;
+  double rSum;
   int i, j, k, okay = TRUE;
   
   for (i=0, rSum=0.0; i<NR; i++) rSum += r[i];
   
-  coeff        = 1.0;  
-  dcoeffds[ 0] = 0.0; 
-  dcoeffds[ 1] = 0.0; 
-  dcoeffds[ 2] = 0.0; 
-  dcoeffds[ 3] = 0.0; 
-  dcoeffds[ 4] = 0.0; 
-  dcoeffds[ 5] = 0.0; 
-  dcoeffds[ 6] = 0.0; 
-  dcoeffds[ 7] = 0.0; 
-  dcoeffds[ 8] = 0.0; 
-  dcoeffds[ 9] = 0.0; 
-  dcoeffds[10] = 0.0; 
-  dcoeffds[11] = 0.0; 
-  dcoeffds[12] = 0.0; 
-  dcoeffds[13] = 0.0; 
-  dcoeffds[14] = 0.0; 
-  dcoeffds[15] = 0.0; 
-  dcoeffds[16] = 0.0; 
-  dcoeffds[17] = 0.0; 
-  dcoeffds[18] = 0.0; 
-  dcoeffds[19] = 0.0; 
-  dcoeffds[20] = 0.0; 
-  dcoeffds[21] = 0.0; 
-  dcoeffds[22] = 0.0; 
-  dcoeffds[23] = 0.0; 
-  dcoeffds[24] = 0.0; 
-  dcoeffds[25] = 0.0; 
-  dcoeffds[26] = 0.0; 
-  dcoeffds[27] = 0.0; 
-  dcoeffds[28] = 0.0; 
-
   /* xSpecies */
-  xSpecies[ 0] = 1.0 - rSum*coeff;                   /* SiO2  */
-  for (i=0; i<NR; i++) xSpecies[ i+1] = r[i]*coeff;  /* basis */
-  for (i=0; i<NS; i++) xSpecies[NA+i] = s[i];        /* depen */
+  xSpecies[ 0] = 1.0 - rSum;                  /* SiO2  */
+  for (i=0; i<NR; i++) xSpecies[ i+1] = r[i]; /* basis */
+  for (i=0; i<NS; i++) xSpecies[NA+i] = s[i]; /* depen */
   
   xSpecies[0] +=   s[0]/6.0 - s[1]/3.0 - s[2]/6.0 -3.0*s[3]/10.0 
                  - 7.0*s[4]/12.0 - s[5]/5.0 + s[7]/6.0 + s[9]/4.0 - s[10]/3.0 + s[12]/4.0  
@@ -819,29 +788,17 @@ static int rANDsTOx (double r[NR], double s[NT]) {
 		 - 3.0*s[28]/14.0;                                                      /* special case K2SiO3  x 2/3 */
   xSpecies[5] += - 4.0*s[5]/5.0 - 3.0*s[6]/4.0 - 2.0*s[7]/3.0 - s[8]/2.0 -s[9]/2.0;     /* special case H2O           */
   
-  /*
-  if (tolerance == 0.0) tolerance = pow(DBL_EPSILON, (double) (2.0/3.0));
-  for (i=0; i<(NA+NS); i++) if (fabs(xSpecies[i]) < tolerance) xSpecies[i] = 0.0;
-  */
-  if (tolerance == 0.0) tolerance = DBL_EPSILON;
-  /*
-  if (((1.0-rSum) > 0.0) && (fabs(xSpecies[0]) < tolerance)) xSpecies[0] = tolerance;
-  if (((1.0-rSum) < 0.0) && (fabs(xSpecies[0]) < tolerance)) xSpecies[0] = 0.0;
-  if (((1.0-rSum) < 0.0) && (fabs(xSpecies[1]) < tolerance)) xSpecies[1] = 0.0;
-  if (((1.0-rSum) < 0.0) && (fabs(xSpecies[3]) < tolerance)) xSpecies[3] = 0.0;
-  */
-
   /* d xSpecies / dr */
   for (i=0; i<NR; i++) { 
-    dxSpeciesdr[  0][i] = - coeff;  /* SiO2  */
-    dxSpeciesdr[i+1][i] =   coeff;  /* other */
+    dxSpeciesdr[  0][i] = - 1.0;  /* SiO2  */
+    dxSpeciesdr[i+1][i] =   1.0;  /* other */
   }
 
   /* d xSpecies / ds */
   for (i=0; i<NS; i++) {
-                         dxSpeciesds[   0][i] = - rSum*dcoeffds[i]; /* SiO2 x 2 */
-    for (j=0; j<NR; j++) dxSpeciesds[ j+1][i] =   r[j]*dcoeffds[i]; /* basis    */
-                         dxSpeciesds[NA+i][i] = 1.0;                /* depen    */
+                         dxSpeciesds[   0][i] = 0.0; /* SiO2  */
+    for (j=0; j<NR; j++) dxSpeciesds[ j+1][i] = 0.0; /* basis */
+                         dxSpeciesds[NA+i][i] = 1.0; /* depen */
   }
   
   dxSpeciesds[0][ 0] +=    1.0/6.0;  dxSpeciesds[0][ 1] += -  1.0/3.0;  /* special case SiO2 x 2 */
@@ -889,63 +846,27 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   dxSpeciesds[5][ 5] += -  4.0/5.0;  dxSpeciesds[5][ 6] += -  3.0/4.0; /* special case H2O     */
   dxSpeciesds[5][ 7] += -  2.0/3.0;  dxSpeciesds[5][ 8] += -  1.0/2.0;
   dxSpeciesds[5][ 9] += -  1.0/2.0;
-
-   
-  /* d2 xSpecies / dr ds */
-  for (i=0; i<NR; i++) {
-    for (j=0; j<NS; j++) {
-      d2xSpeciesdrds[  0][i][j] = -dcoeffds[j];  /* SiO2 x 2 */
-      d2xSpeciesdrds[i+1][i][j] =  dcoeffds[j];  /* other    */
-    }
-  }
   
-  /* Total moles of species relative to 1 mole of basis components */
-  denom = 1.0;          /* Special case */
-  
-  dDenomds[ 0] = 0.0; /* CaAl2O4      x 2/3 */
-  dDenomds[ 1] = 0.0; /* NaAlSiO4     x 2/3 */
-  dDenomds[ 2] = 0.0; /* KAlSiO4      x 2/3 */
-  dDenomds[ 3] = 0.0; /* CaAl2Si2O8   x 2/5 */
-  dDenomds[ 4] = 0.0; /* KAlSi4O10    x 1/3 */
-  dDenomds[ 5] = 0.0; /* Si1/4OH      x 8/5 */
-  dDenomds[ 6] = 0.0; /* Al1/3OH      x 3/2 */
-  dDenomds[ 7] = 0.0; /* Ca1/2OH      x 4/3 */
-  dDenomds[ 8] = 0.0; /* NaOH        	    */
-  dDenomds[ 9] = 0.0; /* KOH         	    */
-  dDenomds[10] = 0.0; /* Na2SiO3      x 2/3 */
-  dDenomds[11] = 0.0; /* NaAlO2      	    */
-  dDenomds[12] = 0.0; /* KAlO2       	    */
-  dDenomds[13] = 0.0; /* Na2Si2O5     x 1/2 */
-  dDenomds[14] = 0.0; /* K2Si2O5      x 1/2 */
-  dDenomds[15] = 0.0; /* K2Si4O9      x 1/3 */
-  dDenomds[16] = 0.0; /* K4Al2Si4O13  x 1/5 */
-  dDenomds[17] = 0.0; /* Al6Si2O13    x 1/4 */
-  dDenomds[18] = 0.0; /* Na4SiO4      x 2/5 */
-  dDenomds[19] = 0.0; /* Na2Si4O9     x 1/3 */
-  dDenomds[20] = 0.0; /* Na4Al2SiO7   x 2/7 */
-  dDenomds[21] = 0.0; /* Na2Al4SiO9   x 2/7 */
-  dDenomds[22] = 0.0; /* NaAlSi4O10   x 1/3 */
-  dDenomds[23] = 0.0; /* K2Al4Si2O11  x 1/4 */
-  dDenomds[24] = 0.0; /* KAlSi2O6     x 1/2 */
-  dDenomds[25] = 0.0; /* K4Al2Si8O6   x 1/7 */
-  dDenomds[26] = 0.0; /* K4Al2Si16O6  x 1/11*/
-  dDenomds[27] = 0.0; /* K2Al4Si4O6   x 1/5 */
-  dDenomds[28] = 0.0; /* K2Al4Si8O6   x 1/7 */
-
-  nSpecies = 1.0/denom;
-  for (i=0; i<NS; i++) {
-    dnSpeciesds[i] = -1.0*dDenomds[i]/(denom*denom);
-    for (j=0; j<NS; j++) {
-      d2nSpeciesds2[i][j] = 2.0*dDenomds[i]*dDenomds[j]/(denom*denom*denom);
-      for (k=0; k<NS; k++) d3nSpeciesds3[i][j][k] = -6.0*dDenomds[i]*dDenomds[j]*dDenomds[k]/(denom*denom*denom*denom);
+  if (firstTime) {
+    /* d2 xSpecies / dr ds */
+    for (i=0; i<NR; i++) {
+      for (j=0; j<NS; j++) {
+        d2xSpeciesdrds[  0][i][j] = 0.0;  /* SiO2 x 2 */
+        d2xSpeciesdrds[i+1][i][j] = 0.0;  /* other    */
+      }
     }
+    nSpecies = 1.0;
+    for (i=0; i<NS; i++) dnSpeciesds[i] = 0.0;
+    for (i=0; i<NS; i++) for (j=0; j<NS; j++) d2nSpeciesds2[i][j] = 0.0;
+    for (i=0; i<NS; i++) for (j=0; j<NS; j++) for (k=0; k<NS; k++) d3nSpeciesds3[i][j][k] = 0.0;
+    firstTime = FALSE;
   }
 
   /* Catch bad input data */
   for (i=0;  i<NE; i++) okay &= (xSpecies[i] >= 0.0);
   if (!okay) return okay;
 
-/*for (i=NS; i<NT; i++) okay &= ((s[i] > (10.0*DBL_EPSILON)) && (s[i] < (1.0-10.0*DBL_EPSILON))); */
+  /*for (i=NS; i<NT; i++) okay &= ((s[i] > (10.0*DBL_EPSILON)) && (s[i] < (1.0-10.0*DBL_EPSILON))); */
   for (i=NS; i<NT; i++) okay &= ((s[i] > DBL_MIN) && (s[i] < (1.0-10.0*DBL_EPSILON)));
   if (okay && (NT > NS)) {
     double yIV = 1.0;
@@ -1242,43 +1163,68 @@ static void loadTaylorCoefficients(double t, double p)
       d2vdp2s[j]  += taylorCoeff[i+1][1+NR+j+1]*D2VDP2(i);
     }
   }
+  /* Code below is optimized for speed of execution ... */
   for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
-    Gconst += taylorCoeff[n+NE+1][0+1]*W(n);
-    Hconst += taylorCoeff[n+NE+1][0+1]*WH(n);
-    Sconst += taylorCoeff[n+NE+1][0+1]*WS(n);
-    Vconst += taylorCoeff[n+NE+1][0+1]*WV(n);
-    m = 0;
-    for (j=0, m=0; j<NR; j++) {
-      gr[j] += taylorCoeff[n+NE+1][1+j+1]*W(n);
-      hr[j] += taylorCoeff[n+NE+1][1+j+1]*WH(n);
-      sr[j] += taylorCoeff[n+NE+1][1+j+1]*WS(n);
-      vr[j] += taylorCoeff[n+NE+1][1+j+1]*WV(n);
-      for (k=j; k<NR; k++, m++) {
-        grr[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*W(n);
-        hrr[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WH(n);
-        srr[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WS(n);
-        vrr[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WV(n);
+    register double w  = W(n);
+    if (w != 0.0) {
+      Gconst += taylorCoeff[n+NE+1][0+1]*w;
+      for (j=0, m=0; j<NR; j++) {
+        gr[j] += taylorCoeff[n+NE+1][1+j+1]*w;
+        for (k=j; k<NR; k++, m++) grr[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*w;
+        for (k=0; k<NS; k++, m++) grs[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*w;
       }
-      for (k=0; k<NS; k++, m++) {
-        grs[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*W(n);
-        hrs[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WH(n);
-        srs[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WS(n);
-        vrs[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WV(n);
-      }
-    }
-    for (j=0; j<NS; j++) {
-      gs[j] += taylorCoeff[n+NE+1][1+NR+j+1]*W(n);
-      hs[j] += taylorCoeff[n+NE+1][1+NR+j+1]*WH(n);
-      ss[j] += taylorCoeff[n+NE+1][1+NR+j+1]*WS(n);
-      vs[j] += taylorCoeff[n+NE+1][1+NR+j+1]*WV(n);
-      for (k=j; k<NS; k++, m++) {
-        gss[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*W(n);
-        hss[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WH(n);
-        sss[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WS(n);
-        vss[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*WV(n);
+      for (j=0; j<NS; j++) {
+        gs[j] += taylorCoeff[n+NE+1][1+NR+j+1]*w;
+        for (k=j; k<NS; k++, m++) if (taylorCoeff[n+NE+1][1+NR+NS+m+1] != 0.0) gss[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*w;
       }
     }
   }
+  for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
+    register double wh = WH(n);
+    if (wh != 0.0) {
+      Hconst += taylorCoeff[n+NE+1][0+1]*wh;
+      for (j=0, m=0; j<NR; j++) {
+        hr[j] += taylorCoeff[n+NE+1][1+j+1]*wh;
+        for (k=j; k<NR; k++, m++) hrr[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*wh;
+        for (k=0; k<NS; k++, m++) hrs[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*wh;
+      }
+      for (j=0; j<NS; j++) {
+        hs[j] += taylorCoeff[n+NE+1][1+NR+j+1]*wh;
+        for (k=j; k<NS; k++, m++) if (taylorCoeff[n+NE+1][1+NR+NS+m+1] != 0.0) hss[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*wh;
+      }
+    }
+  }
+  for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
+    register double ws = WS(n);
+    if (ws != 0.0) {
+      Sconst += taylorCoeff[n+NE+1][0+1]*ws;
+      for (j=0, m=0; j<NR; j++) {
+        sr[j] += taylorCoeff[n+NE+1][1+j+1]*ws;
+        for (k=j; k<NR; k++, m++) srr[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*ws;
+        for (k=0; k<NS; k++, m++) srs[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*ws;
+      }
+      for (j=0; j<NS; j++) {
+        ss[j] += taylorCoeff[n+NE+1][1+NR+j+1]*ws;
+        for (k=j; k<NS; k++, m++) if (taylorCoeff[n+NE+1][1+NR+NS+m+1] != 0.0) sss[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*ws;
+      }
+    }
+  }
+  for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
+    register double wv = WV(n);
+    if (wv != 0.0) {
+      Vconst += taylorCoeff[n+NE+1][0+1]*wv;
+      for (j=0, m=0; j<NR; j++) {
+        vr[j] += taylorCoeff[n+NE+1][1+j+1]*wv;
+        for (k=j; k<NR; k++, m++) vrr[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*wv;
+        for (k=0; k<NS; k++, m++) vrs[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*wv;
+      }
+      for (j=0; j<NS; j++) {
+        vs[j] += taylorCoeff[n+NE+1][1+NR+j+1]*wv;
+        for (k=j; k<NS; k++, m++) if (taylorCoeff[n+NE+1][1+NR+NS+m+1] != 0.0) vss[j][k] += taylorCoeff[n+NE+1][1+NR+NS+m+1]*wv;
+      }
+    }
+  }
+  /* ... end speed optimization. */
   
   for (j=0; j<NR; j++) for (k=j+1; k<NR; k++) {
      grr[k][j]       = grr[j][k];
@@ -8831,42 +8777,40 @@ static void fillD2GDSDW (double r[NR], double s[NT], double t, double p, double 
    **************************************/
   for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
     for (ii=0; ii<NS; ii++) {
-      m = 0;
       for (j=0, m=0; j<NR; j++) {
-    	for (k=j; k<NR; k++, m++) ;
-    	for (k=0; k<NS; k++, m++) {
-	  if (k == ii) {
-    	    result[ii][     n] +=	  taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
-    	    result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
+    	m += NR - j;
+    	m += ii;
+    	result[ii][     n] +=	      taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
+    	result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
 #ifndef USE_GHIORSO_KRESS_MODEL
-    	    result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
+    	result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
 #endif /* USE_GHIORSO_KRESS_MODEL */
-    	  }
-	}
+	m += NS - ii; 
       }
       result[ii][     n] += 	    taylorCoeff[n+NE+1][1+NR+ii+1];
       result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+ii+1];
 #ifndef USE_GHIORSO_KRESS_MODEL
       result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+ii+1];
 #endif /* USE_GHIORSO_KRESS_MODEL */
-      for (j=0; j<NS; j++) {
-    	for (k=j; k<NS; k++, m++) {
-	  if (j == ii) {
-    	    result[ii][     n] +=	  taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
-    	    result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
+
+      for (k=ii; k<NS; k++) {
+	m = ii*NS+(k+1)-(ii+1)*(ii+2)/2+(ii+1)-1+NR*(NR-1)/2+NR+NR*NS;
+    	result[ii][     n] +=         taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
+    	result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
 #ifndef USE_GHIORSO_KRESS_MODEL
-    	    result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
+    	result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
 #endif /* USE_GHIORSO_KRESS_MODEL */
-	  }
-	  if (k == ii) {
-    	    result[ii][     n] +=	  taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
-    	    result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
-#ifndef USE_GHIORSO_KRESS_MODEL
-    	    result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
-#endif /* USE_GHIORSO_KRESS_MODEL */
-	  }
-    	}
       }
+      
+      for (j=0; j<=ii; j++) {
+	m = j*NS+(ii+1)-(j+1)*(j+2)/2+(j+1)-1+NR*(NR-1)/2+NR+NR*NS;
+    	result[ii][     n] +=         taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
+    	result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
+#ifndef USE_GHIORSO_KRESS_MODEL
+    	result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
+#endif /* USE_GHIORSO_KRESS_MODEL */
+      }
+      
     }
   }
 
@@ -13251,18 +13195,18 @@ actLiq(int mask, double t, double p, double *x,
     double dsdt[NT], dsdw[NT][3*NP], d2sdtdw[NT][3*NP], gs[NA][NT];
     int k, l, m;
     
-    fillD2GDSDW   (r, s, t, p, d2gdsdw);
-    fillD2GDTDW   (r, s, t, p, d2gdtdw);
-    fillD2GDRDS   (r, s, t, p, d2gdrds);
-    fillD2GDS2    (r, s, t, p, d2gds2);
-    fillD2GDSDT   (r, s, t, p, d2gdsdt);
-    fillD3GDRDS2  (r, s, t, p, d3gdrds2);
+    fillD2GDSDW   (r, s, t, p, d2gdsdw);  
+    fillD2GDTDW   (r, s, t, p, d2gdtdw);  
+    fillD2GDRDS   (r, s, t, p, d2gdrds);  
+    fillD2GDS2    (r, s, t, p, d2gds2);   
+    fillD2GDSDT   (r, s, t, p, d2gdsdt);  
+    fillD3GDRDS2  (r, s, t, p, d3gdrds2); 
     fillD3GDRDSDT (r, s, t, p, d3gdrdsdt);
     fillD3GDRDSDW (r, s, t, p, d3gdrdsdw);
     fillD3GDRDTDW (r, s, t, p, d3gdrdtdw);
-    fillD3GDS3    (r, s, t, p, d3gds3);
-    fillD3GDS2DT  (r, s, t, p, d3gds2dt);
-    fillD3GDS2DW  (r, s, t, p, d3gds2dw);
+    fillD3GDS3    (r, s, t, p, d3gds3);   
+    fillD3GDS2DT  (r, s, t, p, d3gds2dt); 
+    fillD3GDS2DW  (r, s, t, p, d3gds2dw); 
     fillD3GDSDTDW (r, s, t, p, d3gdsdtdw);
     
     /* fill Darken structures */

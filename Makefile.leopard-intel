@@ -46,7 +46,7 @@ AR       = ar
 ARFLAGS  = rv
 CC       = gcc
 FC       = fort77
-CFLAGS   = -ansi -c -fno-common -g -O2 -Wall $(BATCH) \
+CFLAGS   = -ansi -c -fno-common -g -O3 -falign-loops=16 -ftree-vectorize -mfpmath=sse -Wall $(BATCH) \
            -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__
 FFLAGS   = -O2
 RANLIB   = ranlib
