@@ -84,8 +84,11 @@ int isOrthopyroxene(double t, double p, double *r);
 int isPigeonite(double t, double p, double *r);
 
 /* FORTRAN calling conventions from C */
+#ifdef __APPLE__
+#define F2C 1
+#endif
 
-#ifndef __APPLE__
+#ifndef F2C /* __APPLE__ */
 #include <g2c.h>
 #else
 #include <f2c.h>
@@ -1153,7 +1156,7 @@ static void writeParameters(char *paramFileName)
 #ifndef __MSDOS__
 #define DIR_DELIM "/"
 #else
-#define DIR_DELIM "\"
+#define DIR_DELIM "\\"
 #endif
 
 Boolean preclb(XtPointer client_data)

@@ -1,0 +1,82 @@
+# =================================================================================
+# Makefile for build of the xMELTS package on Intel (MacOS X - 10.5.1)
+#   $Id: Makefile.leopard-intel,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
+# =================================================================================
+
+# Compilation options
+# ===================
+
+PROTO   = XTFUNCPROTO
+VLIST   = _NO_DRAWINGA_VLIST_PARENT
+ENTRYC  = _NO_WHITE_TEXTW
+ACEPLT  =     GRACE_PIPE
+
+# Environment variable defaults
+# =============================
+
+MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
+MELTS_DATA_DIR         = .
+MELTS_DATA_SUFFIX      = *.xml
+MELTS_HARDWARE_VERSION = 2.66 GHz Intel Core 2 Duo 
+MELTS_INPUT_DIR        = .
+MELTS_INPUT_SUFFIX     = *.melts
+MELTS_MOTIF_VERSION    = 3.0
+MELTS_OS_VERSION       = Ubuntu - 9.04
+MELTS_OUTPUT_FILE      = melts.out
+MELTS_WWW_BROWSER      = 
+MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
+MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
+MELTS_X_VERSION        = X.Org/OpenMotif3
+MELTS_RELEASE_DATE     = October 2009
+MELTS_RELEASE_VERSION  = 5.6.0 (Mac OS X - 10.5.8, gcc 4.3)
+
+# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
+# ======================================================================================
+
+INCC   = /usr/include
+INCXM  = /usr/include
+INCX   = /usr/X11R6/include
+INCF2C = /usr/include
+INCXML = /usr/include/libxml2
+
+# Compiler choice and flags - Do not delete the $(BATCH) macro
+# ============================================================
+
+AR       = ar
+ARFLAGS  = rv
+CC       = gcc
+FC       = fort77
+CFLAGS   = -ansi -c -fno-common -g -O2 -Wall $(BATCH) \
+           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__ \
+	   -DF2C -D_FORTIFY_SOURCE=0
+FFLAGS   = -O2
+RANLIB   = ranlib
+#For Mac need 'ranlib -s'; For Linux need 'ar -s' or just 'ranlib'
+#RANLIBFG = -s
+RM       = rm
+RMFLAGS  = -f
+MPICC      = mpicc
+MPICCFLAGS = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
+MPILDFLAGS = -L/usr/lib -lmpi
+
+# Loader flags (default is shared, add -non_shared)
+# =================================================
+
+LDFLAGS = 
+
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
+# for staticcally linked OpenMotif3 use    instead of -L/sw/lib -lMrm -lXm
+# ========================================================================================================
+
+LIBS    = -L/usr/lib -lMrm -lXm -L/usr/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
+          ../port3/libport.a /usr/lib/libf2c.a
+PUBLIBS = /usr/lib/libMrm.a /usr/lib/libXm.a -L/usr/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
+          ../port3/libport.a /usr/lib/libf2c.a
+LIBF2C = /usr/lib/libf2c.a
+LIBXML = -L/usr/lib -lxml2
+LIBBATCH = /usr/lib/libxml2.a -L/usr/lib -lz -liconv
+
+include Makefile.common
+
+# end of Makefile
+# ===============

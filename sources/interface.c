@@ -162,7 +162,7 @@ const char *interface_ver(void) { return "$Id: interface.c,v 1.13 2009/05/14 04:
 #ifndef __MSDOS__
 #define DIR_DELIM "/"
 #else
-#define DIR_DELIM "\"
+#define DIR_DELIM "\\"
 #endif
 #endif
 
