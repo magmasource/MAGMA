@@ -447,7 +447,7 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
       /* Fill in eos derivatives using finite differences */
       if(testLiq (EIGHTH, t, p, 0, 0, NULL, NULL, NULL, NULL) && testLiq (SEVENTH, t, p, 0, 0, NULL, NULL, NULL, NULL)) {
         if (useTregression) {
-#ifdef NEVER_DEFINED
+#ifndef NEVER_DEFINED
 	  actLiq (EIGHTH | NINTH, t, p, rLiq, NULL, dmudt, NULL, d2mudtdw);
 #else
           actLiq (EIGHTH, t, p, rLiq, NULL, dmudt, NULL, NULL);

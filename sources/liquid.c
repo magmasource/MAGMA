@@ -1110,18 +1110,44 @@ static void loadTaylorCoefficients(double t, double p)
   Gconst       = 0.0;  Hconst       = 0.0;  Sconst       = 0.0;  Vconst       = 0.0;            
   CPconst      = 0.0;  DCPDTconst   = 0.0;  DVDTconst    = 0.0;  DVDPconst    = 0.0;         
   D2VDT2const  = 0.0;  D2VDTDPconst = 0.0;  D2VDP2const  = 0.0;  
+
+  memset(gr      , '\0', (size_t) NR*sizeof(double));
+  memset(hr      , '\0', (size_t) NR*sizeof(double));
+  memset(sr      , '\0', (size_t) NR*sizeof(double));
+  memset(vr      , '\0', (size_t) NR*sizeof(double));
+  memset(cpr     , '\0', (size_t) NR*sizeof(double));
+  memset(dcpdtr  , '\0', (size_t) NR*sizeof(double));
+  memset(dvdtr   , '\0', (size_t) NR*sizeof(double));
+  memset(dvdpr   , '\0', (size_t) NR*sizeof(double));
+  memset(d2vdt2r , '\0', (size_t) NR*sizeof(double));
+  memset(d2vdtdpr, '\0', (size_t) NR*sizeof(double));
+  memset(d2vdp2r , '\0', (size_t) NR*sizeof(double));
   for (j=0; j<NR; j++) { 
-    gr[j]       = 0.0;  hr[j]       = 0.0;  sr[j]       = 0.0;  vr[j]       = 0.0; 
-    cpr[j]      = 0.0;  dcpdtr[j]   = 0.0;  dvdtr[j]    = 0.0;  dvdpr[j]    = 0.0; 
-    d2vdt2r[j]  = 0.0;  d2vdtdpr[j] = 0.0;  d2vdp2r[j]  = 0.0; 
-    for (k=0; k<NR; k++) { grr[j][k] = 0.0;  hrr[j][k] = 0.0;  srr[j][k] = 0.0;  vrr[j][k] = 0.0; }
-    for (k=0; k<NS; k++) { grs[j][k] = 0.0;  hrs[j][k] = 0.0;  srs[j][k] = 0.0;  vrs[j][k] = 0.0; }
+    memset(grr[j], '\0', (size_t) NR*sizeof(double));
+    memset(hrr[j], '\0', (size_t) NR*sizeof(double));
+    memset(srr[j], '\0', (size_t) NR*sizeof(double));
+    memset(vrr[j], '\0', (size_t) NR*sizeof(double));
+    memset(grs[j], '\0', (size_t) NS*sizeof(double));
+    memset(hrs[j], '\0', (size_t) NS*sizeof(double));
+    memset(srs[j], '\0', (size_t) NS*sizeof(double));
+    memset(vrs[j], '\0', (size_t) NS*sizeof(double));
   }
+  memset(gs      , '\0', (size_t) NS*sizeof(double));
+  memset(hs      , '\0', (size_t) NS*sizeof(double));
+  memset(ss      , '\0', (size_t) NS*sizeof(double));
+  memset(vs      , '\0', (size_t) NS*sizeof(double));
+  memset(cps     , '\0', (size_t) NS*sizeof(double));
+  memset(dcpdts  , '\0', (size_t) NS*sizeof(double));
+  memset(dvdts   , '\0', (size_t) NS*sizeof(double));
+  memset(dvdps   , '\0', (size_t) NS*sizeof(double));
+  memset(d2vdt2s , '\0', (size_t) NS*sizeof(double));
+  memset(d2vdtdps, '\0', (size_t) NS*sizeof(double));
+  memset(d2vdp2s , '\0', (size_t) NS*sizeof(double));
   for (j=0; j<NS; j++) {
-    gs[j]       = 0.0;  hs[j]       = 0.0;  ss[j]       = 0.0;  vs[j]       = 0.0; 
-    cps[j]      = 0.0;  dcpdts[j]   = 0.0;  dvdts[j]    = 0.0;  dvdps[j]    = 0.0; 
-    d2vdt2s[j]  = 0.0;  d2vdtdps[j] = 0.0;  d2vdp2s[j]  = 0.0; 
-    for (k=0; k<NS; k++) { gss[j][k] = 0.0;  hss[j][k] = 0.0;  sss[j][k] = 0.0;  vss[j][k] = 0.0; }
+    memset(gss[j], '\0', (size_t) NS*sizeof(double));
+    memset(hss[j], '\0', (size_t) NS*sizeof(double));
+    memset(sss[j], '\0', (size_t) NS*sizeof(double));
+    memset(vss[j], '\0', (size_t) NS*sizeof(double));
   }
        
   for (i=0; i<NE; i++) {
@@ -8094,7 +8120,7 @@ static void fillDGDR (double r[NR], double s[NT], double t, double p, double *re
 static void fillDGDS (double r[NR], double s[NT], double t, double p, double *result) {
   int i, j;
 
-  for (j=0; j<NT; j++) result[j] = 0.0;
+  memset(result, '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) {
@@ -8162,8 +8188,8 @@ static void fillDGDW (double r[NR], double s[NT], double t, double p, double *re
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (i=0; i<(3*NP); i++) result[i] = 0.0;
-
+  memset(result, '\0', (size_t) 3*NP*sizeof(double));
+  
   /**************************************
    * NW W parameters solution are first *
    **************************************/
@@ -8291,7 +8317,7 @@ static void fillD2GDR2 (double r[NR], double s[NT], double t, double p, double *
 static void fillD2GDRDS (double r[NR], double s[NT], double t, double p, double **result) {
   int i, j, k;
 
-  for (j=0; j<NR; j++) for (k=0; k<NT; k++) result[j][k] = 0.0;
+  for (j=0; j<NR; j++) memset(result[j], '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NR; i++) for (j=0; j<NS; j++) result[i][j] = grs[i][j];
@@ -8423,7 +8449,7 @@ static void fillD2GDRDW (double r[NR], double s[NT], double t, double p, double 
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (ii=0; ii<NR; ii++) for (i=0; i<(3*NP); i++) result[ii][i] = 0.0;
+  for (ii=0; ii<NR; ii++) memset(result[ii], '\0', (size_t) 3*NP*sizeof(double));
 
   /**************************************
    * NW W parameters solution are first *
@@ -8483,7 +8509,7 @@ static void fillD2GDRDW (double r[NR], double s[NT], double t, double p, double 
 static void fillD2GDS2 (double r[NR], double s[NT], double t, double p, double **result) {
   int i, j, k;
   
-  for (j=0; j<NT; j++) for (k=0; k<NT; k++) result[j][k] = 0.0;
+  for (j=0; j<NT; j++) memset(result[j], '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) {
@@ -8552,7 +8578,7 @@ static void fillD2GDS2 (double r[NR], double s[NT], double t, double p, double *
 static void fillD2GDSDT (double r[NR], double s[NT], double t, double p, double *result) {
   int i, j;
 
-  for (i=0; i<NT; i++) result[i] = 0.0;
+  memset(result, '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) {
@@ -8619,7 +8645,7 @@ static void fillD2GDSDP (double r[NR], double s[NT], double t, double p, double 
   double dvds[NS], d2vdsdt[NS], dcRefds[NS], d2cdsdt[NS], dmwds[NS], dcpds[NS], d3vdsdp2[NS], d4vdsdp3[NS], d5vdsdp4[NS], denom;
   int i, j;
 
-  for (i=0; i<NT; i++) result[i] = 0.0;
+  memset(result, '\0', (size_t) NT*sizeof(double));
 
   /* Convert input composition (r) to liquid moles (m)  */
   for (i=0, m[0] = 1.0; i<NR; i++) { m[0] -= r[i]; m[i+1] = r[i]; }
@@ -8749,7 +8775,7 @@ static void fillD2GDSDP (double r[NR], double s[NT], double t, double p, double 
 static void fillD2GDSDP (double r[NR], double s[NT], double t, double p, double *result) {
   int i, j;
 
-  for (i=0; i<NT; i++) result[i] = 0.0;
+  memset(result, '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) {
@@ -8770,7 +8796,7 @@ static void fillD2GDSDW (double r[NR], double s[NT], double t, double p, double 
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (ii=0; ii<NT; ii++) for (i=0; i<(3*NP); i++) result[ii][i] = 0.0;
+  for (ii=0; ii<NT; ii++) memset(result[ii], '\0', (size_t) 3*NP*sizeof(double));
 
   /**************************************
    * NW W parameters solution are first *
@@ -8785,7 +8811,7 @@ static void fillD2GDSDW (double r[NR], double s[NT], double t, double p, double 
 #ifndef USE_GHIORSO_KRESS_MODEL
     	result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
 #endif /* USE_GHIORSO_KRESS_MODEL */
-	m += NS - ii; 
+        m += NS - ii; 
       }
       result[ii][     n] += 	    taylorCoeff[n+NE+1][1+NR+ii+1];
       result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+ii+1];
@@ -8795,20 +8821,24 @@ static void fillD2GDSDW (double r[NR], double s[NT], double t, double p, double 
 
       for (k=ii; k<NS; k++) {
 	m = ii*NS+(k+1)-(ii+1)*(ii+2)/2+(ii+1)-1+NR*(NR-1)/2+NR+NR*NS;
-    	result[ii][     n] +=         taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
-    	result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
+	if (taylorCoeff[n+NE+1][1+NR+NS+m+1] != 0.0) {
+    	  result[ii][     n] +=         taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
+    	  result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
 #ifndef USE_GHIORSO_KRESS_MODEL
-    	result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
+    	  result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
 #endif /* USE_GHIORSO_KRESS_MODEL */
+        }
       }
       
       for (j=0; j<=ii; j++) {
 	m = j*NS+(ii+1)-(j+1)*(j+2)/2+(j+1)-1+NR*(NR-1)/2+NR+NR*NS;
-    	result[ii][     n] +=         taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
-    	result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
+	if (taylorCoeff[n+NE+1][1+NR+NS+m+1] != 0.0) {
+    	  result[ii][     n] +=         taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
+    	  result[ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
 #ifndef USE_GHIORSO_KRESS_MODEL
-    	result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
+    	  result[ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
 #endif /* USE_GHIORSO_KRESS_MODEL */
+        }
       }
       
     }
@@ -8881,7 +8911,7 @@ static void fillD2GDTDW (double r[NR], double s[NT], double t, double p, double 
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (i=0; i<(3*NP); i++) result[i] = 0.0;
+  memset(result, '\0', (size_t) 3*NP*sizeof(double));
 
   /**************************************
    * NW W parameters solution are first *
@@ -8911,21 +8941,20 @@ static void fillD2GDTDW (double r[NR], double s[NT], double t, double p, double 
 }
 
 static void fillD2GDPDW (double r[NR], double s[NT], double t, double p, double *result) {
-  int i;
 
   /*******************************
    * Parameters: NW WH(), NE H() *
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (i=0; i<(3*NP); i++) result[i] = 0.0;
+  memset(result, '\0', (size_t) 3*NP*sizeof(double));
 
   /**************************************
    * NW W parameters solution are first *
    **************************************/
 #ifndef USE_GHIORSO_KRESS_MODEL
 {
-  int j, k, l, m, n
+  int i, j, k, l, m, n
   for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
     result[2*NP+n] += taylorCoeff[n+NE+1][0+1];
     m = 0;
@@ -8978,7 +9007,7 @@ static void fillD3GDR3 (double r[NR], double s[NT], double t, double p, double *
   int i, j, k, l;
 
   /* Taylor expansion and standard state terms */
-  for (i=0; i<NR; i++) for (j=0; j<NR; j++) for (k=0; k<NR; k++) result[i][j][k] = 0.0;
+  for (i=0; i<NR; i++) for (j=0; j<NR; j++) memset(result[i][j], '\0', (size_t) NR*sizeof(double));
 
   /* Configurational entropy terms */
   for (j=0; j<NR; j++) {
@@ -9491,7 +9520,7 @@ static void fillD3GDR2DS (double r[NR], double s[NT], double t, double p, double
   int i, j, k, l;
 
   /* Taylor expansion and standard state terms */
-  for (i=0; i<NR; i++) for (j=0; j<NR; j++) for (k=0; k<NT; k++) result[i][j][k] = 0.0;
+  for (i=0; i<NR; i++) for (j=0; j<NR; j++) memset(result[i][j], '\0', (size_t) NT*sizeof(double));
 
   /* Configurational entropy terms */
   for (j=0; j<NR; j++) {
@@ -10060,7 +10089,7 @@ static void fillD3GDRDS2 (double r[NR], double s[NT], double t, double p, double
   int i, j, k, l;
 
   /* Taylor expansion and standard state terms */
-  for (i=0; i<NR; i++) for (j=0; j<NT; j++) for (k=0; k<NT; k++) result[i][j][k] = 0.0;
+  for (i=0; i<NR; i++) for (j=0; j<NT; j++) memset(result[i][j], '\0', (size_t) NT*sizeof(double));
 
   /* Configurational entropy terms */
   for (j=0; j<NR; j++) {
@@ -10095,7 +10124,7 @@ static void fillD3GDRDS2 (double r[NR], double s[NT], double t, double p, double
 static void fillD3GDRDSDT (double r[NR], double s[NT], double t, double p, double **result) {
   int i, j, k;
 
-  for (i=0; i<NR; i++) for (j=0; j<NT; j++) result[i][j] = 0.0;
+  for (i=0; i<NR; i++) memset(result[i], '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NR; i++) for (j=0; j<NS; j++) result[i][j] = -srs[i][j];
@@ -10128,7 +10157,7 @@ static void fillD3GDRDSDT (double r[NR], double s[NT], double t, double p, doubl
 static void fillD3GDRDSDP (double r[NR], double s[NT], double t, double p, double **result) {
   int i, j;
 
-  for (i=0; i<NR; i++) for (j=0; j<NT; j++) result[i][j] = 0.0;
+  for (i=0; i<NR; i++) memset(result[i], '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NR; i++) for (j=0; j<NS; j++) result[i][j] = vrs[i][j];
@@ -10212,7 +10241,7 @@ static void fillD3GDS3 (double r[NR], double s[NT], double t, double p, double *
 static void fillD3GDS2DT (double r[NR], double s[NT], double t, double p, double **result) {
   int i, j, k;
 
-  for (i=0; i<NS; i++) for (j=0; j<NS; j++) result[i][j] = 0.0;
+  for (i=0; i<NS; i++) memset(result[i], '\0', (size_t) NS*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) for (j=i; j<NS; j++) {
@@ -10259,7 +10288,7 @@ static void fillD3GDS2DT (double r[NR], double s[NT], double t, double p, double
 static void fillD3GDS2DP (double r[NR], double s[NT], double t, double p, double **result) {
   int i, j;
 
-  for (i=0; i<NS; i++) for (j=0; j<NS; j++) result[i][j] = 0.0;
+  for (i=0; i<NS; i++) memset(result[i], '\0', (size_t) NS*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) for (j=i; j<NS; j++) {
@@ -10271,7 +10300,7 @@ static void fillD3GDS2DP (double r[NR], double s[NT], double t, double p, double
 static void fillD3GDSDT2 (double r[NR], double s[NT], double t, double p, double *result) {
   int i;
 
-  for (i=0; i<NT; i++) result[i] = 0.0;
+  memset(result, '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) result[i] = -cps[i]/t;
@@ -10288,7 +10317,7 @@ static void fillD3GDSDT2 (double r[NR], double s[NT], double t, double p, double
 static void fillD3GDSDTDP (double r[NR], double s[NT], double t, double p, double *result) {
   int i;
 
-  for (i=0; i<NT; i++) result[i] = 0.0;
+  memset(result, '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) result[i] = dvdts[i];
@@ -10305,7 +10334,7 @@ static void fillD3GDSDTDP (double r[NR], double s[NT], double t, double p, doubl
 static void fillD3GDSDP2 (double r[NR], double s[NT], double t, double p, double *result) {
   int i;
 
-  for (i=0; i<NT; i++) result[i] = 0.0;
+  memset(result, '\0', (size_t) NT*sizeof(double));
 
   /* Taylor expansion and standard state terms */
   for (i=0; i<NS; i++) result[i] = dvdps[i];
@@ -11184,7 +11213,7 @@ static void fillD3GDS2DW (double r[NR], double s[NT], double t, double p, double
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (k=0; k<NT; k++) for (j=0; j<NT; j++) for (i=0; i<(3*NP); i++) result[k][j][i] = 0.0;
+  for (k=0; k<NT; k++) for (j=0; j<NT; j++) memset(result[k][j], '\0', (size_t) 3*NP*sizeof(double));
 
   /**************************************
    * NW W parameters solution are first *
@@ -11192,28 +11221,20 @@ static void fillD3GDS2DW (double r[NR], double s[NT], double t, double p, double
   for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
     for (ii=0; ii<NS; ii++) {
       for (iii=ii; iii<NS; iii++) {
-        m = 0;
-        for (j=0, m=0; j<NR; j++) {
-    	  for (k=j; k<NR; k++, m++) ;
-    	  for (k=0; k<NS; k++, m++) ;
+	m = ii*NS+(iii+1)-(ii+1)*(ii+2)/2+(ii+1)-1+NR*(NR-1)/2+NR+NR*NS;
+	if (taylorCoeff[n+NE+1][1+NR+NS+m+1] != 0.0) {
+    	  result[ii][iii][     n] +=	   taylorCoeff[n+NE+1][1+NR+NS+m+1];
+    	  result[ii][iii][  NP+n] +=	-t*taylorCoeff[n+NE+1][1+NR+NS+m+1];
+#ifndef USE_GHIORSO_KRESS_MODEL
+    	  result[ii][iii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1];
+#endif /* USE_GHIORSO_KRESS_MODEL */
+    	  result[iii][ii][     n] +=	   taylorCoeff[n+NE+1][1+NR+NS+m+1];
+    	  result[iii][ii][  NP+n] +=	-t*taylorCoeff[n+NE+1][1+NR+NS+m+1];
+#ifndef USE_GHIORSO_KRESS_MODEL
+    	  result[iii][ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1];
+#endif /* USE_GHIORSO_KRESS_MODEL */
         }
-        for (j=0; j<NS; j++) {
-    	  for (k=j; k<NS; k++, m++) {
-	    if ((j == ii) && (k == iii)) {
-    	      result[ii][iii][     n] +=	 taylorCoeff[n+NE+1][1+NR+NS+m+1];
-    	      result[ii][iii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1];
-#ifndef USE_GHIORSO_KRESS_MODEL
-    	      result[ii][iii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1];
-#endif /* USE_GHIORSO_KRESS_MODEL */
-    	      result[iii][ii][     n] +=	 taylorCoeff[n+NE+1][1+NR+NS+m+1];
-    	      result[iii][ii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1];
-#ifndef USE_GHIORSO_KRESS_MODEL
-    	      result[iii][ii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1];
-#endif /* USE_GHIORSO_KRESS_MODEL */
-            }
-	  }
-    	}
-      }
+      } 
     }
   }
 
@@ -11227,27 +11248,28 @@ static void fillD3GDSDTDW (double r[NR], double s[NT], double t, double p, doubl
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (ii=0; ii<NT; ii++) for (i=0; i<(3*NP); i++) result[ii][i] = 0.0;
+  for (ii=0; ii<NT; ii++) memset(result[ii], '\0', (size_t) 3*NP*sizeof(double));
 
   /**************************************
    * NW W parameters solution are first *
    **************************************/
   for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
     for (ii=0; ii<NS; ii++) {
-      m = 0;
       for (j=0, m=0; j<NR; j++) {
-    	for (k=j; k<NR; k++, m++) ;
-    	for (k=0; k<NS; k++, m++) {
-	  if (k == ii) result[ii][  NP+n] += -taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
-	}
+    	m += NR - j;
+    	m += ii;
+    	result[ii][  NP+n] += -taylorCoeff[n+NE+1][1+NR+NS+m+1]*r[j];
+	m += NS - ii;    
       }
-      result[ii][  NP+n] += -taylorCoeff[n+NE+1][1+NR+ii+1];
-      for (j=0; j<NS; j++) {
-    	for (k=j; k<NS; k++, m++) {
-	  if (j == ii) result[ii][  NP+n] += -taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
-	  if (k == ii) result[ii][  NP+n] += -taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
-    	}
-      }
+      result[ii][  NP+n] += -taylorCoeff[n+NE+1][1+NR+ii+1];      
+      for (k=ii; k<NS; k++) {
+	m = ii*NS+(k+1)-(ii+1)*(ii+2)/2+(ii+1)-1+NR*(NR-1)/2+NR+NR*NS;
+    	result[ii][  NP+n] += -taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[k];
+      }      
+      for (j=0; j<=ii; j++) {
+	m = j*NS+(ii+1)-(j+1)*(j+2)/2+(j+1)-1+NR*(NR-1)/2+NR+NR*NS;
+    	result[ii][  NP+n] += -taylorCoeff[n+NE+1][1+NR+NS+m+1]*s[j];
+      }      
     }
   }
 
@@ -11267,7 +11289,7 @@ static void fillD3GDRDTDW (double r[NR], double s[NT], double t, double p, doubl
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (ii=0; ii<NR; ii++) for (i=0; i<(3*NP); i++) result[ii][i] = 0.0;
+  for (ii=0; ii<NR; ii++) memset(result[ii], '\0', (size_t) 3*NP*sizeof(double));
 
   /**************************************
    * NW W parameters solution are first *
@@ -11297,14 +11319,14 @@ static void fillD3GDRDTDW (double r[NR], double s[NT], double t, double p, doubl
 }
 
 static void fillD3GDRDSDW (double r[NR], double s[NT], double t, double p, double ***result) {
-  int i, j, k, l, m, n, ii, iii;
+  int i, l, m, n, ii, iii;
 
   /*******************************
    * Parameters: NW WH(), NE H() *
    *             NW WS(), NE S() *
    *             NW WV(), NE V() *
    *******************************/
-  for (iii=0; iii<NR; iii++) for (ii=0; ii<NT; ii++) for (i=0; i<(3*NP); i++) result[iii][ii][i] = 0.0;
+  for (iii=0; iii<NR; iii++) for (ii=0; ii<NT; ii++) memset(result[iii][ii], '\0', (size_t) 3*NP*sizeof(double));
 
   /**************************************
    * NW W parameters solution are first *
@@ -11312,19 +11334,12 @@ static void fillD3GDRDSDW (double r[NR], double s[NT], double t, double p, doubl
   for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
     for (ii=0; ii<NR; ii++) {
       for (iii=0; iii<NS; iii++) {
-        m = 0;
-        for (j=0, m=0; j<NR; j++) {
-    	  for (k=j; k<NR; k++, m++) ;
-    	  for (k=0; k<NS; k++, m++) {
-	    if ((j == ii) && (k == iii)) {
-    	      result[ii][iii][     n] +=         taylorCoeff[n+NE+1][1+NR+NS+m+1];
-    	      result[ii][iii][  NP+n] +=      -t*taylorCoeff[n+NE+1][1+NR+NS+m+1];
+	m = (ii+1)*NR-ii*(ii+1)/2+iii*(ii+1)+(NS-iii)*ii;
+    	result[ii][iii][     n] +=	   taylorCoeff[n+NE+1][1+NR+NS+m+1];
+    	result[ii][iii][  NP+n] +=	-t*taylorCoeff[n+NE+1][1+NR+NS+m+1];
 #ifndef USE_GHIORSO_KRESS_MODEL
-    	      result[ii][iii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1];
+    	result[ii][iii][2*NP+n] += (p-1.0)*taylorCoeff[n+NE+1][1+NR+NS+m+1];
 #endif /* USE_GHIORSO_KRESS_MODEL */
-    	    }
-	  }
-        }
       }
     }
   }
@@ -12222,8 +12237,11 @@ order(int mask, double t, double p, double r[NR],
         int k, l;
         temp[i] = d3gdsdtdw[i][j];
 	for (k=0; k<NT; k++) {
-	  temp[i] += d3gds2dw[i][k][j]*dsdt[k] + d3gds2dt[i][k]*dsdw[k][j];
-	  for (l=0; l<NT; l++) temp[i] += d3gds3[i][k][l]*dsdt[k]*dsdw[l][j];
+	  if (dsdw[k][j] != 0.0) temp[i] += d3gds2dt[i][k]*dsdw[k][j];
+	  if (dsdt[k] != 0.0) {
+	    temp[i] += d3gds2dw[i][k][j]*dsdt[k];
+	    for (l=0; l<NT; l++) if (dsdw[l][j] != 0.0) temp[i] += d3gds3[i][k][l]*dsdt[k]*dsdw[l][j];
+	  }
 	}
       }
       lubksb(ptToD2gds2, NT, indexLU, temp-1);
@@ -12232,8 +12250,11 @@ order(int mask, double t, double p, double r[NR],
         int k, l;
         temp[i] = d3gdsdtdw[i][j+NP];
 	for (k=0; k<NT; k++) {
-	  temp[i] += d3gds2dw[i][k][j+NP]*dsdt[k] + d3gds2dt[i][k]*dsdw[k][j+NP];
-	  for (l=0; l<NT; l++) temp[i] += d3gds3[i][k][l]*dsdt[k]*dsdw[l][j+NP];
+	  if (dsdw[k][j+NP] != 0.0) temp[i] += d3gds2dt[i][k]*dsdw[k][j+NP];
+	  if (dsdt[k] != 0.0) {
+	    temp[i] += d3gds2dw[i][k][j+NP]*dsdt[k];
+	    for (l=0; l<NT; l++) if (dsdw[l][j+NP] != 0.0) temp[i] += d3gds3[i][k][l]*dsdt[k]*dsdw[l][j+NP];
+	  }
 	}
       }
       lubksb(ptToD2gds2, NT, indexLU, temp-1);
@@ -12242,8 +12263,11 @@ order(int mask, double t, double p, double r[NR],
         int k, l;
         temp[i] = d3gdsdtdw[i][j+2*NP];
 	for (k=0; k<NT; k++) {
-	  temp[i] += d3gds2dw[i][k][j+2*NP]*dsdt[k] + d3gds2dt[i][k]*dsdw[k][j+2*NP];
-	  for (l=0; l<NT; l++) temp[i] += d3gds3[i][k][l]*dsdt[k]*dsdw[l][j+2*NP];
+	  if (dsdw[k][j+2*NP] != 0.0) temp[i] += d3gds2dt[i][k]*dsdw[k][j+2*NP];
+	  if (dsdt[k] != 0.0) {
+	    temp[i] += d3gds2dw[i][k][j+2*NP]*dsdt[k];
+	    for (l=0; l<NT; l++) if (dsdw[l][j+2*NP] != 0.0) temp[i] += d3gds3[i][k][l]*dsdt[k]*dsdw[l][j+2*NP];
+	  }
 	}
       }
       lubksb(ptToD2gds2, NT, indexLU, temp-1);
@@ -13228,7 +13252,7 @@ actLiq(int mask, double t, double p, double *x,
 	    for (l=0; l<NT; l++) dw[i][j] += fr[i][k]*d3gdrdsdt[k][l]*dsdw[l][j];
 	    for (m=0; m<NT; m++) {
 	      dw[i][j] += fr[i][k]*(d3gdrdsdw[k][m][j]*dsdt[m]+d2gdrds[k][m]*d2sdtdw[m][j]);
-	      for (l=0; l<NT; l++) dw[i][j] += fr[i][k]*d3gdrds2[k][m][l]*dsdw[l][j]*dsdt[m];
+	      for (l=0; l<NT; l++) if (dsdw[l][j] != 0.0) dw[i][j] += fr[i][k]*d3gdrds2[k][m][l]*dsdw[l][j]*dsdt[m];
 	    }
 	  }	  
           for (k=0; k<NT; k++) {
@@ -13236,7 +13260,7 @@ actLiq(int mask, double t, double p, double *x,
 	    for (l=0; l<NT; l++) dw[i][j] += gs[i][k]*d3gds2dt[k][l]*dsdw[l][j];
 	    for (m=0; m<NT; m++) {
 	      dw[i][j] += gs[i][k]*(d3gds2dw[k][m][j]*dsdt[m]+d2gds2[k][m]*d2sdtdw[m][j]);
-	      for (l=0; l<NT; l++) dw[i][j] += gs[i][k]*d3gds3[k][m][l]*dsdw[l][j]*dsdt[m];
+	      for (l=0; l<NT; l++) if (dsdw[l][j] != 0.0) dw[i][j] += gs[i][k]*d3gds3[k][m][l]*dsdw[l][j]*dsdt[m];
 	    }
 	  }	  
 	} else dw[i][j] = 0.0;
@@ -13249,7 +13273,7 @@ actLiq(int mask, double t, double p, double *x,
 	    for (l=0; l<NT; l++) dw[i][NP+j] += fr[i][k]*d3gdrdsdt[k][l]*dsdw[l][NP+j];
 	    for (m=0; m<NT; m++) {
 	      dw[i][NP+j] += fr[i][k]*(d3gdrdsdw[k][m][NP+j]*dsdt[m]+d2gdrds[k][m]*d2sdtdw[m][NP+j]);
-	      for (l=0; l<NT; l++) dw[i][NP+j] += fr[i][k]*d3gdrds2[k][m][l]*dsdw[l][NP+j]*dsdt[m];
+	      for (l=0; l<NT; l++) if (dsdw[l][NP+j] != 0.0) dw[i][NP+j] += fr[i][k]*d3gdrds2[k][m][l]*dsdw[l][NP+j]*dsdt[m];
 	    }
 	  }	  
           for (k=0; k<NT; k++) {
@@ -13257,7 +13281,7 @@ actLiq(int mask, double t, double p, double *x,
 	    for (l=0; l<NT; l++) dw[i][NP+j] += gs[i][k]*d3gds2dt[k][l]*dsdw[l][NP+j];
 	    for (m=0; m<NT; m++) {
 	      dw[i][NP+j] += gs[i][k]*(d3gds2dw[k][m][NP+j]*dsdt[m]+d2gds2[k][m]*d2sdtdw[m][NP+j]);
-	      for (l=0; l<NT; l++) dw[i][NP+j] += gs[i][k]*d3gds3[k][m][l]*dsdw[l][NP+j]*dsdt[m];
+	      for (l=0; l<NT; l++) if (dsdw[l][NP+j] != 0.0) dw[i][NP+j] += gs[i][k]*d3gds3[k][m][l]*dsdw[l][NP+j]*dsdt[m];
 	    }
 	  }	  
 	} else dw[i][NP+j] = 0.0;
@@ -13270,7 +13294,7 @@ actLiq(int mask, double t, double p, double *x,
 	    for (l=0; l<NT; l++) dw[i][2*NP+j] += fr[i][k]*d3gdrdsdt[k][l]*dsdw[l][2*NP+j];
 	    for (m=0; m<NT; m++) {
 	      dw[i][2*NP+j] += fr[i][k]*(d3gdrdsdw[k][m][2*NP+j]*dsdt[m]+d2gdrds[k][m]*d2sdtdw[m][2*NP+j]);
-	      for (l=0; l<NT; l++) dw[i][2*NP+j] += fr[i][k]*d3gdrds2[k][m][l]*dsdw[l][2*NP+j]*dsdt[m];
+	      for (l=0; l<NT; l++) if (dsdw[l][2*NP+j] != 0.0) dw[i][2*NP+j] += fr[i][k]*d3gdrds2[k][m][l]*dsdw[l][2*NP+j]*dsdt[m];
 	    }
 	  }	  
           for (k=0; k<NT; k++) {
@@ -13278,7 +13302,7 @@ actLiq(int mask, double t, double p, double *x,
 	    for (l=0; l<NT; l++) dw[i][2*NP+j] += gs[i][k]*d3gds2dt[k][l]*dsdw[l][2*NP+j];
 	    for (m=0; m<NT; m++) {
 	      dw[i][2*NP+j] += gs[i][k]*(d3gds2dw[k][m][2*NP+j]*dsdt[m]+d2gds2[k][m]*d2sdtdw[m][2*NP+j]);
-	      for (l=0; l<NT; l++) dw[i][2*NP+j] += gs[i][k]*d3gds3[k][m][l]*dsdw[l][2*NP+j]*dsdt[m];
+	      for (l=0; l<NT; l++) if (dsdw[l][2*NP+j] != 0.0) dw[i][2*NP+j] += gs[i][k]*d3gds3[k][m][l]*dsdw[l][2*NP+j]*dsdt[m];
 	    }
 	  }	  
 	} else dw[i][2*NP+j] = 0.0;
