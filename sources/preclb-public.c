@@ -74,7 +74,11 @@ static void grace_error_function(const char *msg)
 }
 #endif /* GRACE_PIPE */
 
-#ifndef __APPLE__
+#ifdef __APPLE__
+#define F2C 1
+#endif
+
+#ifndef F2C /* __APPLE__ */
 #include <g2c.h>
 #else
 #include <f2c.h>

@@ -24,9 +24,18 @@ const char *preclb_slave_ver(void) { return "$Id: preclb_slave.c,v 1.40 2009/05/
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include <malloc/malloc.h>
 
 #ifndef __APPLE__
+#include <malloc.h>
+#else
+#include <malloc/malloc.h>
+#endif
+
+#ifdef __APPLE__
+#define F2C 1
+#endif
+
+#ifndef F2C /* __APPLE__ */
 #include <g2c.h>
 #else
 #include <f2c.h>

@@ -407,7 +407,9 @@ int getInputDataFromFile(char *fileName)
     } else if (!strncmp(line, "initial temperature: ",   MIN(len,21))) {
       if (sscanf(&line[21], "%f", &temporary) == EOF) { READ_ERROR }
       tpValues[TP_PADB_INDEX_T_INITIAL].value = (double) temporary;
+      tpValues[TP_PADB_INDEX_T_INITIAL].value += 273.15;
       updateStatusADB(STATUS_ADB_INDEX_T, &(tpValues[TP_PADB_INDEX_T_INITIAL].value));
+      tpValues[TP_PADB_INDEX_T_INITIAL].value -= 273.15;
 
 /* -> final temperature record */
     } else if (!strncmp(line, "final temperature: ",     MIN(len,19))) {

@@ -175,7 +175,7 @@ int isOrthopyroxene(double t, double p, double *r);
 #ifndef __MSDOS__
 #define DIR_DELIM "/"
 #else
-#define DIR_DELIM "\"
+#define DIR_DELIM "\\"
 #endif
 
 int main(int argc, char **argv)

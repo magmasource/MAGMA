@@ -685,14 +685,14 @@ static double func(      /* returned value, ith residual if notcomp == FALSE */
       for (j=0; j<nr; j++) if (fabs(tVec[j]) < 10.0*DBL_EPSILON) tVec[j] = 0.0;
     }
     if (!liquidMode) {
-      if(!(*solids[solidID].test)(FIFTH, t, p, (int) NULL, (int) NULL,
+      if(!(*solids[solidID].test)(FIFTH, t, p, 0, 0,
             (char **) NULL, (char **) NULL, tVec, (double *) NULL)) {
         *notcomp = TRUE; return 0.0;
       }
     (*solids[solidID].activity)(FIRST, t, p, tVec, activity, (double *) NULL,
       (double **) NULL);
     } else {
-      if (!testLiq(FIFTH, t, p, (int) NULL, (int) NULL,
+      if (!testLiq(FIFTH, t, p, 0, 0,
           (char **) NULL, (char **) NULL, tVec, (double *) NULL))
         { *notcomp = TRUE; return 0.0; }
       actLiq(FIRST, t, p, tVec, activity, NULL, NULL, NULL);
@@ -746,11 +746,11 @@ static double gmix(double lambda, int *notcomp)
 
   for (i=0; i<nr; i++) finalR[i] = refR[i] + lambda*searchR[i];
   if (!liquidMode) {
-    if (!(*solids[solidID].test)(FIFTH, t, p, (int) NULL, (int) NULL,
+    if (!(*solids[solidID].test)(FIFTH, t, p, 0, 0,
          (char **) NULL, (char **) NULL, finalR, (double *) NULL))
       { *notcomp = TRUE; return 0.0; }
   } else {
-    if (!testLiq(FIFTH, t, p, (int) NULL, (int) NULL,
+    if (!testLiq(FIFTH, t, p, 0, 0,
          (char **) NULL, (char **) NULL, finalR, (double *) NULL))
       { *notcomp = TRUE; return 0.0; }
   }

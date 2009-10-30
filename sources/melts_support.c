@@ -336,7 +336,7 @@ void InitComputeDataStruct(void)
          }
       }
    }
-   gaussj(invOOt, nc, (double**) NULL, (int) NULL); 
+   gaussj(invOOt, nc, (double**) NULL, 0); 
 
    /* Compute the (nc-1 by nls-1) matrix O L(t)                              */
 
@@ -420,7 +420,7 @@ void InitComputeDataStruct(void)
          }
       }
    }
-   gaussj(invLLt, nlc, (double**) NULL, (int) NULL); 
+   gaussj(invLLt, nlc, (double**) NULL, 0); 
 
    /* Compute the rectangular (nlc-1 by nc-1) matrix L O(t)                  */
 
