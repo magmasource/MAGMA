@@ -1,3 +1,4 @@
+
 # =================================================================================
 # Makefile for build of the xMELTS package on Linux (Ubuntu - 9.04)
 #   $Id: Makefile.leopard-intel,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
@@ -48,7 +49,9 @@ CC       = gcc
 FC       = fort77
 CFLAGS   = -ansi -c -fno-common -g -O2 -Wall $(BATCH) \
            -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__ \
-	   -DF2C -D_FORTIFY_SOURCE=0
+	   -DF2C 
+# Buffer overflow fixed so no need for this anymore
+# -D_FORTIFY_SOURCE=0
 FFLAGS   = -O2
 RANLIB   = ranlib
 #For Mac need 'ranlib -s'; For Linux need 'ar -s' or just 'ranlib'
