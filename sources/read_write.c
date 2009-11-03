@@ -276,7 +276,7 @@ static char *defFileName;
 
 int getInputDataFromFile(char *fileName) 
 {
-  static char compositionEntry[] = { "     \0" };
+  static char compositionEntry[] = { "       \0" };
   static char *label;
   static XmString  cstring1, cstring2, cstring3;
   static FILE *input = NULL;
