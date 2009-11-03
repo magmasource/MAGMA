@@ -505,7 +505,7 @@ dispFld(int mask, double t, double p, double *x,
   if (mask & FIRST) {
     char *string = strcpy((char *) malloc((size_t) (strlen(masterString)+1)*sizeof(char)), masterString);
     double totAl, totCa, totNa, totK, totSi;
-    char n[5];
+    char n[6];
     int i;
 
     totK   = 1.0 - r[0] - r[1];
