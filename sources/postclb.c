@@ -160,22 +160,22 @@ static void updatePostclbOutliersDisplay(
      (text[8])[na*9] = '\0';
    }
 
-   (void) sprintf(text[0], "%-10.10s", component);
-   (void) sprintf(text[1], "%4.4d",    nLiq);
-   (void) sprintf(text[2], "%8.2f",    stdDep);
-   (void) sprintf(text[3], "%8.2f",    stdRes);
-   (void) sprintf(text[4], "%8.3f",    logfO2);
-   (void) sprintf(text[5], "%8.2f",    T);
-   (void) sprintf(text[6], "%8.3f",    P);
+   (void) snprintf(text[0], 11, "%-10.10s", component);
+   (void) snprintf(text[1],  5, "%4.4d",    nLiq);
+   (void) snprintf(text[2],  9, "%8.2f",    stdDep);
+   (void) snprintf(text[3],  9, "%8.2f",    stdRes);
+   (void) snprintf(text[4],  9, "%8.3f",    logfO2);
+   (void) snprintf(text[5],  9, "%8.2f",    T);
+   (void) snprintf(text[6],  9, "%8.3f",    P);
 
    if (Afn == NULL) {
-     (void) sprintf(text[7], "%8.8s", "        ");
+     (void) snprintf(text[7], 9, "%8.8s", "        ");
    } else {
-     (void) sprintf(text[7], "%8.3f", *Afn);
+     (void) snprintf(text[7], 9, "%8.3f", *Afn);
    }
 
-   if (moleFrac == NULL || curSolid >= npc) for (i=0; i<na; i++)                  (void) sprintf(&(text[8])[i*9], " %8.8s", "        ");
-   else                                     for (i=0; i<solids[curSolid].na; i++) (void) sprintf(&(text[8])[i*9], " %8.5f", moleFrac[i]);
+   if (moleFrac == NULL || curSolid >= npc) for (i=0; i<na; i++)                  (void) snprintf(&(text[8])[i*9], 10, " %8.8s", "        ");
+   else                                     for (i=0; i<solids[curSolid].na; i++) (void) snprintf(&(text[8])[i*9], 10, " %8.5f", moleFrac[i]);
 
    for (i=0; i<9; i++) vLine[i].textP = text[i];
    
@@ -216,22 +216,22 @@ static void updatePostclbStatisticsDisplay(
    if (text[14] == NULL) { text[14] = (char *) malloc((size_t)  9*sizeof(char)); (text[14])[ 8] = '\0'; }
    if (text[15] == NULL) { text[15] = (char *) malloc((size_t)  9*sizeof(char)); (text[15])[ 8] = '\0'; }
 
-   (void) sprintf(text[ 0], "%-10.10s", component);
-   (void) sprintf(text[ 1], "%4.4d",    n);
-   (void) sprintf(text[ 2], "%8.2f",    aveDep);
-   (void) sprintf(text[ 3], "%8.2f",    aveRes);
-   (void) sprintf(text[ 4], "%8.3f",    avefo2);
-   (void) sprintf(text[ 5], "%8.2f",    aveT);
-   (void) sprintf(text[ 6], "%8.3f",    aveP);
-   (void) sprintf(text[ 7], "%8.2f",    stdDep);
-   (void) sprintf(text[ 8], "%8.2f",    stdRes);
-   (void) sprintf(text[ 9], "%8.3f",    stdfo2);
-   (void) sprintf(text[10], "%8.2f",    stdT);
-   (void) sprintf(text[11], "%8.3f",    stdP);
-   (void) sprintf(text[12], "%8.5f",    rResDep);
-   (void) sprintf(text[13], "%8.5f",    rResfo2);
-   (void) sprintf(text[14], "%8.5f",    rResT);
-   (void) sprintf(text[15], "%8.5f",    rResP);
+   (void) snprintf(text[ 0], 11, "%-10.10s", component);
+   (void) snprintf(text[ 1],  5, "%4.4d",    n);
+   (void) snprintf(text[ 2],  9, "%8.2f",    aveDep);
+   (void) snprintf(text[ 3],  9, "%8.2f",    aveRes);
+   (void) snprintf(text[ 4],  9, "%8.3f",    avefo2);
+   (void) snprintf(text[ 5],  9, "%8.2f",    aveT);
+   (void) snprintf(text[ 6],  9, "%8.3f",    aveP);
+   (void) snprintf(text[ 7],  9, "%8.2f",    stdDep);
+   (void) snprintf(text[ 8],  9, "%8.2f",    stdRes);
+   (void) snprintf(text[ 9],  9, "%8.3f",    stdfo2);
+   (void) snprintf(text[10],  9, "%8.2f",    stdT);
+   (void) snprintf(text[11],  9, "%8.3f",    stdP);
+   (void) snprintf(text[12],  9, "%8.5f",    rResDep);
+   (void) snprintf(text[13],  9, "%8.5f",    rResfo2);
+   (void) snprintf(text[14],  9, "%8.5f",    rResT);
+   (void) snprintf(text[15],  9, "%8.5f",    rResP);
 
    for (i=0; i<16; i++) vLine[i].textP = text[i];
    
@@ -241,7 +241,10 @@ static void updatePostclbStatisticsDisplay(
 
 Boolean postclb(XtPointer client_data)
 {
-  static double *xvec = NULL, *yvec = NULL, *tvec = NULL, *pvec = NULL, *fo2vec = NULL, *wtSiO2vec = NULL, *wtALKvec = NULL;
+  static double *xvec = NULL, *yvec = NULL, *tvec = NULL, *pvec = NULL, *fo2vec = NULL, *wtSiO2vec = NULL;
+#ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
+  static double *wtALKvec = NULL;
+#endif
   static int    *mtypevec = NULL;
   static char   **name = NULL;
   static XmString valueCS = NULL;

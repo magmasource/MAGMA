@@ -582,14 +582,14 @@ static void computeNormalized(void)
 {
   int j;
   double sum  = 0.0, value;
-  char entry[] = { "     \0" };
+  char entry[8];
 
   for (j=0; j<nc; j++) sum += compositionValues[j].value;
   if (sum > 0.0) {
     for (j=0; j<nc; j++) {
       compositionValues[j].value *= 100.0/sum;
       if (compositionValues[j].value != 0.0) {
-        sprintf(entry, "%7.4f", compositionValues[j].value);
+        (void) snprintf(entry, 8, "%7.4f", compositionValues[j].value);
         XmTextSetString(compositionValues[j].name, entry);
       }
     }
@@ -602,7 +602,7 @@ static void computeRedoxState(void)
 {
   int i, j;
   Arg arg_set[20];
-  char compositionEntry[] = { "     \0" };
+  char compositionEntry[8];
   double log10fo2, *moles, p, sum, t;
 
   if (tp_padb == NULL) 
@@ -661,7 +661,7 @@ static void computeRedoxState(void)
     compositionValues[j].value = moles[j]*bulkSystem[j].mw;
     sum += compositionValues[j].value;
     if (compositionValues[j].value != 0.0) {
-      sprintf(compositionEntry, "%7.4f", compositionValues[j].value);
+      (void) snprintf(compositionEntry, 8, "%7.4f", compositionValues[j].value);
       XmTextSetString(compositionValues[j].name, compositionEntry);
     }
   }

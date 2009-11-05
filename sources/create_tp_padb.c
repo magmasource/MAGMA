@@ -552,10 +552,10 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
     if (atof(number) != 0.0) {
       double value = atof(number);
       output = (char *) malloc((unsigned) ((CHAR_LENGTH+1)*sizeof(char)));
-      if      ((value < 99999.99) && (value > -9999.99) ) (void) sprintf(output, "%*.2f", CHAR_LENGTH, value);
-      else if ((value < 999999.9) && (value > -99999.9) ) (void) sprintf(output, "%*.1f", CHAR_LENGTH, value);
-      else if ((value < 9999999.) && (value > -999999.) ) (void) sprintf(output, "%*.0f", CHAR_LENGTH, value);
-      else                                                       sprintf(output, "%*.0f", CHAR_LENGTH, 0.0);
+      if      ((value < 99999.99) && (value > -9999.99) ) (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, value);
+      else if ((value < 999999.9) && (value > -99999.9) ) (void) snprintf(output, CHAR_LENGTH+1, "%*.1f", CHAR_LENGTH, value);
+      else if ((value < 9999999.) && (value > -999999.) ) (void) snprintf(output, CHAR_LENGTH+1, "%*.0f", CHAR_LENGTH, value);
+      else                                                (void) snprintf(output, CHAR_LENGTH+1, "%*.0f", CHAR_LENGTH, 0.0);
     } else {
       output = (char *) malloc((unsigned) sizeof(char));
       output[0] = '\0';
@@ -605,10 +605,10 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 }
 
 #define UPDATE(index, value) \
-  if	  ((value < 99999.99) && (value > -9999.99) ) (void) sprintf(output, "%*.2f", CHAR_LENGTH, value); \
-  else if ((value < 999999.9) && (value > -99999.9) ) (void) sprintf(output, "%*.1f", CHAR_LENGTH, value); \
-  else if ((value < 9999999.) && (value > -999999.) ) (void) sprintf(output, "%*.0f", CHAR_LENGTH, value); \
-  else                                                (void) sprintf(output, "%*.2f", CHAR_LENGTH, 0.0  ); \
+  if	  ((value < 99999.99) && (value > -9999.99) ) (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, value); \
+  else if ((value < 999999.9) && (value > -99999.9) ) (void) snprintf(output, CHAR_LENGTH+1, "%*.1f", CHAR_LENGTH, value); \
+  else if ((value < 9999999.) && (value > -999999.) ) (void) snprintf(output, CHAR_LENGTH+1, "%*.0f", CHAR_LENGTH, value); \
+  else                                                (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, 0.0  ); \
   XmTextSetString(textF[index], output);
 
 static void button_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
@@ -775,7 +775,7 @@ static void map_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
     for (i=0; i<ENTRIES; i++) {
       if (tpValues[i].value == 0.0) XmTextSetString(textF[i], "");
       else {
-        (void) sprintf(output, "%*.2f", CHAR_LENGTH, tpValues[i].value);
+        (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, tpValues[i].value);
         XmTextSetString(textF[i], output);
       }
     }

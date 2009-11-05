@@ -344,8 +344,8 @@ dispLiq_v34(int mask, double t, double p, double *x,
   )
 {
   double *r = x;
-  char *string = (char *) malloc((unsigned) (7+NA*12)*sizeof(char));
-  (void) sprintf(string, "wt%% ox:");
+  char *string = (char *) malloc((unsigned) (7+NA*12+1)*sizeof(char));
+  (void) snprintf(string, 8, "wt%% ox:");
 
   if (mask & FIRST) {    /* assume maximum string length is 5 */
     const char *NAMES[NA]    = { "SiO2"  , "TiO2"  , "Al2O3" , "Fe2O3" , "Cr2O3" ,
@@ -365,10 +365,8 @@ dispLiq_v34(int mask, double t, double p, double *x,
     if (oxSum != 0.0) for (i=0, n=7; i<NA; i++)
       if (oxVal[i] != 0.0) {
         double w = 100.0*oxVal[i]/oxSum;
-        (void) sprintf(&string[n], " %s %.2f", NAMES[i], w);
-        if      (w < 1.0)  n += 5+strlen(NAMES[i]);
-        else if (w < 10.0) n += 6+strlen(NAMES[i]);
-        else               n += 7+strlen(NAMES[i]);
+        int nn = snprintf(&string[n], 13, " %s %.2f", NAMES[i], w);
+        n += (nn < 13) ? nn : 12;
       }
 
     *formula = string;

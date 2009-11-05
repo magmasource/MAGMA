@@ -12918,11 +12918,11 @@ dispLiq(int mask, double t, double p, double *x,
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
   if (mask & FIRST) {    /* assume maximum string length is 5 */
-    char *string = (char *) malloc((unsigned) (7+NA*12)*sizeof(char));;
+    char *string = (char *) malloc((unsigned) (7+NA*12+1)*sizeof(char));;
     double m[NA], oxVal[NA], oxSum;
     int i, j, n;
  
-    (void) sprintf(string, "wt%% ox:");
+    (void) snprintf(string, 8, "wt%% ox:");
 
     for (i=0, m[0] = 1.0; i<NR; i++) { m[0] -= r[i]; m[i+1] = r[i]; }
     for (i=0, oxSum=0.0; i<NA; i++) {
@@ -12934,10 +12934,8 @@ dispLiq(int mask, double t, double p, double *x,
     if (oxSum != 0.0) for (i=0, n=7; i<NA; i++)
       if (oxVal[i] != 0.0) {
         double w = 100.0*oxVal[i]/oxSum;
-        (void) sprintf(&string[n], " %s %.2f", bulkSystem[i].label, w);
-        if      (w < 1.0)  n += 5+strlen(bulkSystem[i].label);
-        else if (w < 10.0) n += 6+strlen(bulkSystem[i].label);
-        else               n += 7+strlen(bulkSystem[i].label);
+        int nn = snprintf(&string[n], 13, " %s %.2f", bulkSystem[i].label, w);
+	n += (nn < 13) ? nn : 12;
       }
 
     *formula = string;

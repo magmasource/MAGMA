@@ -561,7 +561,7 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
     number = XmTextGetString(w);
     if (atof(number) != 0.0) {
       output = (char *) malloc((size_t) ((CHAR_LENGTH+1)*sizeof(char)));
-      (void) sprintf(output, "%*.4f", CHAR_LENGTH, atof(number));
+      (void) snprintf(output, CHAR_LENGTH+1, "%*.4f", CHAR_LENGTH, atof(number));
     } else {
       output = (char *) malloc((size_t) sizeof(char));
       output[0] = '\0';
@@ -1288,8 +1288,8 @@ static void map_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 
       output = (char *) malloc((size_t) ((CHAR_LENGTH+1)*sizeof(char)));
       for (i=0; i<NLABELS; i++) {
-        if (value[i] != 0.0) (void) sprintf(output, "%*.2f", CHAR_LENGTH, value[i]);
-        else                 (void) sprintf(output, "%s", " ");
+        if (value[i] != 0.0) (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, value[i]);
+        else                 (void) snprintf(output, 2, "%s", " ");
         XmTextSetString(entries[i].text, output);
       }
 
@@ -1315,8 +1315,8 @@ static void map_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 
     output = (char *) malloc((size_t) ((CHAR_LENGTH+1)*sizeof(char)));
     for (i=0; i<NLABELS; i++) {
-      if (value[i] != 0.0) (void) sprintf(output, "%*.2f", CHAR_LENGTH, value[i]);
-      else                 (void) sprintf(output, "%s", " ");
+      if (value[i] != 0.0) (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, value[i]);
+      else                 (void) snprintf(output, 2, "%s", " ");
       XmTextSetString(entries[i].text, output);
     }
 
@@ -1464,7 +1464,7 @@ static void create_status_adb()
   XmFontListFreeFontContext(context);
 
   if (!XGetFontProperty(font1, XA_POINT_SIZE, &ptSize)) ptSize = 120;
-  sprintf(fontName, "-*-symbol-*-*-*--*-%u-*-*-*-*-*", (unsigned int) ptSize);
+  (void) snprintf(fontName, 33, "-*-symbol-*-*-*--*-%u-*-*-*-*-*", (unsigned int) ptSize);
   font2 = XLoadQueryFont(XtDisplay(topLevel), fontName);
 
   fontlist2 = XmFontListCopy(fontlist1);
@@ -1818,7 +1818,7 @@ static void logfo2_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 
 #define UPDATE(index, value) \
   if ((value) != 0.0) { \
-    sprintf(statusEntry, "%8.2f", (value)); \
+    (void) snprintf(statusEntry, 9, "%8.2f", (value)); \
     csString = XmStringCreateLtoR(statusEntry, "ISO8859-1"); \
   } else csString = XmStringCreateLtoR("", "ISO8859-1"); \
   i = 0; \
@@ -1829,7 +1829,7 @@ static void logfo2_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 void updateStatusADB(int member, XtPointer ptValue)
 {
   XmString csString;
-  static char statusEntry[] = { "        \0" };
+  static char statusEntry[9];
   Arg arg_set[20];
   int i;
 
@@ -1878,7 +1878,7 @@ void updateStatusADB(int member, XtPointer ptValue)
 
   } else if (member == STATUS_ADB_INDEX_QUADRATIC ||
              member == STATUS_ADB_INDEX_LINEAR) {
-    sprintf(statusEntry, "%d", *((int *) ptValue));
+    (void) snprintf(statusEntry, 9, "%d", *((int *) ptValue));
     csString = XmStringCreateLtoR(statusEntry, "ISO8859-1");
     i = 0;
     XtSetArg(arg_set[i], XmNlabelString, csString); i++;

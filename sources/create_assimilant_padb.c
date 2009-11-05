@@ -681,7 +681,7 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
     number = XmTextGetString(w);
     if (atof(number) != 0.0) {
       output = (char *) malloc((unsigned) ((CHAR_LENGTH+1)*sizeof(char)));
-      (void) sprintf(output, "%*.2f", CHAR_LENGTH, atof(number));
+      (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, atof(number));
     } else {
       output = (char *) malloc((unsigned) sizeof(char));
       output[0] = '\0';
@@ -1022,7 +1022,7 @@ static void list_del_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
         (assimilantValues[npc+nc+ASSIM_PADB_INDEX_LIQUID_MASS].value)[curDelNs] 
           == 0.0) XmTextSetString(textP, "");
       else {
-       (void) sprintf(output, "%*.2f", CHAR_LENGTH, 
+       (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, 
        (assimilantValues[npc+nc+ASSIM_PADB_INDEX_LIQUID_MASS].value)[curDelNs]);
        XmTextSetString(textP, output);
       }
@@ -1031,7 +1031,7 @@ static void list_del_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
         if ((assimilantValues[npc+i].value)[curDelNs] == 0.0) 
           XmTextSetString(textC[i], "");
         else {
-          (void) sprintf(output, "%*.2f", CHAR_LENGTH, 
+          (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, 
             (assimilantValues[npc+i].value)[curDelNs]);
           XmTextSetString(textC[i], output);
         }
@@ -1094,7 +1094,7 @@ static void list_del_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
       if ((assimilantValues[curDelIndex].value)[curDelNs] == 0.0) 
         XmTextSetString(textP, "");
       else {
-       (void) sprintf(output, "%*.2f", CHAR_LENGTH, 
+       (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, 
          (assimilantValues[curDelIndex].value)[curDelNs]);
        XmTextSetString(textP, output);
       }
@@ -1103,7 +1103,7 @@ static void list_del_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
         if ((assimilantValues[curDelIndex+1+i].value)[curDelNs] == 0.0) 
           XmTextSetString(textC[i], "");
         else {
-          (void) sprintf(output, "%*.2f", CHAR_LENGTH, 
+          (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, 
             (assimilantValues[curDelIndex+1+i].value)[curDelNs]);
           XmTextSetString(textC[i], output);
         }
@@ -1151,17 +1151,17 @@ static void
 
     output = (char *) malloc((unsigned) ((CHAR_LENGTH+1)*sizeof(char)));
     if ((assimilantValues[npc+nc+ASSIM_PADB_INDEX_MASS].value)[0] != 0.0) {
-      (void) sprintf(output, "%*.2f", CHAR_LENGTH, 
+      (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, 
         (assimilantValues[npc+nc+ASSIM_PADB_INDEX_MASS].value)[0]);
       XmTextSetString(textT[0], output);
     }
     if ((assimilantValues[npc+nc+ASSIM_PADB_INDEX_T].value)[0] != 0.0) {
-      (void) sprintf(output, "%*.2f", CHAR_LENGTH, 
+      (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, 
         (assimilantValues[npc+nc+ASSIM_PADB_INDEX_T].value)[0]);
       XmTextSetString(textT[1], output);
     }
     if ((assimilantValues[npc+nc+ASSIM_PADB_INDEX_INCREMENT].value)[0] != 0.0) {
-      (void) sprintf(output, "%*.2f", CHAR_LENGTH, 
+      (void) snprintf(output, CHAR_LENGTH+1, "%*.2f", CHAR_LENGTH, 
         (assimilantValues[npc+nc+ASSIM_PADB_INDEX_INCREMENT].value)[0]);
       XmTextSetString(textT[2], output);
     }

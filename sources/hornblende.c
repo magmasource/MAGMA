@@ -403,10 +403,10 @@ dispHrn(int mask, double t, double p, double *x,
     totAl  = 1.0-r[1];
     totFe3 = r[1];
 
-    (void) sprintf(n, "%4.2f", totMg);  for (i=0; i<4; i++) string[ 7+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe2); for (i=0; i<4; i++) string[15+i] = n[i];
-    (void) sprintf(n, "%4.2f", totAl);  for (i=0; i<4; i++) string[21+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe3); for (i=0; i<4; i++) string[29+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[ 7+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[15+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totAl);  for (i=0; i<4; i++) string[21+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[29+i] = n[i];
 
     *formula = string;
   }

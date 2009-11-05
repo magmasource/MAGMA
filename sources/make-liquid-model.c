@@ -24,10 +24,10 @@ static char *fracString(double fraction, int *p, int *n, int *d)
   else                { sign = ' '; *p = 1; }
 
   if (frac(fraction, &num, &denom, sqrt(DBL_EPSILON)) < 0.0) {
-    sprintf(string, "%c%7.4f", sign, fraction);
+    (void) snprintf(string, 9, "%c%7.4f", sign, fraction);
   } else {
-    if (num == 1 && denom == 1) sprintf(string, "%c       ", sign);
-    else sprintf(string, "%c%3d/%-3d", sign, num, denom);
+    if (num == 1 && denom == 1) (void) snprintf(string, 9, "%c       ", sign);
+    else (void) snprintf(string, 9, "%c%3d/%-3d", sign, num, denom);
   }
   *n = num; *d = denom;
   return string;
@@ -208,7 +208,7 @@ int main (int argc, char *argv[])
   for (i=0; i<(NV+1); i++) {
     for (j=i+1; j<(NV+1); j++) {
       char label[23];
-      (void) sprintf(label, "W%10.10s-%10.10s", species[i].name, species[j].name);
+      (void) snprintf(label, 23, "W%10.10s-%10.10s", species[i].name, species[j].name);
       n++; initialize (&m[n][1],&names[n], label);
       W(   (species[i].r)[ 0], (species[i].r)[ 1], (species[i].r)[ 2], 
            (species[i].r)[ 3], (species[i].r)[ 4], (species[i].r)[ 5], 

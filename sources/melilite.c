@@ -2003,12 +2003,12 @@ dispMel(int mask, double t, double p, double *x,
     char n[5];
     int i;
 
-    (void) sprintf(n, "%4.2f", totNa );  for (i=0; i<4; i++) string[ 2+i] = n[i];
-    (void) sprintf(n, "%4.2f", totCa );  for (i=0; i<4; i++) string[ 8+i] = n[i];
-    (void) sprintf(n, "%4.2f", totAl );  for (i=0; i<4; i++) string[14+i] = n[i];
-    (void) sprintf(n, "%4.2f", totMg );  for (i=0; i<4; i++) string[20+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe2);  for (i=0; i<4; i++) string[26+i] = n[i];
-    (void) sprintf(n, "%4.2f", totSi );  for (i=0; i<4; i++) string[32+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totNa );  for (i=0; i<4; i++) string[ 2+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totCa );  for (i=0; i<4; i++) string[ 8+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totAl );  for (i=0; i<4; i++) string[14+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMg );  for (i=0; i<4; i++) string[20+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe2);  for (i=0; i<4; i++) string[26+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totSi );  for (i=0; i<4; i++) string[32+i] = n[i];
  
     *formula = string;
   }

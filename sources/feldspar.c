@@ -505,7 +505,7 @@ dispFld(int mask, double t, double p, double *x,
   if (mask & FIRST) {
     char *string = strcpy((char *) malloc((size_t) (strlen(masterString)+1)*sizeof(char)), masterString);
     double totAl, totCa, totNa, totK, totSi;
-    char n[6];
+    char n[5];
     int i;
 
     totK   = 1.0 - r[0] - r[1];
@@ -514,11 +514,11 @@ dispFld(int mask, double t, double p, double *x,
     totAl  = 1.0 + r[1];
     totSi  = 3.0 - r[1];
 
-    (void) sprintf(n, "%4.2f", totK);   for (i=0; i<4; i++) string[ 1+i] = n[i];
-    (void) sprintf(n, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 7+i] = n[i];
-    (void) sprintf(n, "%4.2f", totCa);  for (i=0; i<4; i++) string[13+i] = n[i];
-    (void) sprintf(n, "%4.2f", totAl);  for (i=0; i<4; i++) string[19+i] = n[i];
-    (void) sprintf(n, "%4.2f", totSi);  for (i=0; i<4; i++) string[25+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totK);   for (i=0; i<4; i++) string[ 1+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 7+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[13+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totAl);  for (i=0; i<4; i++) string[19+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totSi);  for (i=0; i<4; i++) string[25+i] = n[i];
 
     *formula = string;
   }

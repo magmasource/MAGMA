@@ -1082,7 +1082,7 @@ int checkStateAgainstInterface(void)
 
 void updateBulkADB(void)
 {
-  static char compositionEntry[] = { "        \0" };
+  static char compositionEntry[9];
   double sum, *temporary;
   int i, j, nl;
   int hasLiquid = (silminState->liquidMass != 0.0);
@@ -1118,7 +1118,7 @@ void updateBulkADB(void)
   for (i=0; i<nc; i++) {
     temporary[i] = (silminState->bulkComp)[i]*bulkSystem[i].mw;
     if (temporary[i] != 0.0) { /* was > */
-      sprintf(compositionEntry, "%8.4f", temporary[i]);
+      (void) snprintf(compositionEntry, 9, "%8.4f", temporary[i]);
       XmTextSetString(compositionValues[i].name, compositionEntry);
       (silminState->dspBulkComp)[i] = atof(compositionEntry);
     }
@@ -1156,9 +1156,9 @@ static void updateCompADBoxides(double *oxVal)
   if (string == NULL) string = (char *) malloc((unsigned) 12*sizeof(char));
                                                   /* 11 == "1000000 ppm" */
   for (i=0; i<nc; i++) {
-    if      (oxVal[i] > 0.1) sprintf(string, "%.3f", oxVal[i]);
-    else if (oxVal[i] > 0.0) sprintf(string, "%.0f ppm", oxVal[i]*10000.0);
-    else                     sprintf(string, "--------");
+    if      (oxVal[i] > 0.1) (void) snprintf(string, 12, "%.3f", oxVal[i]);
+    else if (oxVal[i] > 0.0) (void) snprintf(string, 12, "%.0f ppm", oxVal[i]*10000.0);
+    else                     (void) snprintf(string, 12, "--------");
     /* csString = XmStringCreateLtoR(string, "ISO8859-1"); */
     csString = XmStringCreateLocalized(string);
     XtVaSetValues(compEntries[i].name, XmNlabelString, csString, NULL);
@@ -1226,7 +1226,7 @@ void updateCompADB(void)
       if (clsLiquid[nl].label == (XmString) NULL) {
   	ClsStable *temp;
 	char *label = (char *) malloc((size_t) 10*sizeof(char));
-	(void) sprintf(label, "liquid-%2.2d", nl);
+	(void) snprintf(label, 10, "liquid-%2.2d", nl);
   	temp = updateCompADBaddButton(label);
   	clsLiquid[nl].name  = temp->name;
   	clsLiquid[nl].label = temp->label;
@@ -1468,18 +1468,18 @@ void updateSolidADB(double *ySol, double *yLiq)
 
     for (nl=0; nl<silminState->nLiquidCoexist; nl++) { 
       if (clsLiquid[nl] == (Opaque) NULL) {
-    	sprintf(phaseEntry[0], "<>");
-    	sprintf(phaseEntry[1], "liquid-%2.2d", nl);
-    	sprintf(phaseEntry[2], "%.2f", valLiq[nl]);
-    	sprintf(phaseEntry[3], "%s", "");
-    	sprintf(phaseEntry[4], "%s", "");
-    	for (j=nFieldStatic; j<nField; j++) sprintf(phaseEntry[j], "%s", "");
+    	(void) snprintf(phaseEntry[0],   3, "<>");
+    	(void) snprintf(phaseEntry[1],  16, "liquid-%2.2d", nl);
+    	(void) snprintf(phaseEntry[2],   7, "%.2f", valLiq[nl]);
+    	(void) snprintf(phaseEntry[3],   9, "%s", "");
+    	(void) snprintf(phaseEntry[4], 199, "%s", "");
+    	for (j=nFieldStatic; j<nField; j++) (void) snprintf(phaseEntry[j], 7, "%s", "");
     	for (j=0; j<nField; j++) vLine[j].textP = phaseEntry[j]; 
     	clsLiquid[nl] = VListAddLine((VListWidget) phases, vLine, (nStable == 0) ? VListAddAtTop : nStable);
     	nStable++;
       } else {
     	(void) VListGetLineInfo((VListWidget) phases, clsLiquid[nl], &vLineP, &fieldP, &rowP);
-    	sprintf(phaseEntry[2], "%.2f", valLiq[nl]);
+    	(void) snprintf(phaseEntry[2], 7, "%.2f", valLiq[nl]);
     	VListChangeLineText((VListWidget) phases, VListFieldRowToLine((VListWidget) phases, 2, rowP), phaseEntry[2]);
       }
     }
@@ -1500,13 +1500,13 @@ void updateSolidADB(double *ySol, double *yLiq)
 
     if        (yLiq != NULL && clsAffnLiq == (Opaque) NULL) {
       char *formula;
-      sprintf(phaseEntry[0], "%s",  "");
-      sprintf(phaseEntry[1], "%.15s", "liquid");
-      sprintf(phaseEntry[2], "%s",  "");
-      sprintf(phaseEntry[3], "%.0f", yLiq[nlc-1]);
+      (void) snprintf(phaseEntry[0],  3, "%s",  "");
+      (void) snprintf(phaseEntry[1], 16, "%.15s", "liquid");
+      (void) snprintf(phaseEntry[2],  7, "%s",  "");
+      (void) snprintf(phaseEntry[3],  9, "%.0f", yLiq[nlc-1]);
       dispLiq(FIRST, silminState->T, silminState->P, yLiq, &formula);
       strncpy(phaseEntry[4], formula, 198); free(formula);      
-      for (j=nFieldStatic; j<nField; j++) sprintf(phaseEntry[j], "%s", "");
+      for (j=nFieldStatic; j<nField; j++) (void) snprintf(phaseEntry[j], 7, "%s", "");
       for (j=0; j<nField; j++) vLine[j].textP = phaseEntry[j]; 
       clsAffnLiq = VListAddLine((VListWidget) phases, vLine, (nStable == 0) ? VListAddAtTop : nStable); 
       nStable++;
@@ -1514,7 +1514,7 @@ void updateSolidADB(double *ySol, double *yLiq)
     } else if (yLiq != NULL && clsAffnLiq != (Opaque) NULL) {
       char *formula;
       (void) VListGetLineInfo((VListWidget) phases, clsAffnLiq, &vLineP, &fieldP, &rowP);
-      sprintf(phaseEntry[3], "%.0f", yLiq[nlc-1]);
+      (void) snprintf(phaseEntry[3], 9, "%.0f", yLiq[nlc-1]);
       VListChangeLineText((VListWidget) phases, VListFieldRowToLine((VListWidget) phases, 3, rowP), phaseEntry[3]);
       dispLiq(FIRST, silminState->T, silminState->P, yLiq, &formula);
       strncpy(phaseEntry[4], formula, 198); free(formula);
@@ -1541,31 +1541,31 @@ void updateSolidADB(double *ySol, double *yLiq)
 
       for (k=0; k<ns; k++) { 
         if (clsSolid[i][k] == (Opaque) NULL) {
-          sprintf(phaseEntry[0], "<>");
-          sprintf(phaseEntry[1], "%.15s", solids[i].label);
-          sprintf(phaseEntry[2], "%.2f",  valSol[n]);
-          sprintf(phaseEntry[3], "%s", "");
+          (void) snprintf(phaseEntry[0],  3, "<>");
+          (void) snprintf(phaseEntry[1], 16, "%.15s", solids[i].label);
+          (void) snprintf(phaseEntry[2],  7, "%.2f",  valSol[n]);
+          (void) snprintf(phaseEntry[3],  9, "%s", "");
           (void) strncpy(phaseEntry[4], formSol[n++], 198);
-          if (solids[i].na == 1) for (j=nFieldStatic; j<nField; j++) sprintf(phaseEntry[j], "%s", "");
+          if (solids[i].na == 1) for (j=nFieldStatic; j<nField; j++) (void) snprintf(phaseEntry[j], 7, "%s", "");
           else {
             for (j=0; j<solids[i].na; j++) {
-              sprintf(phaseEntry[nFieldStatic + 2*j],     "%.10s", solids[i+1+j].label);
-              sprintf(phaseEntry[nFieldStatic + 2*j + 1], "%.3f",  (silminState->solidComp)[i+1+j][k]/(silminState->solidComp)[i][k]);
+              (void) snprintf(phaseEntry[nFieldStatic + 2*j],     11, "%.10s", solids[i+1+j].label);
+              (void) snprintf(phaseEntry[nFieldStatic + 2*j + 1],  7, "%.3f",  (silminState->solidComp)[i+1+j][k]/(silminState->solidComp)[i][k]);
             }
-            for (j=(nFieldStatic+2*solids[i].na); j<nField; j++) sprintf(phaseEntry[j], "%s", "");
+            for (j=(nFieldStatic+2*solids[i].na); j<nField; j++) (void) snprintf(phaseEntry[j], 7, "%s", "");
           }
           for (j=0; j<nField; j++) vLine[j].textP = phaseEntry[j]; 
           clsSolid[i][k] = VListAddLine((VListWidget) phases, vLine, (nStable == 0) ? VListAddAtTop : nStable);
           nStable++;
         } else {
           (void) VListGetLineInfo((VListWidget) phases, clsSolid[i][k], &vLineP, &fieldP, &rowP);
-          sprintf(phaseEntry[2], "%.2f", valSol[n]);
+          (void) snprintf(phaseEntry[2], 7, "%.2f", valSol[n]);
           VListChangeLineText((VListWidget) phases, VListFieldRowToLine((VListWidget) phases, 2, rowP), phaseEntry[2]);
           (void) strncpy(phaseEntry[4], formSol[n++], 198);
           VListChangeLineText((VListWidget) phases, VListFieldRowToLine((VListWidget) phases, 4, rowP), phaseEntry[4]);
           if (solids[i].na > 1) {
             for (j=0; j<solids[i].na; j++) {
-              sprintf(phaseEntry[nFieldStatic + 2*j + 1], "%.3f", (silminState->solidComp)[i+1+j][k]/(silminState->solidComp)[i][k]);
+              (void) snprintf(phaseEntry[nFieldStatic + 2*j + 1], 7, "%.3f", (silminState->solidComp)[i+1+j][k]/(silminState->solidComp)[i][k]);
               VListChangeLineText((VListWidget) phases, VListFieldRowToLine((VListWidget) phases, nFieldStatic + 2*j + 1, rowP), phaseEntry[nFieldStatic + 2*j + 1]);
             }
           }
@@ -1589,23 +1589,23 @@ void updateSolidADB(double *ySol, double *yLiq)
 
   for (i=0; i<npc; i++) if (solids[i].type == PHASE) {
     if        (ySol[i] != 0.0 && clsAffn[i] == (Opaque) NULL) {
-      sprintf(phaseEntry[0], "%s",  "");
-      sprintf(phaseEntry[1], "%.15s", solids[i].label);
-      sprintf(phaseEntry[2], "%s",  "");
-      sprintf(phaseEntry[3], "%.0f", ySol[i]);
+      (void) snprintf(phaseEntry[0],  3, "%s",  "");
+      (void) snprintf(phaseEntry[1], 16, "%.15s", solids[i].label);
+      (void) snprintf(phaseEntry[2],  7, "%s",  "");
+      (void) snprintf(phaseEntry[3],  9, "%.0f", ySol[i]);
       if (solids[i].na == 1) {
         (void) strncpy(phaseEntry[4], solids[i].formula, 198);
-        for (j=nFieldStatic; j<nField; j++) sprintf(phaseEntry[j], "%s", "");
+        for (j=nFieldStatic; j<nField; j++) (void) snprintf(phaseEntry[j], 7, "%s", "");
       } else {
         char *formula;
         (*solids[i].convert)(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL, &ySol[i+1], mSol, NULL, NULL, NULL, NULL);
         (*solids[i].display)(FIRST, silminState->T, silminState->P, &ySol[i+1], &formula);
         (void) strncpy(phaseEntry[4], formula, 198); free(formula);
         for (j=0; j<solids[i].na; j++) {
-          sprintf(phaseEntry[nFieldStatic + 2*j], "%.10s", solids[i+1+j].label);
-          sprintf(phaseEntry[nFieldStatic + 2*j + 1], "%.3f", mSol[j]);
+          (void) snprintf(phaseEntry[nFieldStatic + 2*j], 11, "%.10s", solids[i+1+j].label);
+          (void) snprintf(phaseEntry[nFieldStatic + 2*j + 1], 7, "%.3f", mSol[j]);
         }
-        for (j=(nFieldStatic+2*solids[i].na); j<nField; j++) sprintf(phaseEntry[j], "%s", "");
+        for (j=(nFieldStatic+2*solids[i].na); j<nField; j++) (void) snprintf(phaseEntry[j], 7, "%s", "");
       }
       for (j=0; j<nField; j++) vLine[j].textP = phaseEntry[j]; 
       clsAffn[i] = VListAddLine((VListWidget) phases, vLine, ((nStable+nAffn) == 0) ? VListAddAtTop : nStable+nAffn); 
@@ -1613,7 +1613,7 @@ void updateSolidADB(double *ySol, double *yLiq)
 
     } else if (ySol[i] != 0.0 && clsAffn[i] != (Opaque) NULL) {
       (void) VListGetLineInfo((VListWidget) phases, clsAffn[i], &vLineP, &fieldP, &rowP);
-      sprintf(phaseEntry[3], "%.0f", ySol[i]);
+      (void) snprintf(phaseEntry[3], 9, "%.0f", ySol[i]);
       VListChangeLineText((VListWidget) phases, VListFieldRowToLine((VListWidget) phases, 3, rowP), phaseEntry[3]);
       if (solids[i].na > 1) {
         char *formula;
@@ -1622,7 +1622,7 @@ void updateSolidADB(double *ySol, double *yLiq)
         (*solids[i].convert)(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL, &ySol[i+1], mSol, NULL, NULL, NULL, NULL);
         VListChangeLineText((VListWidget) phases, VListFieldRowToLine((VListWidget) phases, 4, rowP), phaseEntry[4]);
         for (j=0; j<solids[i].na; j++) {
-          sprintf(phaseEntry[nFieldStatic + 2*j + 1], "%.3f", mSol[j]);
+          (void) snprintf(phaseEntry[nFieldStatic + 2*j + 1], 7, "%.3f", mSol[j]);
           VListChangeLineText((VListWidget) phases, VListFieldRowToLine((VListWidget) phases, nFieldStatic+2*j+1, rowP), phaseEntry[nFieldStatic+2*j+1]);
         }
       }

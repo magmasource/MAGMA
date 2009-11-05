@@ -618,11 +618,11 @@ dispMaj(int mask, double t, double p, double *x,
     totalAl  = 2.0*(1.0 - r[2]);
     totalSi  = 3.0 + r[2];
 
-    (void) sprintf(n, "%4.2f", totalCa);  for (i=0; i<4; i++) string[ 2+i] = n[i];
-    (void) sprintf(n, "%4.2f", totalFe2); for (i=0; i<4; i++) string[10+i] = n[i];
-    (void) sprintf(n, "%4.2f", totalMg);  for (i=0; i<4; i++) string[16+i] = n[i];
-    (void) sprintf(n, "%4.2f", totalAl);  for (i=0; i<4; i++) string[22+i] = n[i];
-    (void) sprintf(n, "%4.2f", totalSi);  for (i=0; i<4; i++) string[28+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totalCa);  for (i=0; i<4; i++) string[ 2+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totalFe2); for (i=0; i<4; i++) string[10+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totalMg);  for (i=0; i<4; i++) string[16+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totalAl);  for (i=0; i<4; i++) string[22+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totalSi);  for (i=0; i<4; i++) string[28+i] = n[i];
  
     *formula = string;
   }
