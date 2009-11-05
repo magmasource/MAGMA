@@ -313,7 +313,7 @@ int wprintf(Widget w, char *fmt, ...)
   if (w == NULL) return -1;
 
   va_start(args, fmt);
-  vsprintf(buffer, fmt, args);
+  (void) vsnprintf(buffer, BUFFERSIZE, fmt, args);
   va_end(args);
 
 #ifdef DISABLE_WPRINTF

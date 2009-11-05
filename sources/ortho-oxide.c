@@ -2091,10 +2091,10 @@ dispOox(int mask, double t, double p, double *x,
     totFe3 = 2.0*(1.0-r[0]-r[1]);
     totTi  = 1.0+r[0]+r[1];
 
-    (void) sprintf(n, "%4.2f", totFe2); for (i=0; i<4; i++) string[ 4+i] = n[i];
-    (void) sprintf(n, "%4.2f", totMg);  for (i=0; i<4; i++) string[10+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe3); for (i=0; i<4; i++) string[19+i] = n[i];
-    (void) sprintf(n, "%4.2f", totTi);  for (i=0; i<4; i++) string[25+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[ 4+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[10+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[19+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totTi);  for (i=0; i<4; i++) string[25+i] = n[i];
  
     *formula = string;
   }

@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
   /* Spawn off the slaves */
 
 #ifdef USE_LAM_MPI
-  sprintf(filename, "./lam_fault_appschema.%d", (int) getpid());
+  (void) snprintf(filename, 128, "./lam_fault_appschema.%d", (int) getpid());
   MPI_Info_create(&appInfo);
   MPI_Info_set(appInfo, "file", filename);
   for (i=0; i<ntasks; ++i) {

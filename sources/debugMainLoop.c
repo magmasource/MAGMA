@@ -174,7 +174,7 @@ static void do_EnterNotify (eventp)
       case NotifyGrab:  mode = "NotifyGrab"; break;
       case NotifyUngrab:  mode = "NotifyUngrab"; break;
       case NotifyWhileGrabbed:  mode = "NotifyWhileGrabbed"; break;
-      default:  mode = dmode, sprintf (dmode, "%u", e->mode); break;
+      default:  mode = dmode, snprintf (dmode, 10, "%u", e->mode); break;
     }
 
     switch (e->detail) {
@@ -186,7 +186,7 @@ static void do_EnterNotify (eventp)
       case NotifyPointer:  detail = "NotifyPointer"; break;
       case NotifyPointerRoot:  detail = "NotifyPointerRoot"; break;
       case NotifyDetailNone:  detail = "NotifyDetailNone"; break;
-      default:  detail = ddetail; sprintf (ddetail, "%u", e->detail); break;
+      default:  detail = ddetail; snprintf (ddetail, 10, "%u", e->detail); break;
     }
 
     printf ("    root 0x%lx, subw 0x%lx, time %lu, (%d,%d), root:(%d,%d),\n",
@@ -217,7 +217,7 @@ static void do_FocusIn (eventp)
       case NotifyGrab:  mode = "NotifyGrab"; break;
       case NotifyUngrab:  mode = "NotifyUngrab"; break;
       case NotifyWhileGrabbed:  mode = "NotifyWhileGrabbed"; break;
-      default:  mode = dmode, sprintf (dmode, "%u", e->mode); break;
+      default:  mode = dmode, snprintf (dmode, 10, "%u", e->mode); break;
     }
 
     switch (e->detail) {
@@ -229,7 +229,7 @@ static void do_FocusIn (eventp)
       case NotifyPointer:  detail = "NotifyPointer"; break;
       case NotifyPointerRoot:  detail = "NotifyPointerRoot"; break;
       case NotifyDetailNone:  detail = "NotifyDetailNone"; break;
-      default:  detail = ddetail; sprintf (ddetail, "%u", e->detail); break;
+      default:  detail = ddetail; snprintf (ddetail, 10, "%u", e->detail); break;
     }
 
     printf ("    mode %s, detail %s\n", mode, detail);
@@ -278,7 +278,7 @@ static void do_GraphicsExpose (eventp)
     switch (e->major_code) {
       case X_CopyArea:  m = "CopyArea";  break;
       case X_CopyPlane:  m = "CopyPlane";  break;
-      default:  m = mdummy; sprintf (mdummy, "%d", e->major_code); break;
+      default:  m = mdummy; snprintf (mdummy, 10, "%d", e->major_code); break;
     }
 
     printf ("    (%d,%d), width %d, height %d, count %d,\n",
@@ -297,7 +297,7 @@ static void do_NoExpose (eventp)
     switch (e->major_code) {
       case X_CopyArea:  m = "CopyArea";  break;
       case X_CopyPlane:  m = "CopyPlane";  break;
-      default:  m = mdummy; sprintf (mdummy, "%d", e->major_code); break;
+      default:  m = mdummy; snprintf (mdummy, 10, "%d", e->major_code); break;
     }
 
     printf ("    major %s, minor %d\n", m, e->minor_code);
@@ -315,7 +315,7 @@ static void do_VisibilityNotify (eventp)
       case VisibilityUnobscured:  v = "VisibilityUnobscured"; break;
       case VisibilityPartiallyObscured: v = "VisibilityPartiallyObscured";break;
       case VisibilityFullyObscured:  v = "VisibilityFullyObscured"; break;
-      default:  v = vdummy; sprintf (vdummy, "%d", e->state); break;
+      default:  v = vdummy; snprintf (vdummy, 10, "%d", e->state); break;
     }
 
     printf ("    state %s\n", v);
@@ -409,7 +409,7 @@ static void do_ConfigureRequest (eventp)
       case TopIf:  detail = "TopIf";  break;
       case BottomIf:  detail = "BottomIf"; break;
       case Opposite:  detail = "Opposite"; break;
-      default:  detail = ddummy; sprintf (ddummy, "%d", e->detail); break;
+      default:  detail = ddummy; snprintf (ddummy, 10, "%d", e->detail); break;
     }
 
     printf ("    parent 0x%lx, window 0x%lx, (%d,%d), width %d, height %d,\n",
@@ -448,7 +448,7 @@ static void do_CirculateNotify (eventp)
     switch (e->place) {
       case PlaceOnTop:  p = "PlaceOnTop"; break;
       case PlaceOnBottom:  p = "PlaceOnBottom"; break;
-      default:  p = pdummy; sprintf (pdummy, "%d", e->place); break;
+      default:  p = pdummy; snprintf (pdummy, 10, "%d", e->place); break;
     }
 
     printf ("    event 0x%lx, window 0x%lx, place %s\n",
@@ -466,7 +466,7 @@ static void do_CirculateRequest (eventp)
     switch (e->place) {
       case PlaceOnTop:  p = "PlaceOnTop"; break;
       case PlaceOnBottom:  p = "PlaceOnBottom"; break;
-      default:  p = pdummy; sprintf (pdummy, "%d", e->place); break;
+      default:  p = pdummy; snprintf (pdummy, 10, "%d", e->place); break;
     }
 
     printf ("    parent 0x%lx, window 0x%lx, place %s\n",
@@ -485,7 +485,7 @@ static void do_PropertyNotify (eventp)
     switch (e->state) {
       case PropertyNewValue:  s = "PropertyNewValue"; break;
       case PropertyDelete:  s = "PropertyDelete"; break;
-      default:  s = sdummy; sprintf (sdummy, "%d", e->state); break;
+      default:  s = sdummy; snprintf (sdummy, 10, "%d", e->state); break;
     }
 
     printf ("    atom 0x%lx (%s), time %lu, state %s\n",
@@ -560,7 +560,7 @@ static void do_ColormapNotify (eventp)
     switch (e->state) {
       case ColormapInstalled:  s = "ColormapInstalled"; break;
       case ColormapUninstalled:  s = "ColormapUninstalled"; break;
-      default:  s = sdummy; sprintf (sdummy, "%d", e->state); break;
+      default:  s = sdummy; snprintf (sdummy, 10, "%d", e->state); break;
     }
 
     printf ("    colormap 0x%lx, new %s, state %s\n",
@@ -592,7 +592,7 @@ static void do_MappingNotify (eventp)
       case MappingModifier:  r = "MappingModifier"; break;
       case MappingKeyboard:  r = "MappingKeyboard"; break;
       case MappingPointer:  r = "MappingPointer"; break;
-      default:  r = rdummy; sprintf (rdummy, "%d", e->request); break;
+      default:  r = rdummy; snprintf (rdummy, 10, "%d", e->request); break;
     }
 
     printf ("    request %s, first_keycode %d, count %d\n",

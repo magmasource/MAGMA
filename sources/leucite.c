@@ -415,10 +415,10 @@ dispLeu(int mask, double t, double p, double *x,
     totO  = 6.0-r[1];
     totOH = 2.0*r[1];
 
-    (void) sprintf(n, "%4.2f", totK);  for (i=0; i<4; i++) string[ 1+i] = n[i];
-    (void) sprintf(n, "%4.2f", totNa); for (i=0; i<4; i++) string[ 7+i] = n[i];
-    (void) sprintf(n, "%4.2f", totO);  for (i=0; i<4; i++) string[17+i] = n[i];
-    (void) sprintf(n, "%4.2f", totOH); for (i=0; i<4; i++) string[25+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totK);  for (i=0; i<4; i++) string[ 1+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totNa); for (i=0; i<4; i++) string[ 7+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totO);  for (i=0; i<4; i++) string[17+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totOH); for (i=0; i<4; i++) string[25+i] = n[i];
 
     *formula = string;
   }

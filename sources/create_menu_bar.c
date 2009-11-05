@@ -275,14 +275,14 @@ void create_menu_bar()
  *         submenu of the ...
  *     (b) Pull down menu entry
  */
-  ADD_PULL_DOWN(command_menu, command_entry, "Commands", menu_bar, 'C');
-  ADD_PULL_DOWN(edit_menu, edit_entry, "Edit", menu_bar, 'E');
+  ADD_PULL_DOWN(command_menu, command_entry, "Commands", menu_bar, NULL);
+  ADD_PULL_DOWN(edit_menu, edit_entry, "Edit", menu_bar, NULL);
   ADD_PULL_DOWN(composition_menu, composition_entry, "Composition", 
-    menu_bar, 'p');
+    menu_bar, NULL);
   ADD_PULL_DOWN(intensive_menu, intensive_entry, "Intensive Variables", 
-    menu_bar, 'I');
-  ADD_PULL_DOWN(options_menu, options_entry, "Options", menu_bar, 'O');
-  ADD_PULL_DOWN(help_menu, help_entry, "Help", menu_bar, 'H');
+    menu_bar, NULL);
+  ADD_PULL_DOWN(options_menu, options_entry, "Options", menu_bar, NULL);
+  ADD_PULL_DOWN(help_menu, help_entry, "Help", menu_bar, NULL);
 
   /* The help widget is treated specially by the menu bar widget */
   XtVaSetValues(menu_bar, XmNmenuHelpWidget, help_entry, NULL);
@@ -291,7 +291,7 @@ void create_menu_bar()
  *=============================================================================
  * (1) Add buttons to the various pull down menus in the order top to bottom.
  */
-  ADD_PULL_DOWN(mode_menu, mode_entry, "Execution Mode", command_menu, 'M');
+  ADD_PULL_DOWN(mode_menu, mode_entry, "Execution Mode", command_menu, NULL);
     ADD_TOGGLE(bt_normal, "Normal", mode_menu, mb_tg_callback, 
       k_mb_tg_mode_normal, TRUE, 'N');
     ADD_TOGGLE(bt_clb_pre, "Calibrate (Pre-pass)", mode_menu, mb_tg_callback, 
@@ -355,7 +355,7 @@ void create_menu_bar()
   ADD_BUTTON(bt_TandP, "T, P ...", intensive_menu, mb_bt_callback, 
     k_mb_bt_intensive_TP, 'T');
   ADD_PULL_DOWN(fO2_path_menu, fO2_path_entry, "f O2 Constraint", 
-    intensive_menu, 'f');
+    intensive_menu, NULL);
     ADD_TOGGLE(tg_path_none, "Absent", fO2_path_menu, mb_tg_callback, 
       k_mb_tg_composition_fo2path_abs, TRUE, 'A');
     ADD_TOGGLE(tg_path_hm, "Hm-Mt", fO2_path_menu, mb_tg_callback, 

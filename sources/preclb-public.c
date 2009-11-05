@@ -134,7 +134,7 @@ static char *alternateDataBase = (char *) NULL;
   XmStringFree(valueCS);
 
 #define DISPLAYD(w, number) \
-  sprintf(valueD, "%20.13g", number); \
+  (void) snprintf(valueD, 21, "%20.13g", number); \
   valueCS = XmStringCreateLtoR(valueD , "ISO8859-1"); \
   i = 0; \
   XtSetArg(arg_set[i], XmNlabelString, valueCS); i++; \
@@ -142,7 +142,7 @@ static char *alternateDataBase = (char *) NULL;
   XmStringFree(valueCS);
 
 #define DISPLAYI(w, number) \
-  sprintf(valueI, "%6.6d", number); \
+  (void) snprintf(valueI, 7, "%6.6d", number); \
   valueCS = XmStringCreateLtoR(valueI, "ISO8859-1"); \
   i = 0; \
   XtSetArg(arg_set[i], XmNlabelString, valueCS); i++; \
@@ -772,10 +772,10 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
 Boolean preclb(XtPointer client_data)
 {
   static const char *database = "database.dat";
-  static char entry[]    = { "          \0" };
-  static char value[]    = { "     " };                /*  5 */
-  static char valueI[]   = { "      " };               /*  6 */
-  static char valueD[]   = { "                    " }; /* 20 */
+  static char entry[11];  /* 10 characters */
+  static char value[6];   /*  5 characters */
+  static char valueI[7];  /*  6 characters */
+  static char valueD[21]; /* 20 characters */
   static XmString  valueCS  = NULL, cstring1 = NULL, cstring2 = NULL, cstring3 = NULL;
   static FILE *input = NULL;
 
@@ -951,7 +951,7 @@ Boolean preclb(XtPointer client_data)
             if (solids[j].convert == NULL) {
               if(getDeltaGofSolid(&deltaG, molesLiqCmp, t, p, zeroWtFlag, (double) 1.0, j)) { 
                 preclbCount[j].na++;
-                sprintf(value, "%5.5d", preclbCount[j].na);
+                (void) snprintf(value, 6, "%5.5d", preclbCount[j].na);
                 DISPLAY(preclbCount[j].absent, value)
                 nEqn++;
                 TESTnEQN
@@ -982,7 +982,7 @@ Boolean preclb(XtPointer client_data)
               }
               if (l > 0) {
                 preclbCount[j].na++;
-                sprintf(value, "%5.5d", preclbCount[j].na);
+                (void) snprintf(value, 6, "%5.5d", preclbCount[j].na);
                 DISPLAY(preclbCount[j].absent, value)
               }
             }
@@ -1093,7 +1093,7 @@ Boolean preclb(XtPointer client_data)
         phasesPresent[id] = TRUE;
   
         preclbCount[id].np++;
-        sprintf(value, "%5.5d", preclbCount[id].np);
+        (void) snprintf(value, 6, "%5.5d", preclbCount[id].np);
         DISPLAY(preclbCount[id].present, value)
 
         /* Determine if phase data may be included */

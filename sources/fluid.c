@@ -373,7 +373,7 @@ void fluidPhase(
 
    double aRK  = x[0]*x[0]*aH2O + x[1]*x[1]*aCO2 + 2.0*x[0]*x[1]*aMix;
    double bRK  = x[0]*bH2O + x[1]*bCO2;
-   double zRK[2];
+   double zRK[2] = {0.0, 0.0};
 
    redlichKwong(t, p, bRK/(82.05*t), aRK/(bRK*82.05*pow(t, (double) 1.5)), zRK);
    rhn = p/(zRK[0]*R*t);

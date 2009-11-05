@@ -3911,14 +3911,14 @@ static int isClino(double t, double p, double r[NR])
     totTi  = 0.5*(r[1]+r[2]);
     totSi  = 2.0 - r[1] - r[2] - r[3] + r[4]/2.0;
 
-    (void) sprintf(n, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 6+i] = n[i];
-    (void) sprintf(n, "%4.2f", totCa);  for (i=0; i<4; i++) string[12+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe2); for (i=0; i<4; i++) string[20+i] = n[i];
-    (void) sprintf(n, "%4.2f", totMg);  for (i=0; i<4; i++) string[26+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe3); for (i=0; i<4; i++) string[35+i] = n[i];
-    (void) sprintf(n, "%4.2f", totTi);  for (i=0; i<4; i++) string[41+i] = n[i];
-    (void) sprintf(n, "%4.2f", totAl);  for (i=0; i<4; i++) string[47+i] = n[i];
-    (void) sprintf(n, "%4.2f", totSi);  for (i=0; i<4; i++) string[53+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 6+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[12+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[20+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[26+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[35+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totTi);  for (i=0; i<4; i++) string[41+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totAl);  for (i=0; i<4; i++) string[47+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totSi);  for (i=0; i<4; i++) string[53+i] = n[i];
 
     printf("ISCLINO: G(c->o) = %f %s\n", gOrtho-gClino, string);
   }
@@ -4372,14 +4372,14 @@ dispOpx(int mask, double t, double p, double *x,
     totTi  = 0.5*(r[1]+r[2]);
     totSi  = 2.0 - r[1] - r[2] - r[3] + r[4]/2.0;
 
-    (void) sprintf(n, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 6+i] = n[i];
-    (void) sprintf(n, "%4.2f", totCa);  for (i=0; i<4; i++) string[12+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe2); for (i=0; i<4; i++) string[20+i] = n[i];
-    (void) sprintf(n, "%4.2f", totMg);  for (i=0; i<4; i++) string[26+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe3); for (i=0; i<4; i++) string[35+i] = n[i];
-    (void) sprintf(n, "%4.2f", totTi);  for (i=0; i<4; i++) string[41+i] = n[i];
-    (void) sprintf(n, "%4.2f", totAl);  for (i=0; i<4; i++) string[47+i] = n[i];
-    (void) sprintf(n, "%4.2f", totSi);  for (i=0; i<4; i++) string[53+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 6+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[12+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[20+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[26+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[35+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totTi);  for (i=0; i<4; i++) string[41+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totAl);  for (i=0; i<4; i++) string[47+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totSi);  for (i=0; i<4; i++) string[53+i] = n[i];
 
     *formula = string;
   }

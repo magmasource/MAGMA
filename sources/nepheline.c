@@ -1549,12 +1549,12 @@ dispNph(int mask, double t, double p, double *x,
     totAl = 4.0*(1.0-r[0]-r[1]-r[2]) + 4.0*r[0] + 3.0*r[1] + 4.0*r[2];
     totSi = 4.0*(1.0-r[0]-r[1]-r[2]) + 4.0*r[0] + 5.0*r[1] + 4.0*r[2];
 
-    (void) sprintf(n, "%4.2f", totNa); for (i=0; i<4; i++) string[ 7+i] = n[i];
-    (void) sprintf(n, "%4.2f", totK);  for (i=0; i<4; i++) string[12+i] = n[i];
-    (void) sprintf(n, "%4.2f", totCa); for (i=0; i<4; i++) string[18+i] = n[i];
-    (void) sprintf(n, "%4.2f", totVc); for (i=0; i<4; i++) string[24+i] = n[i];
-    (void) sprintf(n, "%4.2f", totAl); for (i=0; i<4; i++) string[30+i] = n[i];
-    (void) sprintf(n, "%4.2f", totSi); for (i=0; i<4; i++) string[36+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totNa); for (i=0; i<4; i++) string[ 7+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totK);  for (i=0; i<4; i++) string[12+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totCa); for (i=0; i<4; i++) string[18+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totVc); for (i=0; i<4; i++) string[24+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totAl); for (i=0; i<4; i++) string[30+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totSi); for (i=0; i<4; i++) string[36+i] = n[i];
 
     *formula = string;
   }

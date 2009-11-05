@@ -1700,9 +1700,9 @@ dispAph(int mask, double t, double p, double *x,
     totFe2 = 7.0*(r[0]+1.0)/2.0;
     totMg  = (1.0 - (r[0]+1.0)/2.0 - r[1])*7.0 +  5.0*r[1];
 
-    (void) sprintf(n, "%4.2f", totCa);  for (i=0; i<4; i++) string[ 7+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe2); for (i=0; i<4; i++) string[13+i] = n[i];
-    (void) sprintf(n, "%4.2f", totMg);  for (i=0; i<4; i++) string[19+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[ 7+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[13+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[19+i] = n[i];
 
     *formula = string;
   }

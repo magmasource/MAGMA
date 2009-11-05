@@ -358,8 +358,8 @@ dispAlL(int mask, double t, double p, double *x,
     totFe = 1.0 - r[0];
     totNi = r[0];
 
-    (void) sprintf(n, "%4.2f", totFe); for (i=0; i<4; i++) string[ 9+i] = n[i];
-    (void) sprintf(n, "%4.2f", totNi); for (i=0; i<4; i++) string[15+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe); for (i=0; i<4; i++) string[ 9+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totNi); for (i=0; i<4; i++) string[15+i] = n[i];
 
     *formula = string;
   }

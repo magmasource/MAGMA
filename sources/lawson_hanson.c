@@ -170,8 +170,8 @@ void hfti(       /* all arrays have an index base of zero                     */
   double *g,     /* out: [n] pivot scalars for Householder transformations Ki */
   int    *p)     /* out: [n] interchange record                               */
 {
-  double hBar, tmp;
-  int i, j, l, lambda;
+  double hBar = 0.0, tmp;
+  int i, j, l, lambda = 0;
 
   int mu = MIN(m, n);
 

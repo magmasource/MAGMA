@@ -276,7 +276,7 @@ static char *defFileName;
 
 int getInputDataFromFile(char *fileName) 
 {
-  static char compositionEntry[] = { "      \0" };
+  static char compositionEntry[8];
   static char *label;
   static XmString  cstring1, cstring2, cstring3;
   static FILE *input = NULL;
@@ -327,7 +327,7 @@ int getInputDataFromFile(char *fileName)
   XmToggleButtonGadgetSetState(tg_fractionate_fluids,  FALSE, TRUE);
   XmToggleButtonGadgetSetState(tg_multiple_liquids,    FALSE, TRUE);
 
-  sprintf(compositionEntry, "%s", "");
+  (void) snprintf(compositionEntry, 8, "%s", "");
   for (i=0; i<nc; i++) {
     XmTextSetString(compositionValues[i].name, compositionEntry);
     compositionValues[i].value = 0.0; 
@@ -395,7 +395,7 @@ int getInputDataFromFile(char *fileName)
         label[j] = '\0';
         if (!strncmp(&line[21], label, MIN((len-21), (int) strlen(label)))) {
           if (sscanf(&line[21 + (int) strlen(label)], "%f", &temporary) == EOF) { READ_ERROR }
-          sprintf(compositionEntry, "%7.4f", temporary);
+          (void) snprintf(compositionEntry, 8, "%7.4f", temporary);
           XmTextSetString(compositionValues[i].name, compositionEntry);
           sum += (double) temporary;
           break;

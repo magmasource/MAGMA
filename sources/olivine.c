@@ -2601,12 +2601,12 @@ dispOlv(int mask, double t, double p, double *x,
 
     totMg  = (1.0-totFe2-totMn-totCo-totNi);
 
-    (void) sprintf(n, "%4.2f", totCa);  for (i=0; i<4; i++) string[ 3+i] = n[i];
-    (void) sprintf(n, "%4.2f", totMg);  for (i=0; i<4; i++) string[ 9+i] = n[i];
-    (void) sprintf(n, "%4.2f", totFe2); for (i=0; i<4; i++) string[17+i] = n[i];
-    (void) sprintf(n, "%4.2f", totMn);  for (i=0; i<4; i++) string[23+i] = n[i];
-    (void) sprintf(n, "%4.2f", totCo);  for (i=0; i<4; i++) string[29+i] = n[i];
-    (void) sprintf(n, "%4.2f", totNi);  for (i=0; i<4; i++) string[35+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[ 3+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[ 9+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[17+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMn);  for (i=0; i<4; i++) string[23+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totCo);  for (i=0; i<4; i++) string[29+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totNi);  for (i=0; i<4; i++) string[35+i] = n[i];
  
     *formula = string;
   }

@@ -376,8 +376,8 @@ dispBio(int mask, double t, double p, double *x,
     totFe2 = r[0];
     totMg  = (1.0-r[0]);
 
-    (void) sprintf(n, "%4.2f", totFe2); for (i=0; i<4; i++) string[ 6+i] = n[i];
-    (void) sprintf(n, "%4.2f", totMg);  for (i=0; i<4; i++) string[12+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[ 6+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[12+i] = n[i];
 
     *formula = string;
   }

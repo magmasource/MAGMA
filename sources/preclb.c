@@ -721,7 +721,7 @@ static void mrqcofWithBounds(double x[], double y[], double sig[], int ndata, do
   XmStringFree(valueCS);
 
 #define DISPLAYD(w, number) \
-  sprintf(valueD, "%20.13g", number); \
+  (void) snprintf(valueD, 21, "%20.13g", number); \
   valueCS = XmStringCreateLtoR(valueD , "ISO8859-1"); \
   i = 0; \
   XtSetArg(arg_set[i], XmNlabelString, valueCS); i++; \
@@ -729,7 +729,7 @@ static void mrqcofWithBounds(double x[], double y[], double sig[], int ndata, do
   XmStringFree(valueCS);
 
 #define DISPLAYI(w, number) \
-  sprintf(valueI, "%6.6d", number); \
+  (void) snprintf(valueI, 7, "%6.6d", number); \
   valueCS = XmStringCreateLtoR(valueI, "ISO8859-1"); \
   i = 0; \
   XtSetArg(arg_set[i], XmNlabelString, valueCS); i++; \
@@ -742,8 +742,8 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
   int i, j, k, l, m, rank;
   double wMin, wMax;
   
-  static char valueI[] = { "	  " };  	     /*  6 */
-  static char valueD[] = { "			" }; /* 20 */
+  static char valueI[7];  /*  6 characters */
+  static char valueD[21]; /* 20 characters */
   static XmString  valueCS  = NULL;
   
   static int mfit, graphSet=0;
@@ -1203,9 +1203,9 @@ static void writeParameters(char *paramFileName)
 
 Boolean preclb(XtPointer client_data)
 {
-  static char value[]  = { "      " };                /*  5 */
-  static char valueI[] = { "       " };               /*  6 */
-  static char valueD[] = { "                     " }; /* 20 */
+  static char value[6];   /*  5 characters */
+  static char valueI[7];  /*  6 characters */
+  static char valueD[21]; /* 20 characters */
   static XmString  valueCS  = NULL, cstring1 = NULL, cstring2 = NULL, cstring3 = NULL;
 
   /* Variables and definitions dependent on database structure */
@@ -1875,7 +1875,7 @@ Boolean preclb(XtPointer client_data)
                   phasesPresent[id] = TRUE;
   
                   preclbCount[id].np++;
-                  sprintf(value, "%5.5d", preclbCount[id].np);
+                  (void) snprintf(value, 6, "%5.5d", preclbCount[id].np);
                   DISPLAY(preclbCount[id].present, value)
 
                   /* Determine if phase data may be included */
@@ -1906,12 +1906,12 @@ Boolean preclb(XtPointer client_data)
 			  printf("Cpx in exp %d is reclassified to opx.\n", LEPRnum);
 			  phasesPresent[id] = FALSE;
                    	  preclbCount[id].np--;
-                   	  sprintf(value, "%5.5d", preclbCount[id].np);
+                   	  (void) snprintf(value, 6, "%5.5d", preclbCount[id].np);
                    	  DISPLAY(preclbCount[id].present, value)
 			  for (id=0; id<npc; id++) if ((solids[id].type == PHASE) && solids[id].inclInClb && !strcmp(solids[id].label, "orthopyroxene")) break;   
 			  phasesPresent[id] = TRUE;
                    	  preclbCount[id].np++;
-                   	  sprintf(value, "%5.5d", preclbCount[id].np);
+                   	  (void) snprintf(value, 6, "%5.5d", preclbCount[id].np);
                    	  DISPLAY(preclbCount[id].present, value)
 
 			} else if (!strcmp("orthopyroxene", phaseName) && isPigeonite(t, p, indep)) {
@@ -1922,12 +1922,12 @@ Boolean preclb(XtPointer client_data)
 			    printf("Opx in exp %d is reclassified to cpx.\n", LEPRnum);
 			    phasesPresent[id] = FALSE;
                    	    preclbCount[id].np--;
-                   	    sprintf(value, "%5.5d", preclbCount[id].np);
+                   	    (void) snprintf(value, 6, "%5.5d", preclbCount[id].np);
                    	    DISPLAY(preclbCount[id].present, value)
 			    for (id=0; id<npc; id++) if ((solids[id].type == PHASE) && solids[id].inclInClb && !strcmp(solids[id].label, "clinopyroxene")) break;   
 			    phasesPresent[id] = TRUE;
                    	    preclbCount[id].np++;
-                   	    sprintf(value, "%5.5d", preclbCount[id].np);
+                   	    (void) snprintf(value, 6, "%5.5d", preclbCount[id].np);
                    	    DISPLAY(preclbCount[id].present, value)
 			  }
 			}
@@ -1954,7 +1954,7 @@ Boolean preclb(XtPointer client_data)
 	        	   (pRO->residuals) = (double *) REALLOC(pRO->residuals, (size_t)	 (pRDI->nSol)*sizeof(double));
 	        	   (pRO->dr)	    = (double *) REALLOC(pRO->dr,	 (size_t) nParam*(pRDI->nSol)*sizeof(double));
                    	   preclbCount[id+1+j].np++;
-                   	   sprintf(value, "%5.5d", preclbCount[id+1+j].np);
+                   	   (void) snprintf(value, 6, "%5.5d", preclbCount[id+1+j].np);
                    	   DISPLAY(preclbCount[id+1+j].present, value)
                 	  }
 			  useSaved = TRUE;
@@ -2134,7 +2134,7 @@ Boolean preclb(XtPointer client_data)
               if (solids[j].convert == NULL) {
         	if(getDependentOfSolid(molesLiqCmp, t, p, zeroWtFlag, j, -1, NULL, FALSE)) { 
         	  preclbCount[j].na++;
-        	  sprintf(value, "%5.5d", preclbCount[j].na);
+        	  (void) snprintf(value, 6, "%5.5d", preclbCount[j].na);
         	  DISPLAY(preclbCount[j].absent, value)
         	  nEqn++;
         	  pRDI->nSol++; if (pRDI->nSol > nSolCoexistMax) 
@@ -2181,7 +2181,7 @@ Boolean preclb(XtPointer client_data)
         	}
         	if (l > 0) {
         	  preclbCount[j].na++;
-        	  sprintf(value, "%5.5d", preclbCount[j].na);
+        	  (void) snprintf(value, 6, "%5.5d", preclbCount[j].na);
         	  DISPLAY(preclbCount[j].absent, value)
         	}
               }
@@ -2284,7 +2284,7 @@ Boolean preclb(XtPointer client_data)
     /* Spawn off the slaves */
 
 #ifdef USE_LAM_MPI
-    sprintf(filename, "./MELTS_preclb_appschema.%d", (int) getpid());
+    (void) snprintf(filename, 128, "./MELTS_preclb_appschema.%d", (int) getpid());
     MPI_Info_create(&appInfo);
     MPI_Info_set(appInfo, "file", filename);
     for (i=0; i<ntasks; ++i) {
