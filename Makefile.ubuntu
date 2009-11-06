@@ -47,9 +47,10 @@ AR       = ar
 ARFLAGS  = rv
 CC       = gcc
 FC       = fort77
-CFLAGS   = -ansi -c -fno-common -g -O2 -Wall $(BATCH) \
+# cannot use -ansi with -D__USE_ISOC99 (Mac has a BSD flag so doesn't need -D__USE_ISOC99)
+CFLAGS   = -D__USE_ISOC99 -c -fno-common -g -O2 -Wall $(BATCH) \
            -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__ \
-	   -DF2C 
+	   -DF2C
 # Buffer overflow fixed so no need for this anymore
 # -D_FORTIFY_SOURCE=0
 FFLAGS   = -O2

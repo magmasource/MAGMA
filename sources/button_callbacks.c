@@ -151,7 +151,7 @@ MELTS Source Code: RCS
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#define __USE_POSIX
+#define __USE_POSIX   1
 #include <signal.h>
 #ifndef SYSV
 #include <sys/wait.h>
