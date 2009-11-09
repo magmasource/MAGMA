@@ -72,7 +72,7 @@ PUBLIBS = /sw/lib/libMrm.a /sw/lib/libXm.a -L/usr/local/grace/lib -lgrace_np -L/
           ../port3/libport.a /sw/lib/libf2c.a
 LIBF2C = /sw/lib/libf2c.a
 LIBXML = -L/sw/lib -lxml2
-LIBBATCH = /sw/lib/libxml2.a -L/usr/lib -lz -liconv
+LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
 
 include Makefile.common
 
