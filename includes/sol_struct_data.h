@@ -3507,6 +3507,16 @@ Solids meltsSolids[] = {
    EOS_BERMAN, {{-0.385E-6, 0.375E-12, 21.342E-6, 47.180E-10}}
    }
   },
+  {"sillimanite", PHASE, "Al2SiO5", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2586091.0,      /* H ref (J)                               Berman (1988) */
+   95.930,          /* S ref (J/K)                             Berman (1988) */
+   4.983,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{256.73, -18.872E2, -29.774E5, 25.096E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.753E-6, 0.0E-12, 13.431E-6, 0.0E-10}}
+   }
+  },
   {"rutile", PHASE, "TiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */

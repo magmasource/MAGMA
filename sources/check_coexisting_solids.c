@@ -239,6 +239,9 @@ int checkForCoexistingSolids(  /* returns a MODE flag for success or failure */
   result  = FAILURE;
 
   for (Index=0; Index<npc; Index++) if (solids[Index].na > 1) {
+#ifdef DEBUG
+    printf("Check for coexisting solids called for phase %s\n", solids[Index].label);
+#endif
     for (ns=0; ns<(silminState->nSolidCoexist)[Index]; ns++) {
       na = solids[Index].na;
       nr = solids[Index].nr;
@@ -314,6 +317,7 @@ int checkForCoexistingSolids(  /* returns a MODE flag for success or failure */
   for (j=0; j<na; j++) printf("%10.6f", (silminState->solidComp)[Index+1+j][ns]/(silminState->solidComp)[Index][ns]);
   printf("\n");
   for (j=0; j<np; j++) {
+    int k;
     printf("    %13.6g %13.6g", Fmin[j], rTr[j]);
     for (k=0; k<na; k++) printf("%10.6f", mVec[j][k]); printf("\n");
   }

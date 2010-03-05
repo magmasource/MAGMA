@@ -215,7 +215,7 @@ int vmmin(         /* returned value, MODE flag as set in NASH.H              */
   void   (*fmingr)(int n, double *Bvec, double *g))    /* gradients           */
 {
   double **B, *c, D1, D2, f, *g, gradproj, s, steplength, *t, *X;
-  int accpoint, count, funcount, gradcount, i, ilast, j, notcomp;
+  int accpoint, count, funcount, gradcount, i, ilast, j, notcomp, iterations;
 
   f = fminfn(n, Bvec, &notcomp); if (notcomp) return VMMIN_BAD_INITIAL;
   
@@ -228,9 +228,11 @@ int vmmin(         /* returned value, MODE flag as set in NASH.H              */
 
   *Fmin = f; funcount = 1; gradcount = 1;
   fmingr(n, Bvec, g); ilast = gradcount;
+  iterations = 0;
 
   do {
-    if (ilast == gradcount)
+    iterations++; if (iterations > 10000.0) return VMMIN_BAD_INITIAL;
+    if (ilast == gradcount) 
       for (i=0; i<n; i++) { for (j=0; j<n; j++) B[i][j] = 0.0; B[i][i] = 1.0; }
     for (i=0; i<n; i++) { X[i] = Bvec[i]; c[i] = g[i]; }
     for (i=0, gradproj=0.0; i<n; i++) {

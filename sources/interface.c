@@ -202,7 +202,7 @@ char *addOutputFileName = NULL;
 
 static SilminState *previousSilminState;
 
-#define RELEASE "()(p)(x)Melts (MELTS V5.0.0) - ($Revision: 1.13 $) ($State: Exp $) ($Date: 2009/05/14 04:23:59 $)"
+#define RELEASE "()(p)(x)Melts (MELTS V5.6.0) - (" __DATE__ " - " __TIME__ ")"
 
 #ifndef BATCH_VERSION
 
@@ -1110,14 +1110,14 @@ static void putOutputDataToXmlFile(char *outputFile) {
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "buildDate", "%s", __DATE__);
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "buildTime", "%s", __TIME__);
     
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature", "%.8g", silminState->T-273.15);
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "pressure",    "%.8g", silminState->P);
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "log_fO2",     "%.8g", silminState->fo2);
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaHM",     "%.8g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_HM));
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaNNO",    "%.8g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_NNO));
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaFMQ",    "%.8g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_QFM));
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaCOH",    "%.8g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH));
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaIW",     "%.8g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_IW));
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature", "%.20g", silminState->T-273.15);
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "pressure",    "%.20g", silminState->P);
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "log_fO2",     "%.20g", silminState->fo2);
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaHM",     "%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_HM));
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaNNO",    "%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_NNO));
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaFMQ",    "%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_QFM));
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaCOH",    "%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH));
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaIW",     "%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_IW));
 
 
     if (silminState->liquidMass != 0.0) {
@@ -1162,17 +1162,17 @@ static void putOutputDataToXmlFile(char *outputFile) {
 
         gLiq += gibbsEnergy; hLiq += enthalpy; sLiq += entropy; vLiq += volume; cpLiq += heatCapacity; mLiq += oxSum;
 	
-	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",            "%.8g", oxSum);
-	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",         "%.8g", (volume == 0.0) ? 0.0 : oxSum/(10.0*volume));
-	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "viscosity",       "%.8g", viscosity);
-	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",        "%.8g", enthalpy);
-	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%.8g", entropy);
-	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%.8g", volume*10.0);
-	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.8g", heatCapacity);
+	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",            "%.20g", oxSum);
+	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",         "%.20g", (volume == 0.0) ? 0.0 : oxSum/(10.0*volume));
+	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "viscosity",       "%.20g", viscosity);
+	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",        "%.20g", enthalpy);
+	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%.20g", entropy);
+	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%.20g", volume*10.0);
+	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.20g", heatCapacity);
 	
 	for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 
         rc = xmlTextWriterEndElement(writer);
       }
@@ -1202,13 +1202,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
       
           rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",            "%s",   solids[j].label);
 	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",         "%s",   solids[j].formula);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", 	   "%.8g", mass);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	   "%.8g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	   "%.8g", enthalpy);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	   "%.8g", entropy);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	   "%.8g", volume*10.0);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.8g", heatCapacity);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", 	   "%.20g", mass);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	   "%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	   "%.20g", enthalpy);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	   "%.20g", entropy);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	   "%.20g", volume*10.0);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.20g", heatCapacity);
       
           for (i=0, oxSum=0.0; i<nc; i++) {
             oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
@@ -1216,12 +1216,12 @@ static void putOutputDataToXmlFile(char *outputFile) {
           }
           if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
           for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 	    
 	  rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
 	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j].label);
 	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.8g", 1.0);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.20g", 1.0);
 	  rc = xmlTextWriterEndElement(writer);
 
         } else {
@@ -1258,13 +1258,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
 	  
           rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",            "%s",   solids[j].label);
 	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",         "%s",   formula); free(formula);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", 	   "%.8g", mass);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	   "%.8g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	   "%.8g", enthalpy);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	   "%.8g", entropy);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	   "%.8g", volume*10.0);
-	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.8g", heatCapacity);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", 	   "%.20g", mass);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	   "%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	   "%.20g", enthalpy);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	   "%.20g", entropy);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	   "%.20g", volume*10.0);
+	  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.20g", heatCapacity);
 
           for (i=0, oxSum=0.0; i<nc; i++) {
             int k;
@@ -1273,13 +1273,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
           }
           if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
           for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 	  
 	  for (i=0; i<solids[j].na; i++) {
 	    rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
 	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j+1+i].label);
 	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j+1+i].formula);
-	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.8g", m[i]/(silminState->solidComp)[j][ns]);
+	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.20g", m[i]/(silminState->solidComp)[j][ns]);
 	    rc = xmlTextWriterEndElement(writer);
 	  }
         }
@@ -1290,13 +1290,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
 
     if (totalMass != 0.0) {
       rc = xmlTextWriterStartElement(writer, BAD_CAST "totalSolids");
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.8g", totalMass);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.8g", (totalVolume == 0.0) ? 0.0 : totalMass/(10.0*totalVolume));
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", totalGibbsEnergy);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.8g", totalEnthalpy);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.8g", totalEntropy);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.8g", totalVolume*10.0);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.8g", totalHeatCapacity);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.20g", totalMass);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.20g", (totalVolume == 0.0) ? 0.0 : totalMass/(10.0*totalVolume));
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", totalGibbsEnergy);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.20g", totalEnthalpy);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.20g", totalEntropy);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.20g", totalVolume*10.0);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.20g", totalHeatCapacity);
       rc = xmlTextWriterEndElement(writer);
     }
     
@@ -1307,7 +1307,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
     if (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) {
       rc = xmlTextWriterStartElement(writer, BAD_CAST "fractionate");
       rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "type", BAD_CAST "current");
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.8g", silminState->fracMass-previousSilminState->fracMass);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.20g", silminState->fracMass-previousSilminState->fracMass);
 	
 	if (silminState->fractionateSol || silminState->fractionateFlu) {
           for (j=0; j<npc; j++) {
@@ -1340,13 +1340,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
 	        
 	        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
 		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   solids[j].formula);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.8g", mass);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.8g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.8g", enthalpy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.8g", entropy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.8g", volume*10.0);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.8g", heatCapacity);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.20g", mass);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.20g", enthalpy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.20g", entropy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.20g", volume*10.0);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.20g", heatCapacity);
 
         	for (i=0, oxSum=0.0; i<nc; i++) {
         	  oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
@@ -1354,12 +1354,12 @@ static void putOutputDataToXmlFile(char *outputFile) {
         	}
         	if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
         	for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-		  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+		  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 	  
 	        rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
 	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j].label);
 	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
-	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.8g", 1.0);
+	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.20g", 1.0);
 	        rc = xmlTextWriterEndElement(writer);
 
               } else {
@@ -1398,13 +1398,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
 	
         	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
 		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   formula); free(formula);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.8g", mass);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.8g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.8g", enthalpy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.8g", entropy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.8g", volume*10.0);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.8g", heatCapacity);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.20g", mass);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.20g", enthalpy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.20g", entropy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.20g", volume*10.0);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.20g", heatCapacity);
 
         	for (i=0, oxSum=0.0; i<nc; i++) {
         	  int k;
@@ -1413,13 +1413,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
         	}
         	if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
         	for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-		  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+		  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 		
 		for (i=0; i<solids[j].na; i++) {
 		  rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
 		    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name", 	  "%s",   solids[j+1+i].label);
 		    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	  "%s",   solids[j+1+i].formula);
-		    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.8g", m[i]/tmpMoles);
+		    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.20g", m[i]/tmpMoles);
 		  rc = xmlTextWriterEndElement(writer);
 		}
               }
@@ -1479,16 +1479,16 @@ static void putOutputDataToXmlFile(char *outputFile) {
             }
             if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
 
-            rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	     "%.8g", mass);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	     "%.8g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	     "%.8g", enthalpy);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%.8g", entropy);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	     "%.8g", volume*10.0);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.8g", heatCapacity);
+            rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	     "%.20g", mass);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	     "%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	     "%.20g", enthalpy);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%.20g", entropy);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	     "%.20g", volume*10.0);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.20g", heatCapacity);
 	
 	    for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 
             rc = xmlTextWriterEndElement(writer);
 	  }
@@ -1501,7 +1501,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
          && (previousSilminState->fracMass > 0) ) {
       rc = xmlTextWriterStartElement(writer, BAD_CAST "fractionate");
       rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "type", BAD_CAST "previous");
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.8g", previousSilminState->fracMass);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.20g", previousSilminState->fracMass);
 	
 	if (previousSilminState->fractionateSol || previousSilminState->fractionateFlu) {
           for (j=0; j<npc; j++) {
@@ -1531,13 +1531,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
 	        
 	        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
 		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   solids[j].formula);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.8g", mass);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.8g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.8g", enthalpy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.8g", entropy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.8g", volume*10.0);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.8g", heatCapacity);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.20g", mass);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.20g", enthalpy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.20g", entropy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.20g", volume*10.0);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.20g", heatCapacity);
 
         	for (i=0, oxSum=0.0; i<nc; i++) {
         	  oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
@@ -1545,12 +1545,12 @@ static void putOutputDataToXmlFile(char *outputFile) {
         	}
         	if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
         	for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-		  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+		  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 	  
 	        rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
 	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j].label);
 	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
-	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.8g", 1.0);
+	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.20g", 1.0);
 	        rc = xmlTextWriterEndElement(writer);
 
               } else {
@@ -1587,13 +1587,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
 	
         	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
 		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   formula); free(formula);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.8g", mass);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.8g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.8g", enthalpy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.8g", entropy);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.8g", volume*10.0);
-		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.8g", heatCapacity);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		 "%.20g", mass);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	 "%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	 "%.20g", enthalpy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	 "%.20g", entropy);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume", 	 "%.20g", volume*10.0);
+		rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%.20g", heatCapacity);
 
         	for (i=0, oxSum=0.0; i<nc; i++) {
         	  int k;
@@ -1602,13 +1602,13 @@ static void putOutputDataToXmlFile(char *outputFile) {
         	}
         	if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
         	for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-		  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+		  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 		
 		for (i=0; i<solids[j].na; i++) {
 		  rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
 		    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name", 	  "%s",   solids[j+1+i].label);
 		    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	  "%s",   solids[j+1+i].formula);
-		    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.8g", m[i]/(previousSilminState->fracSComp)[j][ns]);
+		    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.20g", m[i]/(previousSilminState->fracSComp)[j][ns]);
 		  rc = xmlTextWriterEndElement(writer);
 		}
               }
@@ -1666,16 +1666,16 @@ static void putOutputDataToXmlFile(char *outputFile) {
             }
             if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
 
-            rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	     "%.8g", mass);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	     "%.8g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gibbsEnergy);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	     "%.8g", enthalpy);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%.8g", entropy);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	     "%.8g", volume*10.0);
-	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.8g", heatCapacity);
+            rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	     "%.20g", mass);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",	     "%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gibbsEnergy);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",	     "%.20g", enthalpy);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%.20g", entropy);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	     "%.20g", volume*10.0);
+	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.20g", heatCapacity);
 	
 	    for (i=0; i<nc; i++) if (oxVal[i] != 0.0) 
-	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.8g", oxVal[i]*100.0);
+	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%.20g", oxVal[i]*100.0);
 
             rc = xmlTextWriterEndElement(writer);
 	  }
@@ -1685,17 +1685,17 @@ static void putOutputDataToXmlFile(char *outputFile) {
     }
     
     rc = xmlTextWriterStartElement(writer, BAD_CAST "system");
-      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	       "%.8g", mLiq+totalMass);
-      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",         "%.8g", (vLiq+totalVolume == 0.0) ? 0.0 
+      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	       "%.20g", mLiq+totalMass);
+      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density",         "%.20g", (vLiq+totalVolume == 0.0) ? 0.0 
         :  (mLiq+totalMass)/(10.0*(vLiq+totalVolume)));
       if (vLiq > totalVolume)
-      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "viscosity",       "%.8g", 
+      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "viscosity",       "%.20g", 
            viscosity - 2.0*log10(1.0-2.0*totalVolume/(totalVolume+vLiq)));
-      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", gLiq+totalGibbsEnergy);
-      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",        "%.8g", hLiq+totalEnthalpy);
-      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%.8g", sLiq+totalEntropy);
-      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	       "%.8g", (vLiq+totalVolume)*10.0);
-      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.8g", cpLiq+totalHeatCapacity);
+      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", gLiq+totalGibbsEnergy);
+      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",        "%.20g", hLiq+totalEnthalpy);
+      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%.20g", sLiq+totalEntropy);
+      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	       "%.20g", (vLiq+totalVolume)*10.0);
+      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.20g", cpLiq+totalHeatCapacity);
     rc = xmlTextWriterEndElement(writer);
 
     if (silminState->fo2Path != FO2_NONE) {
@@ -1709,21 +1709,21 @@ static void putOutputDataToXmlFile(char *outputFile) {
         }
       }
       rc = xmlTextWriterStartElement(writer, BAD_CAST "oxygen");
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moles",	         "%.8g", mO2);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%.8g", mO2*31.9988);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.8g", mO2*(oxygen.cur).g);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",        "%.8g", mO2*(oxygen.cur).h);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%.8g", mO2*(oxygen.cur).s);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%.8g", mO2*10.0*(oxygen.cur).v);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.8g", mO2*(oxygen.cur).cp);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moles",	         "%.20g", mO2);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%.20g", mO2*31.9988);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%.20g", mO2*(oxygen.cur).g);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",        "%.20g", mO2*(oxygen.cur).h);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%.20g", mO2*(oxygen.cur).s);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%.20g", mO2*10.0*(oxygen.cur).v);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%.20g", mO2*(oxygen.cur).cp);
       rc = xmlTextWriterEndElement(writer);
     } 
 
     if (silminState->assimilate) {
       int ns;
       rc = xmlTextWriterStartElement(writer, BAD_CAST "assimilant");
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%.8g", silminState->assimMass);
-        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature",	 "%.8g", silminState->assimT);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%.20g", silminState->assimMass);
+        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature",	 "%.20g", silminState->assimT);
       
         for (j=0; j<npc; j++) if (solids[j].type == PHASE)
           for (ns=0; ns<(silminState->nAssimComp)[j]; ns++) {
@@ -1731,17 +1731,17 @@ static void putOutputDataToXmlFile(char *outputFile) {
 	      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name", "%s", solids[j].label);
               if (solids[j].na == 1) {
              	double mass = (silminState->assimComp)[j][ns]*solids[j].mw*silminState->assimMass/silminState->dspAssimMass;
-             	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.8g", mass);
+             	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.20g", mass);
 	        rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
 	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j].label);
-	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.8g", 1.0);
+	          rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%.20g", 1.0);
 	        rc = xmlTextWriterEndElement(writer);
 
               } else {
 	     	double mass = 0.0;
              	for (i=0; i<solids[j].na; i++) mass += (silminState->assimComp)[j+1+i][ns]*solids[j+1+i].mw;
              	mass *= silminState->assimMass/silminState->dspAssimMass;
-             	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.8g", mass);
+             	rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.20g", mass);
 	     	
              	for (i=0; i<solids[j].na; i++) {
 	     	  rc = xmlTextWriterStartElement(writer, BAD_CAST "component");

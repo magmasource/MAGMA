@@ -64,8 +64,8 @@ MELTS Source Code: RCS
 **--
 */
 
-#ifndef DEBUG
-#define DEBUG
+#ifdef DEBUG
+#undef DEBUG
 #endif
 
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
