@@ -1992,6 +1992,7 @@ static void SelectAllLines(w)
 static void CallSelectCallbacks(w, eventP, confirm)
     VListWidget w;
     XButtonEvent *eventP;
+    int confirm;
 {
     VListSelectCallbackStruct cbData;
     int line;

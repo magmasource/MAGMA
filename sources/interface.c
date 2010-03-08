@@ -200,7 +200,9 @@ int quad_tol_modifier = 1;
 void (*additionalOutput) (char *filename) = NULL;
 char *addOutputFileName = NULL;
 
+#ifdef BATCH_VERSION
 static SilminState *previousSilminState;
+#endif
 
 #define RELEASE "()(p)(x)Melts (MELTS V5.6.0) - (" __DATE__ " - " __TIME__ ")"
 

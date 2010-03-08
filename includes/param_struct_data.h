@@ -1137,7 +1137,10 @@ EosModelParameters eosModelParameters[] = {  /* sets nc entries */
   { "FeO1.3                  ",  1.47474, -7.28951e-05, -2.50008e-09, FALSE, FALSE, FALSE, 0.0, 0.0, 0.0 }  /* 1.47474, -7.28951e-05, -2.50008e-09 */ /* 12.0 */
 }; 
 
-int    nCN   = 0;                  /* Total number of coordination states beyond reference            */
+int    nCN   = 0;    /* Total number of coordination states beyond reference                 */
+double fCN[] = { };  /* configurational collapse term for IV->V, IV->IV oxygen CN shift      */
+SsCnModelParameters ssCnModelParameters[] = { };  /* sets nc entries, repeated nCN-1 times   */
+
 #ifdef NEVER_DEFINED
 int    nCN   = 2;                  /* Total number of coordination states beyond reference            */
 double fCN[] = { 0.8346, 0.7811 }; /* configurational collapse term for IV->V, IV->IV oxygen CN shift */
