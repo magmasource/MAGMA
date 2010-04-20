@@ -10,6 +10,7 @@ core
 *.preclb
 *.res
 *.inp
+*.zip
 XML_IN/
 XML_OUT/
 XML_PROCESSED/
@@ -23,6 +24,8 @@ Melts-SACNK
 Melts-batch
 Melts-mpi
 Melts-public
+Melts-rhyolite
+Melts-OSX-10.5.8
 Analyze-fusion
 Analyze-fusion-MS
 Analyze-water

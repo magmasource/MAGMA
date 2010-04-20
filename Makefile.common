@@ -33,6 +33,7 @@ usage:
 	echo "       Melts-batch"
 	echo "       Melts-mpi"
 	echo "       Melts-public"
+	echo "       Melts-rhyolite"
 	echo "       Analyze-fusion Analyze-fusion-MS"
 	echo "       Analyze-water Analyze-water-MS"
 	echo "       Entropy_reg Entropy_reg-MS"
@@ -84,6 +85,7 @@ realclean:
 	$(RM) $(RMFLAGS) Melts-slave
 	$(RM) $(RMFLAGS) Melts-batch
 	$(RM) $(RMFLAGS) Melts-public
+	$(RM) $(RMFLAGS) Melts-rhyolite
 	$(RM) $(RMFLAGS) Test_a-x_relations
 	$(RM) $(RMFLAGS) Test_a-x_relations-MS
 	$(RM) $(RMFLAGS) Test_a-x_relations-SACNK
@@ -675,6 +677,36 @@ Melts-public: interface.c preclb.c preclb_slave.c postclb.c simann.o \
 	$(CC) $(CFLAGS) sources/postclb.c
 	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o
+	chmod 755 $@
+
+Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c simann.o \
+                calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
+                vframe.h vheader.h vlist.h \
+                sources/melts.icon $(MELTSLIB) 
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS \
+           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
+           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
+           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
+           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
+           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
+           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
+           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
+           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
+           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
+           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
+           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
+           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
+           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
+           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
+           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
+           sources/interface.c
+	$(CC) $(CFLAGS) sources/preclb.c
+	$(CC) $(CFLAGS) sources/preclb_slave.c
+	$(CC) $(CFLAGS) sources/postclb.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
+	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o gibbs.o
 	chmod 755 $@
 
 Test_a-x_relations: test_a-x_relations.c \
