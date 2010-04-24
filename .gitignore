@@ -45,6 +45,7 @@ Test_CCOH_buffer
 Test_database
 Test_database-MS
 Test_database-SACNK
+Test_dynamicLib
 Test_entropy
 Test_entropy-MS
 Test_entropy-SACNK

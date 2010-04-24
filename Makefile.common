@@ -19,8 +19,9 @@ vpath %.h includes
 	$(AR) $(ARFLAGS) $@ $*.o
 	rm -f $*.o
 
-MELTSLIB      = libMELTS.a
-MELTSBATCHLIB = libMELTSbatch.a
+MELTSLIB        = libMELTS.a
+MELTSBATCHLIB   = libMELTSbatch.a
+MELTSDYNAMICLIB = libMELTSdynamic.a
 
 # Targets
 # =======
@@ -34,6 +35,7 @@ usage:
 	echo "       Melts-mpi"
 	echo "       Melts-public"
 	echo "       Melts-rhyolite"
+	echo "       Melts-dynamic"
 	echo "       Analyze-fusion Analyze-fusion-MS"
 	echo "       Analyze-water Analyze-water-MS"
 	echo "       Entropy_reg Entropy_reg-MS"
@@ -249,6 +251,59 @@ $(MELTSBATCHLIB)(wadsleyite.o):               wadsleyite.c silmin.h mthread.h
 $(MELTSBATCHLIB)(water.o):                    water.c silmin.h mthread.h 
 $(MELTSBATCHLIB)(wustite.o):                  wustite.c silmin.h mthread.h
 
+$(MELTSDYNAMICLIB)(albite.o):                   albite.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(alloy-liquid.o):             alloy-liquid.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(alloy-solid.o):              alloy-solid.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(amphibole.o):                amphibole.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(biotite.o):                  biotite.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(check_coexisting_liquids.o): check_coexisting_liquids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(check_coexisting_solids.o):  check_coexisting_solids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(clinopyroxene.o):            clinopyroxene.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(cummingtonite.o):            cummingtonite.c silmin.h mthread.h recipes.h
+$(MELTSDYNAMICLIB)(equality_constraints.o):     equality_constraints.c lawson_hanson.h recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(est_saturation_state.o):     est_saturation_state.c lawson_hanson.h nash.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(evaluate_saturation.o):      evaluate_saturation.c silmin.h mthread.h recipes.h
+$(MELTSDYNAMICLIB)(feldspar.o):                 feldspar.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(fluid.o):                    fluid.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(frac.o):                     frac.c
+$(MELTSDYNAMICLIB)(garnet.o):                   garnet.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(gibbs.o):                    gibbs.c silmin.h mthread.h recipes.h
+$(MELTSDYNAMICLIB)(gradient_hessian.o):         gradient_hessian.c lawson_hanson.h recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(hornblende.o):               hornblende.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(ilmenite.o):                 ilmenite.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(lawson_hanson.o):            lawson_hanson.c lawson_hanson.h
+$(MELTSDYNAMICLIB)(leucite.o):                  leucite.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(library.o):                  library.c silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h status.h
+$(MELTSDYNAMICLIB)(linear_search.o):            linear_search.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(liquid.o):                   liquid.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(liquid_v34.o):               liquid_v34.c param_struct_data_v34.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(liquidus.o):                 liquidus.c recipes.h silmin.h mthread.h status.h
+$(MELTSDYNAMICLIB)(majorite.o):                 majorite.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(melilite.o):                 melilite.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(melts_support.o):            melts_support.c silmin.h mthread.h recipes.h
+$(MELTSDYNAMICLIB)(melts_threads.o):            melts_threads.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(mthread.o):                  mthread.c mthread.h
+$(MELTSDYNAMICLIB)(nash.o):                     nash.c nash.h
+$(MELTSDYNAMICLIB)(nepheline.o):                nepheline.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(kalsilite.o):                kalsilite.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(olivine.o):                  olivine.c silmin.h mthread.h recipes.h
+$(MELTSDYNAMICLIB)(olivine-sx.o):               olivine-sx.c silmin.h mthread.h recipes.h
+$(MELTSDYNAMICLIB)(orthopyroxene.o):            orthopyroxene.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(ortho-oxide.o):              ortho-oxide.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(perovskite.o):               perovskite.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(read_write.o):               read_write.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(recipes.o):                  recipes.c recipes.h
+$(MELTSDYNAMICLIB)(rhombohedral.o):             rhombohedral.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(rhomsghiorso.o):             rhomsghiorso.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(ringwoodite.o):              ringwoodite.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(silmin.o):                   silmin.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h status.h
+$(MELTSDYNAMICLIB)(silmin_support.o):           silmin_support.c silmin.h mthread.h recipes.h 
+$(MELTSDYNAMICLIB)(spinel.o):                   spinel.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(subSolidusMuO2.o):           subSolidusMuO2.c recipes.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(wadsleyite.o):               wadsleyite.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(water.o):                    water.c silmin.h mthread.h 
+$(MELTSDYNAMICLIB)(wustite.o):                  wustite.c silmin.h mthread.h
+
 # Object module dependencies (other than libraries)
 # ================================================
 
@@ -321,56 +376,109 @@ $(MELTSLIB): $(MELTSLIB)(albite.o) \
              $(MELTSLIB)(wustite.o)
              
 $(MELTSBATCHLIB): $(MELTSBATCHLIB)(albite.o) \
-        	  $(MELTSBATCHLIB)(alloy-liquid.o) \
-        	  $(MELTSBATCHLIB)(alloy-solid.o) \
-        	  $(MELTSBATCHLIB)(amphibole.o) \
-        	  $(MELTSBATCHLIB)(biotite.o) \
-        	  $(MELTSBATCHLIB)(check_coexisting_liquids.o) \
-        	  $(MELTSBATCHLIB)(check_coexisting_solids.o) \
-        	  $(MELTSBATCHLIB)(clinopyroxene.o) \
-        	  $(MELTSBATCHLIB)(cummingtonite.o) \
-        	  $(MELTSBATCHLIB)(equality_constraints.o) \
-        	  $(MELTSBATCHLIB)(est_saturation_state.o) \
-        	  $(MELTSBATCHLIB)(evaluate_saturation.o) \
-        	  $(MELTSBATCHLIB)(feldspar.o) \
-        	  $(MELTSBATCHLIB)(fluid.o) \
-        	  $(MELTSBATCHLIB)(frac.o) \
-        	  $(MELTSBATCHLIB)(garnet.o) \
-        	  $(MELTSBATCHLIB)(gibbs.o) \
-        	  $(MELTSBATCHLIB)(gradient_hessian.o) \
-        	  $(MELTSBATCHLIB)(hornblende.o) \
-        	  $(MELTSBATCHLIB)(ilmenite.o) \
-        	  $(MELTSBATCHLIB)(kalsilite.o) \
-        	  $(MELTSBATCHLIB)(lawson_hanson.o) \
-        	  $(MELTSBATCHLIB)(leucite.o) \
-        	  $(MELTSBATCHLIB)(linear_search.o) \
-        	  $(MELTSBATCHLIB)(liquid.o) \
-        	  $(MELTSBATCHLIB)(liquid_v34.o) \
-        	  $(MELTSBATCHLIB)(liquidus.o) \
-        	  $(MELTSBATCHLIB)(majorite.o) \
-        	  $(MELTSBATCHLIB)(melilite.o) \
-        	  $(MELTSBATCHLIB)(melts_support.o) \
-        	  $(MELTSBATCHLIB)(melts_threads.o) \
-        	  $(MELTSBATCHLIB)(mthread.o) \
-        	  $(MELTSBATCHLIB)(nash.o) \
-        	  $(MELTSBATCHLIB)(nepheline.o) \
-        	  $(MELTSBATCHLIB)(olivine.o) \
-        	  $(MELTSBATCHLIB)(olivine-sx.o) \
-        	  $(MELTSBATCHLIB)(orthopyroxene.o) \
-        	  $(MELTSBATCHLIB)(ortho-oxide.o) \
-        	  $(MELTSBATCHLIB)(perovskite.o) \
-        	  $(MELTSBATCHLIB)(read_write.o) \
-        	  $(MELTSBATCHLIB)(recipes.o) \
-        	  $(MELTSBATCHLIB)(rhombohedral.o) \
-        	  $(MELTSBATCHLIB)(rhomsghiorso.o) \
-        	  $(MELTSBATCHLIB)(ringwoodite.o) \
-        	  $(MELTSBATCHLIB)(silmin.o) \
-        	  $(MELTSBATCHLIB)(silmin_support.o) \
-        	  $(MELTSBATCHLIB)(spinel.o) \
-        	  $(MELTSBATCHLIB)(subSolidusMuO2.o) \
-        	  $(MELTSBATCHLIB)(wadsleyite.o) \
-        	  $(MELTSBATCHLIB)(water.o) \
-        	  $(MELTSBATCHLIB)(wustite.o)
+                  $(MELTSBATCHLIB)(alloy-liquid.o) \
+                  $(MELTSBATCHLIB)(alloy-solid.o) \
+                  $(MELTSBATCHLIB)(amphibole.o) \
+                  $(MELTSBATCHLIB)(biotite.o) \
+                  $(MELTSBATCHLIB)(check_coexisting_liquids.o) \
+                  $(MELTSBATCHLIB)(check_coexisting_solids.o) \
+                  $(MELTSBATCHLIB)(clinopyroxene.o) \
+                  $(MELTSBATCHLIB)(cummingtonite.o) \
+                  $(MELTSBATCHLIB)(equality_constraints.o) \
+                  $(MELTSBATCHLIB)(est_saturation_state.o) \
+                  $(MELTSBATCHLIB)(evaluate_saturation.o) \
+                  $(MELTSBATCHLIB)(feldspar.o) \
+                  $(MELTSBATCHLIB)(fluid.o) \
+                  $(MELTSBATCHLIB)(frac.o) \
+                  $(MELTSBATCHLIB)(garnet.o) \
+                  $(MELTSBATCHLIB)(gibbs.o) \
+                  $(MELTSBATCHLIB)(gradient_hessian.o) \
+                  $(MELTSBATCHLIB)(hornblende.o) \
+                  $(MELTSBATCHLIB)(ilmenite.o) \
+                  $(MELTSBATCHLIB)(kalsilite.o) \
+                  $(MELTSBATCHLIB)(lawson_hanson.o) \
+                  $(MELTSBATCHLIB)(leucite.o) \
+                  $(MELTSBATCHLIB)(linear_search.o) \
+                  $(MELTSBATCHLIB)(liquid.o) \
+                  $(MELTSBATCHLIB)(liquid_v34.o) \
+                  $(MELTSBATCHLIB)(liquidus.o) \
+                  $(MELTSBATCHLIB)(majorite.o) \
+                  $(MELTSBATCHLIB)(melilite.o) \
+                  $(MELTSBATCHLIB)(melts_support.o) \
+                  $(MELTSBATCHLIB)(melts_threads.o) \
+                  $(MELTSBATCHLIB)(mthread.o) \
+                  $(MELTSBATCHLIB)(nash.o) \
+                  $(MELTSBATCHLIB)(nepheline.o) \
+                  $(MELTSBATCHLIB)(olivine.o) \
+                  $(MELTSBATCHLIB)(olivine-sx.o) \
+                  $(MELTSBATCHLIB)(orthopyroxene.o) \
+                  $(MELTSBATCHLIB)(ortho-oxide.o) \
+                  $(MELTSBATCHLIB)(perovskite.o) \
+                  $(MELTSBATCHLIB)(read_write.o) \
+                  $(MELTSBATCHLIB)(recipes.o) \
+                  $(MELTSBATCHLIB)(rhombohedral.o) \
+                  $(MELTSBATCHLIB)(rhomsghiorso.o) \
+                  $(MELTSBATCHLIB)(ringwoodite.o) \
+                  $(MELTSBATCHLIB)(silmin.o) \
+                  $(MELTSBATCHLIB)(silmin_support.o) \
+                  $(MELTSBATCHLIB)(spinel.o) \
+                  $(MELTSBATCHLIB)(subSolidusMuO2.o) \
+                  $(MELTSBATCHLIB)(wadsleyite.o) \
+                  $(MELTSBATCHLIB)(water.o) \
+             $(MELTSBATCHLIB)(wustite.o)
+
+$(MELTSDYNAMICLIB): $(MELTSDYNAMICLIB)(albite.o) \
+                    $(MELTSDYNAMICLIB)(alloy-liquid.o) \
+                    $(MELTSDYNAMICLIB)(alloy-solid.o) \
+                    $(MELTSDYNAMICLIB)(amphibole.o) \
+                    $(MELTSDYNAMICLIB)(biotite.o) \
+                    $(MELTSDYNAMICLIB)(check_coexisting_liquids.o) \
+                    $(MELTSDYNAMICLIB)(check_coexisting_solids.o) \
+                    $(MELTSDYNAMICLIB)(clinopyroxene.o) \
+                    $(MELTSDYNAMICLIB)(cummingtonite.o) \
+                    $(MELTSDYNAMICLIB)(equality_constraints.o) \
+                    $(MELTSDYNAMICLIB)(est_saturation_state.o) \
+                    $(MELTSDYNAMICLIB)(evaluate_saturation.o) \
+                    $(MELTSDYNAMICLIB)(feldspar.o) \
+                    $(MELTSDYNAMICLIB)(fluid.o) \
+                    $(MELTSDYNAMICLIB)(frac.o) \
+                    $(MELTSDYNAMICLIB)(garnet.o) \
+                    $(MELTSDYNAMICLIB)(gibbs.o) \
+                    $(MELTSDYNAMICLIB)(gradient_hessian.o) \
+                    $(MELTSDYNAMICLIB)(hornblende.o) \
+                    $(MELTSDYNAMICLIB)(ilmenite.o) \
+                    $(MELTSDYNAMICLIB)(kalsilite.o) \
+                    $(MELTSDYNAMICLIB)(lawson_hanson.o) \
+                    $(MELTSDYNAMICLIB)(leucite.o) \
+                    $(MELTSDYNAMICLIB)(library.o) \
+                    $(MELTSDYNAMICLIB)(linear_search.o) \
+                    $(MELTSDYNAMICLIB)(liquid.o) \
+                    $(MELTSDYNAMICLIB)(liquid_v34.o) \
+                    $(MELTSDYNAMICLIB)(liquidus.o) \
+                    $(MELTSDYNAMICLIB)(majorite.o) \
+                    $(MELTSDYNAMICLIB)(melilite.o) \
+                    $(MELTSDYNAMICLIB)(melts_support.o) \
+                    $(MELTSDYNAMICLIB)(melts_threads.o) \
+                    $(MELTSDYNAMICLIB)(mthread.o) \
+                    $(MELTSDYNAMICLIB)(nash.o) \
+                    $(MELTSDYNAMICLIB)(nepheline.o) \
+                    $(MELTSDYNAMICLIB)(olivine.o) \
+                    $(MELTSDYNAMICLIB)(olivine-sx.o) \
+                    $(MELTSDYNAMICLIB)(orthopyroxene.o) \
+                    $(MELTSDYNAMICLIB)(ortho-oxide.o) \
+                    $(MELTSDYNAMICLIB)(perovskite.o) \
+                    $(MELTSDYNAMICLIB)(read_write.o) \
+                    $(MELTSDYNAMICLIB)(recipes.o) \
+                    $(MELTSDYNAMICLIB)(rhombohedral.o) \
+                    $(MELTSDYNAMICLIB)(rhomsghiorso.o) \
+                    $(MELTSDYNAMICLIB)(ringwoodite.o) \
+                    $(MELTSDYNAMICLIB)(silmin.o) \
+                    $(MELTSDYNAMICLIB)(silmin_support.o) \
+                    $(MELTSDYNAMICLIB)(spinel.o) \
+                    $(MELTSDYNAMICLIB)(subSolidusMuO2.o) \
+                    $(MELTSDYNAMICLIB)(wadsleyite.o) \
+                    $(MELTSDYNAMICLIB)(water.o) \
+                    $(MELTSDYNAMICLIB)(wustite.o)
 
 simann.o: simann.f
 	$(FC) -c $(FFLAGS) $<
@@ -649,6 +757,24 @@ Melts-batchPrivate: interface.c \
 	$(CC) $(LDFLAGS) -o Melts-batch interface.o $(MELTSBATCHLIB) $(LIBBATCH)
 	$(RM) $(RMFLAGS) interface.o
 	chmod 755 Melts-batch
+
+Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_data.h \
+               param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
+               albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c check_coexisting_liquids.c \
+               check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
+               est_saturation_state.c evaluate_saturation.c feldspar.c fluid.c frac.c garnet.c \
+               gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
+               linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
+               nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
+               perovskite.c read_write.c recipes.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
+               spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
+	$(MAKE) Melts-dynamicPrivate "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS" 
+
+Melts-dynamicPrivate: test_dynamicLib.f $(MELTSDYNAMICLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSDYNAMICLIB)
+	gfortran -o Test_dynamicLib -ffree-form $< $(MELTSDYNAMICLIB) $(LIBBATCH)
+	$(RM) $(RMFLAGS) test_dynamicLib.o
+	chmod 755 Test_dynamicLib
 
 Melts-public: interface.c preclb.c preclb_slave.c postclb.c simann.o \
               calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
