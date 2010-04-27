@@ -1384,8 +1384,8 @@ int putOutputDataToFile(char *fileName)
   wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "Current state of the system recorded in file %s.\n", meltsEnviron.OUTPUT_FILE);
   return GET_INPUT_SUCCESS;
 #else
-  if(!fflush(NULL)) printf("Output files flushed."); else printf("Error returned when attempting to flush output files.");
-  printf("Current state of the system recorded in file melts.out.\n");
+  if(!fflush(NULL)) fprintf(stderr, "Output files flushed."); else fprintf(stderr, "Error returned when attempting to flush output files.");
+  fprintf(stderr, "Current state of the system recorded in file melts.out.\n");
   return TRUE;
 #endif
 }

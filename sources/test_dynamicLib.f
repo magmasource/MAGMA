@@ -1,7 +1,30 @@
+!
+! Minimal test routines for MELTS dynamic library package
+!
 program test
+!
+! storage for meltsgetoxidenames and meltsgetphasenames
+!
   character*20 oxides(50), phases(50)
-  integer i, numoxides, numphases
-  
+  integer numoxides, numphases
+
+!
+! storage for meltsprocess and meltsgetphaseproperties
+!  
+  character*20 phasenames(20)
+  character*100 errorString
+  integer node, mode, iterations, status
+  double precision pressure, temperature, enthalpy, bulk(19), properties(30,10)
+!
+! local storage
+!
+  integer i, j
+!
+! meltsgetoxidenames
+!   character*n oxides(19) [ pre-allocate, must exceed numoxides in length ]
+!   integer n
+!   integer numoxides [ return ]
+!  
   print *, "Before call to meltsgetoxidenames..."
   call meltsgetoxidenames(oxides, 20, numoxides)
   print *, "Return from meltsgetoxidenames with result:"
@@ -9,7 +32,12 @@ program test
     print *, oxides(i)
   end do
   print *, "numxides = ", numoxides
-  
+!
+! meltsgetphasenames
+!   character*n phases(35) [ pre-allocate, must exceed numphases in length ]
+!   int n
+!   int numphases [ return ]
+! 
   print *, "Before call to meltsgetphasenames..."
   call meltsgetphasenames(phases, 20, numphases)
   print *, "Return from meltsgetphasenames with result:"
@@ -18,9 +46,146 @@ program test
   end do
   print *, "numphases = ", numphases
   
-  print *, "Before call to meltsprocess..."
+  print *, "Before first call to meltsprocess..."
+  node = 1;
+  mode = 1;
+  pressure = 1000.0
+  temperature = 1400.0
+  enthalpy = 0.0
+  bulk( 1) = 48.68
+  bulk( 2) =  1.01
+  bulk( 3) = 17.64
+  bulk( 4) =  0.89
+  bulk( 5) =  0.0425
+  bulk( 6) =  7.59
+  bulk( 7) =  0.0
+  bulk( 8) =  9.10
+  bulk( 9) =  0.0
+  bulk(10) =  0.0
+  bulk(11) = 12.45
+  bulk(12) =  2.65
+  bulk(13) =  0.03
+  bulk(14) =  0.08
+  bulk(15) =  0.2
+  bulk(16) =  0.0
+  bulk(17) =  0.0
+  bulk(18) =  0.0
+  bulk(19) =  0.0
+!
+! meltsprocess
+!   integer node [ input ]
+!   integer mode [ input, 0 = continuing run, 1 = initial run or update run ]
+!   double precision pressure
+!   double precision bulk(19) [ input composition of the system ]
+!   double precision enthalpy [ return if mode == 1, input if mode == 0]
+!   double precision temperature [ return if mode == 0, input if mode == 1 ]
+!   character*n phasenames(20) [ pre-allocated memory, must be large enough to hold names of all stable phases in system ]
+!   integer n
+!   integer numphases [ return ]
+!   integer iterations [ return ]
+!   integer status [ return, pass to meltsgeterrorstring ]
+!   double precision properties (11+numoxides, 20) [ pre-allocated memory, column dimension must be large enough to hold 
+!                                                    all stable phases in system ]
+!
+  call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, iterations, status, properties)
+  print *, "... node = ", node
+  print *, "... mode = ", mode
+  do i=1,numoxides
+    print *, "... input ", oxides(i), " = ", bulk(i)
+  end do
+  print *, "... enthalpy = ", enthalpy
+  print *, "... temperature = ", temperature
+  do i=1,numphases
+    print *, "... stable phases: ", phasenames(i)
+    print *, "...... g       = ", properties( 1, i)
+    print *, "...... h       = ", properties( 2, i)
+    print *, "...... s       = ", properties( 3, i)
+    print *, "...... v       = ", properties( 4, i)
+    print *, "...... cp      = ", properties( 5, i)
+    print *, "...... dcpdt   = ", properties( 6, i)
+    print *, "...... dvdt    = ", properties( 7, i)
+    print *, "...... dvdp    = ", properties( 8, i)
+    print *, "...... d2vdt2  = ", properties( 9, i)
+    print *, "...... d2vdtdp = ", properties(10, i)
+    print *, "...... d2vdp2  = ", properties(11, i)
+    do j=1,numoxides
+      print *, "...... composition ", oxides(j), " = ", properties(11+j, i)
+    end do
+  end do
+  print *, "... iterations = ", iterations
+  print *, "... status = ", status
   
   print *, "Before call to meltsgeterrorstring..."
+!
+! meltsgeterrorstring
+!   integer status [ input, number returned from meltsprocess ]
+!   character*n errorstring [ return ]
+!   integer n
+!
+  call meltsgeterrorstring(status, errorString, 100)
+  print *, "... Error string: ", errorString
   
+    
+  print *, "Before second call to meltsprocess..."
+  node = 1;
+  mode = 0;
+  enthalpy = enthalpy - 500.0
+!
+! example of a continuation call, enthalpy/pressure specified
+!
+  call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, iterations, status, properties)
+  print *, "... node = ", node
+  print *, "... mode = ", mode
+  do i=1,numoxides
+    print *, "... input ", oxides(i), " = ", bulk(i)
+  end do
+  print *, "... enthalpy = ", enthalpy
+  print *, "... temperature = ", temperature
+  do i=1,numphases
+    print *, "... stable phases: ", phasenames(i)
+    print *, "...... g       = ", properties( 1, i)
+    print *, "...... h       = ", properties( 2, i)
+    print *, "...... s       = ", properties( 3, i)
+    print *, "...... v       = ", properties( 4, i)
+    print *, "...... cp      = ", properties( 5, i)
+    print *, "...... dcpdt   = ", properties( 6, i)
+    print *, "...... dvdt    = ", properties( 7, i)
+    print *, "...... dvdp    = ", properties( 8, i)
+    print *, "...... d2vdt2  = ", properties( 9, i)
+    print *, "...... d2vdtdp = ", properties(10, i)
+    print *, "...... d2vdp2  = ", properties(11, i)
+    do j=1,numoxides
+      print *, "...... composition ", oxides(j), " = ", properties(11+j, i)
+    end do
+  end do
+  print *, "... iterations = ", iterations
+  print *, "... status = ", status
+  
+  print *, "Before call to meltsgeterrorstring..."
+  call meltsgeterrorstring(status, errorString, 100)
+  print *, "... Error string: ", errorString
+  
+    
   print *, "Before call to meltsgetphaseproperties..."
+!
+! meltsgetphaseproperties
+!   character*n phaseName [ input, zero byte deliminated string ]
+!   double precision temperature [ input]
+!   double precision pressure [ input ]
+!   double precision bulk(19) [ input, composition of phase in oxides ]
+!   double precision properties(11) [ return, memory must be pre-allocated ]
+!
+  call meltsgetphaseproperties('liquid'//char(0), temperature, pressure, bulk, properties)
+  print *, "...... g	   = ", properties( 1, 1)
+  print *, "...... h	   = ", properties( 2, 1)
+  print *, "...... s	   = ", properties( 3, 1)
+  print *, "...... v	   = ", properties( 4, 1)
+  print *, "...... cp	   = ", properties( 5, 1)
+  print *, "...... dcpdt   = ", properties( 6, 1)
+  print *, "...... dvdt    = ", properties( 7, 1)
+  print *, "...... dvdp    = ", properties( 8, 1)
+  print *, "...... d2vdt2  = ", properties( 9, 1)
+  print *, "...... d2vdtdp = ", properties(10, 1)
+  print *, "...... d2vdp2  = ", properties(11, 1)
+
 end program test

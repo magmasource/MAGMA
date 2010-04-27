@@ -558,7 +558,7 @@ int silmin(void)
     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Checking saturation state of potential solids.\n");
     workProcData->active = TRUE;
 #else
-    printf("...Checking saturation state of potential solids.\n");
+    fprintf(stderr, "...Checking saturation state of potential solids.\n");
 #endif
 
     curStep++;
@@ -629,7 +629,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Adding the solid phase %s to the assemblage.\n", solids[index].label);
 #else
-        printf("...Adding the solid phase %s to the assemblage.\n", solids[index].label);
+        fprintf(stderr, "...Adding the solid phase %s to the assemblage.\n", solids[index].label);
 #endif
 
         /* test to see how much we can safely add - use the first liquid as a test case */
@@ -705,7 +705,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Adding liquid to the assemblage.\n");
 #else
-        printf("...Adding liquid to the assemblage.\n");
+        fprintf(stderr, "...Adding liquid to the assemblage.\n");
 #endif
         conLiq(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL, yLiq, mLiq, NULL, NULL, NULL);
         acceptable = FALSE;
@@ -774,7 +774,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
     if (iterQuad == 0) wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Projecting equality constraints.\n");
 #else
-    if (iterQuad == 0) printf("...Projecting equality constraints.\n");
+    if (iterQuad == 0) fprintf(stderr, "...Projecting equality constraints.\n");
 #endif
 #ifdef DEBUG
     printf("\nMaking call to getEqualityConstraints(...) with curStage = ");
@@ -805,7 +805,7 @@ int silmin(void)
     if (iterQuad == 0) wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Minimizing the thermodynamic potential.\n");
     workProcData->active = TRUE;
 #else
-    if (iterQuad == 0) printf("...Minimizing the thermodynamic potential.\n");
+    if (iterQuad == 0) fprintf(stderr, "...Minimizing the thermodynamic potential.\n");
 #endif
 
     curStep++;
@@ -829,7 +829,7 @@ int silmin(void)
     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->Solving quadratic minimization Iter: %d.\n", iterQuad);
     workProcData->active = TRUE;
 #else
-    printf("...-->Solving quadratic minimization Iter: %d.\n", iterQuad);
+    fprintf(stderr, "...-->Solving quadratic minimization Iter: %d.\n", iterQuad);
 #endif
 
     curStep++;
@@ -875,7 +875,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->Rank deficiency detected by HFTI, rank = %d\n", pseudoRank);
 #else
-        printf("...-->Rank deficiency detected by HFTI, rank = %d\n", pseudoRank);
+        fprintf(stderr, "...-->Rank deficiency detected by HFTI, rank = %d\n", pseudoRank);
 	meltsStatus.status = SILMIN_RANK;
 #endif
 #ifdef DEBUG
@@ -1021,7 +1021,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->rNorm = %13.6g, sNorm = %13.6g\n", rNorm, sNorm);
 #else
-    printf("...-->rNorm = %13.6g, sNorm = %13.6g\n", rNorm, sNorm);
+    fprintf(stderr, "...-->rNorm = %13.6g, sNorm = %13.6g\n", rNorm, sNorm);
 #endif
 
 #ifdef DEBUG
@@ -1035,14 +1035,14 @@ int silmin(void)
 #ifndef BATCH_VERSION
         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Quadratic convergence accepted, but non-optimal.\n");
 #else
-        printf("...Quadratic convergence accepted, but non-optimal.\n");
+        fprintf(stderr, "...Quadratic convergence accepted, but non-optimal.\n");
 #endif
       } else if (acceptable) {
         curStep = CONVERGENCE_TEST;
 #ifndef BATCH_VERSION
         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Quadratic convergence was acceptable at iterQuad = %d (rNorm = %g).\n", bestIter, bestrNorm);
 #else
-        printf("...Quadratic convergence was acceptable at iterQuad = %d (rNorm = %g).\n", bestIter, bestrNorm);
+        fprintf(stderr, "...Quadratic convergence was acceptable at iterQuad = %d (rNorm = %g).\n", bestIter, bestrNorm);
 #endif
         silminState = copySilminStateStructure(bestState, silminState);
       } else {
@@ -1069,7 +1069,7 @@ int silmin(void)
         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Quadratic convergence failure. Aborting.\n");
 	workProcData->active = FALSE; 
 #else
-        printf("...Quadratic convergence failure. Aborting.\n");
+        fprintf(stderr, "...Quadratic convergence failure. Aborting.\n");
 	meltsStatus.status = SILMIN_QUAD_MAX;
 #endif
         iterQuad = 0; curStep = 0; return TRUE; 
@@ -1121,7 +1121,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
           wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->Linear search: Iteration exceeded - aborting.\n");
 #else
-          printf("...-->Linear search: Iteration exceeded - aborting.\n");
+          fprintf(stderr, "...-->Linear search: Iteration exceeded - aborting.\n");
 	  meltsStatus.status = SILMIN_LIN_MAX;
 #endif
           status = MIN1D_SUCCESS;
@@ -1135,7 +1135,7 @@ int silmin(void)
       wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->Linear search: Min = %13.6g, step = %13.6g\n", pTotal, lambda);
       updateStatusADB(STATUS_ADB_INDEX_LINEAR, &iter);
 #else
-      printf("...-->Linear search: Min = %13.6g, step = %13.6g\n", pTotal, lambda);
+      fprintf(stderr, "...-->Linear search: Min = %13.6g, step = %13.6g\n", pTotal, lambda);
 #endif
 
       if (hasLiquid) {
@@ -1272,7 +1272,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
           wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Dropping phase %s from the assemblage.\n", solids[i].label);
 #else
-          printf("...Dropping phase %s from the assemblage.\n", solids[i].label);
+          fprintf(stderr, "...Dropping phase %s from the assemblage.\n", solids[i].label);
 #endif
           curStep = PROJECT_CONSTRAINTS;
           if (solids[i].na == 1) {
@@ -1347,7 +1347,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
           wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Dropping liquid %d from the assemblage.\n", nl);
 #else
-          printf("...Dropping multiple liquid %d (of %d) from the assemblage.\n", nl, silminState->nLiquidCoexist);
+          fprintf(stderr, "...Dropping multiple liquid %d (of %d) from the assemblage.\n", nl, silminState->nLiquidCoexist);
 #endif
 
 #ifdef DEBUG
@@ -1392,7 +1392,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Dropping liquid from the assemblage.\n");
 #else
-        printf("...Dropping liquid from the assemblage.\n");
+        fprintf(stderr, "...Dropping liquid from the assemblage.\n");
 #endif
 
 #ifdef DEBUG
@@ -1432,7 +1432,7 @@ int silmin(void)
     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Checking saturation state of potential solids.\n");
     workProcData->active = TRUE;
 #else
-    printf("...Checking saturation state of potential solids.\n");
+    fprintf(stderr, "...Checking saturation state of potential solids.\n");
 #endif
 
     curStep++;
@@ -1446,7 +1446,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
       wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...One of the solid phases has undergone phase separation.\n");
 #else
-      printf("...One of the solid phases has undergone phase separation.\n");
+      fprintf(stderr, "...One of the solid phases has undergone phase separation.\n");
 #endif
       if (silminState->fo2Path != FO2_NONE && hasLiquid) {
         double *moles = (double *) malloc((size_t) nc*sizeof(double));
@@ -1470,7 +1470,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
       wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...A liquid has undergone phase separation.\n");
 #else
-      printf("...A liquid has undergone phase separation.\n");
+      fprintf(stderr, "...A liquid has undergone phase separation.\n");
 #endif
       if (silminState->fo2Path != FO2_NONE) {
         double *moles = (double *) malloc((size_t) nc*sizeof(double));
@@ -1490,7 +1490,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
       wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Stable liquid solid assemblage achieved.\n");
 #else
-      printf("<> Stable liquid solid assemblage achieved.\n");
+      fprintf(stderr, "<> Stable liquid solid assemblage achieved.\n");
 #endif
       curStep++;
     }
@@ -1531,7 +1531,7 @@ int silmin(void)
     if ((silminState->fractionateSol || silminState->fractionateFlu) && !hasLiquid) wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name,
         "...Cannot do solid/fluid fractionation without a liquid phase.\n");
 #else
-    if ((silminState->fractionateSol || silminState->fractionateFlu) && !hasLiquid) printf("...Cannot do solid/fluid fractionation without a liquid phase.\n");
+    if ((silminState->fractionateSol || silminState->fractionateFlu) && !hasLiquid) fprintf(stderr, "...Cannot do solid/fluid fractionation without a liquid phase.\n");
 #endif
 	
     if ((silminState->fractionateSol || silminState->fractionateFlu) && hasLiquid) {
@@ -1627,7 +1627,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
           wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
 #else
-          printf("  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
+          fprintf(stderr, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
 #endif
           (silminState->bulkComp)[i] = 0.0;
           for (j=0; j<nlc; j++) if ((liquid[j].liqToOx)[i] != 0.0) { 
@@ -1635,7 +1635,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
 #else
-            printf("    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
+            fprintf(stderr, "    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
 #endif
           }
           for (j=0; j<npc; j++) {
@@ -1646,7 +1646,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
                   wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "    Moles of %s in solid set to zero.\n", solids[j].label);
 #else
-                  printf("    Moles of %s in solid set to zero.\n", solids[j].label);
+                  fprintf(stderr, "    Moles of %s in solid set to zero.\n", solids[j].label);
 #endif
                 }
               } else {
@@ -1657,7 +1657,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
                     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "    Moles of %s in %s solid set to zero.\n", solids[j+1+k].label, solids[j].label);
 #else
-                    printf("    Moles of %s in %s solid set to zero.\n", solids[j+1+k].label, solids[j].label);
+                    fprintf(stderr, "    Moles of %s in %s solid set to zero.\n", solids[j+1+k].label, solids[j].label);
 #endif
                   }
                 }
@@ -1675,7 +1675,7 @@ int silmin(void)
     if (silminState->fractionateLiq && !hasLiquid) wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name,
         "...Cannot do liquid fractionation without a liquid phase.\n");
 #else
-    if (silminState->fractionateLiq && !hasLiquid) printf("...Cannot do liquid fractionation without a liquid phase.\n");
+    if (silminState->fractionateLiq && !hasLiquid) fprintf(stderr, "...Cannot do liquid fractionation without a liquid phase.\n");
 #endif
 	
     if (silminState->fractionateLiq && hasLiquid) {
@@ -1737,7 +1737,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
           wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
 #else
-          printf("  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
+          fprintf(stderr, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
 #endif
           (silminState->bulkComp)[i] = 0.0;
           for (j=0; j<nlc; j++) if ((liquid[j].liqToOx)[i] != 0.0) { 
@@ -1745,7 +1745,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
 #else
-            printf("    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
+            fprintf(stderr, "    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
 #endif
           }
           for (j=0; j<npc; j++) {
@@ -1756,7 +1756,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
                   wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "    Moles of %s in solid set to zero.\n", solids[j].label);
 #else
-                  printf("    Moles of %s in solid set to zero.\n", solids[j].label);
+                  fprintf(stderr, "    Moles of %s in solid set to zero.\n", solids[j].label);
 #endif
                 }
               } else {
@@ -1767,7 +1767,7 @@ int silmin(void)
 #ifndef BATCH_VERSION
                     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "    Moles of %s in %s solid set to zero.\n", solids[j+1+k].label, solids[j].label);
 #else
-                    printf("    Moles of %s in %s solid set to zero.\n", solids[j+1+k].label, solids[j].label);
+                    fprintf(stderr, "    Moles of %s in %s solid set to zero.\n", solids[j+1+k].label, solids[j].label);
 #endif
                   }
                 }

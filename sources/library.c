@@ -159,6 +159,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
       numberNodes++;
       nodeList = (NodeList *) realloc(nodeList, (size_t) numberNodes*sizeof(struct _nodeList));
       (nodeList[numberNodes-1]).silminState = createSilminState();
+      (nodeList[numberNodes-1]).node = *nodeIndex;
       silminState = (nodeList[numberNodes-1]).silminState;
       qsort(nodeList, (size_t) numberNodes, sizeof(struct _nodeList), compareNodes);
     } else { 
@@ -170,6 +171,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     numberNodes = 1;
     nodeList = (NodeList *) realloc(nodeList, sizeof(struct _nodeList));
     (nodeList[0]).silminState = createSilminState();
+    (nodeList[0]).node = *nodeIndex;
     silminState = (nodeList[0]).silminState;
   }
   
@@ -407,7 +409,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
           totald2VdTdP += (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdtdp;
           totald2VdP2  += (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdp2;
       
-          for (i=0; i<nc; i++) oxVal[i] = (solids[j].solToOx)[i]*bulkSystem[i].mw;
+          for (i=0; i<nc; i++) oxVal[i] = (solids[j].solToOx)[i]*bulkSystem[i].mw*(silminState->solidComp)[j][ns];
 	  
         } else {
           for (i=0; i<solids[j].na; i++) m[i] = (silminState->solidComp)[j+1+i][ns];
@@ -465,18 +467,18 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
 	  
         }
 
-        phaseProperties[(*numberPhases - 1)*columnLength+ 0] = gLiq;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 1] = hLiq;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 2] = sLiq;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 3] = vLiq*10.0;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 4] = cpLiq;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 5] = dcpdtLiq;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 6] = dvdtLiq*10.0;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 7] = dvdpLiq*10.0;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 8] = d2vdt2Liq*10.0;
-        phaseProperties[(*numberPhases - 1)*columnLength+ 9] = d2vdtdpLiq*10.0;
-        phaseProperties[(*numberPhases - 1)*columnLength+10] = d2vdp2Liq*10.0;
-        for (i=0; i<nc; i++) phaseProperties[(*numberPhases - 1)*columnLength+11+i] = oxVal[i]; 
+        phaseProperties[(*numberPhases)*columnLength+ 0] = G;
+        phaseProperties[(*numberPhases)*columnLength+ 1] = H;
+        phaseProperties[(*numberPhases)*columnLength+ 2] = S;
+        phaseProperties[(*numberPhases)*columnLength+ 3] = V*10.0;
+        phaseProperties[(*numberPhases)*columnLength+ 4] = Cp;
+        phaseProperties[(*numberPhases)*columnLength+ 5] = dCpdT;
+        phaseProperties[(*numberPhases)*columnLength+ 6] = dVdT*10.0;
+        phaseProperties[(*numberPhases)*columnLength+ 7] = dVdP*10.0;
+        phaseProperties[(*numberPhases)*columnLength+ 8] = d2VdT2*10.0;
+        phaseProperties[(*numberPhases)*columnLength+ 9] = d2VdTdP*10.0;
+        phaseProperties[(*numberPhases)*columnLength+10] = d2VdP2*10.0;
+        for (i=0; i<nc; i++) phaseProperties[(*numberPhases)*columnLength+11+i] = oxVal[i]; 
 	
         strncpy(phaseNames+(*numberPhases)*sizeof(char)*nCh,solids[j].label, nCh);
 	(*numberPhases)++;
