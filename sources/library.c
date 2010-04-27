@@ -625,7 +625,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
     int i, j = res->index;
     double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2;  
     
-    if (index < 0) { /* liquid */
+    if (j < 0) { /* liquid */
       double *m, *r, mTot;
       int k;
       m = (double *) calloc((size_t) nlc,    sizeof(double));
