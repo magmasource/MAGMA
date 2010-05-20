@@ -108,7 +108,7 @@ int MTHREAD_SETSPECIFIC(MTHREAD_KEY_T key, const void * value) {
 #ifdef DEBUG_THREAD
   printf("Call to MTHREAD_SETSPECIFIC: key = %d, threadID = %d, value = %p\n", key, threadID, value);
 #endif
-  if ((key < MTHREAD_DATAKEYS_MAX) && (key_table)) {
+  if (key < MTHREAD_DATAKEYS_MAX) {
     if (key_table[key].count) {
       if (key_table[key].specific_data[threadID] == NULL) {
   	if (value != NULL) key_table[key].count++;
@@ -132,7 +132,7 @@ int MTHREAD_SETSPECIFIC(MTHREAD_KEY_T key, const void * value) {
 void * MTHREAD_GETSPECIFIC(MTHREAD_KEY_T key) {
   void *ret;
 
-  if ((key_table[key].specific_data[threadID]) && (key < MTHREAD_DATAKEYS_MAX) && (key_table)) {
+  if ((key_table[key].specific_data[threadID]) && (key < MTHREAD_DATAKEYS_MAX)) {
     if (key_table[key].count) {
       ret = (void *) key_table[key].specific_data[threadID];
     } else {

@@ -716,7 +716,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
         d2vldp2 = 0.0, d2vldtdp = 0.0;
 
       /* special case - no EOS option */
-      if ((strcmp(name, "SiO2") == 0) && (calculationMode == MODE__MELTS)) {
+      if ((strcmp(name, "SiO2") == 0) && ((calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS)) ) {
          double h0_sio2 = -901554.0;
          double s0_sio2 = 48.475;
          double al_sio2 = 127.200;
@@ -775,7 +775,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          d2vldtdp = liquid->eos.Kress.d2vdtp;
 
       /* special case - no EOS option */
-      } else if( (strcmp(name, "H2O") == 0) && ( (calculationMode == MODE_pMELTS) || (calculationMode == MODE_xMELTS) ) ) {
+      } else if( (strcmp(name, "H2O") == 0) && (calculationMode == MODE_pMELTS) ) {
          double a = phase->h/r;
 	 double b = -phase->s/r;
          double gH2O, hH2O, sH2O, cpH2O, dcpdtH2O, vH2O, dvdtH2O, dvdpH2O, 
@@ -794,7 +794,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          dcpldt = dcpdtH2O;
 	 
       /* special case - no EOS option */
-      } else if( (strcmp(name, "H2O") == 0) && (calculationMode == MODE__MELTS)) {
+      } else if( (strcmp(name, "H2O") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
          double a = -33676.0, b = 18.3527;
          double phiP = (0.110/t + 4.432e-5 + 1.405e-7*t - 2.394e-11*t*t)*p
            + (7.337e-8/t - 1.170e-8 - 9.502e-13*t)*p*p
@@ -1083,7 +1083,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
 	 
 	 /* MELTS case - always assume Kress (Lange/polynomial) EOS               */
 	 /* Placed here because SiO2 and water special cases are dealt with above */
-	 if (calculationMode == MODE__MELTS) {
+	 if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS)) {
             gl = hl - t*sl
                + (liquid->v + liquid->eos.Kress.dvdt*(t-trl))*(p-pr)
                + 0.5*(liquid->eos.Kress.dvdp + (t-trl)*liquid->eos.Kress.d2vdtp)*(p*p-pr*pr)
@@ -1243,7 +1243,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
       }
 
       /* pMELTS case; xMELTS case - option for Birch-Murnaghan EOS */
-      if ((calculationMode == MODE_pMELTS) || (calculationMode == MODE_xMELTS && liquid->eos_type == EOS_KRESS)) {
+      if (calculationMode == MODE_pMELTS) {
          if (p > pr && (liquid->eos.Kress.dvdp + liquid->eos.Kress.d2vdtp*(t-trl)) != 0.0) {
 	    double d2v0dtdp   = liquid->eos.Kress.d2vdtp;
             double v0	      = liquid->v + liquid->eos.Kress.dvdt*(t-trl);
@@ -2080,7 +2080,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
       double gH2O, hH2O, sH2O, cpH2O, dcpdtH2O, vH2O, dvdtH2O, dvdpH2O, 
         d2vdt2H2O, d2vdtdpH2O, d2vdp2H2O;
 
-      if ((calculationMode == MODE_pMELTS) || (calculationMode == MODE_xMELTS)) {
+      if (calculationMode == MODE_pMELTS) {
          double x[2] = { 1.0, 0.0};
          fluidPhase(t, p, x, &gH2O, NULL, NULL, NULL, &hH2O, &sH2O,
            NULL, NULL, &cpH2O, &dcpdtH2O, NULL, &vH2O, NULL, NULL, &dvdtH2O,
@@ -2093,7 +2093,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
   	 d2vdt2H2O  *=10.0;
   	 d2vdtdpH2O *=10.0;
   	 d2vdp2H2O  *=10.0;
-      } else if (calculationMode == MODE__MELTS) {
+      } else if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS)) {
      	 double pHaar = (p <= 10000.0) ? p : 10000.0;
      	 whaar(pHaar, t, &gH2O, &hH2O, &sH2O, &cpH2O, &dcpdtH2O, &vH2O, &dvdtH2O,
      	   &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O);

@@ -270,8 +270,8 @@ static void fs_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
     n = strcspn(text,";");
     if(n != 0) {
       file_name = (char *) XtRealloc((char *) file_name, (unsigned) (n+1));
-      (void *) strcpy(file_name,"");
-      (void *) strncat(file_name, text, n);
+      (void) strcpy(file_name,"");
+      (void) strncat(file_name, text, n);
       XtFree(text);
 
       if (called_fs == bt_open) {

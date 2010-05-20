@@ -301,7 +301,7 @@ int getInputDataFromFile(char *fileName)
 
   if (defFileName != (char *) NULL) free(defFileName);
   defFileName = (char *) malloc((unsigned) (strlen(fileName)+1)*sizeof(char));
-  (void *) strcpy(defFileName, fileName);
+  (void) strcpy(defFileName, fileName);
 
   if (silminInputData.name == NULL)  silminInputData.name  = (char *) malloc((unsigned) (REC+1)*sizeof(char));
   if (silminInputData.title == NULL) silminInputData.title = (char *) malloc((unsigned) (REC+1)*sizeof(char));
@@ -662,7 +662,7 @@ int putInputDataToFile(char *fileName)
     }
     if (defFileName != (char *) NULL) free(defFileName);
     defFileName = (char *) malloc((unsigned) (strlen(fileName)+1)*sizeof(char));
-    (void *) strcpy(defFileName, fileName);
+    (void) strcpy(defFileName, fileName);
   } else if (defFileName != (char *) NULL) {
     if((output = fopen (defFileName, "w")) == NULL) {
       ABORT("Error in SILMIN file output procedure. Cannot open file:\n", defFileName)

@@ -601,7 +601,7 @@ Melts: interface.c preclb.c preclb_slave.c postclb.c simann.o \
 	$(CC) $(CFLAGS) sources/preclb.c
 	$(CC) $(CFLAGS) sources/preclb_slave.c
 	$(CC) $(CFLAGS) sources/postclb.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o $(MELTSLIB) $(LIBS) $(LIBXML)
+	$(FC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o $(MELTSLIB) $(LIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o
 	chmod 755 $@
 
@@ -917,7 +917,7 @@ Test_database-SACNK: test_database.c liquid-SACNK.o melts_support-SACNK.o \
 	chmod 755 $@
 
 Test_dn2gb: test_dn2gb.c
-	$(CC) -o $@ -I$(INCF2C) $< ../port3/libport.a $(LIBF2C) -lm -lc
+	$(FC) -o $@ -I$(INCF2C) $< ../port3/libport.a $(LIBF2C) -lm -lc
 	chmod 755 $@
 
 Test_entropy: test_entropy.c \

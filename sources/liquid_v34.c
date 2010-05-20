@@ -289,12 +289,12 @@ testLiq_v34(int mask, double t, double p,
   const char *NAMES[NA]    = { "SiO2"  , "TiO2"  , "Al2O3" , "Fe2O3" , "Cr2O3" ,
                                "FeO"   , "MnO"   , "MgO"   , "NiO"   , "CoO"   ,
                                "CaO"   , "Na2O"  , "K2O"   , "P2O5"  , "H2O"   ,
-                               "CO2"   , "S"     , "Cl"    , "F"     };
+                               "CO2"   , "SO3"   , "Cl2O-1", "F2O-1" };
   const char *FORMULAS[NA] = { "SiO2"     , "TiO2"     , "Al2O3"    , "Fe2O3"    , 
                                "MgCr2O4"  , "Fe2SiO4"  , "MnSi0.5O2", "Mg2SiO4"  , 
                                "NiSi0.5O2", "CoSi0.5O2", "CaSiO3"   , "Na2SiO3"  ,
-                               "KAlSiO4"  , "Ca3(PO4)2", "CO2"      , "S"        ,
-                               "Cl"       , "F"        , "H2O"      };
+                               "KAlSiO4"  , "Ca3(PO4)2", "CO2"      , "SO3"      ,
+                               "Cl2O-1"   , "F2O-1"    , "H2O"      };
   int result = TRUE, i;
   double sum;
 

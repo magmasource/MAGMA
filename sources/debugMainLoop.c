@@ -605,7 +605,7 @@ void debugMainLoop(XtAppContext app_context)
   XEvent event;
 
   dpy = XtDisplay(topLevel);
-  (void *) XSynchronize(XtDisplay(topLevel), TRUE); 
+  (void) XSynchronize(XtDisplay(topLevel), TRUE); 
 
   for (;;) {
     XtAppNextEvent(app_context, &event);

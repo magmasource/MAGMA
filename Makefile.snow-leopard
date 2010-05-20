@@ -21,23 +21,23 @@ MELTS_HARDWARE_VERSION = 2 GHz Intel Core 2 Duo
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 3.0
-MELTS_OS_VERSION       = Mac OS X - 10.6.1
+MELTS_OS_VERSION       = Mac OS X - 10.6.3
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
 MELTS_X_VERSION        = X11R6/OpenMotif3
 MELTS_RELEASE_DATE     = November 2009
-MELTS_RELEASE_VERSION  = 5.6.0 (Mac OS X - 10.6.1, gcc 4.2.1, 64 bit)
+MELTS_RELEASE_VERSION  = 5.6.0 (Mac OS X - 10.6.3, gcc 4.2.1, 64 bit)
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
 
-INCC   = /usr/local/grace/include
-INCXM  = /sw/include
+INCC   = /opt/local/include
+INCXM  = /opt/local/include
 INCX   = /usr/X11R6/include
-INCF2C = /sw/include
-INCXML = /sw/include/libxml2
+INCF2C = .
+INCXML = /usr/include/libxml2
 
 # Compiler choice and flags - Do not delete the $(BATCH) macro
 # ============================================================
@@ -45,10 +45,10 @@ INCXML = /sw/include/libxml2
 AR       = ar
 ARFLAGS  = rv
 CC       = gcc
-FC       = fort77
+FC       = gfortran
 CFLAGS   = -ansi -c -fno-common -g -O3 -falign-loops=16 -ftree-vectorize -mfpmath=sse -Wall $(BATCH) \
-           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__
-FFLAGS   = -O2
+           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+FFLAGS   = -O3
 RANLIB   = ranlib
 RANLIBFG = -s
 RM       = rm
@@ -66,12 +66,12 @@ LDFLAGS =
 # for staticcally linked OpenMotif3 use    instead of -L/sw/lib -lMrm -lXm
 # ========================================================================================================
 
-LIBS    = -L/sw/lib -lMrm -lXm -L/usr/local/grace/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
-          ../port3/libport.a /sw/lib/libf2c.a
-PUBLIBS = /sw/lib/libMrm.a /sw/lib/libXm.a -L/usr/local/grace/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
-          ../port3/libport.a /sw/lib/libf2c.a
-LIBF2C = /sw/lib/libf2c.a
-LIBXML = -L/sw/lib -lxml2
+LIBS    = -L/opt/local/lib -lMrm -lXm -L/opt/local/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
+          ../port3/libport.a
+PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a -L/opt/local/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
+          ../port3/libport.a
+LIBF2C = 
+LIBXML = -L/usr/lib -lxml2
 LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
 
 include Makefile.common

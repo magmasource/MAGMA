@@ -31,16 +31,6 @@ const char *preclb_slave_ver(void) { return "$Id: preclb_slave.c,v 1.40 2009/05/
 #include <malloc/malloc.h>
 #endif
 
-#ifdef __APPLE__
-#define F2C 1
-#endif
-
-#ifndef F2C /* __APPLE__ */
-#include <g2c.h>
-#else
-#include <f2c.h>
-#endif /* __APPLE__ */
-
 /* MELTS Include Files */
 
 #include "silmin.h"               
@@ -87,16 +77,16 @@ to depend on those of H2O in a predefined manner
 
 #define NOT_STOLPER_WATER
 
-extern int sa_(integer *n, doublereal *x, integer *max, doublereal *rt, doublereal *eps,
-  integer *ns, integer *nt, const integer *neps, integer *maxevl, doublereal *lb, doublereal *ub,
-  doublereal *c,integer *iprint, integer *iseed1, integer *iseed2, doublereal *t,
-  doublereal *vm, doublereal *xopt, doublereal *fopt, integer *nacc, integer *nfcnev,
-  integer *nobds, integer *ier, doublereal *fstar, doublereal *xp, integer *nacp);
+extern int sa_(int     *n, double     *x, int     *max, double     *rt, double     *eps,
+  int     *ns, int     *nt, const int     *neps, int     *maxevl, double     *lb, double     *ub,
+  double     *c,int     *iprint, int     *iseed1, int     *iseed2, double     *t,
+  double     *vm, double     *xopt, double     *fopt, int     *nacc, int     *nfcnev,
+  int     *nobds, int     *ier, double     *fstar, double     *xp, int     *nacp);
 
 static double *xLiqSAref, *rLiqSAref, *dgdrLiqSAref, gmixLiqSAref, tSAref, pSAref,
               *xLiqTmp, *rLiqTmp, gmixLiqCur;
 
-int fcn_(integer *n, doublereal *theta, doublereal*h) {
+int fcn_(int     *n, double     *theta, double    *h) {
   int i, j;
   if (xLiqTmp == NULL) {
     xLiqTmp = (double *) malloc((size_t) nlc*sizeof(double));
@@ -994,7 +984,7 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
 	  } /* end loop on oxides */
 	  
 	} else if (sID == nAdditionalLiquid && !isEqual) {
-	  static integer nSA, nfcnevSA, ierSA, naccSA, nobdsSA, *nacpSA,
+	  static int     nSA, nfcnevSA, ierSA, naccSA, nobdsSA, *nacpSA,
 	                 maxSA = 0, 
 			 nsSA = 20, 
 			 ntSA = 5, 
@@ -1002,8 +992,8 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
 			 iseed2SA = 2, 
 			 maxevlSA = 100000, 
 			 iprintSA = 0;
-          const integer nepsSA = 4;
-	  static doublereal tSA, foptSA, *lbSA, *ubSA, *xSA, *xoptSA, *cSA, 
+          const int     nepsSA = 4;
+	  static double     tSA, foptSA, *lbSA, *ubSA, *xSA, *xoptSA, *cSA, 
 	                    *vmSA, fstarSA[4], *xpSA,
 	                    epsSA = 1.0e-6, 
 			    rtSA  = 0.1;
@@ -1012,14 +1002,14 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
 	    xLiqSAref    = (double *)     malloc((size_t)     nlc*sizeof(double));
 	    rLiqSAref    = (double *)     malloc((size_t) (nlc-1)*sizeof(double));
 	    dgdrLiqSAref = (double *)     malloc((size_t) (nlc-1)*sizeof(double));
-	    lbSA         = (doublereal *) malloc((size_t)     nlc*sizeof(doublereal));
-	    ubSA         = (doublereal *) malloc((size_t)     nlc*sizeof(doublereal));
-	    xSA          = (doublereal *) malloc((size_t)     nlc*sizeof(doublereal));
-	    xoptSA       = (doublereal *) malloc((size_t)     nlc*sizeof(doublereal));
-	    cSA          = (doublereal *) malloc((size_t)     nlc*sizeof(doublereal));
-	    vmSA         = (doublereal *) malloc((size_t)     nlc*sizeof(doublereal));
-	    xpSA         = (doublereal *) malloc((size_t)     nlc*sizeof(doublereal));
-	    nacpSA       = (integer *)    malloc((size_t)     nlc*sizeof(integer));
+	    lbSA         = (double     *) malloc((size_t)     nlc*sizeof(double    ));
+	    ubSA         = (double     *) malloc((size_t)     nlc*sizeof(double    ));
+	    xSA          = (double     *) malloc((size_t)     nlc*sizeof(double    ));
+	    xoptSA       = (double     *) malloc((size_t)     nlc*sizeof(double    ));
+	    cSA          = (double     *) malloc((size_t)     nlc*sizeof(double    ));
+	    vmSA         = (double     *) malloc((size_t)     nlc*sizeof(double    ));
+	    xpSA         = (double     *) malloc((size_t)     nlc*sizeof(double    ));
+	    nacpSA       = (int     *)    malloc((size_t)     nlc*sizeof(int    ));
 	  }
 	  for (k=0; k<(nlc-1); k++) rLiqSAref[k] = rLiq[k];
 	  conLiq(THIRD, FOURTH, t, p, NULL, NULL, rLiqSAref, xLiqSAref, NULL, NULL, NULL);

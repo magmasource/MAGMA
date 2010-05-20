@@ -83,17 +83,6 @@ static void grace_error_function(const char *msg)
 int isOrthopyroxene(double t, double p, double *r);
 int isPigeonite(double t, double p, double *r);
 
-/* FORTRAN calling conventions from C */
-#ifdef __APPLE__
-#define F2C 1
-#endif
-
-#ifndef F2C /* __APPLE__ */
-#include <g2c.h>
-#else
-#include <f2c.h>
-#endif /* __APPLE__ */
-
 #define SQUARE(x) ((x)*(x))
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 
@@ -101,34 +90,34 @@ int isPigeonite(double t, double p, double *r);
 /* PORT 3 external routines and user defined functions                                     */
 /* ======================================================================================= */
 
-extern int dn2gb_(    /* double version of n2gb routine from the PORT Library v.3          */
-  integer    *n,      /* number of observations                                            */
-  integer    *p,      /* number of parameters                                              */
-  doublereal *x,      /* input: initial guess at optimal parameters. output: best estiamte */
-  doublereal *b,      /* bounds, FORTRAN B(2,P) = {low, high, low, high, ....}             */
-  S_fp       calcr,   /* int calcr(...) : function to calculate vector of residuals        */
-  S_fp       calcj,   /* int calcj(...) : function to calculate the Jacobian matrix        */
-  integer    *iv,     /* control array                                                     */
-  integer    *liv,    /* of length 82 + 4*p                                                */
-  integer    *lv,     /* control array                                                     */
-  doublereal *v,      /* of length 105 + p*(n + 2*p + 21) + 2*n                            */
-  integer    *uiparm, /* integer array passed to calcr, calcj                              */
-  doublereal *urparm, /* double array passed to calcr, calcj                               */
-  U_fp       ufparm   /* int ufparam(...) : user function passed to calcr, calcj           */
+extern int dn2gb_(   /* double version of n2gb routine from the PORT Library v.3           */
+  int     *n,	     /* number of observations						   */
+  int     *p,	     /* number of parameters						   */
+  double  *x,	     /* input: initial guess at optimal parameters. output: best estiamte  */
+  double  *b,	     /* bounds, FORTRAN B(2,P) = {low, high, low, high, ....}		   */
+  int    (*calcr)(), /* int calcr(...) : function to calculate vector of residuals	   */
+  int    (*calcj)(), /* int calcj(...) : function to calculate the Jacobian matrix	   */
+  int     *iv,       /* control array							   */
+  int     *liv,      /* of length 82 + 4*p						   */
+  int     *lv,       /* control array							   */
+  double  *v,	     /* of length 105 + p*(n + 2*p + 21) + 2*n				   */
+  int     *uiparm,   /* integer array passed to calcr, calcj				   */
+  double  *urparm,   /* double array passed to calcr, calcj				   */
+  int    (*ufparm)() /* int ufparam(...) : user function passed to calcr, calcj 	   */
 );
   
-extern int divset_(   /* double version of ivset routine from the PORT Library v.3         */
-  integer    *kind,   /* type of optimization routine, regression with simple bounds = 1   */
-  integer    *iv,     /* control array  						   */
-  integer    *liv,    /* of length 82 + 4*p						   */
-  integer    *lv,     /* control array  						   */
-  doublereal *v       /* of length 105 + p*(n + 2*p + 21) + 2*n 			   */
+extern int divset_(  /* double version of ivset routine from the PORT Library v.3          */
+  int        *kind,  /* type of optimization routine, regression with simple bounds = 1    */
+  int        *iv,    /* control array  						           */
+  int        *liv,   /* of length 82 + 4*p						   */
+  int        *lv,    /* control array  						           */
+  double     *v      /* of length 105 + p*(n + 2*p + 21) + 2*n 			           */
 );
 
-logical stopx_(/* function called by PORT Library v.3 to test for interrupts               */
-  integer dummy) {
-  if (fopen("STOP_MELTS", "r") != NULL) return TRUE_;
-  else return FALSE_;                           /* return TRUE_ to halt dn2gb              */
+int stopx_(/* function called by PORT Library v.3 to test for interrupts                   */
+  int     dummy) {
+  if (fopen("STOP_MELTS", "r") != NULL) return TRUE;
+  else return FALSE;                            /* return TRUE_ to halt dn2gb              */
 }
 
 /*******************************************************************************************/
@@ -247,14 +236,14 @@ static void seed(int islave) {
 static int lastNf, currentNf;
 
 int calcr(/* Residual routine required by dn2gb                                     	   */
-  integer    *pt_n,  /* nuumber of observations 				    	   */
-  integer    *pt_p,  /* number of parameters					    	   */
-  doublereal *x,     /* current parameter guess 				    	   */
-  integer    *pt_nf, /* invocation count for calcr; set to 0 if x is infeasible     	   */
-  doublereal *r,     /* FORTRAN: R(N), r[1:n]                 	                    	   */
-  integer    *ui,    /* passed via dn2gb					    	   */
-  doublereal *ur,    /* passed via dn2gb					    	   */
-  U_fp       uf      /* passed via dn2gb					    	   */
+  int        *pt_n,  /* nuumber of observations 				    	   */
+  int        *pt_p,  /* number of parameters					    	   */
+  double     *x,     /* current parameter guess 				    	   */
+  int        *pt_nf, /* invocation count for calcr; set to 0 if x is infeasible     	   */
+  double     *r,     /* FORTRAN: R(N), r[1:n]                 	                    	   */
+  int        *ui,    /* passed via dn2gb					    	   */
+  double     *ur,    /* passed via dn2gb					    	   */
+  int       (*uf)()  /* passed via dn2gb					    	   */
 ) {
   int n = (int) *pt_n, p = (int) *pt_p, nf = (int) *pt_nf, i, index, failure;
   double sumOfSquares = 0.0;
@@ -626,14 +615,14 @@ int calcr(/* Residual routine required by dn2gb                                 
 /*************************************************************************************/
 
 int calcj(/* Jacobian routine required by dn2gb                                    */
-  integer    *pt_n,  /* nuumber of observations                                    */
-  integer    *pt_p,  /* number of parameters                                       */
-  doublereal *x,     /* current parameter guess                                    */
-  integer    *pt_nf, /* invocation count for calcr; set to 0 if x is infeasible    */
-  doublereal *j,     /* FORTRAN: J(N,P), j[1:n(p=0), 1:n(p=1), ...., (1:n)(p)]     */
-  integer    *ui,    /* passed via dn2gb                                           */
-  doublereal *ur,    /* passed via dn2gb                                           */
-  U_fp       uf      /* passed via dn2gb                                           */
+  int        *pt_n,  /* nuumber of observations                                    */
+  int        *pt_p,  /* number of parameters                                       */
+  double     *x,     /* current parameter guess                                    */
+  int        *pt_nf, /* invocation count for calcr; set to 0 if x is infeasible    */
+  double     *j,     /* FORTRAN: J(N,P), j[1:n(p=0), 1:n(p=1), ...., (1:n)(p)]     */
+  int        *ui,    /* passed via dn2gb                                           */
+  double     *ur,    /* passed via dn2gb                                           */
+  int       (*uf)()  /* passed via dn2gb                                           */
  ) {
   int n = (int) *pt_n, p = (int) *pt_p, nf = (int) *pt_nf, offset, i;
   
@@ -682,7 +671,7 @@ static void mrqcofWithBounds(double x[], double y[], double sig[], int ndata, do
   
   /* Replaced call to funcs with call to calcr */
   iter++; nf = iter;
-  (void) calcr((integer *) &ndata, (integer *) &mfit, &aTemp[1], (integer *) &nf, &ymod[1], NULL, &dyda[1], ufparm);
+  (void) calcr((int     *) &ndata, (int     *) &mfit, &aTemp[1], (int     *) &nf, &ymod[1], NULL, &dyda[1], ufparm);
   if      (nf == lastNf)    offset = 0;
   else if (nf == currentNf) offset = ndata*mfit;
   else printf("mrqcofWithBounds[preclb.c at line %d]--> calcr returned nf = %d, stored values are %d and %d.\n", __LINE__, nf, lastNf, currentNf);
@@ -782,7 +771,7 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
   /* Original call to gaussj(covar,mfit,oneda,1); removed (oneda[j][1] = beta[j]) */
   svdcmp(covar, mfit, mfit, wSVA, vSVA);
   
-  indexx(mfit, wSVA, key);
+  if (mfit > 0) indexx(mfit, wSVA, key);
 #ifdef GRACE_PIPE
   GracePrintf("WITH G2\n"); graphSet++;
   if (graphSet > 1) GracePrintf("KILL g2.s1\n");
@@ -940,7 +929,7 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
   DISPLAYI(mrqrdtADB[2], mfit) 
   DISPLAYI(mrqrdtADB[3], rank) 
   DISPLAYD(mrqrdtADB[5], wMax) 
-  DISPLAYD(mrqrdtADB[6], wSVA[key[1]])
+  if (mfit > 0) { DISPLAYD(mrqrdtADB[6], wSVA[key[1]]) }
   DISPLAYD(mrqrdtADB[7], wMin)
   
   svbksb(covar, wSVA, vSVA, mfit, mfit, beta, eSVA, da);
@@ -1799,19 +1788,14 @@ Boolean preclb(XtPointer client_data)
 	        else if (!strcmp(phaseNameXML, "opx"))            phaseName = "orthopyroxene"; 
 	        else if (!strcmp(phaseNameXML, "plagioclase"))    phaseName = "feldspar"; 
 	        else if (!strcmp(phaseNameXML, "kspar"))          phaseName = "feldspar"; 
-	        else if (!strcmp(phaseNameXML, "ilmenite"))       phaseName = "msg oxide"; 
+	        else if (!strcmp(phaseNameXML, "ilmenite"))       phaseName = "rhm-oxide"; 
 	        else if (!strcmp(phaseNameXML, "fluid"))          phaseName = "water"; 
-#ifndef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
-	        else if (!strcmp(phaseNameXML, "leucite"))        phaseName = "leucite ss"; 
-	        else if (!strcmp(phaseNameXML, "nepheline"))      phaseName = "nepheline ss"; 
-#endif
 	        else if (!strcmp(phaseNameXML, "titanite"))       phaseName = "sphene"; 
   	        else if (!strcmp(phaseNameXML, "caperovskite"))   phaseName = "caperovskite-sx";
   	        else if (!strcmp(phaseNameXML, "stishovite"))     phaseName = "stishovite-sx";
   	        else if (!strcmp(phaseNameXML, "coesite"))        phaseName = "coesite-sx";
   	        else if (!strcmp(phaseNameXML, "perovskite"))     phaseName = "perovskite ss";
 		else if (!strcmp(phaseNameXML, "ferropericlase")) phaseName = "wustite ss";
-		else if (!strcmp(phaseNameXML, "garnet"))         phaseName = "majorite ss";
 	        else { 
 	          phaseName = (char *) malloc((size_t) (strlen(phaseNameXML)+1)*sizeof(char)); 
 	          phaseName = strcpy(phaseName, phaseNameXML);
@@ -2630,17 +2614,17 @@ Boolean preclb(XtPointer client_data)
   
   if (useTrustRegionMethod) {
   
-    integer n = (integer) nEqn, p = (integer) nParam;
+    int     n = (int    ) nEqn, p = (int    ) nParam;
     
     if ((n > 0) && (p > 0)) {
-      integer    kind    = 1;
-      integer    liv     = 82 + 4*p;
-      integer    lv      = 105 + p*(n + 2*p + 21) + 2*n;
-      integer    *iv     = (integer *)    malloc((size_t)     lv*sizeof(integer)); 
-      doublereal *x      = (doublereal *) malloc((size_t)      p*sizeof(doublereal));  
-      doublereal *b      = (doublereal *) malloc((size_t)    2*p*sizeof(doublereal)); 
-      doublereal *v      = (doublereal *) malloc((size_t)     lv*sizeof(doublereal)); 
-      doublereal *urparm = (doublereal *) calloc((size_t) 2*p*n, sizeof(doublereal));;
+      int        kind    = 1;
+      int        liv     = 82 + 4*p;
+      int        lv      = 105 + p*(n + 2*p + 21) + 2*n;
+      int        *iv     = (int     *)    malloc((size_t)     lv*sizeof(int    )); 
+      double     *x      = (double     *) malloc((size_t)      p*sizeof(double    ));  
+      double     *b      = (double     *) malloc((size_t)    2*p*sizeof(double    )); 
+      double     *v      = (double     *) malloc((size_t)     lv*sizeof(double    )); 
+      double     *urparm = (double     *) calloc((size_t) 2*p*n, sizeof(double    ));;
   
       for (i=0, j=0; i<(nls*(nls-1)/2 + nls + npc); i++) {
         if (modelParameters[i].activeH) {

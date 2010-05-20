@@ -217,7 +217,7 @@ MELTS Source Code: RCS
 #undef DEBUG
 #endif
 
-#define USE_GHIORSO_KRESS_MODEL
+#define DO_NOT_USE_GHIORSO_KRESS_MODEL
 #define USE_KRESS_CARMICHAEL_FO2
 
 #include "silmin.h"
@@ -323,7 +323,7 @@ static const int iCmpFe2AlO3_5 = -1; /* Index of Fe2AlO3.5 in s[] array         
 static const int iCmpFe2AlO4_1 = -1; /* Index of Fe2AlO4.1 in s[] array                   */
 #else
 #define NA 19                    /* Number of liquid components 		          */
-#define NS 23                    /* Number of ordering parameters for liquid species      */
+#define NS  0                    /* Number of ordering parameters for liquid species      */
 #define NY  0                    /* Number of ordering parameters for coordination states */
 static const int iOxAl2O3      =  2; /* Index of Al2O3 in bulksystem[] structure array    */
 static const int iOxFe2O3      =  3; /* Index of Fe2O3 in bulksystem[] structure array    */
@@ -333,12 +333,12 @@ static const int iOxNa2O       = 11; /* Index of Na2O in bulksystem[] structure 
 static const int iOxK2O        = 12; /* Index of K2O in bulksystem[] structure array      */
 static const int iOxFeO1_3     = 19; /* Index of FeO1.3 in bulksystem[] structure array   */
 static const int iCmpAl2O3     =  1; /* Index of Al2O3 in r[] array                       */
-static const int iCmpFe2SiO5   =  2; /* Index of Fe2SiO5 in r[] array                     */
+static const int iCmpFe2SiO5   = -1; /* Index of Fe2SiO5 in r[] array                     */
 static const int iCmpFe2SiO4   =  4; /* Index of Fe2SiO4 in r[] array                     */
-static const int iCmpFe2SiO4_6 =  0; /* Index of Fe2SiO4.6 in s[] array                   */
-static const int iCmpFe2AlO4_5 =  3; /* Index of Fe2AlO4.5 in s[] array                   */
-static const int iCmpFe2AlO3_5 =  4; /* Index of Fe2AlO3.5 in s[] array                   */
-static const int iCmpFe2AlO4_1 =  9; /* Index of Fe2AlO4.1 in s[] array                   */
+static const int iCmpFe2SiO4_6 = -1; /* Index of Fe2SiO4.6 in s[] array                   */
+static const int iCmpFe2AlO4_5 = -1; /* Index of Fe2AlO4.5 in s[] array                   */
+static const int iCmpFe2AlO3_5 = -1; /* Index of Fe2AlO3.5 in s[] array                   */
+static const int iCmpFe2AlO4_1 = -1; /* Index of Fe2AlO4.1 in s[] array                   */
 #endif
 
 #define NT (NS+NY)               /* Number of ordering parameters                         */
@@ -452,7 +452,7 @@ static void initializeLiquid(void) {
   }
     
   nH2O = -1;
-  for (i=0; i<NE; i++) if ((strcmp(liquid[i].label, "H2O-OH") == 0) || (strcmp(liquid[i].label, "h2o-oh") == 0)) { nH2O = i; break; }
+  for (i=0; i<NE; i++) if ((strcmp(liquid[i].label, "H2O") == 0) || (strcmp(liquid[i].label, "h2o") == 0)) { nH2O = i; break; }
   
   /* Static global storage for endmember species mole fractions */
   xSpecies       = vector(0, NE-1);
@@ -884,61 +884,16 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   static double tolerance;
   double rSum, coeff, dcoeffds[NS], denom, dDenomds[NS];
   int i, j, k, okay = TRUE;
-  const double y = 0.3; /* Fe2SiO(4+2*0.3) or Fe2AlO(3.5+2*0.3) */
+  /* const double y = 0.3; */ /* Fe2SiO(4+2*0.3) or Fe2AlO(3.5+2*0.3) */
   
   for (i=0, rSum=0.0; i<NR; i++) rSum += r[i];
   
-  coeff = 1.0 - s[ 1]/4.0 - s[ 3]/2.0 - s[ 4]/2.0 - s[ 5]/2.0 - s[ 6]/2.0 
-              - s[ 7]/2.0 - s[ 8]/2.0 - s[ 9]/2.0 - s[10]/3.0 - s[11]/2.0
-	      - s[13]/2.0 - s[14]/2.0 - s[15]/2.0 - s[16]/2.0 - s[17]/2.0
-	      - s[18]/2.0 - s[19]/2.0 + s[20]/2.0 + s[21]/2.0 + s[22]/2.0;
+  coeff = 1.0;
   
-  dcoeffds[ 0] =      0.0; 
-  dcoeffds[ 1] = -1.0/4.0; 
-  dcoeffds[ 2] =      0.0; 
-  dcoeffds[ 3] = -1.0/2.0; 
-  dcoeffds[ 4] = -1.0/2.0; 
-  dcoeffds[ 5] = -1.0/2.0; 
-  dcoeffds[ 6] = -1.0/2.0; 
-  dcoeffds[ 7] = -1.0/2.0; 
-  dcoeffds[ 8] = -1.0/2.0; 
-  dcoeffds[ 9] = -1.0/2.0; 
-  dcoeffds[10] = -1.0/3.0; 
-  dcoeffds[11] = -1.0/2.0; 
-  dcoeffds[12] =      0.0; 
-  dcoeffds[13] = -1.0/2.0; 
-  dcoeffds[14] = -1.0/2.0; 
-  dcoeffds[15] = -1.0/2.0; 
-  dcoeffds[16] = -1.0/2.0; 
-  dcoeffds[17] = -1.0/2.0; 
-  dcoeffds[18] = -1.0/2.0; 
-  dcoeffds[19] = -1.0/2.0; 
-  dcoeffds[20] =  1.0/2.0; 
-  dcoeffds[21] =  1.0/2.0; 
-  dcoeffds[22] =  1.0/2.0; 
-
   /* xSpecies */
   xSpecies[ 0] = 1.0 - rSum*coeff;                   /* SiO2  */
   for (i=0; i<NR; i++) xSpecies[ i+1] = r[i]*coeff;  /* basis */
   for (i=0; i<NS; i++) xSpecies[NA+i] = s[i];        /* depen */
-  
-  xSpecies[ 0] += - s[ 1]/2.0 - s[ 2]/2.0 + s[ 3]/2.0 + s[ 4]/2.0  /* special case SiO2    */ 
-                  + s[ 5]/2.0 + s[ 6]/2.0 + s[ 7]/2.0 + s[ 8]/2.0 
-		  + s[ 9]/2.0 - s[10]/3.0 - s[12]/2.0 - s[14]/3.0
-		  - s[15]/4.0 - s[16]/4.0 - s[17]/4.0 - s[22]/4.0;           
-  xSpecies[ 2] += - s[ 3]/2.0 - s[ 4]/2.0 - s[ 5]/2.0              /* special case Al2O3   */
-                  - s[ 6]/2.0 - s[ 7]/2.0 - s[ 8]/2.0 
-		  - s[ 9]/2.0 - s[10]/6.0 - s[11]/2.0 
-		  - s[13]/2.0 - s[20]/2.0 - s[21]/2.0 - s[22]/2.0;  
-  xSpecies[ 3] += - 2.0*y*s[0] - s[3] - 2.0*y*s[9] - s[14]/6.0;    /* special case Fe2O3   */  
-  xSpecies[ 5] +=  (2.0*y-1.0)*s[0] -s[4] + (2.0*y-1.0)*s[9]       /* special case Fe2SiO4 */ 
-                  - s[12]/2.0 - s[13]/2.0 - s[15]/4.0;
-  xSpecies[ 7] += - s[2]/2.0 - s[5] -s[11]/2.0 - s[16]/4.0;        /* special case Mg2SiO4 */  
-  xSpecies[10] += - s[6] - s[17]/4.0 - s[22]/4.0;             	   /* special case Ca2SiO4 */
-  xSpecies[11] += - s[7] - s[18]/2.0 - s[20]/2.0;             	   /* special case Na2SiO3 */
-  xSpecies[12] += - s[8] - s[19]/2.0 - s[21]/2.0;             	   /* special case K2SiO3  */  
-  xSpecies[18] += - s[ 1]/2.0 - s[10]/2.0 - s[14]/2.0 - s[15]/2.0  /* special case H2O     */
-                  - s[16]/2.0 - s[17]/2.0 - s[18]/2.0 - s[19]/2.0;
   
   /* Catch bad input data */
   for (i=0;  i<NE; i++) okay &= (xSpecies[i] >= 0.0);
@@ -954,7 +909,7 @@ static int rANDsTOx (double r[NR], double s[NT]) {
 
   /* Correct roundoff problems - removed check on 4/10/02 when MgO species was included */
   if (tolerance == 0.0) tolerance = pow(DBL_EPSILON, (double) (2.0/3.0));
-/*  for (i=0; i<(NA+NS); i++) if (fabs(xSpecies[i]) < tolerance) xSpecies[i] = 0.0; */
+  /*  for (i=0; i<(NA+NS); i++) if (fabs(xSpecies[i]) < tolerance) xSpecies[i] = 0.0; */
 
   /* d xSpecies / dr */
   for (i=0; i<NR; i++) { 
@@ -969,39 +924,6 @@ static int rANDsTOx (double r[NR], double s[NT]) {
                          dxSpeciesds[NA+i][i] = 1.0;                /* depen */
   }
   
-  dxSpeciesds[ 0][ 1] += - 1.0/2.0;     dxSpeciesds[ 0][ 2] += - 1.0/2.0; /* special case SiO2    */
-  dxSpeciesds[ 0][ 3] +=   1.0/2.0;     dxSpeciesds[ 0][ 4] +=   1.0/2.0;     
-  dxSpeciesds[ 0][ 5] +=   1.0/2.0;     dxSpeciesds[ 0][ 6] +=   1.0/2.0;     
-  dxSpeciesds[ 0][ 7] +=   1.0/2.0;     dxSpeciesds[ 0][ 8] +=   1.0/2.0;     
-  dxSpeciesds[ 0][ 9] +=   1.0/2.0;     dxSpeciesds[ 0][10] += - 1.0/3.0;
-  dxSpeciesds[ 0][12] += - 1.0/2.0;     dxSpeciesds[ 0][14] += - 1.0/3.0;     
-  dxSpeciesds[ 0][15] += - 1.0/4.0;     dxSpeciesds[ 0][16] += - 1.0/4.0;     
-  dxSpeciesds[ 0][17] += - 1.0/4.0;     dxSpeciesds[ 0][22] += - 1.0/4.0; 
-  dxSpeciesds[ 2][ 3] += - 1.0/2.0;     dxSpeciesds[ 2][ 4] += - 1.0/2.0; /* special case Al2O3   */
-  dxSpeciesds[ 2][ 5] += - 1.0/2.0;     dxSpeciesds[ 2][ 6] += - 1.0/2.0;
-  dxSpeciesds[ 2][ 7] += - 1.0/2.0;     dxSpeciesds[ 2][ 8] += - 1.0/2.0;
-  dxSpeciesds[ 2][ 9] += - 1.0/2.0;     dxSpeciesds[ 2][10] += - 1.0/6.0;
-  dxSpeciesds[ 2][11] += - 1.0/2.0;     dxSpeciesds[ 2][13] += - 1.0/2.0;
-  dxSpeciesds[ 2][20] += - 1.0/2.0;     dxSpeciesds[ 2][21] += - 1.0/2.0;
-  dxSpeciesds[ 2][22] += - 1.0/2.0;
-  dxSpeciesds[ 3][ 0] += - 2.0*y;       dxSpeciesds[ 3][ 3] += - 1.0;     /* special case Fe2O3   */
-  dxSpeciesds[ 3][ 9] += - 2.0*y;       dxSpeciesds[ 3][14] += - 1.0/6.0;
-  dxSpeciesds[ 5][ 0] +=   2.0*y - 1.0; dxSpeciesds[ 5][ 4] += - 1.0;     /* special case Fe2SiO4 */
-  dxSpeciesds[ 5][ 9] +=   2.0*y - 1.0; dxSpeciesds[ 5][12] += - 1.0/2.0;     
-  dxSpeciesds[ 5][13] += - 1.0/2.0;     dxSpeciesds[ 5][15] += - 1.0/4.0;
-  dxSpeciesds[ 7][ 2] += - 1.0/2.0;  	dxSpeciesds[ 7][ 5] += - 1.0;     /* special case Mg2SiO4 */
-  dxSpeciesds[ 7][11] += - 1.0/2.0;  	dxSpeciesds[ 7][16] += - 1.0/4.0;
-  dxSpeciesds[10][ 6] += - 1.0;  	dxSpeciesds[10][17] += - 1.0/4.0; /* special case Ca2SiO4 */
-  dxSpeciesds[10][22] += - 1.0/4.0;
-  dxSpeciesds[11][ 7] += - 1.0;  	dxSpeciesds[11][18] += - 1.0/2.0; /* special case Na2SiO3 */
-  dxSpeciesds[11][20] += - 1.0/2.0;
-  dxSpeciesds[12][ 8] += - 1.0;  	dxSpeciesds[12][19] += - 1.0/2.0; /* special case K2SiO3  */
-  dxSpeciesds[12][21] += - 1.0/2.0;
-  dxSpeciesds[18][ 1] += - 1.0/2.0;  	dxSpeciesds[18][10] += - 1.0/2.0; /* special case H2O	  */
-  dxSpeciesds[18][14] += - 1.0/2.0;  	dxSpeciesds[18][15] += - 1.0/2.0;  	
-  dxSpeciesds[18][16] += - 1.0/2.0;  	dxSpeciesds[18][17] += - 1.0/2.0;  	
-  dxSpeciesds[18][18] += - 1.0/2.0;  	dxSpeciesds[18][19] += - 1.0/2.0;  	
-   
   /* d2 xSpecies / dr ds */
   for (i=0; i<NR; i++) {
     for (j=0; j<NS; j++) {
@@ -1011,35 +933,8 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   }
   
   /* Total moles of species relative to 1 mole of basis components */
-  denom = 12.0      - 3.0*s[ 1] - 6.0*s[ 3] - 6.0*s[ 4] - 6.0*s[ 5] - 6.0*s[ 6] 
-        - 6.0*s[ 7] - 6.0*s[ 8] - 6.0*s[ 9] - 4.0*s[10] - 6.0*s[11] - 6.0*s[13]
-	- 6.0*s[14] - 6.0*s[15] - 6.0*s[16] - 6.0*s[17] - 6.0*s[18] - 6.0*s[19]
-	+ 6.0*s[20] + 6.0*s[21] + 6.0*s[22];                                    /* Special case */
+  denom = 12.0;                                    /* Special case */
   
-  dDenomds[ 0] =  0.0; /* Fe2SiO(4+2y)   */
-  dDenomds[ 1] = -3.0; /* Si(1/4)OH      */
-  dDenomds[ 2] =  0.0; /* MgSiO3         */
-  dDenomds[ 3] = -6.0; /* Fe2AlO4.5      */
-  dDenomds[ 4] = -6.0; /* Fe2AlO3.5      */
-  dDenomds[ 5] = -6.0; /* Mg2AlO3.5      */
-  dDenomds[ 6] = -6.0; /* Ca2AlO3.5      */
-  dDenomds[ 7] = -6.0; /* Na2AlO2.5      */
-  dDenomds[ 8] = -6.0; /* K2AlO2.5       */
-  dDenomds[ 9] = -6.0; /* Fe2AlO(3.5+2y) */
-  dDenomds[10] = -4.0; /* Al(1/3)OH      */
-  dDenomds[11] = -6.0; /* MgAlO2.5       */
-  dDenomds[12] =  0.0; /* FeSiO3         */
-  dDenomds[13] = -6.0; /* FeAlO2.5       */
-  dDenomds[14] = -6.0; /* Fe(1/3)OH      */
-  dDenomds[15] = -6.0; /* Fe(1/2)OH      */
-  dDenomds[16] = -6.0; /* Mg(1/2)OH      */
-  dDenomds[17] = -6.0; /* Ca(1/2)OH      */
-  dDenomds[18] = -6.0; /* NaOH           */
-  dDenomds[19] = -6.0; /* KOH            */
-  dDenomds[20] =  6.0; /* NaAlSiO4       */
-  dDenomds[21] =  6.0; /* KAlSiO4        */
-  dDenomds[22] =  6.0; /* Ca(1/2)AlSiO4  */
-
   nSpecies = 12.0/denom;
   for (i=0; i<NS; i++) {
     dnSpeciesds[i] = -12.0*dDenomds[i]/(denom*denom);
@@ -8954,7 +8849,7 @@ static void fillD2GDPDW (double r[NR], double s[NT], double t, double p, double 
    **************************************/
 #ifndef USE_GHIORSO_KRESS_MODEL
 {
-  int i, j, k, l, m, n
+  int i, j, k, l, m, n;
   for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
     result[2*NP+n] += taylorCoeff[n+NE+1][0+1];
     m = 0;
@@ -11462,6 +11357,8 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
   int i;
   static double *sCorr;
   double factor = 1.0;
+  
+  if (NT == 0) return;
   
 #ifdef DEBUG
   printf("Call to initialGuessOrdering in liquid.c\n");

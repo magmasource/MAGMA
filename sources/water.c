@@ -603,7 +603,7 @@ void whaar(double p, double t, double *gH2O, double *hH2O, double *sH2O,
    *d2vdtdpH2O *= 18.0152;
    *d2vdp2H2O  *= 18.0152;
 
-   if (calculationMode == MODE__MELTS) {
+   if ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) {
                   /* Berman 1988   Haar 1977 */
       *gH2O       += -285829.96 - (298.15*69.9146) - gref;
       *hH2O       += -285829.96                    - href;

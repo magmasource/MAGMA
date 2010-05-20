@@ -631,8 +631,8 @@ static void create_component_adb() {
    * 6 is the conversion from spacing to pixels (arbitrary; whatever looks good).
    **********************************************************************************/
   component_adb = XtVaCreateWidget("Form", xmFormWidgetClass, pane, 
-    XmNheight,         ( 5+2*nls+ 5)*6,
-    XmNwidth,          (15+2*nls+15)*6,
+    XmNheight,         ( 5+2*nls+ 5)*6*2,
+    XmNwidth,          (15+2*nls+15)*6*2,
   NULL);
 
   /* make labels for left edge and diagonal entries */

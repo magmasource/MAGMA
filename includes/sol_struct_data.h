@@ -822,1174 +822,6 @@ void dispWus (int mask, double t, double P, double *x, char **formula);
 #define DO_NOT_INCLUDE_IN_STD_SET FALSE
 
 Solids xMeltsSolids[] = {
-  /***************************************************************************
-  
-   -----> Pure Phases
-   
-   ***************************************************************************/
-  {"aenigmatite", PHASE, "Na2Fe5TiSi6O20", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -8472805.0,      /* H ref (J)				       Guess */
-   740.23,          /* S ref (J/K)		     Sum-of-oxides+magnetics */
-   22.8546,         /* V ref (J/bar)		    Specific gravity of 3.77 */
-   CP_BERMAN,  {{1092.073, -61.5981e2, -225.2679e5, 326.8659e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}                /* v1, v2, v3, v4 terms */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"apatite", PHASE, "Ca5(PO4)3OH", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -6694689.0,              /* H ref (J)       Zhu and Sverjensky (in press) */
-   398.74,                  /* S ref (J/K)     Zhu and Sverjensky (in press) */
-   16.4025,                 /* V ref (J/bar)   Zhu and Sverjensky (in press) */
-   CP_BERMAN,  {{758.81, -64.806E2, 0.0, 44.794E7, 0.0, 0.0, 0.0, 0.0}},                 
-   EOS_VINET,  {{2.4e-5, 97.5, 4.0}} /* Brunet et al., (1999)                */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"cordierite", PHASE, "Mg2Al4Si5O18", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -9158727.0,       /* H ref (J)                              Berman (1988) */
-   417.970,          /* S ref (J/K)                            Berman (1988) */
-   23.311,           /* V ref (J/bar)                          Berman (1988) */
-   CP_BERMAN,  {{954.39, -79.623E2, -23.173E5, -37.021E7, 0.0, 0.0, 0.0, 0.0}},          
-   EOS_VINET,  {{3.003E-6, 86.36, 4.0}} /* Refit Berman (1988)               */ 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"corundum", PHASE, "Al2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -1675700.0,      /* H ref (J)                               Berman (1988) */
-   50.820,          /* S ref (J/K)                             Berman (1988) */
-   2.558,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{155.02, -8.284E2, -38.614E5, 40.908E7, 0.0, 0.0, 0.0, 0.0}},            
-   EOS_VINET,  {{21.342E-6, 259.74, 4.06}} /* refit Berman (1988)            */ 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"cristobalite", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /* alpha phase, transformed in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -907753.0,        /* H ref (J) Berman (1988)                              */
-   43.394,           /* S ref (J/K) Berman (1988)                            */
-   2.587,            /* V ref (J/bar) Berman (1988)                          */
-   CP_BERMAN,  {{83.51, -3.747E2, -24.554E5, 28.007E7, 535.0, 0.0, -14.216E-2, 44.142E-5}},
-   EOS_VINET,  {{20.824E-6, 39.761, 4.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"density", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,            /* Dummy formula to fool parser                         */
-   {                /* ThermoRef structure                                   */
-   -1000.0,         /* H ref (J)                                             */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"diamond", PHASE, "C", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   1900.0,          /* H ref (J)                                             */
-   2.38,            /* S ref (J/K)                                           */
-   0.3417,          /* V ref (J/bar)                                         */
-   CP_SAXENA,  {{98.45, -3.655e-2, 1.217e6, 1.098e-5, 0.0, -1.659e3, 0.0}},
-   EOS_VINET,  {{0.2243e-4, 444.0, 1.9}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"enthalpy", PHASE, "SiO2", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,        /* Dummy formula to fool parser                          */
-   {                /* ThermoRef structure                                   */
-   -1000.0,         /* H ref (J)                                             */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"entropy", PHASE, "SiO2", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,             /* Dummy formula to fool parser                         */
-   {                /* ThermoRef structure                                   */
-   -1000.0,         /* H ref (J)                                             */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"graphite", PHASE, "C", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0,             /* H ref (J)                                             */
-   5.74,            /* S ref (J/K)                                           */
-   0.5298,          /* V ref (J/bar)                                         */
-   CP_SAXENA,  {{60.86, -1.024e-2, 7.139e5, 1.669e-6, 0.0, -9.922e2, 0.0}},
-   EOS_VINET,  {{0.3460e-4, 33.8, 8.9}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"liquid", PHASE, "SiO2", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,            /* Dummy formula to fool parser                         */
-   {                /* ThermoRef structure                                   */
-   -1000.0,         /* H ref (J)                                             */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"merwinite", PHASE, "Ca3MgSi2O8", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -4537497.0,      /* H ref (J)                               Berman (1988) */
-   251.777,         /* S ref (J/K)                             Berman (1988) */
-   9.847,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{453.62, -32.500E2, 0.0, -34.423E7, 0.0, 0.0, 0.0, 0.0}},                
-   EOS_VINET,  {{29.376E-6, 181.488, 8.097}} /* refit Berman (1988)          */ 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"muscovite", PHASE, "KAl2Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -5976740.0,      /* H ref (J)                               Berman (1988) */
-   293.157,         /* S ref (J/K)                             Berman (1988) */
-   14.087,          /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{651.49, -38.732e2, -185.232e5, 274.247e7, 0.0, 0.0, 0.0, 0.0}},         
-   EOS_VINET,  {{3.54e-5, 61.4, 6.9}} /* Knittle (1995)                      */ 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"o2", PHASE, "O2", INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,            /* Dummy properties - computed as special case in Gibbs  */
-   {                /* ThermoRef structure                                   */
-   -1000.0,         /* H ref (J)                                             */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"perovskite", PHASE, "CaTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -1660630.0,      /* H ref (J)                         Robie et al. (1978) */
-   93.64,           /* S ref (J/K)                       Robie et al. (1978) */
-   3.3626,          /* V ref (J/bar)                     Robie et al. (1978) */
-   CP_BERMAN,  {{150.49, -6.213E2, 0.0, -43.010E7, 1530.0, 550.0*4.184, 0.0, 0.0}},                 
-   EOS_VINET,  {{1.5e-5, 210.0, 5.6}} /*, alpha guess, Knittle (1995)        */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"periclase", PHASE, "MgO", INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -601500.0,       /* H ref (J)                               Berman (1990) */
-   26.951,          /* S ref (J/K)                             Berman (1990) */
-   1.125,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{61.10965, -2.96199e2, -6.21154e5, 0.5844612e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{3.16e-5, 156.0, 4.7}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"pseudowollastonite", PHASE, "CaSiO3", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -1627427.0,              /* H ref (J) (Pseudowallostonite)  Berman (1988) */
-   85.279,                  /* S ref (J/K)                     Berman (1988) */
-   4.016,                   /* V ref (J/bar)                   Berman (1988) */
-   CP_BERMAN,  {{141.16, -4.172e2, -58.576e5, 94.074e7, 0.0, 0.0, 0.0, 0.0}},            
-   EOS_VINET,  {{2.8180e-5, 80.321, 3.017}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"quartz", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /* alpha phase, transformed in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -910700.0,        /* H ref (J) Berman (1988)                              */
-   41.460,           /* S ref (J/K) Berman (1988)                            */
-   2.269,            /* V ref (J/bar) Berman (1988)                          */
-   CP_BERMAN, {{80.01, -2.403E2, -35.467E5, 49.157E7, 848.0, 0.0, -9.187E-2, 24.607E-5}},
-   EOS_VINET, {{0.0, 37.1, 6.2}} /* Knittle (1995)                           */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"rutile", PHASE, "TiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -944750.0,       /* H ref (J)                               Berman (1988) */
-   50.460,          /* S ref (J/K)                             Berman (1988) */ 
-   1.882,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{77.84, 0.0, -33.678E5, 40.294E7, 0.0, 0.0, 0.0, 0.0}},                  
-   EOS_VINET,  {{25.716E-6, 220.264, 4.667}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"s2", PHASE, "S2", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,            /* Dummy properties - computed as special case in Gibbs  */
-   {                /* ThermoRef structure                                   */
-   -1000.0,         /* H ref (J)                                             */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"sphene", PHASE, "CaTiSiO5", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -2596652.0,       /* H ref (J)                              Berman (1988) */
-   129.290,          /* S ref (J/K)                            Berman (1988) */
-   5.5711,           /* V ref (J/bar)                      Hirschmann (2007) */
-   CP_BERMAN,  {{238.70, -10.9018E2, -51.30562E5, 59.146E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{1.90e-5, 121.3, 5.37}} /* Hirschmann (2007)                 */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"tridymite", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /* alpha phase, transformed in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -907750.0,        /* H ref (J) Berman (1988)                              */
-   43.770,           /* S ref (J/K) Berman (1988)                            */
-   2.675,            /* V ref (J/bar) Berman (1988)                          */
-   CP_BERMAN,  {{75.37, 0.0, -59.581E5, 95.825E7, 383.0, 130.0, 42.670E-2, -144.575E-5}},                  
-   EOS_VINET,  {{19.339E-6, 39.872, 4.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"water", PHASE, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /* Calculated in GIBBS.C Berman (1988) */
-   {                /* ThermoRef structure                                   */
-   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"whitlockite", PHASE, "Ca3(PO4)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -4097169.0,              /* H ref (J)       Zhu and Sverjensky (in press) */
-   235.978,                 /* S ref (J/K)        Southard and Milner (1935) */
-   9.7620,                  /* V ref (J/bar)             Robie et al. (1978) */
-   CP_BERMAN,  {{402.997, -28.0835E2, 0.0, -32.6230E7, 1373.0, 14059.0, 2.5427E-2, 19.255E-5}},
-   EOS_VINET,  {{2.4e-5, 97.5, 4.0}} /* assumed same as apatite              */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"wollastonite", PHASE, "CaSiO3", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -1631500.0,              /* H ref (J) (Pseudowallostonite)  Berman (1988) */
-   81.810,                  /* S ref (J/K)                     Berman (1988) */
-   3.983,                   /* V ref (J/bar)                   Berman (1988) */
-   CP_BERMAN,  {{149.07, -6.903e2, -36.593e5, 48.435e7, 0.0, 0.0, 0.0, 0.0}},            
-   EOS_VINET,  {{2.8180e-5, 80.321, 3.017}} /* refit of Berman (1988)        */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"wustite", PHASE, "Fe0.947O", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -63640.0*4.184,          /* H ref (J)            Stull and Prophet (1971) */
-   13.764*4.184,            /* S ref (J/K)          Stull and Prophet (1971) */
-   0.117359,                /* V ref (J/bar)        Knittle (1995)           */
-   CP_BERMAN,  {{65.18, -2.803E2, 0.0, -1.737E7, 0.0, 0.0, 0.0, 0.0}},                   
-   EOS_VINET,  {{3.39e-5, 154.0, 4.0}} /* Alpha Fei (1995); Knittle (1995)   */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  /***************************************************************************
-  
-   -----> Saxena High Pressure database - pure solids
-   
-   ***************************************************************************/
-  {"caperovskite-sx", PHASE, "CaSiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*               Calculated in GIBBS.C */
-   {                 /* ThermoRef structure              Saxena et al. (1993) */
-   -1550997.0,       /* H ref (J)                        Saxena et al. (1993) */
-   67.28,            /* S ref (J/K)                      Knittle (1995)       */
-   2.733,            /* V ref (J/bar) + 0.35                  		      */
-   CP_BERMAN,  {{148.176, -7.3888e2, -25.2856e5, 27.0214e7, 0.0, 0.0, 0.0, 0.0}}, /* B&B est.     */                         
-   EOS_VINET,  {{3.3e-5, 281.0, 4.0}} /* alpha Fei (1995); Knittle (1995)     */ 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"coesite-sx", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -907604.0,        /* H ref (J)                              Berman (1988) */
-   39.424,           /* S ref (J/K)                            Berman (1988) */
-   2.064,            /* V ref (J/bar)                          Berman (1988) */
-   CP_BERMAN,  {{ 94.907, -7.673e2, -5.279e5, 2.627e7, 0.0, 0.0, 0.0, 0.0}},                          
-   EOS_VINET,  {{0.69e-5, 96.0, 8.4}} /* alpha Fei (1995), Knittle (1995)    */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  {"stishovite-sx", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -864000.0,        /* H ref (J)                       Saxena et al. (1993) */
-   29.500,           /* S ref (J/K)                     Saxena et al. (1993) */
-   1.4010,           /* V ref (J/bar)                   Saxena et al. (1993) */
-   CP_BERMAN,  {{85.4245, -3.7388e2, -38.3420e5, 65.5985e7, 0.0, 0.0, 0.0, 0.0}}, /* refit from Robie */                             
-   EOS_VINET,  {{1.64e-5, 306.0, 2.8}} /* alpha Fei (1995), Knittle (1995)   */
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   }
-  },
-  /***************************************************************************
-  
-   -----> SOLID SOLUTIONS
-   
-   ***************************************************************************/
-  {"alloy-liquid", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testAlL,         /* Pointer to testAlL  : test expected number and order  */
-   conAlL,          /* Pointer to conAlL   : moles to indep comp variables   */
-   actAlL,          /* Pointer to actAlL   : activities, chemical potentials */
-   gmixAlL,         /* Pointer to gmixAlL  : Gibbs free energy of mixing     */
-   hmixAlL,         /* Pointer to hmixAlL  : Enthaly of mixing               */
-   smixAlL,         /* Pointer to smixAlL  : Entropy of mixing               */
-   cpmixAlL,        /* Pointer to cpmixAlL : Heat capacity of mixing         */
-   vmixAlL,         /* Pointer to vmixAlL  : Volume of mixing                */
-   dispAlL          /* Pointer to dispAlL  : Formula for interface display   */
-  },
-  {"Fe-liquid", COMPONENT, "Fe", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*               Calculated in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   9999.0,          /* H ref (J) non-zero to allow phase inclusion in preclb */
-   0.0,             /* S ref (J/K)                                           */
-   0.71056,         /* V ref (J/bar) Knittle (1995)                          */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_VINET,  {{1.21e-5, 162.5, 5.5}} /* Knittle (1995)                     */
-   }
-  },
-  {"Ni-liquid", COMPONENT, "Ni", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*               Calculated in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   9999.0,          /* H ref (J) non-zero to allow phase inclusion in preclb */
-   0.0,             /* S ref (J/K)                                           */
-   0.65796,         /* V ref (J/bar) Knittle (1995)                          */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_VINET,  {{1.33e-5, 190.5, 4.0}} /* Knittle (1995)                     */
-   }
-  },
-  {"alloy-solid", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testAlS,         /* Pointer to testAlS  : test expected number and order  */
-   conAlS,          /* Pointer to conAlS   : moles to indep comp variables   */
-   actAlS,          /* Pointer to actAlS   : activities, chemical potentials */
-   gmixAlS,         /* Pointer to gmixAlS  : Gibbs free energy of mixing     */
-   hmixAlS,         /* Pointer to hmixAlS  : Enthaly of mixing               */
-   smixAlS,         /* Pointer to smixAlS  : Entropy of mixing               */
-   cpmixAlS,        /* Pointer to cpmixAlS : Heat capacity of mixing         */
-   vmixAlS,         /* Pointer to vmixAlS  : Volume of mixing                */
-   dispAlS          /* Pointer to dispAlS  : Formula for interface display   */
-  },
-  {"Fe-metal", COMPONENT, "Fe", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*               Calculated in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   9999.0,          /* H ref (J) non-zero to allow phase inclusion in preclb */
-   0.0,             /* S ref (J/K)                                           */
-   0.71056,         /* V ref (J/bar) Knittle (1995)                          */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_VINET,  {{1.21e-5, 162.5, 5.5}} /* Knittle (1995)                     */
-   }
-  },
-  {"Ni-metal", COMPONENT, "Ni", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*               Calculated in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   9999.0,          /* H ref (J) non-zero to allow phase inclusion in preclb */
-   0.0,             /* S ref (J/K)                                           */
-   0.65796,         /* V ref (J/bar) Knittle (1995)                          */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_VINET,  {{1.33e-5, 190.5, 4.0}} /* Knittle (1995)                     */
-   }
-  },
-  {"amphibole", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testAph,         /* Pointer to testAph  : test expected number and order  */
-   conAph,          /* Pointer to conAph   : moles to indep comp variables   */
-   actAph,          /* Pointer to actAph   : activities, chemical potentials */
-   gmixAph,         /* Pointer to gmixAph  : Gibbs free energy of mixing     */
-   hmixAph,         /* Pointer to hmixAph  : Enthaly of mixing               */
-   smixAph,         /* Pointer to smixAph  : Entropy of mixing               */
-   cpmixAph,        /* Pointer to cpmixAph : Heat capacity of mixing         */
-   vmixAph,         /* Pointer to vmixAph  : Volume of mixing                */
-   dispAph          /* Pointer to dispAph  : Formula for interface display   */
-  },
-  {"cummingtonite", COMPONENT, "Mg7Si8O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -12067920.38,    /* H ref (J)                Ghiorso et al. (2001)        */
-   540.2587,        /* S ref (J/K)              Ghiorso et al. (1995)        */
-   26.34,           /* V ref (J/bar)            Ghiorso et al. (2001)        */
-   CP_BERMAN,  {{1233.79200, -71.33980e2, -221.63800e5, 233.393749e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{28.1048234e-6, 87.767, 4.0}} 
-   }
-  },
-  {"grunerite", COMPONENT, "Fe7Si8O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -9623550.0,      /* H ref (J)                Ghiorso et al. (2001)        */
-   725.0,           /* S ref (J/K)              Ghiorso et al. (1995)        */
-   27.840,          /* V ref (J/bar)            Ghiorso et al. (1995)        */
-   CP_BERMAN,  {{1347.83, -93.5691e2, -202.2848e5, 303.919e7, 0.0, 0.0, 0.0, 0.0}},      
-   EOS_VINET,  {{28.400e-6, 59.8695, 5.229}} 
-   }
-  },
-  {"tremolite", COMPONENT, "Ca2Mg5Si8O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -12307863.0,     /* H ref (J)                Ghiorso et al. (2001)        */
-   549.500,         /* S ref (J/K)              Bernard's Guess              */
-   27.312,          /* V ref (J/bar)            Yang and Evans               */
-   CP_BERMAN,  {{1229.36, -64.019e2, -320.899e5, 420.881e7, 0.0, 0.0, 0.0, 0.0}},        
-   EOS_VINET,  {{24.374e-6, 67.7369, 7.2096}} 
-   }
-  },
-  {"biotite", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testBio,         /* Pointer to testBio  : test expected number and order  */
-   conBio,          /* Pointer to conBio   : moles to indep comp variables   */
-   actBio,          /* Pointer to actBio   : activities, chemical potentials */
-   gmixBio,         /* Pointer to gmixBio  : Gibbs free energy of mixing     */
-   hmixBio,         /* Pointer to hmixBio  : Enthaly of mixing               */
-   smixBio,         /* Pointer to smixBio  : Entropy of mixing               */
-   cpmixBio,        /* Pointer to cpmixBio : Heat capacity of mixing         */
-   vmixBio,         /* Pointer to vmixBio  : Volume of mixing                */
-   dispBio          /* Pointer to dispBio  : Formula for interface display   */
-  },
-  {"annite", COMPONENT, "KFe3Si3AlO10(OH)2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -5142800.0,      /* H ref (J)                               Berman (1990) */
-   420.0,           /* S ref (J/K)                             Berman (1990) */
-   15.408,          /* V ref (J/bar)                           Berman (1990) */
-   CP_BERMAN,  {{727.208, -47.75040e2, -138.319e5, 211.906e7, 0.0, 0.0, 0.0, 0.0}},      
-   EOS_VINET,  {{34.4473262e-6, 85.4922, 4.0}} 
-   }
-  },
-  {"phlogopite", COMPONENT, "KMg3Si3AlO10(OH)2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -6210391.0,      /* H ref (J)                               Berman (1990) */
-   334.346,         /* S ref (J/K)                             Berman (1990) */
-   14.977,          /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{610.37988, -20.83781e2, -215.33008e5, 284.1040896e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{34.4473262e-6, 85.4922, 4.0}} 
-   }
-  },
-  {"clinopyroxene", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testCpx,         /* Pointer to testCpx  : test expected number and order  */
-   conCpx,          /* Pointer to conCpx   : moles to indep comp variables   */
-   actCpx,          /* Pointer to actCpx   : activities, chemical potentials */
-   gmixCpx,         /* Pointer to gmixCpx  : Gibbs free energy of mixing     */
-   hmixCpx,         /* Pointer to hmixCpx  : Enthaly of mixing               */
-   smixCpx,         /* Pointer to smixCpx  : Entropy of mixing               */
-   cpmixCpx,        /* Pointer to cpmixCpx : Heat capacity of mixing         */
-   vmixCpx,         /* Pointer to vmixCpx  : Volume of mixing                */
-   dispCpx          /* Pointer to dispCpx  : Formula for interface display   */
-  },
-  {"diopside", COMPONENT, "CaMgSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3200583.0,      /* H ref (J)                               Berman (1988) */
-   142.5,           /* S ref (J/K)                             Berman (1988) */
-   6.620,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{305.41, -16.049E2, -71.660E5, 92.184E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{27.795E-6, 114.679, 3.4898}} 
-   }
-  },
-  {"clinoenstatite", COMPONENT, "Mg2Si2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                                                       /* C2/c phase */
-   {                /* ThermoRef structure                                   */
-   -3086083.0,      /* H ref (J)                     2.0*Berman (1988) + DH2 */
-   135.164,         /* S ref (J/K)                   2.0*Berman (1988) + DS2 */
-   6.3279,          /* V ref (J/bar)                 2.0*Berman (1988) + DV2 */
-   CP_BERMAN,  {{333.16, -24.012E2, -45.412E5, 55.830E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{24.656E-6, 133.511, 0.59358}} 
-   }
-  },
-  {"hedenbergite", COMPONENT, "CaFeSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -2842221.0,       /* H ref (J)                           Sack and Ghiorso */
-   174.2,            /* S ref (J/K)                         Sack and Ghiorso */
-   6.7894,           /* V ref (J/bar)                       Sack and Ghiorso */
-   CP_BERMAN,  {{307.89, -15.973E2, -69.925E5, 93.522E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{31.371E-6, 100.756, 2.0120}} 
-   }
-  },
-#define H31  -8.56518 * 1000.0  /* Joules     */
-#define S31   0.00000           /* Joules/K   */
-#define V31   0.00000           /* Joules/bar */
-#define H41   7.93205 * 1000.0  /* Joules     */
-#define S41  18.756             /* Joules/K   */
-#define V41   0.00000           /* Joules/bar */
-#define H51  -7.26701 * 1000.0  /* Joules     */
-#define S51  18.756             /* Joules/K   */
-  {"alumino-buffonite", COMPONENT, "CaTi0.5Mg0.5AlSiO6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3275265.0+(H31),             /* H ref (J)                          Guess */
-   143.745+(S31),                /* S ref (J/K)                        Guess */
-   6.356+(V31),      /* V ref (J/bar)           Guessed as identical to CaTs */
-   CP_BERMAN,  {{297.499, -13.5596e2, -67.0219e5, 75.9082e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{22.250e-6, 114.9425, 4.7366}} 
-   }
-  },
-  {"buffonite", COMPONENT, "CaTi0.5Mg0.5FeSiO6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -2836709.0+(H41),             /* H ref (J)                          Guess */
-   161.985+(S41),                /* S ref (J/K)                        Guess */ 
-   6.7217+(V41),     /* V ref (J/bar)       Guessed as identical to essenite */
-   CP_BERMAN,  {{303.909, -14.1767e2, -43.5654e5, 35.2523e7, 0.0, 0.0, 0.0, 0.0}},       
-   EOS_VINET,  {{22.250e-6, 114.9425, 4.7366}} 
-   }
-  },
-  {"essenite", COMPONENT, "CaFeAlSiO6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -2860211.0+(H51),             /* H ref (J)    H CaTs (Berman 1988)-H3+H4  */
-   158.991+(S51),                /* S ref (J/K)  S CaTs (Berman 1988)-S3+S4  */
-   6.7217,           /* V ref (J/bar)       Cosca and Peacor (AM 72:148-156) */
-   CP_BERMAN,  {{317.11, -17.333e2, -51.0965e5, 54.222e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{22.250e-6, 114.9425, 4.7366}} 
-   }
-  },
-#undef H31
-#undef S31
-#undef V31
-#undef H41
-#undef S41
-#undef V41
-#undef H51
-#undef S51
-  {"jadeite", COMPONENT, "NaAlSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3025118.0,      /* H ref (J)                               Berman (1988) */
-   133.574,         /* S ref (J/K)                             Berman (1988) */
-   6.034,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{311.29, -20.051e2, -53.503e5, 66.257e7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{23.118e-6, 116.279, 4.8112}} 
-   }
-  },
-  {"feldspar", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testFld,         /* Pointer to testFld  : test expected number and order  */
-   conFld,          /* Pointer to conFld   : moles to indep comp variables   */
-   actFld,          /* Pointer to actFld   : activities, chemical potentials */
-   gmixFld,         /* Pointer to gmixFld  : Gibbs free energy of mixing     */
-   hmixFld,         /* Pointer to hmixFld  : Enthaly of mixing               */
-   smixFld,         /* Pointer to smixFld  : Entropy of mixing               */
-   cpmixFld,        /* Pointer to cpmixFld : Heat capacity of mixing         */
-   vmixFld,         /* Pointer to vmixFld  : Volume of mixing                */
-   dispFld          /* Pointer to dispFld  : Formula for interface display   */
-  },
-  {"albite", COMPONENT, "NaAlSi3O8", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                                      /* Salje correction in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -3921618.0,      /* H ref (J)                   monalbite - Berman (1988) */
-   224.412,         /* S ref (J/K)                             Berman (1988) */
-   10.083,          /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN, {{393.64, -24.155E2, -78.928E5, 107.064E7, 0.0, 0.0, 0.0, 0.0}},          
-   EOS_VINET, {{2.6307e-5, 51.414, 5.0}} 
-   }
-  },
-  {"anorthite", COMPONENT, "CaAl2Si2O8", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -4228730.0,     /* H ref (J)   Berman (1988)  Carpenter I1->C1 +3.7*4184.0*/
-   200.186, /* S ref (J/K) Berman (1988)  Carpenter I1->C1 +3.7*4184.0/2200.0*/
-   10.075,           /* V ref (J/bar)                          Berman (1988) */
-   CP_BERMAN, {{439.37, -37.341E2, 0.0, -31.702E7, 0.0, 0.0, 0.0, 0.0}},                
-   EOS_VINET, {{1.4102e-5, 78.570, 5.27718644}} 
-   }
-  },
-  {"sanidine", COMPONENT, "KAlSi3O8", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                             /* K-feldspar, ordering done in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -3970791.0,       /* H ref (J)                              Berman (1988) */
-   214.145,          /* S ref (J/K)                            Berman (1988) */
-   10.869,           /* V ref (J/bar)                          Berman (1988) */
-   CP_BERMAN, {{381.37, -19.410E2, -120.373E5, 183.643E7, 0.0, 0.0, 0.0, 0.0}},         
-   EOS_VINET, {{1.5145e-5, 55.402, 5.0}} 
-   }
-  },
-  {"hornblende", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testHrn,         /* Pointer to testHrn  : test expected number and order  */
-   conHrn,          /* Pointer to conHrn   : moles to indep comp variables   */
-   actHrn,          /* Pointer to actHrn   : activities, chemical potentials */
-   gmixHrn,         /* Pointer to gmixHrn  : Gibbs free energy of mixing     */
-   hmixHrn,         /* Pointer to hmixHrn  : Enthaly of mixing               */
-   smixHrn,         /* Pointer to smixHrn  : Entropy of mixing               */
-   cpmixHrn,        /* Pointer to cpmixHrn : Heat capacity of mixing         */
-   vmixHrn,         /* Pointer to vmixHrn  : Volume of mixing                */
-   dispHrn          /* Pointer to dispHrn  : Formula for interface display   */
-  },
-  {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
-   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{24.374e-6, 71.8391, 2.593}} 
-   }
-  },
-#define DHGrnCum (-9623300.0-(-12067517.0))
-  {"ferropargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+4.0*DHGrnCum/7.0,/* H ref (J)     Helgeson et al. (1978) */
-   185.5*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.989,                           /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1342.61, -83.4862e2, -247.604e5, 348.507e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{24.374e-6, 71.8391, 2.593}} 
-   }
-  },
-#undef DHGrnCum
-#define DHBfABf ((-2836709.0+7932.05)-(-3275265.0-8565.18))
-  {"magnesiohastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
-   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{24.374e-6, 71.8391, 2.593}} 
-   }
-  },
-#undef DHBfABf
-  {"kalsilite ss", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testKal,         /* Pointer to testKal  : test expected number and order  */
-   conKal,          /* Pointer to conKal   : moles to indep comp variables   */
-   actKal,          /* Pointer to actKal   : activities, chemical potentials */
-   gmixKal,         /* Pointer to gmixKal  : Gibbs free energy of mixing     */
-   hmixKal,         /* Pointer to hmixKal  : Enthaly of mixing               */
-   smixKal,         /* Pointer to smixKal  : Entropy of mixing               */
-   cpmixKal,        /* Pointer to cpmixKal : Heat capacity of mixing         */
-   vmixKal,         /* Pointer to vmixKal  : Volume of mixing                */
-   dispKal          /* Pointer to dispKal  : Formula for interface display   */
-  },
-  {"na-nepheline", COMPONENT, "Na4Al4Si4O16", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -2093004.0*4.0,         /* H ref (J)  Waterwiese et al. (1995)            */
-   124.641*4.0,            /* S ref (J/K)                                    */
-   5.4131*4.0,             /* V ref (J/bar)                                  */
-   CP_BERMAN,  {{205.24*4.0, -7.599E2*4.0, -108.383E5*4.0, 208.182E7*4.0, 467.0, 241.0*4.0, -50.249E-2*2.0, 165.95E-5*2.0}}, 
-   EOS_VINET,  {{31.802e-6, 48.7805, 1.4747}} 
-   }
-  },
-#define DH2     -1.35      * 1000.0 * 4.184 /* K4Al4Si4O16 kals-neph  joules */ 
-#define DS2      0.0       * 1000.0 * 4.184 /* joules/T */
-#define DV2     -0.00001   * 1000.0 * 4.184 /* joules/bar */
-  {"k-nepheline", COMPONENT, "K4Al4Si4O16", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -2109563.55*4.0-(DH2),       /* H ref (J)     Berman (pers com) Kalsilite */
-   133.9653*4.0-(DS2),          /* S ref (J/K)   Berman (pers com) Kalsilite */
-   6.043478*4.0-(DV2),          /* V ref (J/bar)                   Kalsilite */
-   CP_BERMAN,  {{186.0*4.0, 0.0, -131.067E5*4.0, 213.893E7*4.0, 800.15, 1154.0*4.0,-7.096454E-2*2.0, 21.682E-5*2.0}},
-   EOS_VINET,  {{31.802e-6, 48.7805, 1.4747}} 
-   }
-  },
-#undef DH2
-#undef DS2
-#undef DV2
-  {"vc-nepheline", COMPONENT, "Na3Al3Si5O16", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,       /* monalbite */
-   0.0, 0.0,                                      /* Salje correction in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -3921618.0,      /* H ref (J)                   monalbite - Berman (1988) */
-   224.412,         /* S ref (J/K)                             Berman (1988) */
-   0.0,             /* V ref (J/bar) - Volume correction accounted in Gibbs  */
-   CP_BERMAN,  {{393.64, -24.155E2, -78.928E5, 107.064E7, 0.0, 0.0, 0.0, 0.0}},         
-   EOS_VINET,  {{31.802e-6, 48.7805, 1.4747}} 
-   }
-  },
-  {"ca-nepheline", COMPONENT, "CaNa2Al4Si4O16", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,  /* C1-anorthite */
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -4228730.0,     /* H ref (J)   Berman (1988)  Carpenter I1->C1 +3.7*4184.0*/
-   200.186, /* S ref (J/K) Berman (1988)  Carpenter I1->C1 +3.7*4184.0/2200.0*/
-   0.0,              /* V ref (J/bar) - Volume correction accounted in Gibbs */
-   CP_BERMAN,  {{439.37, -37.341E2, 0.0, -31.702E7, 0.0, 0.0, 0.0, 0.0}},                
-   EOS_VINET,  {{31.802e-6, 48.7805, 1.4747}} 
-   }
-  },
-  {"leucite ss", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testLeu,         /* Pointer to testLeu  : test expected number and order  */
-   conLeu,          /* Pointer to conLeu   : moles to indep comp variables   */
-   actLeu,          /* Pointer to actLeu   : activities, chemical potentials */
-   gmixLeu,         /* Pointer to gmixLeu  : Gibbs free energy of mixing     */
-   hmixLeu,         /* Pointer to hmixLeu  : Enthaly of mixing               */
-   smixLeu,         /* Pointer to smixLeu  : Entropy of mixing               */
-   cpmixLeu,        /* Pointer to cpmixLeu : Heat capacity of mixing         */
-   vmixLeu,         /* Pointer to vmixLeu  : Volume of mixing                */
-   dispLeu          /* Pointer to dispLeu  : Formula for interface display   */
-  },
-  {"leucite", COMPONENT, "KAlSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3032146.03+27000.0,                       /* H ref (J)   adjusted 21866.4*/
-   184.096+21.75,                        /* S ref (J/K)  Kelley et al. 1953  */
-   8.8390,                             /* V ref (J/bar)  Robie et al. (1978) */
-   CP_BERMAN,  {{271.14, -9.441E2, -78.572E5, 95.920E7, 955.0, 256.0, -9.731e-2, 33.730e-5}},
-   EOS_VINET,  {{12.5167877e-6, 64.2333, 0.0512}} 
-   }
-  },
-  {"analcime", COMPONENT, "NaAlSi2O5(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                             /*               properties of analcime */
-   {                /* ThermoRef structure                                   */
-   -3308500.0-17400,                 /* Johnson et al.             H ref (J) */
-   228.10,                           /* Johnson et al.           S ref (J/K) */
-   9.71,                             /*        Helgeson (1978) V ref (J/bar) */
-   CP_BERMAN,  {{571.83, -71.887E2, 0.0, 149.306E7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{12.5167877e-6, 64.2333, 0.0512}} 
-   }
-  },
-  {"na-leucite", COMPONENT, "NaAlSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                             /*    properties of dehydrated analcime */
-   {                /* ThermoRef structure                                   */
-   -2980100.0-21875.55,              /*   Johnson et al.           H ref (J) */
-   173.68-7.94,                      /*   King and Weller (1961) S ref (J/K) */
-   8.91,                             /*        Helgeson (1978) V ref (J/bar) */
-   CP_BERMAN,  {{401.27, -42.480E2, 0.0, 21.630E7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{12.5167877e-6, 64.2333, 0.0512}} 
-   }
-  },
-  {"majorite ss", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testMaj,         /* Pointer to testMaj  : test expected number and order  */
-   conMaj,          /* Pointer to conMaj   : moles to indep comp variables   */
-   actMaj,          /* Pointer to actMaj   : activities, chemical potentials */
-   gmixMaj,         /* Pointer to gmixMaj  : Gibbs free energy of mixing     */
-   hmixMaj,         /* Pointer to hmixMaj  : Enthaly of mixing               */
-   smixMaj,         /* Pointer to smixMaj  : Entropy of mixing               */
-   cpmixMaj,        /* Pointer to cpmixMaj : Heat capacity of mixing         */
-   vmixMaj,         /* Pointer to vmixMaj  : Volume of mixing                */
-   dispMaj          /* Pointer to dispMaj  : Formula for interface display   */
-  },
-  {"grossular", COMPONENT, "Ca3Al2Si3O12", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -6632859.0,      /* H ref (J)			       Berman (1988) */
-   255.150,         /* S ref (J/K)			       Berman (1988) */
-   12.538,          /* V ref (J/bar) + 1.25		       Berman (1988) */
-   CP_BERMAN, {{573.43, -20.394E2, -188.872E5, 231.931E7, 0.0, 0.0, 0.0, 0.0}},         
-   EOS_VINET, {{2.2515e-5, 168.4, 6.1}} /* refit Berman for alpha, rest from Knittle */
-   }
-  },
-  {"pyrope", COMPONENT, "Mg3Al2Si3O12", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -6286548.0,      /* H ref (J)			       Berman (1988) */
-   266.359,         /* S ref (J/K)			       Berman (1988) */
-   11.316,          /* V ref (J/bar) +0.5		       Berman (1988) */
-   CP_BERMAN, {{640.72, -45.421E2, -47.019E5, 0.0E7, 0.0, 0.0, 0.0, 0.0}},              
-   EOS_VINET, {{2.4226e-5, 164.868441, 5.29147219}} /* Ghiorso, Part III */
-   }
-  },
-  {"almandine", COMPONENT, "Fe3Al2Si3O12", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -5267216.0,      /* H ref (J)                               Berman (1990) */
-   340.007,         /* S ref (J/K)                             Berman (1990) */
-   11.511,          /* V (J/bar) + 0.5                         Berman (1988) */
-   CP_BERMAN,  {{573.96, -14.831E2, -292.920E5, 502.208E7, 0.0, 0.0, 0.0, 0.0}},         
-   EOS_VINET, {{1.58e-5, 190.0, 3.0}} /* alpha Fei (1995); Knittle (1995)    */
-   }
-  },
-  {"majorite", COMPONENT, "Mg4Si4O12", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*               Calculated in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -1513000.0*4.0,  /* H ref (J)               Fabrichnaya and others (2004) */
-   60.300*4.0,      /* S ref (J/K)	       Fabrichnaya and others (2004) */
-   2.85*4.0,        /* V ref (J/bar) + 0.5     Fabrichnaya and others (2004) */
-   CP_BERMAN,  {{718.645, -68.6991E2, 98.09950, 9999.99, 0.0, 0.0, 0.0, 0.0}}, /* refit from Fabrichnaya */         
-   EOS_VINET, {{1.48042e-5, 153.839, 3.19188}} /* refit Fabrichnaya */
-   }
-  },
-  {"melilite", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testMel,         /* Pointer to testMel  : test expected number and order  */
-   conMel,          /* Pointer to conMel   : moles to indep comp variables   */
-   actMel,          /* Pointer to actMel   : activities, chemical potentials */
-   gmixMel,         /* Pointer to gmixMel  : Gibbs free energy of mixing     */
-   hmixMel,         /* Pointer to hmixMel  : Enthaly of mixing               */
-   smixMel,         /* Pointer to smixMel  : Entropy of mixing               */
-   cpmixMel,        /* Pointer to cpmixMel : Heat capacity of mixing         */
-   vmixMel,         /* Pointer to vmixMel  : Volume of mixing                */
-   dispMel          /* Pointer to dispMel  : Formula for interface display   */
-  },
-  {"akermanite", COMPONENT, "Ca2MgSi2O7", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3860441.0 ,     /* H ref (J)                               Berman (1988) */
-   212.000,         /* S ref (J/K)                             Berman (1988) */
-   9.252,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{387.06, -29.388E2, 0.0, -4.079E7, 358.0, 452.0, 0.0, 0.0}},     
-   EOS_VINET,  {{25.011E-6, 127.389, 4.0}} 
-   }
-  }, 
-  {"gehlenite", COMPONENT, "Ca2Al2SiO7", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                                         /* Ordering done in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -3988158.0,       /* H ref (J)                              Berman (1988) */
-   198.600,          /* S ref (J/K)                            Berman (1988) */
-   9.033,            /* V ref (J/bar)                          Berman (1988) */
-   CP_BERMAN,  {{373.09, -22.768E2, -47.785E5, 47.791E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{24.926E-6, 100.402, 5.01605}} 
-   }
-  },
-  {"iron-akermanite", COMPONENT, "Ca2FeSi2O7", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,     /* akermanite */
-   0.0, 0.0,                /* Ca2MgSi2O7 + 1/2 Fe2SiO4 - 1/2 Mg2SiO4 in Gibbs.c */
-   {                /* ThermoRef structure                                   */
-   -3860441.0,      /* H ref (J)                              Berman (1988) */
-   212.000,         /* S ref (J/K)                             Berman (1988) */
-   9.252,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{387.06, -29.388E2, 0.0, -4.079E7, 358.0, 452.0, 0.0, 0.0}},     
-   EOS_VINET,  {{24.926E-6, 100.402, 5.01605}} 
-   }
-  },  
-  {"soda-melilite", COMPONENT, "Na2Si3O7", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,       /* gehlenite */
-   0.0, 0.0,                 /* Ca2Al2SiO7 + 2NaAlSi3O8 - 2CaAl2Si2O8 in Gibbs.c */                    
-   {                /* ThermoRef structure                                   */
-   -3988158.0,       /* H ref (J)                              Berman (1988) */
-   198.600,          /* S ref (J/K) + 2Rln(2)                  Berman (1988) */
-   9.033,            /* V ref (J/bar)                          Berman (1988) */
-   CP_BERMAN,  {{373.09, -22.768E2, -47.785E5, 47.791E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{24.926E-6, 100.402, 5.01605}} 
-   }
-  },
-  {"nepheline ss", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testNph,         /* Pointer to testNph  : test expected number and order  */
-   conNph,          /* Pointer to conNph   : moles to indep comp variables   */
-   actNph,          /* Pointer to actNph   : activities, chemical potentials */
-   gmixNph,         /* Pointer to gmixNph  : Gibbs free energy of mixing     */
-   hmixNph,         /* Pointer to hmixNph  : Enthaly of mixing               */
-   smixNph,         /* Pointer to smixNph  : Entropy of mixing               */
-   cpmixNph,        /* Pointer to cpmixNph : Heat capacity of mixing         */
-   vmixNph,         /* Pointer to vmixNph  : Volume of mixing                */
-   dispNph          /* Pointer to dispNph  : Formula for interface display   */
-  },
-  {"na-nepheline", COMPONENT, "Na4Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -2093004.0*4.0,         /* H ref (J)  Waterwiese et al. (1995)            */
-   124.641*4.0,            /* S ref (J/K)                                    */
-   5.4131*4.0,             /* V ref (J/bar)                                  */
-   CP_BERMAN,  {{205.24*4.0, -7.599E2*4.0, -108.383E5*4.0, 208.182E7*4.0, 467.0, 241.0*4.0, -50.249E-2*2.0, 165.95E-5*2.0}},
-   EOS_VINET,  {{31.802e-6, 48.7805, 1.4747}} 
-   }
-  },
-#define DH2     -1.35      * 1000.0 * 4.184 /* K4Al4Si4O16 kals-neph  joules */ 
-#define DS2      0.0       * 1000.0 * 4.184 /* joules/T */
-#define DV2     -0.00001   * 1000.0 * 4.184 /* joules/bar */
-  {"k-nepheline", COMPONENT, "K4Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -2109563.55*4.0-(DH2)-3572.76, /* H ref (J)   Berman (pers com) Kalsilite */
-   133.9653*4.0-(DS2),          /* S ref (J/K)   Berman (pers com) Kalsilite */
-   6.043478*4.0-(DV2),          /* V ref (J/bar)                   Kalsilite */
-   CP_BERMAN,  {{186.0*4.0, 0.0, -131.067E5*4.0, 213.893E7*4.0, 800.15, 1154.0*4.0, -7.096454E-2*2.0, 21.682E-5*2.0}},
-   EOS_VINET,  {{31.802e-6, 48.7805, 1.4747}} 
-   }
-  },
-#undef DH2
-#undef DS2
-#undef DV2
-  {"vc-nepheline", COMPONENT, "Na3Al3Si5O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,       /* monalbite */
-   0.0, 0.0,                                      /* Salje correction in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -3921618.0,      /* H ref (J)                   monalbite - Berman (1988) */
-   224.412,         /* S ref (J/K)                             Berman (1988) */
-   5.4131*4.0,             /* V ref (J/bar)                                  */
-   CP_BERMAN,  {{393.64, -24.155E2, -78.928E5, 107.064E7, 0.0, 0.0, 0.0, 0.0}},         
-   EOS_VINET,  {{31.802e-6, 48.7805, 1.4747}} 
-   }
-  },
-  {"ca-nepheline", COMPONENT, "CaNa2Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,  /* C1-anorthite */
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -4228730.0,        /* H ref (J) Berman (1988) Carpenter I1->C1 +3.7*4184.0*/
-   200.186, /* S ref (J/K) Berman (1988)  Carpenter I1->C1 +3.7*4184.0/2200.0*/
-   5.4131*4.0,             /* V ref (J/bar)                                  */
-   CP_BERMAN,  {{439.37, -37.341E2, 0.0, -31.702E7, 0.0, 0.0, 0.0, 0.0}},                
-   EOS_VINET,  {{31.802e-6, 48.7805, 1.4747}} 
-   }
-  },
   {"olivine", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -2020,7 +852,7 @@ Solids xMeltsSolids[] = {
    155.900,          /* S ref (J/K)                            Berman (1988) */
    4.889,            /* V ref (J/bar)                          Berman (1988) */
    CP_BERMAN,  {{219.89, -12.710E2, -20.496E5, 17.652E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{2.26e-5, 127.551, 4.0}} /* alpha Fei (1995); Knittle (1995) */ 
+   EOS_BERMAN, {{-0.784E-6, 0.0, 25.14E-6, 64.7E-10}} 
    }
   },
   {"fayalite", COMPONENT, "Fe2SiO4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2029,8 +861,8 @@ Solids xMeltsSolids[] = {
    -1479360.0,       /* H ref (J)                              Berman (1988) */
    150.930,          /* S ref (J/K)                            Berman (1988) */ 
    4.630,            /* V ref (J/bar)                          Berman (1988) */
-   CP_BERMAN, {{248.93, -19.239E2, 0.0, -13.910E7, 0.0, 0.0, 0.0, 0.0}},                
-   EOS_VINET, {{ 2.9447e-5, 127.955797, 5.016956 }}  /* Ghiorso (2004)       */
+   CP_BERMAN,  {{248.93, -19.239E2, 0.0, -13.910E7, 0.0, 0.0, 0.0, 0.0}},                
+   EOS_BERMAN, {{-0.730E-6, 0.0, 26.546E-6, 79.482E-10}} 
    }
   },
   {"co-olivine", COMPONENT, "Co2SiO4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
@@ -2040,7 +872,7 @@ Solids xMeltsSolids[] = {
    142.600,          /* S ref (J/K)                            Berman (1988) */
    4.459,            /* V ref (J/bar)                          Berman (1988) */
    CP_BERMAN,  {{201.048, -0.369E2, -71.81E5, 90.05E7, 0.0, 0.0, 0.0, 0.0}},             
-   EOS_VINET,  {{2.8422e-5, 156.250, 4.0}} 
+   EOS_BERMAN, {{-0.64E-6, 0.0E-12, 28.422E-6, 35.355E-10}} 
    }
   },
   {"ni-olivine", COMPONENT, "Ni2SiO4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
@@ -2050,7 +882,7 @@ Solids xMeltsSolids[] = {
    128.100,          /* S ref (J/K)                            Berman (1988) */
    4.259,            /* V ref (J/bar)                          Berman (1988) */
    CP_BERMAN,  {{214.997, -10.308E2, -49.445E5, 62.370E7, 0.0, 0.0, 0.0, 0.0}},          
-   EOS_VINET,  {{2.8422e-5, 149.031, 4.0}} 
+   EOS_BERMAN, {{-0.671E-6, 0.0E-12, 28.422E-6, 35.355E-10}} 
    }
   },
   {"monticellite", COMPONENT, "CaMgSiO4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2060,7 +892,7 @@ Solids xMeltsSolids[] = {
    108.300,          /* S ref (J/K)                            Berman (1988) */
    5.148,            /* V ref (J/bar)                          Berman (1988) */
    CP_BERMAN,  {{226.34, -15.427E2, -11.797E5, -2.329E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{2.7863e-5, 110.620, 3.89471}} 
+   EOS_BERMAN, {{-0.904E-6, 2.00E-12, 27.863E-6, 76.339E-10}} 
    }
   },
   {"forsterite", COMPONENT, "Mg2SiO4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2069,11 +901,31 @@ Solids xMeltsSolids[] = {
    -2174420.0,       /* H ref (J)                              Berman (1988) */
    94.010,           /* S ref (J/K)                            Berman (1988) */
    4.366,            /* V ref (J/bar)                          Berman (1988) */
-   CP_BERMAN, {{238.64, -20.013E2, 0.0, -11.624E7, 0.0, 0.0, 0.0, 0.0}},                
-   EOS_VINET, {{ 3.1393e-5, 125.099, 5.05799 }}  /* Ghiorso (2004)           */
+   CP_BERMAN,  {{238.64, -20.013E2, 0.0, -11.624E7, 0.0, 0.0, 0.0, 0.0}},                
+   EOS_BERMAN, {{-0.791E-6, 1.351E-12, 29.464E-6, 88.633E-10}} 
    }
   },
-  {"ortho oxide", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"fayalite", PHASE, "Fe2SiO4", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1479360.0,       /* H ref (J)                              Berman (1988) */
+   150.930,          /* S ref (J/K)                            Berman (1988) */ 
+   4.630,            /* V ref (J/bar)                          Berman (1988) */
+   CP_BERMAN, {{248.93, -19.239E2, 0.0, -13.910E7, 0.0, 0.0, 0.0, 0.0}},                
+   EOS_VINET, {{ 2.9447e-5, 127.955797, 5.016956 }}  /* EOS_BERMAN, {{-0.730E-6, 0.0, 26.546E-6, 79.482E-10}} */
+   }
+  },
+  {"sphene", PHASE, "CaTiSiO5", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2596652.0,       /* H ref (J)                              Berman (1988) */
+   129.290,          /* S ref (J/K)                            Berman (1988) */
+   5.565,            /* V ref (J/bar)                          Berman (1988) */
+   CP_BERMAN,  {{234.62, -10.403E2, -51.183E5, 59.146E7, 0.0, 0.0, 0.0, 0.0}},           
+   EOS_BERMAN, {{-0.590E-6, 0.0, 25.200E-6, 0.0}} 
+   }
+  },
+  {"garnet", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
@@ -2086,47 +938,107 @@ Solids xMeltsSolids[] = {
    0.0, 0.0, 0.0
    },
    0, 0,
-   testOox,         /* Pointer to testOox  : test expected number and order  */
-   conOox,          /* Pointer to conOox   : moles to indep comp variables   */
-   actOox,          /* Pointer to actOox   : activities, chemical potentials */
-   gmixOox,         /* Pointer to gmixOox  : Gibbs free energy of mixing     */
-   hmixOox,         /* Pointer to hmixOox  : Enthaly of mixing               */
-   smixOox,         /* Pointer to smixOox  : Entropy of mixing               */
-   cpmixOox,        /* Pointer to cpmixOox : Heat capacity of mixing         */
-   vmixOox,         /* Pointer to vmixOox  : Volume of mixing                */
-   dispOox          /* Pointer to dispOox  : Formula for interface display   */
+   testGrn,         /* Pointer to testGrn  : test expected number and order  */
+   conGrn,          /* Pointer to conGrn   : moles to indep comp variables   */
+   actGrn,          /* Pointer to actGrn   : activities, chemical potentials */
+   gmixGrn,         /* Pointer to gmixGrn  : Gibbs free energy of mixing     */
+   hmixGrn,         /* Pointer to hmixGrn  : Enthaly of mixing               */
+   smixGrn,         /* Pointer to smixGrn  : Entropy of mixing               */
+   cpmixGrn,        /* Pointer to cpmixGrn : Heat capacity of mixing         */
+   vmixGrn,         /* Pointer to vmixGrn  : Volume of mixing                */
+   dispGrn          /* Pointer to dispGrn  : Formula for interface display   */
   },
-  {"pseudobrookite", COMPONENT, "Fe2TiO5", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                            /* Cp terms from Berman and Brown (1985) */
-   {                /* ThermoRef structure                                   */
-   -1754429.0,      /* H ref (J)   Analysis of Haggerty & Lindsley Data      */
-   156.4816,        /* S ref (J/K) Kelley & King (1961)                      */
-   5.491,           /* V ref (J/bar) From page 45 (oxide short course)       */
-   CP_BERMAN,  {{261.35, -15.307e2, 0.0, -23.466e7, 0.0, 0.0, 0.0, 0.0}},                
-   EOS_VINET,  {{0.151155e-5, 175.774, 4.0}} /* Ghiorso et al., (1999)       */
-   }
-  },
-  {"ferropseudobrookite", COMPONENT, "FeTi2O5", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"almandine", COMPONENT, "Fe3Al2Si3O12", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -2175332.0,      /* H ref (J)   Analysis of Haggerty & Lindsley Data      */
-   127.1936-26.94+59.80, /* King & Kelley (1961) for MgTi2O5 - MgO (periclase
-                     Robie et al. (1978) + FeO (stoich) (op cit) S ref (J/K) */
-   5.578,           /* V ref (J/bar) From page 45 (oxide short course)
-                       Armacolite (50:50) - karrooite                        */
-   CP_BERMAN,  {{232.58-58.196+77.036, -7.555e2-(-1.6114e2)-5.8471e2, -56.608e5-(-14.0458e5), 
-     58.214e7-11.2673e7+0.5558e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{0.151155e-5, 175.774, 4.0}} /* Ghiorso et al., (1999)       */
+   -5267216.0,      /* H ref (J)                               Berman (1990) */
+   340.007,         /* S ref (J/K)                             Berman (1990) */
+   11.511,          /* V (J/bar)                               Berman (1988) */
+   CP_BERMAN,  {{573.96, -14.831E2, -292.920E5, 502.208E7, 0.0, 0.0, 0.0, 0.0}},         
+   EOS_BERMAN, {{-0.558E-6, 0.321E-12, 18.613E-6, 74.539E-10}} 
    }
   },
-  {"karrooite", COMPONENT, "MgTi2O5", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                            /* Cp terms from Berman and Brown (1985) */
+  {"grossular", COMPONENT, "Ca3Al2Si3O12", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -2507053.0,      /* H ref (J)   Kelley, Todd & King (1954)                */
-   127.1936,        /* S ref (J/K) Kelley & King (1961)                      */
-   5.482,           /* V ref (J/bar) From page 45 (oxide short course)       */
-   CP_BERMAN,  {{232.58, -7.555e2, -56.608e5, 58.214e7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{0.151155e-5, 175.774, 4.0}} /* Ghiorso et al., (1999)       */
+   -6632859.0,       /* H ref (J)                              Berman (1988) */
+   255.150,          /* S ref (J/K)                            Berman (1988) */
+   12.538,           /* V ref (J/bar)                          Berman (1988) */
+   CP_BERMAN,  {{573.43, -20.394E2, -188.872E5, 231.931E7, 0.0, 0.0, 0.0, 0.0}},         
+   EOS_BERMAN, {{-0.654E-6, 1.635E-12, 18.994E-6, 79.756E-10}} 
+   }
+  },
+  {"pyrope", COMPONENT, "Mg3Al2Si3O12", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -6286548.0,       /* H ref (J)                              Berman (1988) */
+   266.359,          /* S ref (J/K)                            Berman (1988) */
+   11.316,           /* V ref (J/bar)                          Berman (1988) */
+   CP_BERMAN,  {{640.72, -45.421E2, -47.019E5, 0.0E7, 0.0, 0.0, 0.0, 0.0}},              
+   EOS_BERMAN, {{-0.576E-6, 0.442E-12, 22.519E-6, 37.044E-10}} 
+   }
+  },
+  {"melilite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testMel,         /* Pointer to testMel  : test expected number and order  */
+   conMel,          /* Pointer to conMel   : moles to indep comp variables   */
+   actMel,          /* Pointer to actMel   : activities, chemical potentials */
+   gmixMel,         /* Pointer to gmixMel  : Gibbs free energy of mixing     */
+   hmixMel,         /* Pointer to hmixMel  : Enthaly of mixing               */
+   smixMel,         /* Pointer to smixMel  : Entropy of mixing               */
+   cpmixMel,        /* Pointer to cpmixMel : Heat capacity of mixing         */
+   vmixMel,         /* Pointer to vmixMel  : Volume of mixing                */
+   dispMel          /* Pointer to dispMel  : Formula for interface display   */
+  },
+  {"akermanite", COMPONENT, "Ca2MgSi2O7", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3860441.0+4900.0,/* H ref (J)                              Berman (1988) */
+   212.000,         /* S ref (J/K)                             Berman (1988) */
+   9.252,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{387.06, -29.388E2, 0.0, -4.079E7, 358.0, 452.0, 0.0, 0.0}},     
+   EOS_BERMAN, {{-0.785E-6, 0.0, 25.011E-6, 67.224E-10}} 
+   }
+  }, 
+  {"gehlenite", COMPONENT, "Ca2Al2SiO7", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                         /* Ordering done in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -3988158.0+18900.0,/* H ref (J)                             Berman (1988) */
+   198.600,          /* S ref (J/K)                            Berman (1988) */
+   9.033,            /* V ref (J/bar)                          Berman (1988) */
+   CP_BERMAN,  {{373.09, -22.768E2, -47.785E5, 47.791E7, 0.0, 0.0, 0.0, 0.0}},           
+   EOS_BERMAN, {{-0.996E-6, 2.488E-12, 24.926E-6, 5.664E-10}} 
+   }
+  },
+  {"iron-akermanite", COMPONENT, "Ca2FeSi2O7", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,     /* akermanite */
+   0.0, 0.0,                /* Ca2MgSi2O7 + 1/2 Fe2SiO4 - 1/2 Mg2SiO4 in Gibbs.c */
+   {                /* ThermoRef structure                                   */
+   -3860441.0+4000.0,/* H ref (J)                              Berman (1988) */
+   212.000,         /* S ref (J/K)                             Berman (1988) */
+   9.252,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{387.06, -29.388E2, 0.0, -4.079E7, 358.0, 452.0, 0.0, 0.0}},                 
+   EOS_BERMAN, {{-0.785E-6, 0.0, 25.011E-6, 67.224E-10}} 
+   }
+  },  
+  {"soda-melilite", COMPONENT, "Na2Si3O7", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,       /* gehlenite */
+   0.0, 0.0,                 /* Ca2Al2SiO7 + 2NaAlSi3O8 - 2CaAl2Si2O8 in Gibbs.c */                    
+   {                /* ThermoRef structure                                   */
+   -3988158.0+6700.0,/* H ref (J)                              Berman (1988) */
+   198.600,          /* S ref (J/K) + 2Rln(2)                  Berman (1988) */
+   9.033,            /* V ref (J/bar)                          Berman (1988) */
+   CP_BERMAN,  {{373.09, -22.768E2, -47.785E5, 47.791E7, 0.0, 0.0, 0.0, 0.0}},           
+   EOS_BERMAN, {{-0.996E-6, 2.488E-12, 24.926E-6, 5.664E-10}} 
    }
   },
   {"orthopyroxene", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2159,7 +1071,7 @@ Solids xMeltsSolids[] = {
    142.5,           /* S ref (J/K)                             Berman (1988) */
    6.620,           /* V ref (J/bar)                           Berman (1988) */
    CP_BERMAN,  {{305.41, -16.049E2, -71.660E5, 92.184E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{27.795E-6, 114.679, 3.4898}} 
+   EOS_BERMAN, {{-0.872E-6, 1.707E-12, 27.795E-6, 83.082E-10}} 
    }
   },
   {"clinoenstatite", COMPONENT, "Mg2Si2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2169,7 +1081,7 @@ Solids xMeltsSolids[] = {
    135.164,         /* S ref (J/K)                   2.0*Berman (1988) + DS2 */
    6.3279,          /* V ref (J/bar)                 2.0*Berman (1988) + DV2 */
    CP_BERMAN,  {{333.16, -24.012E2, -45.412E5, 55.830E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{24.656E-6, 133.511, 0.59358}} 
+   EOS_BERMAN, {{-0.749E-6, 0.447E-12, 24.656E-6, 74.670E-10}} 
    }
   },
   {"hedenbergite", COMPONENT, "CaFeSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2179,7 +1091,7 @@ Solids xMeltsSolids[] = {
    174.2,            /* S ref (J/K)                         Sack and Ghiorso */
    6.7894,           /* V ref (J/bar)                       Sack and Ghiorso */
    CP_BERMAN,  {{307.89, -15.973E2, -69.925E5, 93.522E7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{31.371E-6, 100.756, 2.0120}} 
+   EOS_BERMAN, {{-0.9925E-6, 1.4835E-12, 31.371E-6, 83.672E-10}} 
    }
   },
 #define H31  -8.56518 * 1000.0  /* Joules     */
@@ -2197,7 +1109,7 @@ Solids xMeltsSolids[] = {
    143.745+(S31),                /* S ref (J/K)                        Guess */
    6.356+(V31),      /* V ref (J/bar)           Guessed as identical to CaTs */
    CP_BERMAN,  {{297.499, -13.5596e2, -67.0219e5, 75.9082e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{22.250e-6, 114.9425, 4.7366}} 
+   EOS_BERMAN, {{-0.870e-6, 2.171e-12, 22.250e-6, 52.863e-10}} 
    }
   },
   {"buffonite", COMPONENT, "CaTi0.5Mg0.5FeSiO6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2207,7 +1119,7 @@ Solids xMeltsSolids[] = {
    161.985+(S41),                /* S ref (J/K)                        Guess */ 
    6.7217+(V41),     /* V ref (J/bar)       Guessed as identical to essenite */
    CP_BERMAN,  {{303.909, -14.1767e2, -43.5654e5, 35.2523e7, 0.0, 0.0, 0.0, 0.0}},       
-   EOS_VINET,  {{22.250e-6, 114.9425, 4.7366}} 
+   EOS_BERMAN, {{-0.870e-6, 2.171e-12, 22.250e-6, 52.863e-10}} 
    }
   },
   {"essenite", COMPONENT, "CaFeAlSiO6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2217,7 +1129,7 @@ Solids xMeltsSolids[] = {
    158.991+(S51),                /* S ref (J/K)  S CaTs (Berman 1988)-S3+S4  */
    6.7217,           /* V ref (J/bar)       Cosca and Peacor (AM 72:148-156) */
    CP_BERMAN,  {{317.11, -17.333e2, -51.0965e5, 54.222e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_VINET,  {{22.250e-6, 114.9425, 4.7366}} 
+   EOS_BERMAN, {{-0.870e-6, 2.171e-12, 22.250e-6, 52.863e-10}} 
    }
   },
 #undef H31
@@ -2235,10 +1147,10 @@ Solids xMeltsSolids[] = {
    133.574,         /* S ref (J/K)                             Berman (1988) */
    6.034,           /* V ref (J/bar)                           Berman (1988) */
    CP_BERMAN,  {{311.29, -20.051e2, -53.503e5, 66.257e7, 0.0, 0.0, 0.0, 0.0}},           
-   EOS_VINET,  {{23.118e-6, 116.279, 4.8112}} 
+   EOS_BERMAN, {{-0.860e-6, 2.149e-12, 23.118e-6, 25.785e-10}} 
    }
   },
-  {"perovskite ss", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"clinopyroxene", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
@@ -2251,37 +1163,123 @@ Solids xMeltsSolids[] = {
    0.0, 0.0, 0.0
    },
    0, 0,
-   testPvk,         /* Pointer to testPvk  : test expected number and order  */
-   conPvk,          /* Pointer to conPvk   : moles to indep comp variables   */
-   actPvk,          /* Pointer to actPvk   : activities, chemical potentiPvk */
-   gmixPvk,         /* Pointer to gmixPvk  : Gibbs free energy of mixing     */
-   hmixPvk,         /* Pointer to hmixPvk  : Enthaly of mixing               */
-   smixPvk,         /* Pointer to smixPvk  : Entropy of mixing               */
-   cpmixPvk,        /* Pointer to cpmixPvk : Heat capacity of mixing         */
-   vmixPvk,         /* Pointer to vmixPvk  : Volume of mixing                */
-   dispPvk          /* Pointer to dispPvk  : Formula for interface display   */
+   testCpx,         /* Pointer to testCpx  : test expected number and order  */
+   conCpx,          /* Pointer to conCpx   : moles to indep comp variables   */
+   actCpx,          /* Pointer to actCpx   : activities, chemical potentials */
+   gmixCpx,         /* Pointer to gmixCpx  : Gibbs free energy of mixing     */
+   hmixCpx,         /* Pointer to hmixCpx  : Enthaly of mixing               */
+   smixCpx,         /* Pointer to smixCpx  : Entropy of mixing               */
+   cpmixCpx,        /* Pointer to cpmixCpx : Heat capacity of mixing         */
+   vmixCpx,         /* Pointer to vmixCpx  : Volume of mixing                */
+   dispCpx          /* Pointer to dispCpx  : Formula for interface display   */
   },
-  {"magnesioperovskite", COMPONENT, "MgSiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*               Calculated in GIBBS.C */
-   {                 /* ThermoRef structure              Saxena et al. (1993) */
-   -1450000.0,       /* H ref (J)                        Saxena et al. (1993) */
-   59.50,            /* S ref (J/K)                      Saxena et al. (1993) */
-   2.4500,           /* V ref (J/bar) + 0.08                  		      */
-   CP_BERMAN,  {{145.977, -6.63730e2, -39.3314e5, 47.6380e7, 0.0, 0.0, 0.0, 0.0}},  /* B&B form */                             
-   EOS_VINET,  {{1.9e-5, 254.0, 4.0}} /* alpha Fei (1995); Knittle (1995)     */ 
+  {"diopside", COMPONENT, "CaMgSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3200583.0,      /* H ref (J)                               Berman (1988) */
+   142.5,           /* S ref (J/K)                             Berman (1988) */
+   6.620,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{305.41, -16.049E2, -71.660E5, 92.184E7, 0.0, 0.0, 0.0, 0.0}},           
+   EOS_BERMAN, {{-0.872E-6, 1.707E-12, 27.795E-6, 83.082E-10}} 
    }
   },
-  {"ferroperovskite", COMPONENT, "FeSiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*               Calculated in GIBBS.C */
-   {                 /* ThermoRef structure              Saxena et al. (1993) */
-   -1091400.0,       /* H ref (J)                        Saxena et al. (1993) */
-   101.46,           /* S ref (J/K)                      Saxena et al. (1993) */
-   2.5590,           /* V ref (J/bar) + 0.2                  		      */
-   CP_BERMAN,  {{164.817, -10.8730e2, -25.2856e5, 36.9265e7, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_VINET,  {{1.9e-5, 404.089, 4.0}} /* alpha = MgSiO3; Knittle (1995)     */
+  {"clinoenstatite", COMPONENT, "Mg2Si2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                                       /* C2/c phase */
+   {                /* ThermoRef structure                                   */
+   -3086083.0,      /* H ref (J)                     2.0*Berman (1988) + DH2 */
+   135.164,         /* S ref (J/K)                   2.0*Berman (1988) + DS2 */
+   6.3279,          /* V ref (J/bar)                 2.0*Berman (1988) + DV2 */
+   CP_BERMAN,  {{333.16, -24.012E2, -45.412E5, 55.830E7, 0.0, 0.0, 0.0, 0.0}},           
+   EOS_BERMAN, {{-0.749E-6, 0.447E-12, 24.656E-6, 74.670E-10}} 
    }
   },
-  {"msg oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"hedenbergite", COMPONENT, "CaFeSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2842221.0,       /* H ref (J)                           Sack and Ghiorso */
+   174.2,            /* S ref (J/K)                         Sack and Ghiorso */
+   6.7894,           /* V ref (J/bar)                       Sack and Ghiorso */
+   CP_BERMAN,  {{307.89, -15.973E2, -69.925E5, 93.522E7, 0.0, 0.0, 0.0, 0.0}},           
+   EOS_BERMAN, {{-0.9925E-6, 1.4835E-12, 31.371E-6, 83.672E-10}} 
+   }
+  },
+#define H31  -8.56518 * 1000.0  /* Joules     */
+#define S31   0.00000           /* Joules/K   */
+#define V31   0.00000           /* Joules/bar */
+#define H41   7.93205 * 1000.0  /* Joules     */
+#define S41  18.756             /* Joules/K   */
+#define V41   0.00000           /* Joules/bar */
+#define H51  -7.26701 * 1000.0  /* Joules     */
+#define S51  18.756             /* Joules/K   */
+  {"alumino-buffonite", COMPONENT, "CaTi0.5Mg0.5AlSiO6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3275265.0+(H31),             /* H ref (J)                          Guess */
+   143.745+(S31),                /* S ref (J/K)                        Guess */
+   6.356+(V31),      /* V ref (J/bar)           Guessed as identical to CaTs */
+   CP_BERMAN,  {{297.499, -13.5596e2, -67.0219e5, 75.9082e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-0.870e-6, 2.171e-12, 22.250e-6, 52.863e-10}} 
+   }
+  },
+  {"buffonite", COMPONENT, "CaTi0.5Mg0.5FeSiO6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2836709.0+(H41),             /* H ref (J)                          Guess */
+   161.985+(S41),                /* S ref (J/K)                        Guess */ 
+   6.7217+(V41),     /* V ref (J/bar)       Guessed as identical to essenite */
+   CP_BERMAN,  {{303.909, -14.1767e2, -43.5654e5, 35.2523e7, 0.0, 0.0, 0.0, 0.0}},       
+   EOS_BERMAN, {{-0.870e-6, 2.171e-12, 22.250e-6, 52.863e-10}} 
+   }
+  },
+  {"essenite", COMPONENT, "CaFeAlSiO6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2860211.0+(H51),             /* H ref (J)    H CaTs (Berman 1988)-H3+H4  */
+   158.991+(S51),                /* S ref (J/K)  S CaTs (Berman 1988)-S3+S4  */
+   6.7217,           /* V ref (J/bar)       Cosca and Peacor (AM 72:148-156) */
+   CP_BERMAN,  {{317.11, -17.333e2, -51.0965e5, 54.222e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-0.870e-6, 2.171e-12, 22.250e-6, 52.863e-10}} 
+   }
+  },
+#undef H31
+#undef S31
+#undef V31
+#undef H41
+#undef S41
+#undef V41
+#undef H51
+#undef S51
+  {"jadeite", COMPONENT, "NaAlSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3025118.0,      /* H ref (J)                               Berman (1988) */
+   133.574,         /* S ref (J/K)                             Berman (1988) */
+   6.034,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{311.29, -20.051e2, -53.503e5, 66.257e7, 0.0, 0.0, 0.0, 0.0}},           
+   EOS_BERMAN, {{-0.860e-6, 2.149e-12, 23.118e-6, 25.785e-10}} 
+   }
+  },
+  {"aegirine", PHASE, "NaFeSi2O6", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2576800.0,      /* H ref (J)		       Sack & Ghiorso (1994) */
+   170.57,          /* S ref (J/K)		       Sack & Ghiorso (1994) */
+   63.997,         /* V ref (J/bar)		       Sack & Ghiorso (1994) */
+   CP_BERMAN, {{311.29+303.909-297.499, -20.051e2+(-14.1767e2)-(-13.5596e2), -53.503e5+(-43.5654e5)-(-67.0219e5), 66.257e7+(35.2523e7)-(75.9082e7), 0.0, 0.0, 0.0, 0.0}},           
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}                /* v1, v2, v3, v4 terms */
+   }
+  },
+  {"aenigmatite", PHASE, "Na2Fe5TiSi6O20", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -8472805.0,       /* H ref (J)                                      Guess */
+   740.23,           /* S ref (J/K)                  Sum-of-oxides+magnetics */
+   22.8546,          /* V ref (J/bar)               Specific gravity of 3.77 */
+   CP_BERMAN,  {{1092.073, -61.5981e2, -225.2679e5, 326.8659e7, 0.0, 0.0, 0.0, 0.0}},    
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"cummingtonite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
@@ -2294,115 +1292,517 @@ Solids xMeltsSolids[] = {
    0.0, 0.0, 0.0
    },
    0, 0,
-   testMsg,         /* Pointer to testMsg  : test expected number and order  */
-   conMsg,          /* Pointer to conMsg   : moles to indep comp variables   */
-   actMsg,          /* Pointer to actMsg   : activities, chemical potentials */
-   gmixMsg,         /* Pointer to gmixMsg  : Gibbs free energy of mixing     */
-   hmixMsg,         /* Pointer to hmixMsg  : Enthaly of mixing               */
-   smixMsg,         /* Pointer to smixMsg  : Entropy of mixing               */
-   cpmixMsg,        /* Pointer to cpmixMsg : Heat capacity of mixing         */
-   vmixMsg,         /* Pointer to vmixMsg  : Volume of mixing                */
-   dispMsg          /* Pointer to dispMsg  : Formula for interface display   */
+   testCum,         /* Pointer to testCum  : test expected number and order  */
+   conCum,          /* Pointer to conCum   : moles to indep comp variables   */
+   actCum,          /* Pointer to actCum   : activities, chemical potentials */
+   gmixCum,         /* Pointer to gmixCum  : Gibbs free energy of mixing     */
+   hmixCum,         /* Pointer to hmixCum  : Enthaly of mixing               */
+   smixCum,         /* Pointer to smixCum  : Entropy of mixing               */
+   cpmixCum,        /* Pointer to cpmixCum : Heat capacity of mixing         */
+   vmixCum,         /* Pointer to vmixCum  : Volume of mixing                */
+   dispCum          /* Pointer to dispCum  : Formula for interface display   */
   },
-  {"geikielite", COMPONENT, "MgTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"cummingtonite", COMPONENT, "Mg7Si8O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -1572560.0,      /* H ref (J)                              Ghiorso (1990) */
-   74.56,           /* S ref (J/K)                            Ghiorso (1990) */
-   3.086,           /* V ref (J/bar)                     Robie et al. (1978) */
-   CP_BERMAN,  {{146.20, -4.160E2, -39.998E5, 40.233E7, 0.0, 0.0, 0.0, 0.0}},            
-   EOS_VINET,  {{27.2476341e-6, 171.240, 6.21527}} 
+   -12067517.0,     /* H ref (J)                Ghiorso et al. (1995)        */
+   540.2587,        /* S ref (J/K)              Ghiorso et al. (1995)        */
+   26.33,           /* V ref (J/bar)            Ghiorso et al. (1995)        */
+   CP_BERMAN,  {{1233.79200, -71.33980e2, -221.63800e5, 233.393749e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.1393847e-6, 0.0, 28.1048234e-6, 62.894e-10}} 
    }
   },
-  {"hematite", COMPONENT, "Fe2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"grunerite", COMPONENT, "Fe7Si8O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -825627.0,       /* H ref (J)                               Berman (1988) */
-   87.437,          /* S ref (J/K)                             Berman (1988) */
-   3.027,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{146.86, 0.0, -55.768E5, 52.563E7, 955.0, 1287.0, -7.403E-2, 27.921E-5}},
-   EOS_VINET,  {{38.310E-6, 208.768, 1.64992}} 
+   -9623300.0,      /* H ref (J)                Ghiorso et al. (1995)        */
+   725.0,           /* S ref (J/K)              Ghiorso et al. (1995)        */
+   27.840,          /* V ref (J/bar)            Ghiorso et al. (1995)        */
+   CP_BERMAN,  {{1347.83, -93.5691e2, -202.2848e5, 303.919e7, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{-1.670299e-6, 8.68919e-12, 28.400e-6, 0.0}} 
    }
   },
-  {"ilmenite", COMPONENT, "FeTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"amphibole", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -1231947.0,      /* H ref (J)                               Berman (1988) */
-   108.628,         /* S ref (J/K)                             Berman (1988) */
-   3.170,           /* V ref (J/bar)                           Berman (1988) */
-   CP_BERMAN,  {{150.00, -4.416E2, -33.237E5, 34.815E7, 0.0, 0.0, 0.0, 0.0}},            
-   EOS_VINET,  {{27.248E-6, 171.233, 6.21289}} 
-   }
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testAph,         /* Pointer to testAph  : test expected number and order  */
+   conAph,          /* Pointer to conAph   : moles to indep comp variables   */
+   actAph,          /* Pointer to actAph   : activities, chemical potentials */
+   gmixAph,         /* Pointer to gmixAph  : Gibbs free energy of mixing     */
+   hmixAph,         /* Pointer to hmixAph  : Enthaly of mixing               */
+   smixAph,         /* Pointer to smixAph  : Entropy of mixing               */
+   cpmixAph,        /* Pointer to cpmixAph : Heat capacity of mixing         */
+   vmixAph,         /* Pointer to vmixAph  : Volume of mixing                */
+   dispAph          /* Pointer to dispAph  : Formula for interface display   */
   },
-  {"pyrophanite", COMPONENT, "MnTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"cummingtonite", COMPONENT, "Mg7Si8O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -1350707.0,      /* H ref (J)                      Ghiorso (1991 - guess) */
-   104.935,         /* S ref (J/K)               Stephenson and Smith (1968) */
-   2.8859,          /* V ref (J/bar)                          Knittle (1995) */
-   CP_BERMAN,  {{150.00, -4.416E2, -33.237E5, 34.815E7, 0.0, 0.0, 0.0, 0.0}},            
-   EOS_VINET,  {{27.248E-6, 70.0, 4.0}} /* alpha = FeTiO3; Knittle (1995)    */
+   -12067920.38,    /* H ref (J)                Ghiorso et al. (2001)        */
+   540.2587,        /* S ref (J/K)              Ghiorso et al. (1995)        */
+   26.34,           /* V ref (J/bar)            Ghiorso et al. (2001)        */
+   CP_BERMAN,  {{1233.79200, -71.33980e2, -221.63800e5, 233.393749e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.1393847e-6, 0.0, 28.1048234e-6, 62.894e-10}} 
    }
   },
-  {"corundum", COMPONENT, "Al2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"grunerite", COMPONENT, "Fe7Si8O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -9623550.0,      /* H ref (J)                Ghiorso et al. (2001)        */
+   725.0,           /* S ref (J/K)              Ghiorso et al. (1995)        */
+   27.840,          /* V ref (J/bar)            Ghiorso et al. (1995)        */
+   CP_BERMAN,  {{1347.83, -93.5691e2, -202.2848e5, 303.919e7, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{-1.670299e-6, 8.68919e-12, 28.400e-6, 0.0}} 
+   }
+  },
+  {"tremolite", COMPONENT, "Ca2Mg5Si8O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12307863.0,     /* H ref (J)                Ghiorso et al. (2001)        */
+   549.500,         /* S ref (J/K)              Bernard's Guess              */
+   27.312,          /* V ref (J/bar)            Yang and Evans               */
+   CP_BERMAN,  {{1229.36, -64.019e2, -320.899e5, 420.881e7, 0.0, 0.0, 0.0, 0.0}},        
+   EOS_BERMAN, {{-1.4763e-6, 8.9462e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"hornblende", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testHrn,         /* Pointer to testHrn  : test expected number and order  */
+   conHrn,          /* Pointer to conHrn   : moles to indep comp variables   */
+   actHrn,          /* Pointer to actHrn   : activities, chemical potentials */
+   gmixHrn,         /* Pointer to gmixHrn  : Gibbs free energy of mixing     */
+   hmixHrn,         /* Pointer to hmixHrn  : Enthaly of mixing               */
+   smixHrn,         /* Pointer to smixHrn  : Entropy of mixing               */
+   cpmixHrn,        /* Pointer to cpmixHrn : Heat capacity of mixing         */
+   vmixHrn,         /* Pointer to vmixHrn  : Volume of mixing                */
+   dispHrn          /* Pointer to dispHrn  : Formula for interface display   */
+  },
+  {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
+   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+#define DHGrnCum (-9623300.0-(-12067517.0))
+  {"ferropargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3016624.0*4.184+4.0*DHGrnCum/7.0,/* H ref (J)     Helgeson et al. (1978) */
+   185.5*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.989,                           /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1342.61, -83.4862e2, -247.604e5, 348.507e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+#undef DHGrnCum
+#define DHBfABf ((-2836709.0+7932.05)-(-3275265.0-8565.18))
+  {"magnesiohastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
+   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+#undef DHBfABf
+  {"biotite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testBio,         /* Pointer to testBio  : test expected number and order  */
+   conBio,          /* Pointer to conBio   : moles to indep comp variables   */
+   actBio,          /* Pointer to actBio   : activities, chemical potentials */
+   gmixBio,         /* Pointer to gmixBio  : Gibbs free energy of mixing     */
+   hmixBio,         /* Pointer to hmixBio  : Enthaly of mixing               */
+   smixBio,         /* Pointer to smixBio  : Entropy of mixing               */
+   cpmixBio,        /* Pointer to cpmixBio : Heat capacity of mixing         */
+   vmixBio,         /* Pointer to vmixBio  : Volume of mixing                */
+   dispBio          /* Pointer to dispBio  : Formula for interface display   */
+  },
+  {"annite", COMPONENT, "KFe3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -5142800.0,      /* H ref (J)                               Berman (1990) */
+   420.0,           /* S ref (J/K)                             Berman (1990) */
+   15.408,          /* V ref (J/bar)                           Berman (1990) */
+   CP_BERMAN,  {{727.208, -47.75040e2, -138.319e5, 211.906e7, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{-1.6969784e-6, 0.0, 34.4473262e-6, 0.0}} 
+   }
+  },
+  {"phlogopite", COMPONENT, "KMg3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -6210391.0,      /* H ref (J)                               Berman (1990) */
+   334.346,         /* S ref (J/K)                             Berman (1990) */
+   14.977,          /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{610.37988, -20.83781e2, -215.33008e5, 284.1040896e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.6969784e-6, 0.0, 34.4473262e-6, 0.0}} 
+   }
+  },
+  {"muscovite", PHASE, "KAl2Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -5976740.0,      /* H ref (J)                               Berman (1988) */
+   293.157,         /* S ref (J/K)                             Berman (1988) */
+   14.087,          /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{651.49, -38.732e2, -185.232e5, 274.247e7, 0.0, 0.0, 0.0, 0.0}},         
+   EOS_BERMAN, {{-1.717e-6, 4.295e-12, 33.527e-6, 0.0}} 
+   }
+  },
+  {"feldspar", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testFld,         /* Pointer to testFld  : test expected number and order  */
+   conFld,          /* Pointer to conFld   : moles to indep comp variables   */
+   actFld,          /* Pointer to actFld   : activities, chemical potentials */
+   gmixFld,         /* Pointer to gmixFld  : Gibbs free energy of mixing     */
+   hmixFld,         /* Pointer to hmixFld  : Enthaly of mixing               */
+   smixFld,         /* Pointer to smixFld  : Entropy of mixing               */
+   cpmixFld,        /* Pointer to cpmixFld : Heat capacity of mixing         */
+   vmixFld,         /* Pointer to vmixFld  : Volume of mixing                */
+   dispFld          /* Pointer to dispFld  : Formula for interface display   */
+  },
+  {"albite", COMPONENT, "NaAlSi3O8", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                      /* Salje correction in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -3921618.0,      /* H ref (J)                   monalbite - Berman (1988) */
+   224.412,         /* S ref (J/K)                             Berman (1988) */
+   10.083,          /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{393.64, -24.155E2, -78.928E5, 107.064E7, 0.0, 0.0, 0.0, 0.0}},          
+   EOS_BERMAN, {{-1.945E-6, 4.861E-12, 26.307E-6, 32.407E-10}} 
+   }
+  },
+  {"anorthite", COMPONENT, "CaAl2Si2O8", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -4228730.0+3.7*4184.0,     /* H ref (J)   Berman (1988)  Carpenter I1->C1 */
+   200.186+3.7*4184.0/2200.0, /* S ref (J/K) Berman (1988)  Carpenter I1->C1 */
+   10.075,           /* V ref (J/bar)                          Berman (1988) */
+   CP_BERMAN,  {{439.37, -37.341E2, 0.0, -31.702E7, 0.0, 0.0, 0.0, 0.0}},                
+   EOS_BERMAN, {{-1.272E-6, 3.176E-12, 10.918E-6, 41.985E-10}} 
+   }
+  },
+  {"sanidine", COMPONENT, "KAlSi3O8", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                             /* K-feldspar, ordering done in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+#ifdef FOWLER
+   -3970791.0+2500.0,/* H ref (J)                              Berman (1988) */
+#else
+   -3970791.0+(SANIDINE_ADJUSTMENT),              /* H ref (J) Berman (1988) */
+#endif
+   214.145,          /* S ref (J/K)                            Berman (1988) */
+   10.869,           /* V ref (J/bar)                          Berman (1988) */
+   CP_BERMAN,  {{381.37, -19.410E2, -120.373E5, 183.643E7, 0.0, 0.0, 0.0, 0.0}},         
+   EOS_BERMAN, {{-1.805E-6, 5.112E-12, 15.145E-6, 54.850E-10}} 
+   }
+  },
+  {"quartz", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                              /* alpha phase, transformed in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -910700.0,        /* H ref (J) Berman (1988)                              */
+   41.460,           /* S ref (J/K) Berman (1988)                            */
+   2.269,            /* V ref (J/bar) Berman (1988)                          */
+   CP_BERMAN,  {{80.01, -2.403E2, -35.467E5, 49.157E7, 848.0, 0.0, -9.187E-2, 24.607E-5}},
+   EOS_BERMAN, {{-2.434E-6, 10.137E-12, 23.895E-6, 0.0}}
+   }
+  },
+  {"tridymite", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                              /* alpha phase, transformed in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -907750.0,        /* H ref (J) Berman (1988)                              */
+   43.770,           /* S ref (J/K) Berman (1988)                            */
+   2.675,            /* V ref (J/bar) Berman (1988)                          */
+   CP_BERMAN,  {{75.37, 0.0, -59.581E5, 95.825E7, 383.0, 130.0, 42.670E-2, -144.575E-5}},
+   EOS_BERMAN, {{-2.508E-6, 0.0, 19.339E-6, 0.0}}
+   }
+  },
+  {"cristobalite", PHASE, "SiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                              /* alpha phase, transformed in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -907753.0,        /* H ref (J) Berman (1988)                              */
+   43.394,           /* S ref (J/K) Berman (1988)                            */
+   2.587,            /* V ref (J/bar) Berman (1988)                          */
+   CP_BERMAN,  {{83.51, -3.747E2, -24.554E5, 28.007E7, 535.0, 0.0, -14.216E-2, 44.142E-5}},
+   EOS_BERMAN, {{-2.515E-6, 0.0, 20.824E-6, 0.0}}
+   }
+  },
+  {"nepheline", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testNph,         /* Pointer to testNph  : test expected number and order  */
+   conNph,          /* Pointer to conNph   : moles to indep comp variables   */
+   actNph,          /* Pointer to actNph   : activities, chemical potentials */
+   gmixNph,         /* Pointer to gmixNph  : Gibbs free energy of mixing     */
+   hmixNph,         /* Pointer to hmixNph  : Enthaly of mixing               */
+   smixNph,         /* Pointer to smixNph  : Entropy of mixing               */
+   cpmixNph,        /* Pointer to cpmixNph : Heat capacity of mixing         */
+   vmixNph,         /* Pointer to vmixNph  : Volume of mixing                */
+   dispNph          /* Pointer to dispNph  : Formula for interface display   */
+  },
+  {"na-nepheline", COMPONENT, "Na4Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2093004.0*4.0,         /* H ref (J)  Waterwiese et al. (1995)            */
+   124.641*4.0,            /* S ref (J/K)                                    */
+   5.4131*4.0,             /* V ref (J/bar)                                  */
+   CP_BERMAN,  {{205.24*4.0, -7.599E2*4.0, -108.383E5*4.0, 208.182E7*4.0, 467.0, 241.0*4.0, -50.249E-2*2.0, 165.95E-5*2.0}},
+   EOS_BERMAN, {{-2.0500e-6, 5.2000e-12, 31.802e-6, 213.0e-10}} 
+   }
+  },
+#define DH2     -1.35      * 1000.0 * 4.184 /* K4Al4Si4O16 kals-neph  joules */ 
+#define DS2      0.0       * 1000.0 * 4.184 /* joules/T */
+#define DV2     -0.00001   * 1000.0 * 4.184 /* joules/bar */
+  {"k-nepheline", COMPONENT, "K4Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2109563.55*4.0-(DH2)-3572.76, /* H ref (J)   Berman (pers com) Kalsilite */
+   133.9653*4.0-(DS2),          /* S ref (J/K)   Berman (pers com) Kalsilite */
+   6.043478*4.0-(DV2),          /* V ref (J/bar)                   Kalsilite */
+   CP_BERMAN,  {{186.0*4.0, 0.0, -131.067E5*4.0, 213.893E7*4.0, 800.15, 1154.0*4.0, -7.096454E-2*2.0, 21.682E-5*2.0}},
+   EOS_BERMAN, {{-2.0500e-6, 5.2000e-12, 31.802e-6, 213.0e-10}} 
+   }
+  },
+  {"vc-nepheline", COMPONENT, "Na3Al3Si5O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,       /* monalbite */
+   0.0, 0.0,                                      /* Salje correction in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -3921618.0,      /* H ref (J)                   monalbite - Berman (1988) */
+   224.412,         /* S ref (J/K)                             Berman (1988) */
+   0.0,             /* V ref (J/bar) - Volume correction accounted in Gibbs  */
+   CP_BERMAN,  {{393.64, -24.155E2, -78.928E5, 107.064E7, 0.0, 0.0, 0.0, 0.0}},         
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"ca-nepheline", COMPONENT, "CaNa2Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,  /* C1-anorthite */
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -4228730.0+3.7*4184.0,        /* H ref (J) Berman (1988) Carpenter I1->C1 */
+   200.186+3.7*4184.0/2200.0, /* S ref (J/K) Berman (1988)  Carpenter I1->C1 */
+   0.0,              /* V ref (J/bar) - Volume correction accounted in Gibbs */
+   CP_BERMAN,  {{439.37, -37.341E2, 0.0, -31.702E7, 0.0, 0.0, 0.0, 0.0}},                
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"kalsilite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testKal,         /* Pointer to testKal  : test expected number and order  */
+   conKal,          /* Pointer to conKal   : moles to indep comp variables   */
+   actKal,          /* Pointer to actKal   : activities, chemical potentials */
+   gmixKal,         /* Pointer to gmixKal  : Gibbs free energy of mixing     */
+   hmixKal,         /* Pointer to hmixKal  : Enthaly of mixing               */
+   smixKal,         /* Pointer to smixKal  : Entropy of mixing               */
+   cpmixKal,        /* Pointer to cpmixKal : Heat capacity of mixing         */
+   vmixKal,         /* Pointer to vmixKal  : Volume of mixing                */
+   dispKal          /* Pointer to dispKal  : Formula for interface display   */
+  },
+  {"na-nepheline", COMPONENT, "Na4Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2093004.0*4.0,         /* H ref (J)  Waterwiese et al. (1995)            */
+   124.641*4.0,            /* S ref (J/K)                                    */
+   5.4131*4.0,             /* V ref (J/bar)                                  */
+   CP_BERMAN,  {{205.24*4.0, -7.599E2*4.0, -108.383E5*4.0, 208.182E7*4.0, 467.0, 241.0*4.0, -50.249E-2*2.0, 165.95E-5*2.0}},
+   EOS_BERMAN, {{-2.0500e-6, 5.2000e-12, 31.802e-6, 213.0e-10}}
+   }
+  },
+  {"k-nepheline", COMPONENT, "K4Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -2109563.55*4.0-(DH2),       /* H ref (J)     Berman (pers com) Kalsilite */
+   133.9653*4.0-(DS2),          /* S ref (J/K)   Berman (pers com) Kalsilite */
+   6.043478*4.0-(DV2),          /* V ref (J/bar)                   Kalsilite */
+   CP_BERMAN,  {{186.0*4.0, 0.0, -131.067E5*4.0, 213.893E7*4.0, 800.15, 1154.0*4.0, -7.096454E-2*2.0, 21.682E-5*2.0}},
+   EOS_BERMAN, {{-2.0500e-6, 5.2000e-12, 31.802e-6, 213.0e-10}}
+   }
+  },
+  {"vc-nepheline", COMPONENT, "Na3Al3Si5O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,       /* monalbite */
+   0.0, 0.0,                                      /* Salje correction in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -3921618.0,      /* H ref (J)                   monalbite - Berman (1988) */
+   224.412,         /* S ref (J/K)                             Berman (1988) */
+   0.0,             /* V ref (J/bar) - Volume correction accounted in Gibbs  */
+   CP_BERMAN,  {{393.64, -24.155E2, -78.928E5, 107.064E7, 0.0, 0.0, 0.0, 0.0}},         
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
+   }
+  },
+  {"ca-nepheline", COMPONENT, "CaNa2Al4Si4O16", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,  /* C1-anorthite */
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -4228730.0+3.7*4184.0,     /* H ref (J)   Berman (1988)  Carpenter I1->C1 */
+   200.186+3.7*4184.0/2200.0, /* S ref (J/K) Berman (1988)  Carpenter I1->C1 */
+   0.0,              /* V ref (J/bar) - Volume correction accounted in Gibbs */
+   CP_BERMAN,  {{439.37, -37.341E2, 0.0, -31.702E7, 0.0, 0.0, 0.0, 0.0}},                 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
+   }
+  },
+  {"leucite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},  
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testLeu,         /* Pointer to testLeu  : test expected number and order  */
+   conLeu,          /* Pointer to conLeu   : moles to indep comp variables   */
+   actLeu,          /* Pointer to actLeu   : activities, chemical potentials */
+   gmixLeu,         /* Pointer to gmixLeu  : Gibbs free energy of mixing     */
+   hmixLeu,         /* Pointer to hmixLeu  : Enthaly of mixing               */
+   smixLeu,         /* Pointer to smixLeu  : Entropy of mixing               */
+   cpmixLeu,        /* Pointer to cpmixLeu : Heat capacity of mixing         */
+   vmixLeu,         /* Pointer to vmixLeu  : Volume of mixing                */
+   dispLeu          /* Pointer to dispLeu  : Formula for interface display   */
+  },
+  {"leucite", COMPONENT, "KAlSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3032146.03+21866.4,                              /* H ref (J)   adjusted */
+   184.096+21.75,                        /* S ref (J/K)  Kelley et al. 1953  */
+   8.8390,                             /* V ref (J/bar)  Robie et al. (1978) */
+   CP_BERMAN,  {{271.14, -9.441E2, -78.572E5, 95.920E7, 955.0, 256.0, -9.731e-2, 33.730e-5}},
+   EOS_BERMAN, {{-1.5568254e-6, 1.2739e-12, 12.5167877e-6, 0.0}}
+   }
+  },
+  {"analcime", COMPONENT, "NaAlSi2O5(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                             /*               properties of analcime */
+   {                /* ThermoRef structure                                   */
+   -3308500.0-17400,                 /* Johnson et al.             H ref (J) */
+   228.10,                           /* Johnson et al.           S ref (J/K) */
+   9.71,                             /*        Helgeson (1978) V ref (J/bar) */
+   CP_BERMAN,  {{571.83, -71.887E2, 0.0, 149.306E7, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{-1.5568254e-6, 1.2739e-12, 12.5167877e-6, 0.0}}
+   }
+  },
+  {"na-leucite", COMPONENT, "NaAlSi2O6", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                             /*    properties of dehydrated analcime */
+   {                /* ThermoRef structure                                   */
+   -2980100.0-21875.55,              /*   Johnson et al.           H ref (J) */
+   173.68-7.94,                      /*   King and Weller (1961) S ref (J/K) */
+   8.91,                             /*        Helgeson (1978) V ref (J/bar) */
+   CP_BERMAN,  {{401.27, -42.480E2, 0.0, 21.630E7, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{-1.5568254e-6, 1.2739e-12, 12.5167877e-6, 0.0}}
+   }
+  },
+#undef DH2
+#undef DS2
+#undef DV2
+  {"corundum", PHASE, "Al2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    -1675700.0,      /* H ref (J)                               Berman (1988) */
    50.820,          /* S ref (J/K)                             Berman (1988) */
    2.558,           /* V ref (J/bar)                           Berman (1988) */
    CP_BERMAN,  {{155.02, -8.284E2, -38.614E5, 40.908E7, 0.0, 0.0, 0.0, 0.0}},            
-   EOS_VINET,  {{21.342E-6, 259.74, 4.06}} 
+   EOS_BERMAN, {{-0.385E-6, 0.375E-12, 21.342E-6, 47.180E-10}}
    }
   },
-  {"ringwoodite ss", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"sillimanite", PHASE, "Al2SiO5", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   },
-   {                /* ThermoData structure                                  */
-   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
-   0.0, 0.0, 0.0,
-   0.0, 0.0, 0.0
-   },
-   0, 0,
-   testRgw,         /* Pointer to testRgw  : test expected number and order  */
-   conRgw,          /* Pointer to conRgw   : moles to indep comp variables   */
-   actRgw,          /* Pointer to actRgw   : activities, chemical potentiRgw */
-   gmixRgw,         /* Pointer to gmixRgw  : Gibbs free energy of mixing     */
-   hmixRgw,         /* Pointer to hmixRgw  : Enthaly of mixing               */
-   smixRgw,         /* Pointer to smixRgw  : Entropy of mixing               */
-   cpmixRgw,        /* Pointer to cpmixRgw : Heat capacity of mixing         */
-   vmixRgw,         /* Pointer to vmixRgw  : Volume of mixing                */
-   dispRgw          /* Pointer to dispRgw  : Formula for interface display   */
-  },
-  {"magnesioringwoodite", COMPONENT, "MgSi0.5O2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*           Calculated in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -2133200.0/2.0,       /* H ref (J)                   Saxena et al. (1993) */
-   89.000/2.0,           /* S ref (J/K)                 Saxena et al. (1993) */
-   3.965/2.0,            /* V ref (J/bar)               Saxena et al. (1993) */
-   CP_BERMAN,  {{115.701, -10.1987e2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, /*refit*/                             
-   EOS_VINET,  {{1.81647e-5, 213.0, 4.0}} /* alpha Saxena; Knittle (1995)    */ 
+   -2586091.0,      /* H ref (J)                               Berman (1988) */
+   95.930,          /* S ref (J/K)                             Berman (1988) */
+   4.983,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{256.73, -18.872E2, -29.774E5, 25.096E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.753E-6, 0.0E-12, 13.431E-6, 0.0E-10}}
    }
   },
-  {"ferroringwoodite", COMPONENT, "FeSi0.5O2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*           Calculated in GIBBS.C */
+  {"rutile", PHASE, "TiO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -1471500.0/2.0,       /* H ref (J)                   Saxena et al. (1993) */
-   141.032/2.0,          /* S ref (J/K)                 Saxena et al. (1993) */
-   4.2020/2.0,           /* V ref (J/bar)               Saxena et al. (1993) */
-   CP_BERMAN,  {{133.430, -12.1082e2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},/* refit*/                             
-   EOS_VINET,  {{1.77912e-5, 212.0, 4.0}} /* alpha Saxena; Knittle (1995)    */ 
+   -944750.0,       /* H ref (J)                               Berman (1988) */
+   50.460,          /* S ref (J/K)                             Berman (1988) */ 
+   1.882,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{77.84, 0.0, -33.678E5, 40.294E7, 0.0, 0.0, 0.0, 0.0}},                  
+   EOS_BERMAN, {{-0.454E-6, 0.584E-12, 25.716E-6, 15.409E-10}}
+   }
+  },
+  {"perovskite", PHASE, "CaTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1660630.0,      /* H ref (J)                         Robie et al. (1978) */
+   93.64,           /* S ref (J/K)                       Robie et al. (1978) */
+   3.3626,          /* V ref (J/bar)                     Robie et al. (1978) */
+   CP_BERMAN,  {{150.49, -6.213E2, 0.0, -43.010E7, 1530.0, 550.0*4.184, 0.0, 0.0}},                 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
   {"spinel", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
    },
    {                /* ThermoData structure                                  */
    0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
@@ -2427,17 +1827,17 @@ Solids xMeltsSolids[] = {
    142.676,         /* S ref (J/K)                  Sack and Ghiorso (1991b) */
    4.4010,          /* V ref (J/bar)                     Robie et al. (1978) */
    CP_BERMAN,  {{236.874, -16.796E2, 0.0, -16.765E7, 0.0, 0.0, 0.0, 0.0}},               
-   EOS_VINET,  {{21.691E-6, 204.499, 4.0}} 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
    }
   },
   {"hercynite", COMPONENT, "FeAl2O4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -1947681.0,      /* H ref (J) -10250.0 -1948170.0 = Sack and Ghiorso (1991b) */
-   115.362,         /* S ref (J/K) -5.5 125.446 = Sack and Ghiorso (1991b)   */
+   -1947681.0,      /* H ref (J)                    Sack and Ghiorso (1991b) */
+   115.362,         /* S ref (J/K)                  Sack and Ghiorso (1991b) */
    0.973948*4.184,  /* V ref (J/bar)                                         */
    CP_BERMAN,  {{235.190, -14.370E2, -46.913E5, 64.564E7, 0.0, 0.0, 0.0, 0.0}},          
-   EOS_VINET,  {{21.691E-6, 204.499, 4.0}} 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
    }
   },
   {"magnetite", COMPONENT, "Fe3O4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2447,7 +1847,7 @@ Solids xMeltsSolids[] = {
    146.114,         /* S ref (J/K)                             Berman (1988) */
    4.452,           /* V ref (J/bar)                           Berman (1988) */
    CP_BERMAN,  {{207.93, 0.0, -72.433E5, 66.436E7, 848.0, 1565.0, -19.502E-2, 61.037E-5}},
-   EOS_VINET,  {{30.291E-6, 171.821, 9.3387}} 
+   EOS_BERMAN, {{-0.582E-6, 1.751E-12, 30.291E-6, 138.470E-10}}
    }
   },
   {"spinel", COMPONENT, "MgAl2O4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
@@ -2457,20 +1857,20 @@ Solids xMeltsSolids[] = {
    84.535,          /* S ref (J/K)                             Berman (1988) */
    3.977,           /* V ref (J/bar)                           Berman (1988) */
    CP_BERMAN,  {{235.90, -17.666E2, -17.104E5, 4.062E7, 0.0, 0.0, 0.0, 0.0}},            
-   EOS_VINET,  {{21.691E-6, 204.499, 4.0}} 
+   EOS_BERMAN, {{-0.489E-6, 0.0, 21.691E-6, 50.528E-10}}
    }
   },
   {"ulvospinel", COMPONENT, "Fe2TiO4", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -1488500.0-162.0+284.5,      /* H ref (J)        Sack and Ghiorso (1991b) */
+   -1488500.0,      /* H ref (J)                    Sack and Ghiorso (1991b) */
    185.447,         /* S ref (J/K)                  Sack and Ghiorso (1991b) */
    4.682,           /* V ref (J/bar)                     Robie et al. (1978) */
    CP_BERMAN,  {{249.63, -18.174E2, 0.0, -5.453E7, 0.0, 0.0, 0.0, 0.0}},                 
-   EOS_VINET,  {{30.291E-6, 171.821, 9.3387}} 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
-  {"wadsleyite ss", PHASE, "", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"rhm-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
@@ -2483,37 +1883,57 @@ Solids xMeltsSolids[] = {
    0.0, 0.0, 0.0
    },
    0, 0,
-   testWds,         /* Pointer to testWds  : test expected number and order  */
-   conWds,          /* Pointer to conWds   : moles to indep comp variables   */
-   actWds,          /* Pointer to actWds   : activities, chemical potentiWds */
-   gmixWds,         /* Pointer to gmixWds  : Gibbs free energy of mixing     */
-   hmixWds,         /* Pointer to hmixWds  : Enthaly of mixing               */
-   smixWds,         /* Pointer to smixWds  : Entropy of mixing               */
-   cpmixWds,        /* Pointer to cpmixWds : Heat capacity of mixing         */
-   vmixWds,         /* Pointer to vmixWds  : Volume of mixing                */
-   dispWds          /* Pointer to dispWds  : Formula for interface display   */
+   testRhm,         /* Pointer to testRhm  : test expected number and order  */
+   conRhm,          /* Pointer to conRhm   : moles to indep comp variables   */
+   actRhm,          /* Pointer to actRhm   : activities, chemical potentials */
+   gmixRhm,         /* Pointer to gmixRhm  : Gibbs free energy of mixing     */
+   hmixRhm,         /* Pointer to hmixRhm  : Enthaly of mixing               */
+   smixRhm,         /* Pointer to smixRhm  : Entropy of mixing               */
+   cpmixRhm,        /* Pointer to cpmixRhm : Heat capacity of mixing         */
+   vmixRhm,         /* Pointer to vmixRhm  : Volume of mixing                */
+   dispRhm          /* Pointer to dispRhm  : Formula for interface display   */
   },
-  {"magnesiowadsleyite", COMPONENT, "MgSi0.5O2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*           Calculated in GIBBS.C */
+  {"geikielite", COMPONENT, "MgTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -2142000.0/2.0,       /* H ref (J)                   Saxena et al. (1993) */
-   93.000/2.0,           /* S ref (J/K)                 Saxena et al. (1993) */
-   4.054/2.0,            /* V ref (J/bar)               Saxena et al. (1993) */
-   CP_BERMAN,  {{116.580, -10.1803e2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, /*refit*/                              
-   EOS_VINET,  {{2.10158e-5, 171.0, 4.0}} /* alpha Saxena; Knittle (1995)    */
+   -1572560.0,      /* H ref (J)                              Ghiorso (1990) */
+   74.56,           /* S ref (J/K)                            Ghiorso (1990) */
+   3.086,           /* V ref (J/bar)                     Robie et al. (1978) */
+   CP_BERMAN,  {{146.20, -4.160E2, -39.998E5, 40.233E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.5839748e-6, 1.2303e-12, 27.2476341e-6, 29.968e-10}} 
    }
   },
-  {"ferrowadsleyite", COMPONENT, "FeSi0.5O2", DO_NOT_INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*           Calculated in GIBBS.C */
+  {"hematite", COMPONENT, "Fe2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -1468000.0/2.0,       /* H ref (J)                   Saxena et al. (1993) */
-   141.80/2.0,           /* S ref (J/K)                 Saxena et al. (1993) */
-   4.3140/2.0,           /* V ref (J/bar)               Saxena et al. (1993) */
-   CP_BERMAN,  {{131.440, -11.3141e2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, /*refit*/                               
-   EOS_VINET,  {{2.28839e-5, 190.488, 4.0}} /* alpha Saxena; Knittle (1995)  */ 
+   -822000.0,       /* H ref (J)                              Ghiorso (1990) */
+   87.40,           /* S ref (J/K)                            Ghiorso (1990) */
+   3.027,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{146.86, 0.0, -55.768E5, 52.563E7, 955.0, 1287.0, -7.403E-2, 27.921E-5}},
+   EOS_BERMAN, {{-0.479E-6, 0.304E-12, 38.310E-6, 1.650E-10}} 
    }
   },
-  {"wustite ss", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"ilmenite", COMPONENT, "FeTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1231947.0,      /* H ref (J)                               Berman (1988) */
+   108.628,         /* S ref (J/K)                             Berman (1988) */
+   3.170,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{150.00, -4.416E2, -33.237E5, 34.815E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.584E-6, 1.230E-12, 27.248E-6, 29.968E-10}} 
+   }
+  },
+  {"pyrophanite", COMPONENT, "MnTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1350707.0,      /* H ref (J)                      Ghiorso (1991 - guess) */
+   104.935,         /* S ref (J/K)               Stephenson and Smith (1968) */
+   3.170,           /* V ref (J/bar)    (assumed ilmenite >>>) Berman (1988) */
+   CP_BERMAN,  {{150.00, -4.416E2, -33.237E5, 34.815E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.584E-6, 1.230E-12, 27.248E-6, 29.968E-10}} 
+   }
+  },
+  {"ortho-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
@@ -2526,34 +1946,183 @@ Solids xMeltsSolids[] = {
    0.0, 0.0, 0.0
    },
    0, 0,
-   testWus,         /* Pointer to testWus  : test expected number and order  */
-   conWus,          /* Pointer to conWus   : moles to indep comp variables   */
-   actWus,          /* Pointer to actWus   : activities, chemical potentiWus */
-   gmixWus,         /* Pointer to gmixWus  : Gibbs free energy of mixing     */
-   hmixWus,         /* Pointer to hmixWus  : Enthaly of mixing               */
-   smixWus,         /* Pointer to smixWus  : Entropy of mixing               */
-   cpmixWus,        /* Pointer to cpmixWus : Heat capacity of mixing         */
-   vmixWus,         /* Pointer to vmixWus  : Volume of mixing                */
-   dispWus          /* Pointer to dispWus  : Formula for interface display   */
+   testOox,         /* Pointer to testOox  : test expected number and order  */
+   conOox,          /* Pointer to conOox   : moles to indep comp variables   */
+   actOox,          /* Pointer to actOox   : activities, chemical potentials */
+   gmixOox,         /* Pointer to gmixOox  : Gibbs free energy of mixing     */
+   hmixOox,         /* Pointer to hmixOox  : Enthaly of mixing               */
+   smixOox,         /* Pointer to smixOox  : Entropy of mixing               */
+   cpmixOox,        /* Pointer to cpmixOox : Heat capacity of mixing         */
+   vmixOox,         /* Pointer to vmixOox  : Volume of mixing                */
+   dispOox          /* Pointer to dispOox  : Formula for interface display   */
   },
-  {"magnesiowustite", COMPONENT, "MgO", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*           Calculated in GIBBS.C */
+  {"pseudobrookite", COMPONENT, "Fe2TiO5", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                            /* Cp terms from Berman and Brown (1985) */
    {                /* ThermoRef structure                                   */
-   -601500.0,        /* H ref (J)                              Berman (1988) */
-   26.951,           /* S ref (J/K)                            Berman (1993) */
-   1.125,            /* V ref (J/bar) -0.23-0.04               Berman (1993) */
-   CP_BERMAN,  {{61.11, -2.962e2, -6.212e5, 0.584e7, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_VINET,  {{3.16e-5, 156.0, 4.7}} /* alpha Fei (1995); Knittle (a995)   */
+   -1754429.0,      /* H ref (J)   Analysis of Haggerty & Lindsley Data      */
+   156.4816,        /* S ref (J/K) Kelley & King (1961)                      */
+   5.491,           /* V ref (J/bar) From page 45 (oxide short course)       */
+   CP_BERMAN,  {{261.35, -15.307e2, 0.0, -23.466e7, 0.0, 0.0, 0.0, 0.0}},                
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
-  {"ferrowustite", COMPONENT, "FeO", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                              /*           Calculated in GIBBS.C */
+  {"ferropseudobrookite", COMPONENT, "FeTi2O5", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -267270.0,        /* H ref (J)                       Saxena et al. (1993) */
-   57.590,           /* S ref (J/K)                     Saxena et al. (1993) */
-   1.225,            /* V ref (J/bar) -0.03-0.04        Saxena et al. (1993) */
-   CP_BERMAN,  {{77.036, -5.8471e2, 0.0, 0.5558e7, 0.0, 0.0, 0.0, 0.0}}, /* B&B FeO */                               
-   EOS_VINET,  {{3.493e-5, 158.4, 4.7}} /* alpha Saxena; Knittle (1995)      */
+   -2175332.0,      /* H ref (J)   Analysis of Haggerty & Lindsley Data      */
+   127.1936-26.94+59.80, /* King & Kelley (1961) for MgTi2O5 - MgO (periclase
+                     Robie et al. (1978) + FeO (stoich) (op cit) S ref (J/K) */
+   5.578,           /* V ref (J/bar) From page 45 (oxide short course)
+                       Armacolite (50:50) - karrooite                        */
+   CP_BERMAN,  {{232.58-58.196+77.036, -7.555e2-(-1.6114e2)-5.8471e2, -56.608e5-(-14.0458e5), 
+     58.214e7-11.2673e7+0.5558e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"karrooite", COMPONENT, "MgTi2O5", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                            /* Cp terms from Berman and Brown (1985) */
+   {                /* ThermoRef structure                                   */
+   -2507053.0,      /* H ref (J)   Kelley, Todd & King (1954)                */
+   127.1936,        /* S ref (J/K) Kelley & King (1961)                      */
+   5.482,           /* V ref (J/bar) From page 45 (oxide short course)       */
+   CP_BERMAN,  {{232.58, -7.555e2, -56.608e5, 58.214e7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"whitlockite", PHASE, "Ca3(PO4)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -4097169.0,              /* H ref (J)       Zhu and Sverjensky (in press) */
+   235.978,                 /* S ref (J/K)        Southard and Milner (1935) */
+   9.7620,                  /* V ref (J/bar)             Robie et al. (1978) */
+   CP_BERMAN,  {{402.997, -28.0835E2, 0.0, -32.6230E7, 1373.0, 14059.0, 2.5427E-2, 19.255E-5}},
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"apatite", PHASE, "Ca5(PO4)3OH", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -6694689.0,              /* H ref (J)       Zhu and Sverjensky (in press) */
+   398.74,                  /* S ref (J/K)     Zhu and Sverjensky (in press) */
+   16.4025,                 /* V ref (J/bar)   Zhu and Sverjensky (in press) */
+   CP_BERMAN,  {{758.81, -64.806E2, 0.0, 44.794E7, 0.0, 0.0, 0.0, 0.0}},                 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"water", PHASE, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                              /* Calculated in GIBBS.C Berman (1988) */
+   {                /* ThermoRef structure                                   */
+   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"alloy-solid", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testAlS,         /* Pointer to testAlS  : test expected number and order  */
+   conAlS,          /* Pointer to conAlS   : moles to indep comp variables   */
+   actAlS,          /* Pointer to actAlS   : activities, chemical potentials */
+   gmixAlS,         /* Pointer to gmixAlS  : Gibbs free energy of mixing     */
+   hmixAlS,         /* Pointer to hmixAlS  : Enthaly of mixing               */
+   smixAlS,         /* Pointer to smixAlS  : Entropy of mixing               */
+   cpmixAlS,        /* Pointer to cpmixAlS : Heat capacity of mixing         */
+   vmixAlS,         /* Pointer to vmixAlS  : Volume of mixing                */
+   dispAlS          /* Pointer to dispAlS  : Formula for interface display   */
+  },
+  {"Fe-metal", COMPONENT, "Fe", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                              /*               Calculated in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   9999.0,          /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"Ni-metal", COMPONENT, "Ni", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                              /*               Calculated in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   9999.0,          /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"alloy-liquid", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testAlL,         /* Pointer to testAlL  : test expected number and order  */
+   conAlL,          /* Pointer to conAlL   : moles to indep comp variables   */
+   actAlL,          /* Pointer to actAlL   : activities, chemical potentials */
+   gmixAlL,         /* Pointer to gmixAlL  : Gibbs free energy of mixing     */
+   hmixAlL,         /* Pointer to hmixAlL  : Enthaly of mixing               */
+   smixAlL,         /* Pointer to smixAlL  : Entropy of mixing               */
+   cpmixAlL,        /* Pointer to cpmixAlL : Heat capacity of mixing         */
+   vmixAlL,         /* Pointer to vmixAlL  : Volume of mixing                */
+   dispAlL          /* Pointer to dispAlL  : Formula for interface display   */
+  },
+  {"Fe-liquid", COMPONENT, "Fe", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                              /*               Calculated in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   9999.0,          /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"Ni-liquid", COMPONENT, "Ni", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                              /*               Calculated in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   9999.0,          /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"lime", PHASE, "CaO", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -635090.0,       /* H ref (J)         				     */
+   37.750,          /* S ref (J/K)       				     */
+   1.676,           /* V ref (J/bar)     				     */
+   CP_BERMAN,  {{58.79117,-1.33904e2,-11.47146e5,10.2978784e7, 0.0, 0.0, 0.0, 0.0}},                 
+   EOS_BERMAN, {{-1.0217132e-6, 2.5650e-12, 34.6103555e-6, 6.7406e-9}} 
+   }
+  },
+  {"periclase", PHASE, "MgO", DO_NOT_INCLUDE_IN_CALIBRATION, DO_NOT_INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -601500.0,       /* H ref (J)                               Berman (1990) */
+   26.951,          /* S ref (J/K)                             Berman (1990) */
+   1.125,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{61.10965, -2.96199e2, -6.21154e5, 0.5844612e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-0.6223329e-6, 1.5114e-12, 37.4774182e-6, 3.556e-10}} 
    }
   }
 };
