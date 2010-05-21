@@ -435,13 +435,8 @@ void calculateResidualPack(ResidualDataInput *localResidualDataInput, ResidualOu
 #endif
 #endif
       
-    if ((denom = retLiqEosParam (rLiq, t, p, &v1, &v2, &v3, &v4, &a, &b)) <= 0.0) {
-      printf("Liq LEPR No = %d, t = %f (C), p = %f (GPa)\n", localResidualDataInput->LEPRnum, localResidualDataInput->t-273.15, localResidualDataInput->p/10000.0);
-      printf("  denom = %g, v1 = %g, v2 = %g, v3 = %g, v4 = %g, a = %g, b=%g (all GPa)\n", denom, v1*10000.0, v2*10000.0*10000.0, v3*10000.0*10000.0*10000.0, 
-        v4*10000.0*10000.0*10000.0*10000.0, a*10000.0, b*10000.0*10000.0);
-      localResidualOutput->flag = FALSE;
-    
-    } else { 
+    { 
+      denom = retLiqEosParam (rLiq, t, p, &v1, &v2, &v3, &v4, &a, &b);
       actLiq (SECOND | FOURTH, t, p, rLiq, NULL, mu, NULL, dmudw);
       /* Fill in eos derivatives using finite differences */
       if(testLiq (EIGHTH, t, p, 0, 0, NULL, NULL, NULL, NULL) && testLiq (SEVENTH, t, p, 0, 0, NULL, NULL, NULL, NULL)) {

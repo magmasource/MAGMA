@@ -238,6 +238,7 @@ static void updatePostclbStatisticsDisplay(
    (void) VListAddLine ((VListWidget) postclb_statistics, vLine, VListAddAtBottom);
 }
 
+static int isNAN (double x) { return x != x; }
 
 Boolean postclb(XtPointer client_data)
 {
@@ -295,10 +296,14 @@ Boolean postclb(XtPointer client_data)
   for (i=0, bAVE = 0.0, bSTD = 0.0, resAVE = 0.0, resSTD = 0.0; i<nLiquid; i++) {
     int nSol = residualDataInput[i].nSol;
     if(nSol > 0) for (j=0; j<nSol; j++) {
+      if (isNAN((residualDataInput[i].depenG)[j])) {
+        (residualDataInput[i].depenG)[j] = 0.0;
+	printf("postclb [postclb.c at line %d]--> NaN detected for liquid %d on constraint %d\n", __LINE__, i, j);
+      }
       bAVE +=   ((residualDataInput[i].isEqual)[j]) ? (residualDataInput[i].depenG)[j]          : 0.0; 
       bSTD +=   ((residualDataInput[i].isEqual)[j]) ? SQUARE((residualDataInput[i].depenG)[j])  : 0.0; 
-      resAVE += ((residualDataInput[i].isEqual)[j]) ? (residualOutput[i].residuals)[j]         : 0.0;
-      resSTD += ((residualDataInput[i].isEqual)[j]) ? SQUARE((residualOutput[i].residuals)[j]) : 0.0;
+      resAVE += ((residualDataInput[i].isEqual)[j]) ? (residualOutput[i].residuals)[j]          : 0.0;
+      resSTD += ((residualDataInput[i].isEqual)[j]) ? SQUARE((residualOutput[i].residuals)[j])  : 0.0;
     }
   }
   resAVE = resAVE/nEqn;

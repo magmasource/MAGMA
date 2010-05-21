@@ -235,6 +235,8 @@ static void seed(int islave) {
 
 static int lastNf, currentNf;
 
+static int isNAN (double x) { return x != x; }
+
 int calcr(/* Residual routine required by dn2gb                                     	   */
   int        *pt_n,  /* nuumber of observations 				    	   */
   int        *pt_p,  /* number of parameters					    	   */
@@ -576,8 +578,14 @@ int calcr(/* Residual routine required by dn2gb                                 
       for (k=0; k<residualDataInput[index].nSol; k++, j++) {
         int l;
         r[j] = (residualOutput[index].residuals)[k];
-	for (l=0; l<p; l++) ur[n*p + j + n*l] = (residualOutput[index].dr)[k*p+l]; /* ur(N,P), j[1:n(p=0), 1:n(p=1), ...., (1:n)(p)] */
-        sumOfSquares   += r[j]*r[j];
+	if (isNAN(r[j])) {
+	  printf("calcr[preclb.c at line %d]--> NaN detected for r[%d] in liquid %d of %d\n", __LINE__, j, index, nLiquid);
+	  (residualOutput[index].residuals)[k] = 0.0;
+	  r[j] = 0.0;
+	} else {
+	  for (l=0; l<p; l++) ur[n*p + j + n*l] = (residualOutput[index].dr)[k*p+l]; /* ur(N,P), j[1:n(p=0), 1:n(p=1), ...., (1:n)(p)] */
+          sumOfSquares   += r[j]*r[j];
+	}
       }
     }
   
@@ -1776,9 +1784,13 @@ Boolean preclb(XtPointer client_data)
 	      else if (!strcmp(phaseNameXML, "biotite"        )) bypass = TRUE;
 	      else if (!strcmp(phaseNameXML, "armacolite"     )) bypass = TRUE;
 	      else if (!strcmp(phaseNameXML, "ferrobustamite" )) bypass = TRUE;
-
-	      if (!strcmp(phaseNameXML, "cpx") && (LEPRnum >= 3900) && (LEPRnum <= 3917) ) bypass = TRUE; /* eliminate Villiger cpx  */
-	      if (!strcmp(phaseNameXML, "opx") && (LEPRnum >= 3900) && (LEPRnum <= 3917) ) bypass = TRUE; /* eliminate Villiger opx  */
+  	      else if (!strcmp(phaseNameXML, "caperovskite"   )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "stishovite"     )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "coesite"        )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "perovskite"     )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "ferropericlase" )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "density"        )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "o2"             )) bypass = TRUE;
 	      
 	      if (!bypass) {
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
@@ -1791,11 +1803,6 @@ Boolean preclb(XtPointer client_data)
 	        else if (!strcmp(phaseNameXML, "ilmenite"))       phaseName = "rhm-oxide"; 
 	        else if (!strcmp(phaseNameXML, "fluid"))          phaseName = "water"; 
 	        else if (!strcmp(phaseNameXML, "titanite"))       phaseName = "sphene"; 
-  	        else if (!strcmp(phaseNameXML, "caperovskite"))   phaseName = "caperovskite-sx";
-  	        else if (!strcmp(phaseNameXML, "stishovite"))     phaseName = "stishovite-sx";
-  	        else if (!strcmp(phaseNameXML, "coesite"))        phaseName = "coesite-sx";
-  	        else if (!strcmp(phaseNameXML, "perovskite"))     phaseName = "perovskite ss";
-		else if (!strcmp(phaseNameXML, "ferropericlase")) phaseName = "wustite ss";
 	        else { 
 	          phaseName = (char *) malloc((size_t) (strlen(phaseNameXML)+1)*sizeof(char)); 
 	          phaseName = strcpy(phaseName, phaseNameXML);
