@@ -1791,6 +1791,10 @@ Boolean preclb(XtPointer client_data)
 	      else if (!strcmp(phaseNameXML, "ferropericlase" )) bypass = TRUE;
 	      else if (!strcmp(phaseNameXML, "density"        )) bypass = TRUE;
 	      else if (!strcmp(phaseNameXML, "o2"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "potassium feldspar")) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "oxide-generic"  )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "liquid"         )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "allanite"       )) bypass = TRUE;
 	      
 	      if (!bypass) {
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION

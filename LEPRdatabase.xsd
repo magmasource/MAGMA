@@ -139,6 +139,7 @@
            	  <xs:element name="cl"           type="xs:double" minOccurs="0"/>
            	  <xs:element name="p"            type="xs:double" minOccurs="0"/>
            	  <xs:element name="total"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mass_frac"    type="xs:double" minOccurs="0"/>
            	  <xs:element name="sio2ERR"      type="xs:double" minOccurs="0"/>
            	  <xs:element name="tio2ERR"      type="xs:double" minOccurs="0"/>
            	  <xs:element name="al2o3ERR"     type="xs:double" minOccurs="0"/>
@@ -164,6 +165,7 @@
            	  <xs:element name="clERR"        type="xs:double" minOccurs="0"/>
            	  <xs:element name="pERR"         type="xs:double" minOccurs="0"/>
            	  <xs:element name="totalERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mass_fracERR" type="xs:double" minOccurs="0"/>
 	   	</xs:all>
 	      </xs:complexType>
 	    </xs:element>
@@ -197,6 +199,8 @@
            	  <xs:element name="p"            type="xs:double" minOccurs="0"/>
            	  <xs:element name="s"            type="xs:double" minOccurs="0"/>
            	  <xs:element name="f_o"          type="xs:double" minOccurs="0"/>
+           	  <xs:element name="total"        type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mass_frac"    type="xs:double" minOccurs="0"/>
            	  <xs:element name="sio2ERR"      type="xs:double" minOccurs="0"/>
            	  <xs:element name="tio2ERR"      type="xs:double" minOccurs="0"/>
            	  <xs:element name="al2o3ERR"     type="xs:double" minOccurs="0"/>
@@ -227,6 +231,8 @@
            	  <xs:element name="valueERR"     type="xs:double" minOccurs="0"/>
            	  <xs:element name="minimum"      type="xs:double" minOccurs="0"/>
            	  <xs:element name="maximum"      type="xs:double" minOccurs="0"/>
+           	  <xs:element name="totalERR"     type="xs:double" minOccurs="0"/>
+           	  <xs:element name="mass_fracERR" type="xs:double" minOccurs="0"/>
 	   	</xs:all>
  	        <xs:attribute name="type"   type="xs:string" use="required"/>
 	      </xs:complexType>
