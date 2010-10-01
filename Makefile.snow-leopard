@@ -63,7 +63,6 @@ MPILDFLAGS = -L/usr/lib -lmpi
 LDFLAGS = 
 
 # Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
-# for staticcally linked OpenMotif3 use    instead of -L/sw/lib -lMrm -lXm
 # ========================================================================================================
 
 LIBS    = -L/opt/local/lib -lMrm -lXm -lgrace_np -lXt -lXp -lX11 -lXext -lXpm -lXmu ../port3/libport.a
@@ -71,7 +70,7 @@ PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a /opt/local/lib/libXft.a
           /opt/local/lib/libSM.a /opt/local/lib/libICE.a /opt/local/lib/libX11.a /opt/local/lib/libXext.a /opt/local/lib/libXpm.a /opt/local/lib/libXmu.a \
           /opt/local/lib/libXRender.a /opt/local/lib/libXau.a /opt/local/lib/libXdmcp.a /opt/local/lib/libjpeg.a /opt/local/lib/libpng.a /opt/local/lib/libpng12.a \
           /opt/local/lib/libexpat.a /opt/local/lib/libz.a /opt/local/lib/libfreetype.a /opt/local/lib/libcharset.a /opt/local/lib/libfontconfig.a \
-          /opt/local/lib/libiconv.a /opt/local/lib/libX11-xcb.a /opt/local/lib/libxcb.a ../port3/libport.a /sw/lib/gcc4.4/lib/libgfortran.a
+          /opt/local/lib/libiconv.a /opt/local/lib/libX11-xcb.a /opt/local/lib/libxcb.a ../port3/libport.a /usr/local/lib/libgfortran.a
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
 LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
