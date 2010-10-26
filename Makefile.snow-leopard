@@ -1,6 +1,6 @@
 # =================================================================================
 # Makefile for build of the xMELTS package on Intel (MacOS X - 10.5.1)
-#   $Id: Makefile.leopard-intel,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
+#   $Id: Makefile.snow-leopard,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
 # =================================================================================
 
 # Compilation options
@@ -35,7 +35,7 @@ MELTS_RELEASE_VERSION  = 5.6.0 (Mac OS X - 10.6.3, gcc 4.2.1, 64 bit)
 
 INCC   = /opt/local/include
 INCXM  = /opt/local/include
-INCX   = /usr/X11R6/include
+INCX   = /opt/local/include
 INCF2C = .
 INCXML = /usr/include/libxml2
 
@@ -68,7 +68,7 @@ LDFLAGS =
 LIBS    = -L/opt/local/lib -lMrm -lXm -lgrace_np -lXt -lXp -lX11 -lXext -lXpm -lXmu ../port3/libport.a
 PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a /opt/local/lib/libXft.a /opt/local/lib/libgrace_np.a /opt/local/lib/libXt.a /opt/local/lib/libXp.a \
           /opt/local/lib/libSM.a /opt/local/lib/libICE.a /opt/local/lib/libX11.a /opt/local/lib/libXext.a /opt/local/lib/libXpm.a /opt/local/lib/libXmu.a \
-          /opt/local/lib/libXRender.a /opt/local/lib/libXau.a /opt/local/lib/libXdmcp.a /opt/local/lib/libjpeg.a /opt/local/lib/libpng.a /opt/local/lib/libpng12.a \
+          /opt/local/lib/libXRender.a /opt/local/lib/libXau.a /opt/local/lib/libXdmcp.a /opt/local/lib/libjpeg.a /opt/local/lib/libpng.a \
           /opt/local/lib/libexpat.a /opt/local/lib/libz.a /opt/local/lib/libfreetype.a /opt/local/lib/libcharset.a /opt/local/lib/libfontconfig.a \
           /opt/local/lib/libiconv.a /opt/local/lib/libX11-xcb.a /opt/local/lib/libxcb.a ../port3/libport.a /usr/local/lib/libgfortran.a
 LIBF2C = 
