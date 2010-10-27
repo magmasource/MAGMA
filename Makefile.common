@@ -13,15 +13,33 @@ vpath %.h includes
 
 # random access library of MELTS support functions
 # ================================================
-
-.c.a :
-	$(CC) -c $(CFLAGS) $<
-	$(AR) $(ARFLAGS) $@ $*.o
-	rm -f $*.o
-
+	 
 MELTSLIB        = libMELTS.a
 MELTSBATCHLIB   = libMELTSbatch.a
 MELTSDYNAMICLIB = libMELTSdynamic.a
+
+LIBMELTSDYNAMIC = $(MELTSDYNAMICLIB)
+RMFILE = *.$(SONAME)
+
+(%.o): %.c
+	$(CC) $(CFLAGS) $<
+	$(AR) $(ARFLAGS) $@ $*.o
+	$(RM) $(RMFLAGS) $*.o
+
+# dynamically loaded library of MELTS support functions
+# =====================================================
+
+ifneq ($(DYNAMIC),)
+
+MELTSDYLIB = $(addsuffix .$(SONAME), $(basename $(MELTSDYNAMICLIB)))
+LIBMELTSDYNAMIC = -L$(CURDIR) -lMELTSdynamic
+
+%.$(SONAME): %.a
+	$(AR) $(DYFLAGS) $<
+	$(CC) $(LDFLAGS) $(DYNAMIC) -o $@ *.o $(LIBBATCH)
+	$(RM) $(RMFLAGS) *.o
+
+endif
 
 # Targets
 # =======
@@ -68,7 +86,7 @@ clean:
 
 realclean:
 	$(RM) $(RMFLAGS) core *.out *.tbl  *.preclb *.log *.plt *.res
-	$(RM) $(RMFLAGS) *.o *.a *.inp
+	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.inp
 	$(RM) $(RMFLAGS) Analyze-fusion
 	$(RM) $(RMFLAGS) Analyze-fusion-MS
 	$(RM) $(RMFLAGS) Analyze-water
@@ -602,7 +620,7 @@ Melts: interface.c preclb.c preclb_slave.c postclb.c simann.o \
 	$(CC) $(CFLAGS) sources/preclb_slave.c
 	$(CC) $(CFLAGS) sources/postclb.c
 	$(FC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o $(MELTSLIB) $(LIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
 	chmod 755 $@
 
 Melts-MS: interface.c preclb.c preclb_slave.c postclb.c liquid-MS.o melts_support-MS.o simann.o \
@@ -633,7 +651,7 @@ Melts-MS: interface.c preclb.c preclb_slave.c postclb.c liquid-MS.o melts_suppor
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION sources/preclb_slave.c
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION sources/postclb.c
 	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-MS.o melts_support-MS.o simann.o $(MELTSLIB) $(LIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
 	chmod 755 $@
 
 Melts-SACNK: interface.c preclb.c preclb_slave.c postclb.c liquid-SACNK.o melts_support-SACNK.o simann.o \
@@ -664,7 +682,7 @@ Melts-SACNK: interface.c preclb.c preclb_slave.c postclb.c liquid-SACNK.o melts_
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb_slave.c
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/postclb.c
 	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-SACNK.o melts_support-SACNK.o simann.o $(MELTSLIB) $(LIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
 	chmod 755 $@
 
 Melts-mpi: interface.c preclb.c preclb_slave.c postclb.c simann.o \
@@ -697,7 +715,7 @@ Melts-mpi: interface.c preclb.c preclb_slave.c postclb.c simann.o \
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
 	$(CC) $(CFLAGS) $(MPICCFLAGS) sources/preclb_slave.c
 	$(CC) $(LDFLAGS) -o Melts-slave preclb_slave.o simann.o $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
 	chmod 755 Melts-slave
 	touch $@
 
@@ -733,7 +751,7 @@ Melts-mSACNK: interface.c preclb.c preclb_slave.c postclb.c liquid-SACNK.o melts
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
 	$(CC) $(CFLAGS) $(MPICCFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb_slave.c
 	$(CC) $(LDFLAGS) -o Melts-slave preclb_slave.o liquid-SACNK.o melts_support-SACNK.o simann.o $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
 	chmod 755 Melts-slave
 	touch $@
 
@@ -747,7 +765,7 @@ Melts-batch: interface.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
              nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
              perovskite.c read_write.c recipes.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
              spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
-	$(MAKE) Melts-batchPrivate "BATCH=-DBATCH_VERSION" 
+	$(MAKE) Melts-batchPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION" 
 
 Melts-batchPrivate: interface.c \
                     silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h status.h \
@@ -768,11 +786,12 @@ Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
                nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
                perovskite.c read_write.c recipes.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
                spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
-	$(MAKE) Melts-dynamicPrivate "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS" 
+	$(RM) $(RMFLAGS) $(RMFILE) 
+	$(MAKE) Melts-dynamicPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS"
 
-Melts-dynamicPrivate: test_dynamicLib.f $(MELTSDYNAMICLIB)
+Melts-dynamicPrivate: test_dynamicLib.f $(MELTSDYNAMICLIB) $(MELTSDYLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSDYNAMICLIB)
-	gfortran -o Test_dynamicLib -ffree-form $< $(MELTSDYNAMICLIB) $(LIBBATCH)
+	gfortran -o Test_dynamicLib -ffree-form $< $(LIBMELTSDYNAMIC) $(LIBBATCH)
 	$(RM) $(RMFLAGS) test_dynamicLib.o
 	chmod 755 Test_dynamicLib
 
@@ -802,7 +821,7 @@ Melts-public: interface.c preclb.c preclb_slave.c postclb.c simann.o \
 	$(CC) $(CFLAGS) sources/preclb_slave.c
 	$(CC) $(CFLAGS) sources/postclb.c
 	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
 	chmod 755 $@
 
 Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c simann.o \
@@ -832,7 +851,7 @@ Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c simann.o \
 	$(CC) $(CFLAGS) sources/postclb.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
 	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o gibbs.o
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o
 	chmod 755 $@
 
 Test_a-x_relations: test_a-x_relations.c \

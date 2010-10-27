@@ -3,6 +3,8 @@
 #   $Id: Makefile.intel,v 1.2 2006/08/17 16:47:18 ghiorso Exp $
 # ================================================================================
 
+MAKEFILE = Makefile.intel
+
 # Compilation options
 # ===================
 

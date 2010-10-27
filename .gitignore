@@ -2,6 +2,7 @@
 Makefile
 core
 *.a
+*.so
 *.o
 *.tbl
 *.out

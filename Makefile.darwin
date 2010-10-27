@@ -3,6 +3,8 @@
 #   $Id: Makefile.darwin,v 1.8 2007/05/30 15:39:03 ghiorso Exp $
 # =================================================================================
 
+MAKEFILE = Makefile.darwin
+
 # Compilation options
 # ===================
 
