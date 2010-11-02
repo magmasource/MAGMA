@@ -65,6 +65,13 @@ void meltsgetoxidenames_(char oxideNames[], int *nCharInName, int *numberOxides)
   *numberOxides = nc;
 }        
 
+void getMeltsOxideNames(char *oxidePtr[], int *nCharInName, int *numberOxides) {
+  int i, nCh = *nCharInName, nox = *numberOxides;
+  char oxideNames[nCh*nox];
+  meltsgetoxidenames_(oxideNames, nCharInName, numberOxides);
+  for (i=0; i<nc; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
+}
+
 /* ================================================================================== */
 /* Returns phase names and order for output properties vector                         */
 /* Input:                                                                             */
@@ -86,6 +93,13 @@ void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases)
   for (i=0; i<npc; i++) if (solids[i].type == PHASE) { strncpy(phaseNames + np*sizeof(char)*nCh, solids[i].label, nCh); np++; }
   *numberPhases = np;
 }        
+
+void getMeltsPhaseNames(char *phasePtr[], int *nCharInName, int *numberPhases) {
+  int i, nCh = *nCharInName, np = *numberPhases;
+  char phaseNames[nCh*np];
+  meltsgetphasenames_(phaseNames, nCharInName, numberPhases);
+  for (i=0; i<nc; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
+}
 
 /* ================================================================================== */
 /* MELTS processing call       							      */
@@ -146,7 +160,7 @@ static SilminState *createSilminState(void) {
 
 void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComposition, 
          double *enthalpy, double *temperature, 
-	 char phaseNames[], int *nCharInName, int *numberPhases, int *iterations, int *status, double *phaseProperties) {
+  	 char phaseNames[], int *nCharInName, int *numberPhases, int *iterations, int *status, double *phaseProperties) {
   int update = FALSE;
   int nCh = *nCharInName;
   if (!iAmInitialized) initializeLibrary();
@@ -509,6 +523,17 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     *temperature = silminState->T;
 
   } /* end output block */
+}
+
+void driveMeltsProcess(int *nodeIndex, int *mode, double *pressure, double *bulkComposition,
+		       double *enthalpy, double *temperature,
+		       char *phasePtr[], int *nCharInName, int *numberPhases, int *iterations, int *status, double *phaseProperties) {
+  int i, nCh = *nCharInName, np = *numberPhases;
+  char phaseNames[nCh*np];
+  meltsprocess_(nodeIndex, mode, pressure, bulkComposition,
+		enthalpy, temperature,
+		phaseNames, nCharInName, numberPhases, iterations, status, phaseProperties);
+  for (i=0; i<nc; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
 }
 		  
 /* ================================================================================== */

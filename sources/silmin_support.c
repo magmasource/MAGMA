@@ -303,6 +303,30 @@ MELTS Source Code: RCS
 
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 
+Constraints *allocConstraintsPointer(void)
+{
+  Constraints *p;
+  
+  p = (Constraints *) malloc((unsigned) sizeof(Constraints));
+  /*p->lambda      = (double *)  malloc((unsigned) (nc+4)*sizeof(double));
+  p->liquidDelta = (double *)  malloc((unsigned)    nlc*sizeof(double));
+  p->solidDelta  = (double **) malloc((unsigned)    npc*sizeof(double *));
+  for (i=0; i<npc; i++) p->solidDelta[i] = (double *) malloc((unsigned) sizeof(double));*/
+  return p;
+}
+
+void destroyConstraintsStructure(void *pt)
+{
+  Constraints *p = pt;
+  /*int i;
+
+  for (i=0; i<npc; i++) free((p->solidDelta)[i]);
+  free(p->lambda);
+  free(p->liquidDelta);
+  free(p->solidDelta);*/
+  free(p);
+}
+
 SilminState *allocSilminStatePointer(void)
 {
   int i;
@@ -330,6 +354,34 @@ SilminState *allocSilminStatePointer(void)
   }
 
   return p;
+}
+
+void destroySilminStateStructure(void *pt)
+{
+  SilminState *p = pt;
+  int i;
+  
+  for (i=0; i<MAX(1,p->nLiquidCoexist);i++) {
+    free((p->liquidComp)[i]);
+    free((p->liquidDelta)[i]);
+  }
+
+  for (i=0; i<npc; i++) {
+    free((p->solidComp)[i]);
+    free((p->solidDelta)[i]);
+  }
+  
+  free(p->bulkComp);
+  free(p->dspBulkComp);
+  free(p->liquidComp);
+  free(p->liquidDelta);
+  free(p->solidComp);
+  free(p->nSolidCoexist);
+  free(p->solidDelta);
+  free(p->incSolids);   
+  free(p->cylSolids);   
+  
+  free(p);
 }
 
 SilminState *copySilminStateStructure(SilminState *pOld, SilminState *pNew)

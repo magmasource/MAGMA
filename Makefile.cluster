@@ -3,6 +3,8 @@
 #   $Id: Makefile.cluster,v 1.7 2007/06/08 17:43:07 ghiorso Exp $
 # =================================================================================
 
+MAKEFILE = Makefile.cluster
+
 # Compilation options
 # ===================
 

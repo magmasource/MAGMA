@@ -3,6 +3,8 @@
 #   $Id: Makefile.leopard-intel,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
 # =================================================================================
 
+MAKEFILE = Makefile.leopard-intel
+
 # Compilation options
 # ===================
 
