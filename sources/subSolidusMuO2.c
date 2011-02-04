@@ -135,6 +135,10 @@ MELTS Source Code: RCS
 #include "recipes.h"                
 #include "silmin.h"
 
+#ifdef DEBUG
+#undef DEBUG
+#endif
+
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 #define SQUARE(x) ((x)*(x))
 
@@ -342,18 +346,33 @@ int subsolidusmuO2(int mask,
 	iter++;
         while (acceptable == FALSE) {
           acceptable = TRUE;
-          if ((silminState->oxygen -= xi) < 0.0) acceptable = FALSE;
+          if ((silminState->oxygen -= xi) < 0.0) {
+	    acceptable = FALSE;
+#ifdef DEBUG
+            printf("...subsolidusfO2: In while loop, Failure for oxygen.\n");
+#endif
+	  }
           for (i=2; i<n; i++) silminState->solidComp[phaseIndex[i]][nCoexist[i]] += xi * dstoich[i];
           for (i=0; i<npc; i++) { /* recompute phase abundance, check phases */
             if (solids[i].type == PHASE) {
               if (solids[i].na == 1) {
-                if (silminState->solidComp[i][0] < 0.0) acceptable = FALSE;
+                if (silminState->solidComp[i][0] < 0.0) {
+		  acceptable = FALSE;
+#ifdef DEBUG
+                  printf("...subsolidusfO2: In while loop, Failure for phase %s.\n", solids[i].label);
+#endif
+		}
               } else {
                 double *mmm = (double *) malloc((size_t) solids[i].na*sizeof(double));
                 for (k=0; k<silminState->nSolidCoexist[i]; k++) {
                   for (silminState->solidComp[i][k]=0.0, j=0; j<solids[i].na; j++)
                     silminState->solidComp[i][k] += (mmm[j] = silminState->solidComp[i+1+j][k]);
-                  if (!(*solids[i].test)(SIXTH,silminState->T,silminState->P, solids[i].na, solids[i].nr, NULL, NULL, NULL, mmm)) acceptable = FALSE;
+                  if (!(*solids[i].test)(SIXTH,silminState->T,silminState->P, solids[i].na, solids[i].nr, NULL, NULL, NULL, mmm)) {
+		    acceptable = FALSE;
+#ifdef DEBUG
+                    printf("...subsolidusfO2: In while loop, Failure for phase %s.\n", solids[i].label);
+#endif
+		  }
                 }
                 free(mmm);
               }
@@ -368,12 +387,24 @@ int subsolidusmuO2(int mask,
                 }
               }
             }
-            if (silminState->bulkComp[i] < 0.0) acceptable = FALSE;
+            if (silminState->bulkComp[i] < 0.0) {
+	      acceptable = FALSE;
+#ifdef DEBUG
+              printf("...subsolidusfO2: In while loop, Failure for oxide %s.\n", bulkSystem[i].label);
+#endif
+	    }
           }
           if (acceptable == FALSE) {    /* went too far, undo */
             silminState->oxygen += xi;
             for (i=1; i<n; i++) silminState->solidComp[phaseIndex[i]][nCoexist[i]] -= xi * dstoich[i];
             xi /= 2.0;  /* On next attempt, step half as far */
+#ifdef DEBUG
+            printf("...subsolidusfO2: In while loop, xi = %20.13g.\n", xi);
+#endif
+            if (fabs(xi) < 100.0*DBL_EPSILON) {
+	      printf("Can't compute a viable solution in subSolidusMuO2. Exiting.\n");
+              return 0;
+	    }
           }
         }
       } else break; /* converged */

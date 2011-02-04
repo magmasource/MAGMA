@@ -271,6 +271,9 @@ MELTS Source Code: RCS
 #undef DEBUG
 #endif
 
+#ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
+#undef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
+#endif
 
 /*
  *=============================================================================
@@ -850,7 +853,7 @@ int silmin(void)
       for (i=0, nCmps=0; i<nc;  i++) if ((silminState->bulkComp)[i] != 0.0) nCmps++;
       for (i=0, nSols=0; i<npc; i++) if (solids[i].type == PHASE) nSols += (silminState->nSolidCoexist)[i];
 #ifdef DEBUG
-      printf("\nEntering HFTI with %d component(s), %d liquid(s) and %d solid(s)\n", nCmps, nLiqs, nSols);
+      printf("\nIteration %d. Entering HFTI with %d component(s), %d liquid(s) and %d solid(s)\n", iterQuad, nCmps, nLiqs, nSols);
       if (nCmps < (nLiqs+nSols)) 
         printf("*****Assemblage input to HFTI violates phase rule for divariant assemblage.\n"); 
 #endif
@@ -885,7 +888,9 @@ int silmin(void)
       
 #ifdef DEBUG
       printf("HFTI: scale factor: %20.13g\n", scale);
+      /*
       for (i=0; i<(conCols-conRows); i++) printf("HFTI Soln: bMatrix[%d] = %20.13g\n", conRows+i, bMatrix[conRows+i][0]);
+      */
 #endif
 
       free_ivector(pVector, 0, conCols-conRows-1);
@@ -930,7 +935,9 @@ int silmin(void)
     for (i=0; i<conRows; i++) bMatrix[i][0] = yVector[i];
     for (i=(conRows-1); i>=0; i--) householderRowCol(HOUSEHOLDER_CALC_MODE_H2, i, i+1, conCols-1, cMatrix, i, &hVector[i], bMatrix, 0, 0);
 #ifdef DEBUG
+    /*
     for (i=0; i<conCols; i++) printf("unProj HFTI Soln: bMatrix[%d] = %20.13g\n", i, bMatrix[i][0]);
+    */
 #endif
 
     j=0; rNorm=0.0; sNorm = 0.0;
@@ -942,8 +949,8 @@ int silmin(void)
             sNorm += (hasNlCon) ? SQUARE(bMatrix[j][0]+(silminState->liquidComp)[nl][i]) : SQUARE(bMatrix[j][0]);
             rNorm += SQUARE((silminState->liquidDelta)[nl][i]);
 #ifdef DEBUG
-  printf("soln %-15.15s = %13.6g, delta = %13.6g\n", liquid[i].label, (hasNlCon) ? bMatrix[j][0]+(silminState->liquidComp)[nl][i] : bMatrix[j][0], 
-    (silminState->liquidDelta)[nl][i]);
+  printf("soln %-15.15s = %13.6g  ref = %13.6g  delta = %13.6g\n", liquid[i].label, 
+    (hasNlCon) ? bMatrix[j][0]+(silminState->liquidComp)[nl][i] : bMatrix[j][0], (silminState->liquidComp)[nl][i], (silminState->liquidDelta)[nl][i]);
 #endif
             j++;
           } else (silminState->liquidDelta)[nl][i] = 0.0;
@@ -952,19 +959,25 @@ int silmin(void)
       }
     }
 
+#ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
+    if (iterQuad == 1) printf("T = %g, P = %g\n", silminState->T - 273.15, silminState->P);
+#endif
     for (i=0; i<npc; i++) {
       for (ns=0; ns<(silminState->nSolidCoexist)[i]; ns++) {
         (silminState->solidDelta)[i][ns] = 0.0;
 #ifdef DEBUG
   printf("soln %-15.15s\n", solids[i].label); 
 #endif
+#ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
+        if (iterQuad == 1) printf("%-15.15s ", solids[i].label);
+#endif
         if (solids[i].na == 1) {
           (silminState->solidDelta)[i][ns] = (hasNlCon) ? bMatrix[j][0] : bMatrix[j][0] - (silminState->solidComp)[i][ns];
           sNorm  += (hasNlCon) ? SQUARE(bMatrix[j][0]+(silminState->solidComp)[i][ns]) : SQUARE(bMatrix[j][0]);
           rNorm  += SQUARE((silminState->solidDelta)[i][ns]);
 #ifdef DEBUG
-  printf("soln %-15.15s = %13.6g, delta = %13.6g\n", "Total moles", (hasNlCon) ? bMatrix[j][0]+(silminState->solidComp)[i][ns] : bMatrix[j][0],
-    (silminState->solidDelta)[i][ns]); 
+  printf("soln %-15.15s = %13.6g  ref = %13.6g  delta = %13.6g\n", "Total moles", 
+    (hasNlCon) ? bMatrix[j][0]+(silminState->solidComp)[i][ns] : bMatrix[j][0], (silminState->solidComp)[i][ns], (silminState->solidDelta)[i][ns]); 
 #endif
           j++;
         } else {
@@ -975,19 +988,22 @@ int silmin(void)
               sNorm  += (hasNlCon) ? SQUARE(bMatrix[j][0] +(silminState->solidComp)[i+1+k][ns]) : SQUARE(bMatrix[j][0]);
               rNorm  += SQUARE((silminState->solidDelta)[i+1+k][ns]);
 #ifdef DEBUG
-  printf("soln %-15.15s = %13.6g, delta = %13.6g\n", solids[i+1+k].label, (hasNlCon) ? bMatrix[j][0]+(silminState->solidComp)[i+1+k][ns] : 
-    bMatrix[j][0], (silminState->solidDelta)[i+1+k][ns]);
+  printf("soln %-15.15s = %13.6g  ref = %13.6g  delta = %13.6g\n", solids[i+1+k].label, 
+    (hasNlCon) ? bMatrix[j][0]+(silminState->solidComp)[i+1+k][ns] : bMatrix[j][0], (silminState->solidComp)[i+1+k][ns], (silminState->solidDelta)[i+1+k][ns]);
 #endif
               j++;
             } else (silminState->solidDelta)[i+1+k][ns] = 0.0;
           }
           (silminState->solidDelta)[i][ns] = mTotal - (silminState->solidComp)[i][ns];
 #ifdef DEBUG
-  printf("soln %-15.15s = %13.6g, delta = %13.6g\n", "Total moles", mTotal, (silminState->solidDelta)[i][ns]); 
+  printf("soln %-15.15s = %13.6g  ref = %13.6g  delta = %13.6g\n", "Total moles", mTotal, (silminState->solidComp)[i][ns], (silminState->solidDelta)[i][ns]); 
 #endif
         }
       }
     }
+#ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
+    if (iterQuad == 1) printf("\n");
+#endif
 
     if ((silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) || (silminState->isentropic  && (silminState->refEntropy  != 0.0))) {
       silminState->tDelta = bMatrix[j][0];
@@ -1026,6 +1042,9 @@ int silmin(void)
 
 #ifdef DEBUG
     printf("rNorm = %13.6g, sNorm = %13.6g\n", rNorm, sNorm);
+#endif
+#ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
+    printf("iter = %3.3d rNorm = %13.6e, sNorm = %13.6e", iterQuad, rNorm, sNorm);
 #endif
 
     if (rNorm < pow(DBL_EPSILON, (double) 0.75)*sNorm*((double) quad_tol_modifier)) curStep = CONVERGENCE_TEST;
@@ -1075,7 +1094,7 @@ int silmin(void)
         iterQuad = 0; curStep = 0; return TRUE; 
       }
     } else curStep++;
-    
+jumpFromLinSearch:    
     if ((curStage != PRE_STAGE_ZERO) && (curStep == CONVERGENCE_TEST)) {
       static int fo2PathOld = FO2_NONE;
       if      (curStage == L_H_STAGE_ONE  ) { fo2PathOld = silminState->fo2Path; silminState->fo2Path = FO2_NONE; silminState->isenthalpic = TRUE;  curStage = L_H_STAGE_TWO;   }
@@ -1102,7 +1121,8 @@ int silmin(void)
   /* ------------------------------------------------------------------------ */
   case LINEAR_SEARCH:
     {
-      double lambda = 1.0, stepSize = 0.10, pTotal;
+      static double pTotalLast = 0.0, pTotalAveLast = 0.0, pTotalHistory[ITERMX+1];
+      double lambda = 1.0, stepSize = 0.10, pTotal, pTotalAverage;
       int iter, status;
     
       do {
@@ -1128,7 +1148,11 @@ int silmin(void)
         }
       } while (status != MIN1D_SUCCESS);
 #ifdef DEBUG
-      printf("On exit from Linear Search routine, iter = %d, lambda = %g\n", iter, lambda);
+      printf("On exit from Linear Search routine, iter = %d, lambda = %g", iter, lambda);
+      printf(" pTotal = %20.13e (%20.13e, %21.1f)\n", pTotal, (pTotal-pTotalLast)/pTotal, (pTotal-pTotalLast)/(pTotal*DBL_EPSILON));
+#endif
+#ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
+      printf(" lambda = %13.6e pTotal = %20.13e (%20.13e, %21.1f)\n", lambda, pTotal, (pTotal-pTotalLast)/pTotal, (pTotal-pTotalLast)/(pTotal*DBL_EPSILON));
 #endif
 
 #ifndef BATCH_VERSION      
@@ -1245,6 +1269,29 @@ int silmin(void)
         }
       }
 #endif
+
+      pTotalHistory[iterQuad] = pTotal;
+      if (iterQuad > 5) {
+        pTotalAverage = (pTotalHistory[iterQuad-5]+pTotalHistory[iterQuad-4]+pTotalHistory[iterQuad-3]+pTotalHistory[iterQuad-2]+pTotalHistory[iterQuad-1])/5.0;
+        if (fabs((pTotalAverage-pTotalAveLast)/pTotalAverage) < 10.0*DBL_EPSILON) {
+          curStep = CONVERGENCE_TEST;
+#ifndef BATCH_VERSION
+          wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->Linear search: Convergence detected.\n");
+#else
+          fprintf(stderr, "...-->Linear search: Convergence detected.\n");
+#endif
+#ifdef DEBUG
+          printf("<><><> Optimal energy exit. <><><>\n");
+#endif
+#ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION 
+          printf("<><><> Optimal energy exit. <><><>\n");
+#endif
+	  goto jumpFromLinSearch;
+        }
+      } else pTotalAverage = 0.0;
+      
+      pTotalLast = pTotal;
+      pTotalAveLast = pTotalAverage;
 
     }
 

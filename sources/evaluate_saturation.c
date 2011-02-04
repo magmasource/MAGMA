@@ -128,6 +128,12 @@ MELTS Source Code: RCS
 #include "silmin.h"               /*SILMIN structures include file          */
 #include "recipes.h"
 
+int getAffinityAndCompositionGeneric(double t, double p, int index,                           
+  int *zeroX, double *muMinusMu0, double *affinity, double *indepVar);
+
+int getAffinityAndCompositionPyroxene(double t, double p, int index,                           
+  int *zeroX, double *muMinusMu0, double *affinity, double *indepVar);
+
 #ifdef DEBUG
 #undef DEBUG
 #endif
@@ -298,15 +304,28 @@ int evaluateSaturationState(double *rSol, double *rLiq)
              variables (ie. solids[i].nr of them) is returned in
              rSol[i+1] to rSol[i+1+solids[i].nr]. It may be converted
              subsequently to moles of endmembers if necessary                 */
-
-/*
-          if (!strcmp(solids[i].label, "leucite ss")) {
-            muSol[1] = 0.0; zeroX[1] = TRUE;
-          }
-*/
-
-          if (!getAffinityAndComposition(t, p, i, zeroX, muSol, &rSol[i],
-                   &rSol[i+1])) {		   
+#ifdef RHYOLITE_ADJUSTMENTS	     
+	  if (!strcmp(solids[i].label, "feldspar")) {
+#ifdef DEBUG
+              printf("Using generic method for feldspar.\n");
+#endif
+	      getAffinityAndCompositionGeneric(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
+	      
+	  } else if (!strcmp(solids[i].label, "orthopyroxene")) {
+#ifdef DEBUG
+              printf("Using speciation method for orthopyroxene.\n");
+#endif
+	      getAffinityAndCompositionPyroxene(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
+	      
+	  } else if (!strcmp(solids[i].label, "clinopyroxene")) {
+#ifdef DEBUG
+              printf("Using speciation method for clinopyroxene.\n");
+#endif
+	      getAffinityAndCompositionPyroxene(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
+	      
+          } else 
+#endif /* RHYOLITE_ADJUSTMENTS */	  
+	  if (!getAffinityAndComposition(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1])) {		   
             if (!strcmp(solids[i].label, "clinopyroxene") || 
                 !strcmp(solids[i].label, "orthopyroxene")    ) {
 #ifdef DO_PYROXENE_COMPROMISE
@@ -369,7 +388,7 @@ int evaluateSaturationState(double *rSol, double *rLiq)
               } else for (k=0; k<=solids[i].na; k++) rSol[i+k] = 0.0;
 
             } else for (k=0; k<=solids[i].na; k++) rSol[i+k] = 0.0;
-          }
+          }  /* end of if-block for getAffinityAndComposition() */
 
           hasSupersat |= (rSol[i] < 0.0);
           i += solids[i].na;
