@@ -1722,7 +1722,13 @@ void correctTforChangeInEnthalpy(void)
       double muO2;
       silminState->fo2 = getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
       muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-      subsolidusmuO2(0,  &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      if (!subsolidusmuO2(0,  &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+        printf("Failure to impose fo2 buffer in subsolidus.  Releasing buffer constraint from system.\n");
+	silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+        XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+      }
     }
 
     hTotal  = 0.0;
@@ -1809,7 +1815,13 @@ void correctTforChangeInEntropy(void)
       double muO2;
       silminState->fo2 = getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
       muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-      subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      if (!subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+        printf("Failure to impose fo2 buffer in subsolidus.  Releasing buffer constraint on the system.\n");
+	silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+        XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+      }
     }
 
     sTotal  = 0.0;
@@ -1896,7 +1908,13 @@ void correctPforChangeInVolume(void)
       double muO2;
       silminState->fo2 = getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
       muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-      subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      if (!subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+        printf("Failure to impose fo2 buffer in subsolidus.  Releasing buffer constraint from the system.\n");
+	silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+        XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+      }
     }
 
     vTotal  = 0.0;

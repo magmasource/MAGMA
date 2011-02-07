@@ -258,6 +258,7 @@ MELTS Source Code: RCS
 
 #ifndef BATCH_VERSION
 #include <Xm/Xm.h> 
+#include <Xm/ToggleBG.h>
 #include "interface.h"            /*Specific external declarations          */
 #else
 #include "status.h"               /*Status of calculation in batch mode     */
@@ -530,7 +531,13 @@ int silmin(void)
       printf("oxygen content = %13.6g\n", silminState->oxygen);
 #endif /* DEBUG */
 
-      subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      if (!subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+        printf("Failure to impose fO2 buffer in subsolidus. Releasing buffer constraint from the system.\n");
+	silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+        XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+      }
       
 #ifdef DEBUG
       printf("\nAfter exit from subsolidusmuO2:\n");
@@ -747,7 +754,13 @@ int silmin(void)
         free(moles);
       } else if (silminState->fo2Path != FO2_NONE && !hasLiquid) {
         double muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-        subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        if (!subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+	  printf("Failure to impose fO2 buffer in subsolidus.  Releasing buffer constraint from the system.\n");
+	  silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+          XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+	}
       }
     }
 
@@ -1362,7 +1375,13 @@ jumpFromLinSearch:
           } else if (silminState->fo2Path != FO2_NONE && !hasLiquid) {
             double muO2;
             muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-            subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+            if (!subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+	      printf("Failure to impose fo2 buffer in subsolidus.  Releasing buffer constraint from the system.\n");
+	      silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+              XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+	    }
           }
           (silminState->cylSolids)[i]++;
           iterQuad = 0; bestrNorm = 1.0; acceptable = FALSE;
@@ -1509,7 +1528,13 @@ jumpFromLinSearch:
         free(moles);
       } else if (silminState->fo2Path != FO2_NONE && !hasLiquid) {
         double muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-        subsolidusmuO2(0, &muO2, NULL,  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        if (!subsolidusmuO2(0, &muO2, NULL,  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+	  printf("Failure to impose fo2 buffer in subsolidus.  Releasing buffer constraint from system.\n");
+	  silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+          XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+	}
       }
       iterQuad = 0; acceptable = FALSE; bestrNorm = 1.0;
     } else if (hasLiquid && silminState->multipleLiqs && (hasSupersaturation = checkForCoexistingLiquids())) { 
