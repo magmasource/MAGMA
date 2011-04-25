@@ -204,7 +204,11 @@ char *addOutputFileName = NULL;
 static SilminState *previousSilminState;
 #endif
 
+#ifdef RHYOLITE_ADJUSTMENTS
+#define RELEASE "rhyolite-MELTS (1.0.0) pMELTS (5.6.1) - (" __DATE__ " - " __TIME__ ")"
+#else
 #define RELEASE "()(p)(x)Melts (MELTS V5.6.0) - (" __DATE__ " - " __TIME__ ")"
+#endif
 
 #ifndef BATCH_VERSION
 
@@ -1821,18 +1825,18 @@ int main (int argc, char *argv[])
   printf("---> Default calculation mode is MELTS.  Change this? (y or n): ");
   if (tolower(getchar()) == 'y') {
     getchar();
-    printf("     Set calculation mode to pMELTS (public release v 4.0.x)? (y or n): ");
+    printf("     Set calculation mode to pMELTS (public release v 5.6.1)? (y or n): ");
     if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
   } else getchar();
 #elif ! defined(BATCH_VERSION)
   printf("---> Default calculation mode is xMELTS.  Change this? (y or n): ");
   if (tolower(getchar()) == 'y') {
     getchar();
-    printf("     Set calculation mode to MELTS (public release v 3.0.x)? (y or n): ");
+    printf("     Set calculation mode to MELTS (public release v 5.6.1)? (y or n): ");
     if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE__MELTS; }
     else {
       getchar();
-      printf("     Set calculation mode to pMELTS (public release v 4.0.x)? (y or n): ");
+      printf("     Set calculation mode to pMELTS (public release v 5.6.1)? (y or n): ");
       if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
     }
   } else getchar();
@@ -1841,16 +1845,20 @@ int main (int argc, char *argv[])
 #endif
   
   if (calculationMode == MODE_xMELTS) {
-    printf("---> Calculation mode is xMELTS (experimental v 5.1.x).\n");
+    printf("---> Calculation mode is xMELTS (experimental v 5.6.1).\n");
   } else if (calculationMode == MODE__MELTS) {
-    printf("---> Calculation mode is MELTS (public release v 3.0.x).\n");
+#ifdef RHYOLITE_ADJUSTMENTS
+    printf("---> Calculation mode is rhyolite-MELTS (public release v 1.0.0).\n");
+#else
+    printf("---> Calculation mode is MELTS (public release v 5.6.1).\n");
+#endif
     liquid = meltsLiquid;
     solids = meltsSolids;
     nlc = meltsNlc;
     nls = meltsNls;
     npc = meltsNpc;
   } else if (calculationMode == MODE_pMELTS) {
-    printf("---> Calculation mode is pMELTS (public release v 4.0.x).\n");
+    printf("---> Calculation mode is pMELTS (public release v 5.6.1).\n");
     liquid = pMeltsLiquid;
     solids = pMeltsSolids;
     nlc = pMeltsNlc;
@@ -1888,11 +1896,15 @@ int main (int argc, char *argv[])
 				argv, (String *) NULL, NULL);
   icon_pixmap = XCreateBitmapFromData (XtDisplay (topLevel), RootWindowOfScreen (XtScreen (topLevel)), icon_bits, icon_width, icon_height);
   if      (calculationMode == MODE__MELTS) 
-    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "MELTS (code release 5.0)",  XmNiconName, "Melts",  NULL);
+#ifdef RHYOLITE_ADJUSTMENTS
+    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "rhyolite-MELTS (code release 1.0.0)",  XmNiconName, "Melts",  NULL);
+#else
+    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "MELTS (code release 5.6.1)",  XmNiconName, "Melts",  NULL);
+#endif
   else if (calculationMode == MODE_pMELTS)
-    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "pMELTS (code release 5.0)", XmNiconName, "pMelts", NULL);
+    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "pMELTS (code release 5.6.1)", XmNiconName, "pMelts", NULL);
   else if (calculationMode == MODE_xMELTS)
-    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "xMELTS (code release 5.0)", XmNiconName, "xMelts", NULL);
+    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "xMELTS (code release 5.6.1)", XmNiconName, "xMelts", NULL);
 
   printf("---> ...Call to initialize_colors ()...\n");
   initialize_colors ();
