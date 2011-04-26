@@ -130,7 +130,9 @@ void getMeltsPhaseNames(char *phasePtr[], int *nCharInName, int *numberPhases) {
 /*                   - > 100 fatal error condition                                    */
 /*   phaseProperties - 2-d array, one column per phase, row length is fixed as        */
 /*                     G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2,    */
-/*                     oxide compositions in order of meltsGetOxideNames in grams     */
+/*                     oxide compositions in order of meltsGetOxideNames in grams,    */
+/*                     volume fraction, density, viscosity (for liquid phase,         */
+/*                     otherwise, zero)                                               */
 /*                     The first column is always the properties of the system        */ 
 /* ================================================================================== */
 
@@ -156,6 +158,52 @@ static SilminState *createSilminState(void) {
   silminStateTemp->nLiquidCoexist  = 1;  
   silminStateTemp->fo2Path  = FO2_NONE;
   return silminStateTemp;
+}
+
+static double viscosityFromGRD(double t, double *oxValues) {
+  /* Model: Giordano D, Russell JK, Dingwell DB (2008) Viscosity of magmatic liquids: A model. EPSL 271, 123-134 */
+  /* Oxide order: (input values in grams)
+     [ 0] SiO2 [ 1] TiO2 [ 2] Al2O3 [ 3] Fe2O3 [ 4] Cr2O3 [ 5] FeO [ 6] MnO [ 7] MgO    [ 8] NiO   [ 9] CoO 
+     [10] CaO  [11] Na2O [12] K2O   [13] P2O5  [14] H2O   [15] CO2 [16] SO3 [17] Cl2O-1 [18] F2O-1 [19] FeO1_3
+  */
+  double molePerCent[11], mTotal = 0.0, A = -4.55, B, C;
+  int i;
+  
+  molePerCent[ 0] =     oxValues[ 0]/bulkSystem[ 0].mw; /* SiO2  */
+  molePerCent[ 1] =     oxValues[ 1]/bulkSystem[ 1].mw; /* TiO2  */
+  molePerCent[ 2] =     oxValues[ 2]/bulkSystem[ 2].mw; /* Al2O3 */
+  molePerCent[ 3] = 2.0*oxValues[ 3]/bulkSystem[ 3].mw + oxValues[5]/bulkSystem[5].mw; /* FeO(T) */ 
+  molePerCent[ 4] =     oxValues[ 6]/bulkSystem[ 6].mw; /* MnO   */
+  molePerCent[ 5] =     oxValues[ 7]/bulkSystem[ 7].mw; /* MgO   */
+  molePerCent[ 6] =     oxValues[10]/bulkSystem[10].mw; /* CaO   */
+  molePerCent[ 7] =     oxValues[11]/bulkSystem[11].mw; /* Na2O  */
+  molePerCent[ 8] =     oxValues[12]/bulkSystem[12].mw; /* K2O   */
+  molePerCent[ 9] =     oxValues[13]/bulkSystem[13].mw; /* P2O5  */
+  molePerCent[10] =     oxValues[14]/bulkSystem[14].mw; /* H2O   */
+  for (i=0; i<11; i++) mTotal += molePerCent[i];
+  for (i=0; i<11; i++) molePerCent[i] /= (mTotal != 0.0) ? mTotal/100.0 : 1.0;
+  
+  B  =  159.6*(molePerCent[0] + molePerCent[1]);
+  B += -173.3*molePerCent[2];
+  B +=   72.1*(molePerCent[3]+molePerCent[4]+molePerCent[9]);
+  B +=   75.7*molePerCent[5];
+  B +=  -39.0*molePerCent[6];
+  B +=  -84.1*(molePerCent[7]+molePerCent[10]);
+  B +=  141.5*(molePerCent[10] + log(1.0+molePerCent[10]));
+  B +=   -2.43*(molePerCent[0] + molePerCent[1])*(molePerCent[3] + molePerCent[4] + molePerCent[5]);
+  B +=   -0.91*(molePerCent[0] + molePerCent[1] + molePerCent[2] + molePerCent[9])*(molePerCent[7] + molePerCent[8] + molePerCent[10]);
+  B +=   17.6*molePerCent[2]*(molePerCent[7] + molePerCent[8]);
+  
+  C  =   2.75*molePerCent[0];
+  C +=  15.7*(molePerCent[1] + molePerCent[2]);
+  C +=   8.3*(molePerCent[3] + molePerCent[4] + molePerCent[5]);
+  C +=  10.2*molePerCent[6];
+  C += -12.3*(molePerCent[7] + molePerCent[8]);
+  C += -99.5*log(1.0+molePerCent[10]);
+  C +=   0.30*(molePerCent[2] + molePerCent[3] + molePerCent[4] + molePerCent[5] + molePerCent[6] - molePerCent[9])
+             *(molePerCent[7] + molePerCent[8] + molePerCent[10]);
+	     
+  return exp(log(10.0)*(A + B/(t - C)));
 }
 
 void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComposition, 
@@ -310,10 +358,10 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     double gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, cpLiq = 0.0, dcpdtLiq = 0.0, 
            dvdtLiq = 0.0, dvdpLiq = 0.0, d2vdt2Liq = 0.0, d2vdtdpLiq = 0.0, d2vdp2Liq = 0.0;
     double totalG=0.0, totalH=0.0, totalS=0.0, totalV=0.0, totalCp=0.0, totaldCpdT=0.0, 
-           totaldVdT=0.0, totaldVdP=0.0, totald2VdT2=0.0, totald2VdTdP=0.0, totald2VdP2=0.0;
+           totaldVdT=0.0, totaldVdP=0.0, totald2VdT2=0.0, totald2VdTdP=0.0, totald2VdP2=0.0, temp;
     static double *m, *r, *oxVal;
     int i, j;
-    int columnLength = 11 + nc; /* G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2, + nc oxides */
+    int columnLength = 11 + nc + 3; /* G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2, + nc oxides + volume fraction, density, viscosity */
     
     if (m == NULL)	   m = (double *) malloc((size_t)      nc*sizeof(double));
     if (r == NULL)	   r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
@@ -322,6 +370,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     /* liquid is the second "phase" reported */
     if (silminState->liquidMass != 0.0) {
       int nl;
+      double totalGrams=0.0;
       strncpy(phaseNames + sizeof(char)*nCh, "liquid", nCh);
       *numberPhases = 2;
       
@@ -370,6 +419,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
 
         for (i=0; i<nc; i++) {
     	  for (j=0; j<nlc; j++) oxVal[i] += (liquid[j].liqToOx)[i]*(silminState->liquidComp)[nl][j]*bulkSystem[i].mw;
+	  totalGrams += oxVal[i];
         }
 
         gLiq    += G;    hLiq    += H;    sLiq      += S;      vLiq    += V;       cpLiq     += Cp;     dcpdtLiq += dCpdT; 
@@ -389,6 +439,9 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
       phaseProperties[columnLength+ 9] = d2vdtdpLiq*10.0;
       phaseProperties[columnLength+10] = d2vdp2Liq*10.0;
       for (i=0; i<nc; i++) phaseProperties[columnLength+11+i] = oxVal[i]; 
+      phaseProperties[columnLength+11+nc  ] = vLiq*10.0;
+      phaseProperties[columnLength+11+nc+1] = (vLiq != 0.0) ? 100.0*totalGrams/vLiq : 0.0;
+      phaseProperties[columnLength+11+nc+2] = viscosityFromGRD(silminState->T, oxVal);
 
     } /* end liquid block */
 
@@ -396,7 +449,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     for (j=0; j<npc; j++) {
       int ns;
       for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
-        double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2;
+        double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2, totalGrams=0.0;
 	 
         if (solids[j].na == 1) {
           G	  = (silminState->solidComp)[j][ns]*(solids[j].cur).g;
@@ -423,7 +476,10 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
           totald2VdTdP += (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdtdp;
           totald2VdP2  += (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdp2;
       
-          for (i=0; i<nc; i++) oxVal[i] = (solids[j].solToOx)[i]*bulkSystem[i].mw*(silminState->solidComp)[j][ns];
+          for (i=0; i<nc; i++) {
+	    oxVal[i] = (solids[j].solToOx)[i]*bulkSystem[i].mw*(silminState->solidComp)[j][ns];
+	    totalGrams += oxVal[i];
+	  }
 	  
         } else {
           for (i=0; i<solids[j].na; i++) m[i] = (silminState->solidComp)[j+1+i][ns];
@@ -477,6 +533,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
           for (i=0; i<nc; i++) {
             int k;
             for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
+	    totalGrams += oxVal[i];
           }
 	  
         }
@@ -493,6 +550,9 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
         phaseProperties[(*numberPhases)*columnLength+ 9] = d2VdTdP*10.0;
         phaseProperties[(*numberPhases)*columnLength+10] = d2VdP2*10.0;
         for (i=0; i<nc; i++) phaseProperties[(*numberPhases)*columnLength+11+i] = oxVal[i]; 
+	phaseProperties[(*numberPhases)*columnLength+11+nc  ] = V*10.0;
+	phaseProperties[(*numberPhases)*columnLength+11+nc+1] = (V != 0.0) ? 100.0*totalGrams/V : 0.0;
+	phaseProperties[(*numberPhases)*columnLength+11+nc+2] = 0.0;
 	
         strncpy(phaseNames+(*numberPhases)*sizeof(char)*nCh,solids[j].label, nCh);
 	(*numberPhases)++;
@@ -513,7 +573,15 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     phaseProperties[ 8] = (d2vdt2Liq + totald2VdT2)*10.0;
     phaseProperties[ 9] = (d2vdtdpLiq + totald2VdTdP)*10.0;
     phaseProperties[10] = (d2vdp2Liq + totald2VdP2)*10.0;
-    for (i=0; i<nc; i++) phaseProperties[11+i] = bulkComposition[i]; 
+    for (i=0, temp=0.0; i<nc; i++) {
+      phaseProperties[11+i] = bulkComposition[i]; 
+      temp += bulkComposition[i];
+    }
+    phaseProperties[11+nc  ] = 1.0;
+    phaseProperties[11+nc+1] = ((vLiq+totalV) != 0.0) ? 100.0*temp/(vLiq+totalV) : 0.0;
+    phaseProperties[11+nc+2] = 0.0;
+    
+    if ((vLiq+totalV) != 0.0) for (i=1; i<=(*numberPhases); i++) phaseProperties[i*columnLength+11+nc] /= 10.0*(vLiq+totalV);
     
     silminState->refEnthalpy = hLiq+totalH;
 
@@ -629,7 +697,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
     phaseList[0].name = (char *) malloc ((size_t) 7*sizeof(char));
     strcpy(phaseList[0].name, "liquid");
     
-    for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) {
+    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) {
       int length = strlen(solids[i].label)+1;
       maxLength = (maxLength < length) ? length : maxLength;
       phaseList[np].index = i;
