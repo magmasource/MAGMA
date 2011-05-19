@@ -904,6 +904,7 @@ int putOutputDataToFile(char *fileName)
     fprintf(tableLiq, ",sol G (kJ),sol H (kJ),sol S (J/K),sol V (cc),sol Cp (J/K)");
     fprintf(tableLiq, ",sys G (kJ),sys H (kJ),sys S (J/K),sys V (cc),sys Cp (J/K)");
     fprintf(tableLiq, ",sys dVdT (cc/K),sys dVdP (cc/bar),sys alpha (1/K),sys beta (1/bar)");
+    fprintf(tableLiq, ",liq dVdT (cc/K),liq dVdP (cc/bar),liq alpha (1/K),liq beta (1/bar)");
     fprintf(tableLiq, "\n");
   }
   if (tableSol == NULL) {
@@ -1384,6 +1385,10 @@ int putOutputDataToFile(char *fileName)
     fprintf(tableLiq, ",%20.13e", (dvdpLiq+totaldVolumeDp)*10.0);
     fprintf(tableLiq, ",%20.13e", ((vLiq+totalVolume) != 0.0) ?  (dvdtLiq+totaldVolumeDt)/(vLiq+totalVolume) : 0.0);
     fprintf(tableLiq, ",%20.13e", ((vLiq+totalVolume) != 0.0) ? -(dvdpLiq+totaldVolumeDp)/(vLiq+totalVolume) : 0.0);
+    fprintf(tableLiq, ",%20.13e", dvdtLiq*10.0);
+    fprintf(tableLiq, ",%20.13e", dvdpLiq*10.0);
+    fprintf(tableLiq, ",%20.13e", (vLiq != 0.0) ?  dvdtLiq/vLiq : 0.0);
+    fprintf(tableLiq, ",%20.13e", (vLiq != 0.0) ? -dvdpLiq/vLiq : 0.0);
     fprintf(tableLiq, "\n");
   }
 #endif
