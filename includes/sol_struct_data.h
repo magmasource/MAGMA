@@ -2707,6 +2707,28 @@ Solids meltsSolids[] = {
    vmixHrn,         /* Pointer to vmixHrn  : Volume of mixing                */
    dispHrn          /* Pointer to dispHrn  : Formula for interface display   */
   },
+#define DHBfABf ((-2836709.0+7932.05)-(-3275265.0-8565.18))
+  {"hastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
+   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"k-hastingsite", COMPONENT, "KCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
+   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+#undef DHBfABf
   {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -2718,7 +2740,7 @@ Solids meltsSolids[] = {
    }
   },
 #define DHGrnCum (-9623300.0-(-12067517.0))
-  {"ferropargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"ferro-pargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    -3016624.0*4.184+4.0*DHGrnCum/7.0,/* H ref (J)     Helgeson et al. (1978) */
@@ -2729,18 +2751,46 @@ Solids meltsSolids[] = {
    }
   },
 #undef DHGrnCum
-#define DHBfABf ((-2836709.0+7932.05)-(-3275265.0-8565.18))
-  {"magnesiohastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"hornblende", COMPONENT, "Ca2Mg4AlAlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
-   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
+   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
+   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-#undef DHBfABf
+  {"kaersutite", COMPONENT, "NaCa2Mg4TiAl2Si66O23(OH)", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
+   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"edenite", COMPONENT, "NaCa2Mg5AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
+   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"barroisite", COMPONENT, "NaCaMg3Al2AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
+   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
+   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
   {"biotite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
