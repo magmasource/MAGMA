@@ -314,8 +314,7 @@ int main()
          }
          for (i=0; i<NC; i++) deltaM[i] = sqrt(TAU)*(1.0+ABS(moles[i]));
 
-         if (!(*solids[n].test)(SIXTH, t, p, (int) NULL, (int) NULL, 
-           (char **) NULL, (char **) NULL, (double *) NULL, moles)) printf(
+         if (!(*solids[n].test)(SIXTH, t, p, 0, 0, NULL, NULL, NULL, moles)) printf(
            "BAD The moles vector apparently violates bound constraints.\n"); 
 
          /********************************************************************
@@ -332,8 +331,7 @@ int main()
            (double **) NULL, d3rdm3);
          for (i=0; i<NX; i++) deltaX[i] = sqrt(TAU)*(1.0+ABS(x[i]));
 
-         if (!(*solids[n].test)(FIFTH, t, p, (int) NULL, (int) NULL, 
-           (char **) NULL, (char **) NULL, x, (double *) NULL)) printf(
+         if (!(*solids[n].test)(FIFTH, t, p, 0, 0, NULL, NULL, x, NULL)) printf(
            "BAD The r vector apparently violates bound constraints.\n"); 
 
          /* Output moles and independent compositional variables */

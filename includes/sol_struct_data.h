@@ -435,6 +435,26 @@ void vmixFld (int mask, double t, double P, double *x, double *vmix,
               double *dxdp);
 void dispFld (int mask, double t, double P, double *x, char **formula);
 
+int  testFlu (int mask, double t, double p, int na, int nr, char **names,
+              char **formulas, double *r, double *m);
+void conFlu  (int inpMask, int outMask, double t, double p, double *e,
+              double *m, double *r, double *x, double **dm, double ***d2m,
+              double **dr, double ****d3m);
+void actFlu  (int mask, double t, double p, double *x, double *a,
+              double *mu, double **dx);
+void gmixFlu (int mask, double t, double P, double *x, double *gmix,
+              double *dx, double **dx2, double ***dx3);
+void hmixFlu (int mask, double t, double P, double *x, double *hmix);
+void smixFlu (int mask, double t, double P, double *x, double *smix,
+              double *dx, double **dx2);
+void cpmixFlu(int mask, double t, double P, double *x, double *cpmix,
+              double *dt, double *dx);
+void vmixFlu (int mask, double t, double P, double *x, double *vmix,
+              double *dx, double **dx2, double *dt, double *dp,
+              double *dt2, double *dtdp, double *dp2, double *dxdt,
+              double *dxdp);
+void dispFlu (int mask, double t, double P, double *x, char **formula);
+
 int  testGrn (int mask, double t, double p, int na, int nr, char **names,
               char **formulas, double *r, double *m);
 void conGrn  (int inpMask, int outMask, double t, double p, double *e,
@@ -3446,6 +3466,49 @@ Solids meltsSolids[] = {
   },
   {"water", PHASE, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,                              /* Calculated in GIBBS.C Berman (1988) */
+   {                /* ThermoRef structure                                   */
+   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"fluid", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testFlu,         /* Pointer to testFlu  : test expected number and order  */
+   conFlu,          /* Pointer to conFlu   : moles to indep comp variables   */
+   actFlu,          /* Pointer to actFlu   : activities, chemical potentiFlu */
+   gmixFlu,         /* Pointer to gmixFlu  : Gibbs free energy of mixing     */
+   hmixFlu,         /* Pointer to hmixFlu  : Enthaly of mixing               */
+   smixFlu,         /* Pointer to smixFlu  : Entropy of mixing               */
+   cpmixFlu,        /* Pointer to cpmixFlu : Heat capacity of mixing         */
+   vmixFlu,         /* Pointer to vmixFlu  : Volume of mixing                */
+   dispFlu          /* Pointer to dispFlu  : Formula for interface display   */
+  },
+  {"H2O", COMPONENT, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                        /* Calculated in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"CO2", COMPONENT, "CO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                        /* Calculated in GIBBS.C */
    {                /* ThermoRef structure                                   */
    -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
    0.0,             /* S ref (J/K)                                           */

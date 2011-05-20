@@ -177,6 +177,7 @@ $(MELTSLIB)(est_satState_revised.o):     est_satState_revised.c silmin.h
 $(MELTSLIB)(evaluate_saturation.o):      evaluate_saturation.c interface.h silmin.h mthread.h recipes.h
 $(MELTSLIB)(feldspar.o):                 feldspar.c silmin.h mthread.h
 $(MELTSLIB)(fluid.o):                    fluid.c silmin.h mthread.h
+$(MELTSLIB)(fluidPhase.o):               fluidPhase.c silmin.h
 $(MELTSLIB)(frac.o):                     frac.c
 $(MELTSLIB)(garnet.o):                   garnet.c silmin.h mthread.h
 $(MELTSLIB)(gradient_hessian.o):         gradient_hessian.c interface.h lawson_hanson.h recipes.h silmin.h mthread.h
@@ -234,6 +235,7 @@ $(MELTSBATCHLIB)(est_satState_revised.o):     est_satState_revised.c silmin.h
 $(MELTSBATCHLIB)(evaluate_saturation.o):      evaluate_saturation.c silmin.h mthread.h recipes.h
 $(MELTSBATCHLIB)(feldspar.o):                 feldspar.c silmin.h mthread.h
 $(MELTSBATCHLIB)(fluid.o):                    fluid.c silmin.h mthread.h
+$(MELTSBATCHLIB)(fluidPhase.o):               fluidPhase.c silmin.h
 $(MELTSBATCHLIB)(frac.o):                     frac.c
 $(MELTSBATCHLIB)(garnet.o):                   garnet.c silmin.h mthread.h
 $(MELTSBATCHLIB)(gradient_hessian.o):         gradient_hessian.c lawson_hanson.h recipes.h silmin.h mthread.h
@@ -286,6 +288,7 @@ $(MELTSDYNAMICLIB)(est_satState_revised.o):     est_satState_revised.c silmin.h
 $(MELTSDYNAMICLIB)(evaluate_saturation.o):      evaluate_saturation.c silmin.h mthread.h recipes.h
 $(MELTSDYNAMICLIB)(feldspar.o):                 feldspar.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(fluid.o):                    fluid.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(fluidPhase.o):               fluidPhase.c silmin.h
 $(MELTSDYNAMICLIB)(frac.o):                     frac.c
 $(MELTSDYNAMICLIB)(garnet.o):                   garnet.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(gradient_hessian.o):         gradient_hessian.c lawson_hanson.h recipes.h silmin.h mthread.h
@@ -353,6 +356,7 @@ $(MELTSLIB): $(MELTSLIB)(albite.o) \
              $(MELTSLIB)(evaluate_saturation.o) \
              $(MELTSLIB)(feldspar.o) \
              $(MELTSLIB)(fluid.o) \
+             $(MELTSLIB)(fluidPhase.o) \
              $(MELTSLIB)(frac.o) \
              $(MELTSLIB)(garnet.o) \
              $(MELTSLIB)(gibbs.o) \
@@ -411,6 +415,7 @@ $(MELTSBATCHLIB): $(MELTSBATCHLIB)(albite.o) \
                   $(MELTSBATCHLIB)(evaluate_saturation.o) \
                   $(MELTSBATCHLIB)(feldspar.o) \
                   $(MELTSBATCHLIB)(fluid.o) \
+                  $(MELTSBATCHLIB)(fluidPhase.o) \
                   $(MELTSBATCHLIB)(frac.o) \
                   $(MELTSBATCHLIB)(garnet.o) \
                   $(MELTSBATCHLIB)(gibbs.o) \
@@ -464,6 +469,7 @@ $(MELTSDYNAMICLIB): $(MELTSDYNAMICLIB)(albite.o) \
                     $(MELTSDYNAMICLIB)(evaluate_saturation.o) \
                     $(MELTSDYNAMICLIB)(feldspar.o) \
                     $(MELTSDYNAMICLIB)(fluid.o) \
+                    $(MELTSDYNAMICLIB)(fluidPhase.o) \
                     $(MELTSDYNAMICLIB)(frac.o) \
                     $(MELTSDYNAMICLIB)(garnet.o) \
                     $(MELTSDYNAMICLIB)(gibbs.o) \
@@ -786,7 +792,7 @@ Melts-batch: interface.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
              param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
              albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c check_coexisting_liquids.c \
              check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
-             est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c frac.c garnet.c \
+             est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
              gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
              linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
              nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
@@ -807,7 +813,7 @@ Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
                param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
                albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c check_coexisting_liquids.c \
                check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
-               est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c frac.c garnet.c \
+               est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
                gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
                linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
                nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
