@@ -159,6 +159,36 @@ int main()
       **v2temp;
    float ftemp;
 
+  printf("---> Default calculation mode is xMELTS.  Change this? (y or n): ");
+  if (tolower(getchar()) == 'y') {
+    getchar();
+    printf("     Set calculation mode is MELTS (public release v 3.0.x)? (y or n): ");
+    if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE__MELTS; }
+    else {
+      getchar();
+      printf("     Set calculation mode is pMELTS (public release v 4.0.x)? (y or n): ");
+      if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
+    }
+  } else getchar();
+  
+  if (calculationMode == MODE_xMELTS) {
+    printf("---> Calculation mode is xMELTS (experimental v 5.0.x).\n");
+  } else if (calculationMode == MODE__MELTS) {
+    printf("---> Calculation mode is MELTS (public release v 3.0.x).\n");
+    liquid = meltsLiquid;
+    solids = meltsSolids;
+    nlc = meltsNlc;
+    nls = meltsNls;
+    npc = meltsNpc;
+  } else if (calculationMode == MODE_pMELTS) {
+    printf("---> Calculation mode is pMELTS (public release v 4.0.x).\n");
+    liquid = pMeltsLiquid;
+    solids = pMeltsSolids;
+    nlc = pMeltsNlc;
+    nls = pMeltsNls;
+    npc = pMeltsNpc;
+  }
+
    printf("Input test compositions (y or n)? ");
    if (tolower(getchar()) == 'y') doRandom = FALSE;
    getchar();

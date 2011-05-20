@@ -47,14 +47,14 @@ static double logA(double x) { return (x > 0.0) ? log(x) : 0.0; }
  */
 
 static const double W[NA][NA] = {
-  { 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00 },
-  { 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00 },
-  { 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00 },
-  { 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00 },
-  { 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00 },
-  { 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00 },
-  { 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00 },
-  { 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00 }
+  { 1.000000e+03, 1.100000e+03, 1.110000e+03, 1.111000e+03, 1.111100e+03, 1.111110e+03, 1.111111e+03, 1.1111111e+03 },
+  { 2.000000e+03, 2.200000e+03, 2.220000e+03, 2.222000e+03, 2.222200e+03, 2.222220e+03, 2.222222e+03, 2.2222222e+03 },
+  { 3.000000e+03, 3.300000e+03, 3.330000e+03, 3.333000e+03, 3.333300e+03, 3.333330e+03, 3.333333e+03, 3.3333333e+03 },
+  { 4.000000e+03, 4.400000e+03, 4.440000e+03, 4.444000e+03, 4.444400e+03, 4.444440e+03, 4.444444e+03, 4.4444444e+03 },
+  { 5.000000e+03, 5.500000e+03, 5.550000e+03, 5.555000e+03, 5.555500e+03, 5.555550e+03, 5.555555e+03, 5.5555555e+03 },
+  { 6.000000e+03, 6.600000e+03, 6.660000e+03, 6.666000e+03, 6.666600e+03, 6.666660e+03, 6.666666e+03, 6.6666666e+03 },
+  { 7.000000e+03, 7.700000e+03, 7.770000e+03, 7.777000e+03, 7.777700e+03, 7.777770e+03, 7.777777e+03, 7.7777777e+03 },
+  { 8.000000e+03, 8.800000e+03, 8.880000e+03, 8.888000e+03, 8.888800e+03, 8.888880e+03, 8.888888e+03, 8.8888888e+03 }
 };
 
 /*
@@ -179,7 +179,7 @@ static const double W[NA][NA] = {
 
 #define d2MgM2dr2dr2   (	        - (1.0+r[5]-r[6])*d2kdr2dr2)
 #define d2MgM2dr2dr5   (	- dkdr2 - (1.0+r[5]-r[6])*d2kdr2dr5)
-#define d2MgM2dr2dr6   (	  dkdr2 - (1.0+r[5]-r[6])*d2kdr2dr5)
+#define d2MgM2dr2dr6   (	  dkdr2 - (1.0+r[5]-r[6])*d2kdr2dr6)
 #define d2MgM2dr5dr5   (- dkdr5 - dkdr5 - (1.0+r[5]-r[6])*d2kdr5dr5)
 #define d2MgM2dr5dr6   (- dkdr6 + dkdr5 - (1.0+r[5]-r[6])*d2kdr5dr6)
 #define d2MgM2dr6dr6   (  dkdr6 + dkdr6 - (1.0+r[5]-r[6])*d2kdr6dr6)
@@ -202,7 +202,7 @@ static const double W[NA][NA] = {
                         + 3.0*d2Fe2M13dr2dr5*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr5/XFe2M13 \
 		        + 2.0*d2MgM2dr2dr5*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr5/XMgM2 \
 			+ 2.0*d2Fe2M2dr2dr5*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr5/XFe2M2 \
-			+ 2.0/XFe3M2 ) - W[0][6] - W[0][3] + W[3][6]			
+			+ 2.0/XFe3M2 ) - W[0][6] - W[0][3] + W[3][6]				
 #define D2GDR2R6   R*t*(  3.0*d2MgM13dr2dr6*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr6/XMgM13 \
                         + 3.0*d2Fe2M13dr2dr6*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr6/XFe2M13 \
 		        + 2.0*d2MgM2dr2dr6*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr6/XMgM2 \
@@ -217,9 +217,9 @@ static const double W[NA][NA] = {
 #define D2GDR3R3   R*t*( 1.0/XNaA + 1.0/XVcA + 2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - 2.0*W[0][4]
 #define D2GDR3R4   R*t*( 2.0/XFe3M2 ) - W[0][5] - W[0][4] + W[4][5]
 #define D2GDR3R5   R*t*( 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - W[0][6] - W[0][4] + W[4][6]
-
 #define D2GDR3R6   R*t*( 1.0/XNaA + 1.0/XVcA + 2.0*2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - W[0][7] - W[0][4] + W[4][7]
 #define D2GDR3DT   R*(- logA(XNaA) + logA(XVcA) + 2.0*logA(XAlM2) - 2.0*logA(XFe3M2) - logA(XAlT1) + logA(XSiT1) )
+#define D2GDR3DP   0.0
 
 		
 #define D2GDR4R4   R*t*( 2.0/XFe3M2 + 2.0/XTiM2 ) - 2.0*W[0][5]
@@ -261,14 +261,14 @@ static const double W[NA][NA] = {
 #define D2GDTDP    0.0
 #define D2GDP2     0.0
 
-#define D3GDR0R0R0 0.0
+#define D3GDR0R0R0 R*t*( 1.0/XNaA/XNaA - 1.0/XKA/XKA )
 #define D3GDR0R0R1 0.0
 #define D3GDR0R0R2 0.0
-#define D3GDR0R0R3 0.0
+#define D3GDR0R0R3 R*t*( 1.0/XNaA/XNaA )
 #define D3GDR0R0R4 0.0
 #define D3GDR0R0R5 0.0
-#define D3GDR0R0R6 0.0
-#define D3GDR0R0DT 0.0
+#define D3GDR0R0R6 R*t*( 1.0/XNaA/XNaA )
+#define D3GDR0R0DT R*( 1.0/XNaA + 1.0/XKA )
 #define D3GDR0R0DP 0.0
 
 #define D3GDR0R1R1 0.0
@@ -288,11 +288,11 @@ static const double W[NA][NA] = {
 #define D3GDR0R2DT 0.0
 #define D3GDR0R2DP 0.0
 
-#define D3GDR0R3R3 0.0
+#define D3GDR0R3R3 R*t*( 1.0/XNaA/XNaA )
 #define D3GDR0R3R4 0.0
 #define D3GDR0R3R5 0.0
-#define D3GDR0R3R6 0.0
-#define D3GDR0R3DT 0.0
+#define D3GDR0R3R6 R*t*( 1.0/XNaA/XNaA )
+#define D3GDR0R3DT R*( 1.0/XNaA )
 #define D3GDR0R3DP 0.0
 
 #define D3GDR0R4R4 0.0
@@ -306,127 +306,289 @@ static const double W[NA][NA] = {
 #define D3GDR0R5DT 0.0
 #define D3GDR0R5DP 0.0
 
-#define D3GDR0R6R6 0.0
-#define D3GDR0R6DT 0.0
+#define D3GDR0R6R6 R*t*( 1.0/XNaA/XNaA )
+#define D3GDR0R6DT R*( 1.0/XNaA )
 #define D3GDR0R6DP 0.0
 
-#define D3GDR1R1R1 0.0
-#define D3GDR1R1R2 0.0
-#define D3GDR1R1R3 0.0
-#define D3GDR1R1R4 0.0
-#define D3GDR1R1R5 0.0
-#define D3GDR1R1R6 0.0
-#define D3GDR1R1DT 0.0
+#define D3GDR1R1R1 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R1R2 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R1R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R1R4 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R1R5 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R1R6 R*t*(- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R1DT R*( 2.0/XAlM2 + 2.0/XFe3M2 )
 #define D3GDR1R1DP 0.0
 
-#define D3GDR1R2R2 0.0
-#define D3GDR1R2R3 0.0
-#define D3GDR1R2R4 0.0
-#define D3GDR1R2R5 0.0
-#define D3GDR1R2R6 0.0
-#define D3GDR1R2DT 0.0
+#define D3GDR1R2R2 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R2R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R2R4 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R2R5 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R2R6 R*t*(- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R2DT R*( 2.0/XAlM2 + 2.0/XFe3M2 )
 #define D3GDR1R2DP 0.0
 
-#define D3GDR1R3R3 0.0
-#define D3GDR1R3R4 0.0
-#define D3GDR1R3R5 0.0
-#define D3GDR1R3R6 0.0
-#define D3GDR1R3DT 0.0
+#define D3GDR1R3R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R3R4 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R3R5 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R3R6 R*t*(- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R3DT R*( 2.0/XAlM2 + 2.0/XFe3M2 )
 #define D3GDR1R3DP 0.0
 
-#define D3GDR1R4R4 0.0
-#define D3GDR1R4R5 0.0
-#define D3GDR1R4R6 0.0
-#define D3GDR1R4DT 0.0
+#define D3GDR1R4R4 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R4R5 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R4R6 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R4DT R*( 2.0/XFe3M2 )
 #define D3GDR1R4DP 0.0
 
-#define D3GDR1R5R5 0.0
-#define D3GDR1R5R6 0.0
-#define D3GDR1R5DT 0.0
+#define D3GDR1R5R5 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R5R6 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R5DT R*( 2.0/XFe3M2 )
 #define D3GDR1R5DP 0.0
 
-#define D3GDR1R6R6 0.0
-#define D3GDR1R6DT 0.0
+#define D3GDR1R6R6 R*t*(- 2.0*2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR1R6DT R*( 2.0*2.0/XAlM2 + 2.0/XFe3M2 )
 #define D3GDR1R6DP 0.0
 
-#define D3GDR2R2R2 0.0
-#define D3GDR2R2R3 0.0
-#define D3GDR2R2R4 0.0
-#define D3GDR2R2R5 0.0
-#define D3GDR2R2R6 0.0
-#define D3GDR2R2DT 0.0
+#define d3kdr2dr2dr2  ( 0.0)
+#define d3kdr2dr2dr5  ( 0.0)
+#define d3kdr2dr2dr6  ( 0.0)
+#define d3kdr2dr5dr5  ( 8.0/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6]))
+#define d3kdr2dr5dr6  (-8.0/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6]))
+#define d3kdr2dr6dr6  ( 8.0/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6]))
+#define d3kdr5dr5dr5  (-24.0*r[2]/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6]))
+#define d3kdr5dr5dr6  ( 24.0*r[2]/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6]))
+#define d3kdr5dr6dr6  (-24.0*r[2]/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6]))
+#define d3kdr6dr6dr6  ( 24.0*r[2]/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6])/(4.0+r[5]-r[6]))
+
+#define d3MgM13dr2dr2dr2  (-(d3kdr2dr2dr2))
+#define d3MgM13dr2dr2dr5  (-(d3kdr2dr2dr5))
+#define d3MgM13dr2dr2dr6  (-(d3kdr2dr2dr6))
+#define d3MgM13dr2dr5dr5  (-(d3kdr2dr5dr5))
+#define d3MgM13dr2dr5dr6  (-(d3kdr2dr5dr6))
+#define d3MgM13dr2dr6dr6  (-(d3kdr2dr6dr6))
+#define d3MgM13dr5dr5dr5  (-(d3kdr5dr5dr5))
+#define d3MgM13dr5dr5dr6  (-(d3kdr5dr5dr6))
+#define d3MgM13dr5dr6dr6  (-(d3kdr5dr6dr6))
+#define d3MgM13dr6dr6dr6  (-(d3kdr6dr6dr6))
+
+#define d3Fe2M13dr2dr2dr2 (d3kdr2dr2dr2)
+#define d3Fe2M13dr2dr2dr5 (d3kdr2dr2dr5)
+#define d3Fe2M13dr2dr2dr6 (d3kdr2dr2dr6)
+#define d3Fe2M13dr2dr5dr5 (d3kdr2dr5dr5)
+#define d3Fe2M13dr2dr5dr6 (d3kdr2dr5dr6)
+#define d3Fe2M13dr2dr6dr6 (d3kdr2dr6dr6)
+#define d3Fe2M13dr5dr5dr5 (d3kdr5dr5dr5)
+#define d3Fe2M13dr5dr5dr6 (d3kdr5dr5dr6)
+#define d3Fe2M13dr5dr6dr6 (d3kdr5dr6dr6)
+#define d3Fe2M13dr6dr6dr6 (d3kdr6dr6dr6)
+
+#define d3MgM2dr2dr2dr2   (	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr2)
+#define d3MgM2dr2dr2dr5   (	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr5 - d2kdr2dr2)
+#define d3MgM2dr2dr2dr6   (	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr6 + d2kdr2dr2)
+#define d3MgM2dr2dr5dr5   (	       - d2kdr2dr5 - (1.0+r[5]-r[6])*d3kdr2dr5dr5 - d2kdr2dr5)
+#define d3MgM2dr2dr5dr6   (	       - d2kdr2dr6 - (1.0+r[5]-r[6])*d3kdr2dr5dr6 + d2kdr2dr5)
+#define d3MgM2dr2dr6dr6   (	 	 d2kdr2dr6 - (1.0+r[5]-r[6])*d3kdr2dr6dr6 + d2kdr2dr6)
+#define d3MgM2dr5dr5dr5   (- d2kdr5dr5 - d2kdr5dr5 - (1.0+r[5]-r[6])*d3kdr5dr5dr5 - d2kdr5dr5)
+#define d3MgM2dr5dr5dr6   (- d2kdr5dr6 - d2kdr5dr6 - (1.0+r[5]-r[6])*d3kdr5dr5dr6 + d2kdr5dr5)
+#define d3MgM2dr5dr6dr6   (- d2kdr6dr6 + d2kdr5dr6 - (1.0+r[5]-r[6])*d3kdr5dr6dr6 + d2kdr5dr6)
+#define d3MgM2dr6dr6dr6   (  d2kdr6dr6 + d2kdr6dr6 - (1.0+r[5]-r[6])*d3kdr6dr6dr6 + d2kdr6dr6)
+
+#define d3Fe2M2dr2dr2dr2  (	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr2)
+#define d3Fe2M2dr2dr2dr5  (	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr5 + d2kdr2dr2)
+#define d3Fe2M2dr2dr2dr6  (	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr6 - d2kdr2dr2)
+#define d3Fe2M2dr2dr5dr5  (	   	 d2kdr2dr5 + (1.0+r[5]-r[6])*d3kdr2dr5dr5 + d2kdr2dr5)
+#define d3Fe2M2dr2dr5dr6  (	   	 d2kdr2dr6 + (1.0+r[5]-r[6])*d3kdr2dr5dr6 - d2kdr2dr5)
+#define d3Fe2M2dr2dr6dr6  (	       - d2kdr2dr6 + (1.0+r[5]-r[6])*d3kdr2dr6dr6 - d2kdr2dr6)
+#define d3Fe2M2dr5dr5dr5  (  d2kdr5dr5 + d2kdr5dr5 + (1.0+r[5]-r[6])*d3kdr5dr5dr5 + d2kdr5dr5)
+#define d3Fe2M2dr5dr5dr6  (  d2kdr5dr6 + d2kdr5dr6 + (1.0+r[5]-r[6])*d3kdr5dr5dr6 - d2kdr5dr5)
+#define d3Fe2M2dr5dr6dr6  (  d2kdr6dr6 - d2kdr5dr6 + (1.0+r[5]-r[6])*d3kdr5dr6dr6 - d2kdr5dr6)
+#define d3Fe2M2dr6dr6dr6  (- d2kdr6dr6 - d2kdr6dr6 + (1.0+r[5]-r[6])*d3kdr6dr6dr6 - d2kdr6dr6)
+
+#define D3GDR2R2R2 R*t*(  3.0*d3MgM13dr2dr2dr2*logA(XMgM13)     + 3.0*d2MgM13dr2dr2*dMgM13dr2/XMgM13 \
+                        + 6.0*dMgM13dr2*d2MgM13dr2dr2/XMgM13    - 3.0*dMgM13dr2*dMgM13dr2*dMgM13dr2/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr2dr2dr2*logA(XFe2M13)   + 3.0*d2Fe2M13dr2dr2*dFe2M13dr2/XFe2M13 \
+			+ 6.0*dFe2M13dr2*d2Fe2M13dr2dr2/XFe2M13 - 3.0*dFe2M13dr2*dFe2M13dr2*dFe2M13dr2/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr2dr2dr2*logA(XMgM2)       + 2.0*d2MgM2dr2dr2*dMgM2dr2/XMgM2 \
+			+ 4.0*dMgM2dr2*d2MgM2dr2dr2/XMgM2       - 2.0*dMgM2dr2*dMgM2dr2*dMgM2dr2/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr2dr2dr2*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr2*dFe2M2dr2/XFe2M2 \
+			+ 4.0*dFe2M2dr2*d2Fe2M2dr2dr2/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr2*dFe2M2dr2/XFe2M2/XFe2M2 \
+			- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R2R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R2R4 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R2R5 R*t*(  3.0*d3MgM13dr2dr2dr5*logA(XMgM13)     + 3.0*d2MgM13dr2dr2*dMgM13dr5/XMgM13 \
+                        + 6.0*dMgM13dr2*d2MgM13dr2dr5/XMgM13    - 3.0*dMgM13dr2*dMgM13dr2*dMgM13dr5/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr2dr2dr5*logA(XFe2M13)   + 3.0*d2Fe2M13dr2dr2*dFe2M13dr5/XFe2M13 \
+			+ 6.0*dFe2M13dr2*d2Fe2M13dr2dr5/XFe2M13 - 3.0*dFe2M13dr2*dFe2M13dr2*dFe2M13dr5/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr2dr2dr5*logA(XMgM2)       + 2.0*d2MgM2dr2dr2*dMgM2dr5/XMgM2 \
+			+ 4.0*dMgM2dr2*d2MgM2dr2dr5/XMgM2       - 2.0*dMgM2dr2*dMgM2dr2*dMgM2dr5/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr2dr2dr5*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr2*dFe2M2dr5/XFe2M2 \
+			+ 4.0*dFe2M2dr2*d2Fe2M2dr2dr5/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr2*dFe2M2dr5/XFe2M2/XFe2M2 \
+			+ 2.0/XFe3M2/XFe3M2 )			
+#define D3GDR2R2R6 R*t*(  3.0*d3MgM13dr2dr2dr6*logA(XMgM13)     + 3.0*d2MgM13dr2dr2*dMgM13dr6/XMgM13 \
+                        + 6.0*dMgM13dr2*d2MgM13dr2dr6/XMgM13    - 3.0*dMgM13dr2*dMgM13dr2*dMgM13dr6/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr2dr2dr6*logA(XFe2M13)   + 3.0*d2Fe2M13dr2dr2*dFe2M13dr6/XFe2M13 \
+			+ 6.0*dFe2M13dr2*d2Fe2M13dr2dr6/XFe2M13 - 3.0*dFe2M13dr2*dFe2M13dr2*dFe2M13dr6/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr2dr2dr6*logA(XMgM2)       + 2.0*d2MgM2dr2dr2*dMgM2dr6/XMgM2 \
+			+ 4.0*dMgM2dr2*d2MgM2dr2dr6/XMgM2       - 2.0*dMgM2dr2*dMgM2dr2*dMgM2dr6/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr2dr2dr6*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr2*dFe2M2dr6/XFe2M2 \
+			+ 4.0*dFe2M2dr2*d2Fe2M2dr2dr6/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr2*dFe2M2dr6/XFe2M2/XFe2M2 \
+			- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )			
+#define D3GDR2R2DT R*(  3.0*d2MgM13dr2dr2*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr2/XMgM13 \
+                      + 3.0*d2Fe2M13dr2dr2*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr2/XFe2M13 \
+		      + 2.0*d2MgM2dr2dr2*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr2/XMgM2 \
+	              + 2.0*d2Fe2M2dr2dr2*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr2/XFe2M2 \
+		      + 2.0/XAlM2 + 2.0/XFe3M2 )
 #define D3GDR2R2DP 0.0
 
-#define D3GDR2R3R3 0.0
-#define D3GDR2R3R4 0.0
-#define D3GDR2R3R5 0.0
-#define D3GDR2R3R6 0.0
-#define D3GDR2R3DT 0.0
+#define D3GDR2R3R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R3R4 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R3R5 R*t*(  2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R3R6 R*t*(- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R3DT R*(  2.0/XAlM2 + 2.0/XFe3M2 )
 #define D3GDR2R3DP 0.0
 
-#define D3GDR2R4R4 0.0
-#define D3GDR2R4R5 0.0
-#define D3GDR2R4R6 0.0
-#define D3GDR2R4DT 0.0
+#define D3GDR2R4R4 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R4R5 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R4R6 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R4DT R*( 2.0/XFe3M2 )
 #define D3GDR2R4DP 0.0
 
-#define D3GDR2R5R5 0.0
-#define D3GDR2R5R6 0.0
-#define D3GDR2R5DT 0.0
+#define D3GDR2R5R5 R*t*(  3.0*d3MgM13dr2dr5dr5*logA(XMgM13)     + 3.0*d2MgM13dr2dr5*dMgM13dr5/XMgM13 \
+                        + 3.0*d2MgM13dr2dr5*dMgM13dr5/XMgM13    + 3.0*dMgM13dr2*d2MgM13dr5dr5/XMgM13    - 3.0*dMgM13dr2*dMgM13dr5*dMgM13dr5/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr2dr5dr5*logA(XFe2M13)   + 3.0*d2Fe2M13dr2dr5*dFe2M13dr5/XFe2M13 \
+			+ 3.0*d2Fe2M13dr2dr5*dFe2M13dr5/XFe2M13 + 3.0*dFe2M13dr2*d2Fe2M13dr5dr5/XFe2M13 - 3.0*dFe2M13dr2*dFe2M13dr5*dFe2M13dr5/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr2dr5dr5*logA(XMgM2)       + 2.0*d2MgM2dr2dr5*dMgM2dr5/XMgM2 \
+			+ 2.0*d2MgM2dr2dr5*dMgM2dr5/XMgM2       + 2.0*dMgM2dr2*d2MgM2dr5dr5/XMgM2       - 2.0*dMgM2dr2*dMgM2dr5*dMgM2dr5/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr2dr5dr5*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr5*dFe2M2dr5/XFe2M2 \
+			+ 2.0*d2Fe2M2dr2dr5*dFe2M2dr5/XFe2M2    + 2.0*dFe2M2dr2*d2Fe2M2dr5dr5/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr5*dFe2M2dr5/XFe2M2/XFe2M2 \
+			+ 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R5R6 R*t*(  3.0*d3MgM13dr2dr5dr6*logA(XMgM13)     + 3.0*d2MgM13dr2dr5*dMgM13dr6/XMgM13 \
+                        + 3.0*d2MgM13dr2dr6*dMgM13dr5/XMgM13    + 3.0*dMgM13dr2*d2MgM13dr5dr6/XMgM13    - 3.0*dMgM13dr2*dMgM13dr5*dMgM13dr6/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr2dr5dr6*logA(XFe2M13)   + 3.0*d2Fe2M13dr2dr5*dFe2M13dr6/XFe2M13 \
+			+ 3.0*d2Fe2M13dr2dr6*dFe2M13dr5/XFe2M13 + 3.0*dFe2M13dr2*d2Fe2M13dr5dr6/XFe2M13 - 3.0*dFe2M13dr2*dFe2M13dr5*dFe2M13dr6/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr2dr5dr6*logA(XMgM2)       + 2.0*d2MgM2dr2dr5*dMgM2dr6/XMgM2 \
+			+ 2.0*d2MgM2dr2dr6*dMgM2dr5/XMgM2       + 2.0*dMgM2dr2*d2MgM2dr5dr6/XMgM2       - 2.0*dMgM2dr2*dMgM2dr5*dMgM2dr6/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr2dr5dr6*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr5*dFe2M2dr6/XFe2M2 \
+			+ 2.0*d2Fe2M2dr2dr6*dFe2M2dr5/XFe2M2    + 2.0*dFe2M2dr2*d2Fe2M2dr5dr6/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr5*dFe2M2dr6/XFe2M2/XFe2M2 \
+			+ 2.0/XFe3M2/XFe3M2 )
+
+#define D3GDR2R5DT R*(  3.0*d2MgM13dr2dr5*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr5/XMgM13 \
+                      + 3.0*d2Fe2M13dr2dr5*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr5/XFe2M13 \
+		      + 2.0*d2MgM2dr2dr5*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr5/XMgM2 \
+		      + 2.0*d2Fe2M2dr2dr5*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr5/XFe2M2 \
+		      + 2.0/XFe3M2 )
 #define D3GDR2R5DP 0.0
 
-#define D3GDR2R6R6 0.0
-#define D3GDR2R6DT 0.0
+#define D3GDR2R6R6 R*t*(  3.0*d3MgM13dr2dr6dr6*logA(XMgM13) + 3.0*d2MgM13dr2dr6*dMgM13dr6/XMgM13 \
+                        + 3.0*d2MgM13dr2dr6*dMgM13dr6/XMgM13 +  3.0*dMgM13dr2*d2MgM13dr6dr6/XMgM13 - 3.0*dMgM13dr2*dMgM13dr6*dMgM13dr6/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr2dr6dr6*logA(XFe2M13) + 3.0*d2Fe2M13dr2dr6*dFe2M13dr6/XFe2M13 \
+			+ 3.0*d2Fe2M13dr2dr6*dFe2M13dr6/XFe2M13 + 3.0*dFe2M13dr2*d2Fe2M13dr6dr6/XFe2M13 - 3.0*dFe2M13dr2*dFe2M13dr6*dFe2M13dr6/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr2dr6dr6*logA(XMgM2) + 2.0*d2MgM2dr2dr6*dMgM2dr6/XMgM2 \
+			+ 2.0*d2MgM2dr2dr6*dMgM2dr6/XMgM2 + 2.0*dMgM2dr2*d2MgM2dr6dr6/XMgM2 - 2.0*dMgM2dr2*dMgM2dr6*dMgM2dr6/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr2dr6dr6*logA(XFe2M2) + 2.0*d2Fe2M2dr2dr6*dFe2M2dr6/XFe2M2 \
+			+ 2.0*d2Fe2M2dr2dr6*dFe2M2dr6/XFe2M2 + 2.0*dFe2M2dr2*d2Fe2M2dr6dr6/XFe2M2 - 2.0*dFe2M2dr2*dFe2M2dr6*dFe2M2dr6/XFe2M2/XFe2M2 \
+			- 2.0*2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+#define D3GDR2R6DT R*(  3.0*d2MgM13dr2dr6*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr6/XMgM13 \
+                      + 3.0*d2Fe2M13dr2dr6*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr6/XFe2M13 \
+		      + 2.0*d2MgM2dr2dr6*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr6/XMgM2 \
+		      + 2.0*d2Fe2M2dr2dr6*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr6/XFe2M2 \
+		      + 2.0*2.0/XAlM2 + 2.0/XFe3M2 )
 #define D3GDR2R6DP 0.0
 
-#define D3GDR3R3R3 0.0
-#define D3GDR3R3R4 0.0
-#define D3GDR3R3R5 0.0
-#define D3GDR3R3R6 0.0
-#define D3GDR3R3DT 0.0
+#define D3GDR3R3R3 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R3R4 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR3R3R5 R*t*( 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R3R6 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R3DT R*( 1.0/XNaA + 1.0/XVcA + 2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR3R3DP 0.0
 
-#define D3GDR3R4R4 0.0
-#define D3GDR3R4R5 0.0
-#define D3GDR3R4R6 0.0
-#define D3GDR3R4DT 0.0
+#define D3GDR3R4R4 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR3R4R5 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR3R4R6 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR3R4DT R*( 2.0/XFe3M2 )
 #define D3GDR3R4DP 0.0
 
-#define D3GDR3R5R5 0.0
-#define D3GDR3R5R6 0.0
-#define D3GDR3R5DT 0.0
+#define D3GDR3R5R5 R*t*( 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R5R6 R*t*( 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R5DT R*( 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR3R5DP 0.0
 
-#define D3GDR3R6R6 0.0
-#define D3GDR3R6DT 0.0
+#define D3GDR3R6R6 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 2.0*2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R6DT R*( 1.0/XNaA + 1.0/XVcA + 2.0*2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR3R6DP 0.0
 
-#define D3GDR4R4R4 0.0
-#define D3GDR4R4R5 0.0
-#define D3GDR4R4R6 0.0
-#define D3GDR4R4DT 0.0
+#define D3GDR4R4R4 R*t*( 2.0/XFe3M2/XFe3M2 - 2.0/XTiM2/XTiM2 )
+#define D3GDR4R4R5 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR4R4R6 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR4R4DT R*( 2.0/XFe3M2 + 2.0/XTiM2 )
 #define D3GDR4R4DP 0.0
 
-#define D3GDR4R5R5 0.0
-#define D3GDR4R5R6 0.0
-#define D3GDR4R5DT 0.0
+#define D3GDR4R5R5 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR4R5R6 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR4R5DT R*( 2.0/XFe3M2 )
 #define D3GDR4R5DP 0.0
 
-#define D3GDR4R6R6 0.0
-#define D3GDR4R6DT 0.0
+#define D3GDR4R6R6 R*t*( 2.0/XFe3M2/XFe3M2 )
+#define D3GDR4R6DT R*( 2.0/XFe3M2 )
 #define D3GDR4R6DP 0.0
 
-#define D3GDR5R5R5 0.0
-#define D3GDR5R5R6 0.0
-#define D3GDR5R5DT 0.0
+#define D3GDR5R5R5 R*t*(  3.0*d3MgM13dr5dr5dr5*logA(XMgM13) + 3.0*d2MgM13dr5dr5*dMgM13dr5/XMgM13 \
+                        + 3.0*d2MgM13dr5dr5*dMgM13dr5/XMgM13 + 3.0*dMgM13dr5*d2MgM13dr5dr5/XMgM13 - 3.0*dMgM13dr5*dMgM13dr5*dMgM13dr5/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr5dr5dr5*logA(XFe2M13) + 3.0*d2Fe2M13dr5dr5*dFe2M13dr5/XFe2M13 \
+			+ 3.0*d2Fe2M13dr5dr5*dFe2M13dr5/XFe2M13 + 3.0*dFe2M13dr5*d2Fe2M13dr5dr5/XFe2M13 - 3.0*dFe2M13dr5*dFe2M13dr5*dFe2M13dr5/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr5dr5dr5*logA(XMgM2) + 2.0*d2MgM2dr5dr5*dMgM2dr5/XMgM2 \
+			+ 2.0*d2MgM2dr5dr5*dMgM2dr5/XMgM2 + 2.0*dMgM2dr5*d2MgM2dr5dr5/XMgM2 - 2.0*dMgM2dr5*dMgM2dr5*dMgM2dr5/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr5dr5dr5*logA(XFe2M2) + 2.0*d2Fe2M2dr5dr5*dFe2M2dr5/XFe2M2 \
+			+ 2.0*d2Fe2M2dr5dr5*dFe2M2dr5/XFe2M2 + 2.0*dFe2M2dr5*d2Fe2M2dr5dr5/XFe2M2 - 2.0*dFe2M2dr5*dFe2M2dr5*dFe2M2dr5/XFe2M2/XFe2M2 \
+			+ 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR5R5R6 R*t*(  3.0*d3MgM13dr5dr5dr6*logA(XMgM13) + 3.0*d2MgM13dr5dr5*dMgM13dr6/XMgM13 \
+                        + 3.0*d2MgM13dr5dr6*dMgM13dr5/XMgM13 + 3.0*dMgM13dr5*d2MgM13dr5dr6/XMgM13 - 3.0*dMgM13dr5*dMgM13dr5*dMgM13dr6/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr5dr5dr6*logA(XFe2M13) + 3.0*d2Fe2M13dr5dr5*dFe2M13dr6/XFe2M13 \
+			+ 3.0*d2Fe2M13dr5dr6*dFe2M13dr5/XFe2M13 + 3.0*dFe2M13dr5*d2Fe2M13dr5dr6/XFe2M13 - 3.0*dFe2M13dr5*dFe2M13dr5*dFe2M13dr6/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr5dr5dr6*logA(XMgM2) + 2.0*d2MgM2dr5dr5*dMgM2dr6/XMgM2 \
+			+ 2.0*d2MgM2dr5dr6*dMgM2dr5/XMgM2 + 2.0*dMgM2dr5*d2MgM2dr5dr6/XMgM2 - 2.0*dMgM2dr5*dMgM2dr5*dMgM2dr6/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr5dr5dr6*logA(XFe2M2) + 2.0*d2Fe2M2dr5dr5*dFe2M2dr6/XFe2M2 \
+			+ 2.0*d2Fe2M2dr5dr6*dFe2M2dr5/XFe2M2 + 2.0*dFe2M2dr5*d2Fe2M2dr5dr6/XFe2M2 - 2.0*dFe2M2dr5*dFe2M2dr5*dFe2M2dr6/XFe2M2/XFe2M2 \
+			+ 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR5R5DT R*(  3.0*d2MgM13dr5dr5*logA(XMgM13) + 3.0*dMgM13dr5*dMgM13dr5/XMgM13 \
+                      + 3.0*d2Fe2M13dr5dr5*logA(XFe2M13) + 3.0*dFe2M13dr5*dFe2M13dr5/XFe2M13 \
+		      + 2.0*d2MgM2dr5dr5*logA(XMgM2) + 2.0*dMgM2dr5*dMgM2dr5/XMgM2 \
+		      + 2.0*d2Fe2M2dr5dr5*logA(XFe2M2) + 2.0*dFe2M2dr5*dFe2M2dr5/XFe2M2 \
+		      + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR5R5DP 0.0
 
-#define D3GDR5R6R6 0.0
-#define D3GDR5R6DT 0.0
+#define D3GDR5R6R6 R*t*(  3.0*d3MgM13dr5dr6dr6*logA(XMgM13) + 3.0*d2MgM13dr5dr6*dMgM13dr6/XMgM13 \
+                        + 3.0*d2MgM13dr5dr6*dMgM13dr6/XMgM13 + 3.0*dMgM13dr5*d2MgM13dr6dr6/XMgM13 - 3.0*dMgM13dr5*dMgM13dr6*dMgM13dr6/XMgM13/XMgM13 \
+                        + 3.0*d3Fe2M13dr5dr6dr6*logA(XFe2M13) + 3.0*d2Fe2M13dr5dr6*dFe2M13dr6/XFe2M13 \
+			+ 3.0*d2Fe2M13dr5dr6*dFe2M13dr6/XFe2M13 + 3.0*dFe2M13dr5*d2Fe2M13dr6dr6/XFe2M13 - 3.0*dFe2M13dr5*dFe2M13dr6*dFe2M13dr6/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr5dr6dr6*logA(XMgM2) + 2.0*d2MgM2dr5dr6*dMgM2dr6/XMgM2 \
+			+ 2.0*d2MgM2dr5dr6*dMgM2dr6/XMgM2 + 2.0*dMgM2dr5*d2MgM2dr6dr6/XMgM2 - 2.0*dMgM2dr5*dMgM2dr6*dMgM2dr6/XMgM2/XMgM2 \
+			+ 2.0*d3Fe2M2dr5dr6dr6*logA(XFe2M2) + 2.0*d2Fe2M2dr5dr6*dFe2M2dr6/XFe2M2 \
+			+ 2.0*d2Fe2M2dr5dr6*dFe2M2dr6/XFe2M2 + 2.0*dFe2M2dr5*d2Fe2M2dr6dr6/XFe2M2 - 2.0*dFe2M2dr5*dFe2M2dr6*dFe2M2dr6/XFe2M2/XFe2M2 \
+			+ 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR5R6DT R*(  3.0*d2MgM13dr5dr6*logA(XMgM13) + 3.0*dMgM13dr5*dMgM13dr6/XMgM13 \
+                      + 3.0*d2Fe2M13dr5dr6*logA(XFe2M13) + 3.0*dFe2M13dr5*dFe2M13dr6/XFe2M13 \
+		      + 2.0*d2MgM2dr5dr6*logA(XMgM2) + 2.0*dMgM2dr5*dMgM2dr6/XMgM2 \
+		      + 2.0*d2Fe2M2dr5dr6*logA(XFe2M2) + 2.0*dFe2M2dr5*dFe2M2dr6/XFe2M2 \
+		      + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR5R6DP 0.0
 
-#define D3GDR6R6R6 0.0
-#define D3GDR6R6DT 0.0
+#define D3GDR6R6R6 R*t*(  1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 1.0/XNaM4/XNaM4 + 1.0/XCaM4/XCaM4 \
+		        + 3.0*d3MgM13dr6dr6dr6*logA(XMgM13) + 3.0*d2MgM13dr6dr6*dMgM13dr6/XMgM13 \
+			+ 3.0*d2MgM13dr6dr6*dMgM13dr6/XMgM13 + 3.0*dMgM13dr6*d2MgM13dr6dr6/XMgM13 - 3.0*dMgM13dr6*dMgM13dr6*dMgM13dr6/XMgM13/XMgM13 \
+		        + 3.0*d3Fe2M13dr6dr6dr6*logA(XFe2M13) + 3.0*d2Fe2M13dr6dr6*dFe2M13dr6/XFe2M13 \
+			+ 3.0*d2Fe2M13dr6dr6*dFe2M13dr6/XFe2M13 + 3.0*dFe2M13dr6*d2Fe2M13dr6dr6/XFe2M13 - 3.0*dFe2M13dr6*dFe2M13dr6*dFe2M13dr6/XFe2M13/XFe2M13 \
+		        + 2.0*d3MgM2dr6dr6dr6*logA(XMgM2) + 2.0*d2MgM2dr6dr6*dMgM2dr6/XMgM2 \
+			+ 2.0*d2MgM2dr6dr6*dMgM2dr6/XMgM2 + 2.0*dMgM2dr6*d2MgM2dr6dr6/XMgM2 - 2.0*dMgM2dr6*dMgM2dr6*dMgM2dr6/XMgM2/XMgM2 \
+		        + 2.0*d3Fe2M2dr6dr6dr6*logA(XFe2M2) + 2.0*d2Fe2M2dr6dr6*dFe2M2dr6/XFe2M2 \
+			+ 2.0*d2Fe2M2dr6dr6*dFe2M2dr6/XFe2M2 + 2.0*dFe2M2dr6*d2Fe2M2dr6dr6/XFe2M2 - 2.0*dFe2M2dr6*dFe2M2dr6*dFe2M2dr6/XFe2M2/XFe2M2 \
+		        - 2.0*2.0*2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR6R6DT R*(  1.0/XNaA + 1.0/XVcA + 1.0/XNaM4 + 1.0/XCaM4 \
+		      + 3.0*d2MgM13dr6dr6*logA(XMgM13) + 3.0*dMgM13dr6*dMgM13dr6/XMgM13 \
+		      + 3.0*d2Fe2M13dr6dr6*logA(XFe2M13) + 3.0*dFe2M13dr6*dFe2M13dr6/XFe2M13 \
+		      + 2.0*d2MgM2dr6dr6*logA(XMgM2) + 2.0*dMgM2dr6*dMgM2dr6/XMgM2 \
+		      + 2.0*d2Fe2M2dr6dr6*logA(XFe2M2) + 2.0*dFe2M2dr6*dFe2M2dr6/XFe2M2 \
+		      + 2.0*2.0*2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR6R6DP 0.0
 
 #define D3GDT3     0.0
@@ -676,28 +838,28 @@ static const double W[NA][NA] = {
  d3gdr3[5][6][2] = d3gdr3[2][5][6];	d3gdr3[5][6][3] = d3gdr3[3][5][6]; \
  d3gdr3[5][6][4] = d3gdr3[4][5][6];	d3gdr3[5][6][5] = d3gdr3[5][5][6]; \
  d3gdr3[5][6][6] = D3GDR5R6R6; \
- d3gdr3[6][0][0] = d3gdr3[0][0][6];	d3gdr3[6][0][1] = d3gdr3[0][1][5]; \
- d3gdr3[6][0][2] = d3gdr3[0][2][6];	d3gdr3[6][0][3] = d3gdr3[0][3][5]; \
- d3gdr3[6][0][4] = d3gdr3[0][4][6];	d3gdr3[6][0][5] = d3gdr3[0][5][5]; \
+ d3gdr3[6][0][0] = d3gdr3[0][0][6];	d3gdr3[6][0][1] = d3gdr3[0][1][6]; \
+ d3gdr3[6][0][2] = d3gdr3[0][2][6];	d3gdr3[6][0][3] = d3gdr3[0][3][6]; \
+ d3gdr3[6][0][4] = d3gdr3[0][4][6];	d3gdr3[6][0][5] = d3gdr3[0][5][6]; \
  d3gdr3[6][0][6] = d3gdr3[0][6][6]; \
- d3gdr3[6][1][0] = d3gdr3[0][1][6];	d3gdr3[6][1][1] = d3gdr3[1][1][5]; \
- d3gdr3[6][1][2] = d3gdr3[1][2][6];	d3gdr3[6][1][3] = d3gdr3[1][3][5]; \
- d3gdr3[6][1][4] = d3gdr3[1][4][6];	d3gdr3[6][1][5] = d3gdr3[1][5][5]; \
+ d3gdr3[6][1][0] = d3gdr3[0][1][6];	d3gdr3[6][1][1] = d3gdr3[1][1][6]; \
+ d3gdr3[6][1][2] = d3gdr3[1][2][6];	d3gdr3[6][1][3] = d3gdr3[1][3][6]; \
+ d3gdr3[6][1][4] = d3gdr3[1][4][6];	d3gdr3[6][1][5] = d3gdr3[1][5][6]; \
  d3gdr3[6][1][6] = d3gdr3[1][6][6]; \
- d3gdr3[6][2][0] = d3gdr3[0][2][6];	d3gdr3[6][2][1] = d3gdr3[1][2][5]; \
- d3gdr3[6][2][2] = d3gdr3[2][2][6];	d3gdr3[6][2][3] = d3gdr3[2][3][5]; \
- d3gdr3[6][2][4] = d3gdr3[2][4][6];	d3gdr3[6][2][5] = d3gdr3[2][5][5]; \
+ d3gdr3[6][2][0] = d3gdr3[0][2][6];	d3gdr3[6][2][1] = d3gdr3[1][2][6]; \
+ d3gdr3[6][2][2] = d3gdr3[2][2][6];	d3gdr3[6][2][3] = d3gdr3[2][3][6]; \
+ d3gdr3[6][2][4] = d3gdr3[2][4][6];	d3gdr3[6][2][5] = d3gdr3[2][5][6]; \
  d3gdr3[6][2][6] = d3gdr3[2][6][6]; \
- d3gdr3[6][3][0] = d3gdr3[0][3][6];	d3gdr3[6][3][1] = d3gdr3[1][3][5]; \
- d3gdr3[6][3][2] = d3gdr3[2][3][6];	d3gdr3[6][3][3] = d3gdr3[3][3][5]; \
- d3gdr3[6][3][4] = d3gdr3[3][4][6];	d3gdr3[6][3][5] = d3gdr3[3][5][5]; \
+ d3gdr3[6][3][0] = d3gdr3[0][3][6];	d3gdr3[6][3][1] = d3gdr3[1][3][6]; \
+ d3gdr3[6][3][2] = d3gdr3[2][3][6];	d3gdr3[6][3][3] = d3gdr3[3][3][6]; \
+ d3gdr3[6][3][4] = d3gdr3[3][4][6];	d3gdr3[6][3][5] = d3gdr3[3][5][6]; \
  d3gdr3[6][3][6] = d3gdr3[3][6][6]; \
- d3gdr3[6][4][0] = d3gdr3[0][4][6];	d3gdr3[6][4][1] = d3gdr3[1][4][5]; \
- d3gdr3[6][4][2] = d3gdr3[2][4][6];	d3gdr3[6][4][3] = d3gdr3[3][4][5]; \
- d3gdr3[6][4][4] = d3gdr3[4][4][6];	d3gdr3[6][4][5] = d3gdr3[4][5][5]; \
+ d3gdr3[6][4][0] = d3gdr3[0][4][6];	d3gdr3[6][4][1] = d3gdr3[1][4][6]; \
+ d3gdr3[6][4][2] = d3gdr3[2][4][6];	d3gdr3[6][4][3] = d3gdr3[3][4][6]; \
+ d3gdr3[6][4][4] = d3gdr3[4][4][6];	d3gdr3[6][4][5] = d3gdr3[4][5][6]; \
  d3gdr3[6][4][6] = d3gdr3[4][6][6]; \
- d3gdr3[6][5][0] = d3gdr3[0][5][6];	d3gdr3[6][5][1] = d3gdr3[1][5][5]; \
- d3gdr3[6][5][2] = d3gdr3[2][5][6];	d3gdr3[6][5][3] = d3gdr3[3][5][5]; \
+ d3gdr3[6][5][0] = d3gdr3[0][5][6];	d3gdr3[6][5][1] = d3gdr3[1][5][6]; \
+ d3gdr3[6][5][2] = d3gdr3[2][5][6];	d3gdr3[6][5][3] = d3gdr3[3][5][6]; \
  d3gdr3[6][5][4] = d3gdr3[4][5][6];	d3gdr3[6][5][5] = d3gdr3[5][5][6]; \
  d3gdr3[6][5][6] = d3gdr3[5][6][6]; \
  d3gdr3[6][6][0] = d3gdr3[0][6][6];	d3gdr3[6][6][1] = d3gdr3[1][6][6]; \
@@ -1346,8 +1508,7 @@ cpmixHrn(int mask, double t, double p, double *x,
     double d3gdrdt2[NR];
     int i;
 
-    d3gdrdt2[0] = D3GDR0DT2;
-    d3gdrdt2[1] = D3GDR1DT2;
+    fillD3GDRDT2
 
     for (i=0; i<NR; i++) dx[i] = -t*d3gdrdt2[i];
   }
@@ -1375,9 +1536,8 @@ vmixHrn(int mask, double t, double p, double *x,
   if(mask & SECOND) {
     double d2gdrdp[NR];
     int i;
-
-    d2gdrdp[0] = D2GDR0DP; 
-    d2gdrdp[1] = D2GDR1DP; 
+    
+    fillD2GDRDP
 
     for (i=0; i<NR; i++) dx[i] = d2gdrdp[i]; 
   }
@@ -1386,9 +1546,7 @@ vmixHrn(int mask, double t, double p, double *x,
     double d3gdr2dp[NR][NR];
     int i, j;
 
-    d3gdr2dp[0][0] = D3GDR0R0DP;
-    d3gdr2dp[0][1] = D3GDR0R1DP; d3gdr2dp[1][0] = d3gdr2dp[0][1];
-    d3gdr2dp[1][1] = D3GDR1R1DP;
+    fillD3GDR2DP
 
     for (i=0; i<NR; i++) {
        for (j=0; j<NR; j++) dx2[i][j] = d3gdr2dp[i][j];
@@ -1419,8 +1577,7 @@ vmixHrn(int mask, double t, double p, double *x,
     double d3gdrdtdp[NR];
     int i;
 
-    d3gdrdtdp[0] = D3GDR0DTDP;
-    d3gdrdtdp[1] = D3GDR1DTDP;
+    fillD3GDRDTDP
 
     for (i=0; i<NR; i++) dxdt[i] = d3gdrdtdp[i];
   }
@@ -1429,8 +1586,7 @@ vmixHrn(int mask, double t, double p, double *x,
     double d3gdrdp2[NR];
     int i;
 
-    d3gdrdp2[0] = D3GDR0DP2;
-    d3gdrdp2[1] = D3GDR1DP2;
+    fillD3GDRDP2
 
     for (i=0; i<NR; i++) dxdp[i] = d3gdrdp2[i];
   }

@@ -2761,7 +2761,7 @@ Solids meltsSolids[] = {
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-  {"kaersutite", COMPONENT, "NaCa2Mg4TiAl2Si66O23(OH)", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"kaersutite", COMPONENT, "NaCa2Mg4TiAl2Si6O23(OH)", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
