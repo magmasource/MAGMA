@@ -162,8 +162,36 @@ static double D2powSum(double a, double fa, double b, double fb, double da, doub
   return 6.0*sum*dsum*dsum + 3.0*sum*sum*d2sum;
 }
 
-static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], double *bv, double bvPrime[2], double *dbvdt, double *d2bvdt2) {
-  double bEnd[2], dbEnddt[2], d2bEnddt2[2];
+static double D3powSum(double a, double fa, double b, double fb, double da, double db, double d2a, double d2b, double d3a, double d3b) {
+  double sum = 0.0, dsum = 0.0, d2sum = 0.0, d3sum = 0.0;
+  sum += (a >= 0.0) ? fa*pow(a, 1.0/3.0) : -fa*pow(-a, 1.0/3.0);
+  sum += (b >= 0.0) ? fb*pow(b, 1.0/3.0) : -fb*pow(-b, 1.0/3.0);
+  sum /= fa + fb;
+  
+  dsum += (a >= 0.0) ? da*fa/pow(a, 2.0/3.0)/3.0 : da*fa/pow(-a, 2.0/3.0)/3.0;
+  dsum += (b >= 0.0) ? db*fb/pow(b, 2.0/3.0)/3.0 : db*fb/pow(-b, 2.0/3.0)/3.0;
+  dsum /= fa + fb;
+  
+  d2sum += (a >= 0.0) ? d2a*fa/pow(a, 2.0/3.0)/3.0 : d2a*fa/pow(-a, 2.0/3.0)/3.0;
+  d2sum += (b >= 0.0) ? d2b*fb/pow(b, 2.0/3.0)/3.0 : d2b*fb/pow(-b, 2.0/3.0)/3.0;
+  d2sum += (a >= 0.0) ? -2.0*da*da*fa/pow(a, 5.0/3.0)/9.0 : 2.0*da*da*fa/pow(-a, 5.0/3.0)/9.0;
+  d2sum += (b >= 0.0) ? -2.0*db*db*fb/pow(b, 5.0/3.0)/9.0 : 2.0*db*db*fb/pow(-b, 5.0/3.0)/9.0;
+  d2sum /= fa + fb;
+  
+  d3sum += (a >= 0.0) ? d3a*fa/pow(a, 2.0/3.0)/3.0 : d3a*fa/pow(-a, 2.0/3.0)/3.0;
+  d3sum += (b >= 0.0) ? d3b*fb/pow(b, 2.0/3.0)/3.0 : d3b*fb/pow(-b, 2.0/3.0)/3.0;
+  d3sum += (a >= 0.0) ? -6.0*da*d2a*fa/pow(a, 5.0/3.0)/9.0 : 6.0*da*d2a*fa/pow(-a, 5.0/3.0)/9.0;
+  d3sum += (b >= 0.0) ? -6.0*db*d2b*fb/pow(b, 5.0/3.0)/9.0 : 6.0*db*d2b*fb/pow(-b, 5.0/3.0)/9.0;
+  d3sum += (a >= 0.0) ? 10.0*da*da*da*fa/pow(a, 8.0/3.0)/27.0 : 10.0*da*da*da*fa/pow(-a, 8.0/3.0)/27.0;
+  d3sum += (b >= 0.0) ? 10.0*db*db*db*fb/pow(b, 8.0/3.0)/27.0 : 10.0*db*db*db*fb/pow(-b, 8.0/3.0)/27.0;  
+  d3sum /= fa + fb;
+  
+  return 6.0*dsum*dsum*dsum + 18.0*sum*dsum*d2sum + 3.0*sum*sum*d3sum;
+}
+
+static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], 
+  double *bv, double bvPrime[2], double *dbvdt, double *d2bvdt2, double *d3bvdt3, double dbvPrimedt[2], double d2bvPrimedt2[2], double d3bvPrimedt3[2]) {
+  double bEnd[2], dbEnddt[2], d2bEnddt2[2], d3bEnddt3[2];
   double H2OTr    = t/H2OTc;
   double CO2Tr    = t/CO2Tc;
   double k1       = 0.0;
@@ -171,6 +199,7 @@ static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], double *bv
   double dCO2Trdt = 1.0/CO2Tc;
   double dk1dt    = 0.0;
   double d2k1dt2  = 0.0;
+  double d3k1dt3  = 0.0;
 
   if (useLowPcoeff) {
     bEnd[H2O] = H2OLa1 + H2OLa2/H2OTr/H2OTr + H2OLa3/H2OTr/H2OTr/H2OTr;
@@ -182,6 +211,9 @@ static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], double *bv
     d2bEnddt2[H2O] = 6.0*H2OLa2*dH2OTrdt*dH2OTrdt/H2OTr/H2OTr/H2OTr/H2OTr + 12.0*H2OLa3*dH2OTrdt*dH2OTrdt/H2OTr/H2OTr/H2OTr/H2OTr/H2OTr;
     d2bEnddt2[CO2] = 6.0*CO2La2*dCO2Trdt*dCO2Trdt/CO2Tr/CO2Tr/CO2Tr/CO2Tr + 12.0*CO2La3*dCO2Trdt*dCO2Trdt/CO2Tr/CO2Tr/CO2Tr/CO2Tr/CO2Tr;
     d2k1dt2 = 2.0*1.8641e-6 - 2.0*31.409/t/t/t;
+    d3bEnddt3[H2O] = - 24.0*H2OLa2*dH2OTrdt*dH2OTrdt*dH2OTrdt/H2OTr/H2OTr/H2OTr/H2OTr/H2OTr - 60.0*H2OLa3*dH2OTrdt*dH2OTrdt*dH2OTrdt/H2OTr/H2OTr/H2OTr/H2OTr/H2OTr/H2OTr;
+    d3bEnddt3[CO2] = - 24.0*CO2La2*dCO2Trdt*dCO2Trdt*dCO2Trdt/CO2Tr/CO2Tr/CO2Tr/CO2Tr/CO2Tr - 60.0*CO2La3*dCO2Trdt*dCO2Trdt*dCO2Trdt/CO2Tr/CO2Tr/CO2Tr/CO2Tr/CO2Tr/CO2Tr;
+    d3k1dt3 =  6.0*31.409/t/t/t/t;
   } else {
     bEnd[H2O] = H2OHa1 + H2OHa2/H2OTr/H2OTr + H2OHa3/H2OTr/H2OTr/H2OTr;
     bEnd[CO2] = CO2Ha1 + CO2Ha2/CO2Tr/CO2Tr + CO2Ha3/CO2Tr/CO2Tr/CO2Tr;
@@ -192,6 +224,9 @@ static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], double *bv
     d2bEnddt2[H2O] = 6.0*H2OHa2*dH2OTrdt*dH2OTrdt/H2OTr/H2OTr/H2OTr/H2OTr + 12.0*H2OHa3*dH2OTrdt*dH2OTrdt/H2OTr/H2OTr/H2OTr/H2OTr/H2OTr;
     d2bEnddt2[CO2] = 6.0*CO2Ha2*dCO2Trdt*dCO2Trdt/CO2Tr/CO2Tr/CO2Tr/CO2Tr + 12.0*CO2Ha3*dCO2Trdt*dCO2Trdt/CO2Tr/CO2Tr/CO2Tr/CO2Tr/CO2Tr;
     d2k1dt2 = 2.0*2.3285e-6 - 2.0*2.4221e3/t/t/t;
+    d3bEnddt3[H2O] = - 24.0*H2OHa2*dH2OTrdt*dH2OTrdt*dH2OTrdt/H2OTr/H2OTr/H2OTr/H2OTr/H2OTr - 60.0*H2OHa3*dH2OTrdt*dH2OTrdt*dH2OTrdt/H2OTr/H2OTr/H2OTr/H2OTr/H2OTr/H2OTr;
+    d3bEnddt3[CO2] = - 24.0*CO2Ha2*dCO2Trdt*dCO2Trdt*dCO2Trdt/CO2Tr/CO2Tr/CO2Tr/CO2Tr/CO2Tr - 60.0*CO2Ha3*dCO2Trdt*dCO2Trdt*dCO2Trdt/CO2Tr/CO2Tr/CO2Tr/CO2Tr/CO2Tr/CO2Tr;
+    d3k1dt3 = 6.0*2.4221e3/t/t/t/t;
   }
   
   if ((x[H2O] == 0.0) && (x[CO2] == 0.0)) {
@@ -201,6 +236,16 @@ static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], double *bv
     
     *dbvdt   = 0.0;
     *d2bvdt2 = 0.0;
+    *d3bvdt3 = 0.0;
+    
+    dbvPrimedt[H2O] = 0.0;
+    dbvPrimedt[CO2] = 0.0; 
+       
+    d2bvPrimedt2[H2O] = 0.0;
+    d2bvPrimedt2[CO2] = 0.0;  
+      
+    d3bvPrimedt3[H2O] = 0.0;
+    d3bvPrimedt3[CO2] = 0.0;
     
   } else if ((x[H2O] == 1.0) && (x[CO2] == 0.0)) {
     *bv = bEnd[H2O]*H2OVc;
@@ -209,6 +254,25 @@ static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], double *bv
     
     *dbvdt   = dbEnddt[H2O]*H2OVc;
     *d2bvdt2 = d2bEnddt2[H2O]*H2OVc;
+    *d3bvdt3 = d3bEnddt3[H2O]*H2OVc;
+    
+    dbvPrimedt[H2O] = 2.0*dbEnddt[H2O]*H2OVc;
+    dbvPrimedt[CO2] = 2.0*(  DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*k1
+                           + powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*dk1dt
+                          )*powSum(H2OVc, 1.0, CO2Vc, 1.0);
+    
+    d2bvPrimedt2[H2O] = 2.0*d2bEnddt2[H2O]*H2OVc;
+    d2bvPrimedt2[CO2] = 2.0*(      D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*k1
+                             + 2.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*dk1dt
+                             +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d2k1dt2
+                            )*powSum(H2OVc, 1.0, CO2Vc, 1.0);
+    
+    d3bvPrimedt3[H2O] = 2.0*d3bEnddt3[H2O]*H2OVc;
+    d3bvPrimedt3[CO2] = 2.0*(      D3powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2], d3bEnddt3[H2O], d3bEnddt3[CO2])*k1
+    			     + 3.0*D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*dk1dt
+			     + 3.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*d2k1dt2
+			     +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d3k1dt3
+    			    )*powSum(H2OVc, 1.0, CO2Vc, 1.0);
     
   } else if ((x[H2O] == 0.0) && (x[CO2] == 1.0)) {
     *bv = bEnd[CO2]*CO2Vc;
@@ -217,6 +281,25 @@ static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], double *bv
     
     *dbvdt   = dbEnddt[CO2]*CO2Vc;
     *d2bvdt2 = d2bEnddt2[CO2]*CO2Vc;
+    *d3bvdt3 = d3bEnddt3[CO2]*CO2Vc;
+    
+    dbvPrimedt[H2O] = 2.0*(  DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*k1
+                           + powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*dk1dt
+                          )*powSum(H2OVc, 1.0, CO2Vc, 1.0);
+    dbvPrimedt[CO2] = 2.0*dbEnddt[CO2]*CO2Vc;
+    
+    d2bvPrimedt2[H2O] = 2.0*(      D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*k1
+                             + 2.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*dk1dt
+                             +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d2k1dt2
+                            )*powSum(H2OVc, 1.0, CO2Vc, 1.0);
+    d2bvPrimedt2[CO2] = 2.0*d2bEnddt2[CO2]*CO2Vc;
+    
+    d3bvPrimedt3[H2O] = 2.0*(      D3powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2], d3bEnddt3[H2O], d3bEnddt3[CO2])*k1
+                             + 3.0*D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*dk1dt
+                             + 3.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*d2k1dt2
+                             +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d3k1dt3
+                            )*powSum(H2OVc, 1.0, CO2Vc, 1.0);
+    d3bvPrimedt3[CO2] = 2.0*d3bEnddt3[CO2]*CO2Vc;
     
   } else {
     *bv  = 0.0;
@@ -245,6 +328,58 @@ static void BVcAndDerivative(int useLowPcoeff, double t, double x[2], double *bv
                      + powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d2k1dt2
 		    )*powSum(H2OVc, 1.0, CO2Vc, 1.0)*x[H2O]*x[CO2];
     *d2bvdt2 += d2bEnddt2[CO2]*CO2Vc*x[CO2]*x[CO2];
+
+    *d3bvdt3  = 0.0;
+    *d3bvdt3 += d3bEnddt3[H2O]*H2OVc*x[H2O]*x[H2O];
+    *d3bvdt3 += 2.0*(      D3powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2], d3bEnddt3[H2O], d3bEnddt3[CO2])*k1 
+                     + 3.0*D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*dk1dt
+		     + 3.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*d2k1dt2
+		     +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d3k1dt3
+		    )*powSum(H2OVc, 1.0, CO2Vc, 1.0)*x[H2O]*x[CO2];
+    *d3bvdt3 += d3bEnddt3[CO2]*CO2Vc*x[CO2]*x[CO2];
+
+    dbvPrimedt[H2O]  = 0.0;
+    dbvPrimedt[H2O] += 2.0*dbEnddt[H2O]*H2OVc*x[H2O];
+    dbvPrimedt[H2O] += 2.0*(  DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*k1
+                            + powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*dk1dt
+                           )*powSum(H2OVc, 1.0, CO2Vc, 1.0)*x[CO2];
+
+    dbvPrimedt[CO2]  = 0.0;
+    dbvPrimedt[CO2] += 2.0*(  DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*k1
+                            + powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*dk1dt
+                           )*powSum(H2OVc, 1.0, CO2Vc, 1.0)*x[H2O];
+    dbvPrimedt[CO2] += 2.0*dbEnddt[CO2]*CO2Vc*x[CO2];
+    
+    d2bvPrimedt2[H2O]  = 0.0;
+    d2bvPrimedt2[H2O] += 2.0*d2bEnddt2[H2O]*H2OVc*x[H2O];
+    d2bvPrimedt2[H2O] += 2.0*(      D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*k1
+                              + 2.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*dk1dt
+                              +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d2k1dt2
+                           )*powSum(H2OVc, 1.0, CO2Vc, 1.0)*x[CO2];
+
+    d2bvPrimedt2[CO2]  = 0.0;
+    d2bvPrimedt2[CO2] += 2.0*(      D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*k1
+                              + 2.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*dk1dt
+                              +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d2k1dt2
+                           )*powSum(H2OVc, 1.0, CO2Vc, 1.0)*x[H2O];
+    d2bvPrimedt2[CO2] += 2.0*d2bEnddt2[CO2]*CO2Vc*x[CO2];
+    
+    d3bvPrimedt3[H2O]  = 0.0;
+    d3bvPrimedt3[H2O] += 2.0*d3bEnddt3[H2O]*H2OVc*x[H2O];
+    d3bvPrimedt3[H2O] += 2.0*(      D3powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2], d3bEnddt3[H2O], d3bEnddt3[CO2])*k1
+                              + 3.0*D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*dk1dt
+                              + 3.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*d2k1dt2
+                              +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d3k1dt3
+                           )*powSum(H2OVc, 1.0, CO2Vc, 1.0)*x[CO2];
+
+    d3bvPrimedt3[CO2]  = 0.0;
+    d3bvPrimedt3[CO2] += 2.0*(      D3powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2], d3bEnddt3[H2O], d3bEnddt3[CO2])*k1
+                              + 3.0*D2powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2], d2bEnddt2[H2O], d2bEnddt2[CO2])*dk1dt
+                              + 3.0*DpowSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0, dbEnddt[H2O], dbEnddt[CO2])*d2k1dt2
+                              +     powSum(bEnd[H2O], 1.0, bEnd[CO2], 1.0)*d3k1dt3
+                           )*powSum(H2OVc, 1.0, CO2Vc, 1.0)*x[H2O];
+    d3bvPrimedt3[CO2] += 2.0*d3bEnddt3[CO2]*CO2Vc*x[CO2];
+    
   }
   
   return;
@@ -724,8 +859,9 @@ static void idealGasCO2(double t, double *cp, double *s0, double *h0, double *dc
 
 static void duan(double t, double p, double x[2], double *vPt, double *zPt, double phi[2], double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2) {
   double bv, cv, dv, ev, fv, beta, gammav, v, z, dzdv, dzdt, d2zdv2, d2zdvdt, d2zdt2;
-  double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2;
+  double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2, d3bvdt3;
   double bvPrime[2], cvPrime[2], dvPrime[2], evPrime[2], fvPrime[2], betaPrime[2], gammavPrime[2];
+  double dbvPrimedt[2], d2bvPrimedt2[2], d3bvPrimedt3[2];
   double zRef, vRef, phiRef[2], lnPhiH2O, lnPhiCO2;
   int useLowPcoeff, iter;
   
@@ -737,7 +873,7 @@ static void duan(double t, double p, double x[2], double *vPt, double *zPt, doub
   useLowPcoeff = (p <= 2000.0) ? 1 : 0;
   
   if (!useLowPcoeff) {
-    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2);
+    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3);
     CVcAndDerivative	(1, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2);
     DVcAndDerivative	(1, t, x, &dv,     dvPrime,    &ddvdt,    &d2dvdt2);
     EVcAndDerivative	(1, t, x, &ev,     evPrime,    &devdt,    &d2evdt2);
@@ -786,7 +922,7 @@ static void duan(double t, double p, double x[2], double *vPt, double *zPt, doub
     */
   }
   
-  BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2);
+  BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2);
   DVcAndDerivative    (useLowPcoeff, t, x, &dv,     dvPrime,	&ddvdt,    &d2dvdt2);
   EVcAndDerivative    (useLowPcoeff, t, x, &ev,     evPrime,	&devdt,    &d2evdt2);
@@ -890,8 +1026,9 @@ static void duan(double t, double p, double x[2], double *vPt, double *zPt, doub
 
 static void duanH2O(double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2) {
   double bv, cv, dv, ev, fv, beta, gammav, v, z, dzdv, dzdt, d2zdv2, d2zdvdt, d2zdt2;
-  double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2;
+  double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2, d3bvdt3;
   double bvPrime[2], cvPrime[2], dvPrime[2], evPrime[2], fvPrime[2], betaPrime[2], gammavPrime[2];
+  double dbvPrimedt[2], d2bvPrimedt2[2], d3bvPrimedt3[2];
   double zRef, vRef, phiRef, lnPhiH2O;
   double x[2] = { 1.0, 0.0 }; /* H2O */
   int useLowPcoeff, iter;
@@ -903,7 +1040,7 @@ static void duanH2O(double t, double p, double *vPt, double *zPt, double *phi, d
   useLowPcoeff = (p <= 2000.0) ? 1 : 0;
   
   if (!useLowPcoeff) {
-    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2);
+    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3);
     CVcAndDerivative	(1, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2);
     DVcAndDerivative	(1, t, x, &dv,     dvPrime,    &ddvdt,    &d2dvdt2);
     EVcAndDerivative	(1, t, x, &ev,     evPrime,    &devdt,    &d2evdt2);
@@ -937,7 +1074,7 @@ static void duanH2O(double t, double p, double *vPt, double *zPt, double *phi, d
     phiRef = exp(lnPhiH2O);
   }
   
-  BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2);
+  BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2);
   DVcAndDerivative    (useLowPcoeff, t, x, &dv,     dvPrime,	&ddvdt,    &d2dvdt2);
   EVcAndDerivative    (useLowPcoeff, t, x, &ev,     evPrime,	&devdt,    &d2evdt2);
@@ -1022,8 +1159,9 @@ static void duanH2O(double t, double p, double *vPt, double *zPt, double *phi, d
 
 static void duanCO2(double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2) {
   double bv, cv, dv, ev, fv, beta, gammav, v, z, dzdv, dzdt, d2zdv2, d2zdvdt, d2zdt2;
-  double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2;
+  double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2, d3bvdt3;
   double bvPrime[2], cvPrime[2], dvPrime[2], evPrime[2], fvPrime[2], betaPrime[2], gammavPrime[2];
+  double dbvPrimedt[2], d2bvPrimedt2[2], d3bvPrimedt3[2];
   double zRef, vRef, phiRef, lnPhiCO2;
   double x[2] = { 0.0, 1.0 }; /* CO2 */
   int useLowPcoeff, iter;
@@ -1035,7 +1173,7 @@ static void duanCO2(double t, double p, double *vPt, double *zPt, double *phi, d
   useLowPcoeff = (p <= 2000.0) ? 1 : 0;
   
   if (!useLowPcoeff) {
-    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2);
+    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3);
     CVcAndDerivative	(1, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2);
     DVcAndDerivative	(1, t, x, &dv,     dvPrime,    &ddvdt,    &d2dvdt2);
     EVcAndDerivative	(1, t, x, &ev,     evPrime,    &devdt,    &d2evdt2);
@@ -1069,7 +1207,7 @@ static void duanCO2(double t, double p, double *vPt, double *zPt, double *phi, d
     phiRef = exp(lnPhiCO2);
   }
   
-  BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2);
+  BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2);
   DVcAndDerivative    (useLowPcoeff, t, x, &dv,     dvPrime,	&ddvdt,    &d2dvdt2);
   EVcAndDerivative    (useLowPcoeff, t, x, &ev,     evPrime,	&devdt,    &d2evdt2);
