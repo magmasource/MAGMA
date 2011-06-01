@@ -375,6 +375,26 @@ void vmixBio (int mask, double t, double P, double *x, double *vmix,
               double *dxdp);
 void dispBio (int mask, double t, double P, double *x, char **formula);
 
+int  testTaj (int mask, double t, double p, int na, int nr, char **names,
+              char **formulas, double *r, double *m);
+void conTaj  (int inpMask, int outMask, double t, double p, double *e,
+              double *m, double *r, double *x, double **dm, double ***d2m,
+              double **dr, double ****d3m);
+void actTaj  (int mask, double t, double p, double *x, double *a,
+              double *mu, double **dx);
+void gmixTaj (int mask, double t, double P, double *x, double *gmix,
+              double *dx, double **dx2, double ***dx3);
+void hmixTaj (int mask, double t, double P, double *x, double *hmix);
+void smixTaj (int mask, double t, double P, double *x, double *smix,
+              double *dx, double **dx2);
+void cpmixTaj(int mask, double t, double P, double *x, double *cpmix,
+              double *dt, double *dx);
+void vmixTaj (int mask, double t, double P, double *x, double *vmix,
+              double *dx, double **dx2, double *dt, double *dp,
+              double *dt2, double *dtdp, double *dp2, double *dxdt,
+              double *dxdp);
+void dispTaj (int mask, double t, double P, double *x, char **formula);
+
 int  testCpx (int mask, double t, double p, int na, int nr, char **names,
               char **formulas, double *r, double *m);
 void conCpx  (int inpMask, int outMask, double t, double p, double *e,
@@ -2809,6 +2829,79 @@ Solids meltsSolids[] = {
    27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
    CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"biotiteTaj", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testTaj,         /* Pointer to testTaj  : test expected number and order  */
+   conTaj,          /* Pointer to conTaj   : moles to indep comp variables   */
+   actTaj,          /* Pointer to actTaj   : activities, chemical potentials */
+   gmixTaj,         /* Pointer to gmixTaj  : Gibbs free energy of mixing     */
+   hmixTaj,         /* Pointer to hmixTaj  : Enthaly of mixing               */
+   smixTaj,         /* Pointer to smixTaj  : Entropy of mixing               */
+   cpmixTaj,        /* Pointer to cpmixTaj : Heat capacity of mixing         */
+   vmixTaj,         /* Pointer to vmixTaj  : Volume of mixing                */
+   dispTaj          /* Pointer to dispTaj  : Formula for interface display   */
+  },
+  {"fbiTaj", COMPONENT, "KFeMg2Si2Al2O10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"tbiTaj", COMPONENT, "KTiMg2Si3AlO10(O)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"eastTaj", COMPONENT, "KAlMg2Si2Al2O10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"annTaj", COMPONENT, "KFe3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"phlTaj", COMPONENT, "KMg3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
   {"biotite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 

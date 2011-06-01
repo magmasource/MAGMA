@@ -155,6 +155,7 @@ $(MELTSLIB)(alloy-liquid.o):             alloy-liquid.c silmin.h mthread.h
 $(MELTSLIB)(alloy-solid.o):              alloy-solid.c silmin.h mthread.h
 $(MELTSLIB)(amphibole.o):                amphibole.c recipes.h silmin.h mthread.h
 $(MELTSLIB)(biotite.o):                  biotite.c silmin.h mthread.h
+$(MELTSLIB)(biotiteTaj.o):               biotiteTaj.c silmin.h
 $(MELTSLIB)(button_callbacks.o):         button_callbacks.c interface.h silmin.h mthread.h
 $(MELTSLIB)(check_coexisting_liquids.o): check_coexisting_liquids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
 $(MELTSLIB)(check_coexisting_solids.o):  check_coexisting_solids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
@@ -225,6 +226,7 @@ $(MELTSBATCHLIB)(alloy-liquid.o):             alloy-liquid.c silmin.h mthread.h
 $(MELTSBATCHLIB)(alloy-solid.o):              alloy-solid.c silmin.h mthread.h
 $(MELTSBATCHLIB)(amphibole.o):                amphibole.c recipes.h silmin.h mthread.h
 $(MELTSBATCHLIB)(biotite.o):                  biotite.c silmin.h mthread.h
+$(MELTSBATCHLIB)(biotiteTaj.o):               biotiteTaj.c silmin.h
 $(MELTSBATCHLIB)(check_coexisting_liquids.o): check_coexisting_liquids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
 $(MELTSBATCHLIB)(check_coexisting_solids.o):  check_coexisting_solids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
 $(MELTSBATCHLIB)(clinopyroxene.o):            clinopyroxene.c recipes.h silmin.h mthread.h
@@ -278,6 +280,7 @@ $(MELTSDYNAMICLIB)(alloy-liquid.o):             alloy-liquid.c silmin.h mthread.
 $(MELTSDYNAMICLIB)(alloy-solid.o):              alloy-solid.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(amphibole.o):                amphibole.c recipes.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(biotite.o):                  biotite.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(biotiteTaj.o):               biotiteTaj.c silmin.h
 $(MELTSDYNAMICLIB)(check_coexisting_liquids.o): check_coexisting_liquids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(check_coexisting_solids.o):  check_coexisting_solids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(clinopyroxene.o):            clinopyroxene.c recipes.h silmin.h mthread.h
@@ -335,6 +338,7 @@ $(MELTSLIB): $(MELTSLIB)(albite.o) \
              $(MELTSLIB)(alloy-solid.o) \
              $(MELTSLIB)(amphibole.o) \
              $(MELTSLIB)(biotite.o) \
+             $(MELTSLIB)(biotiteTaj.o) \
              $(MELTSLIB)(button_callbacks.o) \
              $(MELTSLIB)(check_coexisting_liquids.o) \
              $(MELTSLIB)(check_coexisting_solids.o) \
@@ -405,6 +409,7 @@ $(MELTSBATCHLIB): $(MELTSBATCHLIB)(albite.o) \
                   $(MELTSBATCHLIB)(alloy-solid.o) \
                   $(MELTSBATCHLIB)(amphibole.o) \
                   $(MELTSBATCHLIB)(biotite.o) \
+                  $(MELTSBATCHLIB)(biotiteTaj.o) \
                   $(MELTSBATCHLIB)(check_coexisting_liquids.o) \
                   $(MELTSBATCHLIB)(check_coexisting_solids.o) \
                   $(MELTSBATCHLIB)(clinopyroxene.o) \
@@ -459,6 +464,7 @@ $(MELTSDYNAMICLIB): $(MELTSDYNAMICLIB)(albite.o) \
                     $(MELTSDYNAMICLIB)(alloy-solid.o) \
                     $(MELTSDYNAMICLIB)(amphibole.o) \
                     $(MELTSDYNAMICLIB)(biotite.o) \
+                    $(MELTSDYNAMICLIB)(biotiteTaj.o) \
                     $(MELTSDYNAMICLIB)(check_coexisting_liquids.o) \
                     $(MELTSDYNAMICLIB)(check_coexisting_solids.o) \
                     $(MELTSDYNAMICLIB)(clinopyroxene.o) \
@@ -790,7 +796,7 @@ Melts-mSACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_sat
 
 Melts-batch: interface.c lawson_hanson.h liq_struct_data.h nash.h param_struct_data.h \
              param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
-             albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c check_coexisting_liquids.c \
+             albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
              check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
              est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
              gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
@@ -811,7 +817,7 @@ Melts-batchPrivate: interface.c \
 
 Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_data.h \
                param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
-               albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c check_coexisting_liquids.c \
+               albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
                check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
                est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
                gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
@@ -1028,6 +1034,7 @@ Test_gibbs: test_gibbs.c gibbs.c \
             $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
+	$(CC) $(CFLAGS) sources/gibbs.c
 	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
 	chmod 755 $@

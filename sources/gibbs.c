@@ -684,6 +684,142 @@ static void intEOSsolid(ThermoRef *phase, double t, double p, double *g,
   }
 }
 
+static void HPproperties(double t, double p, double h298, double s298, double v298, double a, double b, double c, double d,
+   double a0, double K298, double Tc0, double Smax, double Vmax, double *gs, double *ss, double *hs, double *cps,
+   double *dcpsdt, double *vs, double *dvsdt, double *dvsdp, double *d2vsdt2, double *d2vsdtdp, double *d2vsdp2) {
+   const double tr = 298.15;
+   double v1T      = v298*(1.0+a0*(t-tr) - 20.0*a0*(sqrt(t)-sqrt(tr)));
+   double dv1Tdt   = v298*(a0 - 10.0*a0/sqrt(t));
+   double d2v1Tdt2 = v298*5.0*a0/pow(t, 3.0/2.0);
+   double d3v1Tdt3 = -3.0*v298*5.0*a0/pow(t, 5.0/2.0)/2.0;
+   double KT    = K298*(1.0 - 1.5e-4*(t-tr));
+   double dKTdt = -1.5e-4*K298;
+   
+   double vInt      = pow(1.0 + 4.0*p/KT, 3.0/4.0)/3.0 - 1.0/3.0;
+   double dvIntdt   = -p*dKTdt/KT/KT/pow(1.0 + 4.0*p/KT, 1.0/4.0);
+   double d2vIntdt2 =  2.0*p*dKTdt*dKTdt/KT/KT/KT/pow(1.0 + 4.0*p/KT, 1.0/4.0) - p*p*dKTdt*dKTdt/KT/KT/KT/KT/pow(1.0 + 4.0*p/KT, 5.0/4.0);   
+   double d3vIntdt3 =  - 6.0*p*dKTdt*dKTdt*dKTdt/KT/KT/KT/KT/pow(1.0 + 4.0*p/KT, 1.0/4.0) 
+                       + 2.0*p*p*dKTdt*dKTdt*dKTdt/KT/KT/KT/KT/KT/pow(1.0 + 4.0*p/KT, 5.0/4.0)
+                       + 4.0*p*p*dKTdt*dKTdt*dKTdt/KT/KT/KT/KT/KT/pow(1.0 + 4.0*p/KT, 5.0/4.0)
+		       - 5.0*p*p*p*dKTdt*dKTdt*dKTdt/KT/KT/KT/KT/KT/KT/pow(1.0 + 4.0*p/KT, 9.0/4.0);
+		          
+   *vs = v1T*pow(1.0 - 4.0*p/(KT + 4.0*p), 1.0/4.0);
+   *dvsdt = dv1Tdt*pow(1.0 - 4.0*p/(KT + 4.0*p), 1.0/4.0) 
+          + v1T*(4.0*p/(KT+4.0*p)/(KT+4.0*p))*dKTdt/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0);
+   *dvsdp = v1T*(-4.0*KT/(KT+4.0*p)/(KT+4.0*p))/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0);
+   *d2vsdt2 = d2v1Tdt2*pow(1.0 - 4.0*p/(KT + 4.0*p), 1.0/4.0)
+            + 2.0*dv1Tdt*(4.0*p/(KT+4.0*p)/(KT+4.0*p))*dKTdt/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0)
+	    - 3.0*v1T*pow(4.0*p*dKTdt/(KT+4.0*p)/(KT+4.0*p), 2.0)/4.0/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 7.0/4.0)
+	    + v1T*(-8.0*p/(KT+4.0*p)/(KT+4.0*p)/(KT+4.0*p))*dKTdt*dKTdt/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0);
+   *d2vsdtdp = dv1Tdt*(-4.0*KT/(KT+4.0*p)/(KT+4.0*p))/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0)
+             - 3.0*v1T*(-4.0*KT/(KT+4.0*p)/(KT+4.0*p))*(4.0*p/(KT+4.0*p)/(KT+4.0*p))*dKTdt/4.0/4.0
+	          /pow(1.0 - 4.0*p/(KT + 4.0*p), 7.0/4.0)
+	     + v1T*(4.0/(KT+4.0*p)/(KT+4.0*p) - 32.0*p/(KT+4.0*p)/(KT+4.0*p)/(KT+4.0*p))*dKTdt/4.0
+	          /pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0);
+   *d2vsdp2 = - 3.0*v1T*pow(-4.0*KT/(KT+4.0*p)/(KT+4.0*p), 2.0)/4.0/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 7.0/4.0)
+            + v1T*(32.0*KT/(KT+4.0*p)/(KT+4.0*p)/(KT+4.0*p))/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0);
+	    
+   *gs = v1T*KT*vInt;
+   *ss = dv1Tdt*KT*vInt + v1T*dKTdt*vInt + v1T*KT*dvIntdt;
+   *ss *= -1.0;
+   *hs = *gs + t*(*ss);
+   *cps = d2v1Tdt2*KT*vInt + 2.0*dv1Tdt*dKTdt*vInt + 2.0*dv1Tdt*KT*dvIntdt + 2.0*v1T*dKTdt*dvIntdt + v1T*KT*d2vIntdt2;
+   *dcpsdt = d3v1Tdt3*KT*vInt + 3.0*d2v1Tdt2*dKTdt*vInt + 6.0*dv1Tdt*dKTdt*dvIntdt + 3.0*d2v1Tdt2*KT*dvIntdt  + 3.0*dv1Tdt*KT*d2vIntdt2
+	       + 3.0*v1T*dKTdt*d2vIntdt2 + v1T*KT*d3vIntdt3;	
+   *dcpsdt *= -t;
+   *dcpsdt -= *cps;
+   *cps *= -t;
+
+   *cps    += a + b*t + c/t/t + d/sqrt(t);
+   *dcpsdt += b - 2.0*c/t/t/t - d/2.0/pow(t, 3.0/2.0);
+   *hs     += h298 + a*(t-tr) + b*(t*t-tr*tr)/2.0 - c*(1.0/t-1.0/tr) + 2.0*d*(sqrt(t)-sqrt(tr));
+   *ss     += s298 + a*log(t/tr) + b*(t-tr) - c*(1.0/t/t-1.0/tr/tr)/2.0 - 2.0*d*(1.0/sqrt(t)-1.0/sqrt(tr));
+   *gs = *hs - t*(*ss);
+   
+   if ((Tc0 > 0.0) && (Smax > 0.0)) {
+     double Tc = Tc0 + Vmax*p/Smax;
+     if (t < Tc) {
+       double dTcdp     = Vmax/Smax;     
+       double Q2at298   = sqrt(1.0 - tr/Tc0);
+       double Q2        = sqrt(1.0 - t/Tc);
+       double dQ2dt     = -1.0/sqrt(1.0 - t/Tc)/2.0/Tc;
+       double d2Q2dt2   = -1.0/pow(1.0 - t/Tc, 3.0/2.0)/2.0/2.0/Tc/Tc;
+       double d3Q2dt3   = -3.0/pow(1.0 - t/Tc, 5.0/2.0)/2.0/2.0/2.0/Tc/Tc/Tc;
+       double dQ2dp     = t*dTcdp/sqrt(1.0 - t/Tc)/2.0/Tc/Tc;
+       double d2Q2dtdp  = -t*dTcdp/pow(1.0 - t/Tc, 3.0/2.0)/2.0/2.0/Tc/Tc + dTcdp/pow(1.0 - t/Tc, 1.0/2.0)/2.0/Tc/Tc;
+       double d2Q2dp2   = -t*t*dTcdp*dTcdp/pow(1.0 - t/Tc, 3.0/2.0)/2.0/2.0/Tc/Tc/Tc/Tc - 2.0*t*dTcdp*dTcdp/sqrt(1.0 - t/Tc)/2.0/Tc/Tc/Tc;
+       double d3Q2dp3   = 3.0*t*t*t*dTcdp*dTcdp*dTcdp/pow(1.0 - t/Tc, 5.0/2.0)/2.0/2.0/2.0/Tc/Tc/Tc/Tc/Tc/Tc
+                        + 4.0*t*t*dTcdp*dTcdp*dTcdp/pow(1.0 - t/Tc, 3.0/2.0)/2.0/2.0/Tc/Tc/Tc/Tc/Tc
+                        + t*t*dTcdp*dTcdp*dTcdp/pow(1.0 - t/Tc, 3.0/2.0)/2.0/Tc/Tc/Tc/Tc/Tc
+			+ 6.0*t*dTcdp*dTcdp*dTcdp/sqrt(1.0 - t/Tc)/2.0/Tc/Tc/Tc/Tc;			
+       double d3Q2dt2dp = -dTcdp/pow(1.0 - t/Tc, 3.0/2.0)/2.0/2.0/Tc/Tc - 3.0*t*dTcdp/pow(1.0 - t/Tc, 5.0/2.0)/2.0/2.0/2.0/Tc/Tc/Tc
+                        + dTcdp/pow(1.0 - t/Tc, 3.0/2.0)/2.0/2.0/Tc/Tc/Tc;		
+       double d3Q2dtdp2 = 3.0*t*t*dTcdp*dTcdp/pow(1.0 - t/Tc, 5.0/2.0)/2.0/2.0/2.0/Tc/Tc/Tc/Tc + 2.0*t*dTcdp*dTcdp/pow(1.0 - t/Tc, 3.0/2.0)/2.0/2.0/Tc/Tc/Tc
+                        - t*dTcdp*dTcdp/pow(1.0 - t/Tc, 3.0/2.0)/2.0/2.0/Tc/Tc/Tc/Tc - 2.0*dTcdp*dTcdp/pow(1.0 - t/Tc, 1.0/2.0)/2.0/Tc/Tc/Tc;
+			
+       double hP298     = Smax*Tc0*(Q2at298 - Q2at298*Q2at298*Q2at298/3.0);
+       double sP298     = Smax*Q2at298;
+       
+       double vPT       = Vmax*Q2at298*(1.0+a0*(t-tr) - 20.0*a0*(sqrt(t)-sqrt(tr)));
+       double dvPTdt    = Vmax*Q2at298*(a0 - 10.0*a0/sqrt(t));
+       double d2vPTdt2  = Vmax*Q2at298*5.0*a0/pow(t, 3.0/2.0);
+       double d3vPTdt3  = -3.0*Vmax*Q2at298*5.0*a0/pow(t, 5.0/2.0)/2.0;
+       
+       double vIntegral    = vPT*KT*vInt;
+       double dvIntegraldt = dvPTdt*KT*vInt + vPT*dKTdt*vInt + vPT*KT*dvIntdt; 
+       double d2vIntegraldt2 = d2vPTdt2*KT*vInt + 2.0*dvPTdt*dKTdt*vInt + 2.0*dvPTdt*KT*dvIntdt + 2.0*vPT*dKTdt*dvIntdt + vPT*KT*d2vIntdt2;
+       double d3vIntegraldt3 = d3vPTdt3*KT*vInt + 3.0*d2vPTdt2*dKTdt*vInt + 6.0*dvPTdt*dKTdt*dvIntdt + 3.0*d2vPTdt2*KT*dvIntdt  + 3.0*dvPTdt*KT*d2vIntdt2
+	                     + 3.0*vPT*dKTdt*d2vIntdt2 + vPT*KT*d3vIntdt3;
+       
+       double Glandau      = Smax*((t-Tc)*Q2 + Tc*Q2*Q2*Q2/3.0);
+       double dGlandaudt   = Smax*(Q2 + (t-Tc)*dQ2dt + Tc*Q2*Q2*dQ2dt);
+       double d2Glandaudt2 = Smax*(2.0*dQ2dt + (t-Tc)*d2Q2dt2 + 2.0*Tc*Q2*dQ2dt*dQ2dt + Tc*Q2*Q2*d2Q2dt2);
+       double d3Glandaudt3 = Smax*(3.0*d2Q2dt2 + (t-Tc)*d3Q2dt3 + 2.0*Tc*dQ2dt*dQ2dt*dQ2dt + 6.0*Tc*Q2*dQ2dt*d2Q2dt2 + Tc*Q2*Q2*d3Q2dt3);
+       
+       double dGlandaudp     = Smax*(-dTcdp*Q2 + (t-Tc)*dQ2dp + dTcdp*Q2*Q2*Q2/3.0 + Tc*Q2*Q2*dQ2dp);
+       double d2Glandaudtdp  = Smax*(-dTcdp*dQ2dt + dQ2dp + (t-Tc)*d2Q2dtdp + dTcdp*Q2*Q2*dQ2dt + 2.0*Tc*Q2*dQ2dt*dQ2dp + Tc*Q2*Q2*d2Q2dtdp);
+       double d2Glandaudp2   = Smax*(-dTcdp*dQ2dp -dTcdp*dQ2dp + (t-Tc)*d2Q2dtdp + dTcdp*Q2*Q2*dQ2dp/3.0 + dTcdp*Q2*Q2*dQ2dp + 2.0*Tc*Q2*dQ2dp*dQ2dp + Tc*Q2*Q2*d2Q2dp2);      
+       double d3Glandaudt2dp = Smax*(-dTcdp*d2Q2dt2 + d2Q2dtdp + d2Q2dtdp + (t-Tc)*d3Q2dt2dp + 2.0*dTcdp*Q2*dQ2dt*dQ2dt + dTcdp*Q2*Q2*d2Q2dt2
+	                     + 2.0*Tc*dQ2dt*dQ2dt*dQ2dp + 2.0*Tc*Q2*d2Q2dt2*dQ2dp + 2.0*Tc*Q2*dQ2dt*d2Q2dtdp + 2.0*Tc*Q2*dQ2dt*d2Q2dtdp + + Tc*Q2*Q2*d3Q2dt2dp);
+       double d3Glandaudtdp2 = Smax*(-dTcdp*d2Q2dtdp + d2Q2dp2 + (t-Tc)*d3Q2dtdp2 + 2.0*dTcdp*Q2*dQ2dp*dQ2dt + dTcdp*Q2*Q2*d2Q2dtdp
+                             + 2.0*dTcdp*Q2*dQ2dt*dQ2dp + 2.0*Tc*dQ2dp*dQ2dt*dQ2dp + 2.0*Tc*Q2*d2Q2dtdp*dQ2dp + 2.0*Tc*Q2*dQ2dt*d2Q2dp2
+	                     + dTcdp*Q2*Q2*d2Q2dtdp + 2.0*Tc*Q2*dQ2dp*d2Q2dtdp + Tc*Q2*Q2*d3Q2dtdp2);
+       double d3Glandaudp3   = Smax*(-dTcdp*d2Q2dp2 -dTcdp*d2Q2dp2 + (t-Tc)*d3Q2dtdp2 + 2.0*dTcdp*Q2*dQ2dp*dQ2dp/3.0 + dTcdp*Q2*Q2*d2Q2dp2/3.0
+                             + 2.0*dTcdp*Q2*dQ2dp*dQ2dp + dTcdp*Q2*Q2*d2Q2dp2 + 2.0*dTcdp*Q2*dQ2dp*dQ2dp + 2.0*Tc*dQ2dp*dQ2dp*dQ2dp + 4.0*Tc*Q2*dQ2dp*d2Q2dp2 
+                             + dTcdp*Q2*Q2*d2Q2dp2 + 2.0*Tc*Q2*dQ2dp*d2Q2dp2 + Tc*Q2*Q2*d3Q2dp3);
+             
+       *gs     += hP298 - t*sP298 + vIntegral + Glandau;
+       *ss     += sP298 -(dvIntegraldt + dGlandaudt);
+       *hs     += hP298 + vIntegral + Glandau -t*(dvIntegraldt + dGlandaudt);
+       *cps    += -t*(d2vIntegraldt2 + d2Glandaudt2);
+       *dcpsdt += -(d2vIntegraldt2 + d2Glandaudt2) - t*(d3vIntegraldt3 + d3Glandaudt3);
+       
+       *vs       += vPT*pow(1.0 - 4.0*p/(KT + 4.0*p), 1.0/4.0) 
+                  + dGlandaudp;
+       *dvsdt    += dvPTdt*pow(1.0 - 4.0*p/(KT + 4.0*p), 1.0/4.0) 
+                  + vPT*(4.0*p/(KT+4.0*p)/(KT+4.0*p))*dKTdt/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0) 
+		  + d2Glandaudtdp;
+       *dvsdp    += vPT*(-4.0*KT/(KT+4.0*p)/(KT+4.0*p))/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0) 
+                  + d2Glandaudp2;
+       *d2vsdt2  += d2vPTdt2*pow(1.0 - 4.0*p/(KT + 4.0*p), 1.0/4.0)
+                  + 2.0*dvPTdt*(4.0*p/(KT+4.0*p)/(KT+4.0*p))*dKTdt/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0)
+	          - 3.0*vPT*pow(4.0*p*dKTdt/(KT+4.0*p)/(KT+4.0*p), 2.0)/4.0/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 7.0/4.0)
+	          + vPT*(-8.0*p/(KT+4.0*p)/(KT+4.0*p)/(KT+4.0*p))*dKTdt*dKTdt/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0) 
+		  + d3Glandaudt2dp;
+       *d2vsdtdp += dvPTdt*(-4.0*KT/(KT+4.0*p)/(KT+4.0*p))/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0)
+                  - 3.0*vPT*(-4.0*KT/(KT+4.0*p)/(KT+4.0*p))*(4.0*p/(KT+4.0*p)/(KT+4.0*p))*dKTdt/4.0/4.0
+	               /pow(1.0 - 4.0*p/(KT + 4.0*p), 7.0/4.0)
+	          + vPT*(4.0/(KT+4.0*p)/(KT+4.0*p) - 32.0*p/(KT+4.0*p)/(KT+4.0*p)/(KT+4.0*p))*dKTdt/4.0
+	               /pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0) 
+		  + d3Glandaudtdp2;
+       *d2vsdp2  += - 3.0*vPT*pow(-4.0*KT/(KT+4.0*p)/(KT+4.0*p), 2.0)/4.0/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 7.0/4.0)
+                  + vPT*(32.0*KT/(KT+4.0*p)/(KT+4.0*p)/(KT+4.0*p))/4.0/pow(1.0 - 4.0*p/(KT + 4.0*p), 3.0/4.0)
+		  + d3Glandaudp3;
+
+     }
+   }
+} 
+
 /*
  *=============================================================================
  * Public function
@@ -2140,6 +2276,79 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
    } else if(strcmp(name, "Ni-liquid") == 0) {
      ni_liquid(t, p, &gs, &hs, &ss, &cps, &dcpsdt, &vs, &dvsdt, 
        &dvsdp, &d2vsdt2, &d2vsdp2, &d2vsdtdp);
+    
+   /* Holland and Powell style properties for use by Tajcmanova biotite model */    
+   } else if (strcmp(name, "fbiTaj") == 0) {
+     double gsEAST, ssEAST, hsEAST, cpsEAST, dcpsdtEAST, vsEAST, dvsdtEAST, dvsdpEAST, d2vsdt2EAST, d2vsdtdpEAST, d2vsdp2EAST;
+     double gsCOR, ssCOR, hsCOR, cpsCOR, dcpsdtCOR, vsCOR, dvsdtCOR, dvsdpCOR, d2vsdt2COR, d2vsdtdpCOR, d2vsdp2COR;
+     double gsHEM, ssHEM, hsHEM, cpsHEM, dcpsdtHEM, vsHEM, dvsdtHEM, dvsdpHEM, d2vsdt2HEM, d2vsdtdpHEM, d2vsdp2HEM;
+     
+     HPproperties(t, p, -6338170.0, 318.0, 14.738, 785.5, -0.038031, -2130300.0, -6893.7, 5.79e-5, 513000.0, 0.0, 0.0, 0.0, 
+                  &gsEAST, &ssEAST, &hsEAST, &cpsEAST, &dcpsdtEAST, &vsEAST, &dvsdtEAST, &dvsdpEAST, &d2vsdt2EAST, &d2vsdtdpEAST,
+		  &d2vsdp2EAST);
+     HPproperties(t, p, -1675140.0, 50.90, 2.558,  139.5,  0.005890, -2460600.0,  -589.2, 4.19e-5, 2520000.0, 0.0, 0.0, 0.0, 
+                  &gsCOR, &ssCOR, &hsCOR, &cpsCOR, &dcpsdtCOR, &vsCOR, &dvsdtCOR, &dvsdpCOR, &d2vsdt2COR, &d2vsdtdpCOR,
+		  &d2vsdp2COR);
+     HPproperties(t, p,  -825690.0, 87.4,  3.0274, 163.9, 0.0,       -2257200.0,  -657.6, 5.99e-5, 1996000.0, 955.0, 15.6, 0.0, 
+                  &gsHEM, &ssHEM, &hsHEM, &cpsHEM, &dcpsdtHEM, &vsHEM, &dvsdtHEM, &dvsdpHEM, &d2vsdt2HEM, &d2vsdtdpHEM,
+		  &d2vsdp2HEM);
+     gs       =  gsEAST	      - 0.5*gsCOR	+ 0.5*gsHEM;
+     ss       =  ssEAST	      - 0.5*ssCOR	+ 0.5*ssHEM;
+     hs       =  hsEAST	      - 0.5*hsCOR	+ 0.5*hsHEM;
+     cps      =  cpsEAST      - 0.5*cpsCOR	+ 0.5*cpsHEM;
+     dcpsdt   =  dcpsdtEAST   - 0.5*dcpsdtCOR	+ 0.5*dcpsdtHEM;
+     vs       =  vsEAST	      - 0.5*vsCOR	+ 0.5*vsHEM;
+     dvsdt    =  dvsdtEAST    - 0.5*dvsdtCOR	+ 0.5*dvsdtHEM;
+     dvsdp    =  dvsdpEAST    - 0.5*dvsdpCOR	+ 0.5*dvsdpHEM;
+     d2vsdt2  =  d2vsdt2EAST  - 0.5*d2vsdt2COR  + 0.5*d2vsdt2HEM;
+     d2vsdtdp =  d2vsdtdpEAST - 0.5*d2vsdtdpCOR + 0.5*d2vsdtdpHEM;
+     d2vsdp2  =  d2vsdp2EAST  - 0.5*d2vsdp2COR  + 0.5*d2vsdp2HEM;
+     
+     gs += 6000.0; /* Tajcmanova correction */
+     hs += 6000.0;
+
+   } else if (strcmp(name, "tbiTaj") == 0) {
+     double gsPHL, ssPHL, hsPHL, cpsPHL, dcpsdtPHL, vsPHL, dvsdtPHL, dvsdpPHL, d2vsdt2PHL, d2vsdtdpPHL, d2vsdp2PHL;
+     double gsBRU, ssBRU, hsBRU, cpsBRU, dcpsdtBRU, vsBRU, dvsdtBRU, dvsdpBRU, d2vsdt2BRU, d2vsdtdpBRU, d2vsdp2BRU;
+     double gsRUT, ssRUT, hsRUT, cpsRUT, dcpsdtRUT, vsRUT, dvsdtRUT, dvsdpRUT, d2vsdt2RUT, d2vsdtdpRUT, d2vsdp2RUT;
+     
+     HPproperties(t, p, -6219160.0, 328.0, 14.964, 770.3, -0.036939, -2328900.0, -6531.6, 5.79e-5, 513000.0, 0.0, 0.0, 0.0,  
+                  &gsPHL, &ssPHL, &hsPHL, &cpsPHL, &dcpsdtPHL, &vsPHL, &dvsdtPHL, &dvsdpPHL, &d2vsdt2PHL, &d2vsdtdpPHL,
+		  &d2vsdp2PHL);
+     HPproperties(t, p,  -924940.0, 64.50,  2.463, 158.4, -0.004076, -1052300.0, -1171.3, 13.0e-5, 485000.0, 0.0, 0.0, 0.0, 
+                  &gsBRU, &ssBRU, &hsBRU, &cpsBRU, &dcpsdtBRU, &vsBRU, &dvsdtBRU, &dvsdpBRU, &d2vsdt2BRU, &d2vsdtdpBRU,
+		  &d2vsdp2BRU);
+     HPproperties(t, p,  -944180.0, 50.60,  1.882,  90.4,  0.002900,        0.0,  -623.8, 4.43e-5, 2225000.0, 0.0, 0.0, 0.0, 
+                  &gsRUT, &ssRUT, &hsRUT, &cpsRUT, &dcpsdtRUT, &vsRUT, &dvsdtRUT, &dvsdpRUT, &d2vsdt2RUT, &d2vsdtdpRUT,
+		  &d2vsdp2RUT);
+     gs       =  gsPHL	     - gsBRU	   + gsRUT;
+     ss       =  ssPHL	     - ssBRU	   + ssRUT;
+     hs       =  hsPHL	     - hsBRU	   + hsRUT;
+     cps      =  cpsPHL      - cpsBRU	   + cpsRUT;
+     dcpsdt   =  dcpsdtPHL   - dcpsdtBRU   + dcpsdtRUT;
+     vs       =  vsPHL	     - vsBRU	   + vsRUT;
+     dvsdt    =  dvsdtPHL    - dvsdtBRU    + dvsdtRUT;
+     dvsdp    =  dvsdpPHL    - dvsdpBRU    + dvsdpRUT;
+     d2vsdt2  =  d2vsdt2PHL  - d2vsdt2BRU  + d2vsdt2RUT;
+     d2vsdtdp =  d2vsdtdpPHL - d2vsdtdpBRU + d2vsdtdpRUT;
+     d2vsdp2  =  d2vsdp2PHL  - d2vsdp2BRU  + d2vsdp2RUT;
+     
+     gs += 84000.0 - t*11.5; /* Tajcmanova correction */
+     hs += 84000.0;
+     ss += 11.5;
+   
+   } else if (strcmp(name, "eastTaj") == 0) {
+                     /* H 298       S 298  V 298   a      b          c           d        a0       K 298     Tc   Smax Vmax */
+     HPproperties(t, p, -6338170.0, 318.0, 14.738, 785.5, -0.038031, -2130300.0, -6893.7, 5.79e-5, 513000.0, 0.0, 0.0, 0.0, 
+                  &gs, &ss, &hs, &cps, &dcpsdt, &vs, &dvsdt, &dvsdp, &d2vsdt2, &d2vsdtdp, &d2vsdp2);
+   } else if (strcmp(name, "annTaj") == 0) {
+                     /* H 298       S 298  V 298   a      b          c           d        a0       K 298     Tc   Smax Vmax */
+     HPproperties(t, p, -5151670.0, 418.0, 15.432, 815.7, -0.034861,    19800.0, -7466.7, 5.79e-5, 513000.0, 0.0, 0.0, 0.0, 
+                  &gs, &ss, &hs, &cps, &dcpsdt, &vs, &dvsdt, &dvsdp, &d2vsdt2, &d2vsdtdp, &d2vsdp2);
+   } else if (strcmp(name, "phlTaj") == 0) {
+                     /* H 298       S 298  V 298   a      b          c           d        a0       K 298     Tc   Smax Vmax */
+     HPproperties(t, p, -6219160.0, 328.0, 14.964, 770.3, -0.036939, -2328900.0, -6531.6, 5.79e-5, 513000.0, 0.0, 0.0, 0.0, 
+                  &gs, &ss, &hs, &cps, &dcpsdt, &vs, &dvsdt, &dvsdp, &d2vsdt2, &d2vsdtdp, &d2vsdp2);
 
    /* Solids: General equations from Berman (1988) or Saxena (1993) */
 
