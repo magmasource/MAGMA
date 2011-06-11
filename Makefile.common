@@ -1076,6 +1076,13 @@ Convert_liquid: convert-liquid.c \
 	$(RM) $(RMFLAGS) convert-liquid.o
 	chmod 755 $@
 
+TajTest: TajTest.c silmin.h recipes.h liq_struct_data.h param_struct_data.h sol_struct_data.h $(MELTSLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) -fwritable-strings $<
+	$(CC) $(LDFLAGS) -o $@ TajTest.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) TajTest.o
+	chmod 755 $@
+
 Test_liquid-MS: test_liquid.c liquid-MS.o melts_support-MS.o \
                 interface.h silmin.h recipes.h liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
                 $(MELTSLIB)

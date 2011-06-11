@@ -2747,13 +2747,12 @@ Solids meltsSolids[] = {
    vmixHrn,         /* Pointer to vmixHrn  : Volume of mixing                */
    dispHrn          /* Pointer to dispHrn  : Formula for interface display   */
   },
-#define DHBfABf ((-2836709.0+7932.05)-(-3275265.0-8565.18))
   {"hastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
-   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   -12243951.48,
+   685.34,      
+   29.08214,       
    CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -2761,77 +2760,74 @@ Solids meltsSolids[] = {
   {"k-hastingsite", COMPONENT, "KCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
-   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
+   -12220073.05,
+   710.84,             
+   29.96760,                    
+   CP_BERMAN,  {{1278.6555, -70.04725e2, -254.8098e5, 309.0143e7, 0.0, 0.0, 0.0, 0.0}},        
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-#undef DHBfABf
   {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
-   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   -12646436.77,
+   669.44,     
+   29.26850,           
+   CP_BERMAN,  {{1267.249, -66.54335e2, -303.78655e5, 391.3526e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-#define DHGrnCum (-9623300.0-(-12067517.0))
   {"ferro-pargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+4.0*DHGrnCum/7.0,/* H ref (J)     Helgeson et al. (1978) */
-   185.5*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.989,                           /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1342.61, -83.4862e2, -247.604e5, 348.507e7, 0.0, 0.0, 0.0, 0.0}},
+   -11252311.52,
+   776.13,                      
+   28.68962,                           
+   CP_BERMAN,  {{1342.609, -83.48615e2, -247.60335e5, 348.5066e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-#undef DHGrnCum
   {"hornblende", COMPONENT, "Ca2Mg4AlAlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
-   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   -12289509.9,
+   700.00,     
+   29.11346,            
+   CP_BERMAN,  {{1229.761, -67.3078e2,  -280.0954e5,  354.0367e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
   {"kaersutite", COMPONENT, "NaCa2Mg4TiAl2Si6O23(OH)", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
-   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   -12545496.65,
+   700.00,     
+   29.27417,            
+   CP_BERMAN,  {{1221.448, -58.273e2,   -302.84385e5, 377.3149e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
   {"edenite", COMPONENT, "NaCa2Mg5AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
-   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   -12530241.7,
+   673.62,     
+   30.04064,            
+   CP_BERMAN,  {{1257.836, -64.65775e2, -296.20495e5, 374.9822e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
   {"barroisite", COMPONENT, "NaCaMg3Al2AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
-   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
+   -12144974.7,
+   700.00,     
+   28.96222,            
+   CP_BERMAN,  {{1236.439, -67.59495e2, -315.02635e5, 425.8053e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-  {"biotiteTaj", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"biotitetaj", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
    0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
