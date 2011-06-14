@@ -239,6 +239,21 @@ int checkForCoexistingSolids(  /* returns a MODE flag for success or failure */
   result  = FAILURE;
 
   for (Index=0; Index<npc; Index++) if (solids[Index].na > 1) {
+#ifdef RHYOLITE_ADJUSTMENTS
+    if (!strcmp(solids[Index].label, "orthopyroxene")) {
+#ifdef DEBUG
+    printf("Check for coexisting solids is blocked for phase %s\n", solids[Index].label);
+#endif
+    } else if (!strcmp(solids[Index].label, "feldspar") && ((silminState->nSolidCoexist)[Index] >= 2)) {
+#ifdef DEBUG
+    printf("Check for coexisting solids is blocked for phase %s which already has %d entries.\n", solids[Index].label, (silminState->nSolidCoexist)[Index]);
+#endif
+    } else if (!strcmp(solids[Index].label, "clinopyroxene") && ((silminState->nSolidCoexist)[Index] >= 3)) {
+#ifdef DEBUG
+    printf("Check for coexisting solids is blocked for phase %s which already has %d entries.\n", solids[Index].label, (silminState->nSolidCoexist)[Index]);
+#endif
+    } else {
+#endif
 #ifdef DEBUG
     printf("Check for coexisting solids called for phase %s\n", solids[Index].label);
 #endif
@@ -362,6 +377,9 @@ int checkForCoexistingSolids(  /* returns a MODE flag for success or failure */
       }
 
     } /* loop on ns (number of coexisting solids             */
+#ifdef RHYOLITE_ADJUSTMENTS
+    } /* end if block on coexisting phase exceptions */
+#endif
   }   /* loop on Index (solids with more than one endmember) */
 
   return result;

@@ -14,7 +14,7 @@ program test
   character*20 phasenames(20)
   character*100 errorString
   integer node, mode, iterations, status
-  double precision pressure, temperature, enthalpy, bulk(19), properties(30,10)
+  double precision pressure, temperature, enthalpy, bulk(19), properties(33,10)
 !
 ! local storage
 !
@@ -52,21 +52,21 @@ program test
   pressure = 1000.0
   temperature = 1400.0
   enthalpy = 0.0
-  bulk( 1) = 48.68
-  bulk( 2) =  1.01
-  bulk( 3) = 17.64
-  bulk( 4) =  0.89
-  bulk( 5) =  0.0425
-  bulk( 6) =  7.59
-  bulk( 7) =  0.0
-  bulk( 8) =  9.10
+  bulk( 1) = 48.68   
+  bulk( 2) =  1.01   
+  bulk( 3) = 17.64   
+  bulk( 4) =  0.89   
+  bulk( 5) =  0.0425 
+  bulk( 6) =  7.59   
+  bulk( 7) =  0.0    
+  bulk( 8) =  9.10   
   bulk( 9) =  0.0
   bulk(10) =  0.0
-  bulk(11) = 12.45
-  bulk(12) =  2.65
-  bulk(13) =  0.03
-  bulk(14) =  0.08
-  bulk(15) =  0.2
+  bulk(11) = 12.45   
+  bulk(12) =  2.65   
+  bulk(13) =  0.03   
+  bulk(14) =  0.08   
+  bulk(15) =  0.2    
   bulk(16) =  0.0
   bulk(17) =  0.0
   bulk(18) =  0.0
@@ -84,8 +84,8 @@ program test
 !   integer numphases [ return ]
 !   integer iterations [ return ]
 !   integer status [ return, pass to meltsgeterrorstring ]
-!   double precision properties (11+numoxides, 20) [ pre-allocated memory, column dimension must be large enough to hold 
-!                                                    all stable phases in system ]
+!   double precision properties (11+numoxides+3, 20) [ pre-allocated memory, column dimension must be large enough to hold 
+!                                                      all stable phases in system ]
 !
   call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, iterations, status, properties)
   print *, "... node = ", node
@@ -111,6 +111,9 @@ program test
     do j=1,numoxides
       print *, "...... composition ", oxides(j), " = ", properties(11+j, i)
     end do
+    print *, "...... volume fraction  = ", properties(11+numoxides+1, i)
+    print *, "...... density (kg/m^3) = ", properties(11+numoxides+2, i)
+    print *, "...... viscosity (Pa-s) = ", properties(11+numoxides+3, i)
   end do
   print *, "... iterations = ", iterations
   print *, "... status = ", status
@@ -157,6 +160,9 @@ program test
     do j=1,numoxides
       print *, "...... composition ", oxides(j), " = ", properties(11+j, i)
     end do
+    print *, "...... volume fraction  = ", properties(11+numoxides+1, i)
+    print *, "...... density (kg/m^3) = ", properties(11+numoxides+2, i)
+    print *, "...... viscosity (Pa-s) = ", properties(11+numoxides+3, i)
   end do
   print *, "... iterations = ", iterations
   print *, "... status = ", status

@@ -147,6 +147,7 @@ MELTS Source Code: RCS
 
 #ifndef BATCH_VERSION
 #include <Xm/Xm.h> 
+#include <Xm/ToggleBG.h>
 #include "interface.h"            /*Specific external declarations          */
 #endif
 
@@ -288,7 +289,13 @@ double linearSearch(double lambda, int *notcomp)
         muO2S = silminState->fo2*(R*silminState->T*log(10.0));
         saveHypoState = copySilminStateStructure(hypoState, saveHypoState);
         silminState   = copySilminStateStructure(hypoState, silminState);
-        subsolidusmuO2(0, &muO2S, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        if (!subsolidusmuO2(0, &muO2S, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+	  printf("FAILURE in subsolidus fO2 buffering routine.  Removing buffer constraint.\n");
+	  silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+          XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+	}
         hypoState   = copySilminStateStructure(silminState,     hypoState);
         silminState = copySilminStateStructure(saveSilminState, silminState);
         for (i=0; i<npc; i++) {
@@ -328,7 +335,13 @@ double linearSearch(double lambda, int *notcomp)
           hypoState->T  = constraints->T;
           saveHypoState = copySilminStateStructure(hypoState, saveHypoState);
           silminState   = copySilminStateStructure(hypoState, silminState);
-          subsolidusmuO2(0,  &muO2S, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+          if (!subsolidusmuO2(0, &muO2S, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+	    printf("FAILURE in subsolidus fO2 buffering routine.  Removing buffer constraint.\n");
+	    silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+            XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+	  }
           hypoState   = copySilminStateStructure(silminState,     hypoState);
           silminState = copySilminStateStructure(saveSilminState, silminState);
           for (i=0; i<npc; i++) {
@@ -432,7 +445,13 @@ double linearSearch(double lambda, int *notcomp)
           hypoState->T  = constraints->T;
           saveHypoState = copySilminStateStructure(hypoState, saveHypoState);
           silminState   = copySilminStateStructure(hypoState, silminState);
-          subsolidusmuO2(0,  &muO2S, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+          if (!subsolidusmuO2(0, &muO2S, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+	    printf("FAILURE in subsolidus fO2 buffering routine.  Removing buffer constraint.\n");
+	    silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+            XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+	  }
           hypoState   = copySilminStateStructure(silminState,     hypoState);
           silminState = copySilminStateStructure(saveSilminState, silminState);
           for (i=0; i<npc; i++) {
@@ -550,7 +569,13 @@ double linearSearch(double lambda, int *notcomp)
           hypoState->P  = constraints->P;
           saveHypoState = copySilminStateStructure(hypoState, saveHypoState);
           silminState   = copySilminStateStructure(hypoState, silminState);
-          subsolidusmuO2(0, &muO2S, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+          if (!subsolidusmuO2(0, &muO2S, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+	    printf("FAILURE in subsolidus fO2 buffering routine.  Removing buffer constraint.\n");
+	    silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+            XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+	  }
           hypoState   = copySilminStateStructure(silminState,     hypoState);
           silminState = copySilminStateStructure(saveSilminState, silminState);
           for (i=0; i<npc; i++) {

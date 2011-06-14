@@ -88,7 +88,9 @@ MELTS Source Code: RCS
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
 #include "recipes.h"
 
-#define DEBUG
+#ifdef DEBUG
+#undef DEBUG
+#endif
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))

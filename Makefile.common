@@ -75,6 +75,7 @@ usage:
 	echo "       Test_SACNK"
 	echo "       Test_SAK"
 	echo "       Test_simann"
+	echo "       Test_dynamicLib"
 	echo "       Kevin"
 	echo "       Marc"
 
@@ -115,6 +116,7 @@ realclean:
 	$(RM) $(RMFLAGS) Test_database-MS
 	$(RM) $(RMFLAGS) Test_database-SACNK
 	$(RM) $(RMFLAGS) Test_dn2gb
+	$(RM) $(RMFLAGS) Test_dynamicLib
 	$(RM) $(RMFLAGS) Test_entropy
 	$(RM) $(RMFLAGS) Test_entropy-MS
 	$(RM) $(RMFLAGS) Test_entropy-SACNK
@@ -171,12 +173,12 @@ $(MELTSLIB)(cummingtonite.o):            cummingtonite.c silmin.h mthread.h reci
 $(MELTSLIB)(debugMainLoop.o):            debugMainLoop.c interface.h
 $(MELTSLIB)(equality_constraints.o):     equality_constraints.c interface.h lawson_hanson.h recipes.h silmin.h mthread.h
 $(MELTSLIB)(est_saturation_state.o):     est_saturation_state.c lawson_hanson.h nash.h silmin.h mthread.h
+$(MELTSLIB)(est_satState_revised.o):     est_satState_revised.c silmin.h
 $(MELTSLIB)(evaluate_saturation.o):      evaluate_saturation.c interface.h silmin.h mthread.h recipes.h
 $(MELTSLIB)(feldspar.o):                 feldspar.c silmin.h mthread.h
 $(MELTSLIB)(fluid.o):                    fluid.c silmin.h mthread.h
 $(MELTSLIB)(frac.o):                     frac.c
 $(MELTSLIB)(garnet.o):                   garnet.c silmin.h mthread.h
-$(MELTSLIB)(gibbs.o):                    gibbs.c silmin.h mthread.h recipes.h
 $(MELTSLIB)(gradient_hessian.o):         gradient_hessian.c interface.h lawson_hanson.h recipes.h silmin.h mthread.h
 $(MELTSLIB)(hornblende.o):               hornblende.c silmin.h mthread.h
 $(MELTSLIB)(ilmenite.o):                 ilmenite.c silmin.h mthread.h
@@ -228,12 +230,12 @@ $(MELTSBATCHLIB)(clinopyroxene.o):            clinopyroxene.c recipes.h silmin.h
 $(MELTSBATCHLIB)(cummingtonite.o):            cummingtonite.c silmin.h mthread.h recipes.h
 $(MELTSBATCHLIB)(equality_constraints.o):     equality_constraints.c lawson_hanson.h recipes.h silmin.h mthread.h
 $(MELTSBATCHLIB)(est_saturation_state.o):     est_saturation_state.c lawson_hanson.h nash.h silmin.h mthread.h
+$(MELTSBATCHLIB)(est_satState_revised.o):     est_satState_revised.c silmin.h
 $(MELTSBATCHLIB)(evaluate_saturation.o):      evaluate_saturation.c silmin.h mthread.h recipes.h
 $(MELTSBATCHLIB)(feldspar.o):                 feldspar.c silmin.h mthread.h
 $(MELTSBATCHLIB)(fluid.o):                    fluid.c silmin.h mthread.h
 $(MELTSBATCHLIB)(frac.o):                     frac.c
 $(MELTSBATCHLIB)(garnet.o):                   garnet.c silmin.h mthread.h
-$(MELTSBATCHLIB)(gibbs.o):                    gibbs.c silmin.h mthread.h recipes.h
 $(MELTSBATCHLIB)(gradient_hessian.o):         gradient_hessian.c lawson_hanson.h recipes.h silmin.h mthread.h
 $(MELTSBATCHLIB)(hornblende.o):               hornblende.c silmin.h mthread.h
 $(MELTSBATCHLIB)(ilmenite.o):                 ilmenite.c silmin.h mthread.h
@@ -280,12 +282,12 @@ $(MELTSDYNAMICLIB)(clinopyroxene.o):            clinopyroxene.c recipes.h silmin
 $(MELTSDYNAMICLIB)(cummingtonite.o):            cummingtonite.c silmin.h mthread.h recipes.h
 $(MELTSDYNAMICLIB)(equality_constraints.o):     equality_constraints.c lawson_hanson.h recipes.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(est_saturation_state.o):     est_saturation_state.c lawson_hanson.h nash.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(est_satState_revised.o):     est_satState_revised.c silmin.h
 $(MELTSDYNAMICLIB)(evaluate_saturation.o):      evaluate_saturation.c silmin.h mthread.h recipes.h
 $(MELTSDYNAMICLIB)(feldspar.o):                 feldspar.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(fluid.o):                    fluid.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(frac.o):                     frac.c
 $(MELTSDYNAMICLIB)(garnet.o):                   garnet.c silmin.h mthread.h
-$(MELTSDYNAMICLIB)(gibbs.o):                    gibbs.c silmin.h mthread.h recipes.h
 $(MELTSDYNAMICLIB)(gradient_hessian.o):         gradient_hessian.c lawson_hanson.h recipes.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(hornblende.o):               hornblende.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(ilmenite.o):                 ilmenite.c silmin.h mthread.h
@@ -347,6 +349,7 @@ $(MELTSLIB): $(MELTSLIB)(albite.o) \
              $(MELTSLIB)(debugMainLoop.o) \
              $(MELTSLIB)(equality_constraints.o) \
              $(MELTSLIB)(est_saturation_state.o) \
+             $(MELTSLIB)(est_satState_revised.o) \
              $(MELTSLIB)(evaluate_saturation.o) \
              $(MELTSLIB)(feldspar.o) \
              $(MELTSLIB)(fluid.o) \
@@ -404,6 +407,7 @@ $(MELTSBATCHLIB): $(MELTSBATCHLIB)(albite.o) \
                   $(MELTSBATCHLIB)(cummingtonite.o) \
                   $(MELTSBATCHLIB)(equality_constraints.o) \
                   $(MELTSBATCHLIB)(est_saturation_state.o) \
+                  $(MELTSBATCHLIB)(est_satState_revised.o) \
                   $(MELTSBATCHLIB)(evaluate_saturation.o) \
                   $(MELTSBATCHLIB)(feldspar.o) \
                   $(MELTSBATCHLIB)(fluid.o) \
@@ -456,6 +460,7 @@ $(MELTSDYNAMICLIB): $(MELTSDYNAMICLIB)(albite.o) \
                     $(MELTSDYNAMICLIB)(cummingtonite.o) \
                     $(MELTSDYNAMICLIB)(equality_constraints.o) \
                     $(MELTSDYNAMICLIB)(est_saturation_state.o) \
+                    $(MELTSDYNAMICLIB)(est_satState_revised.o) \
                     $(MELTSDYNAMICLIB)(evaluate_saturation.o) \
                     $(MELTSDYNAMICLIB)(feldspar.o) \
                     $(MELTSDYNAMICLIB)(fluid.o) \
@@ -516,58 +521,58 @@ melts_support-SACNK.o: melts_support.c silmin.h mthread.h recipes.h
 # Melts main Program
 # ==================
 
-Analyze-fusion: analyze-fusion.c \
+Analyze-fusion: analyze-fusion.c gibbs.c \
                 silmin.h recipes.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
                 $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ analyze-fusion.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) analyze-fusion.o
+	$(CC) $(LDFLAGS) -o $@ analyze-fusion.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) analyze-fusion.o gibbs.o
 	chmod 755 $@
 
-Analyze-fusion-MS: analyze-fusion.c liquid-MS.o melts_support-MS.o \
+Analyze-fusion-MS: analyze-fusion.c gibbs.c liquid-MS.o melts_support-MS.o \
                    silmin.h recipes.h liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
                    $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ analyze-fusion.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) analyze-fusion.o
+	$(CC) $(LDFLAGS) -o $@ analyze-fusion.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) analyze-fusion.o gibbs.o
 	chmod 755 $@
 
-Analyze-water: analyze-water.c \
+Analyze-water: analyze-water.c gibbs.c \
                silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
                $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ analyze-water.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) analyze-water.o
+	$(CC) $(LDFLAGS) -o $@ analyze-water.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) analyze-water.o gibbs.o
 	chmod 755 $@
 
-Analyze-water-MS: analyze-water.c silmin.h liquid-MS.o melts_support-MS.o \
+Analyze-water-MS: analyze-water.c gibbs.c silmin.h liquid-MS.o melts_support-MS.o \
                   liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
                   $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ analyze-water.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) analyze-water.o
+	$(CC) $(LDFLAGS) -o $@ analyze-water.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) analyze-water.o gibbs.o
 	chmod 755 $@
 
-Entropy_reg: entropy_reg.c \
+Entropy_reg: entropy_reg.c gibbs.c \
              silmin.h recipes.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
              $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ entropy_reg.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) entropy_reg.o
+	$(CC) $(LDFLAGS) -o $@ entropy_reg.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) entropy_reg.o gibbs.o
 	chmod 755 $@
 
-Entropy_reg-MS: entropy_reg.c liquid-MS.o melts_support-MS.o \
+Entropy_reg-MS: entropy_reg.c gibbs.c liquid-MS.o melts_support-MS.o \
                 silmin.h recipes.h liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
                 $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ entropy_reg.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) entropy_reg.o
+	$(CC) $(LDFLAGS) -o $@ entropy_reg.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) entropy_reg.o gibbs.o
 	chmod 755 $@
 
 LinAndPelton: linAndPelton.c
@@ -594,7 +599,7 @@ Make_species_map: make_species_map.c \
 	$(RM) $(RMFLAGS) make_species_map.o
 	chmod 755 $@
 
-Melts: interface.c preclb.c preclb_slave.c postclb.c simann.o \
+Melts: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
        calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h \
        sol_struct_data.h vframe.h vheader.h vlist.h \
        sources/melts.icon $(MELTSLIB) 
@@ -619,12 +624,16 @@ Melts: interface.c preclb.c preclb_slave.c postclb.c simann.o \
 	$(CC) $(CFLAGS) sources/preclb.c
 	$(CC) $(CFLAGS) sources/preclb_slave.c
 	$(CC) $(CFLAGS) sources/postclb.c
-	$(FC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o $(MELTSLIB) $(LIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(CC) $(CFLAGS) sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
+	$(FC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	      $(MELTSLIB) $(LIBS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
 
-Melts-MS: interface.c preclb.c preclb_slave.c postclb.c liquid-MS.o melts_support-MS.o simann.o \
-          calibration.h interface.h recipes.h res_struct_data.h silmin.h mthread.h \
+Melts-MS: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c \
+          liquid-MS.o melts_support-MS.o simann.o calibration.h interface.h recipes.h res_struct_data.h silmin.h mthread.h \
           liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
           vframe.h vlist.h vheader.h \
           sources/melts.icon $(MELTSLIB)
@@ -650,12 +659,16 @@ Melts-MS: interface.c preclb.c preclb_slave.c postclb.c liquid-MS.o melts_suppor
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION sources/preclb.c
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION sources/preclb_slave.c
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION sources/postclb.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-MS.o melts_support-MS.o simann.o $(MELTSLIB) $(LIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(CC) $(CFLAGS) sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
+	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-MS.o melts_support-MS.o simann.o \
+	       gibbs.o evaluate_saturation.o check_coexisting_solids.o$(MELTSLIB) $(LIBS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
 
-Melts-SACNK: interface.c preclb.c preclb_slave.c postclb.c liquid-SACNK.o melts_support-SACNK.o simann.o \
-          calibration.h interface.h recipes.h res_struct_data.h silmin.h mthread.h \
+Melts-SACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c \
+          liquid-SACNK.o melts_support-SACNK.o simann.o calibration.h interface.h recipes.h res_struct_data.h silmin.h mthread.h \
           liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
           vframe.h vheader.h vlist.h \
           sources/melts.icon $(MELTSLIB) 
@@ -681,11 +694,15 @@ Melts-SACNK: interface.c preclb.c preclb_slave.c postclb.c liquid-SACNK.o melts_
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb.c
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb_slave.c
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/postclb.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-SACNK.o melts_support-SACNK.o simann.o $(MELTSLIB) $(LIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(CC) $(CFLAGS) sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
+	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-SACNK.o melts_support-SACNK.o simann.o \
+	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSLIB) $(LIBS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
 
-Melts-mpi: interface.c preclb.c preclb_slave.c postclb.c simann.o \
+Melts-mpi: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
        calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
        vframe.h vheader.h vlist.h \
        sources/melts.icon $(MELTSLIB)
@@ -709,18 +726,23 @@ Melts-mpi: interface.c preclb.c preclb_slave.c postclb.c simann.o \
            sources/interface.c
 	$(CC) $(CFLAGS) $(MPICCFLAGS) sources/preclb.c
 	$(CC) $(CFLAGS) $(MPICCFLAGS) sources/postclb.c
-	$(CC) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o $(MELTSLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(CC) $(CFLAGS) sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
+	$(CC) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	      $(MELTSLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
 	chmod 755 Melts-master
 	$(MAKE) Melts-batch
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
 	$(CC) $(CFLAGS) $(MPICCFLAGS) sources/preclb_slave.c
-	$(CC) $(LDFLAGS) -o Melts-slave preclb_slave.o simann.o $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
+	$(CC) $(LDFLAGS) -o Melts-slave preclb_slave.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	      $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 Melts-slave
 	touch $@
 
-Melts-mSACNK: interface.c preclb.c preclb_slave.c postclb.c liquid-SACNK.o melts_support-SACNK.o simann.o \
-          calibration.h interface.h recipes.h res_struct_data.h silmin.h mthread.h \
+Melts-mSACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c \
+          liquid-SACNK.o melts_support-SACNK.o simann.o calibration.h interface.h recipes.h res_struct_data.h silmin.h mthread.h \
           liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
           vframe.h vheader.h vlist.h \
           sources/melts.icon $(MELTSLIB)
@@ -745,13 +767,18 @@ Melts-mSACNK: interface.c preclb.c preclb_slave.c postclb.c liquid-SACNK.o melts
            sources/interface.c
 	$(CC) $(CFLAGS) $(MPICCFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb.c
 	$(CC) $(CFLAGS) $(MPICCFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/postclb.c
-	$(CC) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(CC) $(CFLAGS) sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
+	$(CC) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o liquid-SACNK.o melts_support-SACNK.o \
+	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
 	chmod 755 Melts-master
 	$(MAKE) Melts-batch
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
 	$(CC) $(CFLAGS) $(MPICCFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb_slave.c
-	$(CC) $(LDFLAGS) -o Melts-slave preclb_slave.o liquid-SACNK.o melts_support-SACNK.o simann.o $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
+	$(CC) $(LDFLAGS) -o Melts-slave preclb_slave.o liquid-SACNK.o melts_support-SACNK.o simann.o \
+	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 Melts-slave
 	touch $@
 
@@ -759,7 +786,7 @@ Melts-batch: interface.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
              param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
              albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c check_coexisting_liquids.c \
              check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
-             est_saturation_state.c evaluate_saturation.c feldspar.c fluid.c frac.c garnet.c \
+             est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c frac.c garnet.c \
              gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
              linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
              nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
@@ -772,7 +799,7 @@ Melts-batchPrivate: interface.c \
                     $(MELTSBATCHLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o Melts-batch interface.o $(MELTSBATCHLIB) $(LIBBATCH)
+	$(CC) $(LDFLAGS) -o Melts-batch interface.o gibbs.o $(MELTSBATCHLIB) $(LIBBATCH)
 	$(RM) $(RMFLAGS) interface.o
 	chmod 755 Melts-batch
 
@@ -780,7 +807,7 @@ Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
                param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
                albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c check_coexisting_liquids.c \
                check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
-               est_saturation_state.c evaluate_saturation.c feldspar.c fluid.c frac.c garnet.c \
+               est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c frac.c garnet.c \
                gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
                linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
                nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
@@ -789,13 +816,13 @@ Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
 	$(RM) $(RMFLAGS) $(RMFILE) 
 	$(MAKE) Melts-dynamicPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS"
 
-Melts-dynamicPrivate: test_dynamicLib.f $(MELTSDYNAMICLIB) $(MELTSDYLIB)
+Melts-dynamicPrivate: test_dynamicLib.f gibbs.c $(MELTSDYNAMICLIB) $(MELTSDYLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSDYNAMICLIB)
 	gfortran -o Test_dynamicLib -ffree-form $< $(LIBMELTSDYNAMIC) $(LIBBATCH)
 	$(RM) $(RMFLAGS) test_dynamicLib.o
 	chmod 755 Test_dynamicLib
 
-Melts-public: interface.c preclb.c preclb_slave.c postclb.c simann.o \
+Melts-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
               calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
               vframe.h vheader.h vlist.h \
               sources/melts.icon $(MELTSLIB) 
@@ -820,11 +847,15 @@ Melts-public: interface.c preclb.c preclb_slave.c postclb.c simann.o \
 	$(CC) $(CFLAGS) sources/preclb.c
 	$(CC) $(CFLAGS) sources/preclb_slave.c
 	$(CC) $(CFLAGS) sources/postclb.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(CC) $(CFLAGS) sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
+	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	      $(MELTSLIB) $(PUBLIBS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
 
-Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c simann.o \
+Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
                 calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
                 vframe.h vheader.h vlist.h \
                 sources/melts.icon $(MELTSLIB) 
@@ -850,8 +881,11 @@ Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c simann.o \
 	$(CC) $(CFLAGS) sources/preclb_slave.c
 	$(CC) $(CFLAGS) sources/postclb.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/check_coexisting_solids.c
+	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	      $(MELTSLIB) $(PUBLIBS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
 
 Test_a-x_relations: test_a-x_relations.c \
@@ -983,32 +1017,32 @@ Test_fo2: test_fo2.c \
 	$(RM) $(RMFLAGS) test_fo2.o
 	chmod 755 $@
 
-Test_gibbs: test_gibbs.c \
+Test_gibbs: test_gibbs.c gibbs.c \
             liq_struct_data.h silmin.h param_struct_data.h sol_struct_data.h recipes.h \
             $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_gibbs.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) test_gibbs.o
+	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
 	chmod 755 $@
 
-Test_gibbs-MS: test_gibbs.c liquid-MS.o melts_support-MS.o \
+Test_gibbs-MS: test_gibbs.c gibbs.c liquid-MS.o melts_support-MS.o \
                recipes.h silmin.h liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
                $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) test_gibbs.o
+	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
 	chmod 755 $@
 
-Test_gibbs-SACNK: test_gibbs.c liquid-SACNK.o melts_support-SACNK.o \
+Test_gibbs-SACNK: test_gibbs.c gibbs.c liquid-SACNK.o melts_support-SACNK.o \
                   recipes.h silmin.h liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
                   sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
                   $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_gibbs.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
-	$(RM) $(RMFLAGS) test_gibbs.o
+	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
 	chmod 755 $@
 
 Test_liquid: test_liquid.c \
@@ -1018,6 +1052,15 @@ Test_liquid: test_liquid.c \
 	$(CC) $(CFLAGS) $<
 	$(CC) $(LDFLAGS) -o $@ test_liquid.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_liquid.o
+	chmod 755 $@
+
+Convert_liquid: convert-liquid.c \
+             interface.h silmin.h recipes.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
+             $(MELTSLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) -fwritable-strings $<
+	$(CC) $(LDFLAGS) -o $@ convert-liquid.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) convert-liquid.o
 	chmod 755 $@
 
 Test_liquid-MS: test_liquid.c liquid-MS.o melts_support-MS.o \

@@ -23,14 +23,14 @@ MELTS_HARDWARE_VERSION = 2 GHz Intel Core 2 Duo
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 3.0
-MELTS_OS_VERSION       = Mac OS X - 10.6.3
+MELTS_OS_VERSION       = Mac OS X - 10.6.7
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
 MELTS_X_VERSION        = X11R6/OpenMotif3
-MELTS_RELEASE_DATE     = November 2009
-MELTS_RELEASE_VERSION  = 5.6.0 (Mac OS X - 10.6.3, gcc 4.2.1, 64 bit)
+MELTS_RELEASE_DATE     = April 2011
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.0 (rhyolite) (Mac OS X - 10.6.7, gcc 4.2.1, 64 bit)
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================

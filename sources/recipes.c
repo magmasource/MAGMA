@@ -173,7 +173,15 @@ void gaussj(double **a, int n, double **b, int m)
     }
     indxr[i]=irow;
     indxc[i]=icol;
-    if (a[icol][icol] == 0.0) nrerror("gaussj: Singular Matrix-2");
+    if (a[icol][icol] == 0.0) {
+      /* original: nrerror("gaussj: Singular Matrix-2");            */
+      /* Returns the identity matrix as inverse instead of aborting */
+      for (i=1; i<=n; i++) {
+        for (j=1; j<=n; j++) a[i][j] = 0.0;
+	a[i][i] = 1.0; 
+      }
+      return;
+    }
     pivinv=1.0/a[icol][icol];
     a[icol][icol]=1.0;
     for (l=1;l<=n;l++) a[icol][l] *= pivinv;
