@@ -66,9 +66,9 @@ LDFLAGS =
 # for staticcally linked OpenMotif3 use    instead of -L/sw/lib -lMrm -lXm
 # ========================================================================================================
 
-LIBS    = -L/sw/lib -lMrm -lXm -L/usr/local/grace/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
+LIBS    = -L/opt/local/lib -lMrm -lXm -L/usr/local/grace/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
           ../port3/libport.a /sw/lib/libf2c.a
-PUBLIBS = /sw/lib/libMrm.a /sw/lib/libXm.a -L/usr/local/grace/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
+PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a -L/usr/local/grace/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
           ../port3/libport.a /sw/lib/libf2c.a
 LIBF2C = /sw/lib/libf2c.a
 LIBXML = -L/sw/lib -lxml2
