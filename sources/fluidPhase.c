@@ -17,7 +17,7 @@ const char *fluidPhase_ver(void) {
 #define NR         1
 #define NS         0
 #define NA         2
-#define FR0(i)     (i == 0) ? 1.0 - x[0] : - x[0]
+#define FR0(i)     (i == 1) ? 1.0 - r[0] : - r[0]
 #define DFR0DR0(i) - 1.0
 
 #define R          8.3143
@@ -1374,8 +1374,8 @@ static void idealGasCO2(double t, double *cp, double *s0, double *h0, double *dc
 }  
 
 static void duan(double t, double p, double x[2], double *vPt, double *zPt, double phi[2], double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2, 
-                 double dlnphidt[2], double dlnphidp[2], double d2lnphidt2[2], double d2lnphidtdp[2], double d2lnphidp2[2]) {
-  double bv, cv, dv, ev, fv, beta, gammav, v, z, dzdv, dzdt, d2zdv2, d2zdvdt, d2zdt2;
+                 double dlnphidt[2], double dlnphidp[2], double d2lnphidt2[2], double d2lnphidtdp[2], double d2lnphidp2[2], double dlnphidr[2]) {
+  double bv, cv, dv, ev, fv, beta, gammav, v, z, dzdv, dzdt, d2zdv2, d2zdvdt, d2zdt2, dzdn[2];
   double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2, d3bvdt3, d3cvdt3, d3dvdt3, d3evdt3, d3fvdt3;
   double bvPrime[2], cvPrime[2], dvPrime[2], evPrime[2], fvPrime[2], betaPrime[2], gammavPrime[2];
   double b2vPrime2[2][2], c2vPrime2[2][2], d2vPrime2[2][2], e2vPrime2[2][2], f2vPrime2[2][2], gamma2vPrime2[2][2];
@@ -1384,6 +1384,7 @@ static void duan(double t, double p, double x[2], double *vPt, double *zPt, doub
 	 dfvPrimedt[2], d2fvPrimedt2[2], d3fvPrimedt3[2];
   double zRef, vRef, phiRef[2], lnPhiH2O, lnPhiCO2, dlnPhiH2Odv, dlnPhiCO2dv, dlnPhiH2Odt, dlnPhiCO2dt;
   double d2lnPhiH2Odv2, d2lnPhiCO2dv2, d2lnPhiH2Odt2, d2lnPhiCO2dt2, d2lnPhiH2Odvdt, d2lnPhiCO2dvdt;
+  double dlnPhiH2OdnH2O, dlnPhiH2OdnCO2, dlnPhiCO2dnH2O, dlnPhiCO2dnCO2;
   int useLowPcoeff, iter;
   
   zRef = 1.0;	  
@@ -1520,6 +1521,175 @@ static void duan(double t, double p, double x[2], double *vPt, double *zPt, doub
 	 - 2.0*(fv/v/v) * (gammav/v/v/v) * exp(-gammav/v/v)
 	 + 2.0*(fv/v/v) * (beta + gammav/v/v) * (gammav/v/v/v) * exp(-gammav/v/v);
   dzdt = dbvdt/v + dcvdt/v/v + ddvdt/v/v/v/v + devdt/v/v/v/v/v + (dfvdt/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
+  
+  dzdn[H2O] = 1.0 - z + bvPrime[H2O]/v + cvPrime[H2O]/v/v + dvPrime[H2O]/v/v/v/v + evPrime[H2O]/v/v/v/v/v 
+            + (fvPrime[H2O]/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v)
+	    + (fv/v/v) * (betaPrime[H2O] + gammavPrime[H2O]/v/v) * exp(-gammav/v/v)
+	    - (fv/v/v/v/v) * (gammavPrime[H2O]-gammav) * (beta + gammav/v/v) * exp(-gammav/v/v);
+  dzdn[CO2] = 1.0 - z + bvPrime[CO2]/v + cvPrime[CO2]/v/v + dvPrime[CO2]/v/v/v/v + evPrime[CO2]/v/v/v/v/v 
+            + (fvPrime[CO2]/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v)
+	    + (fv/v/v) * (betaPrime[CO2] + gammavPrime[CO2]/v/v) * exp(-gammav/v/v)
+	    - (fv/v/v/v/v) * (gammavPrime[CO2]-gammav) * (beta + gammav/v/v) * exp(-gammav/v/v);
+	    
+  { /* Second derivative block */
+    double H1, H2, H3, H4, H5, H6;
+    double dbvPrimedn, dcvPrimedn, ddvPrimedn, devPrimedn, dfvPrimedn, dgammavPrimedn, dfvdn, dbetadn, dgammavdn;
+    double dH1dn, dH2dn, dH3dn, dH4dn, dH5dn, dH6dn;
+    
+    /* H2O - H2O */
+    H1 = (fvPrime[H2O]*beta + betaPrime[H2O]*fv)/2.0/gammav;
+    H2 = exp(-gammav/v/v);
+    H3 = (fvPrime[H2O]*gammav + gammavPrime[H2O]*fv - fv*beta*(gammavPrime[H2O]-gammav))/2.0/gammav/gammav;
+    H4 = gammav/v/v + 1.0;
+    H5 = (gammavPrime[H2O]-gammav)*fv/2.0/gammav/gammav;
+    H6 = gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0;
+    
+    dbvPrimedn     =         -bvPrime[H2O] +     b2vPrime2[H2O][H2O];
+    dcvPrimedn     =     -2.0*cvPrime[H2O] +     c2vPrime2[H2O][H2O];
+    ddvPrimedn     =     -4.0*dvPrime[H2O] +     d2vPrime2[H2O][H2O];
+    devPrimedn     =     -5.0*evPrime[H2O] +     e2vPrime2[H2O][H2O];
+    dfvPrimedn     =         -fvPrime[H2O] +     f2vPrime2[H2O][H2O];
+    dgammavPrimedn = -2.0*gammavPrime[H2O] + gamma2vPrime2[H2O][H2O];
+    
+    dfvdn     =     fvPrime[H2O] - 2.0*fv;
+    dbetadn   =   betaPrime[H2O] - beta;
+    dgammavdn = gammavPrime[H2O] - 3.0*gammav;
+    
+    dH1dn = (dfvPrimedn*beta + fvPrime[H2O]*dbetadn + betaPrime[H2O]*dfvdn)/2.0/gammav 
+          - (fvPrime[H2O]*beta + betaPrime[H2O]*fv)*dgammavdn/2.0/gammav/gammav;
+    dH2dn = (- 2.0*gammav/v/v - dgammavdn/v/v)*exp(-gammav/v/v);
+    dH3dn = (dfvPrimedn*gammav + fvPrime[H2O]*dgammavdn)/2.0/gammav/gammav
+          + (dgammavPrimedn*fv + gammavPrime[H2O]*dfvdn)/2.0/gammav/gammav
+	  - (dfvdn*beta*(gammavPrime[H2O]-gammav) + fv*dbetadn*(gammavPrime[H2O]-gammav) + fv*beta*(dgammavPrimedn-dgammavdn))/2.0/gammav/gammav
+	  - 2.0*(fvPrime[H2O]*gammav + gammavPrime[H2O]*fv - fv*beta*(gammavPrime[H2O]-gammav))*dgammavdn/2.0/gammav/gammav/gammav;
+    dH4dn = 2.0*gammav/v/v + dgammavdn/v/v;
+    dH5dn = (dgammavPrimedn-dgammavdn)*fv/2.0/gammav/gammav
+          + (gammavPrime[H2O]-gammav)*dfvdn/2.0/gammav/gammav
+	  - 2.0*(gammavPrime[H2O]-gammav)*fv*dgammavdn/2.0/gammav/gammav/gammav;
+    dH6dn = 4.0*gammav*gammav/v/v/v/v + 2.0*gammav*dgammavdn/v/v/v/v + 4.0*gammav/v/v + 2.0*dgammavdn/v/v;
+
+    dlnPhiH2OdnH2O  = 0.0;
+    dlnPhiH2OdnH2O += -dzdn[H2O]/z;
+    dlnPhiH2OdnH2O += bvPrime[H2O]/v         + dbvPrimedn/v;
+    dlnPhiH2OdnH2O += cvPrime[H2O]/v/v       + dcvPrimedn/2.0/v/v;
+    dlnPhiH2OdnH2O += dvPrime[H2O]/v/v/v/v   + ddvPrimedn/4.0/v/v/v/v;
+    dlnPhiH2OdnH2O += evPrime[H2O]/v/v/v/v/v + devPrimedn/5.0/v/v/v/v/v;
+    dlnPhiH2OdnH2O += dH1dn*(1.0-H2) - H1*dH2dn;
+    dlnPhiH2OdnH2O += dH3dn*(1.0-H4*H2) - H3*(dH4dn*H2 + H4*dH2dn);
+    dlnPhiH2OdnH2O += dH5dn*(H6*H2-2.0) + H5*(dH6dn*H2 + H6*dH2dn);
+
+    /* H2O - CO2 */
+    dbvPrimedn     =         -bvPrime[H2O] +     b2vPrime2[H2O][CO2];
+    dcvPrimedn     =     -2.0*cvPrime[H2O] +     c2vPrime2[H2O][CO2];
+    ddvPrimedn     =     -4.0*dvPrime[H2O] +     d2vPrime2[H2O][CO2];
+    devPrimedn     =     -5.0*evPrime[H2O] +     e2vPrime2[H2O][CO2];
+    dfvPrimedn     =         -fvPrime[H2O] +     f2vPrime2[H2O][CO2];
+    dgammavPrimedn = -2.0*gammavPrime[H2O] + gamma2vPrime2[H2O][CO2];
+    
+    dfvdn     =     fvPrime[CO2] - 2.0*fv;
+    dbetadn   =   betaPrime[CO2] - beta;
+    dgammavdn = gammavPrime[CO2] - 3.0*gammav;
+    
+    dH1dn = (dfvPrimedn*beta + fvPrime[H2O]*dbetadn + betaPrime[H2O]*dfvdn)/2.0/gammav 
+          - (fvPrime[H2O]*beta + betaPrime[H2O]*fv)*dgammavdn/2.0/gammav/gammav;
+    dH2dn = (- 2.0*gammav/v/v - dgammavdn/v/v)*exp(-gammav/v/v);
+    dH3dn = (dfvPrimedn*gammav + fvPrime[H2O]*dgammavdn)/2.0/gammav/gammav
+          + (dgammavPrimedn*fv + gammavPrime[H2O]*dfvdn)/2.0/gammav/gammav
+	  - (dfvdn*beta*(gammavPrime[H2O]-gammav) + fv*dbetadn*(gammavPrime[H2O]-gammav) + fv*beta*(dgammavPrimedn-dgammavdn))/2.0/gammav/gammav
+	  - 2.0*(fvPrime[H2O]*gammav + gammavPrime[H2O]*fv - fv*beta*(gammavPrime[H2O]-gammav))*dgammavdn/2.0/gammav/gammav/gammav;
+    dH4dn = 2.0*gammav/v/v + dgammavdn/v/v;
+    dH5dn = (dgammavPrimedn-dgammavdn)*fv/2.0/gammav/gammav
+          + (gammavPrime[H2O]-gammav)*dfvdn/2.0/gammav/gammav
+	  - 2.0*(gammavPrime[H2O]-gammav)*fv*dgammavdn/2.0/gammav/gammav/gammav;
+    dH6dn = 4.0*gammav*gammav/v/v/v/v + 2.0*gammav*dgammavdn/v/v/v/v + 4.0*gammav/v/v + 2.0*dgammavdn/v/v;
+    
+    dlnPhiH2OdnCO2  = 0.0;
+    dlnPhiH2OdnCO2 += -dzdn[CO2]/z;
+    dlnPhiH2OdnCO2 += bvPrime[H2O]/v         + dbvPrimedn/v;
+    dlnPhiH2OdnCO2 += cvPrime[H2O]/v/v       + dcvPrimedn/2.0/v/v;
+    dlnPhiH2OdnCO2 += dvPrime[H2O]/v/v/v/v   + ddvPrimedn/4.0/v/v/v/v;
+    dlnPhiH2OdnCO2 += evPrime[H2O]/v/v/v/v/v + devPrimedn/5.0/v/v/v/v/v;
+    dlnPhiH2OdnCO2 += dH1dn*(1.0-H2) - H1*dH2dn;
+    dlnPhiH2OdnCO2 += dH3dn*(1.0-H4*H2) - H3*(dH4dn*H2 + H4*dH2dn);
+    dlnPhiH2OdnCO2 += dH5dn*(H6*H2-2.0) + H5*(dH6dn*H2 + H6*dH2dn);
+
+    /* CO2 - H2O */
+    H1 = (fvPrime[CO2]*beta + betaPrime[CO2]*fv)/2.0/gammav;
+    H2 = exp(-gammav/v/v);
+    H3 = (fvPrime[CO2]*gammav + gammavPrime[CO2]*fv - fv*beta*(gammavPrime[CO2]-gammav))/2.0/gammav/gammav;
+    H4 = gammav/v/v + 1.0;
+    H5 = (gammavPrime[CO2]-gammav)*fv/2.0/gammav/gammav;
+    H6 = gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0;
+    
+    dbvPrimedn     =         -bvPrime[CO2] +     b2vPrime2[CO2][H2O];
+    dcvPrimedn     =     -2.0*cvPrime[CO2] +     c2vPrime2[CO2][H2O];
+    ddvPrimedn     =     -4.0*dvPrime[CO2] +     d2vPrime2[CO2][H2O];
+    devPrimedn     =     -5.0*evPrime[CO2] +     e2vPrime2[CO2][H2O];
+    dfvPrimedn     =         -fvPrime[CO2] +     f2vPrime2[CO2][H2O];
+    dgammavPrimedn = -2.0*gammavPrime[CO2] + gamma2vPrime2[CO2][H2O];
+    
+    dfvdn     =     fvPrime[H2O] - 2.0*fv;
+    dbetadn   =   betaPrime[H2O] - beta;
+    dgammavdn = gammavPrime[H2O] - 3.0*gammav;
+    
+    dH1dn = (dfvPrimedn*beta + fvPrime[CO2]*dbetadn + betaPrime[CO2]*dfvdn)/2.0/gammav 
+          - (fvPrime[CO2]*beta + betaPrime[CO2]*fv)*dgammavdn/2.0/gammav/gammav;
+    dH2dn = (- 2.0*gammav/v/v - dgammavdn/v/v)*exp(-gammav/v/v);
+    dH3dn = (dfvPrimedn*gammav + fvPrime[CO2]*dgammavdn)/2.0/gammav/gammav
+          + (dgammavPrimedn*fv + gammavPrime[CO2]*dfvdn)/2.0/gammav/gammav
+	  - (dfvdn*beta*(gammavPrime[CO2]-gammav) + fv*dbetadn*(gammavPrime[CO2]-gammav) + fv*beta*(dgammavPrimedn-dgammavdn))/2.0/gammav/gammav
+	  - 2.0*(fvPrime[CO2]*gammav + gammavPrime[CO2]*fv - fv*beta*(gammavPrime[CO2]-gammav))*dgammavdn/2.0/gammav/gammav/gammav;
+    dH4dn = 2.0*gammav/v/v + dgammavdn/v/v;
+    dH5dn = (dgammavPrimedn-dgammavdn)*fv/2.0/gammav/gammav
+          + (gammavPrime[CO2]-gammav)*dfvdn/2.0/gammav/gammav
+	  - 2.0*(gammavPrime[CO2]-gammav)*fv*dgammavdn/2.0/gammav/gammav/gammav;
+    dH6dn = 4.0*gammav*gammav/v/v/v/v + 2.0*gammav*dgammavdn/v/v/v/v + 4.0*gammav/v/v + 2.0*dgammavdn/v/v;
+    
+    dlnPhiCO2dnH2O  = 0.0;
+    dlnPhiCO2dnH2O += -dzdn[H2O]/z;
+    dlnPhiCO2dnH2O += bvPrime[CO2]/v         + dbvPrimedn/v;
+    dlnPhiCO2dnH2O += cvPrime[CO2]/v/v       + dcvPrimedn/2.0/v/v;
+    dlnPhiCO2dnH2O += dvPrime[CO2]/v/v/v/v   + ddvPrimedn/4.0/v/v/v/v;
+    dlnPhiCO2dnH2O += evPrime[CO2]/v/v/v/v/v + devPrimedn/5.0/v/v/v/v/v;
+    dlnPhiCO2dnH2O += dH1dn*(1.0-H2) - H1*dH2dn;
+    dlnPhiCO2dnH2O += dH3dn*(1.0-H4*H2) - H3*(dH4dn*H2 + H4*dH2dn);
+    dlnPhiCO2dnH2O += dH5dn*(H6*H2-2.0) + H5*(dH6dn*H2 + H6*dH2dn);
+
+    /* CO2 - CO2 */
+    dbvPrimedn     =         -bvPrime[CO2] +     b2vPrime2[CO2][CO2];
+    dcvPrimedn     =     -2.0*cvPrime[CO2] +     c2vPrime2[CO2][CO2];
+    ddvPrimedn     =     -4.0*dvPrime[CO2] +     d2vPrime2[CO2][CO2];
+    devPrimedn     =     -5.0*evPrime[CO2] +     e2vPrime2[CO2][CO2];
+    dfvPrimedn     =         -fvPrime[CO2] +     f2vPrime2[CO2][CO2];
+    dgammavPrimedn = -2.0*gammavPrime[CO2] + gamma2vPrime2[CO2][CO2];
+    
+    dfvdn     =     fvPrime[CO2] - 2.0*fv;
+    dbetadn   =   betaPrime[CO2] - beta;
+    dgammavdn = gammavPrime[CO2] - 3.0*gammav;
+    
+    dH1dn = (dfvPrimedn*beta + fvPrime[CO2]*dbetadn + betaPrime[CO2]*dfvdn)/2.0/gammav 
+          - (fvPrime[CO2]*beta + betaPrime[CO2]*fv)*dgammavdn/2.0/gammav/gammav;
+    dH2dn = (- 2.0*gammav/v/v - dgammavdn/v/v)*exp(-gammav/v/v);
+    dH3dn = (dfvPrimedn*gammav + fvPrime[CO2]*dgammavdn)/2.0/gammav/gammav
+          + (dgammavPrimedn*fv + gammavPrime[CO2]*dfvdn)/2.0/gammav/gammav
+	  - (dfvdn*beta*(gammavPrime[CO2]-gammav) + fv*dbetadn*(gammavPrime[CO2]-gammav) + fv*beta*(dgammavPrimedn-dgammavdn))/2.0/gammav/gammav
+	  - 2.0*(fvPrime[CO2]*gammav + gammavPrime[CO2]*fv - fv*beta*(gammavPrime[CO2]-gammav))*dgammavdn/2.0/gammav/gammav/gammav;
+    dH4dn = 2.0*gammav/v/v + dgammavdn/v/v;
+    dH5dn = (dgammavPrimedn-dgammavdn)*fv/2.0/gammav/gammav
+          + (gammavPrime[CO2]-gammav)*dfvdn/2.0/gammav/gammav
+	  - 2.0*(gammavPrime[CO2]-gammav)*fv*dgammavdn/2.0/gammav/gammav/gammav;
+    dH6dn = 4.0*gammav*gammav/v/v/v/v + 2.0*gammav*dgammavdn/v/v/v/v + 4.0*gammav/v/v + 2.0*dgammavdn/v/v;
+    
+    dlnPhiCO2dnCO2  = 0.0;
+    dlnPhiCO2dnCO2 += -dzdn[CO2]/z;
+    dlnPhiCO2dnCO2 += bvPrime[CO2]/v         + dbvPrimedn/v;
+    dlnPhiCO2dnCO2 += cvPrime[CO2]/v/v       + dcvPrimedn/2.0/v/v;
+    dlnPhiCO2dnCO2 += dvPrime[CO2]/v/v/v/v   + ddvPrimedn/4.0/v/v/v/v;
+    dlnPhiCO2dnCO2 += evPrime[CO2]/v/v/v/v/v + devPrimedn/5.0/v/v/v/v/v;
+    dlnPhiCO2dnCO2 += dH1dn*(1.0-H2) - H1*dH2dn;
+    dlnPhiCO2dnCO2 += dH3dn*(1.0-H4*H2) - H3*(dH4dn*H2 + H4*dH2dn);
+    dlnPhiCO2dnCO2 += dH5dn*(H6*H2-2.0) + H5*(dH6dn*H2 + H6*dH2dn);
+  }
 
   dlnPhiH2Odv  = 0.0;
   dlnPhiH2Odv += -dzdv/z;
@@ -1664,6 +1834,10 @@ static void duan(double t, double p, double x[2], double *vPt, double *zPt, doub
 
   d2lnphidp2[H2O] = d2lnPhiH2Odv2*(*dvdp)*(*dvdp) + dlnPhiH2Odv*(*d2vdp2);
   d2lnphidp2[CO2] = d2lnPhiCO2dv2*(*dvdp)*(*dvdp) + dlnPhiCO2dv*(*d2vdp2);
+  
+  /* dV/dr = R*t*(dlnphidp[CO2] - dlnphidp[H2O]) */
+  dlnphidr[H2O] = dlnPhiH2Odv*R*t*(dlnphidp[CO2] - dlnphidp[H2O]) - dlnPhiH2OdnH2O + dlnPhiH2OdnCO2;
+  dlnphidr[CO2] = dlnPhiCO2dv*R*t*(dlnphidp[CO2] - dlnphidp[H2O]) - dlnPhiCO2dnH2O + dlnPhiCO2dnCO2;
 }
 
 static void duanH2O(double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2,
@@ -2339,24 +2513,18 @@ actFlu(int mask, double t, double p, double *r,
   double **dx /* (pointer to dx[][]) d(a[])/d(x[])        BINARY MASK: 0100 */
   )           /* exclusion criteria applied to results if BINARY MASK: 1000 */
 {
-  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2]; 
+  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2], dlnphidr[2]; 
   double vH2O, vCO2, zH2O, zCO2, phiH2O, phiCO2, dvdtH2O, dvdpH2O, dvdtCO2, dvdpCO2, d2vdt2H2O, 
          d2vdtdpH2O, d2vdp2H2O, d2vdt2CO2, d2vdtdpCO2, d2vdp2CO2, dlnphidtH2O, dlnphidtCO2, dlnphidpH2O, dlnphidpCO2,
 	 d2lnphidt2H2O, d2lnphidtdpH2O, d2lnphidp2H2O, d2lnphidt2CO2, d2lnphidtdpCO2, d2lnphidp2CO2;
-  double g, dgdr[NR], fr[NA][NR];
   int i, j;
 
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 
-  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2);
+  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O(t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2(t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
-  
-  for(i=0; i<NA; i++) fr[i][0] = FR0(i);
-
-  g       = 0.0;
-  dgdr[0] = 0.0;
 
   if (mask & FIRST) {
     a[H2O] = (phiH2O != 0.0) ? x[H2O]*phi[H2O]/phiH2O : 0.0;
@@ -2369,10 +2537,15 @@ actFlu(int mask, double t, double p, double *r,
   }
 
   if (mask & THIRD) {
+    double g, dgdr[NR], fr[NA][NR];
     double d2gdr2[NR][NR], dfrdr[NA][NR], sum;
     int k;
 
-    d2gdr2[0][0] = 0.0;
+    for(i=0; i<NA; i++) fr[i][0] = FR0(i);
+
+    g            = ((phi[H2O] != 0.0) && (phi[CO2] != 0.0)) ? R*t*(x[H2O]*log(x[H2O]*phi[H2O]/phiH2O) + x[CO2]*log(x[CO2]*phi[CO2]/phiCO2)) : 0.0;
+    dgdr[0]      = ((phi[H2O] != 0.0) && (phi[CO2] != 0.0)) ? R*t*(log(x[CO2]*phi[CO2]/phiCO2) - log(x[H2O]*phi[H2O]/phiH2O))               : 0.0;
+    d2gdr2[0][0] = ((phi[H2O] != 0.0) && (phi[CO2] != 0.0)) ? R*t*(1.0/x[CO2] + 1.0/x[H2O] - dlnphidr[H2O] + dlnphidr[CO2])                 : 0.0;
 
     for(i=0; i<NA; i++) dfrdr[i][0] = DFR0DR0(i);
 
@@ -2411,7 +2584,7 @@ gmixFlu(int mask, double t, double p, double *r,
   double ***dx3 /* (pointer to dx3[][][]) d3(g)/d(x[])3 NARY MASK: 1000 */
   )
 {
-  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2]; 
+  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2], dlnphidr[2]; 
   double vH2O, vCO2, zH2O, zCO2, phiH2O, phiCO2, dvdtH2O, dvdpH2O, dvdtCO2, dvdpCO2, d2vdt2H2O, 
          d2vdtdpH2O, d2vdp2H2O, d2vdt2CO2, d2vdtdpCO2, d2vdp2CO2, dlnphidtH2O, dlnphidtCO2, dlnphidpH2O, dlnphidpCO2,
 	 d2lnphidt2H2O, d2lnphidtdpH2O, d2lnphidp2H2O, d2lnphidt2CO2, d2lnphidtdpCO2, d2lnphidp2CO2;
@@ -2425,7 +2598,7 @@ gmixFlu(int mask, double t, double p, double *r,
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 
-  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2);
+  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O(t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2(t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
 
@@ -2434,14 +2607,14 @@ gmixFlu(int mask, double t, double p, double *r,
   }
   
   if(mask & SECOND) {
-    dx[0] = ((phi[H2O] != 0.0) && (phi[CO2] != 0.0)) ? R*t*(log(x[CO2]*phi[CO2]/phiCO2) - log(x[H2O]*phi[H2O]/phiH2O)) : 0.0;;
+    dx[0] = ((phi[H2O] != 0.0) && (phi[CO2] != 0.0)) ? R*t*(log(x[CO2]*phi[CO2]/phiCO2) - log(x[H2O]*phi[H2O]/phiH2O)) : 0.0;
   }
 
   if(mask & THIRD) {
     double d2gdr2[NR][NR];
     int i, j;
 
-    d2gdr2[0][0] = 0.0;
+    d2gdr2[0][0] = R*t*(1.0/x[CO2] + 1.0/x[H2O] - dlnphidr[H2O] + dlnphidr[CO2]);
 
     for (i=0; i<NR; i++) {
        for (j=0; j<NR; j++) dx2[i][j] = d2gdr2[i][j];
@@ -2464,11 +2637,28 @@ gmixFlu(int mask, double t, double p, double *r,
 }
 
 void 
-hmixFlu(int mask, double t, double p, double *x, 
+hmixFlu(int mask, double t, double p, double *r, 
   double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
   )
 {
-  *hmix = 0.0;
+  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2], dlnphidr[2]; 
+  double vH2O, vCO2, zH2O, zCO2, phiH2O, phiCO2, dvdtH2O, dvdpH2O, dvdtCO2, dvdpCO2, d2vdt2H2O, 
+         d2vdtdpH2O, d2vdp2H2O, d2vdt2CO2, d2vdtdpCO2, d2vdp2CO2, dlnphidtH2O, dlnphidtCO2, dlnphidpH2O, dlnphidpCO2,
+	 d2lnphidt2H2O, d2lnphidtdpH2O, d2lnphidp2H2O, d2lnphidt2CO2, d2lnphidtdpCO2, d2lnphidp2CO2;
+
+  x[H2O] = 1.0 - r[0];
+  x[CO2] = r[0];
+
+  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
+  duanH2O(t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
+  duanCO2(t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
+
+  if ((phi[H2O] != 0.0) && (phi[CO2] != 0.0)) {
+    *hmix  = R*(x[H2O]*log(x[H2O]) + x[H2O]*log(phi[H2O]) - x[H2O]*log(phiH2O) + x[CO2]*log(x[CO2]) + x[CO2]*log(phi[CO2]) - x[CO2]*log(phiCO2)) 
+    	   + R*t*(x[H2O]*dlnphidt[H2O] - x[H2O]*dlnphidtH2O + x[CO2]*dlnphidt[CO2] - x[CO2]*dlnphidtCO2);
+    *hmix *= -t;
+    *hmix +=  R*t*(x[H2O]*log(x[H2O]*phi[H2O]/phiH2O) + x[CO2]*log(x[CO2]*phi[CO2]/phiCO2));
+  } else *hmix = 0.0;
 }
 
 void 
@@ -2478,7 +2668,7 @@ smixFlu(int mask, double t, double p, double *r,
   double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
   )
 {
-  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2]; 
+  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2], dlnphidr[2]; 
   double vH2O, vCO2, zH2O, zCO2, phiH2O, phiCO2, dvdtH2O, dvdpH2O, dvdtCO2, dvdpCO2, d2vdt2H2O, 
          d2vdtdpH2O, d2vdp2H2O, d2vdt2CO2, d2vdtdpCO2, d2vdp2CO2, dlnphidtH2O, dlnphidtCO2, dlnphidpH2O, dlnphidpCO2,
 	 d2lnphidt2H2O, d2lnphidtdpH2O, d2lnphidp2H2O, d2lnphidt2CO2, d2lnphidtdpCO2, d2lnphidp2CO2;
@@ -2486,7 +2676,7 @@ smixFlu(int mask, double t, double p, double *r,
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 
-  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2);
+  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O(t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2(t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
 
@@ -2529,7 +2719,7 @@ cpmixFlu(int mask, double t, double p, double *r,
   double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
   )
 {
-  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2]; 
+  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2], dlnphidr[2]; 
   double vH2O, vCO2, zH2O, zCO2, phiH2O, phiCO2, dvdtH2O, dvdpH2O, dvdtCO2, dvdpCO2, d2vdt2H2O, 
          d2vdtdpH2O, d2vdp2H2O, d2vdt2CO2, d2vdtdpCO2, d2vdp2CO2, dlnphidtH2O, dlnphidtCO2, dlnphidpH2O, dlnphidpCO2,
 	 d2lnphidt2H2O, d2lnphidtdpH2O, d2lnphidp2H2O, d2lnphidt2CO2, d2lnphidtdpCO2, d2lnphidp2CO2;
@@ -2538,7 +2728,7 @@ cpmixFlu(int mask, double t, double p, double *r,
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 
-  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2);
+  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O(t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2(t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
 
@@ -2584,7 +2774,7 @@ vmixFlu(int mask, double t, double p, double *r,
   double *dxdp  /* d2(v)/d(x[])d(p)                BINARY MASK: 1000000000 */
   )
 {
-  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2]; 
+  double x[2], v, z, phi[2], dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt[2], dlnphidp[2], d2lnphidt2[2], d2lnphidtdp[2], d2lnphidp2[2], dlnphidr[2]; 
   double vH2O, vCO2, zH2O, zCO2, phiH2O, phiCO2, dvdtH2O, dvdpH2O, dvdtCO2, dvdpCO2, d2vdt2H2O, 
          d2vdtdpH2O, d2vdp2H2O, d2vdt2CO2, d2vdtdpCO2, d2vdp2CO2, dlnphidtH2O, dlnphidtCO2, dlnphidpH2O, dlnphidpCO2,
 	 d2lnphidt2H2O, d2lnphidtdpH2O, d2lnphidp2H2O, d2lnphidt2CO2, d2lnphidtdpCO2, d2lnphidp2CO2;
@@ -2592,7 +2782,7 @@ vmixFlu(int mask, double t, double p, double *r,
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 
-  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2);
+  duan(t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O(t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2(t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
 
