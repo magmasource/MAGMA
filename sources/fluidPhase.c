@@ -1373,8 +1373,10 @@ static void idealGasCO2(double t, double *cp, double *s0, double *h0, double *dc
   *dcpdt *= 8.31451/1000.0;
 }  
 
-static void duan(int useLowPcoeff, double t, double p, double x[2], double *vPt, double *zPt, double phi[2], double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2, 
-                 double dlnphidt[2], double dlnphidp[2], double d2lnphidt2[2], double d2lnphidtdp[2], double d2lnphidp2[2], double dlnphidr[2]) {
+static void duanDriver(int useLowPcoeff, double t, double p, double x[2], 
+  double *vPt, double *zPt, double phi[2], double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2, 
+  double dlnphidt[2], double dlnphidp[2], double d2lnphidt2[2], double d2lnphidtdp[2], double d2lnphidp2[2], double dlnphidr[2]) {
+  
   double bv, cv, dv, ev, fv, beta, gammav, v, z, dzdv, dzdt, d2zdv2, d2zdvdt, d2zdt2, dzdn[2];
   double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2, d3bvdt3, d3cvdt3, d3dvdt3, d3evdt3, d3fvdt3;
   double bvPrime[2], cvPrime[2], dvPrime[2], evPrime[2], fvPrime[2], betaPrime[2], gammavPrime[2];
@@ -1382,63 +1384,11 @@ static void duan(int useLowPcoeff, double t, double p, double x[2], double *vPt,
   double dbvPrimedt[2], d2bvPrimedt2[2], d3bvPrimedt3[2], dcvPrimedt[2], d2cvPrimedt2[2], d3cvPrimedt3[2], 
          ddvPrimedt[2], d2dvPrimedt2[2], d3dvPrimedt3[2], devPrimedt[2], d2evPrimedt2[2], d3evPrimedt3[2], 
 	 dfvPrimedt[2], d2fvPrimedt2[2], d3fvPrimedt3[2];
-  double zRef, vRef, phiRef[2], lnPhiH2O, lnPhiCO2, dlnPhiH2Odv, dlnPhiCO2dv, dlnPhiH2Odt, dlnPhiCO2dt;
+  double lnPhiH2O, lnPhiCO2, dlnPhiH2Odv, dlnPhiCO2dv, dlnPhiH2Odt, dlnPhiCO2dt;
   double d2lnPhiH2Odv2, d2lnPhiCO2dv2, d2lnPhiH2Odt2, d2lnPhiCO2dt2, d2lnPhiH2Odvdt, d2lnPhiCO2dvdt;
   double dlnPhiH2OdnH2O, dlnPhiH2OdnCO2, dlnPhiCO2dnH2O, dlnPhiCO2dnCO2;
   int iter;
-  
-  zRef = 1.0;	  
-  vRef = DBL_MAX; 
-  phiRef[H2O] = 1.0;
-  phiRef[CO2] = 1.0;
-  
-  if (!useLowPcoeff) {
-    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
-    CVcAndDerivative	(1, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
-    DVcAndDerivative	(1, t, x, &dv,     dvPrime,    &ddvdt,    &d2dvdt2,  &d3dvdt3, ddvPrimedt, d2dvPrimedt2, d3dvPrimedt3, d2vPrime2);
-    EVcAndDerivative	(1, t, x, &ev,     evPrime,    &devdt,    &d2evdt2,  &d3evdt3, devPrimedt, d2evPrimedt2, d3evPrimedt3, e2vPrime2);
-    FVcAndDerivative	(1, t, x, &fv,     fvPrime,    &dfvdt,    &d2fvdt2,  &d3fvdt3, dfvPrimedt, d2fvPrimedt2, d3fvPrimedt3, f2vPrime2);
-    BetaAndDerivative	(1, t, x, &beta,   betaPrime);
-    GammaVcAndDerivative(1, t, x, &gammav, gammavPrime, gamma2vPrime2);
     
-    iter = 0;
-    v = 8.314467*t/2000.0;
-    while (iter < 100) {
-      double delv;
-      z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-      delv = z*8.314467*t/2000.0 - v;
-      if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-      v = (z*8.314467*t/2000.0 + v)/2.0;
-      iter++;
-    }
-    if (iter >= 100) printf("zRef = %g, vRef = %g, iter = %d\n", z, v, iter);
-    
-    lnPhiH2O  = log(phiRef[H2O]);
-    lnPhiH2O += -log(z) + log(zRef);
-    lnPhiH2O += bvPrime[H2O]/v;
-    lnPhiH2O += cvPrime[H2O]/2.0/v/v;
-    lnPhiH2O += dvPrime[H2O]/4.0/v/v/v/v;
-    lnPhiH2O += evPrime[H2O]/5.0/v/v/v/v/v;
-    lnPhiH2O += ((fvPrime[H2O]*beta + betaPrime[H2O]*fv)/2.0/gammav)*(1.0-exp(-gammav/v/v));
-    lnPhiH2O += ((fvPrime[H2O]*gammav+gammavPrime[H2O]*fv-fv*beta*(gammavPrime[H2O]-gammav))/2.0/gammav/gammav)
-    	       *(1.0 - (gammav/v/v + 1.0)*exp(-gammav/v/v));
-    lnPhiH2O += ((gammavPrime[H2O]-gammav)*fv/2.0/gammav/gammav)*(-2.0 + (gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0)*exp(-gammav/v/v));
-    
-    lnPhiCO2  = log(phiRef[CO2]);
-    lnPhiCO2 += -log(z) + log(zRef);
-    lnPhiCO2 += bvPrime[CO2]/v;
-    lnPhiCO2 += cvPrime[CO2]/2.0/v/v;
-    lnPhiCO2 += dvPrime[CO2]/4.0/v/v/v/v;
-    lnPhiCO2 += evPrime[CO2]/5.0/v/v/v/v/v;
-    lnPhiCO2 += ((fvPrime[CO2]*beta + betaPrime[CO2]*fv)/2.0/gammav)*(1.0-exp(-gammav/v/v));
-    lnPhiCO2 += ((fvPrime[CO2]*gammav+gammavPrime[CO2]*fv-fv*beta*(gammavPrime[CO2]-gammav))/2.0/gammav/gammav)
-    	       *(1.0 - (gammav/v/v + 1.0)*exp(-gammav/v/v));
-    lnPhiCO2 += ((gammavPrime[CO2]-gammav)*fv/2.0/gammav/gammav)*(-2.0 + (gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0)*exp(-gammav/v/v));
-
-    phiRef[H2O] = exp(lnPhiH2O);
-    phiRef[CO2] = exp(lnPhiCO2);
-  }
-  
   BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
   DVcAndDerivative    (useLowPcoeff, t, x, &dv,     dvPrime,	&ddvdt,    &d2dvdt2,  &d3dvdt3, ddvPrimedt, d2dvPrimedt2, d3dvPrimedt3, d2vPrime2);
@@ -1447,22 +1397,6 @@ static void duan(int useLowPcoeff, double t, double p, double x[2], double *vPt,
   BetaAndDerivative   (useLowPcoeff, t, x, &beta,   betaPrime);
   GammaVcAndDerivative(useLowPcoeff, t, x, &gammav, gammavPrime, gamma2vPrime2);
   
-  if (!useLowPcoeff) {
-    iter = 0;
-    v = 8.314467*t/2000.0;
-    while (iter < 100) {
-      double delv;
-      z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-      delv = z*8.314467*t/2000.0 - v;
-      if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-      v = (z*8.314467*t/2000.0 + v)/2.0;
-      iter++;
-    }
-    if (iter >= 100) printf("zRef = %g, vRef = %g, iter = %d\n", z, v, iter);
-    zRef = z;
-    vRef = v;
-  }
-
   iter = 0;
   v = 8.314467*t/p;
   while (iter < 100) {
@@ -1485,19 +1419,6 @@ static void duan(int useLowPcoeff, double t, double p, double x[2], double *vPt,
   lnPhiH2O += ((fvPrime[H2O]*gammav+gammavPrime[H2O]*fv-fv*beta*(gammavPrime[H2O]-gammav))/2.0/gammav/gammav)
              *(1.0 - (gammav/v/v + 1.0)*exp(-gammav/v/v));
   lnPhiH2O += ((gammavPrime[H2O]-gammav)*fv/2.0/gammav/gammav)*(-2.0 + (gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0)*exp(-gammav/v/v));
-  if (!useLowPcoeff) {
-    lnPhiH2O += log(phiRef[H2O]);
-    lnPhiH2O -= -log(zRef);
-    lnPhiH2O -= bvPrime[H2O]/vRef;			 
-    lnPhiH2O -= cvPrime[H2O]/2.0/vRef/vRef;		 
-    lnPhiH2O -= dvPrime[H2O]/4.0/vRef/vRef/vRef/vRef;	 
-    lnPhiH2O -= evPrime[H2O]/5.0/vRef/vRef/vRef/vRef/vRef;
-    lnPhiH2O -= ((fvPrime[H2O]*beta + betaPrime[H2O]*fv)/2.0/gammav)*(1.0-exp(-gammav/vRef/vRef));
-    lnPhiH2O -= ((fvPrime[H2O]*gammav+gammavPrime[H2O]*fv-fv*beta*(gammavPrime[H2O]-gammav))/2.0/gammav/gammav)
-               *(1.0 - (gammav/vRef/vRef + 1.0)*exp(-gammav/vRef/vRef));
-    lnPhiH2O -= ((gammavPrime[H2O]-gammav)*fv/2.0/gammav/gammav)
-               *(-2.0 + (gammav*gammav/vRef/vRef/vRef/vRef + 2.0*gammav/vRef/vRef + 2.0)*exp(-gammav/vRef/vRef));
-  }
 
   lnPhiCO2  = 0.0;
   lnPhiCO2 += -log(z);
@@ -1509,19 +1430,6 @@ static void duan(int useLowPcoeff, double t, double p, double x[2], double *vPt,
   lnPhiCO2 += ((fvPrime[CO2]*gammav+gammavPrime[CO2]*fv-fv*beta*(gammavPrime[CO2]-gammav))/2.0/gammav/gammav)
              *(1.0 - (gammav/v/v + 1.0)*exp(-gammav/v/v));
   lnPhiCO2 += ((gammavPrime[CO2]-gammav)*fv/2.0/gammav/gammav)*(-2.0 + (gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0)*exp(-gammav/v/v));
-  if (!useLowPcoeff) {
-    lnPhiCO2 += log(phiRef[CO2]);
-    lnPhiCO2 -= -log(zRef);
-    lnPhiCO2 -= bvPrime[CO2]/vRef;		 
-    lnPhiCO2 -= cvPrime[CO2]/2.0/vRef/vRef; 
-    lnPhiCO2 -= dvPrime[CO2]/4.0/vRef/vRef/vRef/vRef;
-    lnPhiCO2 -= evPrime[CO2]/5.0/vRef/vRef/vRef/vRef/vRef;
-    lnPhiCO2 -= ((fvPrime[CO2]*beta + betaPrime[CO2]*fv)/2.0/gammav)*(1.0-exp(-gammav/vRef/vRef));
-    lnPhiCO2 -= ((fvPrime[CO2]*gammav+gammavPrime[CO2]*fv-fv*beta*(gammavPrime[CO2]-gammav))/2.0/gammav/gammav)
-               *(1.0 - (gammav/vRef/vRef + 1.0)*exp(-gammav/vRef/vRef));
-    lnPhiCO2 -= ((gammavPrime[CO2]-gammav)*fv/2.0/gammav/gammav)
-               *(-2.0 + (gammav*gammav/vRef/vRef/vRef/vRef + 2.0*gammav/vRef/vRef + 2.0)*exp(-gammav/vRef/vRef));
-  }
   
   dzdv = - bv/v/v - 2.0*cv/v/v/v + - 4.0*dv/v/v/v/v/v - 5.0*ev/v/v/v/v/v/v 
          - 2.0*(fv/v/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v)
@@ -1847,7 +1755,39 @@ static void duan(int useLowPcoeff, double t, double p, double x[2], double *vPt,
   dlnphidr[CO2] = dlnPhiCO2dv*R*t*(dlnphidp[CO2] - dlnphidp[H2O]) - dlnPhiCO2dnH2O + dlnPhiCO2dnCO2;
 }
 
-static void duanH2O(int useLowPcoeff, double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2,
+static void duan(int useLowPcoeff, double t, double p, double x[2], 
+  double *vPt, double *zPt, double phi[2], double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2, 
+  double dlnphidt[2], double dlnphidp[2], double d2lnphidt2[2], double d2lnphidtdp[2], double d2lnphidp2[2], double dlnphidr[2]) {
+  
+  duanDriver(useLowPcoeff, t, p, x, vPt, zPt, phi, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
+  
+  if (!useLowPcoeff) {
+    double vRef, zRef, phiRef[2], dvdtRef, dvdpRef, d2vdt2Ref, d2vdtdpRef, d2vdp2Ref, dlnphidtRef[2], dlnphidpRef[2], d2lnphidt2Ref[2], d2lnphidtdpRef[2], d2lnphidp2Ref[2], dlnphidrRef[2];
+    
+    duanDriver(1, t, 2000.0, x, &vRef, &zRef, phiRef, &dvdtRef, &dvdpRef, &d2vdt2Ref, &d2vdtdpRef, &d2vdp2Ref, dlnphidtRef, dlnphidpRef, d2lnphidt2Ref, d2lnphidtdpRef, d2lnphidp2Ref, dlnphidrRef);
+    phi[H2O]         *= phiRef[H2O];	
+    phi[CO2]         *= phiRef[CO2];
+    dlnphidt[H2O]    += dlnphidtRef[H2O];
+    dlnphidt[CO2]    += dlnphidtRef[CO2];
+    d2lnphidt2[H2O]  += d2lnphidt2Ref[H2O];
+    d2lnphidt2[CO2]  += d2lnphidt2Ref[CO2];
+    dlnphidr[H2O]    += dlnphidrRef[H2O];
+    dlnphidr[CO2]    += dlnphidrRef[CO2];
+
+    duanDriver(0, t, 2000.0, x, &vRef, &zRef, phiRef, &dvdtRef, &dvdpRef, &d2vdt2Ref, &d2vdtdpRef, &d2vdp2Ref, dlnphidtRef, dlnphidpRef, d2lnphidt2Ref, d2lnphidtdpRef, d2lnphidp2Ref, dlnphidrRef);
+    phi[H2O]         /= phiRef[H2O];	
+    phi[CO2]         /= phiRef[CO2];
+    dlnphidt[H2O]    -= dlnphidtRef[H2O];
+    dlnphidt[CO2]    -= dlnphidtRef[CO2];
+    d2lnphidt2[H2O]  -= d2lnphidt2Ref[H2O];
+    d2lnphidt2[CO2]  -= d2lnphidt2Ref[CO2];
+    dlnphidr[H2O]    -= dlnphidrRef[H2O];
+    dlnphidr[CO2]    -= dlnphidrRef[CO2];
+  }
+  
+}
+
+static void duanH2ODriver(int useLowPcoeff, double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2,
   double *dlnphidt, double *dlnphidp, double *d2lnphidt2, double *d2lnphidtdp, double *d2lnphidp2) {
   double bv, cv, dv, ev, fv, beta, gammav, v, z, dzdv, dzdt, d2zdv2, d2zdvdt, d2zdt2;
   double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2, d3bvdt3, d3cvdt3, d3dvdt3, d3evdt3, d3fvdt3;
@@ -1856,49 +1796,10 @@ static void duanH2O(int useLowPcoeff, double t, double p, double *vPt, double *z
   double dbvPrimedt[2], d2bvPrimedt2[2], d3bvPrimedt3[2], dcvPrimedt[2], d2cvPrimedt2[2], d3cvPrimedt3[2], 
          ddvPrimedt[2], d2dvPrimedt2[2], d3dvPrimedt3[2], devPrimedt[2], d2evPrimedt2[2], d3evPrimedt3[2], 
 	 dfvPrimedt[2], d2fvPrimedt2[2], d3fvPrimedt3[2];
-  double zRef, vRef, phiRef, lnPhiH2O, dlnPhiH2Odv, dlnPhiH2Odt, d2lnPhiH2Odv2, d2lnPhiH2Odt2, d2lnPhiH2Odvdt;
+  double lnPhiH2O, dlnPhiH2Odv, dlnPhiH2Odt, d2lnPhiH2Odv2, d2lnPhiH2Odt2, d2lnPhiH2Odvdt;
   double x[2] = { 1.0, 0.0 }; /* H2O */
   int iter;
-  
-  zRef = 1.0;	  
-  vRef = DBL_MAX; 
-  phiRef = 1.0;
-  
-  if (!useLowPcoeff) {
-    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
-    CVcAndDerivative	(1, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
-    DVcAndDerivative	(1, t, x, &dv,     dvPrime,    &ddvdt,    &d2dvdt2,  &d3dvdt3, ddvPrimedt, d2dvPrimedt2, d3dvPrimedt3, d2vPrime2);
-    EVcAndDerivative	(1, t, x, &ev,     evPrime,    &devdt,    &d2evdt2,  &d3evdt3, devPrimedt, d2evPrimedt2, d3evPrimedt3, e2vPrime2);
-    FVcAndDerivative	(1, t, x, &fv,     fvPrime,    &dfvdt,    &d2fvdt2,  &d3fvdt3, dfvPrimedt, d2fvPrimedt2, d3fvPrimedt3, f2vPrime2);
-    BetaAndDerivative	(1, t, x, &beta,   betaPrime);
-    GammaVcAndDerivative(1, t, x, &gammav, gammavPrime, gamma2vPrime2);
     
-    iter = 0;
-    v = 8.314467*t/2000.0;
-    while (iter < 100) {
-      double delv;
-      z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-      delv = z*8.314467*t/2000.0 - v;
-      if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-      v = (z*8.314467*t/2000.0 + v)/2.0;
-      iter++;
-    }
-    if (iter >= 100) printf("zRef = %g, vRef = %g, iter = %d\n", z, v, iter);
-    
-    lnPhiH2O  = log(phiRef);
-    lnPhiH2O += -log(z) + log(zRef);
-    lnPhiH2O += bvPrime[H2O]/v;
-    lnPhiH2O += cvPrime[H2O]/2.0/v/v;
-    lnPhiH2O += dvPrime[H2O]/4.0/v/v/v/v;
-    lnPhiH2O += evPrime[H2O]/5.0/v/v/v/v/v;
-    lnPhiH2O += ((fvPrime[H2O]*beta + betaPrime[H2O]*fv)/2.0/gammav)*(1.0-exp(-gammav/v/v));
-    lnPhiH2O += ((fvPrime[H2O]*gammav+gammavPrime[H2O]*fv-fv*beta*(gammavPrime[H2O]-gammav))/2.0/gammav/gammav)
-    	       *(1.0 - (gammav/v/v + 1.0)*exp(-gammav/v/v));
-    lnPhiH2O += ((gammavPrime[H2O]-gammav)*fv/2.0/gammav/gammav)*(-2.0 + (gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0)*exp(-gammav/v/v));
-    
-    phiRef = exp(lnPhiH2O);
-  }
-  
   BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
   DVcAndDerivative    (useLowPcoeff, t, x, &dv,     dvPrime,	&ddvdt,    &d2dvdt2,  &d3dvdt3, ddvPrimedt, d2dvPrimedt2, d3dvPrimedt3, d2vPrime2);
@@ -1907,22 +1808,6 @@ static void duanH2O(int useLowPcoeff, double t, double p, double *vPt, double *z
   BetaAndDerivative   (useLowPcoeff, t, x, &beta,   betaPrime);
   GammaVcAndDerivative(useLowPcoeff, t, x, &gammav, gammavPrime, gamma2vPrime2);
   
-  if (!useLowPcoeff) {
-    iter = 0;
-    v = 8.314467*t/2000.0;
-    while (iter < 100) {
-      double delv;
-      z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-      delv = z*8.314467*t/2000.0 - v;
-      if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-      v = (z*8.314467*t/2000.0 + v)/2.0;
-      iter++;
-    }
-    if (iter >= 100) printf("zRef = %g, vRef = %g, iter = %d\n", z, v, iter);
-    zRef = z;
-    vRef = v;
-  }
-
   iter = 0;
   v = 8.314467*t/p;
   while (iter < 100) {
@@ -1945,19 +1830,6 @@ static void duanH2O(int useLowPcoeff, double t, double p, double *vPt, double *z
   lnPhiH2O += ((fvPrime[H2O]*gammav+gammavPrime[H2O]*fv-fv*beta*(gammavPrime[H2O]-gammav))/2.0/gammav/gammav)
              *(1.0 - (gammav/v/v + 1.0)*exp(-gammav/v/v));
   lnPhiH2O += ((gammavPrime[H2O]-gammav)*fv/2.0/gammav/gammav)*(-2.0 + (gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0)*exp(-gammav/v/v));
-  if (!useLowPcoeff) {
-    lnPhiH2O += log(phiRef);
-    lnPhiH2O -= -log(zRef);
-    lnPhiH2O -= bvPrime[H2O]/vRef;			 
-    lnPhiH2O -= cvPrime[H2O]/2.0/vRef/vRef;		 
-    lnPhiH2O -= dvPrime[H2O]/4.0/vRef/vRef/vRef/vRef;	 
-    lnPhiH2O -= evPrime[H2O]/5.0/vRef/vRef/vRef/vRef/vRef;
-    lnPhiH2O -= ((fvPrime[H2O]*beta + betaPrime[H2O]*fv)/2.0/gammav)*(1.0-exp(-gammav/vRef/vRef));
-    lnPhiH2O -= ((fvPrime[H2O]*gammav+gammavPrime[H2O]*fv-fv*beta*(gammavPrime[H2O]-gammav))/2.0/gammav/gammav)
-               *(1.0 - (gammav/vRef/vRef + 1.0)*exp(-gammav/vRef/vRef));
-    lnPhiH2O -= ((gammavPrime[H2O]-gammav)*fv/2.0/gammav/gammav)
-               *(-2.0 + (gammav*gammav/vRef/vRef/vRef/vRef + 2.0*gammav/vRef/vRef + 2.0)*exp(-gammav/vRef/vRef));
-  }
   
   dzdv = - bv/v/v - 2.0*cv/v/v/v + - 4.0*dv/v/v/v/v/v - 5.0*ev/v/v/v/v/v/v 
          - 2.0*(fv/v/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v)
@@ -2047,7 +1919,28 @@ static void duanH2O(int useLowPcoeff, double t, double p, double *vPt, double *z
   *d2lnphidp2  = d2lnPhiH2Odv2*(*dvdp)*(*dvdp) + dlnPhiH2Odv*(*d2vdp2);
 }
 
-static void duanCO2(int useLowPcoeff, double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2,
+static void duanH2O(int useLowPcoeff, double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2,
+  double *dlnphidt, double *dlnphidp, double *d2lnphidt2, double *d2lnphidtdp, double *d2lnphidp2) {
+  
+  duanH2ODriver(useLowPcoeff, t, p, vPt, zPt, phi, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2);
+  
+  if (!useLowPcoeff) {
+    double vRef, zRef, phiRef, dvdtRef, dvdpRef, d2vdt2Ref, d2vdtdpRef, d2vdp2Ref, dlnphidtRef, dlnphidpRef, d2lnphidt2Ref, d2lnphidtdpRef, d2lnphidp2Ref;
+    
+    duanH2ODriver(1, t, 2000.0, &vRef, &zRef, &phiRef, &dvdtRef, &dvdpRef, &d2vdt2Ref, &d2vdtdpRef, &d2vdp2Ref, &dlnphidtRef, &dlnphidpRef, &d2lnphidt2Ref, &d2lnphidtdpRef, &d2lnphidp2Ref);
+    *phi         *= phiRef;	
+    *dlnphidt    += dlnphidtRef;
+    *d2lnphidt2  += d2lnphidt2Ref;
+
+    duanH2ODriver(0, t, 2000.0, &vRef, &zRef, &phiRef, &dvdtRef, &dvdpRef, &d2vdt2Ref, &d2vdtdpRef, &d2vdp2Ref, &dlnphidtRef, &dlnphidpRef, &d2lnphidt2Ref, &d2lnphidtdpRef, &d2lnphidp2Ref);
+    *phi         /= phiRef;	
+    *dlnphidt    -= dlnphidtRef;
+    *d2lnphidt2  -= d2lnphidt2Ref;
+  }
+  
+}
+
+static void duanCO2Driver(int useLowPcoeff, double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2,
   double *dlnphidt, double *dlnphidp, double *d2lnphidt2, double *d2lnphidtdp, double *d2lnphidp2) {
   double bv, cv, dv, ev, fv, beta, gammav, v, z, dzdv, dzdt, d2zdv2, d2zdvdt, d2zdt2;
   double dbvdt, dcvdt, ddvdt, devdt, dfvdt, d2bvdt2, d2cvdt2, d2dvdt2, d2evdt2, d2fvdt2, d3bvdt3, d3cvdt3, d3dvdt3, d3evdt3, d3fvdt3;
@@ -2056,48 +1949,9 @@ static void duanCO2(int useLowPcoeff, double t, double p, double *vPt, double *z
   double dbvPrimedt[2], d2bvPrimedt2[2], d3bvPrimedt3[2], dcvPrimedt[2], d2cvPrimedt2[2], d3cvPrimedt3[2], 
          ddvPrimedt[2], d2dvPrimedt2[2], d3dvPrimedt3[2], devPrimedt[2], d2evPrimedt2[2], d3evPrimedt3[2], 
 	 dfvPrimedt[2], d2fvPrimedt2[2], d3fvPrimedt3[2];
-  double zRef, vRef, phiRef, lnPhiCO2, dlnPhiCO2dv, dlnPhiCO2dt, d2lnPhiCO2dv2, d2lnPhiCO2dt2, d2lnPhiCO2dvdt;
+  double lnPhiCO2, dlnPhiCO2dv, dlnPhiCO2dt, d2lnPhiCO2dv2, d2lnPhiCO2dt2, d2lnPhiCO2dvdt;
   double x[2] = { 0.0, 1.0 }; /* CO2 */
   int iter;
-  
-  zRef = 1.0;	  
-  vRef = DBL_MAX; 
-  phiRef = 1.0;
-  
-  if (!useLowPcoeff) {
-    BVcAndDerivative	(1, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
-    CVcAndDerivative	(1, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
-    DVcAndDerivative	(1, t, x, &dv,     dvPrime,    &ddvdt,    &d2dvdt2,  &d3dvdt3, ddvPrimedt, d2dvPrimedt2, d3dvPrimedt3, d2vPrime2);
-    EVcAndDerivative	(1, t, x, &ev,     evPrime,    &devdt,    &d2evdt2,  &d3evdt3, devPrimedt, d2evPrimedt2, d3evPrimedt3, e2vPrime2);
-    FVcAndDerivative	(1, t, x, &fv,     fvPrime,    &dfvdt,    &d2fvdt2,  &d3fvdt3, dfvPrimedt, d2fvPrimedt2, d3fvPrimedt3, f2vPrime2);
-    BetaAndDerivative	(1, t, x, &beta,   betaPrime);
-    GammaVcAndDerivative(1, t, x, &gammav, gammavPrime, gamma2vPrime2);
-    
-    iter = 0;
-    v = 8.314467*t/2000.0;
-    while (iter < 100) {
-      double delv;
-      z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-      delv = z*8.314467*t/2000.0 - v;
-      if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-      v = (z*8.314467*t/2000.0 + v)/2.0;
-      iter++;
-    }
-    if (iter >= 100) printf("zRef = %g, vRef = %g, iter = %d\n", z, v, iter);
-    
-    lnPhiCO2  = log(phiRef);
-    lnPhiCO2 += -log(z) + log(zRef);
-    lnPhiCO2 += bvPrime[CO2]/v;
-    lnPhiCO2 += cvPrime[CO2]/2.0/v/v;
-    lnPhiCO2 += dvPrime[CO2]/4.0/v/v/v/v;
-    lnPhiCO2 += evPrime[CO2]/5.0/v/v/v/v/v;
-    lnPhiCO2 += ((fvPrime[CO2]*beta + betaPrime[CO2]*fv)/2.0/gammav)*(1.0-exp(-gammav/v/v));
-    lnPhiCO2 += ((fvPrime[CO2]*gammav+gammavPrime[CO2]*fv-fv*beta*(gammavPrime[CO2]-gammav))/2.0/gammav/gammav)
-    	       *(1.0 - (gammav/v/v + 1.0)*exp(-gammav/v/v));
-    lnPhiCO2 += ((gammavPrime[CO2]-gammav)*fv/2.0/gammav/gammav)*(-2.0 + (gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0)*exp(-gammav/v/v));
-
-    phiRef = exp(lnPhiCO2);
-  }
   
   BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
@@ -2107,22 +1961,6 @@ static void duanCO2(int useLowPcoeff, double t, double p, double *vPt, double *z
   BetaAndDerivative   (useLowPcoeff, t, x, &beta,   betaPrime);
   GammaVcAndDerivative(useLowPcoeff, t, x, &gammav, gammavPrime, gamma2vPrime2);
   
-  if (!useLowPcoeff) {
-    iter = 0;
-    v = 8.314467*t/2000.0;
-    while (iter < 100) {
-      double delv;
-      z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-      delv = z*8.314467*t/2000.0 - v;
-      if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-      v = (z*8.314467*t/2000.0 + v)/2.0;
-      iter++;
-    }
-    if (iter >= 100) printf("zRef = %g, vRef = %g, iter = %d\n", z, v, iter);
-    zRef = z;
-    vRef = v;
-  }
-
   iter = 0;
   v = 8.314467*t/p;
   while (iter < 100) {
@@ -2145,19 +1983,6 @@ static void duanCO2(int useLowPcoeff, double t, double p, double *vPt, double *z
   lnPhiCO2 += ((fvPrime[CO2]*gammav+gammavPrime[CO2]*fv-fv*beta*(gammavPrime[CO2]-gammav))/2.0/gammav/gammav)
              *(1.0 - (gammav/v/v + 1.0)*exp(-gammav/v/v));
   lnPhiCO2 += ((gammavPrime[CO2]-gammav)*fv/2.0/gammav/gammav)*(-2.0 + (gammav*gammav/v/v/v/v + 2.0*gammav/v/v + 2.0)*exp(-gammav/v/v));
-  if (!useLowPcoeff) {
-    lnPhiCO2 += log(phiRef);
-    lnPhiCO2 -= -log(zRef);
-    lnPhiCO2 -= bvPrime[CO2]/vRef;		 
-    lnPhiCO2 -= cvPrime[CO2]/2.0/vRef/vRef; 
-    lnPhiCO2 -= dvPrime[CO2]/4.0/vRef/vRef/vRef/vRef;
-    lnPhiCO2 -= evPrime[CO2]/5.0/vRef/vRef/vRef/vRef/vRef;
-    lnPhiCO2 -= ((fvPrime[CO2]*beta + betaPrime[CO2]*fv)/2.0/gammav)*(1.0-exp(-gammav/vRef/vRef));
-    lnPhiCO2 -= ((fvPrime[CO2]*gammav+gammavPrime[CO2]*fv-fv*beta*(gammavPrime[CO2]-gammav))/2.0/gammav/gammav)
-               *(1.0 - (gammav/vRef/vRef + 1.0)*exp(-gammav/vRef/vRef));
-    lnPhiCO2 -= ((gammavPrime[CO2]-gammav)*fv/2.0/gammav/gammav)
-               *(-2.0 + (gammav*gammav/vRef/vRef/vRef/vRef + 2.0*gammav/vRef/vRef + 2.0)*exp(-gammav/vRef/vRef));
-  }
   
   dzdv = - bv/v/v - 2.0*cv/v/v/v + - 4.0*dv/v/v/v/v/v - 5.0*ev/v/v/v/v/v/v 
          - 2.0*(fv/v/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v)
@@ -2245,6 +2070,27 @@ static void duanCO2(int useLowPcoeff, double t, double p, double *vPt, double *z
   *d2lnphidt2  = d2lnPhiCO2dv2*(*dvdt)*(*dvdt) + 2.0*d2lnPhiCO2dvdt*(*dvdt) + dlnPhiCO2dv*(*d2vdt2) + d2lnPhiCO2dt2;
   *d2lnphidtdp = d2lnPhiCO2dv2*(*dvdt)*(*dvdp) + dlnPhiCO2dv*(*d2vdtdp) + d2lnPhiCO2dvdt*(*dvdp);
   *d2lnphidp2  = d2lnPhiCO2dv2*(*dvdp)*(*dvdp) + dlnPhiCO2dv*(*d2vdp2);
+}
+
+static void duanCO2(int useLowPcoeff, double t, double p, double *vPt, double *zPt, double *phi, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2,
+  double *dlnphidt, double *dlnphidp, double *d2lnphidt2, double *d2lnphidtdp, double *d2lnphidp2) {
+  
+  duanCO2Driver(useLowPcoeff, t, p, vPt, zPt, phi, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2);
+  
+  if (!useLowPcoeff) {
+    double vRef, zRef, phiRef, dvdtRef, dvdpRef, d2vdt2Ref, d2vdtdpRef, d2vdp2Ref, dlnphidtRef, dlnphidpRef, d2lnphidt2Ref, d2lnphidtdpRef, d2lnphidp2Ref;
+    
+    duanCO2Driver(1, t, 2000.0, &vRef, &zRef, &phiRef, &dvdtRef, &dvdpRef, &d2vdt2Ref, &d2vdtdpRef, &d2vdp2Ref, &dlnphidtRef, &dlnphidpRef, &d2lnphidt2Ref, &d2lnphidtdpRef, &d2lnphidp2Ref);
+    *phi         *= phiRef;	
+    *dlnphidt    += dlnphidtRef;
+    *d2lnphidt2  += d2lnphidt2Ref;
+
+    duanCO2Driver(0, t, 2000.0, &vRef, &zRef, &phiRef, &dvdtRef, &dvdpRef, &d2vdt2Ref, &d2vdtdpRef, &d2vdp2Ref, &dlnphidtRef, &dlnphidpRef, &d2lnphidt2Ref, &d2lnphidtdpRef, &d2lnphidp2Ref);
+    *phi         /= phiRef;	
+    *dlnphidt    -= dlnphidtRef;
+    *d2lnphidt2  -= d2lnphidt2Ref;
+  }
+  
 }
 
 /*
