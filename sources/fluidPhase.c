@@ -1348,6 +1348,9 @@ static void idealGasH2O(double t, double *cp, double *s0, double *h0, double *dc
   *h0    *= 8.31451*1000.0;
   *s0    *= 8.31451;
   *dcpdt *= 8.31451/1000.0;
+  
+  *h0 += - 355665.4136;
+  *s0 +=   359.6505;
 }  
 
 static void idealGasCO2(double t, double *cp, double *s0, double *h0, double *dcpdt) {
@@ -1356,8 +1359,8 @@ static void idealGasCO2(double t, double *cp, double *s0, double *h0, double *dc
   for (i=0, *cp=0.0; i<7; i++) *cp += idealCoeff[i][CO2]*pow(t/1000.0, (double) i);
   for (i=7; i<13; i++)         *cp += idealCoeff[i][CO2]/pow(t/1000.0, (double) (i-6));
   
-  for (i=1, *dcpdt=0.0; i<7; i++) *dcpdt +=  ((double) i)  *idealCoeff[i][H2O]*pow(t/1000.0, (double) i-1);
-  for (i=7; i<13; i++)            *dcpdt += -((double) i-6)*idealCoeff[i][H2O]/pow(t/1000.0, (double) (i+1-6));
+  for (i=1, *dcpdt=0.0; i<7; i++) *dcpdt +=  ((double) i)  *idealCoeff[i][CO2]*pow(t/1000.0, (double) i-1);
+  for (i=7; i<13; i++)            *dcpdt += -((double) i-6)*idealCoeff[i][CO2]/pow(t/1000.0, (double) (i+1-6));
   
   for (i=0, *h0=0.0; i<7; i++) *h0 += idealCoeff[i][CO2]*pow(t/1000.0, (double) (i+1))/((double) (i+1));
   			       *h0 += idealCoeff[7][CO2]*log(t/1000.0);
@@ -1371,6 +1374,9 @@ static void idealGasCO2(double t, double *cp, double *s0, double *h0, double *dc
   *h0    *= 8.31451*1000.0;
   *s0    *= 8.31451;
   *dcpdt *= 8.31451/1000.0;
+
+  *h0 += - 385358.2260;
+  *s0 +=   210.0304;
 }  
 
 static void duanDriver(int useLowPcoeff, double t, double p, double x[2], 
@@ -2106,11 +2112,19 @@ void propertiesOfPureH2O(double t, double p,
   idealGasH2O(t, cp, s, h, dcpdt);
   duanH2O((p <= 2000.0) ? 1 : 0, t, p, v, &z, &phi, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, &dlnphidt, &dlnphidp, &d2lnphidt2, &d2lnphidtdp, &d2lnphidp2);
 
-  *g = *h - t*(*s) + R*t*log(phi*p);
-       /* enthalpy requires correction      */
-       /* entropy requires correction       */
-       /* heat capacity requires correction */
-       /* dcpdt requires correction         */
+  *g      = *h - t*(*s) + R*t*log(phi*p);
+  *s     += - (R*log(phi*p) + R*t*dlnphidt);
+  *h     += R*t*log(phi*p) - t*(R*log(phi*p) + R*t*dlnphidt);
+  *cp    += -t*(2.0*R*dlnphidt + R*t*d2lnphidt2);
+  {
+    double zTemp, phiTemp, dlnphidtTemp, dlnphidpTemp, d2lnphidt2Temp, d2lnphidtdpTemp, d2lnphidp2Temp, vTemp, dvdtTemp, dvdpTemp, d2vdt2Temp, d2vdtdpTemp, d2vdp2Temp, d3lnphidt3;
+    
+    duanH2O((p <= 2000.0) ? 1 : 0, t*(1.0+sqrt(DBL_EPSILON)), p, &vTemp, &zTemp, &phiTemp, &dvdtTemp, &dvdpTemp, &d2vdt2Temp, &d2vdtdpTemp, &d2vdp2Temp, 
+            &dlnphidtTemp, &dlnphidpTemp, &d2lnphidt2Temp, &d2lnphidtdpTemp, &d2lnphidp2Temp);
+	     
+    d3lnphidt3 = (d2lnphidt2Temp - d2lnphidt2)/t/sqrt(DBL_EPSILON);
+    *dcpdt += -(2.0*R*dlnphidt + R*t*d2lnphidt2) -t*(3.0*R*d2lnphidt2 + R*t*d3lnphidt3);
+  }
 } 
 
 void propertiesOfPureCO2(double t, double p, 
@@ -2122,10 +2136,18 @@ void propertiesOfPureCO2(double t, double p,
   duanCO2((p <= 2000.0) ? 1 : 0, t, p, v, &z, &phi, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, &dlnphidt, &dlnphidp, &d2lnphidt2, &d2lnphidtdp, &d2lnphidp2);
 
   *g = *h - t*(*s) + R*t*log(phi*p);
-       /* enthalpy requires correction      */
-       /* entropy requires correction       */
-       /* heat capacity requires correction */
-       /* dcpdt requires correction         */
+  *s     += - (R*log(phi*p) + R*t*dlnphidt);
+  *h     += R*t*log(phi*p) - t*(R*log(phi*p) + R*t*dlnphidt);
+  *cp    += -t*(2.0*R*dlnphidt + R*t*d2lnphidt2);
+  {
+    double zTemp, phiTemp, dlnphidtTemp, dlnphidpTemp, d2lnphidt2Temp, d2lnphidtdpTemp, d2lnphidp2Temp, vTemp, dvdtTemp, dvdpTemp, d2vdt2Temp, d2vdtdpTemp, d2vdp2Temp, d3lnphidt3;
+    
+    duanCO2((p <= 2000.0) ? 1 : 0, t*(1.0+sqrt(DBL_EPSILON)), p, &vTemp, &zTemp, &phiTemp, &dvdtTemp, &dvdpTemp, &d2vdt2Temp, &d2vdtdpTemp, &d2vdp2Temp, 
+            &dlnphidtTemp, &dlnphidpTemp, &d2lnphidt2Temp, &d2lnphidtdpTemp, &d2lnphidp2Temp);
+	     
+    d3lnphidt3 = (d2lnphidt2Temp - d2lnphidt2)/t/sqrt(DBL_EPSILON);
+    *dcpdt += -(2.0*R*dlnphidt + R*t*d2lnphidt2) -t*(3.0*R*d2lnphidt2 + R*t*d3lnphidt3);
+  }
 } 
 
 /*
@@ -2146,7 +2168,7 @@ testFlu(int mask, double t, double p,
   double *m)       /* array of moles of endmember components, check bounds    */
 {
   const char *phase = "fluidPhase.c";
-  const char *NAMES[NA]    = { "H2O", "CO2" };
+  const char *NAMES[NA]    = { "h2oduan", "co2duan" };
   const char *FORMULAS[NA] = { "H2O", "CO2" };
   int result = TRUE, i;
   double sum;
@@ -2360,8 +2382,8 @@ dispFlu(int mask, double t, double p, double *x,
     char n[5];
     int i;
 
-    (void) snprintf(n, 5, "%4.2f", r[0]    ); for (i=0; i<4; i++) string[ 3+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", 1.0-r[0]); for (i=0; i<4; i++) string[10+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", 1.0-r[0]); for (i=0; i<4; i++) string[ 3+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f",     r[0]); for (i=0; i<4; i++) string[10+i] = n[i];
 
     *formula = string;
   }
@@ -2450,12 +2472,6 @@ gmixFlu(int mask, double t, double p, double *r,
          d2vdtdpH2O, d2vdp2H2O, d2vdt2CO2, d2vdtdpCO2, d2vdp2CO2, dlnphidtH2O, dlnphidtCO2, dlnphidpH2O, dlnphidpCO2,
 	 d2lnphidt2H2O, d2lnphidtdpH2O, d2lnphidp2H2O, d2lnphidt2CO2, d2lnphidtdpCO2, d2lnphidp2CO2;
 
-  /*
-  idealGas(t, cp, s0, h0);
-  printf("H2O at t = %g K Cp = %g, s0 = %g, h0 = %g\n", t, cp[H2O], s0[H2O] + 359.6505, h0[H2O] - 355665.4136);
-  printf("CO2 at t = %g K Cp = %g, s0 = %g, h0 = %g\n", t, cp[CO2], s0[CO2] + 210.0304, h0[CO2] - 385358.2260);
-  */
-  
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 

@@ -3586,7 +3586,7 @@ Solids meltsSolids[] = {
    vmixFlu,         /* Pointer to vmixFlu  : Volume of mixing                */
    dispFlu          /* Pointer to dispFlu  : Formula for interface display   */
   },
-  {"H2O", COMPONENT, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"h2oduan", COMPONENT, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,                                        /* Calculated in GIBBS.C */
    {                /* ThermoRef structure                                   */
    -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
@@ -3596,7 +3596,7 @@ Solids meltsSolids[] = {
    EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
-  {"CO2", COMPONENT, "CO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"co2duan", COMPONENT, "CO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,                                        /* Calculated in GIBBS.C */
    {                /* ThermoRef structure                                   */
    -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
