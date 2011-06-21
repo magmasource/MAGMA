@@ -941,6 +941,8 @@ testTaj(int mask, double t, double p,
   return result;
 }
 
+void dispTaj(int mask, double t, double p, double *x, char **formula);
+
 void
 conTaj(int inpMask, int outMask, double t, double p,
   double *e,      /* comp of biotite in moles of elements                     */
@@ -975,23 +977,56 @@ conTaj(int inpMask, int outMask, double t, double p,
 
   if (inpMask == FIRST && outMask == SECOND) {
     static const int Hy =  1;
+    static const int Li =  3;
     static const int O  =  8;
+    static const int F  =  9;
+    static const int Na = 11;
     static const int Mg = 12;
     static const int Al = 13;
+    static const int Cl = 17;
+    static const int K  = 19;
+    static const int Ca = 20;
     static const int Ti = 22;
+    static const int Mn = 25;
     static const int Fe = 26;
+    static const int Rb = 37;
+    static const int Sr = 38;
+    static const int Cs = 55;
+    static const int Ba = 56;
     
-    double cationCharge = e[Hy] + 2.0*e[Mg] + 3.0*e[Al] + 4.0*e[Ti];
-    double anionCharge  = 2.0*e[O];
-    double fe3 = anionCharge - cationCharge - 2.0*e[Fe];
-    double fe2 = e[Fe] - fe3;
-
-                        				    /* Projection into the Fe-Mg binary */
-    m[0] = fe3;         				    /* KFeMg2Si2Al2O10(OH)2 */
-    m[1] = e[Ti];       				    /* KTiMg2Si3AlO10(O)2   */
-    m[2] = (3.0*e[Al] - e[Mg] - 4.0*fe3 - e[Ti] - fe2)/4.0; /* KAlMg2Si2Al2O10(OH)2 */
-    m[3] = fe2/3.0;                                         /* KFe3Si3AlO10(OH)2    */        
-    m[4] = (e[Mg] - e[Al] - e[Ti] + fe2/3.0)/2.0;           /* KMg3Si3AlO10(OH)2    */
+    double hydrogen, oxygen, cationCharge, anionCharge, fe3, fe2, silicon;
+    
+    if (e[Hy] != 0.0) {
+      hydrogen = e[Hy];
+      oxygen   = e[O];
+    } else {
+      hydrogen =  2.0*(e[Li]+e[Na]+e[K]+e[Ca]+e[Rb]+e[Sr]+e[Cs]+e[Ba]) - 2.0*e[Ti] - e[F] - e[Cl];
+      oxygen   = 12.0*(e[Li]+e[Na]+e[K]+e[Ca]+e[Rb]+e[Sr]+e[Cs]+e[Ba]);
+    }
+    silicon = 2.0*oxygen/3.0 
+            - (e[Li]+e[Na]+e[K]+e[Ca]+e[Rb]+e[Sr]+e[Cs]+e[Ba] + e[Mg]+e[Al]+e[Ti]+e[Mn]+e[Fe]);
+    
+    cationCharge = hydrogen + e[Li] + 2.0*e[Mg] + 3.0*e[Al] + 4.0*silicon + e[Na] + e[K] + 2.0*e[Ca] 
+                 + 4.0*e[Ti] + 2.0*e[Mn] + e[Rb] + 2.0*e[Sr] + e[Cs] + 2.0*e[Ba];
+    anionCharge  = 2.0*oxygen + e[F] + e[Cl];
+    fe3 = anionCharge - cationCharge - 2.0*e[Fe];
+    fe2 = e[Fe] - fe3;
+                        				     			    /* Projection into the Fe-Mg binary */
+    m[0] = fe3;         				     			    /* KFeMg2Si2Al2O10(OH)2 */
+    m[1] = e[Ti];       				     			    /* KTiMg2Si3AlO10(O)2   */
+    m[2] = (3.0*e[Al] - e[Mg] - 4.0*fe3 - e[Ti] - fe2)/7.0;  			    /* KAlMg2Si2Al2O10(OH)2 */
+    m[3] = (fe2+e[Mn])/3.0;                                  			    /* KFe3Si3AlO10(OH)2    */        
+    m[4] = (3.0*e[Mg] - 2.0*e[Al] - 2.0*fe3 - 4.0*e[Ti] + 2.0*(fe2+e[Mn])/3.0)/7.0; /* KMg3Si3AlO10(OH)2    */
+    
+    {
+      double sum = m[0] + m[1] + m[2] + m[3] + m[4];
+      double r[4];
+      char *formula;
+      r[0] = m[1]/sum; r[1] = m[2]/sum; r[2] = m[3]/sum; r[3] = m[4]/sum;
+      dispTaj(FIRST, t, p, r, &formula);
+      printf("\nformula: %s, m: %g %g %g %g %g, H,O: %g %g %g %g\n\n", formula, m[0], m[1], m[2], m[3], m[4], e[Hy], e[O], hydrogen, oxygen);
+      free(formula);
+    }
 
   } else if (inpMask == SECOND) {
     double sum;

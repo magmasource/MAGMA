@@ -2404,6 +2404,20 @@ actFlu(int mask, double t, double p, double *r,
 
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
+  
+  if        (fabs(x[CO2]) < 100.0*DBL_EPSILON) {
+    if (mask & FIRST)  { a[H2O]   = 1.0; a[CO2]   = 0.0; }
+    if (mask & SECOND) { mu[H2O]  = 0.0; mu[CO2]  = 0.0; }
+    if (mask & THIRD)  { dx[0][0] = 0.0; dx[1][0] = 0.0; }
+    if (mask & FOURTH) { ; }
+    return;
+  } else if (fabs(x[H2O]) < 100.0*DBL_EPSILON) {
+    if (mask & FIRST)  { a[H2O]   = 0.0; a[CO2]   = 1.0; }
+    if (mask & SECOND) { mu[H2O]  = 0.0; mu[CO2]  = 0.0; }
+    if (mask & THIRD)  { dx[0][0] = 0.0; dx[1][0] = 0.0; }
+    if (mask & FOURTH) { ; }
+    return;
+  }
 
   duan((p <= 2000.0) ? 1 : 0, t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O((p <= 2000.0) ? 1 : 0, t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
@@ -2475,6 +2489,14 @@ gmixFlu(int mask, double t, double p, double *r,
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 
+  if ((fabs(x[CO2]) < 100.0*DBL_EPSILON) || (fabs(x[H2O]) < 100.0*DBL_EPSILON)) {
+    if (mask & FIRST)  { *gmix        = 0.0; }
+    if (mask & SECOND) { dx[0]        = 0.0; }
+    if (mask & THIRD)  { dx2[0][0]    = 0.0; }
+    if (mask & FOURTH) { dx3[0][0][0] = 0.0; }
+    return;
+  }
+
   duan((p <= 2000.0) ? 1 : 0, t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O((p <= 2000.0) ? 1 : 0, t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2((p <= 2000.0) ? 1 : 0, t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
@@ -2536,6 +2558,11 @@ hmixFlu(int mask, double t, double p, double *r,
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 
+  if ((fabs(x[CO2]) < 100.0*DBL_EPSILON) || (fabs(x[H2O]) < 100.0*DBL_EPSILON)) {
+    if (mask & FIRST)  { *hmix        = 0.0; }
+    return;
+  }
+
   duan((p <= 2000.0) ? 1 : 0, t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O((p <= 2000.0) ? 1 : 0, t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2((p <= 2000.0) ? 1 : 0, t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
@@ -2562,6 +2589,13 @@ smixFlu(int mask, double t, double p, double *r,
 
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
+
+  if ((fabs(x[CO2]) < 100.0*DBL_EPSILON) || (fabs(x[H2O]) < 100.0*DBL_EPSILON)) {
+    if (mask & FIRST)  { *smix        = 0.0; }
+    if (mask & SECOND) { dx[0]        = 0.0; }
+    if (mask & THIRD)  { dx2[0][0]    = 0.0; }
+    return;
+  }
 
   duan((p <= 2000.0) ? 1 : 0, t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O((p <= 2000.0) ? 1 : 0, t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
@@ -2624,6 +2658,13 @@ cpmixFlu(int mask, double t, double p, double *r,
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
 
+  if ((fabs(x[CO2]) < 100.0*DBL_EPSILON) || (fabs(x[H2O]) < 100.0*DBL_EPSILON)) {
+    if (mask & FIRST)  { *cpmix = 0.0; }
+    if (mask & SECOND) { *dt    = 0.0; }
+    if (mask & THIRD)  { dx[0]  = 0.0; }
+    return;
+  }
+
   duan((p <= 2000.0) ? 1 : 0, t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O((p <= 2000.0) ? 1 : 0, t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2((p <= 2000.0) ? 1 : 0, t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
@@ -2679,6 +2720,20 @@ vmixFlu(int mask, double t, double p, double *r,
 
   x[H2O] = 1.0 - r[0];
   x[CO2] = r[0];
+
+  if ((fabs(x[CO2]) < 100.0*DBL_EPSILON) || (fabs(x[H2O]) < 100.0*DBL_EPSILON)) {
+    if (mask & FIRST)   { *vmix     = 0.0; }
+    if (mask & SECOND)  { dx[0]     = 0.0; }
+    if (mask & THIRD)   { dx2[0][0] = 0.0; }
+    if (mask & FOURTH)  { *dt       = 0.0; }
+    if (mask & FIFTH)   { *dp       = 0.0; }
+    if (mask & SIXTH)   { *dt2      = 0.0; }
+    if (mask & SEVENTH) { *dtdp     = 0.0; }
+    if (mask & EIGHTH)  { *dp2      = 0.0; }
+    if (mask & NINTH)   { *dxdt     = 0.0; }
+    if (mask & TENTH)   { *dxdp     = 0.0; }
+    return;
+  }
 
   duan((p <= 2000.0) ? 1 : 0, t, p, x, &v, &z, phi, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, dlnphidt, dlnphidp, d2lnphidt2, d2lnphidtdp, d2lnphidp2, dlnphidr);
   duanH2O((p <= 2000.0) ? 1 : 0, t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
