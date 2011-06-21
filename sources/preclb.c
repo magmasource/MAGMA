@@ -1508,8 +1508,10 @@ Boolean preclb(XtPointer client_data)
 #elif BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
               for (i=0; i<nc; i++)  lowWtFlag[i] = FALSE;
 #else
+#ifndef RHYOLITE_ADJUSTMENTS
               if (p > 50000.0) logfo2 = -9999.0; /* kill previous estimate of log fo2 from LEPR for high P experiments */
 	      if ((LEPRnum >= 150001) && (LEPRnum <= 150312)) logfo2 = -9999.0; /* recalculate the log fO2s for all "density" constraints */
+#endif
 	      
               if (logfo2 == -9999.0 && (flagPC || flagMA) && (flagC || flagPtC)) {
 	        /*
@@ -1551,12 +1553,16 @@ Boolean preclb(XtPointer client_data)
 	        double fo2air = -0.68 + ((p > 0.0) ? log(p)/log(10.0) : 0.0);
 	        if (logfo2 > fo2air) logfo2 = fo2air; /* Constrain the log fO2 to be at or below air at P */
 	      }
+#ifndef RHYOLITE_ADJUSTMENTS
               if ((logfo2 != -9999.0) && (LEPRnum < 90000)) { /* 90000 and above are ferrc-ferrous calibration experiments */
 	        conLiq(FIRST | SEVENTH, FIRST, t, p, wt, NULL, NULL, NULL, NULL, NULL, &logfo2); /* FeO(T) -> Fe2O3, FeO */
                 for (i=0; i<nc; i++)  lowWtFlag[i] = (wt[i]*bulkSystem[i].mw < 0.5);
                 lowWtFlag[3] = (wt[3]*bulkSystem[3].mw < 0.1); /* Fe2O3 */
                 lowWtFlag[4] = (wt[4]*bulkSystem[4].mw < 0.1); /* Cr2O3 */
 	      } else for (i=0; i<nc; i++)  lowWtFlag[i] = FALSE;
+#else
+              for (i=0; i<nc; i++)  lowWtFlag[i] = FALSE;
+#endif
 #endif
     
               for (i=0; i<nc; i++) zeroWtFlag[i] = (wt[i] <= 0.0); 
@@ -1564,6 +1570,7 @@ Boolean preclb(XtPointer client_data)
 	      
 #ifndef BUILD_MGO_SIO2_VERSION
 #ifndef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
+#ifndef RHYOLITE_ADJUSTMENTS
               /* Here is where experiments are excluded by LEPRnum.  Exclusion is accomplished by setting logfo2 back to -9999.0 */
 	      if ( (LEPRnum >=    37) && (LEPRnum <=    37) ) logfo2 = -9999.0; /* H2O bearing, no water in liquid*/
 	      if ( (LEPRnum >=    41) && (LEPRnum <=    41) ) logfo2 = -9999.0; /* H2O bearing, no water in liquid*/
@@ -1654,6 +1661,7 @@ Boolean preclb(XtPointer client_data)
 	      if (p == 0.0) logfo2 = -9999.0; /* Bad entry */
 #endif
 #endif
+#endif
 
               /* Do tests on liquid composition and store valid liquid entry */
 #ifdef BUILD_MGO_SIO2_VERSION
@@ -1709,7 +1717,8 @@ Boolean preclb(XtPointer client_data)
         	}
               } else {
         	validLiquid = FALSE;
-        	printf("-->Liquid %d fails validation test.\n", nLiquid);
+        	printf("-->Liquid %d fails validation test.logfO2 = %g, test = %d\n", nLiquid, logfo2,
+		  testLiq(SIXTH, t, p, 0, 0, NULL, NULL, NULL, molesLiqCmp));
               }
               
               /* Insert an equation for oxygen calibration if liquid is valid composition */
@@ -1759,43 +1768,50 @@ Boolean preclb(XtPointer client_data)
 	      int bypass = FALSE;
 	      xmlNode *level3 = level2->children;
 	      
-	      if      (!strcmp(phaseNameXML, "sulfide"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "oxide"          )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "cas"            )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "nakalsi"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "hollandite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "carbonate"      )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "carbonateliquid")) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "sodalite"       )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "sillimanite"    )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "kyanite"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "staurolite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "zoisite"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "cordierite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "chevkinite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "clay"           )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "chevkinite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "epidote"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "montdorite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "phlogopite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "tisicomp"       )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "amphibole"      )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "melilite"       )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "biotite"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "armacolite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "ferrobustamite" )) bypass = TRUE;
-  	      else if (!strcmp(phaseNameXML, "caperovskite"   )) bypass = TRUE;
-  	      else if (!strcmp(phaseNameXML, "stishovite"     )) bypass = TRUE;
-  	      else if (!strcmp(phaseNameXML, "coesite"        )) bypass = TRUE;
-  	      else if (!strcmp(phaseNameXML, "perovskite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "ferropericlase" )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "density"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "o2"             )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "potassium feldspar")) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "oxide-generic"  )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "liquid"         )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "allanite"       )) bypass = TRUE;
-	      
+	      if      (!strcmp(phaseNameXML, "sulfide"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "oxide"                  )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "cas"                    )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "nakalsi"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "hollandite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "carbonate"              )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "carbonateliquid"        )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "sodalite"               )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "sillimanite"            )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "kyanite"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "staurolite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "zoisite"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "cordierite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "chevkinite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "clay"                   )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "chevkinite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "epidote"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "montdorite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "phlogopite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "tisicomp"               )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "amphibole"              )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "melilite"               )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "armacolite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "ferrobustamite"         )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "caperovskite"           )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "stishovite"             )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "coesite"                )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "perovskite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "ferropericlase"         )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "density"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "o2"                     )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "potassium feldspar"     )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "oxide-generic"          )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "liquid"                 )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "allanite"               )) bypass = TRUE;
+#ifdef RHYOLITE_ADJUSTMENTS
+	      else if (!strcmp(phaseNameXML, "potassium tetrasilicate")) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "potassium disilicate"   )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "sodium metasilicate"    )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "sodium disilicate"      )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "mullite"                )) bypass = TRUE;
+#else
+	      else if (!strcmp(phaseNameXML, "biotite"                )) bypass = TRUE;
+#endif	      
 	      if (!bypass) {
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
                 Boolean killPhase;
@@ -1805,7 +1821,9 @@ Boolean preclb(XtPointer client_data)
 	        else if (!strcmp(phaseNameXML, "plagioclase"))    phaseName = "feldspar"; 
 	        else if (!strcmp(phaseNameXML, "kspar"))          phaseName = "feldspar"; 
 	        else if (!strcmp(phaseNameXML, "ilmenite"))       phaseName = "rhm-oxide"; 
+#ifndef RHYOLITE_ADJUSTMENTS
 	        else if (!strcmp(phaseNameXML, "fluid"))          phaseName = "water"; 
+#endif
 	        else if (!strcmp(phaseNameXML, "titanite"))       phaseName = "sphene"; 
 	        else { 
 	          phaseName = (char *) malloc((size_t) (strlen(phaseNameXML)+1)*sizeof(char)); 

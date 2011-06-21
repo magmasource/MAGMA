@@ -284,13 +284,21 @@ static ModelParameters originalModelParameters[] = {
   {"tremolite", 	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
 
   {"hornblende",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"hastingsite", 	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"k-hastingsite", 	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
   {"pargasite", 	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
-  {"ferropargasite",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
-  {"magnesiohastingsite",   		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"ferro-pargasite",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"hornblende",   		          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"kaersutite",   		          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"edeite",     		          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"barroisite",   		          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
 
   {"biotite",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
-  {"annite",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
-  {"phlogopite",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"fbiTaj",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"tbiTaj",	    	     	          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"eastTaj",	    	     	          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"annTaj",	    	     	          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"phlTaj",	    	     	          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
 
   {"muscovite", 	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
 
@@ -342,6 +350,7 @@ static ModelParameters originalModelParameters[] = {
   {"hematite",  	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
   {"ilmenite",  	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
   {"pyrophanite",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"corundum",	    		          0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
 
   {"ortho-oxide",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
   {"pseudobrookite",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
@@ -353,6 +362,10 @@ static ModelParameters originalModelParameters[] = {
   {"apatite",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
 
   {"water",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+
+  {"fluid",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"h2oduan",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+  {"co2duan",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
 
   {"alloy-solid",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
   {"Fe-metal",  	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
