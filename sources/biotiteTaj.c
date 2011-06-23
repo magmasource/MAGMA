@@ -941,8 +941,6 @@ testTaj(int mask, double t, double p,
   return result;
 }
 
-void dispTaj(int mask, double t, double p, double *x, char **formula);
-
 void
 conTaj(int inpMask, int outMask, double t, double p,
   double *e,      /* comp of biotite in moles of elements                     */
@@ -1018,16 +1016,6 @@ conTaj(int inpMask, int outMask, double t, double p,
     m[3] = (fe2+e[Mn])/3.0;                                  			    /* KFe3Si3AlO10(OH)2    */        
     m[4] = (3.0*e[Mg] - 2.0*e[Al] - 2.0*fe3 - 4.0*e[Ti] + 2.0*(fe2+e[Mn])/3.0)/7.0; /* KMg3Si3AlO10(OH)2    */
     
-    {
-      double sum = m[0] + m[1] + m[2] + m[3] + m[4];
-      double r[4];
-      char *formula;
-      r[0] = m[1]/sum; r[1] = m[2]/sum; r[2] = m[3]/sum; r[3] = m[4]/sum;
-      dispTaj(FIRST, t, p, r, &formula);
-      printf("\nformula: %s, m: %g %g %g %g %g, H,O: %g %g %g %g\n\n", formula, m[0], m[1], m[2], m[3], m[4], e[Hy], e[O], hydrogen, oxygen);
-      free(formula);
-    }
-
   } else if (inpMask == SECOND) {
     double sum;
 

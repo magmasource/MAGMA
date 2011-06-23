@@ -1000,7 +1000,7 @@ testHrn(int mask, double t, double p,
   if (mask & FIFTH) {
     double k = 4.0*r[2]/(4.0+r[5]-r[6]);
     
-    result = result & (1.0-r[0]-r[3]-r[6]       	 >= 0.0); /* A Na     */  
+    result = result & (1.0-r[0]-r[3]-r[6]       	 >= 0.0); /* A Na     */
     result = result & (r[0]                     	 >= 0.0); /* A K      */  
     result = result & (r[3]+r[6]                	 >= 0.0); /* A Vc     */  
     result = result & (r[6]                     	 >= 0.0); /* M4 Na    */  
@@ -1020,20 +1020,20 @@ testHrn(int mask, double t, double p,
     double sum = m[0]+m[1]+m[2]+m[3]+m[4]+m[5]+m[6]+m[7]; 
     double k = 4.0*m[3]/(4.0*sum+m[6]-m[7]);
     
-    result = result & (sum-m[1]-m[4]-m[7]       	  >= 0.0); /* A Na     */  
-    result = result & (m[1]                     	  >= 0.0); /* A K      */  
-    result = result & (m[4]+m[7]                	  >= 0.0); /* A Vc     */  
-    result = result & (m[7]                     	  >= 0.0); /* M4 Na    */  
-    result = result & (sum-m[7]                 	  >= 0.0); /* M4 Ca    */  
-    result = result & (1.0-k                    	  >= 0.0); /* M13 Mg   */  
-    result = result & (k                        	  >= 0.0); /* M13 Fe2+ */  
-    result = result & ((sum+m[6]-m[7])*(1.0-k)  	  >= 0.0); /* M2 Mg    */  
-    result = result & ((sum+m[6]-m[7])*k        	  >= 0.0); /* M2 Fe2+  */  
-    result = result & (sum-m[2]-m[3]-m[4]-m[5]-m[6]-m[7]  >= 0.0); /* M2 Fe3+  */  
-    result = result & (m[2]+m[3]+m[4]+2.0*m[7]            >= 0.0); /* M2 Al    */  
-    result = result & (m[5]                               >= 0.0); /* M2 Ti    */  
-    result = result & (sum/2.0-m[4]/4.0-m[6]/4.0-m[7]/4.0 >= 0.0); /* T1 Al    */  
-    result = result & (sum/2.0+m[4]/4.0+m[6]/4.0+m[7]/4.0 >= 0.0); /* T1 Si    */  
+    result = result & (sum-m[1]-m[4]-m[7]       	  >= 0.0); /* A Na     */
+    result = result & (m[1]                     	  >= 0.0); /* A K      */
+    result = result & (m[4]+m[7]                	  >= 0.0); /* A Vc     */
+    result = result & (m[7]                     	  >= 0.0); /* M4 Na    */
+    result = result & (sum-m[7]                 	  >= 0.0); /* M4 Ca    */
+    result = result & (1.0-k                    	  >= 0.0); /* M13 Mg   */
+    result = result & (k                        	  >= 0.0); /* M13 Fe2+ */
+    result = result & ((sum+m[6]-m[7])*(1.0-k)  	  >= 0.0); /* M2 Mg    */
+    result = result & ((sum+m[6]-m[7])*k        	  >= 0.0); /* M2 Fe2+  */
+    result = result & (sum-m[2]-m[3]-m[4]-m[5]-m[6]-m[7]  >= 0.0); /* M2 Fe3+  */
+    result = result & (m[2]+m[3]+m[4]+2.0*m[7]            >= 0.0); /* M2 Al    */
+    result = result & (m[5]                               >= 0.0); /* M2 Ti    */
+    result = result & (sum/2.0-m[4]/4.0-m[6]/4.0-m[7]/4.0 >= 0.0); /* T1 Al    */
+    result = result & (sum/2.0+m[4]/4.0+m[6]/4.0+m[7]/4.0 >= 0.0); /* T1 Si    */
   }
 
   return result;
@@ -1080,15 +1080,204 @@ conHrn(int inpMask, int outMask, double t, double p,
     static const int Ca = 20;
     static const int Ti = 22;
     static const int Fe = 26;
+    
+    int okay = FALSE, iter = 0;
+    double silica = e[Si];
+    double sum=0.0, k=0.0;
+     
+    printf("...conHrn: Entering conHrn with inpMask = FIRST, outMask = SECOND for elemental conversion to moles.\n");
+    while (!okay) {
+      m[0] = 20.0*e[Fe]/13.0 - 2.0*e[K] + 20.0*e[Mg]/13.0 - 2.0*e[Ca] - e[Na] - 6.0*silica/13.0 + 7.0*e[Al]/13.0 + 7.0*e[Ti]/13.0;
+      m[1] = e[K];
+      m[2] = - 3.0*silica/26.0 - 8.0*e[Mg]/13.0 + 3.0*e[Na]/4.0 + 3.0*e[K]/4.0 + 3.0*e[Ca]/2.0 - 45.0*e[Fe]/52.0  + 7.0*e[Al]/52.0 - 45.0*e[Ti]/52.0;
+      m[3] = - 5.0*e[Mg]/13.0 + e[Ca]/2.0 + e[Na]/4.0 + e[K]/4.0 + 3.0*silica/26.0 - 7.0*e[Al]/52.0 - 7.0*e[Fe]/52.0 - 7.0*e[Ti]/52.0;
+      m[4] = e[Al]/13.0 + e[Fe]/13.0 - e[Na] - e[K] + e[Ti]/13.0 + silica/13.0 + e[Mg]/13.0;
+      m[5] = e[Ti];
+      m[6] = 4.0*silica/13.0 + e[Na] + e[K] + e[Ca] - 9.0*e[Al]/13.0 - 9.0*e[Fe]/13.0 - 9.0*e[Ti]/13.0 - 9.0*e[Mg]/13.0;
+      m[7] = -e[Ca] + 2.0*e[Al]/13.0 + 2.0*e[Fe]/13.0 + 2.0*e[Ti]/13.0 + 2.0*silica/13.0 + 2.0*e[Mg]/13.0;
 
-    m[0] = 20.0*e[Fe]/13.0 - 2.0*e[K] + 20.0*e[Mg]/13.0 - 2.0*e[Ca] - e[Na] - 6.0*e[Si]/13.0 + 7.0*e[Al]/13.0 + 7.0*e[Ti]/13.0;
-    m[1] = e[K];
-    m[2] = - 3.0*e[Si]/26.0 - 8.0*e[Mg]/13.0 + 3.0*e[Na]/4.0 + 3.0*e[K]/4.0 + 3.0*e[Ca]/2.0 - 45.0*e[Fe]/52.0  + 7.0*e[Al]/52.0 - 45.0*e[Ti]/52.0;
-    m[3] = - 5.0*e[Mg]/13.0 + e[Ca]/2.0 + e[Na]/4.0 + e[K]/4.0 + 3.0*e[Si]/26.0 - 7.0*e[Al]/52.0 - 7.0*e[Fe]/52.0 - 7.0*e[Ti]/52.0;
-    m[4] = e[Al]/13.0 + e[Fe]/13.0 - e[Na] - e[K] + e[Ti]/13.0 + e[Si]/13.0 + e[Mg]/13.0;
-    m[5] = e[Ti];
-    m[6] = 4.0*e[Si]/13.0 + e[Na] + e[K] + e[Ca] - 9.0*e[Al]/13.0 - 9.0*e[Fe]/13.0 - 9.0*e[Ti]/13.0 - 9.0*e[Mg]/13.0;
-    m[7] = -e[Ca] + 2.0*e[Al]/13.0 + 2.0*e[Fe]/13.0 + 2.0*e[Ti]/13.0 + 2.0*e[Si]/13.0 + 2.0*e[Mg]/13.0;
+      okay = TRUE;
+      sum = m[0]+m[1]+m[2]+m[3]+m[4]+m[5]+m[6]+m[7]; 
+      k = 4.0*m[3]/(4.0*sum+m[6]-m[7]);
+	
+      if      (m[1]  < 0.0) okay = TRUE; /* give up, as e[K]  is negative */
+      else if (m[5]  < 0.0) okay = TRUE; /* give up, as e[Ti] is negative */
+      else if (k     > 1.0) okay = TRUE; /* give up, no dependence on Si  */
+      else {  /* all the rest depend on silica */
+        double silicaMin = silica, silicaMax = silica;
+	int badConstraints = 0;
+      
+        if (sum-m[1]-m[4]-m[7] < 0.0) {  /* A Na      */
+	  double zeroSi = - e[Al] - e[Fe] + 13.0*e[Ca]/2.0 - e[Mg] - e[Ti] + 13.0*e[Na]/2.0;
+	  if (zeroSi < silicaMax) silicaMax = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 01;
+	} else if (sum-m[1]-m[4]-m[7] > sum) {
+	  double oneSi = - e[Al] - e[Fe] - 13.0*e[Ca]/2.0 - e[Mg] - e[Ti] + 13.0*e[Na]/3.0;
+	  if (oneSi > silicaMin) silicaMin = oneSi;
+	  okay = FALSE;
+	  badConstraints |= 010001;
+	}
+	
+        if (m[4]+m[7] < 0.0) {  /* A Vc      */
+	  double zeroSi = - e[Al] - e[Fe] + 13.0*e[Na]/3.0 + 13.0*e[K]/3.0 - e[Ti] - e[Mg] - 13.0*e[Ca]/3.0;
+	  if (zeroSi > silicaMin) silicaMin = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 02;
+	} else if (m[4]+m[7] > sum) {
+	  double oneSi = - e[Al] - e[Fe] + 13.0*e[Na]/2.0 + 13.0*e[K]/2.0 - e[Ti] - e[Mg] + 13.0*e[Ca]/2.0;
+	  if (oneSi < silicaMax) silicaMax = oneSi;
+	  okay = FALSE;
+	  badConstraints |= 010002;
+	}
+	
+        if (m[7] < 0.0) {  /* M4 Na     */
+	  double zeroSi = - 13.0*e[Ca]/2.0 - e[Al] - e[Fe] - e[Ti] - e[Mg];
+	  if (zeroSi > silicaMin) silicaMin = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 04;
+	} else if (m[7] > sum/2.0) {
+	  double oneSi = - e[Al] - e[Fe] - e[Ti] - e[Mg];
+	  if (oneSi < silicaMax) silicaMax = oneSi;
+	  okay = FALSE;
+	  badConstraints |= 010004;
+	}
+	
+        if (sum-m[7] < 0.0) {  /* M4 Ca     */
+	  double zeroSi = - e[Al] - e[Fe] + 13.0*e[Ca] - e[Mg] - e[Ti];
+	  if (zeroSi < silicaMax) silicaMax = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 010;
+	} else if (sum-m[7] > sum) {
+	  double oneSi = - e[Al] - e[Fe] - 13.0*e[Ca]/2.0 - e[Mg] - e[Ti];
+	  if (oneSi > silicaMin) silicaMin = oneSi;
+	  okay = FALSE;
+	  badConstraints |= 010010;
+	}
+	
+        if (k				       < 0.0) {  /* M13 Fe2+  */
+	  double zeroSi = 10.0*e[Mg]/3.0 - 13.0*e[Ca]/3.0 - 13.0*e[Na]/6.0 - 13.0*e[K]/6.0 + 7.0*e[Al]/6.0 + 7.0*e[Fe]/6.0 + 7.0*e[Ti]/6.0;
+	  if (zeroSi > silicaMin) silicaMin = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 020;
+	}
+	
+        if ((sum+m[6]-m[7]) < 0.0) {  /* M2 Mg+Fe2 */
+	  double zeroSi = 10.0*e[Al]/3.0 + 10.0*e[Fe]/3.0 - 26.0*e[Ca]/3.0 + 10.0*e[Mg]/3.0 + 10.0*e[Ti]/3.0 - 13.0*e[Na]/3.0 - 13.0*e[K]/3.0;
+	  if (zeroSi > silicaMin) silicaMin = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 040;
+	} else if ((sum+m[6]-m[7]) > sum) {
+	  double oneSi = 11.0*e[Ti]/2.0 + 11.0*e[Fe]/2.0 + 11.0*e[Mg]/2.0 + 11.0*e[Al]/2.0 - 13.0*e[Na]/2.0 - 13.0*e[K]/2.0;
+	  if (oneSi < silicaMax) silicaMax = oneSi;
+	  okay = FALSE;
+	  badConstraints |= 010040;
+	}
+	
+        if (sum-m[2]-m[3]-m[4]-m[5]-m[6]-m[7]  < 0.0) {  /* M2 Fe3+   */
+	  double zeroSi = - 13.0*e[Ca]/3.0 - 13.0*e[Na]/6.0 - 13.0*e[K]/6.0 + 10.0*e[Fe]/3.0 + 10.0*e[Mg]/3.0 + 7.0*e[Al]/6.0 + 7.0*e[Ti]/6.0;
+	  if (zeroSi < silicaMax) silicaMax = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 0100;
+	} else if (sum-m[2]-m[3]-m[4]-m[5]-m[6]-m[7]  > sum) {  /* M2 Fe3+   */
+	  double oneSi = - 52.0*e[Ca]/7.0 - 13.0*e[Na]/7.0 - 13.0*e[K]/7.0 + 19.0*e[Fe]/7.0 + 19.0*e[Mg]/7.0 + 6.0*e[Al]/7.0 + 6.0*e[Ti]/7.0;
+	  if (oneSi > silicaMin) silicaMin = oneSi;
+	  okay = FALSE;
+	  badConstraints |= 010100;
+	}
+	
+        if (m[2]+m[3]+m[4]+2.0*m[7] < 0.0) {  /* M2 Al     */
+	  double zeroSi = - e[Al] + 8.0*e[Fe]/5.0 - 52.0*e[Ca]/5.0 + 8.0*e[Mg]/5.0 + 8.0*e[Ti]/5.0;
+	  if (zeroSi > silicaMin) silicaMin = zeroSi;
+	  okay = FALSE;	  
+	  badConstraints |= 0200;
+	} else if (m[2]+m[3]+m[4]+2.0*m[7] > sum) {  /* M2 Al     */
+	  double oneSi = - e[Al] + 9.0*e[Fe]/4.0 - 13.0*e[Ca]/2.0 + 9.0*e[Mg]/4.0 + 9.0*e[Ti]/4.0;
+	  if (oneSi < silicaMax) silicaMax = oneSi;
+	  okay = FALSE;	  
+	  badConstraints |= 010200;
+	}
+	
+        if (sum/2.0-m[4]/4.0-m[6]/4.0-m[7]/4.0 < 0.0) {  /* T1 Al     */
+	  double zeroSi = 8.0*e[Al]/5.0 + 8.0*e[Fe]/5.0 + 26.0*e[Ca]/5.0 + 8.0*e[Mg]/5.0 + 8.0*e[Ti]/5.0;
+	  if (zeroSi < silicaMax) silicaMax = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 0400;
+	} else if (sum/2.0-m[4]/4.0-m[6]/4.0-m[7]/4.0 > sum/2.0) {  /* T1 Al     */
+	  double oneSi = 6.0*e[Al]/7.0 + 6.0*e[Fe]/7.0 - 26.0*e[Ca]/7.0 + 6.0*e[Mg]/7.0 + 6.0*e[Ti]/7.0;
+	  if (oneSi > silicaMin) silicaMin = oneSi;
+	  okay = FALSE;
+	  badConstraints |= 010400;
+	}
+	
+        if (sum/2.0+m[4]/4.0+m[6]/4.0+m[7]/4.0 < 0.0) {  /* T1 Si     */
+	  double zeroSi = 4.0*e[Al]/9.0 + 4.0*e[Fe]/9.0 - 26.0*e[Ca]/3.0 + 4.0*e[Mg]/9.0 + 4.0*e[Ti]/9.0;
+	  if (zeroSi > silicaMin) silicaMin = zeroSi;
+	  okay = FALSE;
+	  badConstraints |= 01000;
+	} else if (sum/2.0+m[4]/4.0+m[6]/4.0+m[7]/4.0 > 3.0*sum/4.0) {  /* T1 Si     */
+	  double oneSi = 7.0*e[Al]/6.0 + 7.0*e[Fe]/6.0 + 7.0*e[Mg]/6.0 + 7.0*e[Ti]/6.0;
+	  if (oneSi < silicaMax) silicaMax = oneSi;
+	  okay = FALSE;
+	  badConstraints |= 011000;
+	}
+	
+	if (!okay) {
+	  printf("...conHrn: Problem with casting compostion into endmember moles (%o).  Adjusting silica (iter = %d)\n", badConstraints, iter);
+	  printf(".........: Silica input: %g, computed Silica Min: %g, Max: %g\n", e[Si], silicaMin, silicaMax);
+	  if (silicaMax < 0.90*e[Si]) {
+	    printf(".........: Giving up. Computed maximum silica content is %.2f%% of measured silica.\n",
+	      100.0*silicaMax/e[Si]);
+	    okay = TRUE;
+	  }
+	  if (silicaMin > 1.10*e[Si]) {
+	    printf(".........: Giving up. Computed minimum silica content is %.2f%% of measured silica.\n",
+	      100.0*silicaMin/e[Si]);
+	    okay = TRUE;
+	  }
+	  if (iter > 1) {
+	    printf(".........: Giving up. Too many iterations.\n");
+	    okay = TRUE;
+	  }
+	  if        ((silica == silicaMin) && !okay) {
+	    printf(".........: Silica reset from %g to %g (%.2f%%)\n", silica, silicaMax, 100.0*(silicaMax-silica)/silica);
+	    silica = silicaMax - sqrt(DBL_EPSILON);
+	  } else if ((silica == silicaMax) && !okay) {
+	    printf(".........: Silica reset from %g to %g (%.2f%%)\n", silica, silicaMin, 100.0*(silicaMin-silica)/silica);
+	    silica = silicaMin + sqrt(DBL_EPSILON);
+	  } else if (!okay) {
+	    printf(".........: Silica reset from %g to %g (%.2f%%)\n", silica, (silicaMin+silicaMax)/2.0,
+	      ((silicaMin+silicaMax)/2.0 - silica)/silica);
+	    silica = (silicaMin+silicaMax)/2.0;
+	  }
+	  
+	}
+	
+	iter++;
+      }
+    }
+    printf("	    A Na     = %g\n", 1.0-m[1]/sum-m[4]/sum-m[7]/sum);  			
+    printf("	    A K      = %g\n", m[1]/sum);				
+    printf("	    A Vc     = %g\n", m[4]/sum+m[7]/sum);			
+    printf("	    M4 Na    = %g\n", m[7]/sum);				
+    printf("	    M4 Ca    = %g\n", 1.0-m[7]/sum);			
+    printf("	    M13 Mg   = %g\n", 1.0-k);				
+    printf("	    M13 Fe2+ = %g\n", k);				
+    printf("	    M2 Mg    = %g\n", (1.0+m[6]/sum-m[7]/sum)*(1.0-k)); 	
+    printf("	    M2 Fe2+  = %g\n", (1.0+m[6]/sum-m[7]/sum)*k);		
+    printf("	    M2 Fe3+  = %g\n", 1.0-m[2]/sum-m[3]/sum-m[4]/sum-m[5]/sum-m[6]/sum-m[7]/sum); 
+    printf("	    M2 Al    = %g\n", m[2]/sum+m[3]/sum+m[4]/sum+2.0*m[7]/sum); 	
+    printf("	    M2 Ti    = %g\n", m[5]/sum);				
+    printf("	    T1 Al    = %g\n", 1.0/2.0-m[4]/4.0/sum-m[6]/4.0/sum-m[7]/4.0/sum);
+    printf("	    T1 Si    = %g\n", 1.0/2.0+m[4]/4.0/sum+m[6]/4.0/sum+m[7]/4.0/sum);
+    printf("	    X[Hast]  = %g\n", m[0]/sum);
+    printf("	    X[K-Ht]  = %g\n", m[1]/sum);
+    printf("	    X[Parg]  = %g\n", m[2]/sum);
+    printf("	    X[Fe-P]  = %g\n", m[3]/sum);
+    printf("	    X[Hrnb]  = %g\n", m[4]/sum);
+    printf("	    X[Kaer]  = %g\n", m[5]/sum);
+    printf("	    X[Eden]  = %g\n", m[6]/sum);
+    printf("	    X[Barr]  = %g\n", m[7]/sum);
 
   } else if (inpMask == SECOND) {
     double sum;
@@ -1329,19 +1518,24 @@ actHrn(int mask, double t, double p, double *x,
 
   if (mask & FOURTH) {
     /* implement exclusion criteria on quantities for preclb routines  */
-
-    /*
-    static const double exclusion[NA] = {
-       0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05
-    };
+    int exclusion[NA];
+    
+    exclusion[0] = (XNaA > 0.05)  		   && (XCaM4 > 0.05) && (XMgM13  > 0.05) && (XFe3M2 > 0.05) && (XAlT1 > 0.05) && (XSiT1 > 0.05);
+    exclusion[1] = (XKA  > 0.05)  		   && (XCaM4 > 0.05) && (XMgM13  > 0.05) && (XFe3M2 > 0.05) && (XAlT1 > 0.05) && (XSiT1 > 0.05);
+    exclusion[2] = (XNaA > 0.05)  		   && (XCaM4 > 0.05) && (XMgM13  > 0.05) && (XAlM2  > 0.05) && (XAlT1 > 0.05) && (XSiT1 > 0.05);
+    exclusion[3] = (XNaA > 0.05)  		   && (XCaM4 > 0.05) && (XFe2M13 > 0.05) && (XAlM2  > 0.05) && (XAlT1 > 0.05) && (XSiT1 > 0.05);
+    exclusion[4] = (XVcA > 0.05)  		   && (XCaM4 > 0.05) && (XMgM13  > 0.05) && (XAlM2  > 0.05) && (XAlT1 > 0.05) && (XSiT1 > 0.05);
+    exclusion[5] = (XNaA > 0.05)  		   && (XCaM4 > 0.05) && (XMgM13  > 0.05) && (XTiM2  > 0.05) && (XAlT1 > 0.05) && (XSiT1 > 0.05);
+    exclusion[6] = (XNaA > 0.05)  		   && (XCaM4 > 0.05) && (XMgM13  > 0.05)   		    && (XAlT1 > 0.05) && (XSiT1 > 0.05);
+    exclusion[7] = (XVcA > 0.05) && (XNaM4 > 0.05) && (XCaM4 > 0.05) && (XMgM13  > 0.05) && (XAlM2  > 0.05) && (XAlT1 > 0.05) && (XSiT1 > 0.05);
+    
     for (i=0; i<NA; i++) {
-      if (x[i] < exclusion[i]) {
+      if (!exclusion[i]) {
         if (mask & FIRST)  a[i]  = 0.0;
         if (mask & SECOND) mu[i] = 0.0;
         if (mask & THIRD)  for (j=0; j<NR; j++) dx[i][j] = 0.0;
       }
     }
-    */
   }
 
 }
