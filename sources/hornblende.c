@@ -46,15 +46,16 @@ static double logA(double x) { return (x > 0.0) ? log(x) : 0.0; }
  * Binary interaction parameters
  */
  
+ 
 static const double W[NA][NA] = {
-  { 	 0.0,	  -31946.7409,   -2717.9460,  -72647.2723,   7149.7741,  -14791.6761,	  706.7789,   1130.2371 },
-  { -31946.7409,       0.0,	-48442.1486, -131245.6308, -34379.0394,  -68570.9012,  -37920.3003, -85832.6563 },
-  {  -2717.9460,  -48442.1486,       0.0,     -87832.5379,  -1314.3735,  -18208.7178,	-8547.0649, -20348.7889 },
-  { -72647.2723, -131245.6308,  -87832.5379,	   0.0,    -76326.0098, -130761.7197, -105796.1385, -55780.1947 },
-  {   7149.7741,  -34379.0394,   -1314.3735,  -76326.0098,	0.0,	 -28975.2131,	 2881.9350, -12991.7469 },
-  { -14791.6761,  -68570.9012,  -18208.7178, -130761.7197, -28975.2131,       0.0,	-4690.5240, -28265.5451 },
-  {    706.7789,  -37920.3003,   -8547.0649, -105796.1385,   2881.9350,   -4690.5240,	    0.0,    -15039.4999 },
-  {   1130.2371,  -85832.6563,  -20348.7889,  -55780.1947, -12991.7469,  -28265.5451,  -15039.4999,	 0.0    }
+  { 	 1.0,	  -32240.3783,  -3332.9821,  -72506.9344,   6292.4765,  -14800.2191,	 516.3959,   -9832.7281 },
+  { -32240.3783,       1.0,    -49011.1705, -130959.4243, -34830.2486,  -69026.7582,  -38016.8696,  -93491.8086 },
+  {  -3332.9821,  -49011.1705,      1.0,     -87929.4620,  -1117.6543,  -18048.6214,   -9203.7662,  -24017.6362 },
+  { -72506.9344, -130959.4243, -87929.4620,	  1.0,    -76930.5773, -129717.5504, -105428.5267,  -58996.9266 },
+  {   6292.4765,  -34830.2486,  -1117.6543,  -76930.5773,      1.0,	-28639.6755,	2672.3390,  -15602.2875 },
+  { -14800.2191,  -69026.7582, -18048.6214, -129717.5504, -28639.6755,       1.0,      -4531.1979,  -35869.6364 },
+  {    516.3959,  -38016.8696,  -9203.7662, -105428.5267,   2672.3390,   -4531.1979,	   1.0,     -24068.2987 },
+  {  -9832.7281,  -93491.8086, -24017.6362,  -58996.9266, -15602.2875,  -35869.6364,  -24068.2987,	 1.0    }
 };
 
 /*
@@ -88,40 +89,40 @@ static const double W[NA][NA] = {
 #define dFe2M13dr5 (dkdr5)
 #define dFe2M13dr6 (dkdr6)
 
-#define dMgM2dr2   (	      -(1.0+r[5]-r[6])*dkdr2)
-#define dMgM2dr5   ( (1.0-(k))-(1.0+r[5]-r[6])*dkdr5)
-#define dMgM2dr6   (-(1.0-(k))-(1.0+r[5]-r[6])*dkdr6)
+#define dMgM2dr2   ((	      -(1.0+r[5]-r[6])*dkdr2)/2.0)
+#define dMgM2dr5   (( (1.0-(k))-(1.0+r[5]-r[6])*dkdr5)/2.0)
+#define dMgM2dr6   ((-(1.0-(k))-(1.0+r[5]-r[6])*dkdr6)/2.0)
 
-#define dFe2M2dr2  (	 (1.0+r[5]-r[6])*dkdr2)
-#define dFe2M2dr5  ( (k)+(1.0+r[5]-r[6])*dkdr5)
-#define dFe2M2dr6  (-(k)+(1.0+r[5]-r[6])*dkdr6)
+#define dFe2M2dr2  ((	 (1.0+r[5]-r[6])*dkdr2)/2.0)
+#define dFe2M2dr5  (( (k)+(1.0+r[5]-r[6])*dkdr5)/2.0)
+#define dFe2M2dr6  ((-(k)+(1.0+r[5]-r[6])*dkdr6)/2.0)
 
 #define DGDR0      R*t*( - logA(XNaA) + logA(XKA) ) \
                   - (W[0][1]*r[0] + W[0][2]*r[1] + W[0][3]*r[2] + W[0][4]*r[3] + W[0][5]*r[4] + W[0][6]*r[5] + W[0][7]*r[6]) \
                   +  W[0][1]*(1.0-r[0]-r[1]-r[2]-r[3]-r[4]-r[5]-r[6]) \
                   +  W[1][2]*r[1] + W[1][3]*r[2] + W[1][4]*r[3] + W[1][5]*r[4] + W[1][6]*r[5] + W[1][7]*r[6]		  
-#define DGDR1      R*t*( 2.0*logA(XAlM2) - 2.0*logA(XFe3M2) ) \
+#define DGDR1      R*t*( logA(XAlM2) - logA(XFe3M2) ) \
                   - (W[0][1]*r[0] + W[0][2]*r[1] + W[0][3]*r[2] + W[0][4]*r[3] + W[0][5]*r[4] + W[0][6]*r[5] + W[0][7]*r[6]) \
                   +  W[0][2]*(1.0-r[0]-r[1]-r[2]-r[3]-r[4]-r[5]-r[6]) \
                   +  W[1][2]*r[0] +  W[2][3]*r[2] + W[2][4]*r[3] + W[2][5]*r[4] + W[2][6]*r[5] + W[2][7]*r[6]		  
 #define DGDR2      R*t*(  3.0*dMgM13dr2*logA(XMgM13) + 3.0*dFe2M13dr2*logA(XFe2M13) \
 		        + 2.0*dMgM2dr2*logA(XMgM2) + 2.0*dFe2M2dr2*logA(XFe2M2) \
-			+ 2.0*logA(XAlM2) - 2.0*logA(XFe3M2) ) \
+			+ logA(XAlM2) - logA(XFe3M2) ) \
                   - (W[0][1]*r[0] + W[0][2]*r[1] + W[0][3]*r[2] + W[0][4]*r[3] + W[0][5]*r[4] + W[0][6]*r[5] + W[0][7]*r[6]) \
                   +  W[0][3]*(1.0-r[0]-r[1]-r[2]-r[3]-r[4]-r[5]-r[6]) \
                   +  W[1][3]*r[0] +  W[2][3]*r[1] +  W[3][4]*r[3] + W[3][5]*r[4] + W[3][6]*r[5] + W[3][7]*r[6]		
 #define DGDR3      R*t*(- logA(XNaA) + logA(XVcA) \
-                        + 2.0*logA(XAlM2) - 2.0*logA(XFe3M2) \
+                        + logA(XAlM2) - logA(XFe3M2) \
 			- logA(XAlT1) + logA(XSiT1) ) \
                   - (W[0][1]*r[0] + W[0][2]*r[1] + W[0][3]*r[2] + W[0][4]*r[3] + W[0][5]*r[4] + W[0][6]*r[5] + W[0][7]*r[6]) \
                   +  W[0][4]*(1.0-r[0]-r[1]-r[2]-r[3]-r[4]-r[5]-r[6]) \
                   +  W[1][4]*r[0] +  W[2][4]*r[1] +  W[3][4]*r[2] + (W[4][5]*r[4] + W[4][6]*r[5] + W[4][7]*r[6])		  
-#define DGDR4      R*t*(-  2.0*logA(XFe3M2) + 2.0*logA(XTiM2) ) \
+#define DGDR4      R*t*(-  logA(XFe3M2) + logA(XTiM2) ) \
                   - (W[0][1]*r[0] + W[0][2]*r[1] + W[0][3]*r[2] + W[0][4]*r[3] + W[0][5]*r[4] + W[0][6]*r[5] + W[0][7]*r[6]) \
                   +  W[0][5]*(1.0-r[0]-r[1]-r[2]-r[3]-r[4]-r[5]-r[6]) \
                   +  W[1][5]*r[0] +  W[2][5]*r[1] +  W[3][5]*r[2] +  W[4][5]*r[3] +  W[5][6]*r[5] + W[5][7]*r[6]
 #define DGDR5      R*t*(  3.0*dMgM13dr5*logA(XMgM13) + 3.0*dFe2M13dr5*logA(XFe2M13) \
-		        + 2.0*dMgM2dr5*logA(XMgM2) + 2.0*dFe2M2dr5*logA(XFe2M2) - 2.0*logA(XFe3M2) \
+		        + 2.0*dMgM2dr5*logA(XMgM2) + 2.0*dFe2M2dr5*logA(XFe2M2) - logA(XFe3M2) \
 			- logA(XAlT1) + logA(XSiT1) ) \
                   - (W[0][1]*r[0] + W[0][2]*r[1] + W[0][3]*r[2] + W[0][4]*r[3] + W[0][5]*r[4] + W[0][6]*r[5] + W[0][7]*r[6]) \
                   +  W[0][6]*(1.0-r[0]-r[1]-r[2]-r[3]-r[4]-r[5]-r[6]) \
@@ -129,7 +130,7 @@ static const double W[NA][NA] = {
 #define DGDR6      R*t*(- logA(XNaA) + logA(XVcA) \
                   + logA(XNaM4) - logA(XCaM4) \
 		  + 3.0*dMgM13dr6*logA(XMgM13) + 3.0*dFe2M13dr6*logA(XFe2M13) \
-		  + 2.0*dMgM2dr6*logA(XMgM2) + 2.0*dFe2M2dr6*logA(XFe2M2) + 2.0*2.0*logA(XAlM2) - 2.0*logA(XFe3M2) \
+		  + 2.0*dMgM2dr6*logA(XMgM2) + 2.0*dFe2M2dr6*logA(XFe2M2) + 2.0*logA(XAlM2) - logA(XFe3M2) \
 		  - logA(XAlT1) + logA(XSiT1) ) \
                   - (W[0][1]*r[0] + W[0][2]*r[1] + W[0][3]*r[2] + W[0][4]*r[3] + W[0][5]*r[4] + W[0][6]*r[5] + W[0][7]*r[6]) \
                   +  W[0][7]*(1.0-r[0]-r[1]-r[2]-r[3]-r[4]-r[5]-r[6]) \
@@ -147,13 +148,13 @@ static const double W[NA][NA] = {
 #define D2GDR0DT   R*( - logA(XNaA) + logA(XKA) )
 #define D2GDR0DP   0.0
 
-#define D2GDR1R1   R*t*( 2.0/XAlM2 + 2.0/XFe3M2 ) - 2.0*W[0][2] 
-#define D2GDR1R2   R*t*( 2.0/XAlM2 + 2.0/XFe3M2 ) - W[0][3] - W[0][2] + W[2][3]
-#define D2GDR1R3   R*t*( 2.0/XAlM2 + 2.0/XFe3M2 ) - W[0][4] - W[0][2] + W[2][4]
-#define D2GDR1R4   R*t*( 2.0/XFe3M2 ) - W[0][5] - W[0][2] + W[2][5]
-#define D2GDR1R5   R*t*( 2.0/XFe3M2 ) - W[0][6] - W[0][2] + W[2][6]
-#define D2GDR1R6   R*t*( 2.0*2.0/XAlM2 + 2.0/XFe3M2 ) - W[0][7] -  W[0][2] + W[2][7]
-#define D2GDR1DT   R*( 2.0*logA(XAlM2) - 2.0*logA(XFe3M2) )
+#define D2GDR1R1   R*t*( 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 ) - 2.0*W[0][2] 
+#define D2GDR1R2   R*t*( 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 ) - W[0][3] - W[0][2] + W[2][3]
+#define D2GDR1R3   R*t*( 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 ) - W[0][4] - W[0][2] + W[2][4]
+#define D2GDR1R4   R*t*( 1.0/XFe3M2/2.0 ) - W[0][5] - W[0][2] + W[2][5]
+#define D2GDR1R5   R*t*( 1.0/XFe3M2/2.0 ) - W[0][6] - W[0][2] + W[2][6]
+#define D2GDR1R6   R*t*( 1.0/XAlM2 + 1.0/XFe3M2/2.0 ) - W[0][7] -  W[0][2] + W[2][7]
+#define D2GDR1DT   R*( logA(XAlM2) - logA(XFe3M2) )
 #define D2GDR1DP   0.0
 
 #define d2kdr2dr2  ( 0.0)
@@ -177,69 +178,69 @@ static const double W[NA][NA] = {
 #define d2Fe2M13dr5dr6 (d2kdr5dr6)
 #define d2Fe2M13dr6dr6 (d2kdr6dr6)
 
-#define d2MgM2dr2dr2   (	        - (1.0+r[5]-r[6])*d2kdr2dr2)
-#define d2MgM2dr2dr5   (	- dkdr2 - (1.0+r[5]-r[6])*d2kdr2dr5)
-#define d2MgM2dr2dr6   (	  dkdr2 - (1.0+r[5]-r[6])*d2kdr2dr6)
-#define d2MgM2dr5dr5   (- dkdr5 - dkdr5 - (1.0+r[5]-r[6])*d2kdr5dr5)
-#define d2MgM2dr5dr6   (- dkdr6 + dkdr5 - (1.0+r[5]-r[6])*d2kdr5dr6)
-#define d2MgM2dr6dr6   (  dkdr6 + dkdr6 - (1.0+r[5]-r[6])*d2kdr6dr6)
+#define d2MgM2dr2dr2   ((	        - (1.0+r[5]-r[6])*d2kdr2dr2)/2.0)
+#define d2MgM2dr2dr5   ((	- dkdr2 - (1.0+r[5]-r[6])*d2kdr2dr5)/2.0)
+#define d2MgM2dr2dr6   ((	  dkdr2 - (1.0+r[5]-r[6])*d2kdr2dr6)/2.0)
+#define d2MgM2dr5dr5   ((- dkdr5 - dkdr5 - (1.0+r[5]-r[6])*d2kdr5dr5)/2.0)
+#define d2MgM2dr5dr6   ((- dkdr6 + dkdr5 - (1.0+r[5]-r[6])*d2kdr5dr6)/2.0)
+#define d2MgM2dr6dr6   ((  dkdr6 + dkdr6 - (1.0+r[5]-r[6])*d2kdr6dr6)/2.0)
 
-#define d2Fe2M2dr2dr2  (	          (1.0+r[5]-r[6])*d2kdr2dr2)
-#define d2Fe2M2dr2dr5  (	  dkdr2 + (1.0+r[5]-r[6])*d2kdr2dr5)
-#define d2Fe2M2dr2dr6  (	- dkdr2 + (1.0+r[5]-r[6])*d2kdr2dr6)
-#define d2Fe2M2dr5dr5  (  dkdr5 + dkdr5 + (1.0+r[5]-r[6])*d2kdr5dr5)
-#define d2Fe2M2dr5dr6  (  dkdr6 - dkdr5 + (1.0+r[5]-r[6])*d2kdr5dr6)
-#define d2Fe2M2dr6dr6  (- dkdr6 - dkdr6 + (1.0+r[5]-r[6])*d2kdr6dr6)
+#define d2Fe2M2dr2dr2  ((	          (1.0+r[5]-r[6])*d2kdr2dr2)/2.0)
+#define d2Fe2M2dr2dr5  ((	  dkdr2 + (1.0+r[5]-r[6])*d2kdr2dr5)/2.0)
+#define d2Fe2M2dr2dr6  ((	- dkdr2 + (1.0+r[5]-r[6])*d2kdr2dr6)/2.0)
+#define d2Fe2M2dr5dr5  ((  dkdr5 + dkdr5 + (1.0+r[5]-r[6])*d2kdr5dr5)/2.0)
+#define d2Fe2M2dr5dr6  ((  dkdr6 - dkdr5 + (1.0+r[5]-r[6])*d2kdr5dr6)/2.0)
+#define d2Fe2M2dr6dr6  ((- dkdr6 - dkdr6 + (1.0+r[5]-r[6])*d2kdr6dr6)/2.0)
 
 #define D2GDR2R2   R*t*(  3.0*d2MgM13dr2dr2*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr2/XMgM13 \
                         + 3.0*d2Fe2M13dr2dr2*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr2/XFe2M13 \
 		        + 2.0*d2MgM2dr2dr2*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr2/XMgM2 \
 			+ 2.0*d2Fe2M2dr2dr2*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr2/XFe2M2 \
-			+ 2.0/XAlM2 + 2.0/XFe3M2 ) - 2.0*W[0][3]			
-#define D2GDR2R3   R*t*(  2.0/XAlM2 + 2.0/XFe3M2 ) - W[0][4] -  W[0][3] + W[3][4]
-#define D2GDR2R4   R*t*( 2.0/XFe3M2 ) - W[0][5] - W[0][3] + W[3][5]
+			+ 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 ) - 2.0*W[0][3]			
+#define D2GDR2R3   R*t*(  1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 ) - W[0][4] -  W[0][3] + W[3][4]
+#define D2GDR2R4   R*t*(  1.0/XFe3M2/2.0 ) - W[0][5] - W[0][3] + W[3][5]
 #define D2GDR2R5   R*t*(  3.0*d2MgM13dr2dr5*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr5/XMgM13 \
                         + 3.0*d2Fe2M13dr2dr5*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr5/XFe2M13 \
 		        + 2.0*d2MgM2dr2dr5*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr5/XMgM2 \
 			+ 2.0*d2Fe2M2dr2dr5*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr5/XFe2M2 \
-			+ 2.0/XFe3M2 ) - W[0][6] - W[0][3] + W[3][6]				
+			+ 1.0/XFe3M2/2.0 ) - W[0][6] - W[0][3] + W[3][6]				
 #define D2GDR2R6   R*t*(  3.0*d2MgM13dr2dr6*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr6/XMgM13 \
                         + 3.0*d2Fe2M13dr2dr6*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr6/XFe2M13 \
 		        + 2.0*d2MgM2dr2dr6*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr6/XMgM2 \
 			+ 2.0*d2Fe2M2dr2dr6*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr6/XFe2M2 \
-			+ 2.0*2.0/XAlM2 + 2.0/XFe3M2 ) - W[0][7] - W[0][3] + W[3][7]
+			+ 1.0/XAlM2 + 1.0/XFe3M2/2.0 ) - W[0][7] - W[0][3] + W[3][7]
 #define D2GDR2DT   R*(  3.0*dMgM13dr2*logA(XMgM13) + 3.0*dFe2M13dr2*logA(XFe2M13) \
 		      + 2.0*dMgM2dr2*logA(XMgM2) + 2.0*dFe2M2dr2*logA(XFe2M2) \
-		      + 2.0*logA(XAlM2) - 2.0*logA(XFe3M2) )
+		      + logA(XAlM2) - logA(XFe3M2) )
 #define D2GDR2DP   0.0
 
 
-#define D2GDR3R3   R*t*( 1.0/XNaA + 1.0/XVcA + 2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - 2.0*W[0][4]
-#define D2GDR3R4   R*t*( 2.0/XFe3M2 ) - W[0][5] - W[0][4] + W[4][5]
-#define D2GDR3R5   R*t*( 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - W[0][6] - W[0][4] + W[4][6]
-#define D2GDR3R6   R*t*( 1.0/XNaA + 1.0/XVcA + 2.0*2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - W[0][7] - W[0][4] + W[4][7]
-#define D2GDR3DT   R*(- logA(XNaA) + logA(XVcA) + 2.0*logA(XAlM2) - 2.0*logA(XFe3M2) - logA(XAlT1) + logA(XSiT1) )
+#define D2GDR3R3   R*t*( 1.0/XNaA + 1.0/XVcA + 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 ) - 2.0*W[0][4]
+#define D2GDR3R4   R*t*( 1.0/XFe3M2/2.0 ) - W[0][5] - W[0][4] + W[4][5]
+#define D2GDR3R5   R*t*( 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 ) - W[0][6] - W[0][4] + W[4][6]
+#define D2GDR3R6   R*t*( 1.0/XNaA + 1.0/XVcA + 1.0/XAlM2 + 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 ) - W[0][7] - W[0][4] + W[4][7]
+#define D2GDR3DT   R*(- logA(XNaA) + logA(XVcA) + logA(XAlM2) - logA(XFe3M2) - logA(XAlT1) + logA(XSiT1) )
 #define D2GDR3DP   0.0
 
 		
-#define D2GDR4R4   R*t*( 2.0/XFe3M2 + 2.0/XTiM2 ) - 2.0*W[0][5]
-#define D2GDR4R5   R*t*( 2.0/XFe3M2 ) - W[0][6] - W[0][5] + W[5][6]
-#define D2GDR4R6   R*t*( 2.0/XFe3M2 ) - W[0][7] - W[0][5] + W[5][7]
-#define D2GDR4DT   R*(-  2.0*logA(XFe3M2) + 2.0*logA(XTiM2) )
+#define D2GDR4R4   R*t*( 1.0/XFe3M2/2.0 + 1.0/XTiM2/2.0 ) - 2.0*W[0][5]
+#define D2GDR4R5   R*t*( 1.0/XFe3M2/2.0 ) - W[0][6] - W[0][5] + W[5][6]
+#define D2GDR4R6   R*t*( 1.0/XFe3M2/2.0 ) - W[0][7] - W[0][5] + W[5][7]
+#define D2GDR4DT   R*(-  logA(XFe3M2) + logA(XTiM2) )
 #define D2GDR4DP   0.0
 
 #define D2GDR5R5   R*t*(  3.0*d2MgM13dr5dr5*logA(XMgM13) + 3.0*dMgM13dr5*dMgM13dr5/XMgM13 \
                         + 3.0*d2Fe2M13dr5dr5*logA(XFe2M13) + 3.0*dFe2M13dr5*dFe2M13dr5/XFe2M13 \
 		        + 2.0*d2MgM2dr5dr5*logA(XMgM2) + 2.0*dMgM2dr5*dMgM2dr5/XMgM2 \
 			+ 2.0*d2Fe2M2dr5dr5*logA(XFe2M2) + 2.0*dFe2M2dr5*dFe2M2dr5/XFe2M2 \
-			+ 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - 2.0*W[0][6]
+			+ 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 ) - 2.0*W[0][6]
 #define D2GDR5R6   R*t*(  3.0*d2MgM13dr5dr6*logA(XMgM13) + 3.0*dMgM13dr5*dMgM13dr6/XMgM13 \
                         + 3.0*d2Fe2M13dr5dr6*logA(XFe2M13) + 3.0*dFe2M13dr5*dFe2M13dr6/XFe2M13 \
 		        + 2.0*d2MgM2dr5dr6*logA(XMgM2) + 2.0*dMgM2dr5*dMgM2dr6/XMgM2 \
 			+ 2.0*d2Fe2M2dr5dr6*logA(XFe2M2) + 2.0*dFe2M2dr5*dFe2M2dr6/XFe2M2 \
-			+ 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - W[0][7] - W[0][6] + W[6][7]
+			+ 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 ) - W[0][7] - W[0][6] + W[6][7]
 #define D2GDR5DT   R*(  3.0*dMgM13dr5*logA(XMgM13) + 3.0*dFe2M13dr5*logA(XFe2M13) \
-		      + 2.0*dMgM2dr5*logA(XMgM2) + 2.0*dFe2M2dr5*logA(XFe2M2) - 2.0*logA(XFe3M2) \
+		      + 2.0*dMgM2dr5*logA(XMgM2) + 2.0*dFe2M2dr5*logA(XFe2M2) - logA(XFe3M2) \
 		      - logA(XAlT1) + logA(XSiT1) )
 #define D2GDR5DP   0.0
 
@@ -248,11 +249,11 @@ static const double W[NA][NA] = {
 		        + 3.0*d2Fe2M13dr6dr6*logA(XFe2M13) + 3.0*dFe2M13dr6*dFe2M13dr6/XFe2M13 \
 		        + 2.0*d2MgM2dr6dr6*logA(XMgM2) + 2.0*dMgM2dr6*dMgM2dr6/XMgM2 \
 		        + 2.0*d2Fe2M2dr6dr6*logA(XFe2M2) + 2.0*dFe2M2dr6*dFe2M2dr6/XFe2M2 \
-		        + 2.0*2.0*2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 ) - 2.0*W[0][7]
+		        + 2.0/XAlM2 + 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 ) - 2.0*W[0][7]
 #define D2GDR6DT   R*(- logA(XNaA) + logA(XVcA) \
                       + logA(XNaM4) - logA(XCaM4) \
 		      + 3.0*dMgM13dr6*logA(XMgM13) + 3.0*dFe2M13dr6*logA(XFe2M13) \
-		      + 2.0*dMgM2dr6*logA(XMgM2) + 2.0*dFe2M2dr6*logA(XFe2M2) + 2.0*2.0*logA(XAlM2) - 2.0*logA(XFe3M2) \
+		      + 2.0*dMgM2dr6*logA(XMgM2) + 2.0*dFe2M2dr6*logA(XFe2M2) + 2.0*logA(XAlM2) - logA(XFe3M2) \
 		      - logA(XAlT1) + logA(XSiT1) )
 #define D2GDR6DP   0.0
 
@@ -310,43 +311,43 @@ static const double W[NA][NA] = {
 #define D3GDR0R6DT R*( 1.0/XNaA )
 #define D3GDR0R6DP 0.0
 
-#define D3GDR1R1R1 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R1R2 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R1R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R1R4 R*t*(  2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R1R5 R*t*(  2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R1R6 R*t*(- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R1DT R*( 2.0/XAlM2 + 2.0/XFe3M2 )
+#define D3GDR1R1R1 R*t*(- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R1R2 R*t*(- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R1R3 R*t*(- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R1R4 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R1R5 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R1R6 R*t*(- 1.0/XAlM2/XAlM2/2.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R1DT R*( 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 )
 #define D3GDR1R1DP 0.0
 
-#define D3GDR1R2R2 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R2R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R2R4 R*t*(  2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R2R5 R*t*(  2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R2R6 R*t*(- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R2DT R*( 2.0/XAlM2 + 2.0/XFe3M2 )
+#define D3GDR1R2R2 R*t*(- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R2R3 R*t*(- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R2R4 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R2R5 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R2R6 R*t*(- 1.0/XAlM2/XAlM2/2.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R2DT R*( 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 )
 #define D3GDR1R2DP 0.0
 
-#define D3GDR1R3R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R3R4 R*t*(  2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R3R5 R*t*(  2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R3R6 R*t*(- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R3DT R*( 2.0/XAlM2 + 2.0/XFe3M2 )
+#define D3GDR1R3R3 R*t*(- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R3R4 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R3R5 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R3R6 R*t*(- 1.0/XAlM2/XAlM2/2.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R3DT R*( 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 )
 #define D3GDR1R3DP 0.0
 
-#define D3GDR1R4R4 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R4R5 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R4R6 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R4DT R*( 2.0/XFe3M2 )
+#define D3GDR1R4R4 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R4R5 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R4R6 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R4DT R*( 1.0/XFe3M2/2.0 )
 #define D3GDR1R4DP 0.0
 
-#define D3GDR1R5R5 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R5R6 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R5DT R*( 2.0/XFe3M2 )
+#define D3GDR1R5R5 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R5R6 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R5DT R*( 1.0/XFe3M2/2.0 )
 #define D3GDR1R5DP 0.0
 
-#define D3GDR1R6R6 R*t*(- 2.0*2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR1R6DT R*( 2.0*2.0/XAlM2 + 2.0/XFe3M2 )
+#define D3GDR1R6R6 R*t*(- 1.0/XAlM2/XAlM2 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR1R6DT R*( 1.0/XAlM2 + 1.0/XFe3M2/2.0 )
 #define D3GDR1R6DP 0.0
 
 #define d3kdr2dr2dr2  ( 0.0)
@@ -382,27 +383,27 @@ static const double W[NA][NA] = {
 #define d3Fe2M13dr5dr6dr6 (d3kdr5dr6dr6)
 #define d3Fe2M13dr6dr6dr6 (d3kdr6dr6dr6)
 
-#define d3MgM2dr2dr2dr2   (	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr2)
-#define d3MgM2dr2dr2dr5   (	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr5 - d2kdr2dr2)
-#define d3MgM2dr2dr2dr6   (	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr6 + d2kdr2dr2)
-#define d3MgM2dr2dr5dr5   (	       - d2kdr2dr5 - (1.0+r[5]-r[6])*d3kdr2dr5dr5 - d2kdr2dr5)
-#define d3MgM2dr2dr5dr6   (	       - d2kdr2dr6 - (1.0+r[5]-r[6])*d3kdr2dr5dr6 + d2kdr2dr5)
-#define d3MgM2dr2dr6dr6   (	 	 d2kdr2dr6 - (1.0+r[5]-r[6])*d3kdr2dr6dr6 + d2kdr2dr6)
-#define d3MgM2dr5dr5dr5   (- d2kdr5dr5 - d2kdr5dr5 - (1.0+r[5]-r[6])*d3kdr5dr5dr5 - d2kdr5dr5)
-#define d3MgM2dr5dr5dr6   (- d2kdr5dr6 - d2kdr5dr6 - (1.0+r[5]-r[6])*d3kdr5dr5dr6 + d2kdr5dr5)
-#define d3MgM2dr5dr6dr6   (- d2kdr6dr6 + d2kdr5dr6 - (1.0+r[5]-r[6])*d3kdr5dr6dr6 + d2kdr5dr6)
-#define d3MgM2dr6dr6dr6   (  d2kdr6dr6 + d2kdr6dr6 - (1.0+r[5]-r[6])*d3kdr6dr6dr6 + d2kdr6dr6)
+#define d3MgM2dr2dr2dr2   ((	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr2)/2.0)
+#define d3MgM2dr2dr2dr5   ((	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr5 - d2kdr2dr2)/2.0)
+#define d3MgM2dr2dr2dr6   ((	 		   - (1.0+r[5]-r[6])*d3kdr2dr2dr6 + d2kdr2dr2)/2.0)
+#define d3MgM2dr2dr5dr5   ((	       - d2kdr2dr5 - (1.0+r[5]-r[6])*d3kdr2dr5dr5 - d2kdr2dr5)/2.0)
+#define d3MgM2dr2dr5dr6   ((	       - d2kdr2dr6 - (1.0+r[5]-r[6])*d3kdr2dr5dr6 + d2kdr2dr5)/2.0)
+#define d3MgM2dr2dr6dr6   ((	 	 d2kdr2dr6 - (1.0+r[5]-r[6])*d3kdr2dr6dr6 + d2kdr2dr6)/2.0)
+#define d3MgM2dr5dr5dr5   ((- d2kdr5dr5 - d2kdr5dr5 - (1.0+r[5]-r[6])*d3kdr5dr5dr5 - d2kdr5dr5)/2.0)
+#define d3MgM2dr5dr5dr6   ((- d2kdr5dr6 - d2kdr5dr6 - (1.0+r[5]-r[6])*d3kdr5dr5dr6 + d2kdr5dr5)/2.0)
+#define d3MgM2dr5dr6dr6   ((- d2kdr6dr6 + d2kdr5dr6 - (1.0+r[5]-r[6])*d3kdr5dr6dr6 + d2kdr5dr6)/2.0)
+#define d3MgM2dr6dr6dr6   ((  d2kdr6dr6 + d2kdr6dr6 - (1.0+r[5]-r[6])*d3kdr6dr6dr6 + d2kdr6dr6)/2.0)
 
-#define d3Fe2M2dr2dr2dr2  (	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr2)
-#define d3Fe2M2dr2dr2dr5  (	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr5 + d2kdr2dr2)
-#define d3Fe2M2dr2dr2dr6  (	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr6 - d2kdr2dr2)
-#define d3Fe2M2dr2dr5dr5  (	   	 d2kdr2dr5 + (1.0+r[5]-r[6])*d3kdr2dr5dr5 + d2kdr2dr5)
-#define d3Fe2M2dr2dr5dr6  (	   	 d2kdr2dr6 + (1.0+r[5]-r[6])*d3kdr2dr5dr6 - d2kdr2dr5)
-#define d3Fe2M2dr2dr6dr6  (	       - d2kdr2dr6 + (1.0+r[5]-r[6])*d3kdr2dr6dr6 - d2kdr2dr6)
-#define d3Fe2M2dr5dr5dr5  (  d2kdr5dr5 + d2kdr5dr5 + (1.0+r[5]-r[6])*d3kdr5dr5dr5 + d2kdr5dr5)
-#define d3Fe2M2dr5dr5dr6  (  d2kdr5dr6 + d2kdr5dr6 + (1.0+r[5]-r[6])*d3kdr5dr5dr6 - d2kdr5dr5)
-#define d3Fe2M2dr5dr6dr6  (  d2kdr6dr6 - d2kdr5dr6 + (1.0+r[5]-r[6])*d3kdr5dr6dr6 - d2kdr5dr6)
-#define d3Fe2M2dr6dr6dr6  (- d2kdr6dr6 - d2kdr6dr6 + (1.0+r[5]-r[6])*d3kdr6dr6dr6 - d2kdr6dr6)
+#define d3Fe2M2dr2dr2dr2  ((	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr2)/2.0)
+#define d3Fe2M2dr2dr2dr5  ((	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr5 + d2kdr2dr2)/2.0)
+#define d3Fe2M2dr2dr2dr6  ((	           	     (1.0+r[5]-r[6])*d3kdr2dr2dr6 - d2kdr2dr2)/2.0)
+#define d3Fe2M2dr2dr5dr5  ((	   	 d2kdr2dr5 + (1.0+r[5]-r[6])*d3kdr2dr5dr5 + d2kdr2dr5)/2.0)
+#define d3Fe2M2dr2dr5dr6  ((	   	 d2kdr2dr6 + (1.0+r[5]-r[6])*d3kdr2dr5dr6 - d2kdr2dr5)/2.0)
+#define d3Fe2M2dr2dr6dr6  ((	       - d2kdr2dr6 + (1.0+r[5]-r[6])*d3kdr2dr6dr6 - d2kdr2dr6)/2.0)
+#define d3Fe2M2dr5dr5dr5  ((  d2kdr5dr5 + d2kdr5dr5 + (1.0+r[5]-r[6])*d3kdr5dr5dr5 + d2kdr5dr5)/2.0)
+#define d3Fe2M2dr5dr5dr6  ((  d2kdr5dr6 + d2kdr5dr6 + (1.0+r[5]-r[6])*d3kdr5dr5dr6 - d2kdr5dr5)/2.0)
+#define d3Fe2M2dr5dr6dr6  ((  d2kdr6dr6 - d2kdr5dr6 + (1.0+r[5]-r[6])*d3kdr5dr6dr6 - d2kdr5dr6)/2.0)
+#define d3Fe2M2dr6dr6dr6  ((- d2kdr6dr6 - d2kdr6dr6 + (1.0+r[5]-r[6])*d3kdr6dr6dr6 - d2kdr6dr6)/2.0)
 
 #define D3GDR2R2R2 R*t*(  3.0*d3MgM13dr2dr2dr2*logA(XMgM13)     + 3.0*d2MgM13dr2dr2*dMgM13dr2/XMgM13 \
                         + 6.0*dMgM13dr2*d2MgM13dr2dr2/XMgM13    - 3.0*dMgM13dr2*dMgM13dr2*dMgM13dr2/XMgM13/XMgM13 \
@@ -412,9 +413,9 @@ static const double W[NA][NA] = {
 			+ 4.0*dMgM2dr2*d2MgM2dr2dr2/XMgM2       - 2.0*dMgM2dr2*dMgM2dr2*dMgM2dr2/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr2dr2dr2*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr2*dFe2M2dr2/XFe2M2 \
 			+ 4.0*dFe2M2dr2*d2Fe2M2dr2dr2/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr2*dFe2M2dr2/XFe2M2/XFe2M2 \
-			- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R2R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R2R4 R*t*(  2.0/XFe3M2/XFe3M2 )
+			- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R2R3 R*t*(- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R2R4 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
 #define D3GDR2R2R5 R*t*(  3.0*d3MgM13dr2dr2dr5*logA(XMgM13)     + 3.0*d2MgM13dr2dr2*dMgM13dr5/XMgM13 \
                         + 6.0*dMgM13dr2*d2MgM13dr2dr5/XMgM13    - 3.0*dMgM13dr2*dMgM13dr2*dMgM13dr5/XMgM13/XMgM13 \
                         + 3.0*d3Fe2M13dr2dr2dr5*logA(XFe2M13)   + 3.0*d2Fe2M13dr2dr2*dFe2M13dr5/XFe2M13 \
@@ -423,7 +424,7 @@ static const double W[NA][NA] = {
 			+ 4.0*dMgM2dr2*d2MgM2dr2dr5/XMgM2       - 2.0*dMgM2dr2*dMgM2dr2*dMgM2dr5/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr2dr2dr5*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr2*dFe2M2dr5/XFe2M2 \
 			+ 4.0*dFe2M2dr2*d2Fe2M2dr2dr5/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr2*dFe2M2dr5/XFe2M2/XFe2M2 \
-			+ 2.0/XFe3M2/XFe3M2 )			
+			+ 1.0/XFe3M2/XFe3M2/4.0 )			
 #define D3GDR2R2R6 R*t*(  3.0*d3MgM13dr2dr2dr6*logA(XMgM13)     + 3.0*d2MgM13dr2dr2*dMgM13dr6/XMgM13 \
                         + 6.0*dMgM13dr2*d2MgM13dr2dr6/XMgM13    - 3.0*dMgM13dr2*dMgM13dr2*dMgM13dr6/XMgM13/XMgM13 \
                         + 3.0*d3Fe2M13dr2dr2dr6*logA(XFe2M13)   + 3.0*d2Fe2M13dr2dr2*dFe2M13dr6/XFe2M13 \
@@ -432,25 +433,25 @@ static const double W[NA][NA] = {
 			+ 4.0*dMgM2dr2*d2MgM2dr2dr6/XMgM2       - 2.0*dMgM2dr2*dMgM2dr2*dMgM2dr6/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr2dr2dr6*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr2*dFe2M2dr6/XFe2M2 \
 			+ 4.0*dFe2M2dr2*d2Fe2M2dr2dr6/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr2*dFe2M2dr6/XFe2M2/XFe2M2 \
-			- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )			
+			- 1.0/XAlM2/XAlM2/2.0 + 1.0/XFe3M2/XFe3M2/4.0 )			
 #define D3GDR2R2DT R*(  3.0*d2MgM13dr2dr2*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr2/XMgM13 \
                       + 3.0*d2Fe2M13dr2dr2*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr2/XFe2M13 \
 		      + 2.0*d2MgM2dr2dr2*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr2/XMgM2 \
 	              + 2.0*d2Fe2M2dr2dr2*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr2/XFe2M2 \
-		      + 2.0/XAlM2 + 2.0/XFe3M2 )
+		      + 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 )
 #define D3GDR2R2DP 0.0
 
-#define D3GDR2R3R3 R*t*(- 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R3R4 R*t*(  2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R3R5 R*t*(  2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R3R6 R*t*(- 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R3DT R*(  2.0/XAlM2 + 2.0/XFe3M2 )
+#define D3GDR2R3R3 R*t*(- 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R3R4 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R3R5 R*t*(  1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R3R6 R*t*(- 1.0/XAlM2/XAlM2/2.0 + 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R3DT R*(  1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 )
 #define D3GDR2R3DP 0.0
 
-#define D3GDR2R4R4 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R4R5 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R4R6 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR2R4DT R*( 2.0/XFe3M2 )
+#define D3GDR2R4R4 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R4R5 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R4R6 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR2R4DT R*( 1.0/XFe3M2/2.0 )
 #define D3GDR2R4DP 0.0
 
 #define D3GDR2R5R5 R*t*(  3.0*d3MgM13dr2dr5dr5*logA(XMgM13)     + 3.0*d2MgM13dr2dr5*dMgM13dr5/XMgM13 \
@@ -461,7 +462,7 @@ static const double W[NA][NA] = {
 			+ 2.0*d2MgM2dr2dr5*dMgM2dr5/XMgM2       + 2.0*dMgM2dr2*d2MgM2dr5dr5/XMgM2       - 2.0*dMgM2dr2*dMgM2dr5*dMgM2dr5/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr2dr5dr5*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr5*dFe2M2dr5/XFe2M2 \
 			+ 2.0*d2Fe2M2dr2dr5*dFe2M2dr5/XFe2M2    + 2.0*dFe2M2dr2*d2Fe2M2dr5dr5/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr5*dFe2M2dr5/XFe2M2/XFe2M2 \
-			+ 2.0/XFe3M2/XFe3M2 )
+			+ 1.0/XFe3M2/XFe3M2/4.0 )
 #define D3GDR2R5R6 R*t*(  3.0*d3MgM13dr2dr5dr6*logA(XMgM13)     + 3.0*d2MgM13dr2dr5*dMgM13dr6/XMgM13 \
                         + 3.0*d2MgM13dr2dr6*dMgM13dr5/XMgM13    + 3.0*dMgM13dr2*d2MgM13dr5dr6/XMgM13    - 3.0*dMgM13dr2*dMgM13dr5*dMgM13dr6/XMgM13/XMgM13 \
                         + 3.0*d3Fe2M13dr2dr5dr6*logA(XFe2M13)   + 3.0*d2Fe2M13dr2dr5*dFe2M13dr6/XFe2M13 \
@@ -470,13 +471,13 @@ static const double W[NA][NA] = {
 			+ 2.0*d2MgM2dr2dr6*dMgM2dr5/XMgM2       + 2.0*dMgM2dr2*d2MgM2dr5dr6/XMgM2       - 2.0*dMgM2dr2*dMgM2dr5*dMgM2dr6/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr2dr5dr6*logA(XFe2M2)     + 2.0*d2Fe2M2dr2dr5*dFe2M2dr6/XFe2M2 \
 			+ 2.0*d2Fe2M2dr2dr6*dFe2M2dr5/XFe2M2    + 2.0*dFe2M2dr2*d2Fe2M2dr5dr6/XFe2M2    - 2.0*dFe2M2dr2*dFe2M2dr5*dFe2M2dr6/XFe2M2/XFe2M2 \
-			+ 2.0/XFe3M2/XFe3M2 )
+			+ 1.0/XFe3M2/XFe3M2/4.0 )
 
 #define D3GDR2R5DT R*(  3.0*d2MgM13dr2dr5*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr5/XMgM13 \
                       + 3.0*d2Fe2M13dr2dr5*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr5/XFe2M13 \
 		      + 2.0*d2MgM2dr2dr5*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr5/XMgM2 \
 		      + 2.0*d2Fe2M2dr2dr5*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr5/XFe2M2 \
-		      + 2.0/XFe3M2 )
+		      + 1.0/XFe3M2/2.0 )
 #define D3GDR2R5DP 0.0
 
 #define D3GDR2R6R6 R*t*(  3.0*d3MgM13dr2dr6dr6*logA(XMgM13) + 3.0*d2MgM13dr2dr6*dMgM13dr6/XMgM13 \
@@ -487,49 +488,49 @@ static const double W[NA][NA] = {
 			+ 2.0*d2MgM2dr2dr6*dMgM2dr6/XMgM2 + 2.0*dMgM2dr2*d2MgM2dr6dr6/XMgM2 - 2.0*dMgM2dr2*dMgM2dr6*dMgM2dr6/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr2dr6dr6*logA(XFe2M2) + 2.0*d2Fe2M2dr2dr6*dFe2M2dr6/XFe2M2 \
 			+ 2.0*d2Fe2M2dr2dr6*dFe2M2dr6/XFe2M2 + 2.0*dFe2M2dr2*d2Fe2M2dr6dr6/XFe2M2 - 2.0*dFe2M2dr2*dFe2M2dr6*dFe2M2dr6/XFe2M2/XFe2M2 \
-			- 2.0*2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 )
+			- 1.0/XAlM2/XAlM2 + 1.0/XFe3M2/XFe3M2/4.0 )
 #define D3GDR2R6DT R*(  3.0*d2MgM13dr2dr6*logA(XMgM13) + 3.0*dMgM13dr2*dMgM13dr6/XMgM13 \
                       + 3.0*d2Fe2M13dr2dr6*logA(XFe2M13) + 3.0*dFe2M13dr2*dFe2M13dr6/XFe2M13 \
 		      + 2.0*d2MgM2dr2dr6*logA(XMgM2) + 2.0*dMgM2dr2*dMgM2dr6/XMgM2 \
 		      + 2.0*d2Fe2M2dr2dr6*logA(XFe2M2) + 2.0*dFe2M2dr2*dFe2M2dr6/XFe2M2 \
-		      + 2.0*2.0/XAlM2 + 2.0/XFe3M2 )
+		      + 1.0/XAlM2 + 1.0/XFe3M2/2.0 )
 #define D3GDR2R6DP 0.0
 
-#define D3GDR3R3R3 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
-#define D3GDR3R3R4 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR3R3R5 R*t*( 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
-#define D3GDR3R3R6 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
-#define D3GDR3R3DT R*( 1.0/XNaA + 1.0/XVcA + 2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
+#define D3GDR3R3R3 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 1.0/XAlM2/XAlM2/4.0 + 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R3R4 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR3R3R5 R*t*( 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R3R6 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 1.0/XAlM2/XAlM2/2.0 + 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R3DT R*( 1.0/XNaA + 1.0/XVcA + 1.0/XAlM2/2.0 + 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR3R3DP 0.0
 
-#define D3GDR3R4R4 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR3R4R5 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR3R4R6 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR3R4DT R*( 2.0/XFe3M2 )
+#define D3GDR3R4R4 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR3R4R5 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR3R4R6 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR3R4DT R*( 1.0/XFe3M2/2.0 )
 #define D3GDR3R4DP 0.0
 
-#define D3GDR3R5R5 R*t*( 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
-#define D3GDR3R5R6 R*t*( 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
-#define D3GDR3R5DT R*( 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
+#define D3GDR3R5R5 R*t*( 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R5R6 R*t*( 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R5DT R*( 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR3R5DP 0.0
 
-#define D3GDR3R6R6 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 2.0*2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
-#define D3GDR3R6DT R*( 1.0/XNaA + 1.0/XVcA + 2.0*2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
+#define D3GDR3R6R6 R*t*( 1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 1.0/XAlM2/XAlM2 + 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+#define D3GDR3R6DT R*( 1.0/XNaA + 1.0/XVcA + 1.0/XAlM2 + 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR3R6DP 0.0
 
-#define D3GDR4R4R4 R*t*( 2.0/XFe3M2/XFe3M2 - 2.0/XTiM2/XTiM2 )
-#define D3GDR4R4R5 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR4R4R6 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR4R4DT R*( 2.0/XFe3M2 + 2.0/XTiM2 )
+#define D3GDR4R4R4 R*t*( 1.0/XFe3M2/XFe3M2/4.0 - 1.0/XTiM2/XTiM2/4.0 )
+#define D3GDR4R4R5 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR4R4R6 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR4R4DT R*( 1.0/XFe3M2/2.0 + 1.0/XTiM2/2.0 )
 #define D3GDR4R4DP 0.0
 
-#define D3GDR4R5R5 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR4R5R6 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR4R5DT R*( 2.0/XFe3M2 )
+#define D3GDR4R5R5 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR4R5R6 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR4R5DT R*( 1.0/XFe3M2/2.0 )
 #define D3GDR4R5DP 0.0
 
-#define D3GDR4R6R6 R*t*( 2.0/XFe3M2/XFe3M2 )
-#define D3GDR4R6DT R*( 2.0/XFe3M2 )
+#define D3GDR4R6R6 R*t*( 1.0/XFe3M2/XFe3M2/4.0 )
+#define D3GDR4R6DT R*( 1.0/XFe3M2/2.0 )
 #define D3GDR4R6DP 0.0
 
 #define D3GDR5R5R5 R*t*(  3.0*d3MgM13dr5dr5dr5*logA(XMgM13) + 3.0*d2MgM13dr5dr5*dMgM13dr5/XMgM13 \
@@ -540,7 +541,7 @@ static const double W[NA][NA] = {
 			+ 2.0*d2MgM2dr5dr5*dMgM2dr5/XMgM2 + 2.0*dMgM2dr5*d2MgM2dr5dr5/XMgM2 - 2.0*dMgM2dr5*dMgM2dr5*dMgM2dr5/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr5dr5dr5*logA(XFe2M2) + 2.0*d2Fe2M2dr5dr5*dFe2M2dr5/XFe2M2 \
 			+ 2.0*d2Fe2M2dr5dr5*dFe2M2dr5/XFe2M2 + 2.0*dFe2M2dr5*d2Fe2M2dr5dr5/XFe2M2 - 2.0*dFe2M2dr5*dFe2M2dr5*dFe2M2dr5/XFe2M2/XFe2M2 \
-			+ 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+			+ 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
 #define D3GDR5R5R6 R*t*(  3.0*d3MgM13dr5dr5dr6*logA(XMgM13) + 3.0*d2MgM13dr5dr5*dMgM13dr6/XMgM13 \
                         + 3.0*d2MgM13dr5dr6*dMgM13dr5/XMgM13 + 3.0*dMgM13dr5*d2MgM13dr5dr6/XMgM13 - 3.0*dMgM13dr5*dMgM13dr5*dMgM13dr6/XMgM13/XMgM13 \
                         + 3.0*d3Fe2M13dr5dr5dr6*logA(XFe2M13) + 3.0*d2Fe2M13dr5dr5*dFe2M13dr6/XFe2M13 \
@@ -549,12 +550,12 @@ static const double W[NA][NA] = {
 			+ 2.0*d2MgM2dr5dr6*dMgM2dr5/XMgM2 + 2.0*dMgM2dr5*d2MgM2dr5dr6/XMgM2 - 2.0*dMgM2dr5*dMgM2dr5*dMgM2dr6/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr5dr5dr6*logA(XFe2M2) + 2.0*d2Fe2M2dr5dr5*dFe2M2dr6/XFe2M2 \
 			+ 2.0*d2Fe2M2dr5dr6*dFe2M2dr5/XFe2M2 + 2.0*dFe2M2dr5*d2Fe2M2dr5dr6/XFe2M2 - 2.0*dFe2M2dr5*dFe2M2dr5*dFe2M2dr6/XFe2M2/XFe2M2 \
-			+ 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+			+ 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
 #define D3GDR5R5DT R*(  3.0*d2MgM13dr5dr5*logA(XMgM13) + 3.0*dMgM13dr5*dMgM13dr5/XMgM13 \
                       + 3.0*d2Fe2M13dr5dr5*logA(XFe2M13) + 3.0*dFe2M13dr5*dFe2M13dr5/XFe2M13 \
 		      + 2.0*d2MgM2dr5dr5*logA(XMgM2) + 2.0*dMgM2dr5*dMgM2dr5/XMgM2 \
 		      + 2.0*d2Fe2M2dr5dr5*logA(XFe2M2) + 2.0*dFe2M2dr5*dFe2M2dr5/XFe2M2 \
-		      + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
+		      + 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR5R5DP 0.0
 
 #define D3GDR5R6R6 R*t*(  3.0*d3MgM13dr5dr6dr6*logA(XMgM13) + 3.0*d2MgM13dr5dr6*dMgM13dr6/XMgM13 \
@@ -565,12 +566,12 @@ static const double W[NA][NA] = {
 			+ 2.0*d2MgM2dr5dr6*dMgM2dr6/XMgM2 + 2.0*dMgM2dr5*d2MgM2dr6dr6/XMgM2 - 2.0*dMgM2dr5*dMgM2dr6*dMgM2dr6/XMgM2/XMgM2 \
 			+ 2.0*d3Fe2M2dr5dr6dr6*logA(XFe2M2) + 2.0*d2Fe2M2dr5dr6*dFe2M2dr6/XFe2M2 \
 			+ 2.0*d2Fe2M2dr5dr6*dFe2M2dr6/XFe2M2 + 2.0*dFe2M2dr5*d2Fe2M2dr6dr6/XFe2M2 - 2.0*dFe2M2dr5*dFe2M2dr6*dFe2M2dr6/XFe2M2/XFe2M2 \
-			+ 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+			+ 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
 #define D3GDR5R6DT R*(  3.0*d2MgM13dr5dr6*logA(XMgM13) + 3.0*dMgM13dr5*dMgM13dr6/XMgM13 \
                       + 3.0*d2Fe2M13dr5dr6*logA(XFe2M13) + 3.0*dFe2M13dr5*dFe2M13dr6/XFe2M13 \
 		      + 2.0*d2MgM2dr5dr6*logA(XMgM2) + 2.0*dMgM2dr5*dMgM2dr6/XMgM2 \
 		      + 2.0*d2Fe2M2dr5dr6*logA(XFe2M2) + 2.0*dFe2M2dr5*dFe2M2dr6/XFe2M2 \
-		      + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
+		      + 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR5R6DP 0.0
 
 #define D3GDR6R6R6 R*t*(  1.0/XNaA/XNaA - 1.0/XVcA/XVcA - 1.0/XNaM4/XNaM4 + 1.0/XCaM4/XCaM4 \
@@ -582,13 +583,13 @@ static const double W[NA][NA] = {
 			+ 2.0*d2MgM2dr6dr6*dMgM2dr6/XMgM2 + 2.0*dMgM2dr6*d2MgM2dr6dr6/XMgM2 - 2.0*dMgM2dr6*dMgM2dr6*dMgM2dr6/XMgM2/XMgM2 \
 		        + 2.0*d3Fe2M2dr6dr6dr6*logA(XFe2M2) + 2.0*d2Fe2M2dr6dr6*dFe2M2dr6/XFe2M2 \
 			+ 2.0*d2Fe2M2dr6dr6*dFe2M2dr6/XFe2M2 + 2.0*dFe2M2dr6*d2Fe2M2dr6dr6/XFe2M2 - 2.0*dFe2M2dr6*dFe2M2dr6*dFe2M2dr6/XFe2M2/XFe2M2 \
-		        - 2.0*2.0*2.0*2.0/XAlM2/XAlM2 + 2.0/XFe3M2/XFe3M2 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
+		        - 2.0/XAlM2/XAlM2 + 1.0/XFe3M2/XFe3M2/4.0 + 0.25*0.25/XAlT1/XAlT1 - 0.25*0.25/XSiT1/XSiT1 )
 #define D3GDR6R6DT R*(  1.0/XNaA + 1.0/XVcA + 1.0/XNaM4 + 1.0/XCaM4 \
 		      + 3.0*d2MgM13dr6dr6*logA(XMgM13) + 3.0*dMgM13dr6*dMgM13dr6/XMgM13 \
 		      + 3.0*d2Fe2M13dr6dr6*logA(XFe2M13) + 3.0*dFe2M13dr6*dFe2M13dr6/XFe2M13 \
 		      + 2.0*d2MgM2dr6dr6*logA(XMgM2) + 2.0*dMgM2dr6*dMgM2dr6/XMgM2 \
 		      + 2.0*d2Fe2M2dr6dr6*logA(XFe2M2) + 2.0*dFe2M2dr6*dFe2M2dr6/XFe2M2 \
-		      + 2.0*2.0*2.0/XAlM2 + 2.0/XFe3M2 + 0.25/XAlT1 + 0.25/XSiT1 )
+		      + 2.0/XAlM2 + 1.0/XFe3M2/2.0 + 0.25/XAlT1 + 0.25/XSiT1 )
 #define D3GDR6R6DP 0.0
 
 #define D3GDT3     0.0
@@ -1113,14 +1114,14 @@ conHrn(int inpMask, int outMask, double t, double p,
 	  okay = FALSE;
 	  badConstraints |= 01;
 	} else if (sum-m[1]-m[4]-m[7] > sum) {
-	  double oneSi = - e[Al] - e[Fe] - 13.0*e[Ca]/2.0 - e[Mg] - e[Ti] + 13.0*e[Na]/3.0;
+	  double oneSi = - e[Al] - e[Fe] + 13.0*e[Ca]/3.0 - e[Mg] - e[Ti] + 13.0*e[Na]/3.0;
 	  if (oneSi > silicaMin) silicaMin = oneSi;
 	  okay = FALSE;
 	  badConstraints |= 010001;
 	}
 	
         if (m[4]+m[7] < 0.0) {  /* A Vc      */
-	  double zeroSi = - e[Al] - e[Fe] + 13.0*e[Na]/3.0 + 13.0*e[K]/3.0 - e[Ti] - e[Mg] - 13.0*e[Ca]/3.0;
+	  double zeroSi = - e[Al] - e[Fe] + 13.0*e[Na]/3.0 + 13.0*e[K]/3.0 - e[Ti] - e[Mg] + 13.0*e[Ca]/3.0;
 	  if (zeroSi > silicaMin) silicaMin = zeroSi;
 	  okay = FALSE;
 	  badConstraints |= 02;
@@ -1132,12 +1133,12 @@ conHrn(int inpMask, int outMask, double t, double p,
 	}
 	
         if (m[7] < 0.0) {  /* M4 Na     */
-	  double zeroSi = - 13.0*e[Ca]/2.0 - e[Al] - e[Fe] - e[Ti] - e[Mg];
+	  double zeroSi = 13.0*e[Ca]/2.0 - e[Al] - e[Fe] - e[Ti] - e[Mg];
 	  if (zeroSi > silicaMin) silicaMin = zeroSi;
 	  okay = FALSE;
 	  badConstraints |= 04;
-	} else if (m[7] > sum/2.0) {
-	  double oneSi = - e[Al] - e[Fe] - e[Ti] - e[Mg];
+	} else if (m[7] > sum) {
+	  double oneSi = 13.0*e[Ca] - e[Al] - e[Fe] - e[Ti] - e[Mg];
 	  if (oneSi < silicaMax) silicaMax = oneSi;
 	  okay = FALSE;
 	  badConstraints |= 010004;
@@ -1167,8 +1168,8 @@ conHrn(int inpMask, int outMask, double t, double p,
 	  if (zeroSi > silicaMin) silicaMin = zeroSi;
 	  okay = FALSE;
 	  badConstraints |= 040;
-	} else if ((sum+m[6]-m[7]) > sum) {
-	  double oneSi = 11.0*e[Ti]/2.0 + 11.0*e[Fe]/2.0 + 11.0*e[Mg]/2.0 + 11.0*e[Al]/2.0 - 13.0*e[Na]/2.0 - 13.0*e[K]/2.0;
+	} else if ((sum+m[6]-m[7]) > 2.0*sum) {
+	  double oneSi = 12.0*e[Ti] + 12.0*e[Fe] + 12.0*e[Mg] + 12.0*e[Al] - 13.0*e[Na] - 13.0*e[K] - 26.0*e[Ca];
 	  if (oneSi < silicaMax) silicaMax = oneSi;
 	  okay = FALSE;
 	  badConstraints |= 010040;
@@ -1180,38 +1181,38 @@ conHrn(int inpMask, int outMask, double t, double p,
 	  okay = FALSE;
 	  badConstraints |= 0100;
 	} else if (sum-m[2]-m[3]-m[4]-m[5]-m[6]-m[7]  > sum) {  /* M2 Fe3+   */
-	  double oneSi = - 52.0*e[Ca]/7.0 - 13.0*e[Na]/7.0 - 13.0*e[K]/7.0 + 19.0*e[Fe]/7.0 + 19.0*e[Mg]/7.0 + 6.0*e[Al]/7.0 + 6.0*e[Ti]/7.0;
+	  double oneSi = - 26.0*e[Ca]/7.0 - 13.0*e[Na]/7.0 - 13.0*e[K]/7.0 + 19.0*e[Fe]/7.0 + 19.0*e[Mg]/7.0 + 6.0*e[Al]/7.0 + 6.0*e[Ti]/7.0;
 	  if (oneSi > silicaMin) silicaMin = oneSi;
 	  okay = FALSE;
 	  badConstraints |= 010100;
 	}
 	
         if (m[2]+m[3]+m[4]+2.0*m[7] < 0.0) {  /* M2 Al     */
-	  double zeroSi = - e[Al] + 8.0*e[Fe]/5.0 - 52.0*e[Ca]/5.0 + 8.0*e[Mg]/5.0 + 8.0*e[Ti]/5.0;
+	  double zeroSi = - e[Al] + 8.0*e[Fe]/5.0 + 8.0*e[Mg]/5.0 + 8.0*e[Ti]/5.0;
 	  if (zeroSi > silicaMin) silicaMin = zeroSi;
 	  okay = FALSE;	  
 	  badConstraints |= 0200;
-	} else if (m[2]+m[3]+m[4]+2.0*m[7] > sum) {  /* M2 Al     */
-	  double oneSi = - e[Al] + 9.0*e[Fe]/4.0 - 13.0*e[Ca]/2.0 + 9.0*e[Mg]/4.0 + 9.0*e[Ti]/4.0;
+	} else if (m[2]+m[3]+m[4]+2.0*m[7] > 2.0*sum) {  /* M2 Al     */
+	  double oneSi = - e[Al] + 10.0*e[Fe]/3.0 + 10.0*e[Mg]/3.0 + 10.0*e[Ti]/3.0;
 	  if (oneSi < silicaMax) silicaMax = oneSi;
 	  okay = FALSE;	  
 	  badConstraints |= 010200;
 	}
 	
         if (sum/2.0-m[4]/4.0-m[6]/4.0-m[7]/4.0 < 0.0) {  /* T1 Al     */
-	  double zeroSi = 8.0*e[Al]/5.0 + 8.0*e[Fe]/5.0 + 26.0*e[Ca]/5.0 + 8.0*e[Mg]/5.0 + 8.0*e[Ti]/5.0;
+	  double zeroSi = 8.0*e[Al]/5.0 + 8.0*e[Fe]/5.0 + 8.0*e[Mg]/5.0 + 8.0*e[Ti]/5.0;
 	  if (zeroSi < silicaMax) silicaMax = zeroSi;
 	  okay = FALSE;
 	  badConstraints |= 0400;
 	} else if (sum/2.0-m[4]/4.0-m[6]/4.0-m[7]/4.0 > sum/2.0) {  /* T1 Al     */
-	  double oneSi = 6.0*e[Al]/7.0 + 6.0*e[Fe]/7.0 - 26.0*e[Ca]/7.0 + 6.0*e[Mg]/7.0 + 6.0*e[Ti]/7.0;
+	  double oneSi = 6.0*e[Al]/7.0 + 6.0*e[Fe]/7.0 + 6.0*e[Mg]/7.0 + 6.0*e[Ti]/7.0;
 	  if (oneSi > silicaMin) silicaMin = oneSi;
 	  okay = FALSE;
 	  badConstraints |= 010400;
 	}
 	
         if (sum/2.0+m[4]/4.0+m[6]/4.0+m[7]/4.0 < 0.0) {  /* T1 Si     */
-	  double zeroSi = 4.0*e[Al]/9.0 + 4.0*e[Fe]/9.0 - 26.0*e[Ca]/3.0 + 4.0*e[Mg]/9.0 + 4.0*e[Ti]/9.0;
+	  double zeroSi = 4.0*e[Al]/9.0 + 4.0*e[Fe]/9.0 + 4.0*e[Mg]/9.0 + 4.0*e[Ti]/9.0;
 	  if (zeroSi > silicaMin) silicaMin = zeroSi;
 	  okay = FALSE;
 	  badConstraints |= 01000;
@@ -1263,11 +1264,11 @@ conHrn(int inpMask, int outMask, double t, double p,
     printf("	    M4 Ca    = %g\n", 1.0-m[7]/sum);			
     printf("	    M13 Mg   = %g\n", 1.0-k);				
     printf("	    M13 Fe2+ = %g\n", k);				
-    printf("	    M2 Mg    = %g\n", (1.0+m[6]/sum-m[7]/sum)*(1.0-k)); 	
-    printf("	    M2 Fe2+  = %g\n", (1.0+m[6]/sum-m[7]/sum)*k);		
-    printf("	    M2 Fe3+  = %g\n", 1.0-m[2]/sum-m[3]/sum-m[4]/sum-m[5]/sum-m[6]/sum-m[7]/sum); 
-    printf("	    M2 Al    = %g\n", m[2]/sum+m[3]/sum+m[4]/sum+2.0*m[7]/sum); 	
-    printf("	    M2 Ti    = %g\n", m[5]/sum);				
+    printf("	    M2 Mg    = %g\n", (1.0+m[6]/sum-m[7]/sum)*(1.0-k)/2.0); 	
+    printf("	    M2 Fe2+  = %g\n", (1.0+m[6]/sum-m[7]/sum)*k/2.0);		
+    printf("	    M2 Fe3+  = %g\n", (1.0-m[2]/sum-m[3]/sum-m[4]/sum-m[5]/sum-m[6]/sum-m[7]/sum)/2.0); 
+    printf("	    M2 Al    = %g\n", (m[2]/sum+m[3]/sum+m[4]/sum+2.0*m[7]/sum)/2.0); 	
+    printf("	    M2 Ti    = %g\n", m[5]/sum/2.0);				
     printf("	    T1 Al    = %g\n", 1.0/2.0-m[4]/4.0/sum-m[6]/4.0/sum-m[7]/4.0/sum);
     printf("	    T1 Si    = %g\n", 1.0/2.0+m[4]/4.0/sum+m[6]/4.0/sum+m[7]/4.0/sum);
     printf("	    X[Hast]  = %g\n", m[0]/sum);
@@ -1445,20 +1446,20 @@ actHrn(int mask, double t, double p, double *x,
 {
   double *r      = x;
   double k       = 4.0*r[2]/(4.0+r[5]-r[6]);
-  double XNaA    = (1.0-r[0]-r[3]-r[6] > 0.0)       	     ? 1.0-r[0]-r[3]-r[6]       	 : DBL_EPSILON;
-  double XKA     = (r[0] > 0.0)                     	     ? r[0]		        	 : DBL_EPSILON;
-  double XVcA    = (r[3]+r[6] > 0.0)                	     ? r[3]+r[6]	        	 : DBL_EPSILON;
-  double XNaM4   = (r[6] > 0.0)                     	     ? r[6]		        	 : DBL_EPSILON;
-  double XCaM4   = (1.0-r[6] > 0.0)                 	     ? 1.0-r[6] 	        	 : DBL_EPSILON;
-  double XMgM13  = (1.0-k > 0.0)                    	     ? 1.0-k		        	 : DBL_EPSILON;
-  double XFe2M13 = (k > 0.0)                        	     ? k		        	 : DBL_EPSILON;
-  double XMgM2   = ((1.0+r[5]-r[6])*(1.0-k) > 0.0)  	     ? (1.0+r[5]-r[6])*(1.0-k)  	 : DBL_EPSILON;
-  double XFe2M2  = ((1.0+r[5]-r[6])*k > 0.0)        	     ? (1.0+r[5]-r[6])*k        	 : DBL_EPSILON;
-  double XAlM2   = (r[1]+r[2]+r[3]+2.0*r[6] > 0.0)  	     ? r[1]+r[2]+r[3]+2.0*r[6]  	 : DBL_EPSILON;
-  double XFe3M2  = (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] > 0.0) ? 1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] : DBL_EPSILON;
-  double XTiM2   = (r[4] > 0.0)                              ? r[4]                              : DBL_EPSILON;
-  double XAlT1   = (0.5-(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5-(r[3]+r[5]+r[6])/4.0          : DBL_EPSILON;
-  double XSiT1   = (0.5+(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5+(r[3]+r[5]+r[6])/4.0          : DBL_EPSILON;
+  double XNaA    = (1.0-r[0]-r[3]-r[6] > 0.0)       	     ? 1.0-r[0]-r[3]-r[6]       	       : DBL_EPSILON;
+  double XKA     = (r[0] > 0.0)                     	     ? r[0]		        	       : DBL_EPSILON;
+  double XVcA    = (r[3]+r[6] > 0.0)                	     ? r[3]+r[6]	        	       : DBL_EPSILON;
+  double XNaM4   = (r[6] > 0.0)                     	     ? r[6]		        	       : DBL_EPSILON;
+  double XCaM4   = (1.0-r[6] > 0.0)                 	     ? 1.0-r[6] 	        	       : DBL_EPSILON;
+  double XMgM13  = (1.0-k > 0.0)                    	     ? 1.0-k		        	       : DBL_EPSILON;
+  double XFe2M13 = (k > 0.0)                        	     ? k		        	       : DBL_EPSILON;
+  double XMgM2   = ((1.0+r[5]-r[6])*(1.0-k) > 0.0)  	     ? (1.0+r[5]-r[6])*(1.0-k)/2.0  	       : DBL_EPSILON;
+  double XFe2M2  = ((1.0+r[5]-r[6])*k > 0.0)        	     ? (1.0+r[5]-r[6])*k/2.0        	       : DBL_EPSILON;
+  double XAlM2   = (r[1]+r[2]+r[3]+2.0*r[6] > 0.0)  	     ? (r[1]+r[2]+r[3]+2.0*r[6])/2.0  	       : DBL_EPSILON;
+  double XFe3M2  = (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] > 0.0) ? (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6])/2.0 : DBL_EPSILON;
+  double XTiM2   = (r[4] > 0.0)                              ? r[4]/2.0                                : DBL_EPSILON;
+  double XAlT1   = (0.5-(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5-(r[3]+r[5]+r[6])/4.0                : DBL_EPSILON;
+  double XSiT1   = (0.5+(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5+(r[3]+r[5]+r[6])/4.0                : DBL_EPSILON;
 
   double g, dgdr[NR], fr[NA][NR];
   int i, j;
@@ -1550,20 +1551,20 @@ gmixHrn(int mask, double t, double p, double *x,
 {
   double *r    = x;
   double k       = 4.0*r[2]/(4.0+r[5]-r[6]);
-  double XNaA    = (1.0-r[0]-r[3]-r[6] > 0.0)       	     ? 1.0-r[0]-r[3]-r[6]       	 : DBL_EPSILON;
-  double XKA     = (r[0] > 0.0)                     	     ? r[0]		        	 : DBL_EPSILON;
-  double XVcA    = (r[3]+r[6] > 0.0)                	     ? r[3]+r[6]	        	 : DBL_EPSILON;
-  double XNaM4   = (r[6] > 0.0)                     	     ? r[6]		        	 : DBL_EPSILON;
-  double XCaM4   = (1.0-r[6] > 0.0)                 	     ? 1.0-r[6] 	        	 : DBL_EPSILON;
-  double XMgM13  = (1.0-k > 0.0)                    	     ? 1.0-k		        	 : DBL_EPSILON;
-  double XFe2M13 = (k > 0.0)                        	     ? k		        	 : DBL_EPSILON;
-  double XMgM2   = ((1.0+r[5]-r[6])*(1.0-k) > 0.0)  	     ? (1.0+r[5]-r[6])*(1.0-k)  	 : DBL_EPSILON;
-  double XFe2M2  = ((1.0+r[5]-r[6])*k > 0.0)        	     ? (1.0+r[5]-r[6])*k        	 : DBL_EPSILON;
-  double XAlM2   = (r[1]+r[2]+r[3]+2.0*r[6] > 0.0)  	     ? r[1]+r[2]+r[3]+2.0*r[6]  	 : DBL_EPSILON;
-  double XFe3M2  = (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] > 0.0) ? 1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] : DBL_EPSILON;
-  double XTiM2   = (r[4] > 0.0)                              ? r[4]                              : DBL_EPSILON;
-  double XAlT1   = (0.5-(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5-(r[3]+r[5]+r[6])/4.0          : DBL_EPSILON;
-  double XSiT1   = (0.5+(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5+(r[3]+r[5]+r[6])/4.0          : DBL_EPSILON;
+  double XNaA    = (1.0-r[0]-r[3]-r[6] > 0.0)       	     ? 1.0-r[0]-r[3]-r[6]       	       : DBL_EPSILON;
+  double XKA     = (r[0] > 0.0)                     	     ? r[0]		        	       : DBL_EPSILON;
+  double XVcA    = (r[3]+r[6] > 0.0)                	     ? r[3]+r[6]	        	       : DBL_EPSILON;
+  double XNaM4   = (r[6] > 0.0)                     	     ? r[6]		        	       : DBL_EPSILON;
+  double XCaM4   = (1.0-r[6] > 0.0)                 	     ? 1.0-r[6] 	        	       : DBL_EPSILON;
+  double XMgM13  = (1.0-k > 0.0)                    	     ? 1.0-k		        	       : DBL_EPSILON;
+  double XFe2M13 = (k > 0.0)                        	     ? k		        	       : DBL_EPSILON;
+  double XMgM2   = ((1.0+r[5]-r[6])*(1.0-k) > 0.0)  	     ? (1.0+r[5]-r[6])*(1.0-k)/2.0  	       : DBL_EPSILON;
+  double XFe2M2  = ((1.0+r[5]-r[6])*k > 0.0)        	     ? (1.0+r[5]-r[6])*k/2.0        	       : DBL_EPSILON;
+  double XAlM2   = (r[1]+r[2]+r[3]+2.0*r[6] > 0.0)  	     ? (r[1]+r[2]+r[3]+2.0*r[6])/2.0  	       : DBL_EPSILON;
+  double XFe3M2  = (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] > 0.0) ? (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6])/2.0 : DBL_EPSILON;
+  double XTiM2   = (r[4] > 0.0)                              ? r[4]/2.0                                : DBL_EPSILON;
+  double XAlT1   = (0.5-(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5-(r[3]+r[5]+r[6])/4.0                : DBL_EPSILON;
+  double XSiT1   = (0.5+(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5+(r[3]+r[5]+r[6])/4.0                : DBL_EPSILON;
   
   if (mask & FIRST) {
     *gmix = G;
@@ -1611,20 +1612,20 @@ hmixHrn(int mask, double t, double p, double *x,
 {
   double *r    = x;
   double k       = 4.0*r[2]/(4.0+r[5]-r[6]);
-  double XNaA    = (1.0-r[0]-r[3]-r[6] > 0.0)       	     ? 1.0-r[0]-r[3]-r[6]       	 : DBL_EPSILON;
-  double XKA     = (r[0] > 0.0)                     	     ? r[0]		        	 : DBL_EPSILON;
-  double XVcA    = (r[3]+r[6] > 0.0)                	     ? r[3]+r[6]	        	 : DBL_EPSILON;
-  double XNaM4   = (r[6] > 0.0)                     	     ? r[6]		        	 : DBL_EPSILON;
-  double XCaM4   = (1.0-r[6] > 0.0)                 	     ? 1.0-r[6] 	        	 : DBL_EPSILON;
-  double XMgM13  = (1.0-k > 0.0)                    	     ? 1.0-k		        	 : DBL_EPSILON;
-  double XFe2M13 = (k > 0.0)                        	     ? k		        	 : DBL_EPSILON;
-  double XMgM2   = ((1.0+r[5]-r[6])*(1.0-k) > 0.0)  	     ? (1.0+r[5]-r[6])*(1.0-k)  	 : DBL_EPSILON;
-  double XFe2M2  = ((1.0+r[5]-r[6])*k > 0.0)        	     ? (1.0+r[5]-r[6])*k        	 : DBL_EPSILON;
-  double XAlM2   = (r[1]+r[2]+r[3]+2.0*r[6] > 0.0)  	     ? r[1]+r[2]+r[3]+2.0*r[6]  	 : DBL_EPSILON;
-  double XFe3M2  = (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] > 0.0) ? 1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] : DBL_EPSILON;
-  double XTiM2   = (r[4] > 0.0)                              ? r[4]                              : DBL_EPSILON;
-  double XAlT1   = (0.5-(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5-(r[3]+r[5]+r[6])/4.0          : DBL_EPSILON;
-  double XSiT1   = (0.5+(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5+(r[3]+r[5]+r[6])/4.0          : DBL_EPSILON;
+  double XNaA    = (1.0-r[0]-r[3]-r[6] > 0.0)       	     ? 1.0-r[0]-r[3]-r[6]       	       : DBL_EPSILON;
+  double XKA     = (r[0] > 0.0)                     	     ? r[0]		        	       : DBL_EPSILON;
+  double XVcA    = (r[3]+r[6] > 0.0)                	     ? r[3]+r[6]	        	       : DBL_EPSILON;
+  double XNaM4   = (r[6] > 0.0)                     	     ? r[6]		        	       : DBL_EPSILON;
+  double XCaM4   = (1.0-r[6] > 0.0)                 	     ? 1.0-r[6] 	        	       : DBL_EPSILON;
+  double XMgM13  = (1.0-k > 0.0)                    	     ? 1.0-k		        	       : DBL_EPSILON;
+  double XFe2M13 = (k > 0.0)                        	     ? k		        	       : DBL_EPSILON;
+  double XMgM2   = ((1.0+r[5]-r[6])*(1.0-k) > 0.0)  	     ? (1.0+r[5]-r[6])*(1.0-k)/2.0  	       : DBL_EPSILON;
+  double XFe2M2  = ((1.0+r[5]-r[6])*k > 0.0)        	     ? (1.0+r[5]-r[6])*k/2.0        	       : DBL_EPSILON;
+  double XAlM2   = (r[1]+r[2]+r[3]+2.0*r[6] > 0.0)  	     ? (r[1]+r[2]+r[3]+2.0*r[6])/2.0  	       : DBL_EPSILON;
+  double XFe3M2  = (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] > 0.0) ? (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6])/2.0 : DBL_EPSILON;
+  double XTiM2   = (r[4] > 0.0)                              ? r[4]/2.0                                : DBL_EPSILON;
+  double XAlT1   = (0.5-(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5-(r[3]+r[5]+r[6])/4.0                : DBL_EPSILON;
+  double XSiT1   = (0.5+(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5+(r[3]+r[5]+r[6])/4.0                : DBL_EPSILON;
   
   *hmix = (G) + t*(S);
 }
@@ -1638,20 +1639,20 @@ smixHrn(int mask, double t, double p, double *x,
 {
   double *r    = x;
   double k       = 4.0*r[2]/(4.0+r[5]-r[6]);
-  double XNaA    = (1.0-r[0]-r[3]-r[6] > 0.0)       	     ? 1.0-r[0]-r[3]-r[6]       	 : DBL_EPSILON;
-  double XKA     = (r[0] > 0.0)                     	     ? r[0]		        	 : DBL_EPSILON;
-  double XVcA    = (r[3]+r[6] > 0.0)                	     ? r[3]+r[6]	        	 : DBL_EPSILON;
-  double XNaM4   = (r[6] > 0.0)                     	     ? r[6]		        	 : DBL_EPSILON;
-  double XCaM4   = (1.0-r[6] > 0.0)                 	     ? 1.0-r[6] 	        	 : DBL_EPSILON;
-  double XMgM13  = (1.0-k > 0.0)                    	     ? 1.0-k		        	 : DBL_EPSILON;
-  double XFe2M13 = (k > 0.0)                        	     ? k		        	 : DBL_EPSILON;
-  double XMgM2   = ((1.0+r[5]-r[6])*(1.0-k) > 0.0)  	     ? (1.0+r[5]-r[6])*(1.0-k)  	 : DBL_EPSILON;
-  double XFe2M2  = ((1.0+r[5]-r[6])*k > 0.0)        	     ? (1.0+r[5]-r[6])*k        	 : DBL_EPSILON;
-  double XAlM2   = (r[1]+r[2]+r[3]+2.0*r[6] > 0.0)  	     ? r[1]+r[2]+r[3]+2.0*r[6]  	 : DBL_EPSILON;
-  double XFe3M2  = (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] > 0.0) ? 1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] : DBL_EPSILON;
-  double XTiM2   = (r[4] > 0.0)                              ? r[4]                              : DBL_EPSILON;
-  double XAlT1   = (0.5-(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5-(r[3]+r[5]+r[6])/4.0          : DBL_EPSILON;
-  double XSiT1   = (0.5+(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5+(r[3]+r[5]+r[6])/4.0          : DBL_EPSILON;
+  double XNaA    = (1.0-r[0]-r[3]-r[6] > 0.0)       	     ? 1.0-r[0]-r[3]-r[6]       	       : DBL_EPSILON;
+  double XKA     = (r[0] > 0.0)                     	     ? r[0]		        	       : DBL_EPSILON;
+  double XVcA    = (r[3]+r[6] > 0.0)                	     ? r[3]+r[6]	        	       : DBL_EPSILON;
+  double XNaM4   = (r[6] > 0.0)                     	     ? r[6]		        	       : DBL_EPSILON;
+  double XCaM4   = (1.0-r[6] > 0.0)                 	     ? 1.0-r[6] 	        	       : DBL_EPSILON;
+  double XMgM13  = (1.0-k > 0.0)                    	     ? 1.0-k		        	       : DBL_EPSILON;
+  double XFe2M13 = (k > 0.0)                        	     ? k		        	       : DBL_EPSILON;
+  double XMgM2   = ((1.0+r[5]-r[6])*(1.0-k) > 0.0)  	     ? (1.0+r[5]-r[6])*(1.0-k)/2.0  	       : DBL_EPSILON;
+  double XFe2M2  = ((1.0+r[5]-r[6])*k > 0.0)        	     ? (1.0+r[5]-r[6])*k/2.0        	       : DBL_EPSILON;
+  double XAlM2   = (r[1]+r[2]+r[3]+2.0*r[6] > 0.0)  	     ? (r[1]+r[2]+r[3]+2.0*r[6])/2.0  	       : DBL_EPSILON;
+  double XFe3M2  = (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6] > 0.0) ? (1.0-r[1]-r[2]-r[3]-r[4]-r[5]-r[6])/2.0 : DBL_EPSILON;
+  double XTiM2   = (r[4] > 0.0)                              ? r[4]/2.0                                : DBL_EPSILON;
+  double XAlT1   = (0.5-(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5-(r[3]+r[5]+r[6])/4.0                : DBL_EPSILON;
+  double XSiT1   = (0.5+(r[3]+r[5]+r[6])/4.0 > 0.0)          ? 0.5+(r[3]+r[5]+r[6])/4.0                : DBL_EPSILON;
 
   if (mask & FIRST) {
     *smix = S; 
