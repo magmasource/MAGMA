@@ -1230,7 +1230,10 @@ void updateCompADB(void)
   int i, j, k, l, n, nl, ns;
 
   XtVaGetValues(compPDmenu, XmNmenuHistory, &selected, NULL);
-  XtVaGetValues(selected,   XmNlabelString, &csString, NULL);
+  if(selected == (Widget) NULL)
+    csString = XmStringCreateLtoR("none", "ISO8859-1");
+  else
+    XtVaGetValues(selected,   XmNlabelString, &csString, NULL);
 
   if (nsCur == NULL) {
     noneString.label = XmStringCopy(csString);
