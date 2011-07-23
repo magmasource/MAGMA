@@ -46,16 +46,15 @@ static double logA(double x) { return (x > 0.0) ? log(x) : 0.0; }
  * Binary interaction parameters
  */
  
- 
 static const double W[NA][NA] = {
-  { 	 1.0,	  -32240.3783,  -3332.9821,  -72506.9344,   6292.4765,  -14800.2191,	 516.3959,   -9832.7281 },
-  { -32240.3783,       1.0,    -49011.1705, -130959.4243, -34830.2486,  -69026.7582,  -38016.8696,  -93491.8086 },
-  {  -3332.9821,  -49011.1705,      1.0,     -87929.4620,  -1117.6543,  -18048.6214,   -9203.7662,  -24017.6362 },
-  { -72506.9344, -130959.4243, -87929.4620,	  1.0,    -76930.5773, -129717.5504, -105428.5267,  -58996.9266 },
-  {   6292.4765,  -34830.2486,  -1117.6543,  -76930.5773,      1.0,	-28639.6755,	2672.3390,  -15602.2875 },
-  { -14800.2191,  -69026.7582, -18048.6214, -129717.5504, -28639.6755,       1.0,      -4531.1979,  -35869.6364 },
-  {    516.3959,  -38016.8696,  -9203.7662, -105428.5267,   2672.3390,   -4531.1979,	   1.0,     -24068.2987 },
-  {  -9832.7281,  -93491.8086, -24017.6362,  -58996.9266, -15602.2875,  -35869.6364,  -24068.2987,	 1.0    }
+  { 	  1.0,      27922.1586,  16416.1636,   93613.7672,  54089.2068,   20447.4389,	30268.9517, 119183.7171 },
+  {   27922.1586,	1.0,	 35426.4694,  127049.4473,  44236.2567,   37477.3077,	59647.3225,  89175.7164 },
+  {   16416.1636,   35426.4694,      1.0,      46070.3837,  19154.1864,   23678.0960,	19765.3976,  61035.8467 },
+  {   93613.7672,  127049.4473,  46070.3837,	   1.0,     89092.7317,   43251.7666,	89229.2525, 164636.2112 },
+  {   54089.2068,   44236.2567,  19154.1864,   89092.7317,	1.0,	  30264.1779,	55326.3126,  42643.6799 },
+  {   20447.4389,   37477.3077,  23678.0960,   43251.7666,  30264.1779,       1.0,	46920.0052,  79265.7748 },
+  {   30268.9517,   59647.3225,  19765.3976,   89229.2525,  55326.3126,   46920.0052,	    1.0,    152997.3116 },
+  {  119183.7171,   89175.7164,  61035.8467,  164636.2112,  42643.6799,   79265.7748,  152997.3116,	 1.0    }
 };
 
 /*
@@ -1073,6 +1072,7 @@ conHrn(int inpMask, int outMask, double t, double p,
   int i, j, k;
 
   if (inpMask == FIRST && outMask == SECOND) {
+    static const int O  =  8;
     static const int Na = 11;
     static const int Mg = 12;
     static const int Al = 13;
@@ -1080,8 +1080,109 @@ conHrn(int inpMask, int outMask, double t, double p,
     static const int K  = 19;
     static const int Ca = 20;
     static const int Ti = 22;
+    static const int Cr = 24;
+    static const int Mn = 25;
     static const int Fe = 26;
-    
+
+#if 1
+    double sum=0.0, k=0.0;
+
+    printf("...conHrn: Entering conHrn with inpMask = FIRST, outMask = SECOND for elemental conversion to moles.\n");
+    if (e[O] == 0.0) {
+      m[0] = 0.0; m[1] = 0.0; m[2] = 0.0; m[3] = 0.0; m[4] = 0.0; m[5] = 0.0; m[6] = 0.0; m[7] = 0.0;
+      sum = 0.0;
+      k   = 0.0;
+    } else {
+      double silicon   = e[Si]*23.0/e[O];
+      double titanium  = e[Ti]*23.0/e[O];
+      double aluminum  = e[Al]*23.0/e[O];
+      double chromium  = e[Cr]*23.0/e[O];
+      double iron      = e[Fe]*23.0/e[O];
+      double manganese = e[Mn]*23.0/e[O];
+      double magnesium = e[Mg]*23.0/e[O];
+      double calcium   = e[Ca]*23.0/e[O];
+      double sodium    = e[Na]*23.0/e[O];
+      
+      double c13eCNK = 13.0/(silicon+aluminum+titanium+chromium+iron+manganese+magnesium);
+      double c8SiAl  =  8.0/(silicon+aluminum);
+      double c15eK   = 15.0/(silicon+aluminum+titanium+chromium+iron+manganese+magnesium+calcium+sodium);
+      double c10Fe3  = 36.0/(46.0-silicon-aluminum-titanium-chromium);
+      double c8Si    =  8.0/silicon;
+      double c16CAT  = 16.0/(silicon+aluminum+titanium+chromium+iron+manganese+magnesium+calcium+sodium);
+      double c15eNK  = 15.0/(silicon+aluminum+titanium+chromium+iron+manganese+magnesium+calcium);
+      
+      double maxOfMaxCoeffs=0.0, minOfMinCoeffs=1000.0, ferrous = e[Fe], ferric = 0.0;
+      if (maxOfMaxCoeffs < c13eCNK) maxOfMaxCoeffs = c13eCNK;
+      if (maxOfMaxCoeffs < c8SiAl ) maxOfMaxCoeffs = c8SiAl;
+      if (maxOfMaxCoeffs < c15eK  ) maxOfMaxCoeffs = c15eK;
+      if (maxOfMaxCoeffs < c10Fe3 ) maxOfMaxCoeffs = c10Fe3;
+
+      if (minOfMinCoeffs > c8Si   ) minOfMinCoeffs = c8Si;
+      if (minOfMinCoeffs > c16CAT ) minOfMinCoeffs = c16CAT;
+      if (minOfMinCoeffs > c15eNK ) minOfMinCoeffs = c15eNK;
+      
+      if (maxOfMaxCoeffs < minOfMinCoeffs) {
+        ferric = 2.0*23.0*(1.0-maxOfMaxCoeffs);
+	ferric = ferric*e[O]/maxOfMaxCoeffs/23.0;
+
+	if      (ferric > e[Fe]) { ferric = e[Fe]; ferrous = 0.0;   }
+	else if (ferric < 0.0)   { ferric = 0.0;   ferrous = e[Fe]; }
+	else ferrous = e[Fe] - ferric;
+        printf("            c13eCNK  = %g\n", c13eCNK); 			 
+        printf("            c8SiAl   = %g\n", c8SiAl ); 			 
+        printf("            c15eK    = %g\n", c15eK  ); 			 
+        printf("            c10Fe3   = %g\n", c10Fe3 ); 			 
+        printf("            c8Si     = %g\n", c8Si   ); 			
+        printf("            c16CAT   = %g\n", c16CAT ); 			
+        printf("            c15eNK   = %g\n", c15eNK ); 			
+        printf("            coef     = %g\n", maxOfMaxCoeffs);  			
+        printf("            Fe3+     = %g\n", ferric*23.0/e[O]);  			
+        printf("            Fe2+     = %g\n", iron-ferric*23.0/e[O]);  			
+      }
+      
+      m[0] = ferric - e[K];
+      m[1] = e[K];
+      m[2] = e[Na] - ferric + e[K] + 2.0*e[Ca] - e[Ti] - 5.0*ferrous/4.0 - e[Mg];
+      m[3] = ferrous/4.0;
+      m[4] = e[Al]/6.0 + ferric/6.0 + e[Ti]/6.0 + ferrous/3.0 + e[Mg]/3.0 - e[Ca]/3.0 - 7.0*e[Na]/6.0 - 7.0*e[K]/6.0;
+      m[5] = e[Ti];
+      m[6] = -e[Ca]/3.0 - ferric/3.0 + e[Na]/3.0 + e[K]/3.0 - e[Ti]/3.0 + ferrous/3.0 + e[Mg]/3.0 - e[Al]/3.0;
+      m[7] = -e[Na]/3.0 - e[K]/3.0 - 5.0*e[Ca]/3.0 + 2.0*e[Mg]/3.0 + 2.0*ferrous/3.0 + ferric/3.0 + e[Al]/3.0 + e[Ti]/3.0;
+      sum = m[0] + m[1] + m[2] + m[3] + m[4] + m[5] + m[6] + m[7];
+      k   = ferrous/(ferrous+e[Mg]); 
+    }
+
+    printf("	    A Na     = %g\n", 1.0-m[1]/sum-m[4]/sum-m[7]/sum);  			
+    printf("	    A K      = %g\n", m[1]/sum);				
+    printf("	    A Vc     = %g\n", m[4]/sum+m[7]/sum);			
+    printf("	    M4 Na    = %g\n", m[7]/sum);				
+    printf("	    M4 Ca    = %g\n", 1.0-m[7]/sum);			
+    printf("	    M13 Mg   = %g\n", 1.0-k);				
+    printf("	    M13 Fe2+ = %g\n", k);				
+    printf("	    M2 Mg    = %g\n", (1.0+m[6]/sum-m[7]/sum)*(1.0-k)/2.0); 	
+    printf("	    M2 Fe2+  = %g\n", (1.0+m[6]/sum-m[7]/sum)*k/2.0);		
+    printf("	    M2 Fe3+  = %g\n", (1.0-m[2]/sum-m[3]/sum-m[4]/sum-m[5]/sum-m[6]/sum-m[7]/sum)/2.0); 
+    printf("	    M2 Al    = %g\n", (m[2]/sum+m[3]/sum+m[4]/sum+2.0*m[7]/sum)/2.0); 	
+    printf("	    M2 Ti    = %g\n", m[5]/sum/2.0);				
+    printf("	    T1 Al    = %g\n", 1.0/2.0-m[4]/4.0/sum-m[6]/4.0/sum-m[7]/4.0/sum);
+    printf("	    T1 Si    = %g\n", 1.0/2.0+m[4]/4.0/sum+m[6]/4.0/sum+m[7]/4.0/sum);
+    printf("	    m[Hast]  = %g\n", m[0]);
+    printf("	    m[K-Ht]  = %g\n", m[1]);
+    printf("	    m[Parg]  = %g\n", m[2]);
+    printf("	    m[Fe-P]  = %g\n", m[3]);
+    printf("	    m[Hrnb]  = %g\n", m[4]);
+    printf("	    m[Kaer]  = %g\n", m[5]);
+    printf("	    m[Eden]  = %g\n", m[6]);
+    printf("	    m[Barr]  = %g\n", m[7]);
+    printf("	    r[0]     = %g\n", m[1]/sum);
+    printf("	    r[1]     = %g\n", m[2]/sum);
+    printf("	    r[2]     = %g\n", m[3]/sum);
+    printf("	    r[3]     = %g\n", m[4]/sum);
+    printf("	    r[4]     = %g\n", m[5]/sum);
+    printf("	    r[5]     = %g\n", m[6]/sum);
+    printf("	    r[6]     = %g\n", m[7]/sum);
+
+#else    
     int okay = FALSE, iter = 0;
     double silica = e[Si];
     double sum=0.0, k=0.0;
@@ -1279,6 +1380,7 @@ conHrn(int inpMask, int outMask, double t, double p,
     printf("	    X[Kaer]  = %g\n", m[5]/sum);
     printf("	    X[Eden]  = %g\n", m[6]/sum);
     printf("	    X[Barr]  = %g\n", m[7]/sum);
+#endif        
 
   } else if (inpMask == SECOND) {
     double sum;
