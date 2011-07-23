@@ -1752,7 +1752,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
              	for (i=0; i<solids[j].na; i++) {
 	     	  rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
 	     	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",    "%s", solids[j+1+i].label);
-	     	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "molFrac", "%s", 
+	     	    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "molFrac", "%.20g", 
 	     		  (silminState->assimComp)[j+1+i][ns]/(silminState->assimComp)[j][ns]);
 	     	  rc = xmlTextWriterEndElement(writer);
 	     	}
