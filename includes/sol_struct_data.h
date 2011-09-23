@@ -1441,9 +1441,9 @@ Solids xMeltsSolids[] = {
   {"hastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12200971.85,
-   656.93, 
-   29.98362,     
+   -12154164.91,
+   687.8758381,
+   27.35794279,
    CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -1451,9 +1451,9 @@ Solids xMeltsSolids[] = {
   {"k-hastingsite", COMPONENT, "KCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12220941.74,
-   668.77,             
-   30.35290,                    
+   -12128285.29,
+   711.6411605,
+   27.49924228,
    CP_BERMAN,  {{1278.6555, -70.04725e2, -254.8098e5, 309.0143e7, 0.0, 0.0, 0.0, 0.0}},        
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -1461,9 +1461,9 @@ Solids xMeltsSolids[] = {
   {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12619910.84,
-   641.43,  
-   29.61461,          
+   -12543590.73,
+   670.6661792,
+   27.26346997,
    CP_BERMAN,  {{1267.249, -66.54335e2, -303.78655e5, 391.3526e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -1471,9 +1471,9 @@ Solids xMeltsSolids[] = {
   {"ferro-pargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -11197207.98,
-   755.32,                      
-   29.65336,                            
+   -11197508.7,
+   777.8788425,
+   27.87071561, 
    CP_BERMAN,  {{1342.609, -83.48615e2, -247.60335e5, 348.5066e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -1481,9 +1481,9 @@ Solids xMeltsSolids[] = {
   {"hornblende", COMPONENT, "Ca2Mg4AlAlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12350642.3,
-   598.88,      
-   29.60417,           
+   -12233794.49,
+   699.2256213,
+   27.63434881,
    CP_BERMAN,  {{1229.761, -67.3078e2,  -280.0954e5,  354.0367e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -1491,9 +1491,9 @@ Solids xMeltsSolids[] = {
   {"kaersutite", COMPONENT, "NaCa2Mg4TiAl2Si6O23(OH)", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12538930.57,
-   652.06,     
-   29.82071,             
+   -12440385.52,
+   701.2689531,
+   27.42105396,
    CP_BERMAN,  {{1221.448, -58.273e2,   -302.84385e5, 377.3149e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -1501,9 +1501,9 @@ Solids xMeltsSolids[] = {
   {"edenite", COMPONENT, "NaCa2Mg5AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12528479.48,
-   636.73,      
-   31.10575,           
+   -12492535.39,
+   673.7962106,
+   27.09844126,
    CP_BERMAN,  {{1257.836, -64.65775e2, -296.20495e5, 374.9822e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -1511,9 +1511,9 @@ Solids xMeltsSolids[] = {
   {"barroisite", COMPONENT, "NaCaMg3Al2AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12116778.84,
-   660.39,     
-   28.03043,            
+   -12060397.94,
+   701.1706006,
+   27.43727612,
    CP_BERMAN,  {{1236.439, -67.59495e2, -315.02635e5, 425.8053e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -1585,7 +1585,7 @@ Solids xMeltsSolids[] = {
   {"phlTaj", COMPONENT, "KMg3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
    {         
-   -1000.0,      
+   -1000.0,
    0.0,      
    0.0,      
    CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
@@ -2991,9 +2991,9 @@ Solids meltsSolids[] = {
   {"hastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12200971.85,
-   656.93, 
-   29.98362,     
+   -12154164.91,
+   687.8758381,
+   27.35794279,
    CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -3001,9 +3001,9 @@ Solids meltsSolids[] = {
   {"k-hastingsite", COMPONENT, "KCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12220941.74,
-   668.77,             
-   30.35290,                    
+   -12128285.29,
+   711.6411605,
+   27.49924228,
    CP_BERMAN,  {{1278.6555, -70.04725e2, -254.8098e5, 309.0143e7, 0.0, 0.0, 0.0, 0.0}},        
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -3011,9 +3011,9 @@ Solids meltsSolids[] = {
   {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12619910.84,
-   641.43,  
-   29.61461,          
+   -12543590.73,
+   670.6661792,
+   27.26346997,
    CP_BERMAN,  {{1267.249, -66.54335e2, -303.78655e5, 391.3526e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -3021,9 +3021,9 @@ Solids meltsSolids[] = {
   {"ferro-pargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -11197207.98,
-   755.32,                      
-   29.65336,                            
+   -11197508.7,
+   777.8788425,
+   27.87071561, 
    CP_BERMAN,  {{1342.609, -83.48615e2, -247.60335e5, 348.5066e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -3031,9 +3031,9 @@ Solids meltsSolids[] = {
   {"hornblende", COMPONENT, "Ca2Mg4AlAlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12350642.3,
-   598.88,      
-   29.60417,           
+   -12233794.49,
+   699.2256213,
+   27.63434881,
    CP_BERMAN,  {{1229.761, -67.3078e2,  -280.0954e5,  354.0367e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -3041,9 +3041,9 @@ Solids meltsSolids[] = {
   {"kaersutite", COMPONENT, "NaCa2Mg4TiAl2Si6O23(OH)", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12538930.57,
-   652.06,     
-   29.82071,             
+   -12440385.52,
+   701.2689531,
+   27.42105396,
    CP_BERMAN,  {{1221.448, -58.273e2,   -302.84385e5, 377.3149e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -3051,9 +3051,9 @@ Solids meltsSolids[] = {
   {"edenite", COMPONENT, "NaCa2Mg5AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12528479.48,
-   636.73,      
-   31.10575,           
+   -12492535.39,
+   673.7962106,
+   27.09844126,
    CP_BERMAN,  {{1257.836, -64.65775e2, -296.20495e5, 374.9822e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
@@ -3061,9 +3061,9 @@ Solids meltsSolids[] = {
   {"barroisite", COMPONENT, "NaCaMg3Al2AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -12116778.84,
-   660.39,     
-   28.03043,            
+   -12060397.94,
+   701.1706006,
+   27.43727612,
    CP_BERMAN,  {{1236.439, -67.59495e2, -315.02635e5, 425.8053e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
