@@ -1580,8 +1580,10 @@ jumpFromLinSearch:
     updateUserGraphGW();
 #endif
 
+#ifndef DO_NOT_PRODUCE_OUTPUT_FILES
     (void) putOutputDataToFile((char *) NULL);
     if (additionalOutput != NULL) (*additionalOutput)(addOutputFileName);
+#endif
 
 #ifndef BATCH_VERSION
     workProcData->active = TRUE;

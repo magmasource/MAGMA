@@ -66,14 +66,14 @@ void meltsgetoxidenames_(char oxideNames[], int *nCharInName, int *numberOxides)
   for (i=0; i<nc; i++) strncpy(oxideNames + i*sizeof(char)*nCh, bulkSystem[i].label, nCh);
   *numberOxides = nc;
 }        
-
+/*
 void getMeltsOxideNames(char *oxidePtr[], int *nCharInName, int *numberOxides) {
   int i, nCh = *nCharInName, nox = *numberOxides;
   char oxideNames[nCh*nox];
   meltsgetoxidenames_(oxideNames, nCharInName, numberOxides);
   for (i=0; i<nc; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
 }
-
+*/
 /* ================================================================================== */
 /* Input and Output (as above except):           				      */
 /*   oxidePtr     - array of blank strings, assumed all to be of the same length      */
@@ -108,14 +108,14 @@ void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases)
   for (i=0; i<npc; i++) if (solids[i].type == PHASE) { strncpy(phaseNames + np*sizeof(char)*nCh, solids[i].label, nCh); np++; }
   *numberPhases = np;
 }        
-
+/*
 void getMeltsPhaseNames(char *phasePtr[], int *nCharInName, int *numberPhases) {
   int i, nCh = *nCharInName, np = *numberPhases;
   char phaseNames[nCh*np];
   meltsgetphasenames_(phaseNames, nCharInName, numberPhases);
   for (i=0; i<nc; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
 }
-
+*/
 /* ================================================================================== */
 /* Input and Output (as above except):           				      */
 /*   phasePtr     - array of blank strings, assumed all to be of the same length      */
@@ -639,7 +639,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
 
   } /* end output block */
 }
-
+/*
 void driveMeltsProcess(int *nodeIndex, int *mode, double *pressure, double *bulkComposition,
 		       double *enthalpy, double *temperature,
 		       char *phasePtr[], int *nCharInName, int *numberPhases, int *iterations, int *status, double *phaseProperties) {
@@ -650,7 +650,7 @@ void driveMeltsProcess(int *nodeIndex, int *mode, double *pressure, double *bulk
 		phaseNames, nCharInName, numberPhases, iterations, status, phaseProperties);
   for (i=0; i<nc; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
 }
-		  
+*/	  
 /* ================================================================================== */
 /* Returns explanatory string associated with input status                            */
 /* Input:                                                                             */
