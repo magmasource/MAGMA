@@ -3,6 +3,8 @@
 #   $Id: Makefile.leopard-intel,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
 # =================================================================================
 
+MAKEFILE	= Makefile.snow-leopard
+
 # Compilation options
 # ===================
 
@@ -21,34 +23,36 @@ MELTS_HARDWARE_VERSION = 2 GHz Intel Core 2 Duo
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 3.0
-MELTS_OS_VERSION       = Mac OS X - 10.6.1
+MELTS_OS_VERSION       = Mac OS X - 10.6.7
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
 MELTS_X_VERSION        = X11R6/OpenMotif3
-MELTS_RELEASE_DATE     = November 2009
-MELTS_RELEASE_VERSION  = 5.6.0 (Mac OS X - 10.6.1, gcc 4.2.1, 64 bit)
+MELTS_RELEASE_DATE     = April 2011
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.0 (rhyolite) (Mac OS X - 10.6.7, gcc 4.2.1, 64 bit)
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
 
-INCC   = /usr/local/grace/include
-INCXM  = /sw/include
+INCC   = /opt/local/include
+INCXM  = /opt/local/include
 INCX   = /usr/X11R6/include
-INCF2C = /sw/include
-INCXML = /sw/include/libxml2
+INCF2C = .
+INCXML = /usr/include/libxml2
 
 # Compiler choice and flags - Do not delete the $(BATCH) macro
 # ============================================================
 
 AR       = ar
 ARFLAGS  = rv
+# 'ar xv' extracts object files from the static library, avoiding recompilation
+DYFLAGS	 = xv
 CC       = gcc
-FC       = fort77
+FC       = gfortran
 CFLAGS   = -ansi -c -fno-common -g -O3 -falign-loops=16 -ftree-vectorize -mfpmath=sse -Wall $(BATCH) \
-           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__
-FFLAGS   = -O2
+           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+FFLAGS   = -O3
 RANLIB   = ranlib
 RANLIBFG = -s
 RM       = rm
@@ -61,17 +65,22 @@ MPILDFLAGS = -L/usr/lib -lmpi
 # =================================================
 
 LDFLAGS = 
+SONAME	= dylib
+ifneq ($(DYNAMIC),)
+override DYNAMIC = -dynamiclib
+endif
 
 # Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
-# for staticcally linked OpenMotif3 use    instead of -L/sw/lib -lMrm -lXm
 # ========================================================================================================
 
-LIBS    = -L/opt/local/lib -lMrm -lXm -L/usr/local/grace/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
-          ../port3/libport.a /sw/lib/libf2c.a
-PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a -L/usr/local/grace/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
-          ../port3/libport.a /sw/lib/libf2c.a
-LIBF2C = /sw/lib/libf2c.a
-LIBXML = -L/sw/lib -lxml2
+LIBS    = -L/opt/local/lib -lMrm -lXm -lgrace_np -lXt -lXp -lX11 -lXext -lXpm -lXmu ../port3/libport.a
+PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a /opt/local/lib/libXft.a /opt/local/lib/libgrace_np.a /opt/local/lib/libXt.a /opt/local/lib/libXp.a \
+          /opt/local/lib/libSM.a /opt/local/lib/libICE.a /opt/local/lib/libX11.a /opt/local/lib/libXext.a /opt/local/lib/libXpm.a /opt/local/lib/libXmu.a \
+          /opt/local/lib/libXRender.a /opt/local/lib/libXau.a /opt/local/lib/libXdmcp.a /opt/local/lib/libjpeg.a /opt/local/lib/libpng.a /opt/local/lib/libpng14.a \
+          /opt/local/lib/libexpat.a /opt/local/lib/libz.a /opt/local/lib/libbz2.a /opt/local/lib/libfreetype.a /opt/local/lib/libcharset.a /opt/local/lib/libfontconfig.a \
+          /opt/local/lib/libiconv.a /opt/local/lib/libX11-xcb.a /opt/local/lib/libxcb.a ../port3/libport.a /usr/local/lib/libgfortran.a
+LIBF2C = 
+LIBXML = -L/usr/lib -lxml2
 LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
 
 include Makefile.common
