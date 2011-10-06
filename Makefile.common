@@ -1227,7 +1227,7 @@ Kevin: kevin.c kevin_slave.cc \
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) sources/kevin.c
 	$(CC) $(CFLAGS) -I../CVSROOT/phases sources/kevin_slave.cc
-	$(CC) $(LDFLAGS) -o $@ kevin.o kevin_slave.o ../CVSROOT/phases/libphases.a ../CVSROOT/cmath/libcmath.a $(MELTSLIB) $(LIBS) -lstdc++
+	$(CC) $(LDFLAGS) -o $@ kevin.o kevin_slave.o ../CVSROOT/phases/libphases.a ../CVSROOT/cmath/libcmath.a $(MELTSLIB) $(PUBLIBS) -lstdc++
 	$(RM) $(RMFLAGS) kevin.o kevin_slave.o
 	chmod 755 $@
 
