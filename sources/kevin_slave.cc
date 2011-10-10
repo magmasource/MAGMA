@@ -27,7 +27,7 @@ extern "C" void getPhaseResults(double t, double *alloy, double *results) {
   results[1] = o2Gas->getGibbs(); // mu O2 gas
  
   feNiLiq = new FeNiLiq();
-  feNiLiq->setTk(t);
+  if (t < 3133.345) feNiLiq->setTk(t); else feNiLiq->setTk(3133.345);
   feNiLiq->setPa(100000.0);
   feNiLiq->setComps(fe);
   results[2] = feNiLiq->getVolume()*1000000.0; // v0 Fe in sulfide liquid
