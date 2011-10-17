@@ -792,15 +792,16 @@ Melts-batch: interface.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
              nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
              perovskite.c read_write.c recipes.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
              spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
-	$(MAKE) Melts-batchPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION" 
+	$(MAKE) Melts-batchPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS" 
 
-Melts-batchPrivate: interface.c \
+Melts-batchPrivate: interface.c gibbs.c \
                     silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h status.h \
                     $(MELTSBATCHLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
-	$(CC) $(CFLAGS) $<
+	$(CC) $(CFLAGS) sources/interface.c
+	$(CC) $(CFLAGS) sources/gibbs.c
 	$(CC) $(LDFLAGS) -o Melts-batch interface.o gibbs.o $(MELTSBATCHLIB) $(LIBBATCH)
-	$(RM) $(RMFLAGS) interface.o
+	$(RM) $(RMFLAGS) interface.o gibbs.o
 	chmod 755 Melts-batch
 
 Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_data.h \
@@ -814,7 +815,7 @@ Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
                perovskite.c read_write.c recipes.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
                spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
 	$(RM) $(RMFLAGS) $(RMFILE) 
-	$(MAKE) Melts-dynamicPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS"
+	$(MAKE) Melts-dynamicPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS -DDO_NOT_PRODUCE_OUTPUT_FILES"
 
 Melts-dynamicPrivate: test_dynamicLib.f gibbs.c $(MELTSDYNAMICLIB) $(MELTSDYLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSDYNAMICLIB)
