@@ -76,7 +76,7 @@ usage:
 	echo "       Test_SAK"
 	echo "       Test_simann"
 	echo "       Test_dynamicLib"
-	echo "       Kevin"
+	echo "       Kevin KevinSolid"
 	echo "       Marc"
 
 strip:
@@ -1229,6 +1229,14 @@ Kevin: kevin.c kevin_slave.cc \
 	$(CC) $(CFLAGS) -I../CVSROOT/phases sources/kevin_slave.cc
 	$(CC) $(LDFLAGS) -o $@ kevin.o kevin_slave.o ../CVSROOT/phases/libphases.a ../CVSROOT/cmath/libcmath.a $(MELTSLIB) $(PUBLIBS) -lstdc++
 	$(RM) $(RMFLAGS) kevin.o kevin_slave.o
+	chmod 755 $@
+
+KevinSolid: kevin.cc kevin_slave.cc kevin_data.c
+	gcc -c -I/usr/local/mysql/include sources/kevin_data.c
+	g++ -c -I../adolc_base/include/adolc -I/opt/local/include sources/kevin.cc
+	g++ -c -I../CVSROOT/phases sources/kevin_slave.cc
+	g++ -o $@ kevin.o kevin_slave.o kevin_data.o ../CVSROOT/phases/libphases.a -I/opt/local/include ../adolc_base/lib/libadolc.a /usr/local/mysql/lib/libmysqlclient.a ../CVSROOT/cmath/libcmath.a -lstdc++
+	$(RM) $(RMFLAGS) kevin.o kevin_slave.o kevin_data.o
 	chmod 755 $@
 
 Marc: marc.c \
