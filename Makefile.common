@@ -52,7 +52,7 @@ usage:
 	echo "       Melts-batch"
 	echo "       Melts-mpi"
 	echo "       Melts-public"
-	echo "       Melts-rhyolite"
+	echo "       Melts-rhyolite Melts-rhyolite-public"
 	echo "       Melts-dynamic"
 	echo "       Analyze-fusion Analyze-fusion-MS"
 	echo "       Analyze-water Analyze-water-MS"
@@ -107,6 +107,7 @@ realclean:
 	$(RM) $(RMFLAGS) Melts-batch
 	$(RM) $(RMFLAGS) Melts-public
 	$(RM) $(RMFLAGS) Melts-rhyolite
+	$(RM) $(RMFLAGS) Melts-rhyolite-public
 	$(RM) $(RMFLAGS) Test_a-x_relations
 	$(RM) $(RMFLAGS) Test_a-x_relations-MS
 	$(RM) $(RMFLAGS) Test_a-x_relations-SACNK
