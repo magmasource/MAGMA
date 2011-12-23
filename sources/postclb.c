@@ -491,7 +491,7 @@ Boolean postclb(XtPointer client_data)
       int isEqual   = (residualDataInput[j].isEqual)[l];
       double *xLiq  = (double *) malloc((size_t) nls*sizeof(double)); 
       double *wtLiq = (double *) malloc((size_t) nlc*sizeof(double));
-      double wtSiO2, wtCaO, wtH2O, sumOx, FEspecies[3], H2Ospecies[3]; 
+      double wtSiO2, wtCaO, wtH2O, wtCO2, sumOx, FEspecies[3], H2Ospecies[3]; 
       int aluminousIndex[3];
 #if BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
       double wtAl2O3, wtNa2O, wtK2O; 
@@ -511,6 +511,7 @@ Boolean postclb(XtPointer client_data)
       wtCaO    = 0.0;
       alkIndex = 0.0;
       wtH2O    = 0.0;
+      wtCO2    = 0.0;
       MgNum    = 100.0;
       aluminousIndex[0] = FALSE; /* peralkaline  */
       aluminousIndex[1] = FALSE; /* metaluminous */
@@ -528,6 +529,7 @@ Boolean postclb(XtPointer client_data)
       wtNa2O   = 100.0*wtLiq[3]*bulkSystem[3].mw/sumOx;
       wtK2O    = 100.0*wtLiq[4]*bulkSystem[4].mw/sumOx;
       wtH2O    = 100.0*wtLiq[5]*bulkSystem[5].mw/sumOx;
+      wtCO2    = 0.0;
       aluminousIndex[0] =  (wtLiq[3]+wtLiq[4]  > wtLiq[1])                                              ? TRUE : FALSE; /* peralkaline  */
       aluminousIndex[1] = ((wtLiq[3]+wtLiq[4] <= wtLiq[1]) && (wtLiq[2]+wtLiq[3]+wtLiq[4] >= wtLiq[1])) ? TRUE : FALSE; /* metaluminous */
       aluminousIndex[2] =                                     (wtLiq[2]+wtLiq[3]+wtLiq[4]  < wtLiq[1])  ? TRUE : FALSE; /* peraluminous */
@@ -543,6 +545,7 @@ Boolean postclb(XtPointer client_data)
       wtCaO    = 100.0*wtLiq[10]*bulkSystem[10].mw/sumOx;
       alkIndex = 100.0*wtLiq[11]*bulkSystem[11].mw/sumOx + 100.0*wtLiq[12]*bulkSystem[12].mw/sumOx;
       wtH2O    = 100.0*wtLiq[14]*bulkSystem[14].mw/sumOx;
+      wtCO2    = 100.0*wtLiq[15]*bulkSystem[15].mw/sumOx;
       MgNum    = 100.0*wtLiq[ 5]*bulkSystem[ 5].mw/sumOx + 100.0*wtLiq[ 7]*bulkSystem[ 7].mw/sumOx;
       if (MgNum > 0.0) MgNum = (100.0*wtLiq[ 7]*bulkSystem[ 7].mw/sumOx)/MgNum;
       aluminousIndex[0] =  (wtLiq[11]+wtLiq[12]  > wtLiq[2])                                                 ? TRUE : FALSE; /* peralkaline  */
@@ -551,12 +554,21 @@ Boolean postclb(XtPointer client_data)
       
       conLiq(THIRD, FOURTH | EIGHTH, residualDataInput[j].t,  residualDataInput[j].p/10000.0, NULL, NULL,
         (residualDataInput[j].rLiq)[0], xLiq, NULL, NULL, NULL);
+#ifndef RHYOLITE_ADJUSTMENTS
       FEspecies[0]  = xLiq[ 3]; /* Fe2SiO5   */
       FEspecies[1]  = xLiq[ 5]; /* Fe2SiO4   */
       FEspecies[2]  = xLiq[19]; /* Fe2SiO4.6 */
       H2Ospecies[0] = xLiq[18]; /* H2O       */
       H2Ospecies[1] = xLiq[20]; /* Si 1/4 OH */
       H2Ospecies[2] = xLiq[29]; /* Al 1/3 OH */
+#else
+      FEspecies[0]  = 0.0;
+      FEspecies[1]  = 0.0;
+      FEspecies[2]  = 0.0;
+      H2Ospecies[0] = 0.0;
+      H2Ospecies[1] = 0.0;
+      H2Ospecies[2] = 0.0;
+#endif
 #endif
       free(xLiq);
       free(wtLiq);
@@ -574,9 +586,9 @@ Boolean postclb(XtPointer client_data)
           return(TRUE);
         }
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
-	fprintf(resFile,"LEPR N,T (C),P (GPa),log fO2,Palk,Mal,Pal,L SiO2,L Al2O3,L CaO,L Na2O,L K2O,L H2O,S Fe2SiO5,S Fe2SiO4,S Fe2SiO4.6,S H2O,S Si0.25OH,S Al0.33OH");
+	fprintf(resFile,"LEPR N,T (C),P (GPa),log fO2,Palk,Mal,Pal,L SiO2,L Al2O3,L CaO,L Na2O,L K2O,L H2O,L CO2, S Fe2SiO5,S Fe2SiO4,S Fe2SiO4.6,S H2O,S Si0.25OH,S Al0.33OH");
 #else
-	fprintf(resFile,"LEPR N,T (C),P (GPa),log fO2,Palk,Mal,Pal,L SiO2,L MgNum,L ALKind,L MgO,L CaO,L H2O,S Fe2SiO5,S Fe2SiO4,S Fe2SiO4.6,S H2O,S Si0.25OH,S Al0.33OH");
+	fprintf(resFile,"LEPR N,T (C),P (GPa),log fO2,Palk,Mal,Pal,L SiO2,L MgNum,L ALKind,L MgO,L CaO,L H2O,L CO2,S Fe2SiO5,S Fe2SiO4,S Fe2SiO4.6,S H2O,S Si0.25OH,S Al0.33OH");
 #endif
 	if (solids[i].convert == NULL) {
 	  fprintf(resFile,",Dep %s (kJ),Res %s (kJ),Afn %s (kJ)\n", solids[i].label, solids[i].label, solids[i].label);
@@ -595,24 +607,24 @@ Boolean postclb(XtPointer client_data)
       if (solids[i].convert == NULL) {
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
         if ((residualDataInput[j].depenG)[l] != 0.0) 
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
-	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
+	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
 	    (residualDataInput[j].depenG)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
 	else
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
-	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
+	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
 #else
         if ((residualDataInput[j].depenG)[l] != 0.0) 
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
-	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
+	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
 	    (residualDataInput[j].depenG)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
 	else
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
-	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
+	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
 #endif	        
       /* Multi-component phase */
       } else {
@@ -625,13 +637,13 @@ Boolean postclb(XtPointer client_data)
 	    for (k=0; k<(solids[i].na+ne); k++) { xVar[k] = 0.0; depVar[k] = 0.0; resVar[k] = 0.0; }
 	  } 
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
-	  fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+	  fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
-	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
+	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
 #else
-	  fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+	  fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
-	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
+	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
 #endif
 	}
 	

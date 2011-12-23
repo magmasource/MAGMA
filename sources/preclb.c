@@ -999,14 +999,15 @@ static int getDependentOfSolid(double *x, double t, double p, Boolean *lowWtFlag
   delta.g    = 0.0;
   delta.dgdt = 0.0;
  
+  Boolean lowMolFlag = False;
   for (i=0; i<nlc; i++) {
-    if( (solids[solidID].solToLiq)[i] != 0.0) {
-      Boolean lowMolFlag;
+    if( (solids[solidID+1+componentID].solToLiq)[i] != 0.0) {
       int j;
       for (j=0, lowMolFlag=False; j<nc; j++) lowMolFlag |= ((liquid[i].liqToOx)[j] != 0.0) && lowWtFlag[j];
       if (x[i] == 0.0 || lowMolFlag) return FALSE; 
     }
   }
+  printf("Flags = %d, %d, %d\n", lowMolFlag, lowWtFlag[14], lowWtFlag[15]);
 
   if (solidID < 0) return TRUE;
   
@@ -1561,7 +1562,8 @@ Boolean preclb(XtPointer client_data)
                 lowWtFlag[4] = (wt[4]*bulkSystem[4].mw < 0.1); /* Cr2O3 */
 	      } else for (i=0; i<nc; i++)  lowWtFlag[i] = FALSE;
 #else
-              for (i=0; i<nc; i++)  lowWtFlag[i] = FALSE;
+              for (i=0; i<nc; i++)  lowWtFlag[i] = (wt[i]*bulkSystem[i].mw < 0.0001);
+              /* if ((wt[14] > 0.0) && (wt[15] > 0.0)) { lowWtFlag[14] = TRUE; lowWtFlag[15] = TRUE; } */
 #endif
 #endif
     
@@ -1720,7 +1722,7 @@ Boolean preclb(XtPointer client_data)
         	printf("-->Liquid %d fails validation test.logfO2 = %g, test = %d\n", nLiquid, logfo2,
 		  testLiq(SIXTH, t, p, 0, 0, NULL, NULL, NULL, molesLiqCmp));
               }
-              
+                            
               /* Insert an equation for oxygen calibration if liquid is valid composition */
               if (  validLiquid
         	    && calibrateOxygen
@@ -1756,8 +1758,11 @@ Boolean preclb(XtPointer client_data)
  		}      
  	      }
 	      
-	      if (validLiquid)   fprintf(liqFile,"%d\t%s\t%s\t%s\t%s\t%s\t%g\t%g\t%g\n", 
-	        nLiquid-1, name, author, device, container, method, t-273.15, p/10000.0, logfo2);
+	      if (validLiquid) { 
+	        fprintf(liqFile,"%d\t%s\t%s\t%s\t%s\t%s\t%g\t%g\t%g\n", 
+	          nLiquid-1, name, author, device, container, method, t-273.15, p/10000.0, logfo2);
+	        printf("-->Liquid %d passes all tests\n", nLiquid);
+	      }
 
 
 	      /* This is the end of all liquid processing */
@@ -1948,6 +1953,7 @@ Boolean preclb(XtPointer client_data)
                 	/* Compute activities of endmember components/exclude dilute comp */
                 	for (j=0, useSaved=FALSE; j<solids[id].na; j++) {
                 	  if(preclbCount[id+1+j].usePhase && getDependentOfSolid(molesLiqCmp, t, p, lowWtFlag, id, j, indep, useSaved)) {
+                	    printf("... component %d accepted\n", j);
                 	    nEqn++;
                 	    pRDI->nSol++; if (pRDI->nSol > nSolCoexistMax) 
 	        			  printf("ERROR:preclb[preclb.c at line %d] nSolCoexistMax[=%d] exceeded.\n", __LINE__, nSolCoexistMax);
@@ -1969,8 +1975,10 @@ Boolean preclb(XtPointer client_data)
                    	   preclbCount[id+1+j].np++;
                    	   (void) snprintf(value, 6, "%5.5d", preclbCount[id+1+j].np);
                    	   DISPLAY(preclbCount[id+1+j].present, value)
+			           useSaved = TRUE;
+                	  } else {
+                	    printf("... component %d rejected\n", j);
                 	  }
-			  useSaved = TRUE;
                 	}
 	              
 	        	/* dependent species used as regression constraints */

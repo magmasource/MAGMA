@@ -2406,15 +2406,15 @@ actFlu(int mask, double t, double p, double *r,
   x[CO2] = r[0];
   
   if        (fabs(x[CO2]) < 100.0*DBL_EPSILON) {
-    if (mask & FIRST)  { a[H2O]   = 1.0; a[CO2]   = 0.0; }
-    if (mask & SECOND) { mu[H2O]  = 0.0; mu[CO2]  = 0.0; }
-    if (mask & THIRD)  { dx[0][0] = 0.0; dx[1][0] = 0.0; }
+    if (mask & FIRST)  { a[H2O]   = 1.0;          a[CO2]  = 0.0; }
+    if (mask & SECOND) { mu[H2O]  = DBL_EPSILON; mu[CO2]  = 0.0; }
+    if (mask & THIRD)  { dx[0][0] = 0.0;         dx[1][0] = 0.0; }
     if (mask & FOURTH) { ; }
     return;
   } else if (fabs(x[H2O]) < 100.0*DBL_EPSILON) {
-    if (mask & FIRST)  { a[H2O]   = 0.0; a[CO2]   = 1.0; }
-    if (mask & SECOND) { mu[H2O]  = 0.0; mu[CO2]  = 0.0; }
-    if (mask & THIRD)  { dx[0][0] = 0.0; dx[1][0] = 0.0; }
+    if (mask & FIRST)  { a[H2O]   = 0.0; a[CO2]   = 1.0;         }
+    if (mask & SECOND) { mu[H2O]  = 0.0; mu[CO2]  = DBL_EPSILON; }
+    if (mask & THIRD)  { dx[0][0] = 0.0; dx[1][0] = 0.0;         }
     if (mask & FOURTH) { ; }
     return;
   }
@@ -2459,7 +2459,7 @@ actFlu(int mask, double t, double p, double *r,
 
   if (mask & FOURTH) {
     /* 
-    static const double exclusion[NA] = { 0.05,  0.05 };
+    static const double exclusion[NA] = { 0.0,  0.0 };
 
     for (i=0; i<NA; i++) {
       if (x[i] < exclusion[i]) {

@@ -996,6 +996,74 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          d2vldtdp = - 2.0*r*(1.170e-8 + 2.0*9.502e-13*t) + 6.0*r*4.586e-13*p;
 
       /* special case - no EOS option */
+      } else if( (strcmp(name, "CO2") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
+         double hCO2       = phase->h;
+         double sCO2       = phase->s;
+         double vCO2       =  2.776+1.2;    /* Lange */
+         /* double dvCO2dt    =  3.41e-4;  Lange, not used */
+         /* double dvCO2dp    = -7.623e-5; Lange, not used */
+         /* double d2vCO2dtdp = -12.7e-8;  Lange, not used */
+         
+         /* These are water EOS expressions from Burnham */
+         double tRef = 1673.15;
+         double pRef = 1.0;
+         double vH2Oref = r*(0.110 + 4.432e-5*tRef + 1.405e-7*tRef*tRef - 2.394e-11*CUBE(tRef))
+                        + 2.0*r*(7.337e-8 - 1.170e-8*tRef - 9.502e-13*tRef*tRef)*pRef
+                        + 3.0*r*(1.876e-10 + 4.586e-13*tRef)*pRef*pRef 
+                        - 4.0*r*1.191e-14*CUBE(pRef);
+                        
+         double phiP = (0.110/t + 4.432e-5 + 1.405e-7*t - 2.394e-11*t*t)*p
+                     + (7.337e-8/t - 1.170e-8 - 9.502e-13*t)*p*p
+                     + (1.876e-10/t + 4.586e-13)*CUBE(p) - 1.191e-14*QUARTIC(p)/t;
+         double dphiPdt = (-0.110/SQUARE(t) + 1.405e-7 - 2.0*2.394e-11*t)*p
+                        + (-7.337e-8/SQUARE(t) - 9.502e-13)*p*p
+                        - 1.876e-10*CUBE(p)/SQUARE(t) + 1.191e-14*QUARTIC(p)/SQUARE(t);
+         double d2phiPdt2 = (2.0*0.110/CUBE(t) - 2.0*2.394e-11)*p
+                          + 2.0*7.337e-8*p*p/CUBE(t) + 2.0*1.876e-10*CUBE(p)/CUBE(t) 
+                          - 2.0*1.191e-14*QUARTIC(p)/CUBE(t);
+         double d3phiPdt3 = -6.0*0.110*p/QUARTIC(t)
+                          - 6.0*7.337e-8*p*p/QUARTIC(t) - 6.0*1.876e-10*CUBE(p)/QUARTIC(t) 
+                          + 6.0*1.191e-14*QUARTIC(p)/QUARTIC(t);
+
+         double d2gdt2, d3gdt3;
+                        
+         /* Water properties from Burnham, scaled for Lange CO2 volume */
+         vl       = r*(0.110 + 4.432e-5*t + 1.405e-7*t*t - 2.394e-11*CUBE(t))
+                  + 2.0*r*(7.337e-8 - 1.170e-8*t - 9.502e-13*t*t)*p
+                  + 3.0*r*(1.876e-10 + 4.586e-13*t)*p*p 
+                  - 4.0*r*1.191e-14*CUBE(p);
+         dvldt    = r*(4.432e-5 + 2.0*1.405e-7*t - 3.0*2.394e-11*t*t)
+                  - 2.0*r*(1.170e-8 + 2.0*9.502e-13*t)*p + 3.0*r*4.586e-13*p*p; 
+         dvldp    = 2.0*r*(7.337e-8 - 1.170e-8*t - 9.502e-13*t*t)
+                  + 6.0*r*(1.876e-10 + 4.586e-13*t)*p - 12.0*r*1.191e-14*p*p;
+         d2vldt2  = r*(2.0*1.405e-7 - 6.0*2.394e-11*t) - 4.0*r*9.502e-13*p;
+         d2vldp2  = 6.0*r*(1.876e-10 + 4.586e-13*t) - 24.0*r*1.191e-14*p;
+         d2vldtdp = - 2.0*r*(1.170e-8 + 2.0*9.502e-13*t) + 6.0*r*4.586e-13*p;
+         
+         vl        *= vCO2/vH2Oref;
+         dvldt     *= vCO2/vH2Oref;
+         dvldp     *= vCO2/vH2Oref;
+         d2vldt2   *= vCO2/vH2Oref;
+         d2vldp2   *= vCO2/vH2Oref;
+         d2vldtdp  *= vCO2/vH2Oref;
+         phiP      *= vCO2/vH2Oref;
+         dphiPdt   *= vCO2/vH2Oref;
+         d2phiPdt2 *= vCO2/vH2Oref;
+         d3phiPdt3 *= vCO2/vH2Oref;
+         
+         /* propertiesOfPureCO2(t, p, &gl, &hl, &sl, &cpl, &dcpldt, &vl, &dvldt, &dvldp, &d2vldt2, &d2vldtdp, &d2vldp2); */
+         
+         gl     = hCO2 - t*sCO2 + r*t*phiP;
+         sl     = sCO2 - r*phiP - r*t*dphiPdt;
+         hl     = gl + t*sl; 
+
+         d2gdt2 = 2.0*r*dphiPdt + r*t*d2phiPdt2;
+         d3gdt3 = 3.0*r*d2phiPdt2 + r*t*d3phiPdt3;
+         
+         cpl    = - t*d2gdt2;
+         dcpldt = - d2gdt2 - t*d3gdt3;
+
+      /* special case - no EOS option */
       } else if ( (strcmp(name, "Si0.25OH") == 0) && (calculationMode == MODE_xMELTS) ) {
          hl     = phase->h;
 	 sl     = phase->s;

@@ -632,7 +632,7 @@ int main(int argc, char *argv[]) {
   
   output = fopen("duan-table.dat", "w");
    
-/*  for (p=10000.0; p<10100.0; p+=100.0) { */
+  for (p=100.0; p<10100.0; p+=100.0) { 
     duan(t, p, x, &v, &z, phi);
     duan(t, p, xPureH2O, &vPureH2O, &zPureH2O, phiPureH2O);
     duan(t, p, xPureCO2, &vPureCO2, &zPureCO2, phiPureCO2);
@@ -707,6 +707,8 @@ int main(int argc, char *argv[]) {
     fprintf(output, " %20.13e", t); 
     fprintf(output, ",%20.13e", p); 
     fprintf(output, ",%20.13e", v); 
+    fprintf(output, ",%20.13e", vPureH2O); 
+    fprintf(output, ",%20.13e", vPureCO2); 
     fprintf(output, ",%20.13e", z); 
     fprintf(output, ",%20.13e", phi[H2O]); 
     fprintf(output, ",%20.13e", phi[CO2]); 
@@ -735,7 +737,7 @@ int main(int argc, char *argv[]) {
     fprintf(output, ",%20.13e", d2phidtdp[H2O]);
     fprintf(output, ",%20.13e", d2phidtdp[CO2]);
     fprintf(output, "\n");
-/*  } */
+  } 
   
   fclose(output);
 
