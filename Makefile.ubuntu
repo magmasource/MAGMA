@@ -1,3 +1,4 @@
+
 # =================================================================================
 # Makefile for build of the xMELTS package on Linux (Ubuntu - 10.04)
 #   $Id: Makefile.ubuntu,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
@@ -30,7 +31,7 @@ MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
 MELTS_X_VERSION        = X.Org / OSF Motif 2.1
 MELTS_RELEASE_DATE     = October 2010
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.0 (rhyolite) (Ubuntu - 10.04, gcc 4.4)
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.1 (rhyolite) (Ubuntu - 10.04, gcc 4.4)
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
@@ -82,18 +83,13 @@ endif
 # Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
 # ========================================================================================================
 
-# Ubuntu has libiconv (and therefore libcharset) built into libc (see libc-bin in synaptic)
-LIBS    = -L/usr/lib -lMrm -lXm -lgrace_np -lXt -lXp -lX11 -lXext -lXpm -lXmu ../port3/libport.a -lgfortran
-PUBLIBS = /usr/lib/libMrm.a /usr/lib/libXm.a /usr/lib/libXft.a /usr/lib/libgrace_np.a -L/usr/lib -lXt -lXp \
-	  -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXrender -lXau -lXdmcp -ljpeg -lpng -lexpat -lz -lfreetype -lfontconfig \
-	  -lX11-xcb -lxcb ../port3/libport.a /usr/lib/gcc/x86_64-linux-gnu/4.4/libgfortran.a 
-
-# Static linking X11 currently does not work due to a 'known problem with modular X11' (Oct '10)
-#PUBLIBS = /usr/lib/libMrm.a /usr/lib/libXm.a /usr/lib/libXft.a /usr/lib/libgrace_np.a /usr/lib/libXt.a /usr/lib/libXp.a \
-#	 /usr/lib/libSM.a /usr/lib/libICE.a /usr/lib/libX11.a /usr/lib/libXext.a /usr/lib/libXpm.a /usr/lib/libXmu.a \
-#	 /usr/lib/libXrender.a /usr/lib/libXau.a /usr/lib/libXdmcp.a /usr/lib/libjpeg.a /usr/lib/libpng.a \
-#	 /usr/lib/libexpat.a /usr/lib/libz.a /usr/lib/libfreetype.a /usr/lib/libfontconfig.a \
-#	 /usr/lib/libX11-xcb.a /usr/lib/libxcb.a ../port3/libport.a /usr/lib/gcc/x86_64-linux-gnu/4.4/libgfortran.a 
+# Ubuntu has libiconv built into libc (see libc-bin in synaptic)
+LIBS    = -L/usr/lib -lgrace_np -lMrm -lXm -lXmu -lXt -lXp -lXext -lXpm -lX11 ../port3/libport.a
+PUBLIBS = /usr/lib/libgrace_np.a /usr/lib/libMrm.a /usr/lib/libXm.a /usr/lib/libXft.a /usr/lib/libXmu.a /usr/lib/libXt.a \
+	 /usr/lib/libXp.a /usr/lib/libSM.a /usr/lib/libICE.a /usr/lib/libXext.a /usr/lib/libXpm.a /usr/lib/libXrender.a \
+	 /usr/lib/libX11-xcb.a /usr/lib/libX11.a /usr/lib/libxcb.a /usr/lib/libXau.a /usr/lib/libXdmcp.a \
+	 /usr/lib/libfontconfig.a /usr/lib/libexpat.a /usr/lib/libfreetype.a /usr/lib/libjpeg.a /usr/lib/libpng.a \
+	 /usr/lib/libz.a ../port3/libport.a /usr/lib/gcc/x86_64-linux-gnu/4.4/libgfortran.a 
 
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
