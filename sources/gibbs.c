@@ -1655,6 +1655,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
       
       /* Do equation of state integral */
       gs = hs -t*ss + (QUARTZ_ADJUSTMENT);
+      hs += (QUARTZ_ADJUSTMENT);
       intEOSsolid(phase, t, p, &gs, &hs, &ss, &cps, &dcpsdt, &vs, &dvsdt, &dvsdp, &d2vsdt2, &d2vsdtdp, &d2vsdp2);
       if (phase->eos_type == EOS_BERMAN) {
         phase->v             = vR;
