@@ -8,8 +8,9 @@
 #include "VinetEOS.h"
 #include <math.h>
 #include <float.h>
+/*
 using namespace std;
-
+*/
 VinetEOS::VinetEOS() {
   alphaT=0.;//should be given value in child or error will be thrown
   x=x0=1.;

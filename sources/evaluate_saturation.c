@@ -322,8 +322,14 @@ int evaluateSaturationState(double *rSol, double *rLiq)
               printf("Using speciation method for clinopyroxene.\n");
 #endif
 	      getAffinityAndCompositionPyroxene(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
-	      
-          } else 
+/*
+	  } else if (!strcmp(solids[i].label, "spinel")) {
+#ifdef DEBUG
+              printf("Using speciation method for spinel.\n");
+#endif
+	      getAffinityAndCompositionSpinel(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
+*/	      
+      } else 
 #endif /* RHYOLITE_ADJUSTMENTS */	  
 	  if (!getAffinityAndComposition(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1])) {		   
             if (!strcmp(solids[i].label, "clinopyroxene") || 

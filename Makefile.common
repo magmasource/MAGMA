@@ -75,6 +75,7 @@ usage:
 	echo "       Test_SACNK"
 	echo "       Test_SAK"
 	echo "       Test_simann"
+	echo "       Test_sulfide_liquid"
 	echo "       Test_dynamicLib"
 	echo "       Kevin KevinSolid"
 	echo "       Marc"
@@ -141,6 +142,7 @@ realclean:
 	$(RM) $(RMFLAGS) Test_SACNK
 	$(RM) $(RMFLAGS) Test_SAK
 	$(RM) $(RMFLAGS) Test_simann
+	$(RM) $(RMFLAGS) Test_sulfide_liquid
 	$(RM) $(RMFLAGS) Kevin
 	$(RM) $(RMFLAGS) Marc
 
@@ -1221,6 +1223,43 @@ Test_SAK: test_SAK.c liquid-SACNK.o melts_support-SACNK.o \
 
 Test_simann: test_simann.c simann.o
 	$(CC) -o $@ -I$(INCF2C) $< simann.o $(LIBF2C) -lm -lc
+	chmod 755 $@
+	
+Test_sulfide_liquid: SulfLiq/testsulfliq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Chem.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/CholeskySolve.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/CuLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/FeLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ModifiedCholesky.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ModifiedNR.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/NiLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/NumUtil.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/O2Gas.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Phase.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/PhaseExceptions.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/S2Gas.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomateIdealGas.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomatePhase.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomateVinetPhase.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Solution.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SpecSolNID.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SpecSolution.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SulfLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/VinetEOS.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/eigensystem.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svDcmp.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svdInv.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svdSolve.cc
+	$(CC) $(CFLAGS) -Wno-deprecated -ISulfLiq SulfLiq/testsulfliq.cc
+	$(CC) $(LDFLAGS) -o $@ testsulfliq.o Chem.o CuLiq.o FeLiq.o ModifiedCholesky.o NiLiq.o NumUtil.o \
+          O2Gas.o Phase.o PhaseExceptions.o S2Gas.o SLiq.o ShomateIdealGas.o ShomatePhase.o \
+          ShomateVinetPhase.o Solution.o SpecSolNID.o SpecSolution.o SulfLiq.o VinetEOS.o eigensystem.o \
+          svDcmp.o svdInv.o svdSolve.o ModifiedNR.o CholeskySolve.o -lstdc++
+	$(RM) $(RMFLAGS) testsulfliq.o Chem.o CuLiq.o FeLiq.o ModifiedCholesky.o NiLiq.o NumUtil.o \
+          O2Gas.o Phase.o PhaseExceptions.o S2Gas.o SLiq.o ShomateIdealGas.o ShomatePhase.o \
+          ShomateVinetPhase.o Solution.o SpecSolNID.o SpecSolution.o SulfLiq.o VinetEOS.o eigensystem.o \
+          svDcmp.o svdInv.o svdSolve.o ModifiedNR.o CholeskySolve.o
 	chmod 755 $@
 
 Kevin: kevin.c kevin_slave.cc \
