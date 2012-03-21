@@ -1,10 +1,49 @@
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include "SulfLiq.h"
+
 /*
  * Global (to this file): activity definitions and component transforms
  *    The function conBio defines the conversion from m[i], to r[j]
  */
-#define NR         1
+#define NR         4
 #define NS         0
-#define NA         2
+#define NA         5
+
+#define TRUE  1
+#define FALSE 0
+
+#define SQUARE(x) ((x)*(x))
+#define CUBE(x)   ((x)*(x)*(x))
+#define QUARTIC(x) ((x)*(x)*(x)*(x))
+
+#define R 8.3143
+
+/*
+ *==============================================================================
+ * Argument BITMASKs for public solid solution functions:
+ */
+#define FIRST       00000001 /* octal for binary 00000000000000000001 */
+#define SECOND      00000002 /* octal for binary 00000000000000000010 */
+#define THIRD       00000004 /* octal for binary 00000000000000000100 */
+#define FOURTH      00000010 /* octal for binary 00000000000000001000 */
+#define FIFTH       00000020 /* octal for binary 00000000000000010000 */
+#define SIXTH       00000040 /* octal for binary 00000000000000100000 */
+#define SEVENTH     00000100 /* octal for binary 00000000000001000000 */
+#define EIGHTH      00000200 /* octal for binary 00000000000010000000 */
+#define NINTH       00000400 /* octal for binary 00000000000100000000 */
+#define TENTH       00001000 /* octal for binary 00000000001000000000 */
+#define ELEVENTH    00002000 /* octal for binary 00000000010000000000 */
+#define TWELFTH     00004000 /* octal for binary 00000000100000000000 */
+#define THIRTEENTH  00010000 /* octal for binary 00000001000000000000 */
+#define FOURTEENTH  00020000 /* octal for binary 00000010000000000000 */
+#define FIFTEENTH   00040000 /* octal for binary 00000100000000000000 */
+#define SIXTEENTH   00100000 /* octal for binary 00001000000000000000 */
+#define SEVENTEENTH 00200000 /* octal for binary 00010000000000000000 */
+#define EIGHTEENTH  00400000 /* octal for binary 00100000000000000000 */
+#define NINETEENTH  01000000 /* octal for binary 01000000000000000000 */
+#define TWENTIETH   02000000 /* octal for binary 10000000000000000000 */
 
 /*
  * Global (to this file): derivative definitions
@@ -17,7 +56,7 @@
  *    p     -  Pressure (bars)
  *    *x    -  (pointer to x[]) Array of independent compositional variables
  */
-extern "C" int testBio(int mask, double t, double p,
+extern "C" int testSLq(int mask, double t, double p,
   int na,          /* Expected number of endmember components                 */
   int nr,          /* Expected number of independent compositional variables  */
   char **names,    /* array of strings of names of endmember components       */
@@ -25,15 +64,15 @@ extern "C" int testBio(int mask, double t, double p,
   double *r,       /* array of indepependent compos variables, check bounds   */
   double *m)       /* array of moles of endmember components, check bounds    */
 {
-  const char *phase = "biotite.c";
-  const char *NAMES[NA]    = { "annite", "phlogopite" };
-  const char *FORMULAS[NA] = { "KFe3Si3AlO10(OH)2", "KMg3Si3AlO10(OH)2" };
+  const char *phase = "sulfideLiquid.cc";
+  const char *NAMES[NA]    = { "O", "S", "Fe", "Ni", "Cu" };
+  const char *FORMULAS[NA] = { "O", "S", "Fe", "Ni", "Cu" };
   int result = TRUE, i;
   double sum;
 
   if (mask & FIRST) {
     result = result && (na == NA);
-    if (!result) printf("<<%s>> Wrong number of components!\n", phase);
+    if (!result) printf("<<%s>> Wrong number of components!", phase);
   }
   if (mask & SECOND) {
     result = result && (nr == NR);
@@ -71,7 +110,7 @@ extern "C" int testBio(int mask, double t, double p,
   return result;
 }
 
-extern "C" void conBio(int inpMask, int outMask, double t, double p,
+extern "C" void conSLq(int inpMask, int outMask, double t, double p,
   double *e,      /* comp of biotite in moles of elements                     */
   double *m,      /* comp of biotite in moles of endmember components         */
   double *r,      /* comp of biotite in terms of the independent comp var     */
@@ -108,24 +147,29 @@ extern "C" void conBio(int inpMask, int outMask, double t, double p,
   int i, j, k;
 
   if (inpMask == FIRST && outMask == SECOND) {
-    static const int Mg = 12;
+    static const int O  =  8;
+    static const int S  = 16;
     static const int Fe = 26;
-
-                      /* Projection into the Fe-Mg binary */
-    m[0] = e[Fe]/3.0; /* moles of KFe3Si3AlO10(OH)2       */
-    m[1] = e[Mg]/3.0; /* Moles of KMg3Si3AlO10(OH)2       */
+    static const int Ni = 28;
+    static const int Cu = 29;
+    
+    m[0] = e[ O]; 
+    m[1] = e[ S];
+    m[2] = e[Fe];
+    m[3] = e[Ni];
+    m[4] = e[Cu];
 
   } else if (inpMask == SECOND) {
     double sum;
 
     if (outMask & ~(THIRD | FOURTH | FIFTH | SIXTH | EIGHTH))
-      printf("Illegal call to conBio with inpMask = %o and outMask = %o\n",
+      printf("Illegal call to conSLq with inpMask = %o and outMask = %o\n",
         inpMask, outMask);
 
     for (i=0, sum=0.0; i<NA; i++) sum += m[i];
 
     if (outMask & THIRD) {
-      for (i=0; i<NR; i++) r[i] = (sum != 0.0) ? m[i]/sum : 0.0; 
+      for (i=0; i<NR; i++) r[i] = (sum != 0.0) ? m[i+1]/sum : 0.0; 
     }  
 
     if (outMask & FOURTH) {
@@ -141,7 +185,7 @@ extern "C" void conBio(int inpMask, int outMask, double t, double p,
       } else {
         for (i=0; i<NR; i++) {
           for (j=0; j<NA; j++)
-            dm[i][j] = (i == j) ? (1.0-m[i]/sum)/sum : - m[i]/SQUARE(sum);
+            dm[i][j] = (i+1 == j) ? (1.0-m[i+1]/sum)/sum : - m[i+1]/SQUARE(sum);
         }
       }
 
@@ -160,9 +204,9 @@ extern "C" void conBio(int inpMask, int outMask, double t, double p,
         for (i=0; i<NR; i++) {
           for (j=0; j<NA; j++)  {
             for (k=0; k<NA; k++) {
-              d2m[i][j][k]  = 2.0*m[i]/CUBE(sum);
-              d2m[i][j][k] -= (i == j) ? 1.0/SQUARE(sum) : 0.0;
-              d2m[i][j][k] -= (i == k) ? 1.0/SQUARE(sum) : 0.0;
+              d2m[i][j][k]  = 2.0*m[i+1]/CUBE(sum);
+              d2m[i][j][k] -= (i+1 == j) ? 1.0/SQUARE(sum) : 0.0;
+              d2m[i][j][k] -= (i+1 == k) ? 1.0/SQUARE(sum) : 0.0;
             }
           }
         }
@@ -186,10 +230,10 @@ extern "C" void conBio(int inpMask, int outMask, double t, double p,
           for (j=0; j<NA; j++)  {
             for (k=0; k<NA; k++)  {
 	      for (l=0; l<NA; l++)  {
-                d3m[i][j][k][l]  = -6.0*m[i]/QUARTIC(sum);
-                d3m[i][j][k][l] += (i == j) ? 2.0/CUBE(sum) : 0.0;
-                d3m[i][j][k][l] += (i == k) ? 2.0/CUBE(sum) : 0.0;
-                d3m[i][j][k][l] += (i == l) ? 2.0/CUBE(sum) : 0.0;
+                d3m[i][j][k][l]  = -6.0*m[i+1]/QUARTIC(sum);
+                d3m[i][j][k][l] += (i+1 == j) ? 2.0/CUBE(sum) : 0.0;
+                d3m[i][j][k][l] += (i+1 == k) ? 2.0/CUBE(sum) : 0.0;
+                d3m[i][j][k][l] += (i+1 == l) ? 2.0/CUBE(sum) : 0.0;
 	      }
             }
           }
@@ -201,30 +245,30 @@ extern "C" void conBio(int inpMask, int outMask, double t, double p,
   } else if (inpMask == THIRD) {
 
     if (outMask & ~(FOURTH | SEVENTH))
-      printf("Illegal call to conBio with inpMask = %o and outMask = %o\n",
+      printf("Illegal call to conSLq with inpMask = %o and outMask = %o\n",
         inpMask, outMask);
 
     if (outMask & FOURTH) {
       /* Converts a vector of independent compositional variables (r) 
          into a vector of mole fractions of endmember components (x).         */
 
-      for (i=0, x[1]=1.0; i<NR; i++) { x[i] = r[i]; x[1] -= r[i]; }
+      for (i=0, x[0]=1.0; i<NR; i++) { x[i+1] = r[i]; x[0] -= r[i]; }
     }
 
     if (outMask & SEVENTH) {
       /* computes the Jacobian matrix dr[i][j] = dx[i]/dr[j] */
-      for (i=0; i<NR; i++) for (j=0; j<NR; j++) dr[i][j] = (i == j) ? 1.0 : 0.0;
-                           for (j=0; j<NR; j++) dr[1][j] = -1.0;
+      for (i=0; i<NR; i++) for (j=0; j<NR; j++) dr[i+1][j] = (i == j) ? 1.0 : 0.0;
+                           for (j=0; j<NR; j++) dr[0][j]   = -1.0;
     }
 
   } else  {
-    printf("Illegal call to conBio with inpMask = %o and outMask = %o\n",
+    printf("Illegal call to conSLq with inpMask = %o and outMask = %o\n",
       inpMask, outMask);
   }
 
 }
 
-extern "C" void dispBio(int mask, double t, double p, double *x,
+extern "C" void dispSLq(int mask, double t, double p, double *x,
   char **formula            /* Mineral formula for interface display MASK: 1 */
   )
 {
@@ -232,86 +276,75 @@ extern "C" void dispBio(int mask, double t, double p, double *x,
   static char masterString[] = {
 /*             1111111111222222222233333333334444444444555555555566666666667
      01234567890123456789012345678901234567890123456789012345678901234567890 */
-    "K(Fe''_.__Mg_.__)3AlSi3O10(OH)2" };
+    "O_.__S_.__Fe_.__Ni_.__Cu_.__" };
 
   if (mask & FIRST) {
     char *string = strcpy((char *) malloc((size_t) (strlen(masterString)+1)*sizeof(char)), masterString);
-    double totFe2, totMg;
     char n[5];
     int i;
 
-    totFe2 = r[0];
-    totMg  = (1.0-r[0]);
-
-    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[ 6+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[12+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", 1.0-r[0]-r[1]-r[2]-r[3]); for (i=0; i<4; i++) string[ 1+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", r[0]);                    for (i=0; i<4; i++) string[ 6+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", r[1]);                    for (i=0; i<4; i++) string[12+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", r[2]);                    for (i=0; i<4; i++) string[18+i] = n[i];
+    (void) snprintf(n, 5, "%4.2f", r[3]);                    for (i=0; i<4; i++) string[24+i] = n[i];
 
     *formula = string;
   }
 }
 
-extern "C" void actBio(int mask, double t, double p, double *x, 
+extern "C" void actSLq(int mask, double t, double p, double *r, 
   double *a,  /* (pointer to a[]) activities              BINARY MASK: 0001 */
   double *mu, /* (pointer to mu[]) chemical potentials    BINARY MASK: 0010 */
   double **dx /* (pointer to dx[][]) d(a[])/d(x[])        BINARY MASK: 0100 */
   )           /* exclusion criteria applied to results if BINARY MASK: 1000 */
 {
-  double xan = (x[0]     > DBL_EPSILON) ? x[0]     : DBL_EPSILON;
-  double xph = (1.0-x[0] > DBL_EPSILON) ? 1.0-x[0] : DBL_EPSILON;
-
-  double g, dgdr[NR], fr[NA][NR];
-  int i, j;
+  static const double spectol=1.e-16;
+  double *comp = new double[NA];
+  int i;
   
-  for(i=0; i<NA; i++) fr[i][0] = FR0(i);
-
-  g       = G;
-  dgdr[0] = DGDR0;
+  SulfLiq *solution = new SulfLiq();
+  solution->setTk(t);
+  solution->setPa(p*1.0e5);
+  comp[0] = 1.0 - r[0] - r[1] - r[2] - r[3];
+  comp[1] = r[0];
+  comp[2] = r[1];
+  comp[3] = r[2];
+  comp[4] = r[3];
+  solution->setComps(comp);
+  solution->setSpeciateTolerance(spectol);
 
   if (mask & FIRST) {
     for(i=0; i<NA; i++) {
-       for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
+       a[i] = solution->getSpecMu(i) - solution->getMu0(i);
        a[i] = exp(a[i]/(R*t));
     }
   }
 
   if (mask & SECOND) {
     for(i=0; i<NA; i++) {
-       for (mu[i]=g, j=0; j<NR; j++) mu[i] += fr[i][j]*dgdr[j];
+       mu[i] = solution->getSpecMu(i) - solution->getMu0(i);
     }
   }
 
   if (mask & THIRD) {
-    double d2gdr2[NR][NR], dfrdr[NA][NR], sum;
-    int k;
-
-    d2gdr2[0][0] = D2GDR0R0;
-
-    for(i=0; i<NA; i++) dfrdr[i][0] = DFR0DR0(i);
-
-    for (i=0; i<NA; i++) {
-       for (k=0; k<NR; k++) {
-          for (dx[i][k]=g, j=0; j<NR; j++) dx[i][k] += fr[i][j]*dgdr[j];
-          dx[i][k] = exp(dx[i][k]/(R*t));
-          sum = (1.0+dfrdr[i][k])*dgdr[k];
-          for (j=0; j<NR; j++) sum += fr[i][j]*d2gdr2[j][k];
-          dx[i][k] *= sum/(R*t);
-       }
-    }  
+    int j;
+    for(i=0; i<NA; i++) for (j=0; j<NR; j++) dx[i][j] = 0.0;
   }
 
   if (mask & FOURTH) {
     /* implement exclusion criteria on quantities for preclb routines  */
     static const double exclusion[NA] = {
-       0.05,  /* exclusion criteria on the mole fraction of annite     */
-       0.05,  /* exclusion criteria on the mole fraction of phlogopite */
+       0.0,  /* exclusion criteria on the mole fraction of O  */
+       0.0,  /* exclusion criteria on the mole fraction of S  */
+       0.0,  /* exclusion criteria on the mole fraction of Fe */
+       0.0,  /* exclusion criteria on the mole fraction of Ni */
+       0.0,  /* exclusion criteria on the mole fraction of Cu */
     };
-    double x[NA];
-
-    x[0] = xan; /* mole fraction of annite     */ 
-    x[1] = xph; /* mole fraction of phlogopite */
 
     for (i=0; i<NA; i++) {
-      if (x[i] < exclusion[i]) {
+      int j;
+      if (comp[i] < exclusion[i]) {
         if (mask & FIRST)  a[i]  = 0.0;
         if (mask & SECOND) mu[i] = 0.0;
         if (mask & THIRD)  for (j=0; j<NR; j++) dx[i][j] = 0.0;
@@ -321,125 +354,112 @@ extern "C" void actBio(int mask, double t, double p, double *x,
 
 }
 
-extern "C" void gmixBio(int mask, double t, double p, double *x, 
+extern "C" void gmixSLq(int mask, double t, double p, double *r, 
   double *gmix, /* Gibbs energy of mixing             BINARY MASK: 0001 */
   double *dx,   /* (pointer to dx[]) d(g)/d(x[])      BINARY MASK: 0010 */
   double **dx2, /* (pointer to dx2[][]) d2(g)/d(x[])2 BINARY MASK: 0100 */
   double ***dx3 /* (pointer to dx3[][][]) d3(g)/d(x[])3 NARY MASK: 1000 */
   )
 {
-  double xan = (x[0]     > DBL_EPSILON) ? x[0]     : DBL_EPSILON;
-  double xph = (1.0-x[0] > DBL_EPSILON) ? 1.0-x[0] : DBL_EPSILON;
+  static const double spectol=1.e-16;
+  double *comp = new double[NA];
+  
+  SulfLiq *solution = new SulfLiq();
+  solution->setTk(t);
+  solution->setPa(p*1.0e5);
+  comp[0] = 1.0 - r[0] - r[1] - r[2] - r[3];
+  comp[1] = r[0];
+  comp[2] = r[1];
+  comp[3] = r[2];
+  comp[4] = r[3];
+  solution->setComps(comp);
+  solution->setSpeciateTolerance(spectol);
   
   if (mask & FIRST) {
-    *gmix = G;
+    int i;
+    *gmix = solution->getGibbs();
+
+    for (i=0; i<NA; i++) {
+      *gmix -= solution->getMu0(i)*comp[i];
+    }
+    
   }
   
   if(mask & SECOND) {
-    dx[0] = DGDR0;
+    dx[0] = 0.0;
   }
 
   if(mask & THIRD) {
-    double d2gdr2[NR][NR];
     int i, j;
-
-    d2gdr2[0][0] = D2GDR0R0;
-
     for (i=0; i<NR; i++) {
-       for (j=0; j<NR; j++) dx2[i][j] = d2gdr2[i][j];
+       for (j=0; j<NR; j++) dx2[i][j] = 0.0;
     }
   }
 
   if (mask & FOURTH) {
-   double d3gdr3[NR][NR][NR];
-   int i, j, k;
-
-    d3gdr3[0][0][0] = D3GDR0R0R0;
-
+    int i, j, k;
     for (i=0; i<NR; i++) {
       for (j=0; j<NR; j++) {
-	for (k=0; k<NR; k++) dx3[i][j][k] = d3gdr3[i][j][k];
+	    for (k=0; k<NR; k++) dx3[i][j][k] = 0.0;
       }
     }
   }
 
 }
 
-extern "C" void hmixBio(int mask, double t, double p, double *x, 
+extern "C" void hmixSLq(int mask, double t, double p, double *r, 
   double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
   )
 {
-  double xan = (x[0]     > DBL_EPSILON) ? x[0]     : DBL_EPSILON;
-  double xph = (1.0-x[0] > DBL_EPSILON) ? 1.0-x[0] : DBL_EPSILON;
-  
-  *hmix = (G) + t*(S);
+  *hmix = 0.0;
 }
 
-extern "C" void smixBio(int mask, double t, double p, double *x, 
+extern "C" void smixSLq(int mask, double t, double p, double *r, 
   double *smix, /* Entropy of mixing                  BINARY MASK: 001 */
   double *dx,   /* (pointer to dx[]) d(s)/d(x[])      BINARY MASK: 010 */
   double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
   )
 {
-  double xan = (x[0]     > DBL_EPSILON) ? x[0]     : DBL_EPSILON;
-  double xph = (1.0-x[0] > DBL_EPSILON) ? 1.0-x[0] : DBL_EPSILON;
-
   if (mask & FIRST) {
-    *smix = S; 
+    *smix = 0.0; 
   }
   
   if(mask & SECOND) {
-    double d2gdrdt[NR];
     int i;
-
-    d2gdrdt[0] = D2GDR0DT;
-
-    for (i=0; i<NR; i++) dx[i] = - d2gdrdt[i];
+    for (i=0; i<NR; i++) dx[i] = 0.0;
   }
 
   if(mask & THIRD) {
-    double d3gdr2dt[NR][NR];
     int i, j;
-
-    d3gdr2dt[0][0] = D3GDR0R0DT; 
-
     for (i=0; i<NR; i++) {
-       for (j=0; j<NR; j++) dx2[i][j] = - d3gdr2dt[i][j];
+       for (j=0; j<NR; j++) dx2[i][j] = 0.0;
     }
   }
 
 }
 
-extern "C" void cpmixBio(int mask, double t, double p, double *x, 
+extern "C" void cpmixSLq(int mask, double t, double p, double *r, 
   double *cpmix, /* Heat capacity of mixing               BINARY MASK: 001 */
   double *dt,    /* d(cp)/d(t)                            BINARY MASK: 010 */
   double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
   )
 {
-  double d2gdt2 = D2GDT2;
-
   if (mask & FIRST) {
-    *cpmix = - t*d2gdt2;
+    *cpmix = 0.0;
   }
 
   if(mask & SECOND) {
-    double d3gdt3   = D3GDT3;
-
-    *dt = -t*d3gdt3 - d2gdt2;
+    *dt = 0.0;
   }
 
   if(mask & THIRD) {
-    double d3gdrdt2[NR];
     int i;
-
-    d3gdrdt2[0] = D3GDR0DT2;
-
-    for (i=0; i<NR; i++) dx[i] = -t*d3gdrdt2[i];
+    for (i=0; i<NR; i++) dx[i] = 0.0;
   }
 
 }
 
-extern "C" void vmixBio(int mask, double t, double p, double *x, 
+extern "C" void vmixSLq(int mask, double t, double p, double *r, 
   double *vmix, /* Volume of mixing                BINARY MASK: 0000000001 */
   double *dx,   /* (pointer to dx[]) d(v)/d(x[])   BINARY MASK: 0000000010 */
   double **dx2, /* (point to dx2[][]) d(v)/d(x[])2 BINARY MASK: 0000000100 */
@@ -453,65 +473,49 @@ extern "C" void vmixBio(int mask, double t, double p, double *x,
   )
 {
   if (mask & FIRST) {
-    *vmix = DGDP;
+    *vmix = 0.0;
   }
 
   if(mask & SECOND) {
-    double d2gdrdp[NR];
     int i;
-
-    d2gdrdp[0] = D2GDR0DP; 
-
-    for (i=0; i<NR; i++) dx[i] = d2gdrdp[i]; 
+    for (i=0; i<NR; i++) dx[i] = 0.0; 
   }
 
   if(mask & THIRD) {
-    double d3gdr2dp[NR][NR];
     int i, j;
-
-    d3gdr2dp[0][0] = D3GDR0R0DP;
-
     for (i=0; i<NR; i++) {
-       for (j=0; j<NR; j++) dx2[i][j] = d3gdr2dp[i][j];
+       for (j=0; j<NR; j++) dx2[i][j] = 0.0;
     }
   }
 
   if(mask & FOURTH) {
-    *dt = D2GDTDP;
+    *dt = 0.0;
   }
 
   if(mask & FIFTH) {
-    *dp = D2GDP2;
+    *dp = 0.0;
   }
 
   if(mask & SIXTH) {
-    *dt2 = D3GDT2DP;
+    *dt2 = 0.0;
   }
 
   if(mask & SEVENTH) {
-    *dtdp = D3GDTDP2;
+    *dtdp = 0.0;
   }
 
   if(mask & EIGHTH) {
-    *dp2 = D3GDP3;
+    *dp2 = 0.0;
   }
 
   if(mask & NINTH) {
-    double d3gdrdtdp[NR];
     int i;
-
-    d3gdrdtdp[0] = D3GDR0DTDP; 
-
-    for (i=0; i<NR; i++) dxdt[i] = d3gdrdtdp[i]; 
+    for (i=0; i<NR; i++) dxdt[i] = 0.0; 
   }
 
   if(mask & TENTH) {
-    double d3gdrdp2[NR];
     int i;
-
-    d3gdrdp2[0] = D3GDR0DP2; 
-
-    for (i=0; i<NR; i++) dxdp[i] = d3gdrdp2[i]; 
+    for (i=0; i<NR; i++) dxdp[i] = 0.0; 
   }
 
 }
