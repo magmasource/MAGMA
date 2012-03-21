@@ -363,6 +363,7 @@ extern "C" void gmixSLq(int mask, double t, double p, double *r,
 {
   static const double spectol=1.e-16;
   double *comp = new double[NA];
+  static int once = TRUE;
   
   SulfLiq *solution = new SulfLiq();
   solution->setTk(t);
@@ -378,6 +379,10 @@ extern "C" void gmixSLq(int mask, double t, double p, double *r,
   if (mask & FIRST) {
     int i;
     *gmix = solution->getGibbs();
+    if (once) {
+      solution->printAll();
+      once = FALSE;
+    }
 
     for (i=0; i<NA; i++) {
       *gmix -= solution->getMu0(i)*comp[i];
