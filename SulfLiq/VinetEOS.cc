@@ -8,6 +8,7 @@
 #include "VinetEOS.h"
 #include <math.h>
 #include <float.h>
+#include <stdio.h>
 /*
 using namespace std;
 */
@@ -85,7 +86,7 @@ void VinetEOS::update(void) throw(PhaseError *){
       2.0*alphaT*K*(tk-tr);
     x = x - fn/dfn;
     iter++;
-  } while ((iter < 500) && (fn*fn > DBL_EPSILON));
+  } while ((iter < 500) && (fn*fn > 1.0e9*DBL_EPSILON));
   dxdt = -(1.0/3.0)*x*x*x*alphaT*K/(K*exp(eta*(1.0-x))*(-2.0+x-eta*x+eta*x*x));
   d2xdt2 = -dxdt*(2.0*pa*dxdt-6.0*K*eta*dxdt*exp(eta*(1.0-x))
 		  -3.0*K*eta*eta*dxdt*exp(eta*(1.0-x))
@@ -119,7 +120,7 @@ void VinetEOS::update(void) throw(PhaseError *){
       - 2.0*alphaT*K*(tk-tr);
     x0 = x0 - fn/dfn;
     iter++;
-  } while ((iter < 500) && (fn*fn > DBL_EPSILON));
+  } while ((iter < 500) && (fn*fn > 1.0e9*DBL_EPSILON));
   dx0dt    = -(1.0/3.0)*x0*x0*x0*alphaT*K/(K*exp(eta*(1.0-x0))
 					  *(-2.0+x0-eta*x0+eta*x0*x0));
   d2x0dt2  = -dx0dt*(2.0*pr*dx0dt-6.0*K*eta*dx0dt*exp(eta*(1.0-x0))
