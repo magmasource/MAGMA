@@ -316,7 +316,7 @@ extern "C" void actSLq(int mask, double t, double p, double *r,
 
   if (mask & FIRST) {
     for(i=0; i<NA; i++) {
-       a[i] = solution->getSpecMu(i) - solution->getMu0(i);
+       a[i] = solution->getMu(i) - solution->getMu0(i);
        a[i] = exp(a[i]/(R*t));
     }
   }

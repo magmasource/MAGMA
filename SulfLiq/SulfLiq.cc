@@ -657,7 +657,7 @@ double SLSSPhase::getGibbs() {
   h = g + STR*dat->s; // at STR
   h += dat->cp*(tk-STR);
   if (pa>pr) {
-    h += Vinet.getMolarEnthalpyPTerm()*nmoles;
+    h += Vinet.getMolarEnthalpyPTerm(); //*nmoles;
   }
   return h*nmoles;
 }
