@@ -315,10 +315,13 @@ extern "C" void actSLq(int mask, double t, double p, double *r,
   solution->setSpeciateTolerance(spectol);
 
   if (mask & FIRST) {
+    static int once = TRUE;
     for(i=0; i<NA; i++) {
+       printf("activity[%d] = %g\n", i, solution->getActivity(i));
        a[i] = solution->getMu(i) - solution->getMu0(i);
        a[i] = exp(a[i]/(R*t));
     }
+    once = FALSE;
   }
 
   if (mask & SECOND) {
@@ -382,11 +385,13 @@ extern "C" void gmixSLq(int mask, double t, double p, double *r,
     
     *gmix = solution->getGibbs();
     if (once) printf("g = %g\n", *gmix);
+    if (once) printf("gmix = %g\n", solution->getGmix());
     for (i=0; i<NA; i++) {
       *gmix -= solution->getMu0(i)*comp[i];
       if (once) printf("mu0[%d] = %g\n", i, solution->getMu0(i));
     }
     once = FALSE;
+    *gmix = solution->getGmix();
   
   }
   
@@ -416,7 +421,21 @@ extern "C" void hmixSLq(int mask, double t, double p, double *r,
   double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
   )
 {
-  *hmix = 0.0;
+  static const double spectol=1.e-16;
+  double *comp = new double[NA];
+  
+  SulfLiq *solution = new SulfLiq();
+  solution->setTk(t);
+  solution->setPa(p*1.0e5);
+  comp[0] = 1.0 - r[0] - r[1] - r[2] - r[3];
+  comp[1] = r[0];
+  comp[2] = r[1];
+  comp[3] = r[2];
+  comp[4] = r[3];
+  solution->setComps(comp);
+  solution->setSpeciateTolerance(spectol);
+
+  *hmix = solution->getHmix();
 }
 
 extern "C" void smixSLq(int mask, double t, double p, double *r, 
@@ -425,8 +444,22 @@ extern "C" void smixSLq(int mask, double t, double p, double *r,
   double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
   )
 {
+  static const double spectol=1.e-16;
+  double *comp = new double[NA];
+  
+  SulfLiq *solution = new SulfLiq();
+  solution->setTk(t);
+  solution->setPa(p*1.0e5);
+  comp[0] = 1.0 - r[0] - r[1] - r[2] - r[3];
+  comp[1] = r[0];
+  comp[2] = r[1];
+  comp[3] = r[2];
+  comp[4] = r[3];
+  solution->setComps(comp);
+  solution->setSpeciateTolerance(spectol);
+
   if (mask & FIRST) {
-    *smix = 0.0; 
+    *smix = solution->getSmix(); 
   }
   
   if(mask & SECOND) {
@@ -449,12 +482,26 @@ extern "C" void cpmixSLq(int mask, double t, double p, double *r,
   double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
   )
 {
+  static const double spectol=1.e-16;
+  double *comp = new double[NA];
+  
+  SulfLiq *solution = new SulfLiq();
+  solution->setTk(t);
+  solution->setPa(p*1.0e5);
+  comp[0] = 1.0 - r[0] - r[1] - r[2] - r[3];
+  comp[1] = r[0];
+  comp[2] = r[1];
+  comp[3] = r[2];
+  comp[4] = r[3];
+  solution->setComps(comp);
+  solution->setSpeciateTolerance(spectol);
+
   if (mask & FIRST) {
-    *cpmix = 0.0;
+    *cpmix = solution->getCp();
   }
 
   if(mask & SECOND) {
-    *dt = 0.0;
+    *dt = solution->getdCpdT();
   }
 
   if(mask & THIRD) {
@@ -477,8 +524,22 @@ extern "C" void vmixSLq(int mask, double t, double p, double *r,
   double *dxdp  /* d2(v)/d(x[])d(p)                BINARY MASK: 1000000000 */
   )
 {
+  static const double spectol=1.e-16;
+  double *comp = new double[NA];
+  
+  SulfLiq *solution = new SulfLiq();
+  solution->setTk(t);
+  solution->setPa(p*1.0e5);
+  comp[0] = 1.0 - r[0] - r[1] - r[2] - r[3];
+  comp[1] = r[0];
+  comp[2] = r[1];
+  comp[3] = r[2];
+  comp[4] = r[3];
+  solution->setComps(comp);
+  solution->setSpeciateTolerance(spectol);
+
   if (mask & FIRST) {
-    *vmix = 0.0;
+    *vmix = solution->getVmix()*1.0e5;
   }
 
   if(mask & SECOND) {
@@ -494,7 +555,7 @@ extern "C" void vmixSLq(int mask, double t, double p, double *r,
   }
 
   if(mask & FOURTH) {
-    *dt = 0.0;
+    *dt = solution->getdVdT()*1.0e5;
   }
 
   if(mask & FIFTH) {
