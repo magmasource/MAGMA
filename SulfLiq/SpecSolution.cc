@@ -716,7 +716,30 @@ double SpecSolution::getdCpdT() {
     
   return dcpdt;
 }
-
+double SpecSolution::getCpmix() {
+  int i;
+  double cpmx;
+  update();
+  cpmx=getCp();
+  for (i=0;i<ncomp;i++) {
+    if (comps[i]>0.) {
+      cpmx -= comps[i]*(ss[i]->getCp());
+    }
+  }
+  return cpmx;
+}
+double SpecSolution::getdCpdTmix() {
+  int i;
+  double dcpdtmx;
+  update();
+  dcpdtmx=getdCpdT();
+  for (i=0;i<ncomp;i++) {
+    if (comps[i]>0.) {
+      dcpdtmx -= comps[i]*(ss[i]->getdCpdT());
+    }
+  }
+  return dcpdtmx;
+}
 // volume and derivatives
 double SpecSolution::getVolume() {
   /* unlike solution, bulk properties are calculated without call to
@@ -774,6 +797,18 @@ double SpecSolution::getVmix() {
     }
   }
   return vmx;
+}
+double SpecSolution::getdVdTmix() {
+  int i;
+  double dvdtmx;
+  update();
+  dvdtmx=getdVdT();
+  for (i=0;i<ncomp;i++) {
+    if (comps[i]>0.) {
+      dvdtmx -= comps[i]*(ss[i]->getdVdT());
+    }
+  }
+  return dvdtmx;
 }
 
 // utility functions ///////////////////////////

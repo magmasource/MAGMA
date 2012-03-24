@@ -100,6 +100,10 @@ class SpecSolution: public Solution {
   virtual double getCp();
   /// dCp/dT
   virtual double getdCpdT();
+  /// heat capacity of mixing.
+  virtual double getCpmix();
+  /// dCp/dT of mixing
+  virtual double getdCpdTmix();
 
   // volume and derivatives
   /// volume in cubic meters
@@ -108,6 +112,8 @@ class SpecSolution: public Solution {
   virtual double getVmix();
   /// dVdt in M^3/K
   virtual double getdVdT();
+  /// dVdt of mixing in M^3/K
+  virtual double getdVdTmix();
 
   // utility functions ////////////////////////
   /// suppress formation of species i. Cannot supress component.
