@@ -741,7 +741,7 @@ Boolean postclb(XtPointer client_data)
 	        
 	        targetMu[0] = mu[18] + resVar[0]*1000.0;
 	        targetMu[1] = mu[14] + resVar[1]*1000.0;
-	        printf("target mu[H2O] = %g X[CO2] = %g X[H2O] = %g\n", targetMu, xLiq[14], xLiq[18]);
+	        printf("target mu[H2O] = %g mu[CO2] = %g X[CO2] = %g X[H2O] = %g\n", targetMu[0], targetMu[1], xLiq[14], xLiq[18]);
 	        f[0] = 1000.0;
 	        f[1] = 1000.0;
 	        xOpt[0]    =  xLiq[18];
@@ -791,7 +791,44 @@ Boolean postclb(XtPointer client_data)
             wtH2Otemp    = 100.0*wtLiq[14]*bulkSystem[14].mw/sumOx;
       		wtCO2temp    = 100.0*wtLiq[15]*bulkSystem[15].mw/sumOx;
       		printf("iter = %d, wt%% H2O = %g, wt%% CO2 = %g\n", iter, wtH2Otemp, wtCO2temp);
-      		fprintf(resFile, ",%d,%g,%g\n", iter, wtH2Otemp, wtCO2temp);
+      		fprintf(resFile, ",%d,%g,%g", iter, wtH2Otemp, wtCO2temp);
+	       
+	        // estimate pressure for mixed fluid
+	        first = TRUE;
+	        iter = 0;
+	        f[0] = 1000.0;
+	        f[1] = 1000.0;
+	        conLiq(THIRD, FOURTH, residualDataInput[lastLiquid].t,  residualDataInput[lastLiquid].p, NULL, NULL, (residualDataInput[lastLiquid].rLiq)[0], xLiq, NULL, NULL, NULL);
+	        double pOpt = residualDataInput[lastLiquid].p*1.05, pOptOld;
+	        
+	        while (((fabs(f[0]) > 1.0e-1) || (fabs(f[1]) > 1.0e-1)) && (iter < 100)) {
+	        	conLiq(SECOND, THIRD, residualDataInput[lastLiquid].t,  pOpt, NULL, xLiq, rLiq, NULL, NULL, NULL, NULL);
+	        	actLiq(SECOND, residualDataInput[lastLiquid].t, pOpt, rLiq, NULL, mu, NULL, NULL);
+	            f[0] = mu[18] - targetMu[0];
+	            f[1] = mu[14] - targetMu[1];
+	            
+	            if (first) {
+	                pOptOld = pOpt;
+	            	pOpt *= 1.05;
+	            	fOld[0] = f[0];
+	            	fOld[1] = f[1];
+	            	first = FALSE;
+	            } else {
+	                df[0] = (f[0]-fOld[0])/(pOpt-pOptOld);
+	        		df[1] = (f[1]-fOld[1])/(pOpt-pOptOld);
+	        		pOptOld = pOpt;
+	        		fOld[0] = f[0];
+	        		fOld[1] = f[1];
+	        		pOpt -= (f[0]/df[0] + f[1]/df[1])/2.0;
+	        		if (pOpt <     1.0) pOpt =     1.0;
+	        		if (pOpt > 50000.0) pOpt = 50000.0;
+	            }
+	            iter++;
+	            printf("iter = %d, f[0] = %g, f[1] = %g, pOpt = %g\n", iter, f[0], f[1], pOpt);
+	        }
+	        
+      		printf("iter = %d, p = %g\n", iter, pOpt);
+      		fprintf(resFile, ",%d,%g\n", iter, pOpt);
 	        
 	      }
 	    } else { // end test on fluid phase

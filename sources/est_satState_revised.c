@@ -678,7 +678,7 @@ int getAffinityAndCompositionPyroxene( /* Returns a MODE flag for success or fai
     (*solids[solidID].convert)(SECOND, THIRD, t, p, NULL, mFR, bVec, NULL, NULL, NULL, NULL, NULL);
 
     if (fabs(*affinity-bVec[nr]) < 0.1/SCALE) foundSolution = TRUE;
-    else {    
+    else { 
       (*solids[solidID].activity)(FIRST | SECOND, t, p, bVec, activity, muR, NULL);
       for (i=0; i<na; i++) if (mFR[i] != 0.0) gVec[i] = activity[i]/mF[i];
 
