@@ -422,8 +422,8 @@ Liquid xMeltsLiquid[] = {
   },
   {"CO2"      , NULL,
     {                        /* ThermoRef structure block                     */
-    -361323.4,		     /* H ref (J)				      */
-    199.9,		     /* S ref (J/K)				      */
+    0.0,		     /* H ref (J)				      */
+    0.0,		     /* S ref (J/K)				      */
     0.0,		     /* V ref (J/bar)				      */
     CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
     EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
@@ -733,8 +733,8 @@ Liquid meltsLiquid[] = {
   },
   {"CO2"      , NULL,
     {                        /* ThermoRef structure block                     */
-    -361323.4,		     /* H ref (J)				      */
-    199.9,		     /* S ref (J/K)				      */
+    0.0,		     /* H ref (J)				      */
+    0.0,		     /* S ref (J/K)				      */
     0.0,		     /* V ref (J/bar)				      */
     CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
     EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}

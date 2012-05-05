@@ -235,7 +235,7 @@ int main (int argc, char *argv[]) {
   strcat(string, data_emp[i][0]);
   strcat(string, "; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -254,7 +254,7 @@ int main (int argc, char *argv[]) {
   
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -273,7 +273,7 @@ int main (int argc, char *argv[]) {
   
     strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -292,7 +292,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -311,7 +311,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -330,7 +330,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -349,7 +349,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -368,7 +368,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -387,7 +387,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -415,7 +415,7 @@ int main (int argc, char *argv[]) {
   strcat(string, data_imp[i][0]);
   strcat(string, "; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -436,7 +436,7 @@ int main (int argc, char *argv[]) {
   
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -457,7 +457,7 @@ int main (int argc, char *argv[]) {
   
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -478,7 +478,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -499,7 +499,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -520,7 +520,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -541,7 +541,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -562,7 +562,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -583,7 +583,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
