@@ -997,8 +997,8 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
 
       /* special case - no EOS option */
       } else if( (strcmp(name, "H2O") == 0) && (calculationMode == MODE_xMELTS) ) {
-         double hH2O       = phase->h;
-         double sH2O       = phase->s;
+         double hH2O       = -237680.3 + phase->h;
+         double sH2O       =     144.7 + phase->s;
          double vH2O       =   2.775;    /* Oaks and Lange */
          double dvH2Odt    =  10.86e-4;
          double dvH2Odp    =  -6.00e-5;
@@ -1018,8 +1018,8 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
 
       /* special case - no EOS option */
       } else if( (strcmp(name, "CO2") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
-         double hCO2       = phase->h;
-         double sCO2       = phase->s;
+         double hCO2       = -372530.0 + phase->h;
+         double sCO2       =     194.2 + phase->s;
          double vCO2       =  3.1;    /* Lange */
          double dvCO2dt    =  0.0;
          double dvCO2dp    =  0.0;
