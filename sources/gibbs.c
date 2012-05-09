@@ -935,7 +935,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          dcpldt = dcpdtH2O;
 	 
       /* special case - no EOS option */
-      } else if( (strcmp(name, "H2O") == 0) && (calculationMode == MODE__MELTS) ) {
+      } else if( (strcmp(name, "H2O") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
          double a = -33676.0, b = 18.3527;
          double phiP = (0.110/t + 4.432e-5 + 1.405e-7*t - 2.394e-11*t*t)*p
            + (7.337e-8/t - 1.170e-8 - 9.502e-13*t)*p*p
@@ -971,7 +971,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          whaar(1.0, t, &gH2O, &hH2O, &sH2O, &cpH2O, &dcpdtH2O, &vH2O, &dvdtH2O, 
            &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O);
 
-         gl     = r*t*(a/t + b + phiP) + gH2O - gRobie;
+         gl     = r*t*(a/t + b + phiP) + gH2O - gRobie - 1000.0;
 
          dgdt   = r*(a/t + b + phiP) + r*t*(-a/SQUARE(t) + dphiPdt) - dgRobiedt;
          d2gdt2 = 2.0*r*(-a/SQUARE(t) + dphiPdt) + r*t*(2.0*a/CUBE(t) 
@@ -980,7 +980,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
                 + d3phiPdt3) - d3gRobiedt3;
 
          sl     = sH2O - dgdt;
-         hl     = gl + t*sl;
+         hl     = gl + t*sl - 1000.0;
          cpl    = cpH2O - t*d2gdt2;
          dcpldt = dcpdtH2O - d2gdt2 - t*d3gdt3;
          vl       = r*(0.110 + 4.432e-5*t + 1.405e-7*t*t - 2.394e-11*CUBE(t))
@@ -994,27 +994,6 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          d2vldt2  = r*(2.0*1.405e-7 - 6.0*2.394e-11*t) - 4.0*r*9.502e-13*p;
          d2vldp2  = 6.0*r*(1.876e-10 + 4.586e-13*t) - 24.0*r*1.191e-14*p;
          d2vldtdp = - 2.0*r*(1.170e-8 + 2.0*9.502e-13*t) + 6.0*r*4.586e-13*p;
-
-      /* special case - no EOS option */
-      } else if( (strcmp(name, "H2O") == 0) && (calculationMode == MODE_xMELTS) ) {
-         double hH2O       = -237680.3 + phase->h;
-         double sH2O       =     144.7 + phase->s;
-         double vH2O       =   2.775;    /* Oaks and Lange */
-         double dvH2Odt    =  10.86e-4;
-         double dvH2Odp    =  -6.00e-5;
-         
-         vl       = vH2O + dvH2Odt*(t-trl) + dvH2Odp*(p-pr);
-         dvldt    = dvH2Odt; 
-         dvldp    = dvH2Odp;
-         d2vldt2  = 0.0;
-         d2vldp2  = 0.0;
-         d2vldtdp = 0.0;
-                  
-         gl     = hH2O - t*sH2O + vH2O*(p-pr) + dvH2Odt*(t-trl)*(p-pr) + dvH2Odp*(p*p/2.0 - pr*pr/2.0 -pr*(p-pr));
-         sl     = sH2O - dvH2Odt*(p-pr);
-         hl     = gl + t*sl; 
-         cpl    = 0.0;
-         dcpldt = 0.0;
 
       /* special case - no EOS option */
       } else if( (strcmp(name, "CO2") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {

@@ -1210,7 +1210,7 @@ Boolean preclb(XtPointer client_data)
   static char    **oxNamesLC = NULL;
   static int     ma, *iaMrqrdt, loop, o2Index, nrMAX, nParam, H2Oindex = -1, CO2index = -1; 
   static Boolean oneBarOnly, lowPonly, highPonly, anhydrousOnly, hydrousOnly, calibrateOxygen, useTrustRegionMethod, 
-                 implementBounds;
+                 implementBounds, allowMixedFluids;
   static Boolean *lowWtFlag, *zeroWtFlag, *phasesPresent, validLiquid=FALSE;
   static double  molesElmSol[107], *molesLiqCmp, *moles, *indep, *activity, *xMrqrdt, *yMrqrdt, *sigMrqrdt, *aMrqrdt, 
     **covar, **alpha, chisq, alamda, oldChisq, oldAlamda, t, p, logfo2, *sigWeights, *wt;
@@ -1876,6 +1876,7 @@ Boolean preclb(XtPointer client_data)
 	        }
 		
 		if ( (CO2index != -1) && (H2Oindex != -1) && !strcmp(phaseName, "water") && (wt[CO2index] > 0.0) ) lowWtFlag[H2Oindex] = TRUE;
+		if ( (CO2index != -1) && (H2Oindex != -1) && !strcmp(phaseName, "fluid") && (wt[H2Oindex] > 0.0) && (wt[CO2index] > 0.0) ) allowMixedFluids = TRUE; else allowMixedFluids = FALSE;
 
                 if ( validLiquid && ((lowPonly && (p < 100000.0)) || !lowPonly) && ((highPonly && (p > 100000.0)) || !highPonly) &&
 		                    ((oneBarOnly && (p < 2.0))    || !oneBarOnly) 
