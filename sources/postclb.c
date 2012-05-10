@@ -662,7 +662,7 @@ Boolean postclb(XtPointer client_data)
 	            	fOld = f;
 	            	first = FALSE;
 	            } else {
-	        		df = (f-fOld)/(xOpt-xOptOld);
+	        		df = (xOpt != xOptOld) ? (f-fOld)/(xOpt-xOptOld) : 1.0;
 	        		xOptOld = xOpt;
 	        		fOld = f;
 	        		xOpt -= f/df;
@@ -670,7 +670,7 @@ Boolean postclb(XtPointer client_data)
 	        		if (xOpt > 1.0) xOpt = 0.9999;
 	            }
 	            iter++;
-	            // printf("iter = %d, f = %g, xOpt = %g\n", iter, f, xOpt);
+	            // printf("iter = %d, f = %g, df = %g, xOpt = %g, xOptOld = %g\n", iter, f, df, xOpt, xOptOld);
 	        }
 	        
 	        double wtLiq[16];
@@ -791,8 +791,9 @@ Boolean postclb(XtPointer client_data)
             wtH2Otemp    = 100.0*wtLiq[14]*bulkSystem[14].mw/sumOx;
       		wtCO2temp    = 100.0*wtLiq[15]*bulkSystem[15].mw/sumOx;
       		printf("iter = %d, wt%% H2O = %g, wt%% CO2 = %g\n", iter, wtH2Otemp, wtCO2temp);
-      		fprintf(resFile, ",%d,%g,%g", iter, wtH2Otemp, wtCO2temp);
+      		fprintf(resFile, ",%d,%g,%g\n", iter, wtH2Otemp, wtCO2temp);
 	       
+	        /*
 	        // estimate pressure for mixed fluid
 	        first = TRUE;
 	        iter = 0;
@@ -829,7 +830,7 @@ Boolean postclb(XtPointer client_data)
 	        
       		printf("iter = %d, p = %g\n", iter, pOpt);
       		fprintf(resFile, ",%d,%g\n", iter, pOpt);
-	        
+	        */
 	      }
 	    } else { // end test on fluid phase
 	    	fprintf(resFile, "\n");
