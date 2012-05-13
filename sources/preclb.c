@@ -1876,7 +1876,15 @@ Boolean preclb(XtPointer client_data)
 	        }
 		
 		if ( (CO2index != -1) && (H2Oindex != -1) && !strcmp(phaseName, "water") && (wt[CO2index] > 0.0) ) lowWtFlag[H2Oindex] = TRUE;
-		if ( (CO2index != -1) && (H2Oindex != -1) && !strcmp(solids[id].label, "fluid") && (wt[H2Oindex] > 0.0) && (wt[CO2index] > 0.0) ) {
+		
+		if ( (CO2index != -1) && (H2Oindex != -1) && !strcmp(solids[id].label, "fluid") ) {
+		  //if ( (wt[H2Oindex] == 0.0) || (wt[CO2index] == 0.0) ) {
+		  //  lowWtFlag[H2Oindex] = TRUE;
+		  //  lowWtFlag[CO2index] = TRUE;
+		  //}
+		  wt[H2Oindex] *= 18.01528;
+		  wt[CO2index] *= 44.0095;
+		}
 
                 if ( validLiquid && ((lowPonly && (p < 100000.0)) || !lowPonly) && ((highPonly && (p > 100000.0)) || !highPonly) &&
 		                    ((oneBarOnly && (p < 2.0))    || !oneBarOnly) 
