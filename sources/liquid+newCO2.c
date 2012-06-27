@@ -279,6 +279,7 @@ void muO2Liq_v34 (int mask, double t, double p, double *m, double *muO2,  double
                                                            double *d2t2,  double *d2tp, double *d2p2);
 void visLiq_v34  (int mask, double t, double p, double *x, double *viscosity);
 
+
 /*
  *=============================================================================
  * Private functions and globals:
@@ -346,115 +347,6 @@ static const int iCmpFe2AlO4_1 = -1; /* Index of Fe2AlO4.1 in s[] array         
 #define NV (NR+NS)               /* Number of independent variables in the model          */
 #define NP (NA+NS+NW)            /* Number of model parameters  		          */
 
-static int nH2O, nCO2;
-
-static double gT, dgdrT[NR], d2gdr2T[NR][NR], d3gdr3T[NR][NR][NR];
-
-static void ternaryH2OCO2terms(int mask, double *r) {
-  static const double WHCX[NA] = { 
-                                    0.0*3.0, //  0    SiO2
-                                    0.0*3.0, //  1  0 TiO2
-                                    0.0*3.0, //  2  1 Al2O3
-                                    0.0*3.0, //  3  2 FE2O3
-                                    0.0*3.0, //  4  3 MgCr2O3
-                                    0.0*3.0, //  5  4 Fe2SiO4
-                                    0.0*3.0, //  6  5 MnSi1/2O2
-                                    0.0*3.0, //  7  6 Mg2SiO4
-                                    0.0*3.0, //  8  7 NiSi1/2O2
-                                    0.0*3.0, //  9  8 CoSi1/2O2
-                                    0.0*3.0, // 10  9 CaSiO3
-                                    0.0*3.0, // 11 10 Na2SiO3
-                                    0.0*3.0, // 12 11 KAlSiO4
-                                    0.0*3.0, // 13 12 Ca3(PO4)2
-                                    0.0*3.0, // 14 13 CO2
-                                    0.0*3.0, // 15 14 SO3
-                                    0.0*3.0, // 16 15 Cl2O
-                                    0.0*3.0, // 17 16 F2O
-                                    0.0*3.0  // 18 17 H2O 
-                             };
-  static double x[NA];
-  int i;
-  
-  for (i=0, x[0]=1.0; i<NR; i++) { x[0] -= r[i]; x[i+1] = r[i]; }
-  
-  if (mask & FIRST) {
-    for (i=0, gT=0.0; i<NA; i++) gT += WHCX[i]*x[nH2O]*x[nCO2]*x[i];
-  }
-  
-  if (mask & SECOND) {
-    int j;
-    for (i=0; i<NR; i++) {
-      dgdrT[i] = 0.0;
-      switch (i) {
-        case 13:
-        {
-          dgdrT[nCO2-1] = 0.0;
-          for (j=1; j<NA; j++) dgdrT[nCO2-1] += x[nH2O]*(WHCX[j]-WHCX[0])*x[j];
-          dgdrT[nCO2-1] += WHCX[0]*x[nH2O] + (WHCX[nCO2]-WHCX[0])*x[nH2O]*x[nCO2];
-          break;
-        }
-        case 17:
-        {
-          dgdrT[nH2O-1] = 0.0;
-          for (j=1; j<NA; j++) dgdrT[nH2O-1] += x[nCO2]*(WHCX[j]-WHCX[0])*x[j];
-          dgdrT[nH2O-1] += WHCX[0]*x[nCO2] + (WHCX[nH2O]-WHCX[0])*x[nH2O]*x[nCO2];
-          break;
-        }
-        default:
-        {
-          dgdrT[i] = (WHCX[i+1]-WHCX[0])*x[nH2O]*x[nCO2];
-        }
-      }
-    }
-  }
-  
-  if (mask & THIRD) {
-    int j;
-    for (i=0; i<NR; i++) for (j=0; j<NR; j++) d2gdr2T[i][j] = 0.0;
-    d2gdr2T[nH2O-1][nH2O-1] = 2.0*(WHCX[nH2O]-WHCX[0])*x[nCO2];
-    d2gdr2T[nCO2-1][nCO2-1] = 2.0*(WHCX[nCO2]-WHCX[0])*x[nH2O];
-    
-    d2gdr2T[nH2O-1][nCO2-1] = WHCX[0]*(x[0]-x[nCO2]-x[nH2O]);
-      for (i=1; i<NA; i++) d2gdr2T[nH2O-1][nCO2-1] += WHCX[i]*x[i];
-      d2gdr2T[nH2O-1][nCO2-1] += WHCX[nCO2]*x[nCO2] + WHCX[nH2O]*x[nH2O];
-      d2gdr2T[nCO2-1][nH2O-1] = d2gdr2T[nH2O-1][nCO2-1];
-      
-    for (i=1; i<NA; i++) {
-      if (i != nCO2 && i != nH2O) {
-        d2gdr2T[i-1][nH2O-1] = (WHCX[i]-WHCX[0])*x[nCO2];
-        d2gdr2T[nH2O-1][i-1] = d2gdr2T[i-1][nH2O-1];
-      
-        d2gdr2T[i-1][nCO2-1] = (WHCX[i]-WHCX[0])*x[nH2O];
-        d2gdr2T[nCO2-1][i-1] = d2gdr2T[i-1][nCO2-1];
-      }
-    }
-  }
-  
-  if (mask & FOURTH) {
-    int j, k;
-    for (i=0; i<NR; i++) for (j=0; j<NR; j++) for (k=0; k<NR; k++) d3gdr3T[i][j][k] = 0.0;
-    d3gdr3T[nH2O-1][nH2O-1][nCO2-1] = 2.0*(WHCX[nH2O]-WHCX[0]);
-      d3gdr3T[nH2O-1][nCO2-1][nH2O-1] = d3gdr3T[nH2O-1][nH2O-1][nCO2-1];
-      d3gdr3T[nCO2-1][nH2O-1][nH2O-1] = d3gdr3T[nH2O-1][nH2O-1][nCO2-1];
-      
-    d3gdr3T[nH2O-1][nCO2-1][nCO2-1] = 2.0*(WHCX[nCO2]-WHCX[0]);
-      d3gdr3T[nCO2-1][nH2O-1][nCO2-1] = d3gdr3T[nH2O-1][nCO2-1][nCO2-1];
-      d3gdr3T[nCO2-1][nCO2-1][nH2O-1] = d3gdr3T[nH2O-1][nCO2-1][nCO2-1];
-      
-    for (i=1; i<NA; i++) {
-      if (i != nCO2 && i != nH2O) {
-        d3gdr3T[i-1][nH2O-1][nCO2-1] = WHCX[i] - WHCX[0];
-        d3gdr3T[i-1][nCO2-1][nH2O-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
-        d3gdr3T[nH2O-1][i-1][nCO2-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
-        d3gdr3T[nCO2-1][i-1][nH2O-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
-        d3gdr3T[nH2O-1][nCO2-1][i-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
-        d3gdr3T[nCO2-1][nH2O-1][i-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
-      }
-    }
-  }
-  
-}
-
 /* The statics from here to ... */
 
 static int convergedInOrder;
@@ -496,6 +388,7 @@ static void threadInit(void) {
 /* The statics from here ... */
 
 static int NE;   /* Number of liquid endmembers (species) */
+static int nH2O, nCO2;
 
 static double Gconst,       *gr,       *gs,       **grr,        **grs,       **gss;
 static double Hconst,       *hr,       *hs,       **hrr,        **hrs,       **hss;
@@ -7905,11 +7798,10 @@ static double fillG (double r[NR], double s[NT], double t, double p) {
 
   /* Configurational entropy terms */
   for (i=0, config=0.0; i<NE; i++) if (xSpecies[i] > 0.0) config += xSpecies[i]*log(xSpecies[i]);
-  if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0) config += xSpecies[nH2O]*log(xSpecies[nH2O]) + (1.0-xSpecies[nH2O])*log(1.0-xSpecies[nH2O]); 
+  if (nH2O != -1                && xSpecies[nH2O] > 0.0)                config += xSpecies[nH2O]*log(xSpecies[nH2O]);
+  if (nCO2 != -1                && xSpecies[nCO2] > 0.0)                config += xSpecies[nCO2]*log(xSpecies[nCO2]);
+  if (nH2O != -1 && nCO2 != -1  && xSpecies[nH2O]+xSpecies[nCO2] < 1.0) config += (1.0-xSpecies[nH2O]-xSpecies[nCO2])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2]); 
   result += R*t*nSpecies*config;
-  
-  ternaryH2OCO2terms(FIRST, r);
-  result += gT;
 
 #ifdef USE_GHIORSO_KRESS_MODEL
   {
@@ -7957,7 +7849,9 @@ static double fillS (double r[NR], double s[NT], double t, double p) {
 
   /* Configurational entropy terms */
   for (i=0, config=0.0; i<NE; i++) if (xSpecies[i] > 0.0) config += xSpecies[i]*log(xSpecies[i]);
-  if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0) config += xSpecies[nH2O]*log(xSpecies[nH2O]) + (1.0-xSpecies[nH2O])*log(1.0-xSpecies[nH2O]); 
+  if (nH2O != -1                && xSpecies[nH2O] > 0.0)                config += xSpecies[nH2O]*log(xSpecies[nH2O]);
+  if (nCO2 != -1                && xSpecies[nCO2] > 0.0)                config += xSpecies[nCO2]*log(xSpecies[nCO2]);
+  if (nH2O != -1 && nCO2 != -1  && xSpecies[nH2O]+xSpecies[nCO2] < 1.0) config += (1.0-xSpecies[nH2O]-xSpecies[nCO2])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2]); 
   result -= R*nSpecies*config;
   
 #ifdef USE_GHIORSO_KRESS_MODEL
@@ -8096,13 +7990,12 @@ static void fillDGDR (double r[NR], double s[NT], double t, double p, double *re
   for (j=0; j<NR; j++) {
     double config = 0.0;
     for (i=0; i<NE; i++) if (xSpecies[i] > 0.0 && dxSpeciesdr[i][j] != 0.0) config += dxSpeciesdr[i][j]*(1.0 + log(xSpecies[i]));
-    if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0 && dxSpeciesdr[nH2O][j] != 0.0) 
-      config += dxSpeciesdr[nH2O][j]*(log(xSpecies[nH2O]) - log(1.0-xSpecies[nH2O])); 
+    if (nH2O != -1                && xSpecies[nH2O] > 0.0)                config += dxSpeciesdr[nH2O][j]*log(xSpecies[nH2O]);
+    if (nCO2 != -1                && xSpecies[nCO2] > 0.0)                config += dxSpeciesdr[nCO2][j]*log(xSpecies[nCO2]);
+    if (nH2O != -1 && nCO2 != -1  && xSpecies[nH2O]+xSpecies[nCO2] < 1.0) config += (-dxSpeciesdr[nH2O][j]-dxSpeciesdr[nCO2][j])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2]);  
+      
     result[j] += R*t*nSpecies*config;
   }
-  
-  ternaryH2OCO2terms(SECOND, r);
-  for (j=0; j<NR; j++) result[j] += dgdrT[j];
 
 #ifdef USE_GHIORSO_KRESS_MODEL
   {
@@ -8142,11 +8035,11 @@ static void fillDGDS (double r[NR], double s[NT], double t, double p, double *re
   /* Configurational entropy terms */
   for (j=0; j<NS; j++) {
     double config = 0.0;
-    for (i=0; i<NE; i++) if (xSpecies[i] > 0.0) 
-      config += dnSpeciesds[j]*xSpecies[i]*log(xSpecies[i]) + nSpecies*dxSpeciesds[i][j]*(1.0 + log(xSpecies[i]));
-    if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0) 
-      config += dnSpeciesds[j]*(xSpecies[nH2O]*log(xSpecies[nH2O]) + (1.0-xSpecies[nH2O])*log(1.0-xSpecies[nH2O]))
-              + nSpecies*dxSpeciesds[nH2O][j]*(log(xSpecies[nH2O]) - log(1.0-xSpecies[nH2O])); 
+    for (i=0; i<NE; i++) if (xSpecies[i] > 0.0)  config += dnSpeciesds[j]*xSpecies[i]*log(xSpecies[i]) + nSpecies*dxSpeciesds[i][j]*(1.0 + log(xSpecies[i]));    
+    if (nH2O != -1                && xSpecies[nH2O] > 0.0)                config += dnSpeciesds[j]*xSpecies[nH2O]*log(xSpecies[nH2O]) + nSpecies*dxSpeciesds[nH2O][j]*log(xSpecies[nH2O]);
+    if (nCO2 != -1                && xSpecies[nCO2] > 0.0)                config += dnSpeciesds[j]*xSpecies[nCO2]*log(xSpecies[nCO2]) + nSpecies*dxSpeciesds[nCO2][j]*log(xSpecies[nCO2]);
+    if (nH2O != -1 && nCO2 != -1  && xSpecies[nH2O]+xSpecies[nCO2] < 1.0) config += dnSpeciesds[j]*(1.0-xSpecies[nH2O]-xSpecies[nCO2])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2]) + nSpecies*(-dxSpeciesds[nH2O][j]-dxSpeciesds[nCO2][j])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2]);
+              
     result[j] += R*t*config;
   }
   
@@ -8289,17 +8182,16 @@ static void fillD2GDR2 (double r[NR], double s[NT], double t, double p, double *
   for (j=0; j<NR; j++) {
     for (k=j; k<NR; k++) {
       double config = 0.0;
-      for (i=0; i<NE; i++) if (xSpecies[i] > 0.0 && dxSpeciesdr[i][j] != 0.0 && dxSpeciesdr[i][k] != 0.0) 
-        config += dxSpeciesdr[i][j]*dxSpeciesdr[i][k]/xSpecies[i];
-      if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0 && dxSpeciesdr[nH2O][j] != 0.0 && dxSpeciesdr[nH2O][k] != 0.0) 
-        config += dxSpeciesdr[nH2O][j]*dxSpeciesdr[nH2O][k]*(1.0/xSpecies[nH2O] + 1.0/(1.0-xSpecies[nH2O])); 
+      for (i=0; i<NE; i++) if (xSpecies[i] > 0.0 && dxSpeciesdr[i][j] != 0.0 && dxSpeciesdr[i][k] != 0.0)  config += dxSpeciesdr[i][j]*dxSpeciesdr[i][k]/xSpecies[i];
+      if (nH2O != -1                && xSpecies[nH2O] > 0.0)                config += dxSpeciesdr[nH2O][j]*dxSpeciesdr[nH2O][k]/xSpecies[nH2O];
+      if (nCO2 != -1                && xSpecies[nCO2] > 0.0)                config += dxSpeciesdr[nCO2][j]*dxSpeciesdr[nCO2][k]/xSpecies[nCO2];
+      if (nH2O != -1 && nCO2 != -1  && xSpecies[nH2O]+xSpecies[nCO2] < 1.0) config += (-dxSpeciesdr[nH2O][j]-dxSpeciesdr[nCO2][j])*(-dxSpeciesdr[nH2O][k]-dxSpeciesdr[nCO2][k])/(1.0-xSpecies[nH2O]-xSpecies[nCO2]);
+    
+    
       result[j][k] += R*t*nSpecies*config;
       result[k][j]  = result[j][k];
     }
   }
-  
-  ternaryH2OCO2terms(THIRD, r);
-  for (j=0; j<NR; j++) for (i=j; i<NR; i++) { result[j][i] += d2gdr2T[j][i]; result[i][j] = result[j][i]; }
   
 #ifdef USE_GHIORSO_KRESS_MODEL
   {
@@ -8342,10 +8234,11 @@ static void fillD2GDRDS (double r[NR], double s[NT], double t, double p, double 
       for (i=0; i<NE; i++) if (xSpecies[i] > 0.0) 
         config += nSpecies*(d2xSpeciesdrds[i][j][k]*log(xSpecies[i]) + dxSpeciesdr[i][j]*dxSpeciesds[i][k]/xSpecies[i])
 	        + dnSpeciesds[k]*(dxSpeciesdr[i][j]*(1.0 + log(xSpecies[i])));
-      if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0) 
-        config += dnSpeciesds[k]*dxSpeciesdr[nH2O][j]*(log(xSpecies[nH2O]) - log(1.0-xSpecies[nH2O]))	
-                + nSpecies*(d2xSpeciesdrds[nH2O][j][k]*(log(xSpecies[nH2O]) - log(1.0-xSpecies[nH2O])) 
-		  + dxSpeciesds[nH2O][k]*dxSpeciesdr[nH2O][j]*(1.0/xSpecies[nH2O] + 1.0/(1.0-xSpecies[nH2O]))); 
+	  if (nH2O != -1                && xSpecies[nH2O] > 0.0)                config += dnSpeciesds[k]*dxSpeciesdr[nH2O][j]*log(xSpecies[nH2O]) + nSpecies*d2xSpeciesdrds[nH2O][j][k]*log(xSpecies[nH2O]) + nSpecies*dxSpeciesds[nH2O][k]*dxSpeciesdr[nH2O][j]/xSpecies[nH2O];
+      if (nCO2 != -1                && xSpecies[nCO2] > 0.0)                config += dnSpeciesds[k]*dxSpeciesdr[nCO2][j]*log(xSpecies[nCO2]) + nSpecies*d2xSpeciesdrds[nCO2][j][k]*log(xSpecies[nCO2]) + nSpecies*dxSpeciesds[nCO2][k]*dxSpeciesdr[nCO2][j]/xSpecies[nCO2];
+      if (nH2O != -1 && nCO2 != -1  && xSpecies[nH2O]+xSpecies[nCO2] < 1.0) config += dnSpeciesds[k]*(-dxSpeciesdr[nH2O][j]-dxSpeciesdr[nCO2][j])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2]) 
+                                                                                    + nSpecies*(-d2xSpeciesdrds[nH2O][j][k]-d2xSpeciesdrds[nCO2][j][k])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2])
+                                                                                    + nSpecies*(-dxSpeciesds[nH2O][k]-dxSpeciesds[nCO2][k])*(-dxSpeciesdr[nH2O][j]-dxSpeciesdr[nCO2][j])/(1.0-xSpecies[nH2O]-xSpecies[nCO2]);
       result[j][k] += R*t*config;
     }
   }
@@ -8401,8 +8294,9 @@ static void fillD2GDRDT (double r[NR], double s[NT], double t, double p, double 
   for (j=0; j<NR; j++) {
     double config = 0.0;
     for (i=0; i<NE; i++) if (xSpecies[i] > 0.0 && dxSpeciesdr[i][j] != 0.0) config += dxSpeciesdr[i][j]*(1.0 + log(xSpecies[i]));
-    if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0 && dxSpeciesdr[nH2O][j] != 0.0) 
-      config += dxSpeciesdr[nH2O][j]*(log(xSpecies[nH2O]) - log(1.0-xSpecies[nH2O])); 
+    if (nH2O != -1                && xSpecies[nH2O] > 0.0)                config += dxSpeciesdr[nH2O][j]*log(xSpecies[nH2O]);
+    if (nCO2 != -1                && xSpecies[nCO2] > 0.0)                config += dxSpeciesdr[nCO2][j]*log(xSpecies[nCO2]);
+    if (nH2O != -1 && nCO2 != -1  && xSpecies[nH2O]+xSpecies[nCO2] < 1.0) config += (-dxSpeciesdr[nH2O][j]-dxSpeciesdr[nCO2][j])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2]);  
     result[j] += R*nSpecies*config;
   }
   
@@ -8532,7 +8426,7 @@ static void fillD2GDS2 (double r[NR], double s[NT], double t, double p, double *
       result[j][i] = gss[i][j];
     }
   }
-
+ 
   /* Configurational entropy terms */
   for (j=0; j<NS; j++) {
     for (k=j; k<NS; k++) {
@@ -8542,11 +8436,16 @@ static void fillD2GDS2 (double r[NR], double s[NT], double t, double p, double *
  		+ dnSpeciesds[k]*dxSpeciesds[i][j]*(1.0 + log(xSpecies[i]))
  		+ dnSpeciesds[j]*dxSpeciesds[i][k]*(1.0 + log(xSpecies[i]))
  		+ d2nSpeciesds2[j][k]*xSpecies[i]*log(xSpecies[i]);
-    if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0) 
-      config += d2nSpeciesds2[j][k]*(xSpecies[nH2O]*log(xSpecies[nH2O]) + (1.0-xSpecies[nH2O])*log(1.0-xSpecies[nH2O]))
-              + dnSpeciesds[j]*dxSpeciesds[nH2O][k]*(log(xSpecies[nH2O]) - log(1.0-xSpecies[nH2O]))
-              + dnSpeciesds[k]*dxSpeciesds[nH2O][j]*(log(xSpecies[nH2O]) - log(1.0-xSpecies[nH2O]))
-	      + nSpecies*dxSpeciesds[nH2O][j]*dxSpeciesds[nH2O][k]*(1.0/xSpecies[nH2O] + 1.0/(1.0-xSpecies[nH2O])); 
+	if (nH2O != -1                && xSpecies[nH2O] > 0.0)                config += d2nSpeciesds2[j][k]*xSpecies[nH2O]*log(xSpecies[nH2O]) 
+	                                                                              + dnSpeciesds[j]*dxSpeciesds[nH2O][k]*log(xSpecies[nH2O]) + dnSpeciesds[k]*dxSpeciesds[nH2O][j]*log(xSpecies[nH2O]) 
+	                                                                              + nSpecies*dxSpeciesds[nH2O][j]*dxSpeciesds[nH2O][k]/xSpecies[nH2O];
+    if (nCO2 != -1                && xSpecies[nCO2] > 0.0)                config += d2nSpeciesds2[j][k]*xSpecies[nCO2]*log(xSpecies[nCO2]) 
+                                                                                  + dnSpeciesds[j]*dxSpeciesds[nCO2][k]*log(xSpecies[nCO2]) + dnSpeciesds[k]*dxSpeciesds[nCO2][j]*log(xSpecies[nCO2])
+                                                                                  + nSpecies*dxSpeciesds[nCO2][j]*dxSpeciesds[nCO2][k]/xSpecies[nCO2];
+    if (nH2O != -1 && nCO2 != -1  && xSpecies[nH2O]+xSpecies[nCO2] < 1.0) config += d2nSpeciesds2[j][k]*(1.0-xSpecies[nH2O]-xSpecies[nCO2])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2]) 
+                                                                                  + dnSpeciesds[j]*(-dxSpeciesds[nH2O][k]-dxSpeciesds[nCO2][k])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2])
+                                                                                  + dnSpeciesds[k]*(-dxSpeciesds[nH2O][j]-dxSpeciesds[nCO2][j])*log(1.0-xSpecies[nH2O]-xSpecies[nCO2])
+                                                                                  + nSpecies*(-dxSpeciesds[nH2O][j]-dxSpeciesds[nCO2][j])*(-dxSpeciesds[nH2O][k]-dxSpeciesds[nCO2][k])/(1.0-xSpecies[nH2O]-xSpecies[nCO2]);
       result[j][k] += R*t*config;
       result[k][j]  = result[j][k];
     }
@@ -9033,20 +8932,6 @@ static void fillD3GDR3 (double r[NR], double s[NT], double t, double p, double *
           config += -dxSpeciesdr[nH2O][j]*dxSpeciesdr[nH2O][k]*dxSpeciesdr[nH2O][l]
 	            *(1.0/(xSpecies[nH2O]*xSpecies[nH2O]) - 1.0/((1.0-xSpecies[nH2O])*(1.0-xSpecies[nH2O]))); 	  
         result[j][k][l] += R*t*nSpecies*config;
-        result[k][j][l]  = result[j][k][l];
-        result[l][j][k]  = result[j][k][l];
-        result[l][k][j]  = result[j][k][l];
-        result[j][l][k]  = result[j][k][l];
-        result[k][l][j]  = result[j][k][l];
-      }
-    }
-  }
-  
-  ternaryH2OCO2terms(FOURTH, r);
-  for (j=0; j<NR; j++) {
-    for (k=j; k<NR; k++) {
-      for (l=k; l<NR; l++) {
-        result[j][k][l] += d3gdr3T[j][k][l];
         result[k][j][l]  = result[j][k][l];
         result[l][j][k]  = result[j][k][l];
         result[l][k][j]  = result[j][k][l];
@@ -13016,9 +12901,6 @@ actLiq(int mask, double t, double p, double *x,
       if (returnMixingProperties) mu[i] -= G(i);
     }
     
-    g = gT;
-    for (j=0; j<NR; j++) g += fr[nCO2][j]*dgdrT[j];
-    printf("X H2O, XCO2 = %g %g, muTernary CO2 %g %g\n", r[13], r[17], g, mu[nCO2]);
   }
 
   if (mask & THIRD) {
