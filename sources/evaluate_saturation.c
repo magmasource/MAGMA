@@ -168,6 +168,38 @@ int evaluateSaturationState(double *rSol, double *rLiq)
       (double *) NULL, (double **) NULL, (double ***) NULL,  &(silminState->fo2));
     actLiq(SECOND, t, p, rLiq, NULL, muLiq, NULL, NULL);
     for (i=0; i<nlc; i++) if ((silminState->liquidComp)[0][i] != 0.0) muLiq[i] += (liquid[i].cur).g;
+    
+    // Correction to Fe2O3 chemical potential due to the fact that when the fO2 buffer path is constrained,
+    // homogeneous redox equilibrium in the melt is not consistent with Kress and Carmichael.
+    // This results in a saturation state convergence to an incorrect composition/affinity for phases that 
+    // contain ferric iron if the Fe2O3 chemical potential is not adjusted for internal consistency with K&C.
+    
+    if ( (silminState->fo2Path != FO2_NONE) && ( (calculationMode == MODE_xMELTS) || (calculationMode == MODE__MELTS) ) ) {
+      // This is the chemical potential of oxygen calculated from the imposed buffer
+      double muO2 = R*(silminState->T)*(silminState->fo2)*log(10.0) + oxygen.cur.g;
+      // This is the free energy change of the reaction: Fe2SiO4 + 1/2 O2 = Fe2O3 + SiO2 (MELTS component choice)
+      // If Kress & Carmichael were consistent with homogeneous equilibrium in MELTS, then this number would be zero
+      double deltaG = muLiq[0] + muLiq[3] - muLiq[5] - muO2/2.0;
+#ifdef DEBUG
+      printf("The chemical potential of oxygen is %g, deltaG is %g\n", muO2, deltaG);
+#endif
+      // adjust the chemical potential of Fe2O3 so that the fO2 constraint will propagate
+      // into the correct selection of saturation phases
+      muLiq[3] -= deltaG;
+      
+    } else if ( (silminState->fo2Path != FO2_NONE) && (calculationMode == MODE_pMELTS) ) {
+      // This is the chemical potential of oxygen calculated from the imposed buffer
+      double muO2 = R*(silminState->T)*(silminState->fo2)*log(10.0) + oxygen.cur.g;
+      // This is the free energy change of the reaction: Fe2SiO4 + 1/2 O2 = Fe2O3 + 1/4 Si4O8 (pMELTS component choice)
+      // If Kress & Carmichael were consistent with homogeneous equilibrium in MELTS, then this number would be zero
+      double deltaG = muLiq[0]/4.0 + muLiq[3] - muLiq[5] - muO2/2.0;
+#ifdef DEBUG
+      printf("The chemical potential of oxygen is %g, deltaG is %g\n", muO2, deltaG);
+#endif
+      // adjust the chemical potential of Fe2O3 so that the fO2 constraint will propagate
+      // into the correct selection of saturation phases
+      muLiq[3] -= deltaG;
+    }
 
     for (i=0;i<nlc;i++) liquidComp[i] = silminState->liquidComp[0][i];
 
