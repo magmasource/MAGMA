@@ -17,8 +17,10 @@ vpath %.h includes
 MELTSLIB        = libMELTS.a
 MELTSBATCHLIB   = libMELTSbatch.a
 MELTSDYNAMICLIB = libMELTSdynamic.a
+MELTSCOMMANDLIB = libMELTScommand.a
 
 LIBMELTSDYNAMIC = $(MELTSDYNAMICLIB)
+LIBMELTSCOMMAND = $(MELTSCOMMANDLIB)
 RMFILE = *.$(SONAME)
 
 (%.o): %.c
@@ -52,7 +54,7 @@ usage:
 	echo "       Melts-batch"
 	echo "       Melts-mpi"
 	echo "       Melts-public"
-	echo "       Melts-rhyolite"
+	echo "       Melts-rhyolite Melts-rhyolite-public"
 	echo "       Melts-dynamic"
 	echo "       Analyze-fusion Analyze-fusion-MS"
 	echo "       Analyze-water Analyze-water-MS"
@@ -75,8 +77,9 @@ usage:
 	echo "       Test_SACNK"
 	echo "       Test_SAK"
 	echo "       Test_simann"
+	echo "       Test_sulfide_liquid"
 	echo "       Test_dynamicLib"
-	echo "       Kevin"
+	echo "       Kevin KevinSolid"
 	echo "       Marc"
 
 strip:
@@ -107,6 +110,7 @@ realclean:
 	$(RM) $(RMFLAGS) Melts-batch
 	$(RM) $(RMFLAGS) Melts-public
 	$(RM) $(RMFLAGS) Melts-rhyolite
+	$(RM) $(RMFLAGS) Melts-rhyolite-public
 	$(RM) $(RMFLAGS) Test_a-x_relations
 	$(RM) $(RMFLAGS) Test_a-x_relations-MS
 	$(RM) $(RMFLAGS) Test_a-x_relations-SACNK
@@ -140,6 +144,7 @@ realclean:
 	$(RM) $(RMFLAGS) Test_SACNK
 	$(RM) $(RMFLAGS) Test_SAK
 	$(RM) $(RMFLAGS) Test_simann
+	$(RM) $(RMFLAGS) Test_sulfide_liquid
 	$(RM) $(RMFLAGS) Kevin
 	$(RM) $(RMFLAGS) Marc
 
@@ -324,6 +329,58 @@ $(MELTSDYNAMICLIB)(wadsleyite.o):               wadsleyite.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(water.o):                    water.c silmin.h mthread.h 
 $(MELTSDYNAMICLIB)(wustite.o):                  wustite.c silmin.h mthread.h
 
+$(MELTSCOMMANDLIB)(albite.o):                   albite.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(alloy-liquid.o):             alloy-liquid.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(alloy-solid.o):              alloy-solid.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(amphibole.o):                amphibole.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(biotite.o):                  biotite.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(check_coexisting_liquids.o): check_coexisting_liquids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(check_coexisting_solids.o):  check_coexisting_solids.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(clinopyroxene.o):            clinopyroxene.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(cummingtonite.o):            cummingtonite.c silmin.h mthread.h recipes.h
+$(MELTSCOMMANDLIB)(equality_constraints.o):     equality_constraints.c lawson_hanson.h recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(est_saturation_state.o):     est_saturation_state.c lawson_hanson.h nash.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(est_satState_revised.o):     est_satState_revised.c silmin.h
+$(MELTSCOMMANDLIB)(evaluate_saturation.o):      evaluate_saturation.c silmin.h mthread.h recipes.h
+$(MELTSCOMMANDLIB)(feldspar.o):                 feldspar.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(fluid.o):                    fluid.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(frac.o):                     frac.c
+$(MELTSCOMMANDLIB)(garnet.o):                   garnet.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(gradient_hessian.o):         gradient_hessian.c lawson_hanson.h recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(hornblende.o):               hornblende.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(ilmenite.o):                 ilmenite.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(lawson_hanson.o):            lawson_hanson.c lawson_hanson.h
+$(MELTSCOMMANDLIB)(leucite.o):                  leucite.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(linear_search.o):            linear_search.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(liquid.o):                   liquid.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(liquid_v34.o):               liquid_v34.c param_struct_data_v34.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(liquidus.o):                 liquidus.c recipes.h silmin.h mthread.h status.h
+$(MELTSCOMMANDLIB)(majorite.o):                 majorite.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(melilite.o):                 melilite.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(melts_support.o):            melts_support.c silmin.h mthread.h recipes.h
+$(MELTSCOMMANDLIB)(melts_threads.o):            melts_threads.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(mthread.o):                  mthread.c mthread.h
+$(MELTSCOMMANDLIB)(nash.o):                     nash.c nash.h
+$(MELTSCOMMANDLIB)(nepheline.o):                nepheline.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(kalsilite.o):                kalsilite.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(olivine.o):                  olivine.c silmin.h mthread.h recipes.h
+$(MELTSCOMMANDLIB)(olivine-sx.o):               olivine-sx.c silmin.h mthread.h recipes.h
+$(MELTSCOMMANDLIB)(orthopyroxene.o):            orthopyroxene.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(ortho-oxide.o):              ortho-oxide.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(perovskite.o):               perovskite.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(read_write.o):               read_write.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(recipes.o):                  recipes.c recipes.h
+$(MELTSCOMMANDLIB)(rhombohedral.o):             rhombohedral.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(rhomsghiorso.o):             rhomsghiorso.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(ringwoodite.o):              ringwoodite.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(silmin.o):                   silmin.c lawson_hanson.h nash.h recipes.h silmin.h mthread.h status.h
+$(MELTSCOMMANDLIB)(silmin_support.o):           silmin_support.c silmin.h mthread.h recipes.h 
+$(MELTSCOMMANDLIB)(spinel.o):                   spinel.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(subSolidusMuO2.o):           subSolidusMuO2.c recipes.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(wadsleyite.o):               wadsleyite.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(water.o):                    water.c silmin.h mthread.h 
+$(MELTSCOMMANDLIB)(wustite.o):                  wustite.c silmin.h mthread.h
+
 # Object module dependencies (other than libraries)
 # ================================================
 
@@ -502,6 +559,60 @@ $(MELTSDYNAMICLIB): $(MELTSDYNAMICLIB)(albite.o) \
                     $(MELTSDYNAMICLIB)(wadsleyite.o) \
                     $(MELTSDYNAMICLIB)(water.o) \
                     $(MELTSDYNAMICLIB)(wustite.o)
+
+$(MELTSCOMMANDLIB): $(MELTSCOMMANDLIB)(albite.o) \
+                    $(MELTSCOMMANDLIB)(alloy-liquid.o) \
+                    $(MELTSCOMMANDLIB)(alloy-solid.o) \
+                    $(MELTSCOMMANDLIB)(amphibole.o) \
+                    $(MELTSCOMMANDLIB)(biotite.o) \
+                    $(MELTSCOMMANDLIB)(check_coexisting_liquids.o) \
+                    $(MELTSCOMMANDLIB)(check_coexisting_solids.o) \
+                    $(MELTSCOMMANDLIB)(clinopyroxene.o) \
+                    $(MELTSCOMMANDLIB)(cummingtonite.o) \
+                    $(MELTSCOMMANDLIB)(equality_constraints.o) \
+                    $(MELTSCOMMANDLIB)(est_saturation_state.o) \
+                    $(MELTSCOMMANDLIB)(est_satState_revised.o) \
+                    $(MELTSCOMMANDLIB)(evaluate_saturation.o) \
+                    $(MELTSCOMMANDLIB)(feldspar.o) \
+                    $(MELTSCOMMANDLIB)(fluid.o) \
+                    $(MELTSCOMMANDLIB)(fluidPhase.o) \
+                    $(MELTSCOMMANDLIB)(frac.o) \
+                    $(MELTSCOMMANDLIB)(garnet.o) \
+                    $(MELTSCOMMANDLIB)(gibbs.o) \
+                    $(MELTSCOMMANDLIB)(gradient_hessian.o) \
+                    $(MELTSCOMMANDLIB)(hornblende.o) \
+                    $(MELTSCOMMANDLIB)(ilmenite.o) \
+                    $(MELTSCOMMANDLIB)(kalsilite.o) \
+                    $(MELTSCOMMANDLIB)(lawson_hanson.o) \
+                    $(MELTSCOMMANDLIB)(leucite.o) \
+                    $(MELTSCOMMANDLIB)(linear_search.o) \
+                    $(MELTSCOMMANDLIB)(liquid.o) \
+                    $(MELTSCOMMANDLIB)(liquid_v34.o) \
+                    $(MELTSCOMMANDLIB)(liquidus.o) \
+                    $(MELTSCOMMANDLIB)(majorite.o) \
+                    $(MELTSCOMMANDLIB)(melilite.o) \
+                    $(MELTSCOMMANDLIB)(melts_support.o) \
+                    $(MELTSCOMMANDLIB)(melts_threads.o) \
+                    $(MELTSCOMMANDLIB)(mthread.o) \
+                    $(MELTSCOMMANDLIB)(nash.o) \
+                    $(MELTSCOMMANDLIB)(nepheline.o) \
+                    $(MELTSCOMMANDLIB)(olivine.o) \
+                    $(MELTSCOMMANDLIB)(olivine-sx.o) \
+                    $(MELTSCOMMANDLIB)(orthopyroxene.o) \
+                    $(MELTSCOMMANDLIB)(ortho-oxide.o) \
+                    $(MELTSCOMMANDLIB)(perovskite.o) \
+                    $(MELTSCOMMANDLIB)(read_write.o) \
+                    $(MELTSCOMMANDLIB)(recipes.o) \
+                    $(MELTSCOMMANDLIB)(rhombohedral.o) \
+                    $(MELTSCOMMANDLIB)(rhomsghiorso.o) \
+                    $(MELTSCOMMANDLIB)(ringwoodite.o) \
+                    $(MELTSCOMMANDLIB)(silmin.o) \
+                    $(MELTSCOMMANDLIB)(silmin_support.o) \
+                    $(MELTSCOMMANDLIB)(spinel.o) \
+                    $(MELTSCOMMANDLIB)(subSolidusMuO2.o) \
+                    $(MELTSCOMMANDLIB)(wadsleyite.o) \
+                    $(MELTSCOMMANDLIB)(water.o) \
+                    $(MELTSCOMMANDLIB)(wustite.o)
 
 simann.o: simann.f
 	$(FC) -c $(FFLAGS) $<
@@ -792,7 +903,7 @@ Melts-batch: interface.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
              nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
              perovskite.c read_write.c recipes.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
              spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
-	$(MAKE) Melts-batchPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS" 
+	$(MAKE) Melts-batchPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION" 
 
 Melts-batchPrivate: interface.c gibbs.c \
                     silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h status.h \
@@ -816,12 +927,20 @@ Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
                spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
 	$(RM) $(RMFLAGS) $(RMFILE) 
 	$(MAKE) Melts-dynamicPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS -DDO_NOT_PRODUCE_OUTPUT_FILES"
+	$(MAKE) Melts-commandPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS"
 
 Melts-dynamicPrivate: test_dynamicLib.f gibbs.c $(MELTSDYNAMICLIB) $(MELTSDYLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSDYNAMICLIB)
-	gfortran -o Test_dynamicLib -ffree-form $< $(LIBMELTSDYNAMIC) $(LIBBATCH)
+	gfortran -o Test_dynamicLib -ffree-form sources/test_dynamicLib.f $(LIBMELTSDYNAMIC) $(LIBBATCH)
 	$(RM) $(RMFLAGS) test_dynamicLib.o
 	chmod 755 Test_dynamicLib
+
+Melts-commandPrivate: test_commandLib.c gibbs.c $(MELTSCOMMANDLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSCOMMANDLIB)
+	$(CC) $(CFLAGS) sources/test_commandLib.c
+	$(CC) $(LDFLAGS) -o Test_commandLib test_commandLib.o $(LIBMELTSCOMMAND) $(LIBBATCH)
+	$(RM) $(RMFLAGS) test_commandLib.o
+	chmod 755 Test_commandLib
 
 Melts-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
               calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
@@ -857,9 +976,40 @@ Melts-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_sat
 	chmod 755 $@
 
 Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-                calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
-                vframe.h vheader.h vlist.h \
-                sources/melts.icon $(MELTSLIB) 
+                calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h \
+                sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB) 
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS \
+           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
+           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
+           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
+           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
+           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
+           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
+           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
+           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
+           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
+           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
+           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
+           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
+           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
+           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
+           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
+           sources/interface.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb_slave.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/postclb.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/check_coexisting_solids.c
+	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	      $(MELTSLIB) $(PUBLIBS) $(LIBXML)
+	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
+	chmod 755 $@
+
+Melts-rhyolite-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
+                       calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h \
+                       sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB) 
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS \
            -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
@@ -878,9 +1028,9 @@ Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_s
            -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
            -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
            sources/interface.c
-	$(CC) $(CFLAGS) sources/preclb.c
-	$(CC) $(CFLAGS) sources/preclb_slave.c
-	$(CC) $(CFLAGS) sources/postclb.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb_slave.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/postclb.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/evaluate_saturation.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/check_coexisting_solids.c
@@ -1023,6 +1173,7 @@ Test_gibbs: test_gibbs.c gibbs.c \
             $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
+	$(CC) $(CFLAGS) sources/gibbs.c
 	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
 	chmod 755 $@
@@ -1062,6 +1213,13 @@ Convert_liquid: convert-liquid.c \
 	$(CC) $(CFLAGS) -fwritable-strings $<
 	$(CC) $(LDFLAGS) -o $@ convert-liquid.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) convert-liquid.o
+	chmod 755 $@
+
+TajTest: TajTest.c silmin.h recipes.h liq_struct_data.h param_struct_data.h sol_struct_data.h $(MELTSLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) -fwritable-strings $<
+	$(CC) $(LDFLAGS) -o $@ TajTest.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) TajTest.o
 	chmod 755 $@
 
 Test_liquid-MS: test_liquid.c liquid-MS.o melts_support-MS.o \
@@ -1170,6 +1328,45 @@ Test_SAK: test_SAK.c liquid-SACNK.o melts_support-SACNK.o \
 Test_simann: test_simann.c simann.o
 	$(CC) -o $@ -I$(INCF2C) $< simann.o $(LIBF2C) -lm -lc
 	chmod 755 $@
+	
+Test_sulfide_liquid: SulfLiq/testsulfliq.c SulfLiq/sulfideLiquid.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Chem.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/CholeskySolve.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/CuLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/FeLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ModifiedCholesky.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ModifiedNR.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/NiLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/NumUtil.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/O2Gas.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Phase.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/PhaseExceptions.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/S2Gas.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomateIdealGas.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomatePhase.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomateVinetPhase.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Solution.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SpecSolNID.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SpecSolution.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SulfLiq.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/VinetEOS.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/eigensystem.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/sulfideLiquid.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svDcmp.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svdInv.cc
+	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svdSolve.cc
+	$(CC) $(CFLAGS) -IIncludes SulfLiq/testsulfliq.c
+	$(CC) $(CFLAGS) -IIncludes sources/recipes.c
+	$(CC) $(LDFLAGS) -o $@ testsulfliq.o Chem.o CuLiq.o FeLiq.o ModifiedCholesky.o NiLiq.o NumUtil.o \
+          O2Gas.o Phase.o PhaseExceptions.o S2Gas.o SLiq.o ShomateIdealGas.o ShomatePhase.o \
+          ShomateVinetPhase.o Solution.o SpecSolNID.o SpecSolution.o SulfLiq.o VinetEOS.o eigensystem.o \
+          svDcmp.o svdInv.o svdSolve.o ModifiedNR.o CholeskySolve.o sulfideLiquid.o recipes.o -lstdc++
+	$(RM) $(RMFLAGS) testsulfliq.o Chem.o CuLiq.o FeLiq.o ModifiedCholesky.o NiLiq.o NumUtil.o \
+          O2Gas.o Phase.o PhaseExceptions.o S2Gas.o SLiq.o ShomateIdealGas.o ShomatePhase.o \
+          ShomateVinetPhase.o Solution.o SpecSolNID.o SpecSolution.o SulfLiq.o VinetEOS.o eigensystem.o \
+          svDcmp.o svdInv.o svdSolve.o ModifiedNR.o CholeskySolve.o sulfideLiquid.o recipes.o
+	chmod 755 $@
 
 Kevin: kevin.c kevin_slave.cc \
        silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
@@ -1177,8 +1374,16 @@ Kevin: kevin.c kevin_slave.cc \
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) sources/kevin.c
 	$(CC) $(CFLAGS) -I../CVSROOT/phases sources/kevin_slave.cc
-	$(CC) $(LDFLAGS) -o $@ kevin.o kevin_slave.o ../CVSROOT/phases/libphases.a ../CVSROOT/cmath/libcmath.a $(MELTSLIB) $(LIBS) -lstdc++
+	$(CC) $(LDFLAGS) -o $@ kevin.o kevin_slave.o ../CVSROOT/phases/libphases.a ../CVSROOT/cmath/libcmath.a $(MELTSLIB) $(PUBLIBS) -lstdc++
 	$(RM) $(RMFLAGS) kevin.o kevin_slave.o
+	chmod 755 $@
+
+KevinSolid: kevin.cc kevin_slave.cc kevin_data.c
+	gcc -c -I/usr/local/mysql/include sources/kevin_data.c
+	g++ -c -I../adolc_base/include/adolc -I/opt/local/include sources/kevin.cc
+	g++ -c -I../CVSROOT/phases sources/kevin_slave.cc
+	g++ -o $@ kevin.o kevin_slave.o kevin_data.o ../CVSROOT/phases/libphases.a -I/opt/local/include ../adolc_base/lib/libadolc.a /usr/local/mysql/lib/libmysqlclient.a ../CVSROOT/cmath/libcmath.a -lstdc++
+	$(RM) $(RMFLAGS) kevin.o kevin_slave.o kevin_data.o
 	chmod 755 $@
 
 Marc: marc.c \
