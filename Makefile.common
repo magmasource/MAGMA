@@ -89,7 +89,7 @@ clean:
 	$(RM) $(RMFLAGS) core *.out *.tbl *.preclb *.log *.plt *.res
 
 realclean:
-	$(RM) $(RMFLAGS) core *.out *.tbl  *.preclb *.log *.plt *.res
+	$(RM) $(RMFLAGS) core *.out *.tbl  *.preclb *.log *.plt *.res *.zip
 	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.inp
 	$(RM) $(RMFLAGS) Analyze-fusion
 	$(RM) $(RMFLAGS) Analyze-fusion-MS
@@ -97,6 +97,8 @@ realclean:
 	$(RM) $(RMFLAGS) Analyze-water-MS
 	$(RM) $(RMFLAGS) Entropy_reg
 	$(RM) $(RMFLAGS) Entropy_reg-MS
+	$(RM) $(RMFLAGS) Guil-driver
+	$(RM) $(RMFLAGS) Guil-error
 	$(RM) $(RMFLAGS) LinAndPelton
 	$(RM) $(RMFLAGS) Make-liquid-model
 	$(RM) $(RMFLAGS) Make_species_map
@@ -116,6 +118,7 @@ realclean:
 	$(RM) $(RMFLAGS) Test_a-x_relations-SACNK
 	$(RM) $(RMFLAGS) Test_CCO_buffer
 	$(RM) $(RMFLAGS) Test_CCOH_buffer
+	$(RM) $(RMFLAGS) test_commandLib
 	$(RM) $(RMFLAGS) Test_database
 	$(RM) $(RMFLAGS) Test_database-MS
 	$(RM) $(RMFLAGS) Test_database-SACNK

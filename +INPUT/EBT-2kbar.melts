@@ -10,8 +10,8 @@ Initial Composition: Na2O 3.9900
 Initial Composition: K2O 4.8900
 Initial Composition: H2O 5.7400
 Initial Composition: CO2 0.0050
-Initial Temperature: 804.00
-Final Temperature: 710.00
+Initial Temperature: 800.00
+Final Temperature: 800.00
 Initial Pressure: 2000.00
 Final Pressure: 2000.00
 Increment Temperature: 1.00
@@ -28,6 +28,7 @@ Suppress: aenigmatite
 Suppress: cummingtonite
 Suppress: amphibole
 Suppress: hornblende
+Suppress: biotitetaj
 Suppress: biotite
 Suppress: muscovite
 Suppress: tridymite

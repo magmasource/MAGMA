@@ -1,0 +1,23 @@
+Title: dummy
+Initial Composition: SiO2 75.1900
+Initial Composition: TiO2 0.2400
+Initial Composition: Al2O3 12.9100
+Initial Composition: FeO 1.9100
+Initial Composition: MnO 0.0700
+Initial Composition: MgO 0.4000
+Initial Composition: CaO 1.5100
+Initial Composition: Na2O 2.8600
+Initial Composition: K2O 4.6900
+Initial Composition: P2O5 0.0100
+Initial Composition: H2O 10.0000
+Initial Temperature: 900.00
+Final Temperature: 700.00
+Initial Pressure: 4000.00
+Final Pressure: 4000.00
+Increment Temperature: 50.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: +2FMQ
+Suppress: hornblende
+Suppress: biotiteTaj
+Suppress: fluid

@@ -375,6 +375,26 @@ void vmixBio (int mask, double t, double P, double *x, double *vmix,
               double *dxdp);
 void dispBio (int mask, double t, double P, double *x, char **formula);
 
+int  testTaj (int mask, double t, double p, int na, int nr, char **names,
+              char **formulas, double *r, double *m);
+void conTaj  (int inpMask, int outMask, double t, double p, double *e,
+              double *m, double *r, double *x, double **dm, double ***d2m,
+              double **dr, double ****d3m);
+void actTaj  (int mask, double t, double p, double *x, double *a,
+              double *mu, double **dx);
+void gmixTaj (int mask, double t, double P, double *x, double *gmix,
+              double *dx, double **dx2, double ***dx3);
+void hmixTaj (int mask, double t, double P, double *x, double *hmix);
+void smixTaj (int mask, double t, double P, double *x, double *smix,
+              double *dx, double **dx2);
+void cpmixTaj(int mask, double t, double P, double *x, double *cpmix,
+              double *dt, double *dx);
+void vmixTaj (int mask, double t, double P, double *x, double *vmix,
+              double *dx, double **dx2, double *dt, double *dp,
+              double *dt2, double *dtdp, double *dp2, double *dxdt,
+              double *dxdp);
+void dispTaj (int mask, double t, double P, double *x, char **formula);
+
 int  testCpx (int mask, double t, double p, int na, int nr, char **names,
               char **formulas, double *r, double *m);
 void conCpx  (int inpMask, int outMask, double t, double p, double *e,
@@ -434,6 +454,26 @@ void vmixFld (int mask, double t, double P, double *x, double *vmix,
               double *dt2, double *dtdp, double *dp2, double *dxdt,
               double *dxdp);
 void dispFld (int mask, double t, double P, double *x, char **formula);
+
+int  testFlu (int mask, double t, double p, int na, int nr, char **names,
+              char **formulas, double *r, double *m);
+void conFlu  (int inpMask, int outMask, double t, double p, double *e,
+              double *m, double *r, double *x, double **dm, double ***d2m,
+              double **dr, double ****d3m);
+void actFlu  (int mask, double t, double p, double *x, double *a,
+              double *mu, double **dx);
+void gmixFlu (int mask, double t, double P, double *x, double *gmix,
+              double *dx, double **dx2, double ***dx3);
+void hmixFlu (int mask, double t, double P, double *x, double *hmix);
+void smixFlu (int mask, double t, double P, double *x, double *smix,
+              double *dx, double **dx2);
+void cpmixFlu(int mask, double t, double P, double *x, double *cpmix,
+              double *dt, double *dx);
+void vmixFlu (int mask, double t, double P, double *x, double *vmix,
+              double *dx, double **dx2, double *dt, double *dp,
+              double *dt2, double *dtdp, double *dp2, double *dxdt,
+              double *dxdp);
+void dispFlu (int mask, double t, double P, double *x, char **formula);
 
 int  testGrn (int mask, double t, double p, int na, int nr, char **names,
               char **formulas, double *r, double *m);
@@ -1398,40 +1438,161 @@ Solids xMeltsSolids[] = {
    vmixHrn,         /* Pointer to vmixHrn  : Volume of mixing                */
    dispHrn          /* Pointer to dispHrn  : Formula for interface display   */
   },
-  {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"hastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
-   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
-   }
-  },
-#define DHGrnCum (-9623300.0-(-12067517.0))
-  {"ferropargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+4.0*DHGrnCum/7.0,/* H ref (J)     Helgeson et al. (1978) */
-   185.5*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.989,                           /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1342.61, -83.4862e2, -247.604e5, 348.507e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
-   }
-  },
-#undef DHGrnCum
-#define DHBfABf ((-2836709.0+7932.05)-(-3275265.0-8565.18))
-  {"magnesiohastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
-   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   -12206679.36,
+   653.0348661,
+   29.98411261,
    CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-#undef DHBfABf
+  {"k-hastingsite", COMPONENT, "KCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12209392.26,
+   668.2063133,
+   30.3986518,
+   CP_BERMAN,  {{1278.6555, -70.04725e2, -254.8098e5, 309.0143e7, 0.0, 0.0, 0.0, 0.0}},        
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12642494.51,
+   624.1050731,
+   29.59107799,
+   CP_BERMAN,  {{1267.249, -66.54335e2, -303.78655e5, 391.3526e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"ferro-pargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -11261236.95,
+   694.1272362,
+   29.93797796, 
+   CP_BERMAN,  {{1342.609, -83.48615e2, -247.60335e5, 348.5066e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"hornblende", COMPONENT, "Ca2Mg4AlAlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12359220.89,
+   588.8237734,
+   29.33799998,
+   CP_BERMAN,  {{1229.761, -67.3078e2,  -280.0954e5,  354.0367e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"kaersutite", COMPONENT, "NaCa2Mg4TiAl2Si6O23(OH)", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12503415.14,
+   677.2517372,
+   29.80704274,
+   CP_BERMAN,  {{1221.448, -58.273e2,   -302.84385e5, 377.3149e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"edenite", COMPONENT, "NaCa2Mg5AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12545938.7,
+   627.0255449,
+   30.6792779,
+   CP_BERMAN,  {{1257.836, -64.65775e2, -296.20495e5, 374.9822e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"barroisite", COMPONENT, "NaCaMg3Al2AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12116264.,
+   652.78066,
+   28.2568307,
+   CP_BERMAN,  {{1236.439, -67.59495e2, -315.02635e5, 425.8053e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+#ifdef RHYOLITE_ADJUSTMENTS
+  {"biotite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testTaj,         /* Pointer to testTaj  : test expected number and order  */
+   conTaj,          /* Pointer to conTaj   : moles to indep comp variables   */
+   actTaj,          /* Pointer to actTaj   : activities, chemical potentials */
+   gmixTaj,         /* Pointer to gmixTaj  : Gibbs free energy of mixing     */
+   hmixTaj,         /* Pointer to hmixTaj  : Enthaly of mixing               */
+   smixTaj,         /* Pointer to smixTaj  : Entropy of mixing               */
+   cpmixTaj,        /* Pointer to cpmixTaj : Heat capacity of mixing         */
+   vmixTaj,         /* Pointer to vmixTaj  : Volume of mixing                */
+   dispTaj          /* Pointer to dispTaj  : Formula for interface display   */
+  },
+  {"fbiTaj", COMPONENT, "KFeMg2Si2Al2O10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   -1000.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"tbiTaj", COMPONENT, "KTiMg2Si3AlO10(O)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   -1000.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"eastTaj", COMPONENT, "KAlMg2Si2Al2O10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   -1000.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"annTaj", COMPONENT, "KFe3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   -1000.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"phlTaj", COMPONENT, "KMg3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   -1000.0,
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+#else
   {"biotite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -1475,6 +1636,7 @@ Solids xMeltsSolids[] = {
    EOS_BERMAN, {{-1.6969784e-6, 0.0, 34.4473262e-6, 0.0}} 
    }
   },
+#endif
   {"muscovite", PHASE, "KAl2Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -1870,6 +2032,81 @@ Solids xMeltsSolids[] = {
    EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
+#ifdef RHYOLITE_ADJUSTMENTS
+  {"rhm-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testMsg,         /* Pointer to testMsg  : test expected number and order  */
+   conMsg,          /* Pointer to conMsg   : moles to indep comp variables   */
+   actMsg,          /* Pointer to actMsg   : activities, chemical potentials */
+   gmixMsg,         /* Pointer to gmixMsg  : Gibbs free energy of mixing     */
+   hmixMsg,         /* Pointer to hmixMsg  : Enthaly of mixing               */
+   smixMsg,         /* Pointer to smixMsg  : Entropy of mixing               */
+   cpmixMsg,        /* Pointer to cpmixMsg : Heat capacity of mixing         */
+   vmixMsg,         /* Pointer to vmixMsg  : Volume of mixing                */
+   dispMsg          /* Pointer to dispMsg  : Formula for interface display   */
+  },
+  {"geikielite", COMPONENT, "MgTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1572560.0,      /* H ref (J)                              Ghiorso (1990) */
+   74.56,           /* S ref (J/K)                            Ghiorso (1990) */
+   3.086,           /* V ref (J/bar)                     Robie et al. (1978) */
+   CP_BERMAN,  {{146.20, -4.160E2, -39.998E5, 40.233E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.584e-6, 1.230e-12, 27.248e-6, 29.968e-10}}
+   }
+  },
+  {"hematite", COMPONENT, "Fe2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -825627.0,       /* H ref (J)                               Berman (1988) */
+   87.437,          /* S ref (J/K)                             Berman (1988) */
+   3.027,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{146.86, 0.0, -55.768E5, 52.563E7, 955.0, 1287.0, -7.403E-2, 27.921E-5}},
+   EOS_BERMAN, {{-0.479e-6, 0.304e-12, 38.310e-6, 1.650e-10}}
+   }
+  },
+  {"ilmenite", COMPONENT, "FeTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1231947.0,      /* H ref (J)                               Berman (1988) */
+   108.628,         /* S ref (J/K)                             Berman (1988) */
+   3.170,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{150.00, -4.416E2, -33.237E5, 34.815E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.584e-6, 1.230e-12, 27.248e-6, 29.968e-10}} 
+   }
+  },
+  {"pyrophanite", COMPONENT, "MnTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1350707.0,      /* H ref (J)                      Ghiorso (1991 - guess) */
+   104.935,         /* S ref (J/K)               Stephenson and Smith (1968) */
+   2.8859,          /* V ref (J/bar)                          Knittle (1995) */
+   CP_BERMAN,  {{150.00, -4.416E2, -33.237E5, 34.815E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.584e-6, 1.230e-12, 27.248e-6, 29.968e-10}}
+   }
+  },
+  {"corundum", COMPONENT, "Al2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1675700.0+20000.0, /* H ref (J)                            Berman (1988) */
+   50.820,          /* S ref (J/K)                             Berman (1988) */
+   2.558,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{155.02, -8.284E2, -38.614E5, 40.908E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.385E-6, 0.375E-12, 21.342E-6, 47.180E-10}}
+   }
+  },
+#else
   {"rhm-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -1933,6 +2170,7 @@ Solids xMeltsSolids[] = {
    EOS_BERMAN, {{-0.584E-6, 1.230E-12, 27.248E-6, 29.968E-10}} 
    }
   },
+#endif
   {"ortho-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -2011,6 +2249,49 @@ Solids xMeltsSolids[] = {
   },
   {"water", PHASE, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,                              /* Calculated in GIBBS.C Berman (1988) */
+   {                /* ThermoRef structure                                   */
+   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"fluid", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testFlu,         /* Pointer to testFlu  : test expected number and order  */
+   conFlu,          /* Pointer to conFlu   : moles to indep comp variables   */
+   actFlu,          /* Pointer to actFlu   : activities, chemical potentiFlu */
+   gmixFlu,         /* Pointer to gmixFlu  : Gibbs free energy of mixing     */
+   hmixFlu,         /* Pointer to hmixFlu  : Enthaly of mixing               */
+   smixFlu,         /* Pointer to smixFlu  : Entropy of mixing               */
+   cpmixFlu,        /* Pointer to cpmixFlu : Heat capacity of mixing         */
+   vmixFlu,         /* Pointer to vmixFlu  : Volume of mixing                */
+   dispFlu          /* Pointer to dispFlu  : Formula for interface display   */
+  },
+  {"h2oduan", COMPONENT, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                        /* Calculated in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"co2duan", COMPONENT, "CO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                        /* Calculated in GIBBS.C */
    {                /* ThermoRef structure                                   */
    -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
    0.0,             /* S ref (J/K)                                           */
@@ -2707,40 +2988,159 @@ Solids meltsSolids[] = {
    vmixHrn,         /* Pointer to vmixHrn  : Volume of mixing                */
    dispHrn          /* Pointer to dispHrn  : Formula for interface display   */
   },
-  {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+  {"hastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -3016624.0*4.184,                 /* H ref (J)     Helgeson et al. (1978) */
-   160.0*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.35,                            /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1267.25, -66.5434e2, -303.787e5, 391.353e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
-   }
-  },
-#define DHGrnCum (-9623300.0-(-12067517.0))
-  {"ferropargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+4.0*DHGrnCum/7.0,/* H ref (J)     Helgeson et al. (1978) */
-   185.5*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.989,                           /* V ref (J/bar) Helgeson et al. (1978) */
-   CP_BERMAN,  {{1342.61, -83.4862e2, -247.604e5, 348.507e7, 0.0, 0.0, 0.0, 0.0}},
-   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
-   }
-  },
-#undef DHGrnCum
-#define DHBfABf ((-2836709.0+7932.05)-(-3275265.0-8565.18))
-  {"magnesiohastingsite", COMPONENT, "NaCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,
-   {                /* ThermoRef structure                                   */
-   -3016624.0*4.184+DHBfABf,         /* H ref (J)     Helgeson et al. (1978) */
-   163.8*4.184,                      /* S ref (J/K)   Helgeson et al. (1978) */
-   27.38,                            /* V ref (J/bar) Helgeson et al. (1978) */
+   -12206679.36,
+   653.0348661,
+   29.98411261,
    CP_BERMAN,  {{1273.66, -67.1606e2, -280.331e5, 350.697e7, 0.0, 0.0, 0.0, 0.0}},
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-#undef DHBfABf
+  {"k-hastingsite", COMPONENT, "KCa2Mg4FeAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12209392.26,
+   668.2063133,
+   30.3986518,
+   CP_BERMAN,  {{1278.6555, -70.04725e2, -254.8098e5, 309.0143e7, 0.0, 0.0, 0.0, 0.0}},        
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"pargasite", COMPONENT, "NaCa2Mg4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12642494.51,
+   624.1050731,
+   29.59107799,
+   CP_BERMAN,  {{1267.249, -66.54335e2, -303.78655e5, 391.3526e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"ferro-pargasite", COMPONENT, "NaCa2Fe4AlAl2Si6O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -11261236.95,
+   694.1272362,
+   29.93797796, 
+   CP_BERMAN,  {{1342.609, -83.48615e2, -247.60335e5, 348.5066e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"hornblende", COMPONENT, "Ca2Mg4AlAlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12359220.89,
+   588.8237734,
+   29.33799998,
+   CP_BERMAN,  {{1229.761, -67.3078e2,  -280.0954e5,  354.0367e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"kaersutite", COMPONENT, "NaCa2Mg4TiAl2Si6O23(OH)", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12503415.14,
+   677.2517372,
+   29.80704274,
+   CP_BERMAN,  {{1221.448, -58.273e2,   -302.84385e5, 377.3149e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"edenite", COMPONENT, "NaCa2Mg5AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12545938.7,
+   627.0255449,
+   30.6792779,
+   CP_BERMAN,  {{1257.836, -64.65775e2, -296.20495e5, 374.9822e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"barroisite", COMPONENT, "NaCaMg3Al2AlSi7O22(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -12116264.,
+   652.78066,
+   28.2568307,
+   CP_BERMAN,  {{1236.439, -67.59495e2, -315.02635e5, 425.8053e7, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
+   }
+  },
+  {"biotitetaj", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testTaj,         /* Pointer to testTaj  : test expected number and order  */
+   conTaj,          /* Pointer to conTaj   : moles to indep comp variables   */
+   actTaj,          /* Pointer to actTaj   : activities, chemical potentials */
+   gmixTaj,         /* Pointer to gmixTaj  : Gibbs free energy of mixing     */
+   hmixTaj,         /* Pointer to hmixTaj  : Enthaly of mixing               */
+   smixTaj,         /* Pointer to smixTaj  : Entropy of mixing               */
+   cpmixTaj,        /* Pointer to cpmixTaj : Heat capacity of mixing         */
+   vmixTaj,         /* Pointer to vmixTaj  : Volume of mixing                */
+   dispTaj          /* Pointer to dispTaj  : Formula for interface display   */
+  },
+  {"fbiTaj", COMPONENT, "KFeMg2Si2Al2O10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"tbiTaj", COMPONENT, "KTiMg2Si3AlO10(O)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"eastTaj", COMPONENT, "KAlMg2Si2Al2O10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"annTaj", COMPONENT, "KFe3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"phlTaj", COMPONENT, "KMg3Si3AlO10(OH)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0, /* Special case in Gibbs.c - Holland and Powell formulation */
+   {         
+   0.0,      
+   0.0,      
+   0.0,      
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},      
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
   {"biotite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -3396,6 +3796,49 @@ Solids meltsSolids[] = {
   },
   {"water", PHASE, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,                              /* Calculated in GIBBS.C Berman (1988) */
+   {                /* ThermoRef structure                                   */
+   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"fluid", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testFlu,         /* Pointer to testFlu  : test expected number and order  */
+   conFlu,          /* Pointer to conFlu   : moles to indep comp variables   */
+   actFlu,          /* Pointer to actFlu   : activities, chemical potentiFlu */
+   gmixFlu,         /* Pointer to gmixFlu  : Gibbs free energy of mixing     */
+   hmixFlu,         /* Pointer to hmixFlu  : Enthaly of mixing               */
+   smixFlu,         /* Pointer to smixFlu  : Entropy of mixing               */
+   cpmixFlu,        /* Pointer to cpmixFlu : Heat capacity of mixing         */
+   vmixFlu,         /* Pointer to vmixFlu  : Volume of mixing                */
+   dispFlu          /* Pointer to dispFlu  : Formula for interface display   */
+  },
+  {"h2oduan", COMPONENT, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                        /* Calculated in GIBBS.C */
+   {                /* ThermoRef structure                                   */
+   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
+   0.0,             /* S ref (J/K)                                           */
+   0.0,             /* V ref (J/bar)                                         */
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   }
+  },
+  {"co2duan", COMPONENT, "CO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,                                        /* Calculated in GIBBS.C */
    {                /* ThermoRef structure                                   */
    -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
    0.0,             /* S ref (J/K)                                           */

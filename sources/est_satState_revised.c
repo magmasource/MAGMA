@@ -678,7 +678,7 @@ int getAffinityAndCompositionPyroxene( /* Returns a MODE flag for success or fai
     (*solids[solidID].convert)(SECOND, THIRD, t, p, NULL, mFR, bVec, NULL, NULL, NULL, NULL, NULL);
 
     if (fabs(*affinity-bVec[nr]) < 0.1/SCALE) foundSolution = TRUE;
-    else {    
+    else { 
       (*solids[solidID].activity)(FIRST | SECOND, t, p, bVec, activity, muR, NULL);
       for (i=0; i<na; i++) if (mFR[i] != 0.0) gVec[i] = activity[i]/mF[i];
 
@@ -730,5 +730,180 @@ int getAffinityAndCompositionPyroxene( /* Returns a MODE flag for success or fai
     
   return (iter < 100) ? SUCCESS : FAILURE;
 }
+
+#undef W14
+#undef H24
+#undef H23
+
+#define W14     20.8 * 1000.0 * 4.184 /* joules */    
+#define H24      6.55* 1000.0 * 4.184 /* joules */
+#define H23      0.0 * 1000.0 * 4.184 /* joules */
+#define W13P    11.3 * 1000.0 * 4.184 /* joules */
+#define W23PU    9.7 * 1000.0 * 4.184 /* joules */
+#define W3P4    10.0 * 1000.0 * 4.184 /* joules */
+#define W3PU4U  10.4 * 1000.0 * 4.184 /* joules */
+#define W24U    12.6 * 1000.0 * 4.184 /* joules */   
+#define H25      8.05* 1000.0 * 4.184 /* joules */
+
+int getAffinityAndCompositionSpinel( /* Returns a MODE flag for success or failure */
+  double t,              /* temperature (K)					*/
+  double p,              /* pressure (bars)					*/
+  int    index,          /* index of solid phase in the solids[] structure	*/
+  int    *zeroX,         /* TRUE if endmember component has zero mole fraction  */
+  double *muMinusMu0,    /* vector of end-member mu - mu0 i.e. A + RTln(a)	*/
+  double *affinity,      /* returned value, chemical affinity (J)		*/
+  double *indepVar)      /* returned vector, composition of phase (length nr)	*/
+{
+  int i, j, iter = 0, foundSolution = FALSE;
+  static double *mF = NULL, *mFR = NULL, *bVec = NULL, *gVec = NULL, *activity = NULL, *mu = NULL, *mu0 = NULL, *muR = NULL;
+  static int    *nullComp = NULL, *nullList = NULL;
+  int    hasNull, na, nr, nz, solidID = -1, ns;
+
+  /* Test input parameters */
+  if (t <= 0.0) 		return FAILURE;
+  if (p <  0.0) 		return FAILURE;
+  if (index < 0 || index > npc) return FAILURE;
+  
+  /* Check parameters for algorithmic assumptions */
+  na = solids[index].na; 
+  nr = solids[index].nr;
+  ns = na + 3;
+  solidID = index;
+ 
+  if (activity == NULL) {
+    activity  = (double *)  malloc((unsigned) ns*sizeof (double));
+    bVec      = (double *)  malloc((unsigned) ns*sizeof (double));
+    gVec      = (double *)  malloc((unsigned) ns*sizeof (double));
+    mF        = (double *)  malloc((unsigned) ns*sizeof (double));
+    mFR       = (double *)  malloc((unsigned) na*sizeof (double));
+    mu        = (double *)  malloc((unsigned) ns*sizeof (double));
+    mu0       = (double *)  malloc((unsigned) ns*sizeof (double));
+    muR       = (double *)  malloc((unsigned) na*sizeof (double));
+    nullComp  = (int *)     malloc((unsigned) ns*sizeof (int));
+    nullList  = (int *)     malloc((unsigned) ns*sizeof (int));
+  }
+
+  for (i=0, hasNull=FALSE, nz=0; i<na; i++) { 
+    nullComp[i] = zeroX[i]; hasNull |= zeroX[i];
+    if (!nullComp[i]) { nullList[nz] = i; mu[nz++] = muMinusMu0[i]; } 
+    mu0[i] = (solids[solidID+1+i].cur).g;
+  }
+  if (nz == 0) return FAILURE;
+
+  /* compute dependent species mu0 for MgCr2O4 */
+  if (!nullComp[0] && !nullComp[1] && !nullComp[3]) {
+    double correction = 2.0*(H24) - ((W14)+(W23PU)+(W3P4)) + ((W13P)+(W24U)+(W3PU4U));
+    mu0[5] = mu0[0] + mu0[3] - mu0[1] + correction;
+    nullComp[5] = FALSE;
+    nullList[nz] = 5;
+    mu[nz++] = muMinusMu0[0] + muMinusMu0[3] - muMinusMu0[1] + correction; 
+  } else { mu0[5] = 0.0; nullComp[5] = TRUE; }
+  
+  /* compute dependent species mu0 for MgFe2O3 */
+  if (!nullComp[1] && !nullComp[2] && !nullComp[3]) {
+    double correction = (H25);
+    mu0[6] = mu0[2] + mu0[3] - mu0[1] + correction;
+    nullComp[6] = FALSE;
+    nullList[nz] = 6;
+    mu[nz++] = muMinusMu0[2] + muMinusMu0[3] - muMinusMu0[1] + correction; 
+  } else { mu0[6] = 0.0; nullComp[6] = TRUE; }
+  
+  /* compute dependent species mu0 for Mg2TiO4 */
+  if (!nullComp[1] && !nullComp[3] && !nullComp[4]) {
+    double correction = 2.0*(H24);
+    mu0[7] = mu0[4] + 2.0*(mu0[3] - mu0[1]) + correction;
+    nullComp[7] = FALSE;
+    nullList[nz] = 7;
+    mu[nz++] = muMinusMu0[4] + 2.0*(muMinusMu0[3] - muMinusMu0[1]) + correction; 
+  } else { mu0[7] = 0.0; nullComp[7] = TRUE; }
+  
+#ifdef DEBUG_EXTRA
+  for (i=0, j=0; i<ns; i++) if (!nullComp[i]) printf("...mu0[%2.2d] = %13.6g mu = %13.6g\n", i, mu0[i], mu[j++]);
+#endif
+
+  for (i=0; i<ns; i++) gVec[i] = 1.0;
+  *affinity = 100000.0;
+  
+  while (!foundSolution && (iter < 100)) {
+    double sum;
+  
+    /* take appropriate action for the number of non-zero components */
+         if (nz == 0)                      bVec[na-1] = 0.0;
+    else if (nz == 1) { mF[0] = 1.0; bVec[na-1] = (mu[0]-gVec[0])/SCALE; }
+    else {
+      /* condense the activity cofficient vector */
+      for (i=0, j=0; i<ns; i++) if (!nullComp[i]) gVec[j++] = R*t*log(gVec[i]);
+    
+      /* Compute the f[n] terms and store them temporarily in mF[] */
+      sum = 1.0;
+      if (nz > 2) for (i=0; i<(nz-2); i++) {
+        mF[i] = exp(-(mu[i]+gVec[i]-mu[nz-2]-gVec[nz-2])/(R*t)); sum += mF[i];
+      }
+      mF[nz-2] = exp(-(mu[nz-2]+gVec[nz-2]-mu[nz-1]-gVec[nz-1])/(R*t));
+  
+      /* Solve for the composition variables (mole fractions) */
+      mF[nz-2] /= 1.0 + mF[nz-2]*sum; 
+      mF[nz-1]  = 1.0 - mF[nz-2];
+      if (nz > 2) for (i=0; i<(nz-2); i++) { 
+        mF[i] *= mF[nz-2]; mF[nz-1] -= mF[i]; 
+      }
+
+      /* compute the chemical affinity (choice of mu[] is arbitrary) */
+      bVec[na-1] = (mu[0] + R*t*log(mF[0]) + gVec[0])/SCALE;
+    }
+
+    /* Reassemble the mole fraction and chemical potential vectors with zeros for the absent endmembers */
+    if (hasNull) for (i=ns-1, j=nz; i>=0; i--) {
+      if(!nullComp[i]) mF[i] = mF[--j]; 
+      else             mF[i] = 0.0;
+    }
+    
+    mFR[0] = mF[0] + mF[5];                                       /* FeCr2O4 */
+    mFR[1] = mF[1] + mF[3] - (mF[3] + mF[5] + mF[6] + 2.0*mF[7]); /* FeAl2O4 */
+    mFR[2] = mF[2] + mF[6];	                                      /* Fe3O4   */
+    mFR[3] = mF[3] + mF[5] + mF[6] + 2.0*mF[7];    	              /* MgAl2O4 */
+    mFR[4] = mF[4] + mF[7];  	                                  /* Fe2TiO4 */
+
+    /* convert mole fractions of endmembers into independent compos var */
+    (*solids[solidID].convert)(SECOND, THIRD, t, p, NULL, mFR, bVec, NULL, NULL, NULL, NULL, NULL);
+
+    if (fabs(*affinity-bVec[nr]) < 0.1/SCALE) foundSolution = TRUE;
+    else {    
+      (*solids[solidID].activity)(FIRST | SECOND, t, p, bVec, activity, muR, NULL);
+      for (i=0; i<na; i++) if (mFR[i] != 0.0) gVec[i] = activity[i]/mF[i];
+
+      if (mF[5] != 0.0) {
+        activity[5] = exp((muR[0] + muR[3] - muR[1] + mu0[0] + mu0[3] - mu0[1] - mu0[5])/(R*t));
+        gVec[5] = activity[5]/mF[5];
+      } else gVec[5] = 1.0;
+      if (mF[6] != 0.0) {
+        activity[6] = exp((muR[2] + muR[3] - muR[1] + mu0[2] + mu0[3] - mu0[1] - mu0[6])/(R*t));
+        gVec[6] = activity[6]/mF[6];
+      } else gVec[6] = 1.0;
+      if (mF[7] != 0.0) {
+        activity[7] = exp((muR[4] + 2.0*(muR[3] - muR[1]) + mu0[4] + 2.0*(mu0[3] - mu0[1]) - mu0[7])/(R*t));
+        gVec[7] = activity[7]/mF[7];
+      } else gVec[7] = 1.0;
+    }
+    *affinity = bVec[nr];
+#ifdef DEBUG
+    {
+      char *string;
+      (*solids[solidID].display)(FIRST, t, p, bVec, &string);
+      printf("SS iter = %2.2d X,g:", iter);
+      for (i=0; i<ns; i++) {
+        printf(" %13.6g (%13.6g)", mF[i], gVec[i]);
+        if ((i == 3) || (i == 7) || (i == 11)) printf("\n                 ");
+      }
+      printf("\n A: %13.6g Formula: %s\n", bVec[nr], string);
+    }
+#endif
+    iter++;
+  }
+  for (i=0; i<nr; i++) indepVar[i] = bVec[i]; *affinity = bVec[nr]*SCALE;
+    
+  return (iter < 100) ? SUCCESS : FAILURE;
+}
+
 
 /* end of file EST_SATSTATE_REVISED.C */

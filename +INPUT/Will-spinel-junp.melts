@@ -1,0 +1,21 @@
+Title: dummy
+Initial Composition: SiO2 47.7287
+Initial Composition: TiO2 1.6832
+Initial Composition: Al2O3 15.0679
+Initial Composition: Fe2O3 4.1371
+Initial Composition: FeO 7.3008
+Initial Composition: MgO 8.6392
+Initial Composition: CaO 11.6305
+Initial Composition: Na2O 2.2713
+Initial Composition: K2O 0.2028
+Initial Composition: H2O 1.3385
+Initial Temperature: 1225.00
+Final Temperature: 700.00
+Initial Pressure: 2000.00
+Final Pressure: 2000.00
+Increment Temperature: 1.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: +1FMQ
+Suppress: leucite
+Mode: Fractionate Solids

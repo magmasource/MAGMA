@@ -117,12 +117,6 @@ ExtraSolids extraSolids[] = {
   /* "ferropargasite",      "NaCa2Fe4AlAl2Si6O22(OH)2", */
   /* "magnesiohastingsite", "NaCa2Mg4FeAl2Si6O22(OH)2", */
 
-  {"hornblende", "ferrohastingsite", "NaCa2Fe4FeAl2Si6O22(OH)2", 0.05, { 0.00, 0.05, 0.05} }, 
-  
-  /* "leucite",    "KAlSi2O6",       */
-  /* "analcime",   "NaAlSi2O5(OH)2", */
-  /* "na-leucite", "NaAlSi2O6",      */
-
   {"leucite ss", "K-analcime",   "KAlSi2O5(OH)2", 0.05, { 0.05, 0.05, 0.00} },
 
   /* "chromite",   "FeCr2O4", */

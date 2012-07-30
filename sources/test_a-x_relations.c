@@ -159,6 +159,36 @@ int main()
       **v2temp;
    float ftemp;
 
+  printf("---> Default calculation mode is xMELTS.  Change this? (y or n): ");
+  if (tolower(getchar()) == 'y') {
+    getchar();
+    printf("     Set calculation mode is MELTS (public release v 3.0.x)? (y or n): ");
+    if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE__MELTS; }
+    else {
+      getchar();
+      printf("     Set calculation mode is pMELTS (public release v 4.0.x)? (y or n): ");
+      if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
+    }
+  } else getchar();
+  
+  if (calculationMode == MODE_xMELTS) {
+    printf("---> Calculation mode is xMELTS (experimental v 5.0.x).\n");
+  } else if (calculationMode == MODE__MELTS) {
+    printf("---> Calculation mode is MELTS (public release v 3.0.x).\n");
+    liquid = meltsLiquid;
+    solids = meltsSolids;
+    nlc = meltsNlc;
+    nls = meltsNls;
+    npc = meltsNpc;
+  } else if (calculationMode == MODE_pMELTS) {
+    printf("---> Calculation mode is pMELTS (public release v 4.0.x).\n");
+    liquid = pMeltsLiquid;
+    solids = pMeltsSolids;
+    nlc = pMeltsNlc;
+    nls = pMeltsNls;
+    npc = pMeltsNpc;
+  }
+
    printf("Input test compositions (y or n)? ");
    if (tolower(getchar()) == 'y') doRandom = FALSE;
    getchar();
@@ -284,8 +314,7 @@ int main()
          }
          for (i=0; i<NC; i++) deltaM[i] = sqrt(TAU)*(1.0+ABS(moles[i]));
 
-         if (!(*solids[n].test)(SIXTH, t, p, (int) NULL, (int) NULL, 
-           (char **) NULL, (char **) NULL, (double *) NULL, moles)) printf(
+         if (!(*solids[n].test)(SIXTH, t, p, 0, 0, NULL, NULL, NULL, moles)) printf(
            "BAD The moles vector apparently violates bound constraints.\n"); 
 
          /********************************************************************
@@ -302,8 +331,7 @@ int main()
            (double **) NULL, d3rdm3);
          for (i=0; i<NX; i++) deltaX[i] = sqrt(TAU)*(1.0+ABS(x[i]));
 
-         if (!(*solids[n].test)(FIFTH, t, p, (int) NULL, (int) NULL, 
-           (char **) NULL, (char **) NULL, x, (double *) NULL)) printf(
+         if (!(*solids[n].test)(FIFTH, t, p, 0, 0, NULL, NULL, x, NULL)) printf(
            "BAD The r vector apparently violates bound constraints.\n"); 
 
          /* Output moles and independent compositional variables */

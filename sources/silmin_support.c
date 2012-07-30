@@ -733,7 +733,7 @@ int checkStateAgainstInterface(void)
     }
   }
   if (sum <= 0.00) ERROR("Please specify a bulk composition first!")
-  if (mask && SILMIN_STATE_CHANGE_BULK) {
+  if (mask & SILMIN_STATE_CHANGE_BULK) {
     for (i=0; i<nc; i++) {
       (silminState->dspBulkComp)[i] += diff[i];             /* grams oxides */
       diff[i]                       /= bulkSystem[i].mw;

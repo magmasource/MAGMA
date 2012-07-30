@@ -81,6 +81,115 @@ static const short int Index[NA][NA] = {
 #define WS(i,j) ((calculationMode == MODE__MELTS) ? meltsModelParameters[Index[i][j]].entropy  : pMeltsModelParameters[Index[i][j]].entropy  )
 #define WV(i,j) ((calculationMode == MODE__MELTS) ? meltsModelParameters[Index[i][j]].volume   : pMeltsModelParameters[Index[i][j]].volume   )
 
+static int nH2O = 18, nCO2 = 14;
+
+static double gT, dgdrT[NR], d2gdr2T[NR][NR], d3gdr3T[NR][NR][NR];
+static const double WHCX[NA] = { 
+                                    0.0*3.0, //  0    SiO2
+                                    0.0*3.0, //  1  0 TiO2
+                                    0.0*3.0, //  2  1 Al2O3
+                                    0.0*3.0, //  3  2 FE2O3
+                                    0.0*3.0, //  4  3 MgCr2O3
+                                    0.0*3.0, //  5  4 Fe2SiO4
+                                    0.0*3.0, //  6  5 MnSi1/2O2
+                                    0.0*3.0, //  7  6 Mg2SiO4
+                                    0.0*3.0, //  8  7 NiSi1/2O2
+                                    0.0*3.0, //  9  8 CoSi1/2O2
+                                    0.0*3.0, // 10  9 CaSiO3
+                                    0.0*3.0, // 11 10 Na2SiO3
+                                    0.0*3.0, // 12 11 KAlSiO4
+                                    0.0*3.0, // 13 12 Ca3(PO4)2
+                                    0.0*3.0, // 14 13 CO2
+                                    0.0*3.0, // 15 14 SO3
+                                    0.0*3.0, // 16 15 Cl2O
+                                    0.0*3.0, // 17 16 F2O
+                                    0.0*3.0  // 18 17 H2O 
+                             };
+
+static void ternaryH2OCO2terms(int mask, double *r) {
+  static double x[NA];
+  int i;
+  
+  for (i=0, x[0]=1.0; i<NR; i++) { x[0] -= r[i]; x[i+1] = r[i]; }
+  
+  if (mask & FIRST) {
+    for (i=0, gT=0.0; i<NA; i++) gT += WHCX[i]*x[nH2O]*x[nCO2]*x[i];
+  }
+  
+  if (mask & SECOND) {
+    int j;
+    for (i=0; i<NR; i++) {
+      dgdrT[i] = 0.0;
+      switch (i) {
+        case 13:
+        {
+          dgdrT[nCO2-1] = 0.0;
+          for (j=1; j<NA; j++) dgdrT[nCO2-1] += x[nH2O]*(WHCX[j]-WHCX[0])*x[j];
+          dgdrT[nCO2-1] += WHCX[0]*x[nH2O] + (WHCX[nCO2]-WHCX[0])*x[nH2O]*x[nCO2];
+          break;
+        }
+        case 17:
+        {
+          dgdrT[nH2O-1] = 0.0;
+          for (j=1; j<NA; j++) dgdrT[nH2O-1] += x[nCO2]*(WHCX[j]-WHCX[0])*x[j];
+          dgdrT[nH2O-1] += WHCX[0]*x[nCO2] + (WHCX[nH2O]-WHCX[0])*x[nH2O]*x[nCO2];
+          break;
+        }
+        default:
+        {
+          dgdrT[i] = (WHCX[i+1]-WHCX[0])*x[nH2O]*x[nCO2];
+        }
+      }
+    }
+  }
+  
+  if (mask & THIRD) {
+    int j;
+    for (i=0; i<NR; i++) for (j=0; j<NR; j++) d2gdr2T[i][j] = 0.0;
+    d2gdr2T[nH2O-1][nH2O-1] = 2.0*(WHCX[nH2O]-WHCX[0])*x[nCO2];
+    d2gdr2T[nCO2-1][nCO2-1] = 2.0*(WHCX[nCO2]-WHCX[0])*x[nH2O];
+    
+    d2gdr2T[nH2O-1][nCO2-1] = WHCX[0]*(x[0]-x[nCO2]-x[nH2O]);
+      for (i=1; i<NA; i++) d2gdr2T[nH2O-1][nCO2-1] += WHCX[i]*x[i];
+      d2gdr2T[nH2O-1][nCO2-1] += WHCX[nCO2]*x[nCO2] + WHCX[nH2O]*x[nH2O];
+      d2gdr2T[nCO2-1][nH2O-1] = d2gdr2T[nH2O-1][nCO2-1];
+      
+    for (i=1; i<NA; i++) {
+      if (i != nCO2 && i != nH2O) {
+        d2gdr2T[i-1][nH2O-1] = (WHCX[i]-WHCX[0])*x[nCO2];
+        d2gdr2T[nH2O-1][i-1] = d2gdr2T[i-1][nH2O-1];
+      
+        d2gdr2T[i-1][nCO2-1] = (WHCX[i]-WHCX[0])*x[nH2O];
+        d2gdr2T[nCO2-1][i-1] = d2gdr2T[i-1][nCO2-1];
+      }
+    }
+  }
+  
+  if (mask & FOURTH) {
+    int j, k;
+    for (i=0; i<NR; i++) for (j=0; j<NR; j++) for (k=0; k<NR; k++) d3gdr3T[i][j][k] = 0.0;
+    d3gdr3T[nH2O-1][nH2O-1][nCO2-1] = 2.0*(WHCX[nH2O]-WHCX[0]);
+      d3gdr3T[nH2O-1][nCO2-1][nH2O-1] = d3gdr3T[nH2O-1][nH2O-1][nCO2-1];
+      d3gdr3T[nCO2-1][nH2O-1][nH2O-1] = d3gdr3T[nH2O-1][nH2O-1][nCO2-1];
+      
+    d3gdr3T[nH2O-1][nCO2-1][nCO2-1] = 2.0*(WHCX[nCO2]-WHCX[0]);
+      d3gdr3T[nCO2-1][nH2O-1][nCO2-1] = d3gdr3T[nH2O-1][nCO2-1][nCO2-1];
+      d3gdr3T[nCO2-1][nCO2-1][nH2O-1] = d3gdr3T[nH2O-1][nCO2-1][nCO2-1];
+      
+    for (i=1; i<NA; i++) {
+      if (i != nCO2 && i != nH2O) {
+        d3gdr3T[i-1][nH2O-1][nCO2-1] = WHCX[i] - WHCX[0];
+        d3gdr3T[i-1][nCO2-1][nH2O-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+        d3gdr3T[nH2O-1][i-1][nCO2-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+        d3gdr3T[nCO2-1][i-1][nH2O-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+        d3gdr3T[nH2O-1][nCO2-1][i-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+        d3gdr3T[nCO2-1][nH2O-1][i-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+      }
+    }
+  }
+  
+}
+
 /*
  *=============================================================================
  * Public functions:
@@ -397,6 +506,18 @@ actLiq_v34(int mask, double t, double p, double *r,
       a[i] = - gex;
       for (j=0;   j<i;  j++) a[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
       for (j=i+1; j<NA; j++) a[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
+      
+      if (calculationMode == MODE__MELTS) {
+        if        (i == 14) { // CO2
+          for (j=0; j<NA; j++) a[i] += x[18]*(1.0-2.0*x[14])*x[j]*WHCX[j];
+        } else if (i == 18) { // H2O
+          for (j=0; j<NA; j++) a[i] += x[14]*(1.0-2.0*x[18])*x[j]*WHCX[j];
+        } else {              // everything else
+          a[i] += x[14]*x[18]*WHCX[i];
+          for (j=0; j<NA; j++) a[i] += -2.0*x[14]*x[18]*x[j]*WHCX[j];
+        }
+      }
+      
       a[i] = (x[i] != 0.0) ? x[i]*exp(a[i]/(R*t)) : 0.0;
       a[i] = (i != NA-1)   ? (1.0 - x[NA-1])*a[i] : x[NA-1]*a[NA-1]; 
     }
@@ -410,6 +531,18 @@ actLiq_v34(int mask, double t, double p, double *r,
       mu[i] = (x[i] != 0.0) ? mu[i] + R*t*log(x[i]) : 0.0;
       if (i != NA-1)           mu[i]    += R*t*log(1.0-x[NA-1]);
       else if (x[NA-1] != 0.0) mu[NA-1] += R*t*log(x[NA-1]);
+      
+      if (calculationMode == MODE__MELTS) {
+        if        (i == 14) { // CO2
+          for (j=0; j<NA; j++) mu[i] += x[18]*(1.0-2.0*x[14])*x[j]*WHCX[j];
+        } else if (i == 18) { // H2O
+          for (j=0; j<NA; j++) mu[i] += x[14]*(1.0-2.0*x[18])*x[j]*WHCX[j];
+        } else {              // everything else
+          mu[i] += x[14]*x[18]*WHCX[i];
+          for (j=0; j<NA; j++) mu[i] += -2.0*x[14]*x[18]*x[j]*WHCX[j];
+        }
+      }
+      
     }
   }
 
@@ -420,9 +553,24 @@ actLiq_v34(int mask, double t, double p, double *r,
       a[i] = - gex;
       for (j=0;   j<i;  j++) a[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
       for (j=i+1; j<NA; j++) a[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
+      
+      if (calculationMode == MODE__MELTS) {
+        if        (i == 14) { // CO2
+          for (j=0; j<NA; j++) a[i] += x[18]*(1.0-2.0*x[14])*x[j]*WHCX[j];
+        } else if (i == 18) { // H2O
+          for (j=0; j<NA; j++) a[i] += x[14]*(1.0-2.0*x[18])*x[j]*WHCX[j];
+        } else {              // everything else
+          a[i] += x[14]*x[18]*WHCX[i];
+          for (j=0; j<NA; j++) a[i] += -2.0*x[14]*x[18]*x[j]*WHCX[j];
+        }
+      }
+      
       a[i] = (x[i] != 0.0) ? x[i]*exp(a[i]/(R*t)) : 0.0;
       a[i] = (i != NA-1)   ? (1.0 - x[NA-1])*a[i] : x[NA-1]*a[NA-1];
     }
+    
+    if (calculationMode == MODE__MELTS) ternaryH2OCO2terms(SECOND | THIRD, r);
+    
     for (i=0; i<NR; i++) {
       for (dgexdr[i] = x[0]*(WH(0,i+1)-t*WS(0,i+1)+(p-1.0)*WV(0,i+1)), j=0; 
         j<NR; j++) dgexdr[i] += (i != j) ? r[j]*((WH(i+1,j+1)-t*WS(i+1,j+1)
@@ -432,9 +580,14 @@ actLiq_v34(int mask, double t, double p, double *r,
 
     /* Special case for component 0 (SiO2)                                    */
     for (j=0; j<NR; j++) {
-      dr[0][j] = - R*t/x[0] + (WH(0,j+1)-t*WS(0,j+1)+(p-1.0)*WV(0,j+1)) 
-               - dgexdr[j];
+      dr[0][j] = - R*t/x[0] + (WH(0,j+1)-t*WS(0,j+1)+(p-1.0)*WV(0,j+1)) - dgexdr[j];
       if (j == NR-1) dr[0][j] += - R*t/(1.0-x[NA-1]);
+      
+      if (calculationMode == MODE__MELTS) {
+        int k;
+        for (k=0; k<NR; k++) dr[0][j] += -r[k]*d2gdr2T[j][k];
+      }
+      
       dr[0][j] *= a[0]/(R*t);
     }
 
@@ -447,6 +600,12 @@ actLiq_v34(int mask, double t, double p, double *r,
         if (i != NA-1 && j == NR-1) dr[i][NR-1] += - R*t/(1.0-x[NA-1]);
         else if (i == NA-1 && j == NR-1 && x[NA-1] != 0.0) 
           dr[NA-1][NR-1] += R*t/x[NA-1];
+      
+        if (calculationMode == MODE__MELTS) {
+          int k;
+          for (k=0; k<NR; k++) dr[i][j] += ((k+1 == i) ? 1.0 - r[k] : -r[k])*d2gdr2T[j][k];
+        }
+      
         dr[i][j] *= a[i]/(R*t);
       }
     }
@@ -486,6 +645,11 @@ gmixLiq_v34(int mask, double t, double p, double *r,
     }
     *gmix += (x[NA-1] != 0.0) ? 
       R*t*(x[NA-1]*log(x[NA-1]) + (1.0-x[NA-1])*log(1.0-x[NA-1])) : 0.0;
+      
+    if (calculationMode == MODE__MELTS) {
+      ternaryH2OCO2terms(FIRST, r);
+      *gmix += gT;
+    }
   }
   
   if(mask & SECOND) {
@@ -499,6 +663,11 @@ gmixLiq_v34(int mask, double t, double p, double *r,
                : - r[j]*(WH(0,j+1)-t*WS(0,j+1)+(p-1.0)*WV(0,j+1));
     }
     dr[NR-1] += (x[NA-1] != 0.0) ? R*t*(log(x[NA-1])-log(1.0-x[NA-1])) : 0.0;
+    
+    if (calculationMode == MODE__MELTS) {
+      ternaryH2OCO2terms(SECOND, r);
+      for (i=0; i<NR; i++) dr[i] += dgdrT[i];
+    }
   }
 
   if(mask & THIRD) {
@@ -513,6 +682,11 @@ gmixLiq_v34(int mask, double t, double p, double *r,
     }
     dr2[NR-1][NR-1] += 
       (x[NA-1] != 0.0) ? R*t*(1.0/x[NA-1] + 1.0/(1.0-x[NA-1])) : 0.0;
+      
+    if (calculationMode == MODE__MELTS) {
+      ternaryH2OCO2terms(THIRD, r);
+      for (i=0; i<NR; i++) for (j=0; j<NR; j++) dr2[i][j] += d2gdr2T[i][j];
+    }
   }
 }
 
@@ -532,6 +706,11 @@ hmixLiq_v34(int mask, double t, double p, double *r,
 
   for (*hmix = 0.0, i=0; i<NA; i++) {
     for (j=i+1; j<NA; j++) *hmix += x[i]*x[j]*(WH(i,j)+(p-1.0)*WV(i,j));
+  }
+  
+  if (calculationMode == MODE__MELTS) {
+    ternaryH2OCO2terms(FIRST, r);
+    *hmix += gT;
   }
 }
 
