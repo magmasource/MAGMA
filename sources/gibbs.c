@@ -202,11 +202,6 @@ MELTS Source Code: RCS
 #define QUARTIC(x) ((x)*(x)*(x)*(x))
 #define QUINTIC(x) ((x)*(x)*(x)*(x)*(x))
 
-extern void propertiesOfPureH2O(double t, double p, 
-  double *g, double *h, double *s, double *cp, double *dcpdt, double *v, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2);
-extern void propertiesOfPureCO2(double t, double p, 
-  double *g, double *h, double *s, double *cp, double *dcpdt, double *v, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2);
-
 static double getlog10fo2COH(int mask, double t, double p) {
   double pLim = (p < 67201.0) ? p : 67201.0;
   double result = 0.0;
@@ -2288,12 +2283,6 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
       d2vsdtdp = d2vdtdpH2O/10.0;
       d2vsdp2  = d2vdp2H2O/10.0;
       
-   } else if(strcmp(name, "h2oduan") == 0) { 
-     propertiesOfPureH2O(t, p, &gs, &hs, &ss, &cps, &dcpsdt, &vs, &dvsdt, &dvsdp, &d2vsdt2, &d2vsdtdp, &d2vsdp2);
-   
-   } else if(strcmp(name, "co2duan") == 0) { 
-     propertiesOfPureCO2(t, p, &gs, &hs, &ss, &cps, &dcpsdt, &vs, &dvsdt, &dvsdp, &d2vsdt2, &d2vsdtdp, &d2vsdp2);
-   
    } else if(strcmp(name, "Fe-metal") == 0) {
      fe_metal(t, p, &gs, &hs, &ss, &cps, &dcpsdt, &vs, &dvsdt, 
        &dvsdp, &d2vsdt2, &d2vsdp2, &d2vsdtdp);
