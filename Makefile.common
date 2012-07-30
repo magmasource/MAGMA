@@ -578,7 +578,6 @@ $(MELTSCOMMANDLIB): $(MELTSCOMMANDLIB)(albite.o) \
                     $(MELTSCOMMANDLIB)(evaluate_saturation.o) \
                     $(MELTSCOMMANDLIB)(feldspar.o) \
                     $(MELTSCOMMANDLIB)(fluid.o) \
-                    $(MELTSCOMMANDLIB)(fluidPhase.o) \
                     $(MELTSCOMMANDLIB)(frac.o) \
                     $(MELTSCOMMANDLIB)(garnet.o) \
                     $(MELTSCOMMANDLIB)(gibbs.o) \
