@@ -6,7 +6,7 @@ program test
 ! storage for meltsgetoxidenames and meltsgetphasenames
 !
   character*20 oxides(50), phases(50)
-  integer numoxides, numphases
+  integer numoxides, numphases, phaseIndices(50)
 
 !
 ! storage for meltsprocess and meltsgetphaseproperties
@@ -37,15 +37,16 @@ program test
   print *, "numxides = ", numoxides
 !
 ! meltsgetphasenames
-!   character*n phases(35) [ pre-allocate, must exceed numphases in length ]
+!   character*n phases(50) [ pre-allocate, must exceed numphases in length ]
 !   int n
 !   int numphases [ return ]
+!   int phaseIndices(50)
 ! 
   print *, "Before call to meltsgetphasenames..."
-  call meltsgetphasenames(phases, 20, numphases)
+  call meltsgetphasenames(phases, 20, numphases, phaseIndices)
   print *, "Return from meltsgetphasenames with result:"
   do i=1,numphases
-    print *, phases(i)
+    print *, phases(i), phaseIndices(i)
   end do
   print *, "numphases = ", numphases
   
@@ -89,8 +90,11 @@ program test
 !   integer status [ return, pass to meltsgeterrorstring ]
 !   double precision properties (11+numoxides+3, 20) [ pre-allocated memory, column dimension must be large enough to hold 
 !                                                      all stable phases in system ]
+!   integer phaseIndices(20) [return] [ pre-allocated memory, column dimension must be large enough to hold 
+!                                                      all stable phases in system ]
 !
-  call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, iterations, status, properties)
+  call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, &
+  iterations, status, properties, phaseIndices)
   print *, "... node = ", node
   print *, "... mode = ", mode
   do i=1,numoxides
@@ -100,6 +104,7 @@ program test
   print *, "... temperature = ", temperature
   do i=1,numphases
     print *, "... stable phases: ", phasenames(i)
+    print *, "... index:", phaseIndices(i)
     print *, "...... g       = ", properties( 1, i)
     print *, "...... h       = ", properties( 2, i)
     print *, "...... s       = ", properties( 3, i)
@@ -139,7 +144,8 @@ program test
 !
 ! example of a continuation call, enthalpy/pressure specified
 !
-    call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, iterations, status, properties)
+    call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, &
+    iterations, status, properties, phaseIndices)
     print *, "... node = ", node
     print *, "... mode = ", mode
     do i=1,numoxides
@@ -149,6 +155,7 @@ program test
     print *, "... temperature = ", temperature
     do i=1,numphases
       print *, "... stable phases: ", phasenames(i)
+      print *, "... index:", phaseIndices(i)
       print *, "...... g       = ", properties( 1, i)
       print *, "...... h       = ", properties( 2, i)
       print *, "...... s       = ", properties( 3, i)

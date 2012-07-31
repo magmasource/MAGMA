@@ -66,14 +66,7 @@ void meltsgetoxidenames_(char oxideNames[], int *nCharInName, int *numberOxides)
   for (i=0; i<nc; i++) strncpy(oxideNames + i*sizeof(char)*nCh, bulkSystem[i].label, nCh);
   *numberOxides = nc;
 }        
-/*
-void getMeltsOxideNames(char *oxidePtr[], int *nCharInName, int *numberOxides) {
-  int i, nCh = *nCharInName, nox = *numberOxides;
-  char oxideNames[nCh*nox];
-  meltsgetoxidenames_(oxideNames, nCharInName, numberOxides);
-  for (i=0; i<nc; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
-}
-*/
+
 /* ================================================================================== */
 /* Input and Output (as above except):           				      */
 /*   oxidePtr     - array of blank strings, assumed all to be of the same length      */
@@ -94,38 +87,36 @@ void getMeltsOxideNames(char *oxidePtr[], int *nCharInName, int *numberOxides) {
 /*                  i.e. in FORTRAN : CHARACTER*20, where nCharInName is then 20      */
 /* Output:                                                                            */
 /*   phaseNames   - array of phase names, ordered as in MELTS                         */
-/*                  memory must be allocated by calling FORTRAN program, i.e.          */
+/*                  memory must be allocated by calling FORTRAN program, i.e.         */
 /*                  CHARACTER*20 phaseNames(25)                                       */
 /*   numberPhases - number of unique phases in the system                             */
+/*   phaseIndices - index numbers of phases                                           */
 /* ================================================================================== */
 
-void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases) {
+void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases, int phaseIndices[]) {
   int i, np=0, nCh = *nCharInName;
   if (!iAmInitialized) initializeLibrary();
   
-  strncpy(phaseNames + np*sizeof(char)*nCh, "system", nCh); np++;
-  strncpy(phaseNames + np*sizeof(char)*nCh, "liquid", nCh); np++;
-  for (i=0; i<npc; i++) if (solids[i].type == PHASE) { strncpy(phaseNames + np*sizeof(char)*nCh, solids[i].label, nCh); np++; }
+  strncpy(phaseNames + np*sizeof(char)*nCh, "system", nCh); phaseIndices[np] = 1; np++; 
+  strncpy(phaseNames + np*sizeof(char)*nCh, "liquid", nCh); phaseIndices[np] = 2; np++;
+  for (i=0; i<npc; i++) if (solids[i].type == PHASE) { 
+  	strncpy(phaseNames + np*sizeof(char)*nCh, solids[i].label, nCh); 
+  	phaseIndices[np] = 10*i + 10;
+  	np++; 
+  }
   *numberPhases = np;
 }        
-/*
-void getMeltsPhaseNames(char *phasePtr[], int *nCharInName, int *numberPhases) {
-  int i, nCh = *nCharInName, np = *numberPhases;
-  char phaseNames[nCh*np];
-  meltsgetphasenames_(phaseNames, nCharInName, numberPhases);
-  for (i=0; i<nc; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
-}
-*/
+
 /* ================================================================================== */
 /* Input and Output (as above except):           				      */
 /*   phasePtr     - array of blank strings, assumed all to be of the same length      */
 /*   numberPhases - input lt or equal to amount of allocated storage, output as above */
 /* ================================================================================== */
 
-void getMeltsPhaseNames(char *phasePtr[], int *nCharInName, int *numberPhases) {
+void getMeltsPhaseNames(char *phasePtr[], int *nCharInName, int *numberPhases, int phaseIndices[]) {
   int i, nCh = *nCharInName, np = *numberPhases;
   char phaseNames[nCh*np];
-  meltsgetphasenames_(phaseNames, nCharInName, numberPhases);
+  meltsgetphasenames_(phaseNames, nCharInName, numberPhases, phaseIndices);
   for (i=0; i<*numberPhases; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
 }
 
@@ -164,7 +155,9 @@ void getMeltsPhaseNames(char *phasePtr[], int *nCharInName, int *numberPhases) {
 /*                     oxide compositions in order of meltsGetOxideNames in grams,    */
 /*                     volume fraction, density, viscosity (for liquid phase,         */
 /*                     otherwise, zero)                                               */
-/*                     The first column is always the properties of the system        */ 
+/*                     The first column is always the properties of the system        */
+/*   phaseIndices    - array of unique indices for phases loaded into phaseNames      */
+/*                     or phaseProperties columns                                     */ 
 /* ================================================================================== */
 
 
@@ -245,7 +238,8 @@ static double viscosityFromGRD(double t, double *oxValues) {
 
 void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComposition, 
          double *enthalpy, double *temperature, 
-  	 char phaseNames[], int *nCharInName, int *numberPhases, int *iterations, int *status, double *phaseProperties) {
+  	     char phaseNames[], int *nCharInName, int *numberPhases, int *iterations, int *status, 
+  	     double *phaseProperties, int phaseIndices[]) {
   int update = FALSE;
   int nCh = *nCharInName;
   if (!iAmInitialized) initializeLibrary();
@@ -361,8 +355,9 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
       
   while(!silmin());
   
-  strncpy(phaseNames, "system", nCh);;
+  strncpy(phaseNames, "system", nCh);
   *numberPhases = 1;
+  phaseIndices[0] = 1;
   *iterations = -1;
   
   switch (meltsStatus.status) {
@@ -420,12 +415,13 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
       double totalGrams=0.0;
       strncpy(phaseNames + sizeof(char)*nCh, "liquid", nCh);
       *numberPhases = 2;
+      phaseIndices[1] = 2;
       
       for (i=0; i<nc; i++) oxVal[i]=0.0;
     
       for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
-	double moles;
-	double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2;
+	    double moles;
+	    double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2;
 	
         conLiq(SECOND, THIRD, silminState->T, silminState->P, NULL, silminState->liquidComp[nl], r, NULL, NULL, NULL, NULL);
 
@@ -433,22 +429,22 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
         hmixLiq (FIRST, silminState->T, silminState->P, r, &H, NULL);
         smixLiq (FIRST, silminState->T, silminState->P, r, &S, NULL, NULL, NULL);
         vmixLiq (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, 
-	  silminState->T, silminState->P, r, &V, NULL, NULL, &dVdT, &dVdP, &d2VdT2, &d2VdTdP, &d2VdP2, NULL, NULL, NULL);
+	    silminState->T, silminState->P, r, &V, NULL, NULL, &dVdT, &dVdP, &d2VdT2, &d2VdTdP, &d2VdP2, NULL, NULL, NULL);
         cpmixLiq(FIRST | SECOND, 
-	  silminState->T, silminState->P, r, &Cp, &dCpdT, NULL);
+	    silminState->T, silminState->P, r, &Cp, &dCpdT, NULL);
 
         for (i=0, moles=0.0; i<nlc; i++) moles +=  (silminState->liquidComp)[nl][i];
         G       *= moles; 
-	H       *= moles; 
-	S       *= moles;
-        V	*= moles; 
-	Cp      *= moles;
-	dCpdT   *= moles; 
-	dVdT    *= moles; 
-	dVdP    *= moles; 
-	d2VdT2  *= moles; 
-	d2VdTdP *= moles; 
-	d2VdP2  *= moles;
+	    H       *= moles; 
+	    S       *= moles;
+        V	    *= moles; 
+	    Cp      *= moles;
+	    dCpdT   *= moles; 
+	    dVdT    *= moles; 
+	    dVdP    *= moles; 
+	    d2VdT2  *= moles; 
+	    d2VdTdP *= moles; 
+	    d2VdP2  *= moles;
 
         for (i=0; i<nlc; i++) {
           G       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).g;
@@ -456,21 +452,21 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
           S       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).s;
           V       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).v;
           Cp      += (silminState->liquidComp)[nl][i]*(liquid[i].cur).cp;
-	  dCpdT   += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dcpdt;
-	  dVdT    += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dvdt;
-	  dVdP    += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dvdp;
-	  d2VdT2  += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdt2;
-	  d2VdTdP += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdtdp;
-	  d2VdP2  += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdp2;
+	      dCpdT   += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dcpdt;
+	      dVdT    += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dvdt;
+	      dVdP    += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dvdp;
+	      d2VdT2  += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdt2;
+	      d2VdTdP += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdtdp;
+	      d2VdP2  += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdp2;
         }
 
         for (i=0; i<nc; i++) {
     	  for (j=0; j<nlc; j++) oxVal[i] += (liquid[j].liqToOx)[i]*(silminState->liquidComp)[nl][j]*bulkSystem[i].mw;
-	  totalGrams += oxVal[i];
+	      totalGrams += oxVal[i];
         }
 
         gLiq    += G;    hLiq    += H;    sLiq      += S;      vLiq    += V;       cpLiq     += Cp;     dcpdtLiq += dCpdT; 
-	dvdtLiq += dVdT; dvdpLiq += dVdP; d2vdt2Liq += d2VdT2; d2vdtdpLiq += d2VdTdP; d2vdp2Liq += d2VdP2;
+	    dvdtLiq += dVdT; dvdpLiq += dVdP; d2vdt2Liq += d2VdT2; d2vdtdpLiq += d2VdTdP; d2vdp2Liq += d2VdP2;
 	
       } /* end loop over all liquids */
       
@@ -524,9 +520,9 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
           totald2VdP2  += (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdp2;
       
           for (i=0; i<nc; i++) {
-	    oxVal[i] = (solids[j].solToOx)[i]*bulkSystem[i].mw*(silminState->solidComp)[j][ns];
-	    totalGrams += oxVal[i];
-	  }
+	        oxVal[i] = (solids[j].solToOx)[i]*bulkSystem[i].mw*(silminState->solidComp)[j][ns];
+	        totalGrams += oxVal[i];
+	      }
 	  
         } else {
           for (i=0; i<solids[j].na; i++) m[i] = (silminState->solidComp)[j+1+i][ns];
@@ -544,12 +540,12 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
           S       *= (silminState->solidComp)[j][ns];
           V       *= (silminState->solidComp)[j][ns];
           Cp      *= (silminState->solidComp)[j][ns];
-	  dCpdT   *= (silminState->solidComp)[j][ns];
-	  dVdT    *= (silminState->solidComp)[j][ns];
-	  dVdP    *= (silminState->solidComp)[j][ns];
-	  d2VdT2  *= (silminState->solidComp)[j][ns];
-	  d2VdTdP *= (silminState->solidComp)[j][ns];
-	  d2VdP2  *= (silminState->solidComp)[j][ns];
+	      dCpdT   *= (silminState->solidComp)[j][ns];
+	      dVdT    *= (silminState->solidComp)[j][ns];
+	      dVdP    *= (silminState->solidComp)[j][ns];
+	      d2VdT2  *= (silminState->solidComp)[j][ns];
+	      d2VdTdP *= (silminState->solidComp)[j][ns];
+	      d2VdP2  *= (silminState->solidComp)[j][ns];
 	  
           for (i=0; i<solids[j].na; i++) {
             G       += m[i]*(solids[j+1+i].cur).g;
@@ -557,12 +553,12 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
             S	    += m[i]*(solids[j+1+i].cur).s;
             V	    += m[i]*(solids[j+1+i].cur).v;
             Cp      += m[i]*(solids[j+1+i].cur).cp;
-	    dCpdT   += m[i]*(solids[j+1+i].cur).dcpdt;
-	    dVdT    += m[i]*(solids[j+1+i].cur).dvdt;
-	    dVdP    += m[i]*(solids[j+1+i].cur).dvdp;
-	    d2VdT2  += m[i]*(solids[j+1+i].cur).d2vdt2;
-	    d2VdTdP += m[i]*(solids[j+1+i].cur).d2vdtdp;
-	    d2VdP2  += m[i]*(solids[j+1+i].cur).d2vdp2;
+	        dCpdT   += m[i]*(solids[j+1+i].cur).dcpdt;
+	        dVdT    += m[i]*(solids[j+1+i].cur).dvdt;
+	        dVdP    += m[i]*(solids[j+1+i].cur).dvdp;
+	        d2VdT2  += m[i]*(solids[j+1+i].cur).d2vdt2;
+	        d2VdTdP += m[i]*(solids[j+1+i].cur).d2vdtdp;
+	        d2VdP2  += m[i]*(solids[j+1+i].cur).d2vdp2;
           }
 
           totalG       += G;
@@ -571,16 +567,16 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
           totalV       += V;
           totalCp      += Cp;
           totaldCpdT   += dCpdT;
-	  totaldVdT    += dVdT;
-	  totaldVdP    += dVdT;
-	  totald2VdT2  += dVdT;
-	  totald2VdTdP += dVdT;
-	  totald2VdP2  += dVdT;
+	      totaldVdT    += dVdT;
+	      totaldVdP    += dVdT;
+	      totald2VdT2  += dVdT;
+	      totald2VdTdP += dVdT;
+	      totald2VdP2  += dVdT;
 	  
           for (i=0; i<nc; i++) {
             int k;
             for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
-	    totalGrams += oxVal[i];
+	        totalGrams += oxVal[i];
           }
 	  
         }
@@ -597,12 +593,13 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
         phaseProperties[(*numberPhases)*columnLength+ 9] = d2VdTdP*10.0;
         phaseProperties[(*numberPhases)*columnLength+10] = d2VdP2*10.0;
         for (i=0; i<nc; i++) phaseProperties[(*numberPhases)*columnLength+11+i] = oxVal[i]; 
-	phaseProperties[(*numberPhases)*columnLength+11+nc  ] = V*10.0;
-	phaseProperties[(*numberPhases)*columnLength+11+nc+1] = (V != 0.0) ? 100.0*totalGrams/V : 0.0;
-	phaseProperties[(*numberPhases)*columnLength+11+nc+2] = 0.0;
+	    phaseProperties[(*numberPhases)*columnLength+11+nc  ] = V*10.0;
+	    phaseProperties[(*numberPhases)*columnLength+11+nc+1] = (V != 0.0) ? 100.0*totalGrams/V : 0.0;
+	    phaseProperties[(*numberPhases)*columnLength+11+nc+2] = 0.0;
 	
         strncpy(phaseNames+(*numberPhases)*sizeof(char)*nCh,solids[j].label, nCh);
-	(*numberPhases)++;
+        phaseIndices[(*numberPhases)] = j*10 + ns + 10;
+	    (*numberPhases)++;
 	
       } /* end loop on ns */
     }  /* end loop on j */
@@ -639,18 +636,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
 
   } /* end output block */
 }
-/*
-void driveMeltsProcess(int *nodeIndex, int *mode, double *pressure, double *bulkComposition,
-		       double *enthalpy, double *temperature,
-		       char *phasePtr[], int *nCharInName, int *numberPhases, int *iterations, int *status, double *phaseProperties) {
-  int i, nCh = *nCharInName, np = *numberPhases;
-  char phaseNames[nCh*np];
-  meltsprocess_(nodeIndex, mode, pressure, bulkComposition,
-		enthalpy, temperature,
-		phaseNames, nCharInName, numberPhases, iterations, status, phaseProperties);
-  for (i=0; i<nc; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
-}
-*/	  
+
 /* ================================================================================== */
 /* Returns explanatory string associated with input status                            */
 /* Input:                                                                             */
@@ -715,13 +701,13 @@ void meltsgeterrorstring_(int *status, char *errorString, int *nCharInName) {
 void driveMeltsProcess(int *nodeIndex, int *mode, double *pressure, double *bulkComposition,
 		       double *enthalpy, double *temperature,
 		       char *phasePtr[], int *nCharInName, int *numberPhases, int *iterations, 
-		       char *errorString, int *nCharInString, double propertiesPtr[][nc+14]) {
+		       char *errorString, int *nCharInString, double propertiesPtr[][nc+14], int phaseIndices[]) {
   int i, j, nCh = *nCharInName, np = *numberPhases, status;
   char phaseNames[nCh*np];
   double phaseProperties[(nc+14)*np];
 
   meltsprocess_(nodeIndex, mode, pressure, bulkComposition, enthalpy, temperature,
-		phaseNames, nCharInName, numberPhases, iterations, &status, phaseProperties);
+		phaseNames, nCharInName, numberPhases, iterations, &status, phaseProperties, phaseIndices);
   for (i=0; i<*numberPhases; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
   for (i=0; i<*numberPhases; i++) for (j=0; j<nc+14; j++) propertiesPtr[i][j] = phaseProperties[(nc+14)*i + j];
 
@@ -731,7 +717,7 @@ void driveMeltsProcess(int *nodeIndex, int *mode, double *pressure, double *bulk
 
 /* ================================================================================== */
 /* Adjust settings for a given node (if node does not exist it will be created)       */
-/* Input:           								      */
+/* Input:           								                                  */
 /*   nodeIndex       - Index number of node (must be unique).                         */
 /*   property        - a melts file like string to set fO2 or toggle fractionation:   */
 /*                     = 'log fo2 path: value', value is fmq, qfm, coh, nno, iw or hm */
