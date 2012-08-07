@@ -966,7 +966,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          whaar(1.0, t, &gH2O, &hH2O, &sH2O, &cpH2O, &dcpdtH2O, &vH2O, &dvdtH2O, 
            &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O);
 
-         gl     = r*t*(a/t + b + phiP) + gH2O - gRobie - 1000.0;
+         gl     = r*t*(a/t + b + phiP) + gH2O - gRobie;
 
          dgdt   = r*(a/t + b + phiP) + r*t*(-a/SQUARE(t) + dphiPdt) - dgRobiedt;
          d2gdt2 = 2.0*r*(-a/SQUARE(t) + dphiPdt) + r*t*(2.0*a/CUBE(t) 
@@ -975,7 +975,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
                 + d3phiPdt3) - d3gRobiedt3;
 
          sl     = sH2O - dgdt;
-         hl     = gl + t*sl - 1000.0;
+         hl     = gl + t*sl;
          cpl    = cpH2O - t*d2gdt2;
          dcpldt = dcpdtH2O - d2gdt2 - t*d3gdt3;
          vl       = r*(0.110 + 4.432e-5*t + 1.405e-7*t*t - 2.394e-11*CUBE(t))
