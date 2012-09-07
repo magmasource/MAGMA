@@ -1,0 +1,16 @@
+Title: dummy
+Initial Composition: SiO2 66.0200
+Initial Composition: Al2O3 16.2300
+Initial Composition: FeO 5.9800
+Initial Composition: MgO 1.6800
+Initial Composition: Na2O 3.7700
+Initial Composition: K2O 5.5600
+Initial Composition: H2O 20.0000
+Initial Temperature: 950.00
+Final Temperature: 750.00
+Initial Pressure: 5000.00
+Final Pressure: 5000.00
+Increment Temperature: 25.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: NNO

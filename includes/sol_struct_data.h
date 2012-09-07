@@ -1870,6 +1870,81 @@ Solids xMeltsSolids[] = {
    EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
+#ifdef RHYOLITE_ADJUSTMENTS
+  {"rhm-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
+   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}, 
+   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
+   },
+   {                /* ThermoData structure                                  */
+   0.0, 0.0, 0.0, 0.0, 0.0,         /* Dummy entries to ThermoData structure */
+   0.0, 0.0, 0.0,
+   0.0, 0.0, 0.0
+   },
+   0, 0,
+   testMsg,         /* Pointer to testMsg  : test expected number and order  */
+   conMsg,          /* Pointer to conMsg   : moles to indep comp variables   */
+   actMsg,          /* Pointer to actMsg   : activities, chemical potentials */
+   gmixMsg,         /* Pointer to gmixMsg  : Gibbs free energy of mixing     */
+   hmixMsg,         /* Pointer to hmixMsg  : Enthaly of mixing               */
+   smixMsg,         /* Pointer to smixMsg  : Entropy of mixing               */
+   cpmixMsg,        /* Pointer to cpmixMsg : Heat capacity of mixing         */
+   vmixMsg,         /* Pointer to vmixMsg  : Volume of mixing                */
+   dispMsg          /* Pointer to dispMsg  : Formula for interface display   */
+  },
+  {"geikielite", COMPONENT, "MgTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1572560.0,      /* H ref (J)                              Ghiorso (1990) */
+   74.56,           /* S ref (J/K)                            Ghiorso (1990) */
+   3.086,           /* V ref (J/bar)                     Robie et al. (1978) */
+   CP_BERMAN,  {{146.20, -4.160E2, -39.998E5, 40.233E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.584e-6, 1.230e-12, 27.248e-6, 29.968e-10}}
+   }
+  },
+  {"hematite", COMPONENT, "Fe2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -825627.0,       /* H ref (J)                               Berman (1988) */
+   87.437,          /* S ref (J/K)                             Berman (1988) */
+   3.027,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{146.86, 0.0, -55.768E5, 52.563E7, 955.0, 1287.0, -7.403E-2, 27.921E-5}},
+   EOS_BERMAN, {{-0.479e-6, 0.304e-12, 38.310e-6, 1.650e-10}}
+   }
+  },
+  {"ilmenite", COMPONENT, "FeTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1231947.0,      /* H ref (J)                               Berman (1988) */
+   108.628,         /* S ref (J/K)                             Berman (1988) */
+   3.170,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{150.00, -4.416E2, -33.237E5, 34.815E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.584e-6, 1.230e-12, 27.248e-6, 29.968e-10}} 
+   }
+  },
+  {"pyrophanite", COMPONENT, "MnTiO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1350707.0,      /* H ref (J)                      Ghiorso (1991 - guess) */
+   104.935,         /* S ref (J/K)               Stephenson and Smith (1968) */
+   2.8859,          /* V ref (J/bar)                          Knittle (1995) */
+   CP_BERMAN,  {{150.00, -4.416E2, -33.237E5, 34.815E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.584e-6, 1.230e-12, 27.248e-6, 29.968e-10}}
+   }
+  },
+  {"corundum", COMPONENT, "Al2O3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+   0.0, 0.0,
+   {                /* ThermoRef structure                                   */
+   -1675700.0+20000.0, /* H ref (J)                            Berman (1988) */
+   50.820,          /* S ref (J/K)                             Berman (1988) */
+   2.558,           /* V ref (J/bar)                           Berman (1988) */
+   CP_BERMAN,  {{155.02, -8.284E2, -38.614E5, 40.908E7, 0.0, 0.0, 0.0, 0.0}},            
+   EOS_BERMAN, {{-0.385E-6, 0.375E-12, 21.342E-6, 47.180E-10}}
+   }
+  },
+#else
   {"rhm-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -1933,6 +2008,7 @@ Solids xMeltsSolids[] = {
    EOS_BERMAN, {{-0.584E-6, 1.230E-12, 27.248E-6, 29.968E-10}} 
    }
   },
+#endif
   {"ortho-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */

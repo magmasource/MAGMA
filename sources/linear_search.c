@@ -384,6 +384,9 @@ double linearSearch(double lambda, int *notcomp)
               gibbs(constraints->T, silminState->P, (char *) solids[i].label, &(solids[i].ref), NULL, NULL, &(solids[i].cur));
               hTotal  += mTotal*(solids[i].cur).h;
               cpTotal += mTotal*(solids[i].cur).cp;
+#ifdef DETAIL_DEBUG
+  printf("LinearSearch: H+ %s = %20.13g, Cp+ = %20.13g\n", solids[i].label, hTotal, cpTotal);
+#endif
             } else {
               for (j=0; j<solids[i].na; j++) {
                 mSol[j] = (silminState->solidComp)[i+1+j][ns] + lambda*(silminState->solidDelta)[i+1+j][ns]

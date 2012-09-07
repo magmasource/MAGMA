@@ -64,6 +64,15 @@
 	          <xs:enumeration value="SEM"/>
 	          <xs:enumeration value="SIMS"/>
 	          <xs:enumeration value="XRD"/>
+	          <xs:enumeration value="Manometry"/>
+	          <xs:enumeration value="Beta track"/>
+	          <xs:enumeration value="CHN"/>
+	          <xs:enumeration value="GC"/>
+	          <xs:enumeration value="Penfield"/>
+	          <xs:enumeration value="MAN"/>
+	          <xs:enumeration value="TGA"/>
+	          <xs:enumeration value="LOI"/>
+	          <xs:enumeration value="Gravimetry"/>
 	        </xs:restriction>
 	      </xs:simpleType>
 	    </xs:element>
