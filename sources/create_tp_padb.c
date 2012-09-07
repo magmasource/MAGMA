@@ -458,14 +458,12 @@ void create_tp_padb()
   XtManageChild(rowcol[4]);
   XtManageChild(form[1]);
 
-#ifndef linux
 #if (XmVersion > 1) || (XmUPDATE_LEVEL > 3)
   XtVaGetValues(rowcol[0], XmNwidth,  &w, NULL); wSum = w;
   XtVaGetValues(rowcol[0], XmNheight, &h, NULL); hSum = h;
   XtVaGetValues(textF[0],  XmNheight, &h, XmNwidth, &w, NULL);
   hSum += 4*h; wSum += 10*w;
   XtVaSetValues(form[1], XmNheight, hSum, XmNwidth, wSum, NULL);
-#endif
 #endif
 
   /* lower most cell of the pane window (action area) */
