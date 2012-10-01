@@ -290,14 +290,24 @@ static void ord_spn(t, x2, x3, x4, x5, s1, s2, s3, s4,
  
 }
 
+double olvDat[19] = {
+ 38.899, 0.062, 0.002, 0.0,  0.205, 16.767, 0.466, 43.493, 0.0, 0.0, 0.006, 0.007, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+double spn1Dat[19] = {
+  0.073, 1.950, 7.106, 0.0, 57.078, 27.676, 1.072,  3.674, 0.0, 0.0, 0.027, 0.018, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+double opxDat[19] = {
+ 55.6236, 0.1518, 0.1984, 0.0,  0.171, 10.3729, 0.4958, 31.1087, 0.0, 0.0, 0.7989, 0.0067, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+double spn2Dat[19] = {
+  0.024, 1.907, 7.049, 0.0, 56.629, 27.837, 1.036,  3.694, 0.0, 0.0, 0.032, 0.003, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
 int main(int argc, char*argv[]) {
-   int i, j;
+   int i, j, itemp;
    int nr = nlc - 1;
    float ftemp;
    double t, p, *grams, *moles, *elements, *rOlv, *rSpn, *rOpx, *muOlv, *muSpn, *muOpx, logfO2, tOld, deltaG, deltaGold;
    int indexOlv = -1, indexSpn = -1, indexOpx = -1, indexFa = -1, indexFo = -1, indexSp = -1, indexHc = -1, indexMg = -1, 
        indexDi = -1, indexEn = -1, indexHd = -1, iter; 
    int doOlvSpn = 1;
+   int doOpxSpn = 0;
 
    InitComputeDataStruct();
    
@@ -330,20 +340,23 @@ int main(int argc, char*argv[]) {
    }
    if (indexOpx == -1) { printf("Error: Internal - index\n"); exit(0); }
    
+   //doOlvSpn = 0;
+   //doOpxSpn = 1;
+
    if (argc == 1) {
      printf("Input a temperature in (C):"); scanf("%f", &ftemp); t = (double) ftemp; getchar();
    } else {
      t = atof(argv[1]);
    }
    if (t == 0.0) t = 1200.0;
-   else { t += 273.15; doOlvSpn = 0; }
+   else { t += 273.15; doOlvSpn = 0; doOpxSpn = 0;}
    
    if (argc == 1) {
      printf("Input a pressure in (bars):"); scanf("%f", &ftemp); p = (double) ftemp; getchar();
    } else {
      p = atof(argv[2]);
    }
-
+   
    moles    = (double *) malloc((size_t)  nc*sizeof(double));
    elements = (double *) malloc((size_t) 107*sizeof(double));
    grams    = (double *) malloc((size_t)  nc*sizeof(double));
@@ -358,6 +371,7 @@ int main(int argc, char*argv[]) {
      if (argc == 1) {
        printf("Input wt%% of %5.5s in olivine: ", bulkSystem[i].label);
        scanf("%f", &ftemp); grams[i] = (double) ftemp; getchar();
+       //grams[i] = olvDat[i];
      } else {
        grams[i] = atof(argv[3+i]);
      }
@@ -375,6 +389,7 @@ int main(int argc, char*argv[]) {
      if (argc == 1) {
        printf("Input wt%% of %5.5s in spinel: ", bulkSystem[i].label);
        scanf("%f", &ftemp); grams[i] = (double) ftemp; getchar();
+       //grams[i] = spn2Dat[i];
      } else {
        grams[i] = atof(argv[nc+3+i]);
      }
@@ -392,6 +407,7 @@ int main(int argc, char*argv[]) {
      if (argc == 1) {
        printf("Input wt%% of %5.5s in orthopyroxene: ", bulkSystem[i].label);
        scanf("%f", &ftemp); grams[i] = (double) ftemp; getchar();
+       //grams[i] = opxDat[i];
      } else {
        grams[i] = atof(argv[2*nc+3+i]);
      }
@@ -405,7 +421,7 @@ int main(int argc, char*argv[]) {
    if(!testOpx(SIXTH, t, p, 0, 0, NULL, NULL, NULL, moles)) { printf("Error: Bad orthopyroxene\n"); exit(0); }
    conOpx(SECOND, THIRD, t, p, NULL, moles, rOpx, NULL, NULL, NULL, NULL, NULL);
 
-   if (doOlvSpn) {
+   if (doOlvSpn || doOpxSpn) {
      /* First calculate olv-spn temperature */
      tOld = t;
      deltaG = 1000.0;
@@ -421,12 +437,22 @@ int main(int argc, char*argv[]) {
        double s1, s2, s3, s4, xmg2tet, xfe2tet, xal3tet, xfe3tet, xcr3tet, xmg2oct, 
      	      xfe2oct, xal3oct, xfe3oct, xti4oct, xcr3oct, g11, g33, g55, gx, gex, g23, g24, g25, g21;
        int lstop;
-   	      
-       actOlv(SECOND,  t, p, rOlv, NULL, muOlv, NULL);
-       gibbs(t, p, (char *) solids[indexOlv+1+indexFo].label, &(solids[indexOlv+1+indexFo].ref), NULL, NULL, &solids[indexOlv+1+indexFo].cur);
-       muOlv[indexFo] += solids[indexOlv+1+indexFo].cur.g;
-       gibbs(t, p, (char *) solids[indexOlv+1+indexFa].label, &(solids[indexOlv+1+indexFa].ref), NULL, NULL, &solids[indexOlv+1+indexFa].cur);
-       muOlv[indexFa] += solids[indexOlv+1+indexFa].cur.g;
+   	   
+   	   if (doOlvSpn) {   
+         actOlv(SECOND,  t, p, rOlv, NULL, muOlv, NULL);
+         gibbs(t, p, (char *) solids[indexOlv+1+indexFo].label, &(solids[indexOlv+1+indexFo].ref), NULL, NULL, &solids[indexOlv+1+indexFo].cur);
+         muOlv[indexFo] += solids[indexOlv+1+indexFo].cur.g;
+         gibbs(t, p, (char *) solids[indexOlv+1+indexFa].label, &(solids[indexOlv+1+indexFa].ref), NULL, NULL, &solids[indexOlv+1+indexFa].cur);
+         muOlv[indexFa] += solids[indexOlv+1+indexFa].cur.g;
+       } else {
+         actOpx(SECOND,  t, p, rOpx, NULL, muOpx, NULL);
+         gibbs(t, p, (char *) solids[indexOpx+1+indexDi].label, &(solids[indexOpx+1+indexDi].ref), NULL, NULL, &solids[indexOpx+1+indexDi].cur);
+         muOpx[indexDi] += solids[indexOpx+1+indexDi].cur.g;
+         gibbs(t, p, (char *) solids[indexOpx+1+indexHd].label, &(solids[indexOpx+1+indexHd].ref), NULL, NULL, &solids[indexOpx+1+indexHd].cur);
+         muOpx[indexHd] += solids[indexOpx+1+indexHd].cur.g;
+         muOlv[indexFo] = 2.0*muOpx[indexDi];
+         muOlv[indexFa] = 2.0*muOpx[indexHd];
+       }
 
        actSpn(SECOND,  t, p, rSpn, NULL, muSpn, NULL);
        gibbs(t, p, (char *) solids[indexSpn+1+indexSp].label, &(solids[indexSpn+1+indexSp].ref), NULL, NULL, &solids[indexSpn+1+indexSp].cur);

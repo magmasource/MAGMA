@@ -113,7 +113,7 @@ int main (int argc, char *argv[]) {
   strcat(string, dirName);
   strcat(string, "; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");  
+  strcat(string, "; mkdir 90; cd 90; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");  
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -134,12 +134,12 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 3000.0");
+  strcat(string, " 900.0");
   system(string);
   
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 80; cd 80; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -160,12 +160,12 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 2750.0");
+  strcat(string, " 800.0");
   system(string);
   
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 70; cd 70; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -186,12 +186,12 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 2500.0");
+  strcat(string, " 700.0");
   system(string);
 
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 60; cd 60; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -212,12 +212,12 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 2250.0");
+  strcat(string, " 600.0");
   system(string);
 
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -238,12 +238,12 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 2000.0");
+  strcat(string, " 500.0");
   system(string);
 
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 40; cd 40; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -264,12 +264,12 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 1750.0");
+  strcat(string, " 400.0");
   system(string);
 
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 30; cd 30; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -290,12 +290,12 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 1500.0");
+  strcat(string, " 300.0");
   system(string);
 
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 20; cd 20; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -316,12 +316,12 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 1250.0");
+  strcat(string, " 200.0");
   system(string);
 
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 10; cd 10; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   sprintf(dataString, "%f", data[0]+err[0]);
   strcat(string, dataString);  /* SiO2  */
   strcat(string, " 0.0 ");  /* TiO2  */
@@ -342,7 +342,7 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   sprintf(dataString, "%f", data[6]+err[6]);
   strcat(string, dataString);  /* K2O   */
-  strcat(string, " 1000.0");
+  strcat(string, " 100.0");
   system(string);
   
   }
