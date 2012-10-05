@@ -367,6 +367,10 @@ static ModelParameters originalModelParameters[] = {
   {"h2oduan",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
   {"co2duan",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
 
+  {"h2oduan",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+
+  {"co2duan",		    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
+
   {"alloy-solid",	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
   {"Fe-metal",  	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */
   {"Ni-metal",  	    		  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Solid phase adjustment */

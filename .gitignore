@@ -38,6 +38,7 @@ Analyze-water-MS
 Convert_liquid
 Entropy_reg
 Entropy_reg-MS
+Guil-error
 LinAndPelton
 Make-liquid-model
 Make_species_map

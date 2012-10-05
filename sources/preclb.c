@@ -1882,6 +1882,12 @@ Boolean preclb(XtPointer client_data)
 		  //  lowWtFlag[H2Oindex] = TRUE;
 		  //  lowWtFlag[CO2index] = TRUE;
 		  //}
+		  //if ( wt[H2Oindex] > 0.0 ) {
+		  //  lowWtFlag[H2Oindex] = TRUE;
+		  //  lowWtFlag[CO2index] = TRUE;
+		  //}
+		  if      (wt[CO2index] == 0.0) id += 3;  // switch to pure duan H2O
+		  else if (wt[H2Oindex] == 0.0) id += 4;  // switch to pure duan CO2
 		  wt[H2Oindex] *= 18.01528;
 		  wt[CO2index] *= 44.0095;
 		}
