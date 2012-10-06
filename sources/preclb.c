@@ -1397,8 +1397,8 @@ Boolean preclb(XtPointer client_data)
     MESSAGE(valueCS); XmStringFree(valueCS); workProcData->active = FALSE; 
     return(TRUE);
   }
-  fprintf(liqFile,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", 
-    "liq N", "Name", "Author", "Device", "Container", "Method", "T (C)", "P (GPa)", "log fO2");
+  fprintf(liqFile,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", 
+    "LEPR N", "liq N", "Name", "Author", "Device", "Container", "Method", "T (C)", "P (GPa)", "log fO2");
 
   curStep++;
   workProcData->active = TRUE; 
@@ -1759,8 +1759,8 @@ Boolean preclb(XtPointer client_data)
  	      }
 	      
 	      if (validLiquid) { 
-	        fprintf(liqFile,"%d\t%s\t%s\t%s\t%s\t%s\t%g\t%g\t%g\n", 
-	          nLiquid-1, name, author, device, container, method, t-273.15, p/10000.0, logfo2);
+	        fprintf(liqFile,"%d\t%d\t%s\t%s\t%s\t%s\t%s\t%g\t%g\t%g\n", 
+	          LEPRnum, nLiquid-1, name, author, device, container, method, t-273.15, p/10000.0, logfo2);
 	        printf("-->Liquid %d passes all tests\n", nLiquid);
 	      }
 

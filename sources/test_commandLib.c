@@ -100,8 +100,8 @@ int main (int argc, char *argv[]) {
   silminState->isenthalpic = FALSE;  
   silminState->isentropic  = FALSE; 
   silminState->isochoric   = FALSE; 
-  silminState->T           = 1223.15; /* was 1073.15 */
-  silminState->dspTstart   = 1223.15;
+  silminState->T           = 1273.15; /* was 1073.15 */
+  silminState->dspTstart   = 1273.15;
   silminState->dspTstop    =  973.15;
   silminState->dspTinc     =    1.0; 
   silminState->P           = atof(argv[9]);  

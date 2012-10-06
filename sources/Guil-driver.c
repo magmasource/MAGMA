@@ -241,7 +241,7 @@ int main (int argc, char *argv[]) {
   strcat(string, data_emp[i][0]);
   strcat(string, "; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -260,7 +260,7 @@ int main (int argc, char *argv[]) {
   
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -279,7 +279,7 @@ int main (int argc, char *argv[]) {
   
     strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -298,7 +298,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -317,7 +317,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -336,7 +336,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -355,7 +355,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -374,7 +374,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -393,7 +393,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd EMP-RUNS; cd ");
   strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_emp[i][1]);  /* SiO2  */
   strcat(string, " 0.0 ");     /* TiO2  */
   strcat(string, data_emp[i][2]);  /* Al2O3 */
@@ -421,7 +421,7 @@ int main (int argc, char *argv[]) {
   strcat(string, data_imp[i][0]);
   strcat(string, "; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -442,7 +442,7 @@ int main (int argc, char *argv[]) {
   
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -463,7 +463,7 @@ int main (int argc, char *argv[]) {
   
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -484,7 +484,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -505,7 +505,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -526,7 +526,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -547,7 +547,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -568,7 +568,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -589,7 +589,7 @@ int main (int argc, char *argv[]) {
 
   strcpy(string, "cd IMP-RUNS; cd ");
   strcat(string, data_imp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_imp[i][1]);  /* SiO2  */
   strcat(string, " ");
   strcat(string, data_imp[i][2]);  /* TiO2  */
@@ -635,347 +635,347 @@ char *data_one[8][11] = {
   for (i=0; i<8; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Oruanui_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_one[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_one[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_one[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_one[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_one[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_one[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_one[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_one[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_one[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_one[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -996,347 +996,347 @@ char *data_two[4][11] = {
   for (i=0; i<4; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Oruanui_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_two[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_two[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_two[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_two[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_two[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_two[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_two[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_two[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_two[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_two[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -1359,347 +1359,347 @@ char *data_three[6][11] = {
   for (i=0; i<6; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Fish_Canyon_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_three[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_three[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_three[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_three[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_three[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_three[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_three[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_three[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_three[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_three[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -1723,347 +1723,347 @@ char *data_four[7][11] = {
   for (i=0; i<7; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Bishop_early_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_four[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_four[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_four[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_four[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_four[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_four[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_four[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_four[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_four[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_four[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -2087,347 +2087,347 @@ char *data_five[7][11] = {
   for (i=0; i<7; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Bishop_late_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_five[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_five[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_five[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_five[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_five[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_five[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_five[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_five[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_five[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_five[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -2452,347 +2452,347 @@ char *data_six[8][11] = {
   for (i=0; i<8; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_six[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_six[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_six[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_six[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_six[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_six[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_six[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_six[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_six[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_six[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -2817,347 +2817,347 @@ char *data_seven[8][11] = {
   for (i=0; i<8; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_seven[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_seven[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_seven[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_seven[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_seven[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_seven[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_seven[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_seven[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_seven[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_seven[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -3178,347 +3178,347 @@ char *data_eight[4][11] = {
   for (i=0; i<4; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Old_Toba_tuff; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_eight[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_eight[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_eight[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_eight[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_eight[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_eight[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_eight[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_eight[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_eight[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_eight[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -3540,347 +3540,347 @@ char *data_nine[5][11] = {
   for (i=0; i<5; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Young_Toba_glass; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_nine[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_nine[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_nine[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_nine[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_nine[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_nine[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_nine[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_nine[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_nine[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_nine[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -3902,347 +3902,347 @@ char *data_ten[5][11] = {
   for (i=0; i<5; i++) { // 50 to 400 MPa in 25 MPa increments
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 400; cd 400; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 4000.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 375; cd 375; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 3750.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 350; cd 350; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 3500.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 325; cd 325; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 3250.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 300; cd 300; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 3000.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 275; cd 275; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 2750.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 250; cd 250; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 2500.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 225; cd 225; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 2250.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 200; cd 200; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 2000.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 175; cd 175; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 1750.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 150; cd 150; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 1500.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 125; cd 125; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 1250.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 100; cd 100; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 1000.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 75; cd 75; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 750.0");
   system(string);
   
   strcpy(string, "cd Toba_glass_incl; mkdir ");
-  strcat(string, data_emp[i][0]);
+  strcat(string, data_ten[i][0]);
   strcat(string, "; cd ");
-  strcat(string, data_emp[i][0]);
-  strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
-  strcat(string, data_emp[i][2]);  /* SiO2  */
+  strcat(string, data_ten[i][0]);
+  strcat(string, "; mkdir 50; cd 50; ulimit -t 10; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
+  strcat(string, data_ten[i][2]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][3]);  /* TiO2  */
+  strcat(string, data_ten[i][3]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_emp[i][4]);  /* Al2O3 */
+  strcat(string, data_ten[i][4]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_emp[i][5]);  /* FeO   */
+  strcat(string, data_ten[i][5]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][7]);  /* MgO   */
+  strcat(string, data_ten[i][7]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][8]);  /* CaO   */
+  strcat(string, data_ten[i][8]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_emp[i][9]);  /* Na2O  */
+  strcat(string, data_ten[i][9]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_emp[i][10]);  /* K2O   */
+  strcat(string, data_ten[i][10]);  /* K2O   */
   strcat(string, " 500.0");
   system(string);
   
