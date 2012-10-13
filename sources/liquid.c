@@ -13018,7 +13018,7 @@ actLiq(int mask, double t, double p, double *x,
     
     g = gT;
     for (j=0; j<NR; j++) g += fr[nCO2][j]*dgdrT[j];
-    printf("X H2O, XCO2 = %g %g, muTernary CO2 %g %g\n", r[13], r[17], g, mu[nCO2]);
+    // printf("X H2O, XCO2 = %g %g, muTernary CO2 %g %g\n", r[13], r[17], g, mu[nCO2]);
   }
 
   if (mask & THIRD) {
