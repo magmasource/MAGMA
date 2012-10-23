@@ -13,6 +13,9 @@
 		77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4B163656D4000C83ED /* libXm.4.dylib */; };
 		77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4C163656D4000C83ED /* libXt.6.dylib */; };
 		77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
+		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
+		77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
+		77665363163707080004A2D0 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
 		77A743FB163619AA0038627C /* albite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7901627A92300D67FBB /* albite.c */; };
 		77A743FC163619AA0038627C /* alloy-liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7911627A92300D67FBB /* alloy-liquid.c */; };
 		77A743FD163619AA0038627C /* alloy-solid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7921627A92300D67FBB /* alloy-solid.c */; };
@@ -68,7 +71,6 @@
 		77A7442F163619B80038627C /* orthopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DA1627A92300D67FBB /* orthopyroxene.c */; };
 		77A74430163619B80038627C /* perovskite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DB1627A92300D67FBB /* perovskite.c */; };
 		77A74431163619B80038627C /* postclb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DC1627A92300D67FBB /* postclb.c */; };
-		77A74432163619B80038627C /* preclb-public.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DD1627A92300D67FBB /* preclb-public.c */; };
 		77A74433163619B80038627C /* preclb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DE1627A92300D67FBB /* preclb.c */; };
 		77A74434163619B80038627C /* preclb_slave.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DF1627A92300D67FBB /* preclb_slave.c */; };
 		77A74435163619B80038627C /* read_write.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E01627A92300D67FBB /* read_write.c */; };
@@ -78,7 +80,6 @@
 		77A74439163619B80038627C /* ringwoodite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E51627A92300D67FBB /* ringwoodite.c */; };
 		77A7443A163619B80038627C /* silmin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E61627A92300D67FBB /* silmin.c */; };
 		77A7443B163619B80038627C /* silmin_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E71627A92300D67FBB /* silmin_support.c */; };
-		77A7443C163619B80038627C /* simann.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E81627A92300D67FBB /* simann.c */; };
 		77A7443E163619B80038627C /* spinel.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EA1627A92300D67FBB /* spinel.c */; };
 		77A7443F163619B80038627C /* subSolidusMuO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */; };
 		77A74440163619B80038627C /* vframe.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7FD1627A92300D67FBB /* vframe.c */; };
@@ -88,6 +89,19 @@
 		77A74444163619B80038627C /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
 		77A74445163619B80038627C /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		7766535F163704410004A2D0 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.fortran;
+			isEditable = 1;
+			outputFiles = (
+				"$(TARGET_BUILD_DIR)/$(INPUT_FILE_BASE).o",
+			);
+			script = "/usr/local/bin/gfortran -g -m64 -c ${PROJECT_DIR}/sources/${INPUT_FILE_NAME} -o ${TARGET_BUILD_DIR}/${INPUT_FILE_BASE}.o";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		77A743F2163611C50038627C /* CopyFiles */ = {
@@ -190,7 +204,6 @@
 		7734D7DA1627A92300D67FBB /* orthopyroxene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = orthopyroxene.c; sourceTree = "<group>"; };
 		7734D7DB1627A92300D67FBB /* perovskite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = perovskite.c; sourceTree = "<group>"; };
 		7734D7DC1627A92300D67FBB /* postclb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = postclb.c; sourceTree = "<group>"; };
-		7734D7DD1627A92300D67FBB /* preclb-public.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "preclb-public.c"; sourceTree = "<group>"; };
 		7734D7DE1627A92300D67FBB /* preclb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = preclb.c; sourceTree = "<group>"; };
 		7734D7DF1627A92300D67FBB /* preclb_slave.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = preclb_slave.c; sourceTree = "<group>"; };
 		7734D7E01627A92300D67FBB /* read_write.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = read_write.c; sourceTree = "<group>"; };
@@ -200,7 +213,6 @@
 		7734D7E51627A92300D67FBB /* ringwoodite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringwoodite.c; sourceTree = "<group>"; };
 		7734D7E61627A92300D67FBB /* silmin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = silmin.c; sourceTree = "<group>"; };
 		7734D7E71627A92300D67FBB /* silmin_support.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = silmin_support.c; sourceTree = "<group>"; };
-		7734D7E81627A92300D67FBB /* simann.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = simann.c; sourceTree = "<group>"; };
 		7734D7EA1627A92300D67FBB /* spinel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = spinel.c; sourceTree = "<group>"; };
 		7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = subSolidusMuO2.c; sourceTree = "<group>"; };
 		7734D7FD1627A92300D67FBB /* vframe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vframe.c; sourceTree = "<group>"; };
@@ -209,6 +221,9 @@
 		7734D8001627A92300D67FBB /* wadsleyite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wadsleyite.c; sourceTree = "<group>"; };
 		7734D8021627A92300D67FBB /* water.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = water.c; sourceTree = "<group>"; };
 		7734D8031627A92300D67FBB /* wustite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wustite.c; sourceTree = "<group>"; };
+		7766535A1636FF610004A2D0 /* simann.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = simann.f; sourceTree = "<group>"; };
+		77665360163706D00004A2D0 /* libgfortran.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgfortran.3.dylib; path = /usr/local/gfortran/lib/libgfortran.3.dylib; sourceTree = "<absolute>"; };
+		77665362163707080004A2D0 /* libport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libport.a; path = ../port3/libport.a; sourceTree = "<group>"; };
 		77A743F4163611C50038627C /* Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -217,6 +232,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77665363163707080004A2D0 /* libport.a in Frameworks */,
+				77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */,
 				77032B4D163656D4000C83ED /* libICE.6.dylib in Frameworks */,
 				77032B4E163656D4000C83ED /* libMrm.4.dylib in Frameworks */,
 				77032B4F163656D4000C83ED /* libX11.6.dylib in Frameworks */,
@@ -265,6 +282,7 @@
 		7734D78F1627A92300D67FBB /* sources */ = {
 			isa = PBXGroup;
 			children = (
+				7766535A1636FF610004A2D0 /* simann.f */,
 				7734D7901627A92300D67FBB /* albite.c */,
 				7734D7911627A92300D67FBB /* alloy-liquid.c */,
 				7734D7921627A92300D67FBB /* alloy-solid.c */,
@@ -321,7 +339,6 @@
 				7734D7DA1627A92300D67FBB /* orthopyroxene.c */,
 				7734D7DB1627A92300D67FBB /* perovskite.c */,
 				7734D7DC1627A92300D67FBB /* postclb.c */,
-				7734D7DD1627A92300D67FBB /* preclb-public.c */,
 				7734D7DE1627A92300D67FBB /* preclb.c */,
 				7734D7DF1627A92300D67FBB /* preclb_slave.c */,
 				7734D7E01627A92300D67FBB /* read_write.c */,
@@ -331,7 +348,6 @@
 				7734D7E51627A92300D67FBB /* ringwoodite.c */,
 				7734D7E61627A92300D67FBB /* silmin.c */,
 				7734D7E71627A92300D67FBB /* silmin_support.c */,
-				7734D7E81627A92300D67FBB /* simann.c */,
 				7734D7EA1627A92300D67FBB /* spinel.c */,
 				7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */,
 				7734D7FD1627A92300D67FBB /* vframe.c */,
@@ -342,6 +358,21 @@
 				7734D8031627A92300D67FBB /* wustite.c */,
 			);
 			path = sources;
+			sourceTree = "<group>";
+		};
+		77665364163707DE0004A2D0 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				77665362163707080004A2D0 /* libport.a */,
+				77665360163706D00004A2D0 /* libgfortran.3.dylib */,
+				77032B521636576D000C83ED /* libxml2.2.dylib */,
+				77032B48163656D4000C83ED /* libICE.6.dylib */,
+				77032B49163656D4000C83ED /* libMrm.4.dylib */,
+				77032B4A163656D4000C83ED /* libX11.6.dylib */,
+				77032B4B163656D4000C83ED /* libXm.4.dylib */,
+				77032B4C163656D4000C83ED /* libXt.6.dylib */,
+			);
+			name = Libraries;
 			sourceTree = "<group>";
 		};
 		77A743F5163611C50038627C /* Products */ = {
@@ -362,12 +393,7 @@
 		77B68D411627A64800C6296F = {
 			isa = PBXGroup;
 			children = (
-				77032B521636576D000C83ED /* libxml2.2.dylib */,
-				77032B48163656D4000C83ED /* libICE.6.dylib */,
-				77032B49163656D4000C83ED /* libMrm.4.dylib */,
-				77032B4A163656D4000C83ED /* libX11.6.dylib */,
-				77032B4B163656D4000C83ED /* libXm.4.dylib */,
-				77032B4C163656D4000C83ED /* libXt.6.dylib */,
+				77665364163707DE0004A2D0 /* Libraries */,
 				7734D78F1627A92300D67FBB /* sources */,
 				7734D76C1627A90000D67FBB /* includes */,
 				77A743F7163611C50038627C /* Melts-rhyolite */,
@@ -387,6 +413,7 @@
 				77A743F2163611C50038627C /* CopyFiles */,
 			);
 			buildRules = (
+				7766535F163704410004A2D0 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -426,6 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7766535E163703E10004A2D0 /* simann.f in Sources */,
 				77A74427163619B80038627C /* melts_support.c in Sources */,
 				77A74428163619B80038627C /* melts_threads.c in Sources */,
 				77A74429163619B80038627C /* mthread.c in Sources */,
@@ -437,7 +465,6 @@
 				77A7442F163619B80038627C /* orthopyroxene.c in Sources */,
 				77A74430163619B80038627C /* perovskite.c in Sources */,
 				77A74431163619B80038627C /* postclb.c in Sources */,
-				77A74432163619B80038627C /* preclb-public.c in Sources */,
 				77A74433163619B80038627C /* preclb.c in Sources */,
 				77A74434163619B80038627C /* preclb_slave.c in Sources */,
 				77A74435163619B80038627C /* read_write.c in Sources */,
@@ -447,7 +474,6 @@
 				77A74439163619B80038627C /* ringwoodite.c in Sources */,
 				77A7443A163619B80038627C /* silmin.c in Sources */,
 				77A7443B163619B80038627C /* silmin_support.c in Sources */,
-				77A7443C163619B80038627C /* simann.c in Sources */,
 				77A7443E163619B80038627C /* spinel.c in Sources */,
 				77A7443F163619B80038627C /* subSolidusMuO2.c in Sources */,
 				77A74440163619B80038627C /* vframe.c in Sources */,
@@ -538,6 +564,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib/,
 					/usr/local/lib/,
+					/usr/local/gfortran/lib,
+					"\"$(SRCROOT)/../port3\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
@@ -576,6 +604,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib/,
 					/usr/local/lib/,
+					/usr/local/gfortran/lib,
+					"\"$(SRCROOT)/../port3\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
@@ -629,6 +659,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
