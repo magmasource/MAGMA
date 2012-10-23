@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77032B4D163656D4000C83ED /* libICE.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B48163656D4000C83ED /* libICE.6.dylib */; };
+		77032B4E163656D4000C83ED /* libMrm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B49163656D4000C83ED /* libMrm.4.dylib */; };
+		77032B4F163656D4000C83ED /* libX11.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4A163656D4000C83ED /* libX11.6.dylib */; };
+		77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4B163656D4000C83ED /* libXm.4.dylib */; };
+		77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4C163656D4000C83ED /* libXt.6.dylib */; };
+		77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
 		77A743FB163619AA0038627C /* albite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7901627A92300D67FBB /* albite.c */; };
 		77A743FC163619AA0038627C /* alloy-liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7911627A92300D67FBB /* alloy-liquid.c */; };
 		77A743FD163619AA0038627C /* alloy-solid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7921627A92300D67FBB /* alloy-solid.c */; };
@@ -73,7 +79,6 @@
 		77A7443A163619B80038627C /* silmin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E61627A92300D67FBB /* silmin.c */; };
 		77A7443B163619B80038627C /* silmin_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E71627A92300D67FBB /* silmin_support.c */; };
 		77A7443C163619B80038627C /* simann.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E81627A92300D67FBB /* simann.c */; };
-		77A7443D163619B80038627C /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E91627A92300D67FBB /* simann.f */; };
 		77A7443E163619B80038627C /* spinel.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EA1627A92300D67FBB /* spinel.c */; };
 		77A7443F163619B80038627C /* subSolidusMuO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */; };
 		77A74440163619B80038627C /* vframe.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7FD1627A92300D67FBB /* vframe.c */; };
@@ -97,6 +102,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		77032B48163656D4000C83ED /* libICE.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libICE.6.dylib; path = ../../../opt/local/lib/libICE.6.dylib; sourceTree = "<group>"; };
+		77032B49163656D4000C83ED /* libMrm.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMrm.4.dylib; path = ../../../opt/local/lib/libMrm.4.dylib; sourceTree = "<group>"; };
+		77032B4A163656D4000C83ED /* libX11.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libX11.6.dylib; path = ../../../opt/local/lib/libX11.6.dylib; sourceTree = "<group>"; };
+		77032B4B163656D4000C83ED /* libXm.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXm.4.dylib; path = ../../../opt/local/lib/libXm.4.dylib; sourceTree = "<group>"; };
+		77032B4C163656D4000C83ED /* libXt.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXt.6.dylib; path = ../../../opt/local/lib/libXt.6.dylib; sourceTree = "<group>"; };
+		77032B521636576D000C83ED /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../opt/local/lib/libxml2.2.dylib; sourceTree = "<group>"; };
 		7734D76D1627A90000D67FBB /* acegr_np.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acegr_np.h; sourceTree = "<group>"; };
 		7734D76E1627A90000D67FBB /* calculator_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calculator_icon.h; sourceTree = "<group>"; };
 		7734D76F1627A90000D67FBB /* calibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calibration.h; sourceTree = "<group>"; };
@@ -190,7 +201,6 @@
 		7734D7E61627A92300D67FBB /* silmin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = silmin.c; sourceTree = "<group>"; };
 		7734D7E71627A92300D67FBB /* silmin_support.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = silmin_support.c; sourceTree = "<group>"; };
 		7734D7E81627A92300D67FBB /* simann.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = simann.c; sourceTree = "<group>"; };
-		7734D7E91627A92300D67FBB /* simann.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = simann.f; sourceTree = "<group>"; };
 		7734D7EA1627A92300D67FBB /* spinel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = spinel.c; sourceTree = "<group>"; };
 		7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = subSolidusMuO2.c; sourceTree = "<group>"; };
 		7734D7FD1627A92300D67FBB /* vframe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vframe.c; sourceTree = "<group>"; };
@@ -207,6 +217,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77032B4D163656D4000C83ED /* libICE.6.dylib in Frameworks */,
+				77032B4E163656D4000C83ED /* libMrm.4.dylib in Frameworks */,
+				77032B4F163656D4000C83ED /* libX11.6.dylib in Frameworks */,
+				77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */,
+				77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */,
+				77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,7 +332,6 @@
 				7734D7E61627A92300D67FBB /* silmin.c */,
 				7734D7E71627A92300D67FBB /* silmin_support.c */,
 				7734D7E81627A92300D67FBB /* simann.c */,
-				7734D7E91627A92300D67FBB /* simann.f */,
 				7734D7EA1627A92300D67FBB /* spinel.c */,
 				7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */,
 				7734D7FD1627A92300D67FBB /* vframe.c */,
@@ -347,6 +362,12 @@
 		77B68D411627A64800C6296F = {
 			isa = PBXGroup;
 			children = (
+				77032B521636576D000C83ED /* libxml2.2.dylib */,
+				77032B48163656D4000C83ED /* libICE.6.dylib */,
+				77032B49163656D4000C83ED /* libMrm.4.dylib */,
+				77032B4A163656D4000C83ED /* libX11.6.dylib */,
+				77032B4B163656D4000C83ED /* libXm.4.dylib */,
+				77032B4C163656D4000C83ED /* libXt.6.dylib */,
 				7734D78F1627A92300D67FBB /* sources */,
 				7734D76C1627A90000D67FBB /* includes */,
 				77A743F7163611C50038627C /* Melts-rhyolite */,
@@ -427,7 +448,6 @@
 				77A7443A163619B80038627C /* silmin.c in Sources */,
 				77A7443B163619B80038627C /* silmin_support.c in Sources */,
 				77A7443C163619B80038627C /* simann.c in Sources */,
-				77A7443D163619B80038627C /* simann.f in Sources */,
 				77A7443E163619B80038627C /* spinel.c in Sources */,
 				77A7443F163619B80038627C /* subSolidusMuO2.c in Sources */,
 				77A74440163619B80038627C /* vframe.c in Sources */,
@@ -492,15 +512,33 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					RHYOLITE_ADJUSTMENTS,
 					_NO_GRACE_PIPE,
 					_NO_WHITE_TEXTTW,
 					_NO_DRAWINGA_VLIST_PARENT,
 					XTFUNCPROTO,
 					__osf__,
+					"MELTS_AUTHOR_LIST=\"\\\"Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow\\\"\"",
+					"MELTS_DATA_DIR=\"\\\".\\\"\"",
+					"MELTS_DATA_SUFFIX=\"\\\"*.xml\\\"\"",
+					"MELTS_HARDWARE_VERSION=\"\\\"3.4 GHz Quad Core Intel i7\\\"\"",
+					"MELTS_INPUT_DIR=\"\\\".\\\"\"",
+					"MELTS_INPUT_SUFFIX=\"\\\"*.melts\\\"\"",
+					"MELTS_MOTIF_VERSION=\"\\\"3.0\\\"\"",
+					"MELTS_OS_VERSION=\"\\\"Mac OS X - 10.8.0\\\"\"",
+					"MELTS_OUTPUT_FILE=\"\\\"melts.out\\\"\"",
+					"MELTS_WWW_BROWSER=\"\\\"\\\"\"",
+					"MELTS_WWW_CALCULATOR=\"\\\"http://melts.ofm-research.org/\\\"\"",
+					"MELTS_WWW_MANUAL=\"\\\"http://melts.ofm-research.org/\\\"\"",
+					"MELTS_X_VERSION=\"\\\"X11R6/OpenMotif3\\\"\"",
+					"MELTS_RELEASE_DATE=\"\\\"July 2012\\\"\"",
+					"MELTS_RELEASE_VERSION=\"\\\"5.6.1 ()(p)(x), V1.0.1 (rhyolite) (Mac OS X - 10.7.2, clang 3.0, 64 bit)\\\"\"",
 				);
 				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib/,
+					/usr/local/lib/,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
 			};
@@ -511,8 +549,34 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = RHYOLITE_ADJUSTMENTS;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					RHYOLITE_ADJUSTMENTS,
+					_NO_GRACE_PIPE,
+					_NO_WHITE_TEXTTW,
+					_NO_DRAWINGA_VLIST_PARENT,
+					XTFUNCPROTO,
+					__osf__,
+					"MELTS_AUTHOR_LIST=\"\\\"Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow\\\"\"",
+					"MELTS_DATA_DIR=\"\\\".\\\"\"",
+					"MELTS_DATA_SUFFIX=\"\\\"*.xml\\\"\"",
+					"MELTS_HARDWARE_VERSION=\"\\\"3.4 GHz Quad Core Intel i7\\\"\"",
+					"MELTS_INPUT_DIR=\"\\\".\\\"\"",
+					"MELTS_INPUT_SUFFIX=\"\\\"*.melts\\\"\"",
+					"MELTS_MOTIF_VERSION=\"\\\"3.0\\\"\"",
+					"MELTS_OS_VERSION=\"\\\"Mac OS X - 10.8.0\\\"\"",
+					"MELTS_OUTPUT_FILE=\"\\\"melts.out\\\"\"",
+					"MELTS_WWW_BROWSER=\"\\\"\\\"\"",
+					"MELTS_WWW_CALCULATOR=\"\\\"http://melts.ofm-research.org/\\\"\"",
+					"MELTS_WWW_MANUAL=\"\\\"http://melts.ofm-research.org/\\\"\"",
+					"MELTS_X_VERSION=\"\\\"X11R6/OpenMotif3\\\"\"",
+					"MELTS_RELEASE_DATE=\"\\\"July 2012\\\"\"",
+					"MELTS_RELEASE_VERSION=\"\\\"5.6.1 ()(p)(x), V1.0.1 (rhyolite) (Mac OS X - 10.7.2, clang 3.0, 64 bit)\\\"\"",
+				);
 				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib/,
+					/usr/local/lib/,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
 			};
@@ -579,6 +643,7 @@
 				77A743FA163611C50038627C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		77B68D461627A64800C6296F /* Build configuration list for PBXProject "MELTS" */ = {
 			isa = XCConfigurationList;
