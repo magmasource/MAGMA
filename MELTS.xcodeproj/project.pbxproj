@@ -6,6 +6,96 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		77A743FB163619AA0038627C /* albite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7901627A92300D67FBB /* albite.c */; };
+		77A743FC163619AA0038627C /* alloy-liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7911627A92300D67FBB /* alloy-liquid.c */; };
+		77A743FD163619AA0038627C /* alloy-solid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7921627A92300D67FBB /* alloy-solid.c */; };
+		77A743FE163619AA0038627C /* amphibole.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7931627A92300D67FBB /* amphibole.c */; };
+		77A743FF163619AA0038627C /* biotite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7961627A92300D67FBB /* biotite.c */; };
+		77A74400163619AA0038627C /* button_callbacks.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7971627A92300D67FBB /* button_callbacks.c */; };
+		77A74401163619AA0038627C /* check_coexisting_liquids.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7981627A92300D67FBB /* check_coexisting_liquids.c */; };
+		77A74402163619AA0038627C /* check_coexisting_solids.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7991627A92300D67FBB /* check_coexisting_solids.c */; };
+		77A74403163619AA0038627C /* clinopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D79A1627A92300D67FBB /* clinopyroxene.c */; };
+		77A74404163619AA0038627C /* create_assimilant_padb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D79C1627A92300D67FBB /* create_assimilant_padb.c */; };
+		77A74405163619AA0038627C /* create_managed.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D79D1627A92300D67FBB /* create_managed.c */; };
+		77A74406163619AA0038627C /* create_menu_bar.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D79E1627A92300D67FBB /* create_menu_bar.c */; };
+		77A74407163619AA0038627C /* create_postclb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D79F1627A92300D67FBB /* create_postclb.c */; };
+		77A74408163619AA0038627C /* create_preclb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A01627A92300D67FBB /* create_preclb.c */; };
+		77A74409163619AA0038627C /* create_solid_padb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A11627A92300D67FBB /* create_solid_padb.c */; };
+		77A7440A163619AA0038627C /* create_tp_padb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A21627A92300D67FBB /* create_tp_padb.c */; };
+		77A7440B163619AA0038627C /* create_unmanaged.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A31627A92300D67FBB /* create_unmanaged.c */; };
+		77A7440C163619AA0038627C /* create_xy_plot_padb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A41627A92300D67FBB /* create_xy_plot_padb.c */; };
+		77A7440D163619AA0038627C /* cummingtonite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A51627A92300D67FBB /* cummingtonite.c */; };
+		77A7440E163619AA0038627C /* debugMainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A61627A92300D67FBB /* debugMainLoop.c */; };
+		77A7440F163619AA0038627C /* equality_constraints.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AA1627A92300D67FBB /* equality_constraints.c */; };
+		77A74410163619AA0038627C /* est_satState_revised.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AB1627A92300D67FBB /* est_satState_revised.c */; };
+		77A74411163619AA0038627C /* est_saturation_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AC1627A92300D67FBB /* est_saturation_state.c */; };
+		77A74412163619AA0038627C /* evaluate_saturation.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AD1627A92300D67FBB /* evaluate_saturation.c */; };
+		77A74413163619AA0038627C /* feldspar.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AE1627A92300D67FBB /* feldspar.c */; };
+		77A74414163619AA0038627C /* fluid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B01627A92300D67FBB /* fluid.c */; };
+		77A74415163619AA0038627C /* frac.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B11627A92300D67FBB /* frac.c */; };
+		77A74416163619AA0038627C /* garnet.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B21627A92300D67FBB /* garnet.c */; };
+		77A74417163619AA0038627C /* gibbs.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B31627A92300D67FBB /* gibbs.c */; };
+		77A74418163619AA0038627C /* gradient_hessian.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B41627A92300D67FBB /* gradient_hessian.c */; };
+		77A74419163619AA0038627C /* hornblende.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B71627A92300D67FBB /* hornblende.c */; };
+		77A7441A163619AA0038627C /* ilmenite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B81627A92300D67FBB /* ilmenite.c */; };
+		77A7441B163619AA0038627C /* initialize_colors.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B91627A92300D67FBB /* initialize_colors.c */; };
+		77A7441C163619AA0038627C /* initialize_strings.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7BA1627A92300D67FBB /* initialize_strings.c */; };
+		77A7441D163619AA0038627C /* interface.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7BB1627A92300D67FBB /* interface.c */; };
+		77A7441E163619AA0038627C /* kalsilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7BC1627A92300D67FBB /* kalsilite.c */; };
+		77A7441F163619AA0038627C /* lawson_hanson.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C11627A92300D67FBB /* lawson_hanson.c */; };
+		77A74420163619AA0038627C /* leucite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C21627A92300D67FBB /* leucite.c */; };
+		77A74421163619AA0038627C /* linear_search.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C51627A92300D67FBB /* linear_search.c */; };
+		77A74422163619AA0038627C /* liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C71627A92300D67FBB /* liquid.c */; };
+		77A74423163619AA0038627C /* liquid_v34.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C81627A92300D67FBB /* liquid_v34.c */; };
+		77A74424163619AA0038627C /* liquidus.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C91627A92300D67FBB /* liquidus.c */; };
+		77A74425163619AA0038627C /* majorite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CA1627A92300D67FBB /* majorite.c */; };
+		77A74426163619AA0038627C /* melilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CE1627A92300D67FBB /* melilite.c */; };
+		77A74427163619B80038627C /* melts_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D01627A92300D67FBB /* melts_support.c */; };
+		77A74428163619B80038627C /* melts_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D11627A92300D67FBB /* melts_threads.c */; };
+		77A74429163619B80038627C /* mthread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D41627A92300D67FBB /* mthread.c */; };
+		77A7442A163619B80038627C /* nash.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D51627A92300D67FBB /* nash.c */; };
+		77A7442B163619B80038627C /* nepheline.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D61627A92300D67FBB /* nepheline.c */; };
+		77A7442C163619B80038627C /* olivine-sx.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D71627A92300D67FBB /* olivine-sx.c */; };
+		77A7442D163619B80038627C /* olivine.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D81627A92300D67FBB /* olivine.c */; };
+		77A7442E163619B80038627C /* ortho-oxide.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D91627A92300D67FBB /* ortho-oxide.c */; };
+		77A7442F163619B80038627C /* orthopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DA1627A92300D67FBB /* orthopyroxene.c */; };
+		77A74430163619B80038627C /* perovskite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DB1627A92300D67FBB /* perovskite.c */; };
+		77A74431163619B80038627C /* postclb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DC1627A92300D67FBB /* postclb.c */; };
+		77A74432163619B80038627C /* preclb-public.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DD1627A92300D67FBB /* preclb-public.c */; };
+		77A74433163619B80038627C /* preclb.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DE1627A92300D67FBB /* preclb.c */; };
+		77A74434163619B80038627C /* preclb_slave.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DF1627A92300D67FBB /* preclb_slave.c */; };
+		77A74435163619B80038627C /* read_write.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E01627A92300D67FBB /* read_write.c */; };
+		77A74436163619B80038627C /* recipes.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E11627A92300D67FBB /* recipes.c */; };
+		77A74437163619B80038627C /* rhombohedral.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E31627A92300D67FBB /* rhombohedral.c */; };
+		77A74438163619B80038627C /* rhomsghiorso.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E41627A92300D67FBB /* rhomsghiorso.c */; };
+		77A74439163619B80038627C /* ringwoodite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E51627A92300D67FBB /* ringwoodite.c */; };
+		77A7443A163619B80038627C /* silmin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E61627A92300D67FBB /* silmin.c */; };
+		77A7443B163619B80038627C /* silmin_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E71627A92300D67FBB /* silmin_support.c */; };
+		77A7443C163619B80038627C /* simann.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E81627A92300D67FBB /* simann.c */; };
+		77A7443D163619B80038627C /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E91627A92300D67FBB /* simann.f */; };
+		77A7443E163619B80038627C /* spinel.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EA1627A92300D67FBB /* spinel.c */; };
+		77A7443F163619B80038627C /* subSolidusMuO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */; };
+		77A74440163619B80038627C /* vframe.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7FD1627A92300D67FBB /* vframe.c */; };
+		77A74441163619B80038627C /* vheader.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7FE1627A92300D67FBB /* vheader.c */; };
+		77A74442163619B80038627C /* vlist.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7FF1627A92300D67FBB /* vlist.c */; };
+		77A74443163619B80038627C /* wadsleyite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8001627A92300D67FBB /* wadsleyite.c */; };
+		77A74444163619B80038627C /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
+		77A74445163619B80038627C /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		77A743F2163611C50038627C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		7734D76D1627A90000D67FBB /* acegr_np.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acegr_np.h; sourceTree = "<group>"; };
 		7734D76E1627A90000D67FBB /* calculator_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calculator_icon.h; sourceTree = "<group>"; };
@@ -14,26 +104,19 @@
 		7734D7711627A90000D67FBB /* interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interface.h; sourceTree = "<group>"; };
 		7734D7721627A90000D67FBB /* lawson_hanson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lawson_hanson.h; sourceTree = "<group>"; };
 		7734D7731627A90000D67FBB /* liq_struct_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = liq_struct_data.h; sourceTree = "<group>"; };
-		7734D7741627A90000D67FBB /* liq_struct_data_MgO_SiO2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = liq_struct_data_MgO_SiO2.h; sourceTree = "<group>"; };
-		7734D7751627A90000D67FBB /* liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h; sourceTree = "<group>"; };
 		7734D7761627A90000D67FBB /* liquid-model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "liquid-model.h"; sourceTree = "<group>"; };
 		7734D7771627A90000D67FBB /* melts_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = melts_icon.h; sourceTree = "<group>"; };
 		7734D7781627A90000D67FBB /* mpi_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mpi_common.h; sourceTree = "<group>"; };
 		7734D7791627A90000D67FBB /* mthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mthread.h; sourceTree = "<group>"; };
 		7734D77A1627A90000D67FBB /* nash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nash.h; sourceTree = "<group>"; };
 		7734D77B1627A90000D67FBB /* nepheline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nepheline.h; sourceTree = "<group>"; };
-		7734D77C1627A90000D67FBB /* param_struct_data.blank */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = param_struct_data.blank; sourceTree = "<group>"; };
 		7734D77D1627A90000D67FBB /* param_struct_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = param_struct_data.h; sourceTree = "<group>"; };
-		7734D77E1627A90000D67FBB /* param_struct_data_MgO_SiO2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = param_struct_data_MgO_SiO2.h; sourceTree = "<group>"; };
-		7734D77F1627A90000D67FBB /* param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h; sourceTree = "<group>"; };
 		7734D7801627A90000D67FBB /* param_struct_data_v34.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = param_struct_data_v34.h; sourceTree = "<group>"; };
 		7734D7811627A90000D67FBB /* param_temp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = param_temp.h; sourceTree = "<group>"; };
 		7734D7821627A90000D67FBB /* recipes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = recipes.h; sourceTree = "<group>"; };
 		7734D7831627A90000D67FBB /* res_struct_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = res_struct_data.h; sourceTree = "<group>"; };
 		7734D7841627A90000D67FBB /* silmin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = silmin.h; sourceTree = "<group>"; };
 		7734D7851627A90000D67FBB /* sol_struct_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sol_struct_data.h; sourceTree = "<group>"; };
-		7734D7861627A90000D67FBB /* sol_struct_data_MgO_SiO2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sol_struct_data_MgO_SiO2.h; sourceTree = "<group>"; };
-		7734D7871627A90000D67FBB /* sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h; sourceTree = "<group>"; };
 		7734D7881627A90000D67FBB /* status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = status.h; sourceTree = "<group>"; };
 		7734D7891627A90000D67FBB /* terminal_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = terminal_icon.h; sourceTree = "<group>"; };
 		7734D78A1627A90000D67FBB /* vframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vframe.h; sourceTree = "<group>"; };
@@ -44,14 +127,11 @@
 		7734D7911627A92300D67FBB /* alloy-liquid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "alloy-liquid.c"; sourceTree = "<group>"; };
 		7734D7921627A92300D67FBB /* alloy-solid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "alloy-solid.c"; sourceTree = "<group>"; };
 		7734D7931627A92300D67FBB /* amphibole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amphibole.c; sourceTree = "<group>"; };
-		7734D7941627A92300D67FBB /* analyze-fusion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "analyze-fusion.c"; sourceTree = "<group>"; };
-		7734D7951627A92300D67FBB /* analyze-water.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "analyze-water.c"; sourceTree = "<group>"; };
 		7734D7961627A92300D67FBB /* biotite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = biotite.c; sourceTree = "<group>"; };
 		7734D7971627A92300D67FBB /* button_callbacks.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = button_callbacks.c; sourceTree = "<group>"; };
 		7734D7981627A92300D67FBB /* check_coexisting_liquids.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = check_coexisting_liquids.c; sourceTree = "<group>"; };
 		7734D7991627A92300D67FBB /* check_coexisting_solids.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = check_coexisting_solids.c; sourceTree = "<group>"; };
 		7734D79A1627A92300D67FBB /* clinopyroxene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = clinopyroxene.c; sourceTree = "<group>"; };
-		7734D79B1627A92300D67FBB /* convert-liquid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "convert-liquid.c"; sourceTree = "<group>"; };
 		7734D79C1627A92300D67FBB /* create_assimilant_padb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = create_assimilant_padb.c; sourceTree = "<group>"; };
 		7734D79D1627A92300D67FBB /* create_managed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = create_managed.c; sourceTree = "<group>"; };
 		7734D79E1627A92300D67FBB /* create_menu_bar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = create_menu_bar.c; sourceTree = "<group>"; };
@@ -63,51 +143,33 @@
 		7734D7A41627A92300D67FBB /* create_xy_plot_padb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = create_xy_plot_padb.c; sourceTree = "<group>"; };
 		7734D7A51627A92300D67FBB /* cummingtonite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cummingtonite.c; sourceTree = "<group>"; };
 		7734D7A61627A92300D67FBB /* debugMainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = debugMainLoop.c; sourceTree = "<group>"; };
-		7734D7A71627A92300D67FBB /* duan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = duan.c; sourceTree = "<group>"; };
-		7734D7A81627A92300D67FBB /* entropy_reg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entropy_reg.c; sourceTree = "<group>"; };
-		7734D7A91627A92300D67FBB /* EOS-comparsion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "EOS-comparsion.c"; sourceTree = "<group>"; };
 		7734D7AA1627A92300D67FBB /* equality_constraints.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = equality_constraints.c; sourceTree = "<group>"; };
 		7734D7AB1627A92300D67FBB /* est_satState_revised.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = est_satState_revised.c; sourceTree = "<group>"; };
 		7734D7AC1627A92300D67FBB /* est_saturation_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = est_saturation_state.c; sourceTree = "<group>"; };
 		7734D7AD1627A92300D67FBB /* evaluate_saturation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = evaluate_saturation.c; sourceTree = "<group>"; };
 		7734D7AE1627A92300D67FBB /* feldspar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = feldspar.c; sourceTree = "<group>"; };
-		7734D7AF1627A92300D67FBB /* fluid-pk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fluid-pk.c"; sourceTree = "<group>"; };
 		7734D7B01627A92300D67FBB /* fluid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fluid.c; sourceTree = "<group>"; };
 		7734D7B11627A92300D67FBB /* frac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = frac.c; sourceTree = "<group>"; };
 		7734D7B21627A92300D67FBB /* garnet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = garnet.c; sourceTree = "<group>"; };
 		7734D7B31627A92300D67FBB /* gibbs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gibbs.c; sourceTree = "<group>"; };
 		7734D7B41627A92300D67FBB /* gradient_hessian.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gradient_hessian.c; sourceTree = "<group>"; };
-		7734D7B51627A92300D67FBB /* Guil-driver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "Guil-driver.c"; sourceTree = "<group>"; };
-		7734D7B61627A92300D67FBB /* Guil-error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "Guil-error.c"; sourceTree = "<group>"; };
 		7734D7B71627A92300D67FBB /* hornblende.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hornblende.c; sourceTree = "<group>"; };
 		7734D7B81627A92300D67FBB /* ilmenite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ilmenite.c; sourceTree = "<group>"; };
 		7734D7B91627A92300D67FBB /* initialize_colors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = initialize_colors.c; sourceTree = "<group>"; };
 		7734D7BA1627A92300D67FBB /* initialize_strings.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = initialize_strings.c; sourceTree = "<group>"; };
 		7734D7BB1627A92300D67FBB /* interface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = interface.c; sourceTree = "<group>"; };
 		7734D7BC1627A92300D67FBB /* kalsilite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kalsilite.c; sourceTree = "<group>"; };
-		7734D7BD1627A92300D67FBB /* kevin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kevin.c; sourceTree = "<group>"; };
-		7734D7BE1627A92300D67FBB /* kevin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kevin.cc; sourceTree = "<group>"; };
-		7734D7BF1627A92300D67FBB /* kevin_data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kevin_data.c; sourceTree = "<group>"; };
-		7734D7C01627A92300D67FBB /* kevin_slave.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kevin_slave.cc; sourceTree = "<group>"; };
 		7734D7C11627A92300D67FBB /* lawson_hanson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lawson_hanson.c; sourceTree = "<group>"; };
 		7734D7C21627A92300D67FBB /* leucite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = leucite.c; sourceTree = "<group>"; };
-		7734D7C31627A92300D67FBB /* library.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = library.c; sourceTree = "<group>"; };
-		7734D7C41627A92300D67FBB /* linAndPelton.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = linAndPelton.c; sourceTree = "<group>"; };
 		7734D7C51627A92300D67FBB /* linear_search.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = linear_search.c; sourceTree = "<group>"; };
-		7734D7C61627A92300D67FBB /* liquid+newCO2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "liquid+newCO2.c"; sourceTree = "<group>"; };
 		7734D7C71627A92300D67FBB /* liquid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = liquid.c; sourceTree = "<group>"; };
 		7734D7C81627A92300D67FBB /* liquid_v34.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = liquid_v34.c; sourceTree = "<group>"; };
 		7734D7C91627A92300D67FBB /* liquidus.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = liquidus.c; sourceTree = "<group>"; };
 		7734D7CA1627A92300D67FBB /* majorite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = majorite.c; sourceTree = "<group>"; };
-		7734D7CB1627A92300D67FBB /* make-liquid-model.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "make-liquid-model.c"; sourceTree = "<group>"; };
-		7734D7CC1627A92300D67FBB /* make_species_map.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = make_species_map.c; sourceTree = "<group>"; };
-		7734D7CD1627A92300D67FBB /* marc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = marc.c; sourceTree = "<group>"; };
 		7734D7CE1627A92300D67FBB /* melilite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = melilite.c; sourceTree = "<group>"; };
 		7734D7CF1627A92300D67FBB /* melts.icon */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = melts.icon; sourceTree = "<group>"; };
 		7734D7D01627A92300D67FBB /* melts_support.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = melts_support.c; sourceTree = "<group>"; };
 		7734D7D11627A92300D67FBB /* melts_threads.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = melts_threads.c; sourceTree = "<group>"; };
-		7734D7D21627A92300D67FBB /* mpi_master.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mpi_master.c; sourceTree = "<group>"; };
-		7734D7D31627A92300D67FBB /* mpi_slave.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mpi_slave.c; sourceTree = "<group>"; };
 		7734D7D41627A92300D67FBB /* mthread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mthread.c; sourceTree = "<group>"; };
 		7734D7D51627A92300D67FBB /* nash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nash.c; sourceTree = "<group>"; };
 		7734D7D61627A92300D67FBB /* nepheline.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nepheline.c; sourceTree = "<group>"; };
@@ -122,7 +184,6 @@
 		7734D7DF1627A92300D67FBB /* preclb_slave.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = preclb_slave.c; sourceTree = "<group>"; };
 		7734D7E01627A92300D67FBB /* read_write.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = read_write.c; sourceTree = "<group>"; };
 		7734D7E11627A92300D67FBB /* recipes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = recipes.c; sourceTree = "<group>"; };
-		7734D7E21627A92300D67FBB /* refit-vinet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "refit-vinet.c"; sourceTree = "<group>"; };
 		7734D7E31627A92300D67FBB /* rhombohedral.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rhombohedral.c; sourceTree = "<group>"; };
 		7734D7E41627A92300D67FBB /* rhomsghiorso.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rhomsghiorso.c; sourceTree = "<group>"; };
 		7734D7E51627A92300D67FBB /* ringwoodite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringwoodite.c; sourceTree = "<group>"; };
@@ -132,33 +193,24 @@
 		7734D7E91627A92300D67FBB /* simann.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = simann.f; sourceTree = "<group>"; };
 		7734D7EA1627A92300D67FBB /* spinel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = spinel.c; sourceTree = "<group>"; };
 		7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = subSolidusMuO2.c; sourceTree = "<group>"; };
-		7734D7EC1627A92300D67FBB /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test.c; sourceTree = "<group>"; };
-		7734D7ED1627A92300D67FBB /* test_a-x_relations.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test_a-x_relations.c"; sourceTree = "<group>"; };
-		7734D7EE1627A92300D67FBB /* test_commandLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_commandLib.c; sourceTree = "<group>"; };
-		7734D7EF1627A92300D67FBB /* test_convKressFit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_convKressFit.c; sourceTree = "<group>"; };
-		7734D7F01627A92300D67FBB /* test_database.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_database.c; sourceTree = "<group>"; };
-		7734D7F11627A92300D67FBB /* test_dn2gb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_dn2gb.c; sourceTree = "<group>"; };
-		7734D7F21627A92300D67FBB /* test_dynamicLib.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = test_dynamicLib.f; sourceTree = "<group>"; };
-		7734D7F31627A92300D67FBB /* test_entropy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_entropy.c; sourceTree = "<group>"; };
-		7734D7F41627A92300D67FBB /* test_eos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_eos.c; sourceTree = "<group>"; };
-		7734D7F51627A92300D67FBB /* test_fo2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_fo2.c; sourceTree = "<group>"; };
-		7734D7F61627A92300D67FBB /* test_garnet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_garnet.c; sourceTree = "<group>"; };
-		7734D7F71627A92300D67FBB /* test_gibbs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_gibbs.c; sourceTree = "<group>"; };
-		7734D7F81627A92300D67FBB /* test_liquid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_liquid.c; sourceTree = "<group>"; };
-		7734D7F91627A92300D67FBB /* test_SACNK.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_SACNK.c; sourceTree = "<group>"; };
-		7734D7FA1627A92300D67FBB /* test_SAK.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_SAK.c; sourceTree = "<group>"; };
-		7734D7FB1627A92300D67FBB /* test_simann.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_simann.c; sourceTree = "<group>"; };
-		7734D7FC1627A92300D67FBB /* test_speciation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_speciation.c; sourceTree = "<group>"; };
 		7734D7FD1627A92300D67FBB /* vframe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vframe.c; sourceTree = "<group>"; };
 		7734D7FE1627A92300D67FBB /* vheader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vheader.c; sourceTree = "<group>"; };
 		7734D7FF1627A92300D67FBB /* vlist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vlist.c; sourceTree = "<group>"; };
 		7734D8001627A92300D67FBB /* wadsleyite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wadsleyite.c; sourceTree = "<group>"; };
-		7734D8011627A92300D67FBB /* water-pk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "water-pk.c"; sourceTree = "<group>"; };
 		7734D8021627A92300D67FBB /* water.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = water.c; sourceTree = "<group>"; };
 		7734D8031627A92300D67FBB /* wustite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wustite.c; sourceTree = "<group>"; };
-		7734D8041627A94500D67FBB /* Makefile.common */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.common; sourceTree = "<group>"; };
-		7734D8051627A94500D67FBB /* Makefile.ML */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.ML; sourceTree = "<group>"; };
+		77A743F4163611C50038627C /* Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		77A743F1163611C50038627C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		7734D76C1627A90000D67FBB /* includes */ = {
@@ -171,26 +223,19 @@
 				7734D7711627A90000D67FBB /* interface.h */,
 				7734D7721627A90000D67FBB /* lawson_hanson.h */,
 				7734D7731627A90000D67FBB /* liq_struct_data.h */,
-				7734D7741627A90000D67FBB /* liq_struct_data_MgO_SiO2.h */,
-				7734D7751627A90000D67FBB /* liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h */,
 				7734D7761627A90000D67FBB /* liquid-model.h */,
 				7734D7771627A90000D67FBB /* melts_icon.h */,
 				7734D7781627A90000D67FBB /* mpi_common.h */,
 				7734D7791627A90000D67FBB /* mthread.h */,
 				7734D77A1627A90000D67FBB /* nash.h */,
 				7734D77B1627A90000D67FBB /* nepheline.h */,
-				7734D77C1627A90000D67FBB /* param_struct_data.blank */,
 				7734D77D1627A90000D67FBB /* param_struct_data.h */,
-				7734D77E1627A90000D67FBB /* param_struct_data_MgO_SiO2.h */,
-				7734D77F1627A90000D67FBB /* param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h */,
 				7734D7801627A90000D67FBB /* param_struct_data_v34.h */,
 				7734D7811627A90000D67FBB /* param_temp.h */,
 				7734D7821627A90000D67FBB /* recipes.h */,
 				7734D7831627A90000D67FBB /* res_struct_data.h */,
 				7734D7841627A90000D67FBB /* silmin.h */,
 				7734D7851627A90000D67FBB /* sol_struct_data.h */,
-				7734D7861627A90000D67FBB /* sol_struct_data_MgO_SiO2.h */,
-				7734D7871627A90000D67FBB /* sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h */,
 				7734D7881627A90000D67FBB /* status.h */,
 				7734D7891627A90000D67FBB /* terminal_icon.h */,
 				7734D78A1627A90000D67FBB /* vframe.h */,
@@ -208,14 +253,11 @@
 				7734D7911627A92300D67FBB /* alloy-liquid.c */,
 				7734D7921627A92300D67FBB /* alloy-solid.c */,
 				7734D7931627A92300D67FBB /* amphibole.c */,
-				7734D7941627A92300D67FBB /* analyze-fusion.c */,
-				7734D7951627A92300D67FBB /* analyze-water.c */,
 				7734D7961627A92300D67FBB /* biotite.c */,
 				7734D7971627A92300D67FBB /* button_callbacks.c */,
 				7734D7981627A92300D67FBB /* check_coexisting_liquids.c */,
 				7734D7991627A92300D67FBB /* check_coexisting_solids.c */,
 				7734D79A1627A92300D67FBB /* clinopyroxene.c */,
-				7734D79B1627A92300D67FBB /* convert-liquid.c */,
 				7734D79C1627A92300D67FBB /* create_assimilant_padb.c */,
 				7734D79D1627A92300D67FBB /* create_managed.c */,
 				7734D79E1627A92300D67FBB /* create_menu_bar.c */,
@@ -227,51 +269,33 @@
 				7734D7A41627A92300D67FBB /* create_xy_plot_padb.c */,
 				7734D7A51627A92300D67FBB /* cummingtonite.c */,
 				7734D7A61627A92300D67FBB /* debugMainLoop.c */,
-				7734D7A71627A92300D67FBB /* duan.c */,
-				7734D7A81627A92300D67FBB /* entropy_reg.c */,
-				7734D7A91627A92300D67FBB /* EOS-comparsion.c */,
 				7734D7AA1627A92300D67FBB /* equality_constraints.c */,
 				7734D7AB1627A92300D67FBB /* est_satState_revised.c */,
 				7734D7AC1627A92300D67FBB /* est_saturation_state.c */,
 				7734D7AD1627A92300D67FBB /* evaluate_saturation.c */,
 				7734D7AE1627A92300D67FBB /* feldspar.c */,
-				7734D7AF1627A92300D67FBB /* fluid-pk.c */,
 				7734D7B01627A92300D67FBB /* fluid.c */,
 				7734D7B11627A92300D67FBB /* frac.c */,
 				7734D7B21627A92300D67FBB /* garnet.c */,
 				7734D7B31627A92300D67FBB /* gibbs.c */,
 				7734D7B41627A92300D67FBB /* gradient_hessian.c */,
-				7734D7B51627A92300D67FBB /* Guil-driver.c */,
-				7734D7B61627A92300D67FBB /* Guil-error.c */,
 				7734D7B71627A92300D67FBB /* hornblende.c */,
 				7734D7B81627A92300D67FBB /* ilmenite.c */,
 				7734D7B91627A92300D67FBB /* initialize_colors.c */,
 				7734D7BA1627A92300D67FBB /* initialize_strings.c */,
 				7734D7BB1627A92300D67FBB /* interface.c */,
 				7734D7BC1627A92300D67FBB /* kalsilite.c */,
-				7734D7BD1627A92300D67FBB /* kevin.c */,
-				7734D7BE1627A92300D67FBB /* kevin.cc */,
-				7734D7BF1627A92300D67FBB /* kevin_data.c */,
-				7734D7C01627A92300D67FBB /* kevin_slave.cc */,
 				7734D7C11627A92300D67FBB /* lawson_hanson.c */,
 				7734D7C21627A92300D67FBB /* leucite.c */,
-				7734D7C31627A92300D67FBB /* library.c */,
-				7734D7C41627A92300D67FBB /* linAndPelton.c */,
 				7734D7C51627A92300D67FBB /* linear_search.c */,
-				7734D7C61627A92300D67FBB /* liquid+newCO2.c */,
 				7734D7C71627A92300D67FBB /* liquid.c */,
 				7734D7C81627A92300D67FBB /* liquid_v34.c */,
 				7734D7C91627A92300D67FBB /* liquidus.c */,
 				7734D7CA1627A92300D67FBB /* majorite.c */,
-				7734D7CB1627A92300D67FBB /* make-liquid-model.c */,
-				7734D7CC1627A92300D67FBB /* make_species_map.c */,
-				7734D7CD1627A92300D67FBB /* marc.c */,
 				7734D7CE1627A92300D67FBB /* melilite.c */,
 				7734D7CF1627A92300D67FBB /* melts.icon */,
 				7734D7D01627A92300D67FBB /* melts_support.c */,
 				7734D7D11627A92300D67FBB /* melts_threads.c */,
-				7734D7D21627A92300D67FBB /* mpi_master.c */,
-				7734D7D31627A92300D67FBB /* mpi_slave.c */,
 				7734D7D41627A92300D67FBB /* mthread.c */,
 				7734D7D51627A92300D67FBB /* nash.c */,
 				7734D7D61627A92300D67FBB /* nepheline.c */,
@@ -286,7 +310,6 @@
 				7734D7DF1627A92300D67FBB /* preclb_slave.c */,
 				7734D7E01627A92300D67FBB /* read_write.c */,
 				7734D7E11627A92300D67FBB /* recipes.c */,
-				7734D7E21627A92300D67FBB /* refit-vinet.c */,
 				7734D7E31627A92300D67FBB /* rhombohedral.c */,
 				7734D7E41627A92300D67FBB /* rhomsghiorso.c */,
 				7734D7E51627A92300D67FBB /* ringwoodite.c */,
@@ -296,61 +319,62 @@
 				7734D7E91627A92300D67FBB /* simann.f */,
 				7734D7EA1627A92300D67FBB /* spinel.c */,
 				7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */,
-				7734D7EC1627A92300D67FBB /* test.c */,
-				7734D7ED1627A92300D67FBB /* test_a-x_relations.c */,
-				7734D7EE1627A92300D67FBB /* test_commandLib.c */,
-				7734D7EF1627A92300D67FBB /* test_convKressFit.c */,
-				7734D7F01627A92300D67FBB /* test_database.c */,
-				7734D7F11627A92300D67FBB /* test_dn2gb.c */,
-				7734D7F21627A92300D67FBB /* test_dynamicLib.f */,
-				7734D7F31627A92300D67FBB /* test_entropy.c */,
-				7734D7F41627A92300D67FBB /* test_eos.c */,
-				7734D7F51627A92300D67FBB /* test_fo2.c */,
-				7734D7F61627A92300D67FBB /* test_garnet.c */,
-				7734D7F71627A92300D67FBB /* test_gibbs.c */,
-				7734D7F81627A92300D67FBB /* test_liquid.c */,
-				7734D7F91627A92300D67FBB /* test_SACNK.c */,
-				7734D7FA1627A92300D67FBB /* test_SAK.c */,
-				7734D7FB1627A92300D67FBB /* test_simann.c */,
-				7734D7FC1627A92300D67FBB /* test_speciation.c */,
 				7734D7FD1627A92300D67FBB /* vframe.c */,
 				7734D7FE1627A92300D67FBB /* vheader.c */,
 				7734D7FF1627A92300D67FBB /* vlist.c */,
 				7734D8001627A92300D67FBB /* wadsleyite.c */,
-				7734D8011627A92300D67FBB /* water-pk.c */,
 				7734D8021627A92300D67FBB /* water.c */,
 				7734D8031627A92300D67FBB /* wustite.c */,
 			);
 			path = sources;
 			sourceTree = "<group>";
 		};
+		77A743F5163611C50038627C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				77A743F4163611C50038627C /* Melts-rhyolite */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		77A743F7163611C50038627C /* Melts-rhyolite */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Melts-rhyolite";
+			sourceTree = "<group>";
+		};
 		77B68D411627A64800C6296F = {
 			isa = PBXGroup;
 			children = (
-				7734D8041627A94500D67FBB /* Makefile.common */,
-				7734D8051627A94500D67FBB /* Makefile.ML */,
 				7734D78F1627A92300D67FBB /* sources */,
 				7734D76C1627A90000D67FBB /* includes */,
+				77A743F7163611C50038627C /* Melts-rhyolite */,
+				77A743F5163611C50038627C /* Products */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
-/* Begin PBXLegacyTarget section */
-		77B68D481627A64800C6296F /* MELTS */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
-			buildConfigurationList = 77B68D4B1627A64800C6296F /* Build configuration list for PBXLegacyTarget "MELTS" */;
+/* Begin PBXNativeTarget section */
+		77A743F3163611C50038627C /* Melts-rhyolite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77A743F8163611C50038627C /* Build configuration list for PBXNativeTarget "Melts-rhyolite" */;
 			buildPhases = (
+				77A743F0163611C50038627C /* Sources */,
+				77A743F1163611C50038627C /* Frameworks */,
+				77A743F2163611C50038627C /* CopyFiles */,
 			);
-			buildToolPath = /usr/bin/make;
+			buildRules = (
+			);
 			dependencies = (
 			);
-			name = MELTS;
-			passBuildSettingsInEnvironment = 1;
-			productName = MELTS;
+			name = "Melts-rhyolite";
+			productName = "Melts-rhyolite";
+			productReference = 77A743F4163611C50038627C /* Melts-rhyolite */;
+			productType = "com.apple.product-type.tool";
 		};
-/* End PBXLegacyTarget section */
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		77B68D431627A64800C6296F /* Project object */ = {
@@ -367,15 +391,133 @@
 				en,
 			);
 			mainGroup = 77B68D411627A64800C6296F;
+			productRefGroup = 77A743F5163611C50038627C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				77B68D481627A64800C6296F /* MELTS */,
+				77A743F3163611C50038627C /* Melts-rhyolite */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXSourcesBuildPhase section */
+		77A743F0163611C50038627C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77A74427163619B80038627C /* melts_support.c in Sources */,
+				77A74428163619B80038627C /* melts_threads.c in Sources */,
+				77A74429163619B80038627C /* mthread.c in Sources */,
+				77A7442A163619B80038627C /* nash.c in Sources */,
+				77A7442B163619B80038627C /* nepheline.c in Sources */,
+				77A7442C163619B80038627C /* olivine-sx.c in Sources */,
+				77A7442D163619B80038627C /* olivine.c in Sources */,
+				77A7442E163619B80038627C /* ortho-oxide.c in Sources */,
+				77A7442F163619B80038627C /* orthopyroxene.c in Sources */,
+				77A74430163619B80038627C /* perovskite.c in Sources */,
+				77A74431163619B80038627C /* postclb.c in Sources */,
+				77A74432163619B80038627C /* preclb-public.c in Sources */,
+				77A74433163619B80038627C /* preclb.c in Sources */,
+				77A74434163619B80038627C /* preclb_slave.c in Sources */,
+				77A74435163619B80038627C /* read_write.c in Sources */,
+				77A74436163619B80038627C /* recipes.c in Sources */,
+				77A74437163619B80038627C /* rhombohedral.c in Sources */,
+				77A74438163619B80038627C /* rhomsghiorso.c in Sources */,
+				77A74439163619B80038627C /* ringwoodite.c in Sources */,
+				77A7443A163619B80038627C /* silmin.c in Sources */,
+				77A7443B163619B80038627C /* silmin_support.c in Sources */,
+				77A7443C163619B80038627C /* simann.c in Sources */,
+				77A7443D163619B80038627C /* simann.f in Sources */,
+				77A7443E163619B80038627C /* spinel.c in Sources */,
+				77A7443F163619B80038627C /* subSolidusMuO2.c in Sources */,
+				77A74440163619B80038627C /* vframe.c in Sources */,
+				77A74441163619B80038627C /* vheader.c in Sources */,
+				77A74442163619B80038627C /* vlist.c in Sources */,
+				77A74443163619B80038627C /* wadsleyite.c in Sources */,
+				77A74444163619B80038627C /* water.c in Sources */,
+				77A74445163619B80038627C /* wustite.c in Sources */,
+				77A743FB163619AA0038627C /* albite.c in Sources */,
+				77A743FC163619AA0038627C /* alloy-liquid.c in Sources */,
+				77A743FD163619AA0038627C /* alloy-solid.c in Sources */,
+				77A743FE163619AA0038627C /* amphibole.c in Sources */,
+				77A743FF163619AA0038627C /* biotite.c in Sources */,
+				77A74400163619AA0038627C /* button_callbacks.c in Sources */,
+				77A74401163619AA0038627C /* check_coexisting_liquids.c in Sources */,
+				77A74402163619AA0038627C /* check_coexisting_solids.c in Sources */,
+				77A74403163619AA0038627C /* clinopyroxene.c in Sources */,
+				77A74404163619AA0038627C /* create_assimilant_padb.c in Sources */,
+				77A74405163619AA0038627C /* create_managed.c in Sources */,
+				77A74406163619AA0038627C /* create_menu_bar.c in Sources */,
+				77A74407163619AA0038627C /* create_postclb.c in Sources */,
+				77A74408163619AA0038627C /* create_preclb.c in Sources */,
+				77A74409163619AA0038627C /* create_solid_padb.c in Sources */,
+				77A7440A163619AA0038627C /* create_tp_padb.c in Sources */,
+				77A7440B163619AA0038627C /* create_unmanaged.c in Sources */,
+				77A7440C163619AA0038627C /* create_xy_plot_padb.c in Sources */,
+				77A7440D163619AA0038627C /* cummingtonite.c in Sources */,
+				77A7440E163619AA0038627C /* debugMainLoop.c in Sources */,
+				77A7440F163619AA0038627C /* equality_constraints.c in Sources */,
+				77A74410163619AA0038627C /* est_satState_revised.c in Sources */,
+				77A74411163619AA0038627C /* est_saturation_state.c in Sources */,
+				77A74412163619AA0038627C /* evaluate_saturation.c in Sources */,
+				77A74413163619AA0038627C /* feldspar.c in Sources */,
+				77A74414163619AA0038627C /* fluid.c in Sources */,
+				77A74415163619AA0038627C /* frac.c in Sources */,
+				77A74416163619AA0038627C /* garnet.c in Sources */,
+				77A74417163619AA0038627C /* gibbs.c in Sources */,
+				77A74418163619AA0038627C /* gradient_hessian.c in Sources */,
+				77A74419163619AA0038627C /* hornblende.c in Sources */,
+				77A7441A163619AA0038627C /* ilmenite.c in Sources */,
+				77A7441B163619AA0038627C /* initialize_colors.c in Sources */,
+				77A7441C163619AA0038627C /* initialize_strings.c in Sources */,
+				77A7441D163619AA0038627C /* interface.c in Sources */,
+				77A7441E163619AA0038627C /* kalsilite.c in Sources */,
+				77A7441F163619AA0038627C /* lawson_hanson.c in Sources */,
+				77A74420163619AA0038627C /* leucite.c in Sources */,
+				77A74421163619AA0038627C /* linear_search.c in Sources */,
+				77A74422163619AA0038627C /* liquid.c in Sources */,
+				77A74423163619AA0038627C /* liquid_v34.c in Sources */,
+				77A74424163619AA0038627C /* liquidus.c in Sources */,
+				77A74425163619AA0038627C /* majorite.c in Sources */,
+				77A74426163619AA0038627C /* melilite.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
 /* Begin XCBuildConfiguration section */
+		77A743F9163611C50038627C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					RHYOLITE_ADJUSTMENTS,
+					_NO_GRACE_PIPE,
+					_NO_WHITE_TEXTTW,
+					_NO_DRAWINGA_VLIST_PARENT,
+					XTFUNCPROTO,
+					__osf__,
+				);
+				HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
+			};
+			name = Debug;
+		};
+		77A743FA163611C50038627C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = RHYOLITE_ADJUSTMENTS;
+				HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
+			};
+			name = Release;
+		};
 		77B68D491627A64800C6296F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -427,44 +569,22 @@
 			};
 			name = Release;
 		};
-		77B68D4C1627A64800C6296F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUGGING_SYMBOLS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		77B68D4D1627A64800C6296F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		77A743F8163611C50038627C /* Build configuration list for PBXNativeTarget "Melts-rhyolite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77A743F9163611C50038627C /* Debug */,
+				77A743FA163611C50038627C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		77B68D461627A64800C6296F /* Build configuration list for PBXProject "MELTS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				77B68D491627A64800C6296F /* Debug */,
 				77B68D4A1627A64800C6296F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		77B68D4B1627A64800C6296F /* Build configuration list for PBXLegacyTarget "MELTS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				77B68D4C1627A64800C6296F /* Debug */,
-				77B68D4D1627A64800C6296F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

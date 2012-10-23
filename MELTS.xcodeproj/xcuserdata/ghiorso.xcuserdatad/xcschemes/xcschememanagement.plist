@@ -4,14 +4,24 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>MELTS.xcscheme</key>
+		<key>Melts-rhyolite.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>779FBAFD1635D86200692847</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77A743F3163611C50038627C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>77B68D481627A64800C6296F</key>
 		<dict>
 			<key>primary</key>
