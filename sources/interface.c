@@ -614,472 +614,497 @@ static int batchInputDataFromFile(char *fileName)
 #define RUN_EQUILIBRATE_CALC 3
 
 static int batchInputDataFromXmlFile(char *fileName) {
-  xmlSchemaPtr schema = NULL;
-  xmlSchemaParserCtxtPtr ctxt = NULL;
-  xmlSchemaValidCtxtPtr ctxt2 = NULL;
-  int ret = TRUE;
-  static int SiO2 = -1, TiO2, Al2O3, Fe2O3, Cr2O3, FeO, MnO, MgO, NiO, CoO, CaO, Na2O, K2O, P2O5, H2O;
-  
-  if (SiO2 == -1) {
-    int i;
-    for (i=0; i<nc; i++) {
-      if      (!strcmp(bulkSystem[i].label, "SiO2" )) SiO2  = i;
-      else if (!strcmp(bulkSystem[i].label, "TiO2" )) TiO2  = i;
-      else if (!strcmp(bulkSystem[i].label, "Al2O3")) Al2O3 = i;
-      else if (!strcmp(bulkSystem[i].label, "Fe2O3")) Fe2O3 = i;
-      else if (!strcmp(bulkSystem[i].label, "Cr2O3")) Cr2O3 = i;
-      else if (!strcmp(bulkSystem[i].label, "FeO"  )) FeO   = i;
-      else if (!strcmp(bulkSystem[i].label, "MnO"  )) MnO   = i;
-      else if (!strcmp(bulkSystem[i].label, "MgO"  )) MgO   = i;
-      else if (!strcmp(bulkSystem[i].label, "NiO"  )) NiO   = i;
-      else if (!strcmp(bulkSystem[i].label, "CoO"  )) CoO   = i;
-      else if (!strcmp(bulkSystem[i].label, "CaO"  )) CaO   = i;
-      else if (!strcmp(bulkSystem[i].label, "Na2O" )) Na2O  = i;
-      else if (!strcmp(bulkSystem[i].label, "K2O"  )) K2O   = i;
-      else if (!strcmp(bulkSystem[i].label, "P2O5" )) P2O5  = i;
-      else if (!strcmp(bulkSystem[i].label, "H2O"  )) H2O   = i;
+    xmlSchemaPtr schema = NULL;
+    xmlSchemaParserCtxtPtr ctxt = NULL;
+    xmlSchemaValidCtxtPtr ctxt2 = NULL;
+    int ret = TRUE;
+    static int SiO2 = -1, TiO2, Al2O3, Fe2O3, Cr2O3, FeO, MnO, MgO, NiO, CoO, CaO, Na2O, K2O, P2O5, H2O;
+    
+    if (SiO2 == -1) {
+        int i;
+        for (i=0; i<nc; i++) {
+            if      (!strcmp(bulkSystem[i].label, "SiO2" )) SiO2  = i;
+            else if (!strcmp(bulkSystem[i].label, "TiO2" )) TiO2  = i;
+            else if (!strcmp(bulkSystem[i].label, "Al2O3")) Al2O3 = i;
+            else if (!strcmp(bulkSystem[i].label, "Fe2O3")) Fe2O3 = i;
+            else if (!strcmp(bulkSystem[i].label, "Cr2O3")) Cr2O3 = i;
+            else if (!strcmp(bulkSystem[i].label, "FeO"  )) FeO   = i;
+            else if (!strcmp(bulkSystem[i].label, "MnO"  )) MnO   = i;
+            else if (!strcmp(bulkSystem[i].label, "MgO"  )) MgO   = i;
+            else if (!strcmp(bulkSystem[i].label, "NiO"  )) NiO   = i;
+            else if (!strcmp(bulkSystem[i].label, "CoO"  )) CoO   = i;
+            else if (!strcmp(bulkSystem[i].label, "CaO"  )) CaO   = i;
+            else if (!strcmp(bulkSystem[i].label, "Na2O" )) Na2O  = i;
+            else if (!strcmp(bulkSystem[i].label, "K2O"  )) K2O   = i;
+            else if (!strcmp(bulkSystem[i].label, "P2O5" )) P2O5  = i;
+            else if (!strcmp(bulkSystem[i].label, "H2O"  )) H2O   = i;
+        }
     }
-  } 
-  
-  if (silminInputData.name != NULL) free(silminInputData.name);
-  silminInputData.name = (char *) malloc((size_t) (strlen(fileName)+1)*sizeof(char));
-  (void) strcpy(silminInputData.name, fileName);
-
-  ctxt = xmlSchemaNewParserCtxt("MELTSinput.xsd");
-  xmlSchemaSetParserErrors(ctxt,(xmlSchemaValidityErrorFunc) fprintf, (xmlSchemaValidityWarningFunc) fprintf, stderr);
-  	 
-  schema = xmlSchemaParse(ctxt);
-  xmlSchemaFreeParserCtxt(ctxt);
-  
-  if (schema != NULL) {		     
-    xmlDocPtr doc = NULL;
-
-    ctxt2 = xmlSchemaNewValidCtxt(schema);
-    xmlSchemaSetValidErrors(ctxt2,(xmlSchemaValidityErrorFunc) fprintf,(xmlSchemaValidityWarningFunc) fprintf, stderr);
-
-    doc = xmlReadFile(fileName, NULL, 0);
-    if (doc) {
-      if (xmlSchemaValidateDoc(ctxt2, doc)) {
-        printf("File %s is invalid against schema MELTSinput.xsd.\n", fileName);
-	ret = FALSE;
-      } else {
-        xmlNode *root_element = xmlDocGetRootElement(doc);
-	xmlNode *level1 = root_element->children;
-        printf("File %s has been validated against schema MELTSinput.xsd.\n", fileName);
-	
-	while (level1 != NULL) {
-	  if (level1->type == XML_ELEMENT_NODE) {
-	    xmlChar *content1 = xmlNodeGetContent(level1);
-	    
-	    if        (!strcmp((char *) level1->name, "initialize")) {
-	      xmlNode *level2 = level1->children;
-	      int i, j, np;
-	      printf("Found initialize: %s\n", content1);
-	      
-	      if (silminState != NULL) ; /*destroy the old state - nyi */        
-              silminState = allocSilminStatePointer();
-              for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-              (silminState->incSolids)[npc] = TRUE;
-              silminState->nLiquidCoexist  = 1;  
-              silminState->fo2Path  = FO2_NONE;
-
-	      for (i=0, silminState->liquidMass=0.0; i<nc; i++) (silminState->bulkComp)[i] = 0.0;	      
-	      while (level2 != NULL) {
-	        if (level2->type == XML_ELEMENT_NODE) {
-		  xmlChar *content2 = xmlNodeGetContent(level2);
-	          if      (!strcmp((char *) level2->name, "SiO2" )) (silminState->bulkComp)[SiO2 ] = atof((char *) content2)/bulkSystem[SiO2 ].mw;
-	          else if (!strcmp((char *) level2->name, "TiO2" )) (silminState->bulkComp)[TiO2 ] = atof((char *) content2)/bulkSystem[TiO2 ].mw;
-	          else if (!strcmp((char *) level2->name, "Al2O3")) (silminState->bulkComp)[Al2O3] = atof((char *) content2)/bulkSystem[Al2O3].mw;
-	          else if (!strcmp((char *) level2->name, "Fe2O3")) (silminState->bulkComp)[Fe2O3] = atof((char *) content2)/bulkSystem[Fe2O3].mw;
-	          else if (!strcmp((char *) level2->name, "Cr2O3")) (silminState->bulkComp)[Cr2O3] = atof((char *) content2)/bulkSystem[Cr2O3].mw;
-	          else if (!strcmp((char *) level2->name, "FeO"  )) (silminState->bulkComp)[FeO  ] = atof((char *) content2)/bulkSystem[FeO  ].mw;
-	          else if (!strcmp((char *) level2->name, "MnO"  )) (silminState->bulkComp)[MnO  ] = atof((char *) content2)/bulkSystem[MnO  ].mw;
-	          else if (!strcmp((char *) level2->name, "MgO"  )) (silminState->bulkComp)[MgO  ] = atof((char *) content2)/bulkSystem[MgO  ].mw;
-	          else if (!strcmp((char *) level2->name, "NiO"  )) (silminState->bulkComp)[NiO  ] = atof((char *) content2)/bulkSystem[NiO  ].mw;
-	          else if (!strcmp((char *) level2->name, "CoO"  )) (silminState->bulkComp)[CoO  ] = atof((char *) content2)/bulkSystem[CoO  ].mw;
-	          else if (!strcmp((char *) level2->name, "CaO"  )) (silminState->bulkComp)[CaO  ] = atof((char *) content2)/bulkSystem[CaO  ].mw;
-	          else if (!strcmp((char *) level2->name, "Na2O" )) (silminState->bulkComp)[Na2O ] = atof((char *) content2)/bulkSystem[Na2O ].mw;
-	          else if (!strcmp((char *) level2->name, "K2O"  )) (silminState->bulkComp)[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
-	          else if (!strcmp((char *) level2->name, "P2O5" )) (silminState->bulkComp)[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
-	          else if (!strcmp((char *) level2->name, "H2O"  )) (silminState->bulkComp)[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
-		  silminState->liquidMass += atof((char *) content2);
-		  if (content2 != NULL) xmlFree(content2);
-		}
-	        level2 = level2->next;
-	      }
-	      for (i=0; i<nlc; i++) 
-                for ((silminState->liquidComp)[0][i]=0.0, silminState->oxygen=0.0, j=0; j<nc; j++) {
-                 (silminState->liquidComp)[0][i] += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i];
-                 silminState->oxygen += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+    
+    if (silminInputData.name != NULL) free(silminInputData.name);
+    silminInputData.name = (char *) malloc((size_t) (strlen(fileName)+1)*sizeof(char));
+    (void) strcpy(silminInputData.name, fileName);
+    
+    ctxt = xmlSchemaNewParserCtxt("MELTSinput.xsd");
+    xmlSchemaSetParserErrors(ctxt,(xmlSchemaValidityErrorFunc) fprintf, (xmlSchemaValidityWarningFunc) fprintf, stderr);
+    
+    schema = xmlSchemaParse(ctxt);
+    xmlSchemaFreeParserCtxt(ctxt);
+    
+    if (schema != NULL) {
+        xmlDocPtr doc = NULL;
+        
+        ctxt2 = xmlSchemaNewValidCtxt(schema);
+        xmlSchemaSetValidErrors(ctxt2,(xmlSchemaValidityErrorFunc) fprintf,(xmlSchemaValidityWarningFunc) fprintf, stderr);
+        
+        doc = xmlReadFile(fileName, NULL, 0);
+        if (doc) {
+            if (xmlSchemaValidateDoc(ctxt2, doc)) {
+                printf("File %s is invalid against schema MELTSinput.xsd.\n", fileName);
+                ret = FALSE;
+            } else {
+                xmlNode *root_element = xmlDocGetRootElement(doc);
+                xmlNode *level1 = root_element->children;
+                printf("File %s has been validated against schema MELTSinput.xsd.\n", fileName);
+                
+                while (level1 != NULL) {
+                    if (level1->type == XML_ELEMENT_NODE) {
+                        xmlChar *content1 = xmlNodeGetContent(level1);
+                        
+                        if        (!strcmp((char *) level1->name, "initialize")) {
+                            xmlNode *level2 = level1->children;
+                            int i, j, np;
+                            printf("Found initialize: %s\n", content1);
+                            
+                            if (silminState != NULL) ; /*destroy the old state - nyi */
+                            silminState = allocSilminStatePointer();
+                            for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+                            (silminState->incSolids)[npc] = TRUE;
+                            silminState->nLiquidCoexist  = 1;
+                            silminState->fo2Path  = FO2_NONE;
+                            silminState->T = 0.0;
+                            silminState->P = 0.0;
+                            
+                            for (i=0, silminState->liquidMass=0.0; i<nc; i++) (silminState->bulkComp)[i] = 0.0;
+                            while (level2 != NULL) {
+                                if (level2->type == XML_ELEMENT_NODE) {
+                                    xmlChar *content2 = xmlNodeGetContent(level2);
+                                    if      (!strcmp((char *) level2->name, "SiO2" )) (silminState->bulkComp)[SiO2 ] = atof((char *) content2)/bulkSystem[SiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "TiO2" )) (silminState->bulkComp)[TiO2 ] = atof((char *) content2)/bulkSystem[TiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "Al2O3")) (silminState->bulkComp)[Al2O3] = atof((char *) content2)/bulkSystem[Al2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Fe2O3")) (silminState->bulkComp)[Fe2O3] = atof((char *) content2)/bulkSystem[Fe2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Cr2O3")) (silminState->bulkComp)[Cr2O3] = atof((char *) content2)/bulkSystem[Cr2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "FeO"  )) (silminState->bulkComp)[FeO  ] = atof((char *) content2)/bulkSystem[FeO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MnO"  )) (silminState->bulkComp)[MnO  ] = atof((char *) content2)/bulkSystem[MnO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MgO"  )) (silminState->bulkComp)[MgO  ] = atof((char *) content2)/bulkSystem[MgO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "NiO"  )) (silminState->bulkComp)[NiO  ] = atof((char *) content2)/bulkSystem[NiO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CoO"  )) (silminState->bulkComp)[CoO  ] = atof((char *) content2)/bulkSystem[CoO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CaO"  )) (silminState->bulkComp)[CaO  ] = atof((char *) content2)/bulkSystem[CaO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "Na2O" )) (silminState->bulkComp)[Na2O ] = atof((char *) content2)/bulkSystem[Na2O ].mw;
+                                    else if (!strcmp((char *) level2->name, "K2O"  )) (silminState->bulkComp)[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "P2O5" )) (silminState->bulkComp)[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
+                                    else if (!strcmp((char *) level2->name, "H2O"  )) (silminState->bulkComp)[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
+                                    silminState->liquidMass += atof((char *) content2);
+                                    if (content2 != NULL) xmlFree(content2);
+                                }
+                                level2 = level2->next;
+                            }
+                            for (i=0; i<nlc; i++)
+                                for ((silminState->liquidComp)[0][i]=0.0, silminState->oxygen=0.0, j=0; j<nc; j++) {
+                                    (silminState->liquidComp)[0][i] += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i];
+                                    silminState->oxygen += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+                                }
+                            
+                            
+                            
+                        } else if (!strcmp((char *) level1->name, "calculationMode")) {
+                            printf("Found calculationMode: %s\n", content1);
+                            if      (!strcmp((char *) content1, "findLiquidus")) ret = RUN_LIQUIDUS_CALC;
+                            else if (!strcmp((char *) content1, "equilibrate" )) ret = RUN_EQUILIBRATE_CALC;
+                            
+                        } else if (!strcmp((char *) level1->name, "title")) {
+                            printf("Found title: %s\n", content1);
+                            if (silminInputData.title != NULL) free(silminInputData.title);
+                            silminInputData.title = (char *) malloc((size_t) (strlen((char *) content1)+1)*sizeof(char));
+                            (void) strcpy(silminInputData.title, (char *) content1);
+                            
+                        } else if (!strcmp((char *) level1->name, "changeBulk")) {
+                            xmlNode *level2 = level1->children;
+                            int i, j;
+                            static double *changeBC = NULL;
+                            
+                            printf("Found changeBulk\n");
+                            if (changeBC == NULL) changeBC = (double *) calloc((size_t) nc, sizeof(double));
+                            else for (i=0; i<nc; i++) changeBC[i] = 0.0;
+                            
+                            while (level2 != NULL) {
+                                if (level2->type == XML_ELEMENT_NODE) {
+                                    xmlChar *content2 = xmlNodeGetContent(level2);
+                                    if      (!strcmp((char *) level2->name, "SiO2" )) changeBC[SiO2 ] = atof((char *) content2)/bulkSystem[SiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "TiO2" )) changeBC[TiO2 ] = atof((char *) content2)/bulkSystem[TiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "Al2O3")) changeBC[Al2O3] = atof((char *) content2)/bulkSystem[Al2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Fe2O3")) changeBC[Fe2O3] = atof((char *) content2)/bulkSystem[Fe2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Cr2O3")) changeBC[Cr2O3] = atof((char *) content2)/bulkSystem[Cr2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "FeO"  )) changeBC[FeO  ] = atof((char *) content2)/bulkSystem[FeO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MnO"  )) changeBC[MnO  ] = atof((char *) content2)/bulkSystem[MnO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MgO"  )) changeBC[MgO  ] = atof((char *) content2)/bulkSystem[MgO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "NiO"  )) changeBC[NiO  ] = atof((char *) content2)/bulkSystem[NiO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CoO"  )) changeBC[CoO  ] = atof((char *) content2)/bulkSystem[CoO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CaO"  )) changeBC[CaO  ] = atof((char *) content2)/bulkSystem[CaO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "Na2O" )) changeBC[Na2O ] = atof((char *) content2)/bulkSystem[Na2O ].mw;
+                                    else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
+                                    else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
+                                    silminState->liquidMass += atof((char *) content2);
+                                    if (content2 != NULL) xmlFree(content2);
+                                }
+                                level2 = level2->next;
+                            }
+                            
+                            for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
+                            for (i=0; i<nlc; i++)
+                                for (j=0; j<nc; j++) {
+                                    (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
+                                    silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+                                }
+                            
+                        } else if (!strcmp((char *) level1->name, "constraints")) {
+                            xmlNode *level2 = level1->children;
+                            printf("Found constraints\n");
+                            while (level2 != NULL) {
+                                if (level2->type == XML_ELEMENT_NODE) {
+                                    if (!strcmp((char *) level2->name, "setTP")) {
+                                        double oldInitialT = silminState->T;
+                                        xmlNode *level3 = level2->children;
+                                        printf("Found setTP\n");
+                                        silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
+                                        silminState->isentropic  = FALSE; silminState->refEntropy  = 0.0;
+                                        silminState->isochoric   = FALSE; silminState->refVolume   = 0.0;
+                                        while (level3 != NULL) {
+                                            if (level3->type == XML_ELEMENT_NODE) {
+                                                xmlChar *content3 = xmlNodeGetContent(level3);
+                                                if      (!strcmp((char *) level3->name, "initialT" )) {
+                                                    silminState->T         = atof((char *) content3) + 273.15;
+                                                    silminState->dspTstart = atof((char *) content3) + 273.15;
+                                                }
+                                                else if (!strcmp((char *) level3->name, "finalT"   )) silminState->dspTstop = atof((char *) content3) + 273.15;
+                                                else if (!strcmp((char *) level3->name, "incT"     )) silminState->dspTinc  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "initialP" )) {
+                                                    silminState->P         = atof((char *) content3);
+                                                    silminState->dspPstart = atof((char *) content3);
+                                                }
+                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "dpdt"     )) silminState->dspDPDt  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "fo2Path"  )) {
+                                                    if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
+                                                    else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
+                                                    else if (!strcmp((char *) content3, "coh" )) silminState->fo2Path  = FO2_COH;
+                                                    else if (!strcmp((char *) content3, "nno" )) silminState->fo2Path  = FO2_NNO;
+                                                    else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
+                                                    else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
+                                                }
+                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
+                                                if (content3 != NULL) xmlFree(content3);
+                                            }
+                                            level3 = level3->next;
+                                        }
+                                        if ((fabs(silminState->T - oldInitialT) < 1.0e-6) && (fabs(silminState->T - silminState->dspTstop) > 1.0e-6)) {
+                                            printf("Found condition where initial T is a pickup T from previous run and final T is not equal to initial T - adjusting ...\n");
+                                            if (fabs(silminState->T - silminState->dspTstop) > fabs(silminState->dspTinc)) {
+                                                if (silminState->T > silminState->dspTstop) {
+                                                    silminState->T         -= fabs(silminState->dspTinc);
+                                                    silminState->dspTstart -= fabs(silminState->dspTinc);
+                                                } else {
+                                                    silminState->T         += fabs(silminState->dspTinc);
+                                                    silminState->dspTstart += fabs(silminState->dspTinc);
+                                                }
+                                                printf("... reset initial T to input value minus T increment.\n");
+                                            } else {
+                                                if (silminState->T > silminState->dspTstop) {
+                                                    silminState->T         -= 1.0e-6;
+                                                    silminState->dspTstart -= 1.0e-6;
+                                                } else {
+                                                    silminState->T         += 1.0e-6;
+                                                    silminState->dspTstart += 1.0e-6;
+                                                }
+                                                printf("... reset initial T to input value minus T increment.\n");
+                                            }
+                                        }
+                                        
+                                    } else if (!strcmp((char *) level2->name, "setTV")) {
+                                        xmlNode *level3 = level2->children;
+                                        printf("Found setTV\n");
+                                        silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
+                                        silminState->isentropic  = FALSE; silminState->refEntropy  = 0.0;
+                                        silminState->isochoric   = TRUE;  silminState->refVolume   = 0.0;
+                                        while (level3 != NULL) {
+                                            if (level3->type == XML_ELEMENT_NODE) {
+                                                xmlChar *content3 = xmlNodeGetContent(level3);
+                                                if      (!strcmp((char *) level3->name, "initialT" )) {
+                                                    silminState->T         = atof((char *) content3) + 273.15;
+                                                    silminState->dspTstart = atof((char *) content3) + 273.15;
+                                                }
+                                                else if (!strcmp((char *) level3->name, "finalT"   )) silminState->dspTstop  = atof((char *) content3) + 273.15;
+                                                else if (!strcmp((char *) level3->name, "incT"     )) silminState->dspTinc   = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "initialV" )) silminState->refVolume = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "finalV"   )) silminState->dspVstop  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "incV"     )) silminState->dspVinc  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "dvdt"     )) silminState->dspDVDt  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "fo2Path"  )) {
+                                                    if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
+                                                    else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
+                                                    else if (!strcmp((char *) content3, "coh" )) silminState->fo2Path  = FO2_COH;
+                                                    else if (!strcmp((char *) content3, "nno" )) silminState->fo2Path  = FO2_NNO;
+                                                    else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
+                                                    else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
+                                                }
+                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
+                                                if (content3 != NULL) xmlFree(content3);
+                                            }
+                                            level3 = level3->next;
+                                        }
+                                        
+                                    } else if (!strcmp((char *) level2->name, "setHP")) {
+                                        xmlNode *level3 = level2->children;
+                                        printf("Found setHP\n");
+                                        silminState->isenthalpic = TRUE;
+                                        silminState->isentropic  = FALSE;
+                                        silminState->isochoric   = FALSE;
+                                        while (level3 != NULL) {
+                                            if (level3->type == XML_ELEMENT_NODE) {
+                                                xmlChar *content3 = xmlNodeGetContent(level3);
+                                                if      (!strcmp((char *) level3->name, "initialH" )) silminState->refEnthalpy = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "finalH"   )) silminState->dspHstop    = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "incH"     )) silminState->dspHinc     = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "initialP" )) {
+                                                    silminState->P         = atof((char *) content3);
+                                                    silminState->dspPstart = atof((char *) content3);
+                                                }
+                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "dpdh"     )) silminState->dspDPDH  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "fo2Path"  )) {
+                                                    if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
+                                                    else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
+                                                    else if (!strcmp((char *) content3, "coh" )) silminState->fo2Path  = FO2_COH;
+                                                    else if (!strcmp((char *) content3, "nno" )) silminState->fo2Path  = FO2_NNO;
+                                                    else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
+                                                    else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
+                                                }
+                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
+                                                if (content3 != NULL) xmlFree(content3);
+                                            }
+                                            level3 = level3->next;
+                                        }
+                                        
+                                    } else if (!strcmp((char *) level2->name, "setSP")) {
+                                        xmlNode *level3 = level2->children;
+                                        printf("Found setSP\n");
+                                        silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
+                                        silminState->isentropic  = TRUE;  silminState->refEntropy  = 0.0;
+                                        silminState->isochoric   = FALSE; silminState->refVolume   = 0.0;
+                                        while (level3 != NULL) {
+                                            if (level3->type == XML_ELEMENT_NODE) {
+                                                xmlChar *content3 = xmlNodeGetContent(level3);
+                                                if      (!strcmp((char *) level3->name, "initialS" )) silminState->refEntropy = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "finalS"   )) silminState->dspSstop   = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "incS"     )) silminState->dspSinc    = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "initialP" )) {
+                                                    silminState->P         = atof((char *) content3);
+                                                    silminState->dspPstart = atof((char *) content3);
+                                                }
+                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "dpds"     )) silminState->dspDPDS  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "fo2Path"  )) {
+                                                    if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
+                                                    else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
+                                                    else if (!strcmp((char *) content3, "coh" )) silminState->fo2Path  = FO2_COH;
+                                                    else if (!strcmp((char *) content3, "nno" )) silminState->fo2Path  = FO2_NNO;
+                                                    else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
+                                                    else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
+                                                }
+                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
+                                                if (content3 != NULL) xmlFree(content3);
+                                            }
+                                            level3 = level3->next;
+                                        }
+                                    }
+                                    
+                                }
+                                level2 = level2->next;
+                            }
+                            
+                        } else if (!strcmp((char *) level1->name, "suppressPhase")) {
+                            int i, j;
+                            printf("Found suppressPhase: %s\n", content1);
+                            for (i=0, j=0; i<npc; i++) if (solids[i].type == PHASE) {
+                                if (!strcmp((char *) content1, solids[i].label)) {
+                                    if (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) (silminState->incSolids)[j] = FALSE;
+                                    break;
+                                }
+                                j++;
+                            }
+                            
+                        } else if (!strcmp((char *) level1->name, "fractionationMode")) {
+                            printf("Found fractionationMode: %s\n", content1);
+                            if      (!strcmp((char *) content1, "fractionateSolids"  )) {                                      silminState->fractionateSol =  TRUE;                                      }
+                            else if (!strcmp((char *) content1, "fractionateFluids"  )) { silminState->fractionateFlu =  TRUE;                                                                           }
+                            else if (!strcmp((char *) content1, "fractionateLiquids" )) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq =  TRUE; }
+                            else if (!strcmp((char *) content1, "fractionateNone"    )) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq = FALSE; }
+                            
+                            if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
+                                silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
+                                silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
+                            }
+                            if (silminState->fractionateLiq && silminState->fracLComp == (double *) NULL) {
+                                silminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
+                            }
+                            
+                        } else if (!strcmp((char *) level1->name, "multLiquids")) {
+                            printf("Found multLiquids: %s\n", content1);
+                            if (!strcmp((char *) content1, "true")) silminState->multipleLiqs = TRUE;
+                            
+                        } else if (!strcmp((char *) level1->name, "assimilant")) {
+                            xmlNode *level2 = level1->children;
+                            printf("Found assimilant\n");
+                            silminState->assimilate = TRUE;
+                            silminState->dspAssimUnits = ASSIM_PADB_UNITS_WEIGHT;
+                            if (silminState->nDspAssimComp == NULL) silminState->nDspAssimComp = (int *)     calloc((unsigned) (npc+nc), sizeof(int));
+                            if (silminState->dspAssimComp  == NULL) silminState->dspAssimComp  = (double **) calloc((unsigned) (npc+nc), sizeof(double *));
+                            
+                            while (level2 != NULL) {
+                                if (level2->type == XML_ELEMENT_NODE) {
+                                    xmlChar *content2 = xmlNodeGetContent(level2);
+                                    if (!strcmp((char *) level2->name, "temperature" )) {
+                                        printf("Found temperature = %s\n", content2); silminState->dspAssimT = atof((char *) content2);
+                                    } else if (!strcmp((char *) level2->name, "increments"  )) {
+                                        printf("Found increments  = %s\n", content2); silminState->dspAssimInc = atoi((char *) content2);
+                                    } else if (!strcmp((char *) level2->name, "mass"        )) {
+                                        printf("Found mass        = %s\n", content2); silminState->dspAssimMass = atof((char *) content2);
+                                    } else if (!strcmp((char *) level2->name, "units"       )) {
+                                        printf("Found units       = %s\n", content2);		    
+                                    } else if (!strcmp((char *) level2->name, "phase"       )) {		    
+                                        xmlNode *level3 = level2->children;
+                                        printf("Found phase\n");
+                                        while (level3 != NULL) {
+                                            if (level3->type == XML_ELEMENT_NODE) {
+                                                if        (!strcmp((char *) level3->name, "amorphous" )) {
+                                                    xmlNode *level4 = level3->children;
+                                                    printf("Found amorphous\n");
+                                                    while (level4 != NULL) {
+                                                        if (level4->type == XML_ELEMENT_NODE) {
+                                                            xmlChar *content4 = xmlNodeGetContent(level4);
+                                                            if (!strcmp((char *) level4->name, "massFraction" )) printf("Found massFraction  = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "SiO2" )) printf("Found SiO2  = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "TiO2" )) printf("Found TiO2  = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "Al2O3")) printf("Found Al2O3 = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "Fe2O3")) printf("Found Fe2O3 = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "Cr2O3")) printf("Found Cr2O3 = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "FeO"  )) printf("Found FeO   = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "MnO"  )) printf("Found MnO   = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "MgO"  )) printf("Found MgO   = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "NiO"  )) printf("Found NiO   = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "CoO"  )) printf("Found CoO   = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "CaO"  )) printf("Found CaO   = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "Na2O" )) printf("Found Na2O  = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "K2O"  )) printf("Found K2O   = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "P2O5" )) printf("Found P2O5  = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "H2O"  )) printf("Found H2O   = %s\n", content4);
+                                                            if (content4 != NULL) xmlFree(content4);
+                                                        }
+                                                        level4 = level4->next;
+                                                    }
+                                                    
+                                                } else if (!strcmp((char *) level3->name, "solid"     )) {
+                                                    xmlNode *level4 = level3->children;
+                                                    printf("Found solid\n");
+                                                    while (level4 != NULL) {
+                                                        if (level4->type == XML_ELEMENT_NODE) {
+                                                            xmlChar *content4 = xmlNodeGetContent(level4);
+                                                            if      (!strcmp((char *) level4->name, "label"        )) printf("Found label         = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "massFraction" )) printf("Found massFraction  = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "component"    )) {
+                                                                xmlNode *level5 = level4->children;
+                                                                printf("Found component\n");
+                                                                while (level5 != NULL) {
+                                                                    if (level5->type == XML_ELEMENT_NODE) {
+                                                                        xmlChar *content5 = xmlNodeGetContent(level5);
+                                                                        if      (!strcmp((char *) level5->name, "label"   )) printf("Found label   = %s\n", content5);
+                                                                        else if (!strcmp((char *) level5->name, "molFrac" )) printf("Found molFrac = %s\n", content5);
+                                                                        if (content5 != NULL) xmlFree(content5);
+                                                                    }
+                                                                    level5 = level5->next;
+                                                                }
+                                                            }
+                                                            if (content4 != NULL) xmlFree(content4);
+                                                        }
+                                                        level4 = level4->next;
+                                                    }
+                                                    
+                                                    
+                                                } else if (!strcmp((char *) level3->name, "liquid"    )) {
+                                                    xmlNode *level4 = level3->children;
+                                                    printf("Found liquid\n");
+                                                    while (level4 != NULL) {
+                                                        if (level4->type == XML_ELEMENT_NODE) {
+                                                            int iOx = -1;
+                                                            xmlChar *content4 = xmlNodeGetContent(level4);
+                                                            if (!strcmp((char *) level4->name, "massFraction" )) printf("Found massFraction  = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "SiO2" )) { printf("Found SiO2  = %s\n", content4); iOx = SiO2;  }
+                                                            else if (!strcmp((char *) level4->name, "TiO2" )) { printf("Found TiO2  = %s\n", content4); iOx = TiO2;  }
+                                                            else if (!strcmp((char *) level4->name, "Al2O3")) { printf("Found Al2O3 = %s\n", content4); iOx = Al2O3; }
+                                                            else if (!strcmp((char *) level4->name, "Fe2O3")) { printf("Found Fe2O3 = %s\n", content4); iOx = Fe2O3; }
+                                                            else if (!strcmp((char *) level4->name, "Cr2O3")) { printf("Found Cr2O3 = %s\n", content4); iOx = Cr2O3; }
+                                                            else if (!strcmp((char *) level4->name, "FeO"  )) { printf("Found FeO   = %s\n", content4); iOx = FeO;   }
+                                                            else if (!strcmp((char *) level4->name, "MnO"  )) { printf("Found MnO   = %s\n", content4); iOx = MnO;   }
+                                                            else if (!strcmp((char *) level4->name, "MgO"  )) { printf("Found MgO   = %s\n", content4); iOx = MgO;   }
+                                                            else if (!strcmp((char *) level4->name, "NiO"  )) { printf("Found NiO   = %s\n", content4); iOx = NiO;   }
+                                                            else if (!strcmp((char *) level4->name, "CoO"  )) { printf("Found CoO   = %s\n", content4); iOx = CoO;   }
+                                                            else if (!strcmp((char *) level4->name, "CaO"  )) { printf("Found CaO   = %s\n", content4); iOx = CaO;   }
+                                                            else if (!strcmp((char *) level4->name, "Na2O" )) { printf("Found Na2O  = %s\n", content4); iOx = Na2O;  }
+                                                            else if (!strcmp((char *) level4->name, "K2O"  )) { printf("Found K2O   = %s\n", content4); iOx = K2O;   }
+                                                            else if (!strcmp((char *) level4->name, "P2O5" )) { printf("Found P2O5  = %s\n", content4); iOx = P2O5;  }
+                                                            else if (!strcmp((char *) level4->name, "H2O"  )) { printf("Found H2O   = %s\n", content4); iOx = H2O;   }
+                                                            if (content4 != NULL) xmlFree(content4);
+                                                        }
+                                                        level4 = level4->next;
+                                                    }
+                                                }
+                                            }
+                                            level3 = level3->next;
+                                        }
+                                    }
+                                    if (content2 != NULL) xmlFree(content2);
+                                }
+                                level2 = level2->next;
+                            }
+                        }
+                        
+                        if (content1 != NULL) xmlFree(content1);
+                    }
+                    level1 = level1->next;
                 }
-	      
-
-	      
-	    } else if (!strcmp((char *) level1->name, "calculationMode")) {
-	      printf("Found calculationMode: %s\n", content1);
-	      if      (!strcmp((char *) content1, "findLiquidus")) ret = RUN_LIQUIDUS_CALC;
-	      else if (!strcmp((char *) content1, "equilibrate" )) ret = RUN_EQUILIBRATE_CALC;
-	      
-	    } else if (!strcmp((char *) level1->name, "title")) {
-	      printf("Found title: %s\n", content1);
-	      if (silminInputData.title != NULL) free(silminInputData.title);
-	      silminInputData.title = (char *) malloc((size_t) (strlen((char *) content1)+1)*sizeof(char));
-	      (void) strcpy(silminInputData.title, (char *) content1); 
-	      
-	    } else if (!strcmp((char *) level1->name, "changeBulk")) {
-	      xmlNode *level2 = level1->children;
-	      int i, j;
-	      static double *changeBC = NULL; 
-	      
-	      printf("Found changeBulk\n");
-	      if (changeBC == NULL) changeBC = (double *) calloc((size_t) nc, sizeof(double));
-	      else for (i=0; i<nc; i++) changeBC[i] = 0.0;
-	      
-	      while (level2 != NULL) {
-	        if (level2->type == XML_ELEMENT_NODE) {
-		  xmlChar *content2 = xmlNodeGetContent(level2);
-	          if      (!strcmp((char *) level2->name, "SiO2" )) changeBC[SiO2 ] = atof((char *) content2)/bulkSystem[SiO2 ].mw;
-	          else if (!strcmp((char *) level2->name, "TiO2" )) changeBC[TiO2 ] = atof((char *) content2)/bulkSystem[TiO2 ].mw;
-	          else if (!strcmp((char *) level2->name, "Al2O3")) changeBC[Al2O3] = atof((char *) content2)/bulkSystem[Al2O3].mw;
-	          else if (!strcmp((char *) level2->name, "Fe2O3")) changeBC[Fe2O3] = atof((char *) content2)/bulkSystem[Fe2O3].mw;
-	          else if (!strcmp((char *) level2->name, "Cr2O3")) changeBC[Cr2O3] = atof((char *) content2)/bulkSystem[Cr2O3].mw;
-	          else if (!strcmp((char *) level2->name, "FeO"  )) changeBC[FeO  ] = atof((char *) content2)/bulkSystem[FeO  ].mw;
-	          else if (!strcmp((char *) level2->name, "MnO"  )) changeBC[MnO  ] = atof((char *) content2)/bulkSystem[MnO  ].mw;
-	          else if (!strcmp((char *) level2->name, "MgO"  )) changeBC[MgO  ] = atof((char *) content2)/bulkSystem[MgO  ].mw;
-	          else if (!strcmp((char *) level2->name, "NiO"  )) changeBC[NiO  ] = atof((char *) content2)/bulkSystem[NiO  ].mw;
-	          else if (!strcmp((char *) level2->name, "CoO"  )) changeBC[CoO  ] = atof((char *) content2)/bulkSystem[CoO  ].mw;
-	          else if (!strcmp((char *) level2->name, "CaO"  )) changeBC[CaO  ] = atof((char *) content2)/bulkSystem[CaO  ].mw;
-	          else if (!strcmp((char *) level2->name, "Na2O" )) changeBC[Na2O ] = atof((char *) content2)/bulkSystem[Na2O ].mw;
-	          else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
-	          else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
-	          else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
-		  silminState->liquidMass += atof((char *) content2);
-		  if (content2 != NULL) xmlFree(content2);
-		}
-	        level2 = level2->next;
-	      }
-	      
-	      for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
-	      for (i=0; i<nlc; i++) 
-                for (j=0; j<nc; j++) {
-                 (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
-                 silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
-                }
-	      
-	    } else if (!strcmp((char *) level1->name, "constraints")) {
-	      xmlNode *level2 = level1->children;
-	      printf("Found constraints\n");
-	      while (level2 != NULL) {
-	        if (level2->type == XML_ELEMENT_NODE) {
-		  if       (!strcmp((char *) level2->name, "setTP")) {
-		    xmlNode *level3 = level2->children;
-		    printf("Found setTP\n");
-		    silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
-		    silminState->isentropic  = FALSE; silminState->refEntropy  = 0.0;
-		    silminState->isochoric   = FALSE; silminState->refVolume   = 0.0;
-	            while (level3 != NULL) {
-	              if (level3->type == XML_ELEMENT_NODE) {
-		        xmlChar *content3 = xmlNodeGetContent(level3);
-			if      (!strcmp((char *) level3->name, "initialT" )) { 
-			  silminState->T         = atof((char *) content3) + 273.15;  
-			  silminState->dspTstart = atof((char *) content3) + 273.15;  
-			} 
-			else if (!strcmp((char *) level3->name, "finalT"   )) silminState->dspTstop = atof((char *) content3) + 273.15; 
-			else if (!strcmp((char *) level3->name, "incT"     )) silminState->dspTinc  = atof((char *) content3); 
-			else if (!strcmp((char *) level3->name, "initialP" )) {
-			  silminState->P         = atof((char *) content3);  
-			  silminState->dspPstart = atof((char *) content3);  
-			}
-			else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "dpdt"     )) silminState->dspDPDt  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "fo2Path"  )) {
-			  if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
-			  else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
-			  else if (!strcmp((char *) content3, "coh" )) silminState->fo2Path  = FO2_COH;
-			  else if (!strcmp((char *) content3, "nno" )) silminState->fo2Path  = FO2_NNO;
-			  else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
-			  else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
-			}
-			else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
-		        if (content3 != NULL) xmlFree(content3);
-		      }
-	              level3 = level3->next;
-	            }
-		    
-		  } else if (!strcmp((char *) level2->name, "setTV")) {
-		    xmlNode *level3 = level2->children;
-		    printf("Found setTV\n");
-		    silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
-		    silminState->isentropic  = FALSE; silminState->refEntropy  = 0.0;
-		    silminState->isochoric   = TRUE;  silminState->refVolume   = 0.0;
-	            while (level3 != NULL) {
-	              if (level3->type == XML_ELEMENT_NODE) {
-		        xmlChar *content3 = xmlNodeGetContent(level3);
-			if      (!strcmp((char *) level3->name, "initialT" )) { 
-			  silminState->T         = atof((char *) content3) + 273.15;  
-			  silminState->dspTstart = atof((char *) content3) + 273.15;  
-			} 
-			else if (!strcmp((char *) level3->name, "finalT"   )) silminState->dspTstop  = atof((char *) content3) + 273.15; 
-			else if (!strcmp((char *) level3->name, "incT"     )) silminState->dspTinc   = atof((char *) content3); 
-			else if (!strcmp((char *) level3->name, "initialV" )) silminState->refVolume = atof((char *) content3);  
-			else if (!strcmp((char *) level3->name, "finalV"   )) silminState->dspVstop  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "incV"     )) silminState->dspVinc  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "dvdt"     )) silminState->dspDVDt  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "fo2Path"  )) {
-			  if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
-			  else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
-			  else if (!strcmp((char *) content3, "coh" )) silminState->fo2Path  = FO2_COH;
-			  else if (!strcmp((char *) content3, "nno" )) silminState->fo2Path  = FO2_NNO;
-			  else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
-			  else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
-			}
-			else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
-		        if (content3 != NULL) xmlFree(content3);
-		      }
-	              level3 = level3->next;
-	            }
-		    
-		  } else if (!strcmp((char *) level2->name, "setHP")) {
-		    xmlNode *level3 = level2->children;
-		    printf("Found setHP\n");
-		    silminState->isenthalpic = TRUE;  
-		    silminState->isentropic  = FALSE; 
-		    silminState->isochoric   = FALSE; 
-	            while (level3 != NULL) {
-	              if (level3->type == XML_ELEMENT_NODE) {
-		        xmlChar *content3 = xmlNodeGetContent(level3);
-			if      (!strcmp((char *) level3->name, "initialH" )) silminState->refEnthalpy = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "finalH"   )) silminState->dspHstop    = atof((char *) content3); 
-			else if (!strcmp((char *) level3->name, "incH"     )) silminState->dspHinc     = atof((char *) content3); 
-			else if (!strcmp((char *) level3->name, "initialP" )) {
-			  silminState->P         = atof((char *) content3);  
-			  silminState->dspPstart = atof((char *) content3);  
-			}
-			else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "dpdh"     )) silminState->dspDPDH  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "fo2Path"  )) {
-			  if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
-			  else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
-			  else if (!strcmp((char *) content3, "coh" )) silminState->fo2Path  = FO2_COH;
-			  else if (!strcmp((char *) content3, "nno" )) silminState->fo2Path  = FO2_NNO;
-			  else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
-			  else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
-			}
-			else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
-		        if (content3 != NULL) xmlFree(content3);
-		      }
-	              level3 = level3->next;
-	            }
-		    
-		  } else if (!strcmp((char *) level2->name, "setSP")) {
-		    xmlNode *level3 = level2->children;
-		    printf("Found setSP\n");
-		    silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
-		    silminState->isentropic  = TRUE;  silminState->refEntropy  = 0.0;
-		    silminState->isochoric   = FALSE; silminState->refVolume   = 0.0;
-	            while (level3 != NULL) {
-	              if (level3->type == XML_ELEMENT_NODE) {
-		        xmlChar *content3 = xmlNodeGetContent(level3);
-			if      (!strcmp((char *) level3->name, "initialS" )) silminState->refEntropy = atof((char *) content3);  
-			else if (!strcmp((char *) level3->name, "finalS"   )) silminState->dspSstop   = atof((char *) content3); 
-			else if (!strcmp((char *) level3->name, "incS"     )) silminState->dspSinc    = atof((char *) content3); 
-			else if (!strcmp((char *) level3->name, "initialP" )) {
-			  silminState->P         = atof((char *) content3);  
-			  silminState->dspPstart = atof((char *) content3);  
-			}
-			else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "dpds"     )) silminState->dspDPDS  = atof((char *) content3);
-			else if (!strcmp((char *) level3->name, "fo2Path"  )) {
-			  if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
-			  else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
-			  else if (!strcmp((char *) content3, "coh" )) silminState->fo2Path  = FO2_COH;
-			  else if (!strcmp((char *) content3, "nno" )) silminState->fo2Path  = FO2_NNO;
-			  else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
-			  else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
-			}
-			else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
-		        if (content3 != NULL) xmlFree(content3);
-		      }
-	              level3 = level3->next;
-	            }
-		  }
-		  
-		}
-	        level2 = level2->next;
-	      }
-	      
-	    } else if (!strcmp((char *) level1->name, "suppressPhase")) {
-	      int i, j;
-	      printf("Found suppressPhase: %s\n", content1);
-	      for (i=0, j=0; i<npc; i++) if (solids[i].type == PHASE) {
-	        if (!strcmp((char *) content1, solids[i].label)) {
-	          if (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) (silminState->incSolids)[j] = FALSE;
-		  break;
-		}
-		j++;
-	      } 
-	      
-	    } else if (!strcmp((char *) level1->name, "fractionationMode")) {
-	      printf("Found fractionationMode: %s\n", content1);
-	      if      (!strcmp((char *) content1, "fractionateSolids"  )) {                                      silminState->fractionateSol =  TRUE;                                      }
-	      else if (!strcmp((char *) content1, "fractionateFluids"  )) { silminState->fractionateFlu =  TRUE;                                                                           }
-	      else if (!strcmp((char *) content1, "fractionateLiquids" )) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq =  TRUE; }
-	      else if (!strcmp((char *) content1, "fractionateNone"    )) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq = FALSE; }
-	      
-   	      if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
-   		silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
-   		silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
-   	      }
-   	      if (silminState->fractionateLiq && silminState->fracLComp == (double *) NULL) {
-   		silminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
-   	      }
-	      
-	    } else if (!strcmp((char *) level1->name, "multLiquids")) {
-	      printf("Found multLiquids: %s\n", content1);
-	      if (!strcmp((char *) content1, "true")) silminState->multipleLiqs = TRUE;
-	      
-	    } else if (!strcmp((char *) level1->name, "assimilant")) {
-	      xmlNode *level2 = level1->children;
-	      printf("Found assimilant\n");
-	      silminState->assimilate = TRUE;
-	      silminState->dspAssimUnits = ASSIM_PADB_UNITS_WEIGHT;
-              if (silminState->nDspAssimComp == NULL) silminState->nDspAssimComp = (int *)     calloc((unsigned) (npc+nc), sizeof(int));
-              if (silminState->dspAssimComp  == NULL) silminState->dspAssimComp  = (double **) calloc((unsigned) (npc+nc), sizeof(double *));
-	      
-	      while (level2 != NULL) {
-	        if (level2->type == XML_ELEMENT_NODE) {
-		  xmlChar *content2 = xmlNodeGetContent(level2);
-	          if (!strcmp((char *) level2->name, "temperature" )) {
-		    printf("Found temperature = %s\n", content2); silminState->dspAssimT = atof((char *) content2);
-	          } else if (!strcmp((char *) level2->name, "increments"  )) {
-		    printf("Found increments  = %s\n", content2); silminState->dspAssimInc = atoi((char *) content2);
-	          } else if (!strcmp((char *) level2->name, "mass"        )) {
-		    printf("Found mass        = %s\n", content2); silminState->dspAssimMass = atof((char *) content2);
-	          } else if (!strcmp((char *) level2->name, "units"       )) {
-		    printf("Found units       = %s\n", content2);		    
-	          } else if (!strcmp((char *) level2->name, "phase"       )) {		    
-		    xmlNode *level3 = level2->children;
-		    printf("Found phase\n");
-	            while (level3 != NULL) {
-	              if (level3->type == XML_ELEMENT_NODE) {
-			if        (!strcmp((char *) level3->name, "amorphous" )) {
-			  xmlNode *level4 = level3->children;
-			  printf("Found amorphous\n");
-	                  while (level4 != NULL) {
-	                    if (level4->type == XML_ELEMENT_NODE) {
-		              xmlChar *content4 = xmlNodeGetContent(level4);
-	           	      if (!strcmp((char *) level4->name, "massFraction" )) printf("Found massFraction  = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "SiO2" )) printf("Found SiO2  = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "TiO2" )) printf("Found TiO2  = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "Al2O3")) printf("Found Al2O3 = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "Fe2O3")) printf("Found Fe2O3 = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "Cr2O3")) printf("Found Cr2O3 = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "FeO"  )) printf("Found FeO   = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "MnO"  )) printf("Found MnO   = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "MgO"  )) printf("Found MgO   = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "NiO"  )) printf("Found NiO   = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "CoO"  )) printf("Found CoO   = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "CaO"  )) printf("Found CaO   = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "Na2O" )) printf("Found Na2O  = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "K2O"  )) printf("Found K2O   = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "P2O5" )) printf("Found P2O5  = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "H2O"  )) printf("Found H2O   = %s\n", content4);
-			      if (content4 != NULL) xmlFree(content4);
-			    }
-			    level4 = level4->next;
-			  }
-			  
-			} else if (!strcmp((char *) level3->name, "solid"     )) {
-			  xmlNode *level4 = level3->children;
-			  printf("Found solid\n");
-	                  while (level4 != NULL) {
-	                    if (level4->type == XML_ELEMENT_NODE) {
-		              xmlChar *content4 = xmlNodeGetContent(level4);
-	           	      if      (!strcmp((char *) level4->name, "label"        )) printf("Found label         = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "massFraction" )) printf("Found massFraction  = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "component"    )) {
-			        xmlNode *level5 = level4->children;
-			        printf("Found component\n");
-				while (level5 != NULL) {
-	                          if (level5->type == XML_ELEMENT_NODE) {
-		                    xmlChar *content5 = xmlNodeGetContent(level5);
-				    if      (!strcmp((char *) level5->name, "label"   )) printf("Found label   = %s\n", content5);
-	           	            else if (!strcmp((char *) level5->name, "molFrac" )) printf("Found molFrac = %s\n", content5);
-				    if (content5 != NULL) xmlFree(content5);
-				  }
-				  level5 = level5->next;
-				}
-			      }
-			      if (content4 != NULL) xmlFree(content4);
-			    }
-			    level4 = level4->next;
-			  }
-			  
-			  
-			} else if (!strcmp((char *) level3->name, "liquid"    )) {
-			  xmlNode *level4 = level3->children;
-			  printf("Found liquid\n");
-	                  while (level4 != NULL) {
-	                    if (level4->type == XML_ELEMENT_NODE) {
-			      int iOx = -1;
-		              xmlChar *content4 = xmlNodeGetContent(level4);
-	           	      if (!strcmp((char *) level4->name, "massFraction" )) printf("Found massFraction  = %s\n", content4);
-	           	      else if (!strcmp((char *) level4->name, "SiO2" )) { printf("Found SiO2  = %s\n", content4); iOx = SiO2;  }
-	           	      else if (!strcmp((char *) level4->name, "TiO2" )) { printf("Found TiO2  = %s\n", content4); iOx = TiO2;  }
-	           	      else if (!strcmp((char *) level4->name, "Al2O3")) { printf("Found Al2O3 = %s\n", content4); iOx = Al2O3; }
-	           	      else if (!strcmp((char *) level4->name, "Fe2O3")) { printf("Found Fe2O3 = %s\n", content4); iOx = Fe2O3; }
-	           	      else if (!strcmp((char *) level4->name, "Cr2O3")) { printf("Found Cr2O3 = %s\n", content4); iOx = Cr2O3; }
-	           	      else if (!strcmp((char *) level4->name, "FeO"  )) { printf("Found FeO   = %s\n", content4); iOx = FeO;   }
-	           	      else if (!strcmp((char *) level4->name, "MnO"  )) { printf("Found MnO   = %s\n", content4); iOx = MnO;   }
-	           	      else if (!strcmp((char *) level4->name, "MgO"  )) { printf("Found MgO   = %s\n", content4); iOx = MgO;   }
-	           	      else if (!strcmp((char *) level4->name, "NiO"  )) { printf("Found NiO   = %s\n", content4); iOx = NiO;   }
-	           	      else if (!strcmp((char *) level4->name, "CoO"  )) { printf("Found CoO   = %s\n", content4); iOx = CoO;   }
-	           	      else if (!strcmp((char *) level4->name, "CaO"  )) { printf("Found CaO   = %s\n", content4); iOx = CaO;   }
-	           	      else if (!strcmp((char *) level4->name, "Na2O" )) { printf("Found Na2O  = %s\n", content4); iOx = Na2O;  }
-	           	      else if (!strcmp((char *) level4->name, "K2O"  )) { printf("Found K2O   = %s\n", content4); iOx = K2O;   }
-	           	      else if (!strcmp((char *) level4->name, "P2O5" )) { printf("Found P2O5  = %s\n", content4); iOx = P2O5;  }
-	           	      else if (!strcmp((char *) level4->name, "H2O"  )) { printf("Found H2O   = %s\n", content4); iOx = H2O;   }
-			      if (content4 != NULL) xmlFree(content4);
-			    }
-			    level4 = level4->next;
-			  }
-			}
-		      }
-	              level3 = level3->next;
-	            }
-                  }
-		  if (content2 != NULL) xmlFree(content2);
-		}
-	        level2 = level2->next;
-	      }
-	    }
-	    
-	    if (content1 != NULL) xmlFree(content1);
-	  }
-	  level1 = level1->next;
-	}
-	
-      }
-      xmlFreeDoc(doc);
+                
+            }
+            xmlFreeDoc(doc);
+        } else {
+            printf("File %s cannot be opened.\n", fileName);
+            ret = FALSE;
+        }
+        
+        if (ctxt2 != NULL) xmlSchemaFreeValidCtxt(ctxt2);
     } else {
-      printf("File %s cannot be opened.\n", fileName);
-      ret = FALSE;
+        printf("No schema file found! (MELTSinput.xsd does not exist).\n");
+        ret = FALSE;
     }
-  
-    if (ctxt2 != NULL) xmlSchemaFreeValidCtxt(ctxt2);
-  } else {
-    printf("No schema file found! (MELTSinput.xsd does not exist).\n");
-    ret = FALSE;
-  }
-  
-  if (schema != NULL) xmlSchemaFree(schema);
-  xmlSchemaCleanupTypes();
-  xmlCleanupParser();	  
-
-  return ret;
+    
+    if (schema != NULL) xmlSchemaFree(schema);
+    xmlSchemaCleanupTypes();
+    xmlCleanupParser();	  
+    
+    return ret;
 }
 
 static void putOutputDataToXmlFile(char *outputFile) {
