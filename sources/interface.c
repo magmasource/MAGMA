@@ -612,6 +612,7 @@ static int batchInputDataFromFile(char *fileName)
 
 #define RUN_LIQUIDUS_CALC    2
 #define RUN_EQUILIBRATE_CALC 3
+#define RETURN_WITHOUT_CALC  4
 
 static int batchInputDataFromXmlFile(char *fileName) {
     xmlSchemaPtr schema = NULL;
@@ -767,6 +768,47 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                     (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
                                     silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
                                 }
+                            
+                        } else if (!strcmp((char *) level1->name, "changeLiquid")) {
+                            xmlNode *level2 = level1->children;
+                            int i, j;
+                            static double *changeBC = NULL;
+                            
+                            printf("Found changeLiquid\n");
+                            if (changeBC == NULL) changeBC = (double *) calloc((size_t) nc, sizeof(double));
+                            else for (i=0; i<nc; i++) changeBC[i] = 0.0;
+                            
+                            while (level2 != NULL) {
+                                if (level2->type == XML_ELEMENT_NODE) {
+                                    xmlChar *content2 = xmlNodeGetContent(level2);
+                                    if      (!strcmp((char *) level2->name, "SiO2" )) changeBC[SiO2 ] = atof((char *) content2)/bulkSystem[SiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "TiO2" )) changeBC[TiO2 ] = atof((char *) content2)/bulkSystem[TiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "Al2O3")) changeBC[Al2O3] = atof((char *) content2)/bulkSystem[Al2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Fe2O3")) changeBC[Fe2O3] = atof((char *) content2)/bulkSystem[Fe2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Cr2O3")) changeBC[Cr2O3] = atof((char *) content2)/bulkSystem[Cr2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "FeO"  )) changeBC[FeO  ] = atof((char *) content2)/bulkSystem[FeO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MnO"  )) changeBC[MnO  ] = atof((char *) content2)/bulkSystem[MnO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MgO"  )) changeBC[MgO  ] = atof((char *) content2)/bulkSystem[MgO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "NiO"  )) changeBC[NiO  ] = atof((char *) content2)/bulkSystem[NiO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CoO"  )) changeBC[CoO  ] = atof((char *) content2)/bulkSystem[CoO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CaO"  )) changeBC[CaO  ] = atof((char *) content2)/bulkSystem[CaO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "Na2O" )) changeBC[Na2O ] = atof((char *) content2)/bulkSystem[Na2O ].mw;
+                                    else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
+                                    else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
+                                    silminState->liquidMass += atof((char *) content2);
+                                    if (content2 != NULL) xmlFree(content2);
+                                }
+                                level2 = level2->next;
+                            }
+                            
+                            for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
+                            for (i=0; i<nlc; i++)
+                                for (j=0; j<nc; j++) {
+                                    (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
+                                    silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+                                }
+                            ret = RETURN_WITHOUT_CALC;
                             
                         } else if (!strcmp((char *) level1->name, "constraints")) {
                             xmlNode *level2 = level1->children;
@@ -1831,422 +1873,429 @@ static void putStatusDataToXmlFile(char *statusFile) {
 int main (int argc, char *argv[])
 {
 #ifndef BATCH_VERSION
-  XtAppContext app;
-  Pixmap icon_pixmap;
+    XtAppContext app;
+    Pixmap icon_pixmap;
 #endif
-
-  printf("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
-  printf("%s\n", RELEASE);
-  printf("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
-
+    
+    printf("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
+    printf("%s\n", RELEASE);
+    printf("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
+    
 #ifndef BATCH_VERSION
-  printf("---> Reading environment variables...\n");  
-  getCommandLineAndEnvironment (argc, argv);
+    printf("---> Reading environment variables...\n");
+    getCommandLineAndEnvironment (argc, argv);
 #endif
-
-
+    
+    
 #ifdef PUBLIC_RELEASE_VERSION
-  calculationMode = MODE__MELTS;
+    calculationMode = MODE__MELTS;
 #ifdef RHYOLITE_ADJUSTMENTS
-  printf("---> Default calculation mode is rhyolite-MELTS.  Change this? (y or n): ");
+    printf("---> Default calculation mode is rhyolite-MELTS.  Change this? (y or n): ");
 #else
-  printf("---> Default calculation mode is MELTS.  Change this? (y or n): ");
+    printf("---> Default calculation mode is MELTS.  Change this? (y or n): ");
 #endif
-  if (tolower(getchar()) == 'y') {
-    getchar();
-    printf("     Set calculation mode to pMELTS (public release v 5.6.1)? (y or n): ");
-    if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
-  } else getchar();
+    if (tolower(getchar()) == 'y') {
+        getchar();
+        printf("     Set calculation mode to pMELTS (public release v 5.6.1)? (y or n): ");
+        if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
+    } else getchar();
 #elif ! defined(BATCH_VERSION)
-  printf("---> Default calculation mode is xMELTS.  Change this? (y or n): ");
-  if (tolower(getchar()) == 'y') {
-    getchar();
-    printf("     Set calculation mode to MELTS (public release v 5.6.1)? (y or n): ");
-    if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE__MELTS; }
-    else {
-      getchar();
-      printf("     Set calculation mode to pMELTS (public release v 5.6.1)? (y or n): ");
-      if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
+    printf("---> Default calculation mode is xMELTS.  Change this? (y or n): ");
+    if (tolower(getchar()) == 'y') {
+        getchar();
+        printf("     Set calculation mode to MELTS (public release v 5.6.1)? (y or n): ");
+        if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE__MELTS; }
+        else {
+            getchar();
+            printf("     Set calculation mode to pMELTS (public release v 5.6.1)? (y or n): ");
+            if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
+        }
+    } else getchar();
+#else
+    calculationMode = MODE__MELTS;
+#endif
+    
+    if (calculationMode == MODE_xMELTS) {
+        printf("---> Calculation mode is xMELTS (experimental v 5.6.1).\n");
+    } else if (calculationMode == MODE__MELTS) {
+#ifdef RHYOLITE_ADJUSTMENTS
+        printf("---> Calculation mode is rhyolite-MELTS (public release v 1.0.1).\n");
+#else
+        printf("---> Calculation mode is MELTS (public release v 5.6.1).\n");
+#endif
+        liquid = meltsLiquid;
+        solids = meltsSolids;
+        nlc = meltsNlc;
+        nls = meltsNls;
+        npc = meltsNpc;
+    } else if (calculationMode == MODE_pMELTS) {
+        printf("---> Calculation mode is pMELTS (public release v 5.6.1).\n");
+        liquid = pMeltsLiquid;
+        solids = pMeltsSolids;
+        nlc = pMeltsNlc;
+        nls = pMeltsNls;
+        npc = pMeltsNpc;
     }
-  } else getchar();
-#else
-  calculationMode = MODE__MELTS;
-#endif
-  
-  if (calculationMode == MODE_xMELTS) {
-    printf("---> Calculation mode is xMELTS (experimental v 5.6.1).\n");
-  } else if (calculationMode == MODE__MELTS) {
-#ifdef RHYOLITE_ADJUSTMENTS
-    printf("---> Calculation mode is rhyolite-MELTS (public release v 1.0.1).\n");
-#else
-    printf("---> Calculation mode is MELTS (public release v 5.6.1).\n");
-#endif
-    liquid = meltsLiquid;
-    solids = meltsSolids;
-    nlc = meltsNlc;
-    nls = meltsNls;
-    npc = meltsNpc;
-  } else if (calculationMode == MODE_pMELTS) {
-    printf("---> Calculation mode is pMELTS (public release v 5.6.1).\n");
-    liquid = pMeltsLiquid;
-    solids = pMeltsSolids;
-    nlc = pMeltsNlc;
-    nls = pMeltsNls;
-    npc = pMeltsNpc;
-  }
-  
-  printf("---> Initializing data structures using selected calculation mode...\n");
-  InitComputeDataStruct();
-
+    
+    printf("---> Initializing data structures using selected calculation mode...\n");
+    InitComputeDataStruct();
+    
 #ifndef BATCH_VERSION
-  printf("---> Building MELTS interface...\n");
-/*
- *=============================================================================
- * (1) Install signal error handler for child process control
- * (2) Set language locale
- */
-  signal (SIGCHLD, signalDeathOfChild);
-  if (atexit (killChildren)) printf ("Cannot register exit cleanup routine.\n");
+    printf("---> Building MELTS interface...\n");
+    /*
+     *=============================================================================
+     * (1) Install signal error handler for child process control
+     * (2) Set language locale
+     */
+    signal (SIGCHLD, signalDeathOfChild);
+    if (atexit (killChildren)) printf ("Cannot register exit cleanup routine.\n");
 #if XtSpecificationRelease >= 5
-  XtSetLanguageProc (NULL, NULL, NULL);
+    XtSetLanguageProc (NULL, NULL, NULL);
 #endif
-
-/*
- *=============================================================================
- * (1) Create the topLevel shell widget 
- * (2) Get needed display information 
- */
-  topLevel = XtVaAppInitialize (&app, "Melts", (XrmOptionDescList) NULL, (Cardinal) 0,
+    
+    /*
+     *=============================================================================
+     * (1) Create the topLevel shell widget
+     * (2) Get needed display information
+     */
+    topLevel = XtVaAppInitialize (&app, "Melts", (XrmOptionDescList) NULL, (Cardinal) 0,
 #if XtSpecificationRelease == 4
-				(Cardinal *) & argc,
+                                  (Cardinal *) & argc,
 #else
-				&argc,
+                                  &argc,
 #endif
-				argv, (String *) NULL, NULL);
-  icon_pixmap = XCreateBitmapFromData (XtDisplay (topLevel), RootWindowOfScreen (XtScreen (topLevel)), icon_bits, icon_width, icon_height);
-  if      (calculationMode == MODE__MELTS) 
+                                  argv, (String *) NULL, NULL);
+    icon_pixmap = XCreateBitmapFromData (XtDisplay (topLevel), RootWindowOfScreen (XtScreen (topLevel)), icon_bits, icon_width, icon_height);
+    if      (calculationMode == MODE__MELTS)
 #ifdef RHYOLITE_ADJUSTMENTS
-    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "rhyolite-MELTS (code release 1.0.1)",  XmNiconName, "Melts",  NULL);
+        XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "rhyolite-MELTS (code release 1.0.1)",  XmNiconName, "Melts",  NULL);
 #else
     XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "MELTS (code release 5.6.1)",  XmNiconName, "Melts",  NULL);
 #endif
-  else if (calculationMode == MODE_pMELTS)
-    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "pMELTS (code release 5.6.1)", XmNiconName, "pMelts", NULL);
-  else if (calculationMode == MODE_xMELTS)
-    XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "xMELTS (code release 5.6.1)", XmNiconName, "xMelts", NULL);
-
-  printf("---> ...Call to initialize_colors ()...\n");
-  initialize_colors ();
-  printf("---> ...Call to initialize_strings ()...\n");
-  initialize_strings ();
-
-/*
- *=============================================================================
- *  (1) Create a Main Window Widget to hold everything
- */
-  printf("---> ...Create main window...\n");
-  main_window = XtVaCreateWidget ("MainWin", xmMainWindowWidgetClass, topLevel,
-				  XmNwidth,  MAIN_WINDOW_WIDTH,
-				  XmNheight, MAIN_WINDOW_HEIGHT,
-				  NULL);
-
-/*
- *============================================================================
- * Create menu bar and all its sub-menus. This menu bar applies to all the
- *   defined work windows.
- */
-  printf("---> ...Create menu bar...\n");
-  create_menu_bar ();
-  if (calculationMode != MODE_xMELTS) XtSetSensitive(mode_entry, FALSE);
-
-/*
- *============================================================================= 
- * Create the work window portion of the main window
- *   The main window is filled on startup by an attached dialog box widget 
- *   (silmin_adb) which has visible (managed) children created by the
- *   function create_managed and invisible (unmanaged) pop up children
- *   created by the functions create_popup_table
- * Alternative work windows are:
- *   preclb_adb -  an attached dialog box widget for the pre-calibration setup
- *   postclb_adb - an attached dialog box widget for the post-calibration
- *                 analysis
- */
-  printf("---> ...Create work window...\n");
-  silmin_adb = XmCreateForm (main_window, "silmin_adb", NULL, 0);
-  XtVaSetValues (main_window, XmNworkWindow, silmin_adb, NULL);
-  
-  printf("---> ...Call to create_managed ()...\n");
-  create_managed ();		/* of silmin_adb */
-  printf("---> ...Call to create_unmanaged ()...\n");
-  create_unmanaged ();		/* children of the main window widget        */
-  /* These are the caution box, file selection */
-  /*   message and help widgets.               */
-
-/*
- * Now manage the silmin_adb widget and its parent (main_window).
- */
-  printf("---> ...Manage children...\n");
-  XtManageChild (silmin_adb);
-  printf("---> ...Manage parent...\n");
-  XtManageChild (main_window);
-
-/* 
- *=============================================================================
- * Realize the Shell widget (and hence all its children)
- */
-  printf("---> ...Realize parent...\n");
-  XtRealizeWidget (topLevel);
-
-/*
- *=============================================================================
- * Get events
- */
-
-  printf("---> Ready for user input...\n");
+    else if (calculationMode == MODE_pMELTS)
+        XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "pMELTS (code release 5.6.1)", XmNiconName, "pMelts", NULL);
+    else if (calculationMode == MODE_xMELTS)
+        XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "xMELTS (code release 5.6.1)", XmNiconName, "xMelts", NULL);
+    
+    printf("---> ...Call to initialize_colors ()...\n");
+    initialize_colors ();
+    printf("---> ...Call to initialize_strings ()...\n");
+    initialize_strings ();
+    
+    /*
+     *=============================================================================
+     *  (1) Create a Main Window Widget to hold everything
+     */
+    printf("---> ...Create main window...\n");
+    main_window = XtVaCreateWidget ("MainWin", xmMainWindowWidgetClass, topLevel,
+                                    XmNwidth,  MAIN_WINDOW_WIDTH,
+                                    XmNheight, MAIN_WINDOW_HEIGHT,
+                                    NULL);
+    
+    /*
+     *============================================================================
+     * Create menu bar and all its sub-menus. This menu bar applies to all the
+     *   defined work windows.
+     */
+    printf("---> ...Create menu bar...\n");
+    create_menu_bar ();
+    if (calculationMode != MODE_xMELTS) XtSetSensitive(mode_entry, FALSE);
+    
+    /*
+     *=============================================================================
+     * Create the work window portion of the main window
+     *   The main window is filled on startup by an attached dialog box widget
+     *   (silmin_adb) which has visible (managed) children created by the
+     *   function create_managed and invisible (unmanaged) pop up children
+     *   created by the functions create_popup_table
+     * Alternative work windows are:
+     *   preclb_adb -  an attached dialog box widget for the pre-calibration setup
+     *   postclb_adb - an attached dialog box widget for the post-calibration
+     *                 analysis
+     */
+    printf("---> ...Create work window...\n");
+    silmin_adb = XmCreateForm (main_window, "silmin_adb", NULL, 0);
+    XtVaSetValues (main_window, XmNworkWindow, silmin_adb, NULL);
+    
+    printf("---> ...Call to create_managed ()...\n");
+    create_managed ();		/* of silmin_adb */
+    printf("---> ...Call to create_unmanaged ()...\n");
+    create_unmanaged ();		/* children of the main window widget        */
+    /* These are the caution box, file selection */
+    /*   message and help widgets.               */
+    
+    /*
+     * Now manage the silmin_adb widget and its parent (main_window).
+     */
+    printf("---> ...Manage children...\n");
+    XtManageChild (silmin_adb);
+    printf("---> ...Manage parent...\n");
+    XtManageChild (main_window);
+    
+    /*
+     *=============================================================================
+     * Realize the Shell widget (and hence all its children)
+     */
+    printf("---> ...Realize parent...\n");
+    XtRealizeWidget (topLevel);
+    
+    /*
+     *=============================================================================
+     * Get events
+     */
+    
+    printf("---> Ready for user input...\n");
 #if defined(DEBUG)
-  debugMainLoop (app);
+    debugMainLoop (app);
 #else
-  XtAppMainLoop (app);
+    XtAppMainLoop (app);
 #endif
-
+    
 #else /* BATCH_VERSION */
-  { 
-    if (argc == 1) {
-      printf("Usage:\n");
-      printf("  Melts-batch input.melts\n");
-      printf("  Melts-batch input.xml\n");
-      printf("  Melts-batch inputDir outputDir [inputProcessedDir]\n");
-      printf("              Directories are stipulated relative to current directory\n");
-      printf("              with no trailing delimiter.\n");
-      exit(0);
-    
-    } else if (strstr(argv[1], ".melts") != NULL) {
-      int i, j, k, l;
-    
-      if (silminState == NULL) silminState = allocSilminStatePointer();
-      
-      if(!batchInputDataFromFile(argv[1])) {
-        printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
-        exit(0);
-      }
-      
-      while(!liquidus());
-      printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
-      (void) putOutputDataToFile(NULL);
-  
-      while(!silmin());
-     
-      for (i=0; i<npc; i++) if (solids[i].type == PHASE) {
-        if ((silminState->nSolidCoexist)[i] > 0) {
-          for (j=0; j<(silminState->nSolidCoexist)[i]; j++) {
-            double phaseMoles, phaseGrams; 
-
-            if (solids[i].na == 1) {
-              phaseMoles   = (silminState->solidComp)[i][j];
-              for (l=0, phaseGrams=0.0; l<nc; l++) {
-        	phaseGrams += phaseMoles*(solids[i].solToOx)[l]*bulkSystem[l].mw;
-              }
-
-              printf("Got phase %s with moles %f and grams %f\n", solids[i].label, phaseMoles, phaseGrams);
-        	      
-            } else {
-              char *formula;
-              double *r      = (double *) malloc((size_t) solids[i].nr *sizeof(double));
-              double *phaseX = (double *) malloc((size_t) solids[i].na *sizeof(double));
-               
-              for (k=0, phaseGrams=0.0, phaseMoles=0.0; k<solids[i].na; k++) {
-        	phaseX[k]   = (silminState->solidComp)[i+1+k][j];
-        	phaseMoles += (silminState->solidComp)[i+1+k][j];
-        	for (l=0; l<nc; l++) phaseGrams += phaseX[k]*(solids[i+1+k].solToOx)[l]*bulkSystem[l].mw;
-              }
-
-              (*solids[i].convert)(SECOND, THIRD, silminState->T, silminState->P, NULL, phaseX, r, NULL, NULL, NULL, NULL, NULL);
-              (*solids[i].display)(FIRST, silminState->T, silminState->P, r, &formula);
-
-              printf("Got phase %s with moles %f and grams %f and formula %s\n", solids[i].label, phaseMoles, phaseGrams, formula);
-              free(r);
-              free(phaseX); 
-    	      free(formula);	      
-            }
-          }
-        }
-      }
-
-      {
-        double phaseMoles, phaseGrams;
-        int nl;
-        
-        for (nl=0; nl<silminState->nLiquidCoexist; nl++) {	
-          for (k=0, phaseMoles=0.0, phaseGrams=0.0; k<nlc; k++) {
-            phaseMoles += (silminState->liquidComp)[nl][k];
-            for (l=0; l<nc; l++) phaseGrams += (silminState->liquidComp)[nl][k]*(liquid[k].liqToOx)[l]*bulkSystem[l].mw;
-          }
-
-          printf("Got phase %s with moles %f and grams %f\n", "liquid", phaseMoles, phaseGrams);
-        }
-      }
-      
-    } else if (strstr(argv[1], ".xml")   != NULL) {
-      int ret, len;
-      char *outputFile;
-      
-      if (silminState == NULL) {
-        int i, np;
-        silminState = allocSilminStatePointer();
-        for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-        (silminState->incSolids)[npc] = TRUE;
-        silminState->nLiquidCoexist  = 1;  
-        silminState->fo2Path  = FO2_NONE;
-      }
-      ret = batchInputDataFromXmlFile(argv[1]);
-
-      len = strlen(silminInputData.name) - 4;
-      outputFile = (char *) malloc((size_t) (len+9)*sizeof(char));
-      (void) strncpy(outputFile, silminInputData.name, len);
-      (void) strcpy(&outputFile[len], "-out.xml");
-      
-      if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
-     
-      if        (ret == FALSE) {
-        printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
-        exit(0);
-      } else if (ret == RUN_LIQUIDUS_CALC) {
-        while(!liquidus());
-        printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
-	putOutputDataToXmlFile(outputFile);
-      } else if (ret == RUN_EQUILIBRATE_CALC) {
-        while(!silmin());
-	putOutputDataToXmlFile(outputFile);
-      }
-      
-      free(outputFile);
-      
-    } else { /* fall into listener mode */
-      DIR *inputDir, *outputDir, *processedDir;
-      int lenIdir, lenOdir, lenPdir;
-      int fileOpenAttempts = 0;
-    
-      if (argc < 3) {
-        printf("Usage:\n");
-        printf("  Melts-batch input.melts\n");
-        printf("  Melts-batch input.xml\n");
-        printf("  Melts-batch inputDir outputDir [inputProcessedDir]\n");
-        printf("              Directories are stipulated relative to current directory\n");
-        printf("              with no trailing delimiter.\n");
-        exit(0);
-      }
-      printf("Batch melts is in listener mode with\n");
-      printf("               input directory  %s\n", argv[1]);
-      printf("               output directory %s\n", argv[2]);
-      printf("  and input processed directory %s\n", (argc > 3) ? argv[3] : argv[2]);
-
-      inputDir = opendir(argv[1]); 
-        if(inputDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", argv[1]); exit(0); }
-	else (void) closedir(inputDir);
-	
-      outputDir = opendir(argv[2]); 
-        if(outputDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", argv[2]); exit(0); }
-	else (void) closedir(outputDir);
-	
-      processedDir = opendir((argc > 3) ? argv[3] : argv[2]); 
-        if(processedDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", (argc > 3) ? argv[3] : argv[2]); exit(0); }
-	else (void) closedir(processedDir);
-
-      lenIdir = strlen(argv[1]);
-      lenOdir = strlen(argv[2]);
-      lenPdir = strlen((argc > 3) ? argv[3] : argv[2]);
+    {
+        if (argc == 1) {
+            printf("Usage:\n");
+            printf("  Melts-batch input.melts\n");
+            printf("  Melts-batch input.xml\n");
+            printf("  Melts-batch inputDir outputDir [inputProcessedDir]\n");
+            printf("              Directories are stipulated relative to current directory\n");
+            printf("              with no trailing delimiter.\n");
+            exit(0);
             
-      for (;;) {      
-    	unsigned int delay = 1;
-        struct dirent *dp;
-
-        inputDir = opendir(argv[1]); 
-	
-        while ((dp = readdir(inputDir)) != NULL) {
-	  if (strstr(dp->d_name, ".xml")   != NULL) { /* found a file to process */
-	    int ret;
-	    char *iFileName, *oFileName, *pFileName, *sFileName;
-	    
+        } else if (strstr(argv[1], ".melts") != NULL) {
+            int i, j, k, l;
+            
+            if (silminState == NULL) silminState = allocSilminStatePointer();
+            
+            if(!batchInputDataFromFile(argv[1])) {
+                printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
+                exit(0);
+            }
+            
+            while(!liquidus());
+            printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
+            (void) putOutputDataToFile(NULL);
+            
+            while(!silmin());
+            
+            for (i=0; i<npc; i++) if (solids[i].type == PHASE) {
+                if ((silminState->nSolidCoexist)[i] > 0) {
+                    for (j=0; j<(silminState->nSolidCoexist)[i]; j++) {
+                        double phaseMoles, phaseGrams;
+                        
+                        if (solids[i].na == 1) {
+                            phaseMoles   = (silminState->solidComp)[i][j];
+                            for (l=0, phaseGrams=0.0; l<nc; l++) {
+                                phaseGrams += phaseMoles*(solids[i].solToOx)[l]*bulkSystem[l].mw;
+                            }
+                            
+                            printf("Got phase %s with moles %f and grams %f\n", solids[i].label, phaseMoles, phaseGrams);
+                            
+                        } else {
+                            char *formula;
+                            double *r      = (double *) malloc((size_t) solids[i].nr *sizeof(double));
+                            double *phaseX = (double *) malloc((size_t) solids[i].na *sizeof(double));
+                            
+                            for (k=0, phaseGrams=0.0, phaseMoles=0.0; k<solids[i].na; k++) {
+                                phaseX[k]   = (silminState->solidComp)[i+1+k][j];
+                                phaseMoles += (silminState->solidComp)[i+1+k][j];
+                                for (l=0; l<nc; l++) phaseGrams += phaseX[k]*(solids[i+1+k].solToOx)[l]*bulkSystem[l].mw;
+                            }
+                            
+                            (*solids[i].convert)(SECOND, THIRD, silminState->T, silminState->P, NULL, phaseX, r, NULL, NULL, NULL, NULL, NULL);
+                            (*solids[i].display)(FIRST, silminState->T, silminState->P, r, &formula);
+                            
+                            printf("Got phase %s with moles %f and grams %f and formula %s\n", solids[i].label, phaseMoles, phaseGrams, formula);
+                            free(r);
+                            free(phaseX);
+                            free(formula);
+                        }
+                    }
+                }
+            }
+            
+            {
+                double phaseMoles, phaseGrams;
+                int nl;
+                
+                for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
+                    for (k=0, phaseMoles=0.0, phaseGrams=0.0; k<nlc; k++) {
+                        phaseMoles += (silminState->liquidComp)[nl][k];
+                        for (l=0; l<nc; l++) phaseGrams += (silminState->liquidComp)[nl][k]*(liquid[k].liqToOx)[l]*bulkSystem[l].mw;
+                    }
+                    
+                    printf("Got phase %s with moles %f and grams %f\n", "liquid", phaseMoles, phaseGrams);
+                }
+            }
+            
+        } else if (strstr(argv[1], ".xml")   != NULL) {
+            int ret, len;
+            char *outputFile;
+            
             if (silminState == NULL) {
-              int i, np;
-              silminState = allocSilminStatePointer();
-              for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-              (silminState->incSolids)[npc] = TRUE;
-              silminState->nLiquidCoexist  = 1;  
-              silminState->fo2Path  = FO2_NONE;
+                int i, np;
+                silminState = allocSilminStatePointer();
+                for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+                (silminState->incSolids)[npc] = TRUE;
+                silminState->nLiquidCoexist  = 1;
+                silminState->fo2Path  = FO2_NONE;
             }
-	    silminState->assimilate = FALSE;
-	    
-	    iFileName = (char *) malloc((size_t) (lenIdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
-	    oFileName = (char *) malloc((size_t) (lenOdir + 1 + strlen(dp->d_name) + 5)*sizeof(char));
-	    pFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
-	    sFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 8)*sizeof(char));
-	    
-	    (void) strcpy(iFileName, argv[1]);
-	    (void) strcat(iFileName, DIR_DELIM);
-	    (void) strcat(iFileName, dp->d_name);
-
-	    (void) strcpy(oFileName, argv[2]);
-	    (void) strcat(oFileName, DIR_DELIM);
-	    (void) strncat(oFileName, dp->d_name, strlen(dp->d_name)-4);
-	    (void) strcat(oFileName, "-out.xml");
-
-	    (void) strcpy(pFileName, (argc > 3) ? argv[3] : argv[2]);
-	    (void) strcat(pFileName, DIR_DELIM);
-	    (void) strcat(pFileName, dp->d_name);
-
-	    (void) strcpy(sFileName, argv[2]);
-	    (void) strcat(sFileName, DIR_DELIM);
-	    (void) strncat(sFileName, dp->d_name, strlen(dp->d_name)-4);
-	    (void) strcat(sFileName, "-status.xml");
-	    
-	    ret = batchInputDataFromXmlFile(iFileName);
+            ret = batchInputDataFromXmlFile(argv[1]);
+            
+            len = strlen(silminInputData.name) - 4;
+            outputFile = (char *) malloc((size_t) (len+9)*sizeof(char));
+            (void) strncpy(outputFile, silminInputData.name, len);
+            (void) strcpy(&outputFile[len], "-out.xml");
+            
             if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
-
+            
             if        (ret == FALSE) {
-	      fileOpenAttempts++;
-              printf("Error(s) detected on reading input file %s. Exiting.\n", iFileName);
+                printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
+                exit(0);
             } else if (ret == RUN_LIQUIDUS_CALC) {
-	      fileOpenAttempts = 0;
-	      meltsStatus.status = GENERIC_INTERNAL_ERROR;
-              while(!liquidus());
-      	      putOutputDataToXmlFile(oFileName);
-	      putStatusDataToXmlFile(sFileName);
+                while(!liquidus());
+                printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
+                putOutputDataToXmlFile(outputFile);
             } else if (ret == RUN_EQUILIBRATE_CALC) {
-	      fileOpenAttempts = 0;
-	      meltsStatus.status = GENERIC_INTERNAL_ERROR;
-              while(!silmin());
-	      putOutputDataToXmlFile(oFileName);
-	      putStatusDataToXmlFile(sFileName);
+                while(!silmin());
+                putOutputDataToXmlFile(outputFile);
+            } else if (ret == RETURN_WITHOUT_CALC) {
+                putOutputDataToXmlFile(outputFile);
             }
-	    
-	    if (fileOpenAttempts > 2) { ret = TRUE; fileOpenAttempts = 0; }
-
-	    if (ret) {
-	      if (rename(iFileName, pFileName)) 
-	        printf("Error(s) detected on renaming file %s to %s\n", iFileName, pFileName);
-	    }
-
-	    free (iFileName);	    
-	    free (oFileName);	    
-	    free (pFileName);	    
-	    free (sFileName);	    
-	    break; /* exit the while loop */
-	  }
-	}
-	
-	(void) closedir(inputDir);
-	
-	/* no files in input directory - wait and look again */
-    	sleep(delay);
-      }
-      
+            
+            free(outputFile);
+            
+        } else { /* fall into listener mode */
+            DIR *inputDir, *outputDir, *processedDir;
+            int lenIdir, lenOdir, lenPdir;
+            int fileOpenAttempts = 0;
+            
+            if (argc < 3) {
+                printf("Usage:\n");
+                printf("  Melts-batch input.melts\n");
+                printf("  Melts-batch input.xml\n");
+                printf("  Melts-batch inputDir outputDir [inputProcessedDir]\n");
+                printf("              Directories are stipulated relative to current directory\n");
+                printf("              with no trailing delimiter.\n");
+                exit(0);
+            }
+            printf("Batch melts is in listener mode with\n");
+            printf("               input directory  %s\n", argv[1]);
+            printf("               output directory %s\n", argv[2]);
+            printf("  and input processed directory %s\n", (argc > 3) ? argv[3] : argv[2]);
+            
+            inputDir = opendir(argv[1]);
+            if(inputDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", argv[1]); exit(0); }
+            else (void) closedir(inputDir);
+            
+            outputDir = opendir(argv[2]);
+            if(outputDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", argv[2]); exit(0); }
+            else (void) closedir(outputDir);
+            
+            processedDir = opendir((argc > 3) ? argv[3] : argv[2]);
+            if(processedDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", (argc > 3) ? argv[3] : argv[2]); exit(0); }
+            else (void) closedir(processedDir);
+            
+            lenIdir = strlen(argv[1]);
+            lenOdir = strlen(argv[2]);
+            lenPdir = strlen((argc > 3) ? argv[3] : argv[2]);
+            
+            for (;;) {
+                unsigned int delay = 1;
+                struct dirent *dp;
+                
+                inputDir = opendir(argv[1]);
+                
+                while ((dp = readdir(inputDir)) != NULL) {
+                    if (strstr(dp->d_name, ".xml")   != NULL) { /* found a file to process */
+                        int ret;
+                        char *iFileName, *oFileName, *pFileName, *sFileName;
+                        
+                        if (silminState == NULL) {
+                            int i, np;
+                            silminState = allocSilminStatePointer();
+                            for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+                            (silminState->incSolids)[npc] = TRUE;
+                            silminState->nLiquidCoexist  = 1;
+                            silminState->fo2Path  = FO2_NONE;
+                        }
+                        silminState->assimilate = FALSE;
+                        
+                        iFileName = (char *) malloc((size_t) (lenIdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
+                        oFileName = (char *) malloc((size_t) (lenOdir + 1 + strlen(dp->d_name) + 5)*sizeof(char));
+                        pFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
+                        sFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 8)*sizeof(char));
+                        
+                        (void) strcpy(iFileName, argv[1]);
+                        (void) strcat(iFileName, DIR_DELIM);
+                        (void) strcat(iFileName, dp->d_name);
+                        
+                        (void) strcpy(oFileName, argv[2]);
+                        (void) strcat(oFileName, DIR_DELIM);
+                        (void) strncat(oFileName, dp->d_name, strlen(dp->d_name)-4);
+                        (void) strcat(oFileName, "-out.xml");
+                        
+                        (void) strcpy(pFileName, (argc > 3) ? argv[3] : argv[2]);
+                        (void) strcat(pFileName, DIR_DELIM);
+                        (void) strcat(pFileName, dp->d_name);
+                        
+                        (void) strcpy(sFileName, argv[2]);
+                        (void) strcat(sFileName, DIR_DELIM);
+                        (void) strncat(sFileName, dp->d_name, strlen(dp->d_name)-4);
+                        (void) strcat(sFileName, "-status.xml");
+                        
+                        ret = batchInputDataFromXmlFile(iFileName);
+                        if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+                        
+                        if        (ret == FALSE) {
+                            fileOpenAttempts++;
+                            printf("Error(s) detected on reading input file %s. Exiting.\n", iFileName);
+                        } else if (ret == RUN_LIQUIDUS_CALC) {
+                            fileOpenAttempts = 0;
+                            meltsStatus.status = GENERIC_INTERNAL_ERROR;
+                            while(!liquidus());
+                            putOutputDataToXmlFile(oFileName);
+                            putStatusDataToXmlFile(sFileName);
+                        } else if (ret == RUN_EQUILIBRATE_CALC) {
+                            fileOpenAttempts = 0;
+                            meltsStatus.status = GENERIC_INTERNAL_ERROR;
+                            while(!silmin());
+                            putOutputDataToXmlFile(oFileName);
+                            putStatusDataToXmlFile(sFileName);
+                        } else if (ret == RETURN_WITHOUT_CALC) {
+                            fileOpenAttempts = 0;
+                            meltsStatus.status = SILMIN_SUCCESS;
+                            putOutputDataToXmlFile(oFileName);
+                            putStatusDataToXmlFile(sFileName);
+                        }
+                        
+                        if (fileOpenAttempts > 2) { ret = TRUE; fileOpenAttempts = 0; }
+                        
+                        if (ret) {
+                            if (rename(iFileName, pFileName)) 
+                                printf("Error(s) detected on renaming file %s to %s\n", iFileName, pFileName);
+                        }
+                        
+                        free (iFileName);	    
+                        free (oFileName);	    
+                        free (pFileName);	    
+                        free (sFileName);	    
+                        break; /* exit the while loop */
+                    }
+                }
+                
+                (void) closedir(inputDir);
+                
+                /* no files in input directory - wait and look again */
+                sleep(delay);
+            }
+            
+        }
+        
     }
-  
-  }
 #endif /* BATCH_VERSION */
-
-  exit(0);
+    
+    exit(0);
 }
 
 /* end of file INTERFACE.C */
