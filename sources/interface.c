@@ -364,7 +364,8 @@ static int batchInputDataFromFile(char *fileName)
   static char line[REC];
   static double *oxideWt;
 
-  int i, j, len, np, ns;
+  size_t len;
+  int i, j, np, ns;
   float temporary;
   double sum;
 
@@ -1151,7 +1152,8 @@ static int batchInputDataFromXmlFile(char *fileName) {
 
 static void putOutputDataToXmlFile(char *outputFile) {
   xmlTextWriterPtr writer;
-  int rc, len;
+  size_t len;
+  int rc;
   time_t tp;
   char * cOut;
   double gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, cpLiq = 0.0, mLiq = 0.0, viscosity = 0.0;
@@ -2129,7 +2131,8 @@ int main (int argc, char *argv[])
             }
             
         } else if (strstr(argv[1], ".xml")   != NULL) {
-            int ret, len;
+            size_t len;
+            int ret;
             char *outputFile;
             
             if (silminState == NULL) {
@@ -2167,7 +2170,7 @@ int main (int argc, char *argv[])
             
         } else { /* fall into listener mode */
             DIR *inputDir, *outputDir, *processedDir;
-            int lenIdir, lenOdir, lenPdir;
+            size_t lenIdir, lenOdir, lenPdir;
             int fileOpenAttempts = 0;
             
             if (argc < 3) {

@@ -178,8 +178,11 @@ void gaussj(double **a, int n, double **b, int m)
       /* Returns the identity matrix as inverse instead of aborting */
       for (i=1; i<=n; i++) {
         for (j=1; j<=n; j++) a[i][j] = 0.0;
-	a[i][i] = 1.0; 
+        a[i][i] = 1.0; 
       }
+      free_ivector(ipiv,1,n);
+      free_ivector(indxr,1,n);
+      free_ivector(indxc,1,n);
       return;
     }
     pivinv=1.0/a[icol][icol];

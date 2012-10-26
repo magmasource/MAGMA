@@ -191,7 +191,7 @@ int subsolidusmuO2(int mask,
       return TRUE;
     }
 
-    oxide      = (int *)    calloc((size_t) (nc+1),sizeof(double));
+    oxide      = (int *)    calloc((size_t) (nc+1),sizeof(int));
     phaseIndex = (int *)    calloc((size_t) (n+1), sizeof(int));
     nCoexist   = (int *)    calloc((size_t) (n+1), sizeof(int));
     RHS        = (double *) calloc((size_t) (nc+1),sizeof(double));
@@ -905,8 +905,7 @@ int subsolidusmuO2(int mask,
     while (mask & FIRST || !mask) {
       double *xLiq  = (double *) malloc((size_t) nlc*sizeof(double));
       double *oxLiq = (double *) malloc((size_t) nc*sizeof(double));
-      double *g0    = (double *) malloc((size_t) nlc*sizeof(double));
-      double xi, *a, delta_g0, activity_product, tempmuO2;
+      double *g0, xi, *a, delta_g0, activity_product, tempmuO2;
       int *liqNum;
 
       nreact = 4; 
@@ -924,6 +923,7 @@ int subsolidusmuO2(int mask,
       if (fe != 2) {
         printf("Can't compute fO2 without FEO and FE2O3\n");
         *muO2 = 0.0;
+        free(xLiq); free(oxLiq); free(g0); free(a); free(stoich); free(liqNum);
         return FALSE;
       }
       conLiq(SECOND, THIRD | FOURTH, silminState->T, silminState->P, NULL, (silminState->liquidComp)[0], r, xLiq, NULL, NULL, NULL);

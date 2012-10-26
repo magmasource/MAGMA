@@ -766,8 +766,9 @@ double formulaToMwStoich(char *formula, double *stoich)
          if (c == '(') {
             int close, finish, k;
 
-            for(close=i+1; temp[close] != ')' && close < len; close++);
-            if(close == len) {free(temp); free(num); return 0.0;}
+            for(close=i+1; temp[close] != ')' && close < len; close++)
+                ;
+             if(close == len) {free(sym); free(temp); free(num); return 0.0;}
             close++;
             for(finish=close; !isupper(temp[finish]) && 
                 (temp[finish] != '(') && (finish < len); finish++);

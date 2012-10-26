@@ -1166,6 +1166,7 @@ int putOutputDataToFile(char *fileName)
           return GET_INPUT_ERROR_BAD_FILE;
 #else
           printf("Error in SILMIN file output procedure. Cannot open file: %s\n", nameOfFile);
+          free(nameOfFile);
           return FALSE;
 #endif /* BATCH_VERSION */
         } 
