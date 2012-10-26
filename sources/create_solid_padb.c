@@ -315,7 +315,8 @@ static void button_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
       }
       XmToggleButtonSetState(includedSolids[k].name, True, False);
       
-    } else if (tag == XmCR_HELP) ;
+    } else if (tag == XmCR_HELP)
+        ;
       
     break;
 

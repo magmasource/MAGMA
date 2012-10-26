@@ -296,7 +296,8 @@ void InitComputeDataStruct(void)
       solids[i].mw = formulaToMwStoich((char *) solids[i].formula, elementsToSolids[i]);
       for(j=0,solids[i].nAtoms=0.0; j<ne; j++) solids[i].nAtoms += elementsToSolids[i][j];
       if (solids[i].type == PHASE) {
-         for (j=i+1; solids[j].type == COMPONENT && j<npc; j++); j--;
+         for (j=i+1; solids[j].type == COMPONENT && j<npc; j++);
+         j--;
          solids[i].na = MAX(j-i  , 1);
          solids[i].nr = MAX(j-i-1, 0);
       }
@@ -724,7 +725,8 @@ void InitComputeDataStruct(void)
 
 double formulaToMwStoich(char *formula, double *stoich)
 {
-   int len, i, j;
+    size_t len;
+   int i, j;
    char c, *sym, *num, *temp;
    double mw = 0.0, mult = 1.0;
 

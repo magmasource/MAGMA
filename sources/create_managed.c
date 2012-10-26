@@ -540,7 +540,7 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
   long tag = (long) cData;
   XmTextVerifyCallbackStruct *cbData = (XmTextVerifyCallbackStruct *) cbDataGen;
   char *number, *output;
-  int len;
+  long len;
 
   switch (cbData->reason) {
 
@@ -578,12 +578,12 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
       else {
         if (len + cbData->text->length > CHAR_LENGTH) {
           cbData->text->ptr[CHAR_LENGTH-len] = 0;
-          cbData->text->length = strlen(cbData->text->ptr);
+          cbData->text->length = (int) strlen(cbData->text->ptr);
         }
         for (len=0; len<cbData->text->length; len++) {
           if (!isdigit(cbData->text->ptr[len]) && cbData->text->ptr[len] != '.' && cbData->text->ptr[len] != ' ') {
             int j;
-            for (j=len; (j+1)<cbData->text->length; j++) cbData->text->ptr[j] = cbData->text->ptr[j+1];
+            for (j=(int)len; (j+1)<cbData->text->length; j++) cbData->text->ptr[j] = cbData->text->ptr[j+1];
             cbData->text->length--;  len--;
           }
         }
@@ -895,7 +895,7 @@ static void units_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
 
   case XmCR_ACTIVATE :       /* Push button   */
   case XmCR_VALUE_CHANGED :  /* Toggle button */
-    if (tag > 0) units_phase_display = tag;
+    if (tag > 0) units_phase_display = (int) tag;
     if (silminState != NULL) updateSolidADB((double *) NULL, (double *) NULL);
     break;
   case XmCR_HELP :
@@ -1804,7 +1804,7 @@ static void logfo2_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
   switch (cbData->reason) {
 
   case XmCR_ACTIVATE :
-    units_logfo2_display = tag;
+    units_logfo2_display = (int) tag;
     if (silminState != NULL) updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
     break;
   case XmCR_HELP :

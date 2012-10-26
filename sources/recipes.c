@@ -263,12 +263,12 @@ void indexx(unsigned long n, double arr[], unsigned long indx[])
       jstack += 2;
       if (jstack > NSTACK) nrerror("NSTACK too small in indexx.");
       if (ir-i+1 >= j-l) {
-        istack[jstack]=ir;
-        istack[jstack-1]=i;
+        istack[jstack] = (int) ir;
+        istack[jstack-1] = (int) i;
         ir=j-1;
       } else {
-        istack[jstack]=j-1;
-        istack[jstack-1]=l;
+        istack[jstack] = (int) (j-1);
+        istack[jstack-1] = (int) l;
         l=i;
       }
     }

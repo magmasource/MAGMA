@@ -282,7 +282,8 @@ int getInputDataFromFile(char *fileName)
   static FILE *input = NULL;
   static char line[REC];
 
-  int i, j, len, ns;
+  size_t len;
+  int i, j, ns;
   int curPhase = 0;
   Arg arg_set[20];
   float temporary;
@@ -1064,7 +1065,7 @@ int putOutputDataToFile(char *fileName)
       fprintf(output, "\n");
 #ifdef MAKE_TABLES
       if (tableSol[j] == NULL) {
-        int len = strlen(solids[j].label);
+        size_t len = strlen(solids[j].label);
         char *nameOfFile = (char *) calloc((unsigned) (len+5), sizeof(char));
         strcpy(nameOfFile, solids[j].label);
         for (i=0; i<len; i++) if(nameOfFile[i] == ' ') nameOfFile[i] = '-';
@@ -1154,7 +1155,7 @@ int putOutputDataToFile(char *fileName)
       fprintf(output, "\n");
 #ifdef MAKE_TABLES
       if (tableSol[j] == NULL) {
-        int len = strlen(solids[j].label);
+        size_t len = strlen(solids[j].label);
         char *nameOfFile = (char *) calloc((unsigned) (len+5), sizeof(char));
         strcpy(nameOfFile, solids[j].label);
         for (i=0; i<len; i++) if(nameOfFile[i] == ' ') nameOfFile[i] = '-';
