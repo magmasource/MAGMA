@@ -742,8 +742,11 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
   static char valueI[7];  /*  6 characters */
   static char valueD[21]; /* 20 characters */
   static XmString  valueCS  = NULL;
-  
-  static int mfit, graphSet=0;
+
+#ifdef GRACE_PIPE
+  static int graphSet=0;
+#endif
+  static int mfit;
   static unsigned long *key;
   static double ochisq, *atry, *beta, *da, *wSVA, **vSVA;
   static char *eSVA;
@@ -1381,7 +1384,7 @@ Boolean preclb(XtPointer client_data)
     } 
     if (oxNamesLC == NULL) oxNamesLC = (char **) malloc((size_t) nc*sizeof(char *));
     for (i=0; i<nc; i++) {
-      int len = strlen(bulkSystem[i].label);
+      size_t len = strlen(bulkSystem[i].label);
       oxNamesLC[i] = (char *) malloc((size_t) (len+1)*sizeof(char));
       for (j=0; j<len; j++) oxNamesLC[i][j] = tolower((bulkSystem[i].label)[j]);
       oxNamesLC[i][len] = '\0';

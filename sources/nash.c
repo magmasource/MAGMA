@@ -231,7 +231,10 @@ int vmmin(         /* returned value, MODE flag as set in NASH.H              */
   iterations = 0;
 
   do {
-    iterations++; if (iterations > 10000.0) return VMMIN_BAD_INITIAL;
+      iterations++; if (iterations > 10000.0) {
+          for (i=0; i<n; i++) free(B[i]); free(B); free(c); free(g); free(t); free(X);
+          return VMMIN_BAD_INITIAL;
+      }
     if (ilast == gradcount) 
       for (i=0; i<n; i++) { for (j=0; j<n; j++) B[i][j] = 0.0; B[i][i] = 1.0; }
     for (i=0; i<n; i++) { X[i] = Bvec[i]; c[i] = g[i]; }
