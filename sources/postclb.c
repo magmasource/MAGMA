@@ -637,7 +637,7 @@ Boolean postclb(XtPointer client_data)
 	      conLiq(THIRD, FOURTH, residualDataInput[j].t,  residualDataInput[j].p, NULL, NULL, (residualDataInput[j].rLiq)[0], xLiq, NULL, NULL, NULL);
 	      for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
 	        
-	      targetMu = mu[18] + (residualOutput[j].residuals)[l]*1000.0;
+	      targetMu = mu[18] + (residualOutput[j].residuals)[l]*1000.0*3.0;
 	      printf("target mu[H2O] = %g X[H2O] = %g\n", targetMu, xLiq[18]);
 	      f = 1000.0;
 	      xOpt = xLiq[18];
@@ -683,7 +683,7 @@ Boolean postclb(XtPointer client_data)
 	      conLiq(THIRD, FOURTH, residualDataInput[j].t,  residualDataInput[j].p, NULL, NULL, (residualDataInput[j].rLiq)[0], xLiq, NULL, NULL, NULL);
 	      for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
 	        
-	      targetMu = mu[14] + (residualOutput[j].residuals)[l]*1000.0;
+	      targetMu = mu[14] + (residualOutput[j].residuals)[l]*1000.0*3.0;
 	      printf("target mu[CO2] = %g X[CO2] = %g\n", targetMu, xLiq[14]);
 	      f = 1000.0;
 	      xOpt = xLiq[14];
@@ -744,7 +744,7 @@ Boolean postclb(XtPointer client_data)
 	        conLiq(THIRD, FOURTH, residualDataInput[lastLiquid].t,  residualDataInput[lastLiquid].p, NULL, NULL, (residualDataInput[lastLiquid].rLiq)[0], xLiq, NULL, NULL, NULL);
 	        for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
 	        
-	        targetMu = mu[18] + resVar[0]*1000.0;
+	        targetMu = mu[18] + resVar[0]*1000.0*3.0;
 	        printf("target mu[H2O] = %g X[CO2] = %g X[H2O] = %g\n", targetMu, xLiq[14], xLiq[18]);
 	        f = 1000.0;
 	        xOpt    =  xLiq[18];
@@ -791,7 +791,7 @@ Boolean postclb(XtPointer client_data)
 	        conLiq(THIRD, FOURTH, residualDataInput[lastLiquid].t,  residualDataInput[lastLiquid].p, NULL, NULL, (residualDataInput[lastLiquid].rLiq)[0], xLiq, NULL, NULL, NULL);
 	        for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
 	        
-	        targetMu = mu[14] + resVar[1]*1000.0;
+	        targetMu = mu[14] + resVar[1]*1000.0*3.0;
 	        //printf("target mu[CO2] = %g X[CO2] = %g X[H2O] = %g\n", targetMu, xLiq[14], xLiq[18]);
 	        f = 1000.0;
 	        xOpt    =  xLiq[14];
@@ -840,8 +840,8 @@ Boolean postclb(XtPointer client_data)
 	        conLiq(THIRD, FOURTH, residualDataInput[lastLiquid].t,  residualDataInput[lastLiquid].p, NULL, NULL, (residualDataInput[lastLiquid].rLiq)[0], xLiq, NULL, NULL, NULL);
 	        for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
 	        
-	        targetMu[0] = mu[18] + resVar[0]*1000.0;
-	        targetMu[1] = mu[14] + resVar[1]*1000.0;
+	        targetMu[0] = mu[18] + resVar[0]*1000.0*3.0;
+	        targetMu[1] = mu[14] + resVar[1]*1000.0*3.0;
 	        printf("target mu[H2O] = %g mu[CO2] = %g X[CO2] = %g X[H2O] = %g\n", targetMu[0], targetMu[1], xLiq[14], xLiq[18]);
 	        f[0] = 1000.0;
 	        f[1] = 1000.0;
