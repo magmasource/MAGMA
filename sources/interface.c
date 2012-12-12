@@ -611,9 +611,10 @@ static int batchInputDataFromFile(char *fileName)
 /*         RUN_EQUILIBRATE_CALC if succesful */
 /*         FALSE                if not       */
 
-#define RUN_LIQUIDUS_CALC    2
-#define RUN_EQUILIBRATE_CALC 3
-#define RETURN_WITHOUT_CALC  4
+#define RUN_LIQUIDUS_CALC       2
+#define RUN_EQUILIBRATE_CALC    3
+#define RETURN_WITHOUT_CALC     4
+#define RETURN_DO_FRACTIONATION 5
 
 static int batchInputDataFromXmlFile(char *fileName) {
     xmlSchemaPtr schema = NULL;
@@ -729,6 +730,21 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             if (silminInputData.title != NULL) free(silminInputData.title);
                             silminInputData.title = (char *) malloc((size_t) (strlen((char *) content1)+1)*sizeof(char));
                             (void) strcpy(silminInputData.title, (char *) content1);
+                            
+                        } else if (!strcmp((char *) level1->name, "fractionateOnly")) {
+                            printf("Found fractionateOnly: %s\n", content1);
+                            if      (!strcmp((char *) content1, "fractionateSolids"  )) {                                      silminState->fractionateSol =  TRUE;                                      }
+                            else if (!strcmp((char *) content1, "fractionateFluids"  )) { silminState->fractionateFlu =  TRUE;                                                                           }
+                            else if (!strcmp((char *) content1, "fractionateLiquids" )) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq =  TRUE; }
+                            
+                            if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
+                                silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
+                                silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
+                            }
+                            if (silminState->fractionateLiq && silminState->fracLComp == (double *) NULL) {
+                                silminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
+                            }
+                            ret = RETURN_DO_FRACTIONATION;
                             
                         } else if (!strcmp((char *) level1->name, "changeBulk")) {
                             xmlNode *level2 = level1->children;
@@ -1866,6 +1882,215 @@ static void putStatusDataToXmlFile(char *statusFile) {
   xmlFreeTextWriter(writer);
 }
 
+static void doBatchFractionation(void) {
+	int i, j, k, ns, nl;
+	int hasLiquid = ((silminState != NULL) && (silminState->liquidMass != 0.0));
+
+    /* Solid Phase Fractionation */
+    if ((silminState->fractionateSol || silminState->fractionateFlu) && !hasLiquid) fprintf(stderr, "...Cannot do solid/fluid fractionation without a liquid phase.\n");
+	
+    if ((silminState->fractionateSol || silminState->fractionateFlu) && hasLiquid) {
+      double *m = (double *) malloc((size_t) nlc*sizeof(double));
+      double *r = (double *) malloc((size_t) nlc*sizeof(double));
+      for (i=0; i<npc; i++) if (solids[i].type == PHASE) {
+        if ((silminState->nSolidCoexist)[i] > (silminState->nFracCoexist)[i]) {
+          int ns = (silminState->nSolidCoexist)[i];
+          int nf = (silminState->nFracCoexist)[i];
+          (silminState->nFracCoexist)[i] = ns;
+          if (nf == 0) {
+            (silminState->fracSComp)[i] = (double *) calloc((size_t) ns, sizeof(double));
+            if (solids[i].na > 1) for (j=0; j<solids[i].na; j++) (silminState->fracSComp)[i+1+j] = (double *) calloc((size_t) ns, sizeof(double));
+          } else {
+            (silminState->fracSComp)[i] = (double *) REALLOC((silminState->fracSComp)[i], (size_t) ns*sizeof(double));
+            for (j=nf; j<ns; j++) (silminState->fracSComp)[i][j] = 0.0;
+            if (solids[i].na > 1) for (j=0; j<solids[i].na; j++) {
+              (silminState->fracSComp)[i+1+j] = (double *) REALLOC((silminState->fracSComp)[i+1+j], (size_t) ns*sizeof(double));
+              for (k=nf; k<ns; k++) (silminState->fracSComp)[i+1+j][k] = 0.0;
+            }
+          }
+        }
+      }
+      for (i=0; i<npc; i++) {
+        if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "water")) continue;
+        if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "water")) continue;
+        for (ns=0; ns<(silminState->nSolidCoexist)[i]; ns++) {
+          if (solids[i].na == 1) {
+	    (silminState->fracSComp)[i][ns] += (silminState->solidComp)[i][ns]-MASSIN;
+            if (silminState->fo2Path != FO2_NONE) silminState->oxygen -= (oxygen.solToOx)[i]*((silminState->solidComp)[i][ns]-MASSIN);
+            silminState->fracMass += ((silminState->solidComp)[i][ns]-MASSIN)*solids[i].mw;
+            for (j=0; j<nc; j++) (silminState->bulkComp)[j] -= (solids[i].solToOx)[j]*((silminState->solidComp)[i][ns]-MASSIN);
+
+            /* Subtract off H, S or V if appropriate                          */
+            if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0))
+              silminState->refEnthalpy -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).h;
+            if (silminState->isentropic && (silminState->refEntropy != 0.0))
+              silminState->refEntropy -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).s;
+            if (silminState->isochoric && (silminState->refVolume != 0.0))
+              silminState->refVolume -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).v;
+
+            (silminState->solidComp)[i][ns] = MASSIN;
+          } else {
+            double moleF, totalMoles=0.0;
+            (silminState->fracSComp)[i][ns] += (silminState->solidComp)[i][ns] - MASSIN;
+            for (j=0; j<solids[i].na; j++) {
+              moleF = (silminState->solidComp)[i+1+j][ns]/(silminState->solidComp)[i][ns];
+              m[j] = (silminState->solidComp)[i+1+j][ns] - MASSIN*moleF;
+              totalMoles += m[j];
+              (silminState->fracSComp)[i+1+j][ns] += m[j];
+              if (silminState->fo2Path != FO2_NONE) silminState->oxygen -= (oxygen.solToOx)[i+1+j]*m[j];
+              silminState->fracMass += m[j]*solids[i+1+j].mw;
+              for (k=0; k<nc; k++) (silminState->bulkComp)[k] -= (solids[i+1+j].solToOx)[k]*m[j];
+              (silminState->solidComp)[i+1+j][ns] = MASSIN*moleF; 
+
+              /* Subtract off H, S or V if appropriate                        */
+              if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) silminState->refEnthalpy -= m[j]*(solids[i+1+j].cur).h;
+              if (silminState->isentropic && (silminState->refEntropy != 0.0))   silminState->refEntropy  -= m[j]*(solids[i+1+j].cur).s;
+              if (silminState->isochoric && (silminState->refVolume != 0.0))     silminState->refVolume   -= m[j]*(solids[i+1+j].cur).v;
+            }
+            (silminState->solidComp)[i][ns] = MASSIN; 
+
+            /* Subtract off H, S or V if appropriate                          */
+            if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) {
+              double enthalpy;
+              (*solids[i].convert)(SECOND, THIRD, silminState->T,silminState->P, NULL, m, r, NULL,  NULL, NULL, NULL, NULL);
+              (*solids[i].hmix)(FIRST, silminState->T, silminState->P, r, &enthalpy);
+              silminState->refEnthalpy -= totalMoles*enthalpy;
+            }
+            if (silminState->isentropic && (silminState->refEntropy != 0.0)) {
+              double entropy;
+              (*solids[i].convert)(SECOND, THIRD,silminState->T,silminState->P, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
+              (*solids[i].smix)(FIRST, silminState->T, silminState->P, r, &entropy, (double *) NULL, (double **) NULL);
+              silminState->refEntropy  -= totalMoles*entropy;
+            }
+            if (silminState->isochoric && (silminState->refVolume != 0.0)) {
+              double volume;
+              (*solids[i].convert)(SECOND, THIRD, silminState->T,silminState->P, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
+              (*solids[i].vmix)(FIRST, silminState->T, silminState->P, r, &volume, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+              silminState->refVolume   -= totalMoles*volume;
+            }
+
+          }
+        }
+      }
+
+      for (i=0; i<nc; i++) {
+        if ((silminState->bulkComp)[i] != 0.0 && (silminState->bulkComp)[i] <  MASSOUT && bulkSystem[i].type != FE2O3) { 
+          fprintf(stderr, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
+          (silminState->bulkComp)[i] = 0.0;
+          for (j=0; j<nlc; j++) if ((liquid[j].liqToOx)[i] != 0.0) { 
+            for (nl=0; nl<silminState->nLiquidCoexist; nl++) (silminState->liquidComp)[nl][j] = 0.0;
+            fprintf(stderr, "    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
+          }
+          for (j=0; j<npc; j++) {
+            for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
+              if (solids[j].na == 1) {
+                if ((solids[j].solToOx)[i] != 0.0) {
+                  (silminState->solidComp)[j][ns] = 0.0;
+                  fprintf(stderr, "    Moles of %s in solid set to zero.\n", solids[j].label);
+                }
+              } else {
+                for (k=0; k<solids[j].na; k++) {
+                  if ((solids[j+1+k].solToOx)[i] != 0.0) {
+                    (silminState->solidComp)[j][ns] -= (silminState->solidComp)[j+1+k][ns];
+                    (silminState->solidComp)[j+1+k][ns] = 0.0;
+                    fprintf(stderr, "    Moles of %s in %s solid set to zero.\n", solids[j+1+k].label, solids[j].label);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      free(m);
+      free(r);
+    }
+
+    /* Liquid Phase Fractionation */
+    if (silminState->fractionateLiq && !hasLiquid) fprintf(stderr, "...Cannot do liquid fractionation without a liquid phase.\n");
+	
+    if (silminState->fractionateLiq && hasLiquid) {
+      double *m = (double *) malloc((size_t) nlc*sizeof(double));
+      double *r = (double *) malloc((size_t) nlc*sizeof(double));
+      for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
+        double refMoles, totalMoles;	
+        for (i=0, refMoles=0.0; i<nlc; i++) refMoles += (silminState->liquidComp)[nl][i];
+	
+        for (i=0, totalMoles=0.0; i<nlc; i++) {
+	  if (((silminState->liquidComp)[nl][i] != 0.0) && (refMoles != 0.0)) {
+	    double mw;
+	    double moleF = (silminState->liquidComp)[nl][i]/refMoles;
+	    
+	    for (j=0, mw = 0.0; j<nc; j++) mw += (liquid[i].liqToOx)[j]*bulkSystem[j].mw;
+            m[i] = (silminState->liquidComp)[nl][i] - MASSIN*moleF;
+            totalMoles += m[i];
+            (silminState->fracLComp)[i] += m[i];
+            if (silminState->fo2Path != FO2_NONE) silminState->oxygen -= (oxygen.liqToOx)[i]*m[i];
+            silminState->fracMass += m[i]*mw;
+            for (j=0; j<nc; j++) (silminState->bulkComp)[j] -= (liquid[i].liqToOx)[j]*m[i];
+            (silminState->liquidComp)[nl][i] = MASSIN*moleF;
+
+            /* Subtract off H, S or V if appropriate			    */
+            if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) silminState->refEnthalpy -= m[i]*(liquid[i].cur).h;
+            if (silminState->isentropic  && (silminState->refEntropy  != 0.0)) silminState->refEntropy  -= m[i]*(liquid[i].cur).s;
+            if (silminState->isochoric   && (silminState->refVolume   != 0.0)) silminState->refVolume	-= m[i]*(liquid[i].cur).v;
+	  } else m[i] = 0.0;
+        }
+
+        /* Subtract off H, S or V if appropriate			  */
+        if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) {
+          double enthalpy;
+          conLiq (SECOND, THIRD, silminState->T,silminState->P, NULL, m, r, NULL,  NULL, NULL, NULL);
+          hmixLiq(FIRST, silminState->T, silminState->P, r, &enthalpy, NULL);
+          silminState->refEnthalpy -= totalMoles*enthalpy;
+        }
+        if (silminState->isentropic && (silminState->refEntropy != 0.0)) {
+          double entropy;
+          conLiq (SECOND, THIRD,silminState->T,silminState->P, NULL, m, r, NULL, NULL, NULL, NULL);
+          smixLiq(FIRST, silminState->T, silminState->P, r, &entropy, NULL, NULL, NULL);
+          silminState->refEntropy  -= totalMoles*entropy;
+        }
+        if (silminState->isochoric && (silminState->refVolume != 0.0)) {
+          double volume;
+          conLiq (SECOND, THIRD, silminState->T,silminState->P, NULL, m, r, NULL, NULL, NULL, NULL);
+          vmixLiq(FIRST, silminState->T, silminState->P, r, &volume, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+          silminState->refVolume   -= totalMoles*volume;
+        }
+
+      }
+
+      for (i=0; i<nc; i++) {
+        if ((silminState->bulkComp)[i] != 0.0 && (silminState->bulkComp)[i] <  MASSOUT && bulkSystem[i].type != FE2O3) { 
+          fprintf(stderr, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
+          (silminState->bulkComp)[i] = 0.0;
+          for (j=0; j<nlc; j++) if ((liquid[j].liqToOx)[i] != 0.0) { 
+            for (nl=0; nl<silminState->nLiquidCoexist; nl++) (silminState->liquidComp)[nl][j] = 0.0;
+            fprintf(stderr, "    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
+          }
+          for (j=0; j<npc; j++) {
+            for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
+              if (solids[j].na == 1) {
+                if ((solids[j].solToOx)[i] != 0.0) {
+                  (silminState->solidComp)[j][ns] = 0.0;
+                  fprintf(stderr, "    Moles of %s in solid set to zero.\n", solids[j].label);
+                }
+              } else {
+                for (k=0; k<solids[j].na; k++) {
+                  if ((solids[j+1+k].solToOx)[i] != 0.0) {
+                    (silminState->solidComp)[j][ns] -= (silminState->solidComp)[j+1+k][ns];
+                    (silminState->solidComp)[j+1+k][ns] = 0.0;
+                    fprintf(stderr, "    Moles of %s in %s solid set to zero.\n", solids[j+1+k].label, solids[j].label);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      free(m);
+      free(r);
+    }
+}
+
 #endif /* BATCH_VERSION */
 
 /*****************/
@@ -2266,6 +2491,12 @@ int main (int argc, char *argv[])
                             putOutputDataToXmlFile(oFileName);
                             putStatusDataToXmlFile(sFileName);
                         } else if (ret == RETURN_WITHOUT_CALC) {
+                            fileOpenAttempts = 0;
+                            meltsStatus.status = SILMIN_SUCCESS;
+                            putOutputDataToXmlFile(oFileName);
+                            putStatusDataToXmlFile(sFileName);
+                        } else if (ret == RETURN_DO_FRACTIONATION) {
+                        	doBatchFractionation();
                             fileOpenAttempts = 0;
                             meltsStatus.status = SILMIN_SUCCESS;
                             putOutputDataToXmlFile(oFileName);
