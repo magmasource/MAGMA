@@ -1429,11 +1429,11 @@ Boolean preclb(XtPointer client_data)
 	int flagFePt = FALSE;
 	int flagRe   = FALSE;
 	int LEPRnum  = 0;
-	char name[21], author[21], device[11], container[11], method[11];
+	char name[201], author[201], device[11], container[11], method[11];
 	
 	t = -9999.0; p = -9999.0; logfo2 = -9999.0;
-	for (i=0; i<21;i++) { name[i] = ' '; author[i] = ' '; }
-	name[20] = '\0'; author[20] = '\0';
+	for (i=0; i<201;i++) { name[i] = ' '; author[i] = ' '; }
+	name[200] = '\0'; author[200] = '\0';
 	for (i=0; i<11;i++) { device[i] = ' '; container[i] = ' '; method[i] = ' '; }
 	device[10] = '\0'; container[10] = '\0'; method[10] = '\0';
 
@@ -1444,11 +1444,11 @@ Boolean preclb(XtPointer client_data)
 	    if      (!strcmp((char *) level2->name, "number" )) LEPRnum = atoi((char *) content2);
 	    
 	    else if (!strcmp((char *) level2->name, "name"   )) { 
-	      (void) strncpy(name, (char *) content2, 20); 
+	      (void) strncpy(name, (char *) content2, 200); 
 	      DISPLAY(actionADB[1], (char *) content2) 
 	    }
 	    
-	    else if (!strcmp((char *) level2->name, "author"    )) (void) strncpy(author, (char *) content2, 20);
+	    else if (!strcmp((char *) level2->name, "author"    )) (void) strncpy(author, (char *) content2, 200);
 	    
 	    else if (!strcmp((char *) level2->name, "device"    )) {
 	      (void) strncpy(device,    (char *) content2, 10);
@@ -1667,6 +1667,18 @@ Boolean preclb(XtPointer client_data)
 #endif
 #endif
 #endif
+          /*
+          // Special test to exclude simple liquids
+          if ((wt[11]*bulkSystem[11].mw + wt[12]*bulkSystem[12].mw) < 1.0) logfo2 = -9999.0;  // wt % Na2O+K2O < 1
+          {
+            double amIalbite = (11.82 - 8.27)*(wt[0]*bulkSystem[0].mw-48.12)/(68.74 - 48.12) + 8.27 - wt[11]*bulkSystem[11].mw;
+            if ((fabs(amIalbite) <= 0.5) && (wt[7] == 0.0) && (wt[10] == 0.0))  logfo2 = -9999.0;
+          }
+          {
+            double amIkspar = (16.92 - 16.92*0.70)*(wt[0]*bulkSystem[0].mw-64.76*0.70)/(64.76 - 64.76*0.70) + 16.92*0.70 - wt[12]*bulkSystem[12].mw;
+            if ((fabs(amIkspar) <= 0.5) && (wt[7] == 0.0) && (wt[10] == 0.0))  logfo2 = -9999.0;
+          }
+          */
 
               /* Do tests on liquid composition and store valid liquid entry */
 #ifdef BUILD_MGO_SIO2_VERSION

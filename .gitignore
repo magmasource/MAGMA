@@ -58,6 +58,7 @@ Test_entropy-MS
 Test_entropy-SACNK
 Test_dn2gb
 Test_fluid
+Test_fluidRegression
 Test_fo2
 Test_gibbs
 Test_gibbs-MS

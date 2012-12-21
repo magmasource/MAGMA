@@ -67,7 +67,7 @@ usage:
 	echo "       Test_database Test_database-MS Test_database-SACNK"
 	echo "       Test_entropy Test_entropy-MS Test_entropy-SACNK"
 	echo "       Test_dn2gb"
-	echo "       Test_fluid"
+	echo "       Test_fluid, Test_fluidRegression"
 	echo "       Test_fo2"
 	echo "       Test_gibbs Test_gibbs-MS Test_gibbs-SACNK"
 	echo "       Test_liquid Test_liquid-MS Test_liquid-SACNK"
@@ -1285,6 +1285,12 @@ Test_eos-SACNK: test_eos.c liquid-SACNK.o melts_support-SACNK.o \
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
 	$(CC) $(LDFLAGS) -o $@ test_eos.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_eos.o
+	chmod 755 $@
+
+Test_fluidRegression: test_fluidRegression.c 
+	$(CC) $(CFLAGS) $<
+	$(CC) $(LDFLAGS) -o $@ test_fluidRegression.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) test_fluidRegression.o
 	chmod 755 $@
 
 Test_mpi: mpi_master.c mpi_slave.c \

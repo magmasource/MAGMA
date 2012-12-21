@@ -591,14 +591,24 @@ Boolean postclb(XtPointer client_data)
 	fprintf(resFile,"LEPR N,T (C),P (GPa),log fO2,Palk,Mal,Pal,L SiO2,L MgNum,L ALKind,L MgO,L CaO,L H2O,L CO2,S Fe2SiO5,S Fe2SiO4,S Fe2SiO4.6,S H2O,S Si0.25OH,S Al0.33OH");
 #endif
 	if (solids[i].convert == NULL) {
-	  fprintf(resFile,",Dep %s (kJ),Res %s (kJ),Afn %s (kJ)\n", solids[i].label, solids[i].label, solids[i].label);
+	  fprintf(resFile,",Dep %s (kJ),Res %s (kJ),Afn %s (kJ)", solids[i].label, solids[i].label, solids[i].label);
 	} else {
 	  for (k=0; k<solids[i].na; k++) 
 	    fprintf(resFile,",X %s,Dep %s (kJ),Res %s (kJ)", solids[i+1+k].label, solids[i+1+k].label, solids[i+1+k].label);
 	  for (k=0; k<nes; k++) if (!strcmp(extraSolids[k].phase,solids[i].label))
 	    fprintf(resFile,",X %s,Dep %s (kJ),Res %s (kJ)", extraSolids[k].species, extraSolids[k].species, extraSolids[k].species);
-	  fprintf(resFile,"\n");
 	}
+	if        (!strcmp(solids[i].label, "h2oduan")) {
+	  for (k=0; k<nlc; k++) fprintf(resFile, ",%s", liquid[k].label);
+	  fprintf(resFile, ",%s,%s", "iters", "H2O pred");
+	} else if (!strcmp(solids[i].label, "co2duan")) {
+	  for (k=0; k<nlc; k++) fprintf(resFile, ",%s", liquid[k].label);
+	  fprintf(resFile, ",%s,%s", "iters", "CO2 pred");
+	} else if (!strcmp(solids[i].label, "fluid")) {
+	  for (k=0; k<nlc; k++) fprintf(resFile, ",%s", liquid[k].label);
+	  fprintf(resFile, ",%s,%s,%s", "iters", "H2O pred", "CO2 pred");
+	}
+	fprintf(resFile,"\n");
 	firstTime = FALSE;
 	printMe   = FALSE;
       }
@@ -612,7 +622,7 @@ Boolean postclb(XtPointer client_data)
 	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
 	    (residualDataInput[j].depenG)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
 	else
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,0.0,0.0", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
 #else
@@ -622,7 +632,7 @@ Boolean postclb(XtPointer client_data)
 	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
 	    (residualDataInput[j].depenG)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
 	else
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,0.0,0.0", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
 #endif	  
@@ -729,7 +739,7 @@ Boolean postclb(XtPointer client_data)
         if (lastComponent > (residualDataInput[j].cIndex)[l] || lastLiquid != j) {
 	      if (printMe) {
 	      for (k=0; k<(solids[i].na+ne); k++) {
-	        if (depVar[k] != 0.0) fprintf(resFile, ",%g,%g,%g", xVar[k], depVar[k], resVar[k]); else fprintf(resFile, ",,,");
+	        if (depVar[k] != 0.0) fprintf(resFile, ",%g,%g,%g", xVar[k], depVar[k], resVar[k]); else fprintf(resFile, ",0.0,0.0,0.0");
 	      }
 	    
 	    if (!strcmp(solids[i].label, "fluid")) {
@@ -974,7 +984,7 @@ Boolean postclb(XtPointer client_data)
 
     if (printMe) {
       for (k=0; k<(solids[i].na+ne); k++) {
-        if (depVar[k] != 0.0) fprintf(resFile, ",%g,%g,%g", xVar[k], depVar[k], resVar[k]); else fprintf(resFile, ",,,");
+        if (depVar[k] != 0.0) fprintf(resFile, ",%g,%g,%g", xVar[k], depVar[k], resVar[k]); else fprintf(resFile, ",0.0,0.0,0.0");
       }
       fprintf(resFile, "\n");
       for (k=0; k<(solids[i].na+ne); k++) { xVar[k] = 0.0; depVar[k] = 0.0; resVar[k] = 0.0; }
