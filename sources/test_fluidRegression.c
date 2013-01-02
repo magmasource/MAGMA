@@ -88,9 +88,23 @@ int main(int argc, char *argv[])  {
   int onlyHighAlkalies        = 0;
   int onlyKspar               = 0;
   
-  int useTonXaxis  = 0;
-  int usePonXaxis  = 0;
-  int useMuOnYaxis = 0;
+  int useTonXaxis      = 0;
+  int usePonXaxis      = 0;
+  int useXH2OflOnXaxis = 0;
+  int useMuOnYaxis     = 0;
+  
+  int useMuOnYaxisSiO2onXaxis    = 0;
+  int useMuOnYaxisTiO2onXaxis    = 0;
+  int useMuOnYaxisAl2O3onXaxis   = 0;
+  int useMuOnYaxisFe2O3onXaxis   = 0;
+  int useMuOnYaxisFe2SiO4onXaxis = 0;
+  int useMuOnYaxisMg2SiO4onXaxis = 0;
+  int useMuOnYaxisCaSiO3onXaxis  = 0;
+  int useMuOnYaxisNa2SiO3onXaxis = 0;
+  int useMuOnYaxisKAlSiO4onXaxis = 0;
+  int useMuOnYaxisAlIndexonXaxis = 0;
+  
+  int useGenericMu = 0;
   
   int negateFilterChoice = 0;
   int colorByT           = 0;
@@ -123,9 +137,20 @@ int main(int argc, char *argv[])  {
         printf("Unrecognizable filter: %s.  Command ignored.\n", argv[2]);
       }
       if (argc > 3) {
-        if      (!strcmp(argv[3], "plotT"))  useTonXaxis  = 1;
-        else if (!strcmp(argv[3], "plotP"))  usePonXaxis  = 1;
-        else if (!strcmp(argv[3], "plotMu")) useMuOnYaxis = 1;
+        if      (!strcmp(argv[3], "plotT"))         useTonXaxis      = 1;
+        else if (!strcmp(argv[3], "plotP"))         usePonXaxis      = 1;
+        else if (!strcmp(argv[3], "plotXH2Ofl"))    useXH2OflOnXaxis = 1;
+        else if (!strcmp(argv[3], "plotMu"))        useMuOnYaxis     = 1;
+        else if (!strcmp(argv[3], "plotMuSiO2"))    useMuOnYaxisSiO2onXaxis    = 1;
+        else if (!strcmp(argv[3], "plotMuTiO2"))    useMuOnYaxisTiO2onXaxis    = 1;
+        else if (!strcmp(argv[3], "plotMuAl2O3"))   useMuOnYaxisAl2O3onXaxis   = 1;
+        else if (!strcmp(argv[3], "plotMuFe2O3"))   useMuOnYaxisFe2O3onXaxis   = 1;
+        else if (!strcmp(argv[3], "plotMuFe2SiO4")) useMuOnYaxisFe2SiO4onXaxis = 1;
+        else if (!strcmp(argv[3], "plotMuMg2SiO4")) useMuOnYaxisMg2SiO4onXaxis = 1;
+        else if (!strcmp(argv[3], "plotMuCaSiO3"))  useMuOnYaxisCaSiO3onXaxis  = 1;
+        else if (!strcmp(argv[3], "plotMuNa2SiO3")) useMuOnYaxisNa2SiO3onXaxis = 1;
+        else if (!strcmp(argv[3], "plotMuKAlSiO4")) useMuOnYaxisKAlSiO4onXaxis = 1;
+        else if (!strcmp(argv[3], "plotMuAlIndex")) useMuOnYaxisAlIndexonXaxis = 1;
         if (argc > 4) {
           if      (!strcmp(argv[4], "negate"))     negateFilterChoice = 1;
           else if (!strcmp(argv[4], "colorByT"))   colorByT = 1;
@@ -135,19 +160,28 @@ int main(int argc, char *argv[])  {
     } else printf("No filters will be applied.\n");
     
   } else {
-    printf("Usage [H2Opure]   [basalts]             [plotT]  [negate]\n");
-    printf("      [CO2pure]   [andesites]           [plotP]  [colorByT]\n");
-    printf("      [H2Ofluid]  [dacitesAndRhyolites] [plotMu] [outputFile]\n");
-    printf("      [CO2fluid]  [zeroAlkalies]        [dummy]\n");
-    printf("      [H2O]       [albite]\n");
-    printf("      [CO2]       [jadeite]\n");
-    printf("      [All]       [lowP]\n");
-    printf("                  [highAlkalies]\n");
-    printf("                  [noSimpleLiquids]\n");
-    printf("                  [kspar]\n");
-    printf("                  [dummy]\n");
+    printf("Usage [H2Opure]   [basalts]             [plotT]         [negate]\n");
+    printf("      [CO2pure]   [andesites]           [plotP]         [colorByT]\n");
+    printf("      [H2Ofluid]  [dacitesAndRhyolites] [plotMu]        [outputFile]\n");
+    printf("      [CO2fluid]  [zeroAlkalies]        [plotMuSiO2]\n");
+    printf("      [H2O]       [albite]              [plotMuTiO2]\n");
+    printf("      [CO2]       [jadeite]             [plotMuAl2O3]\n");
+    printf("      [All]       [lowP]                [plotMuFe2O3]\n");
+    printf("                  [highAlkalies]        [plotMuFe2SiO4]\n");
+    printf("                  [noSimpleLiquids]     [plotMuMg2SiO4]\n");
+    printf("                  [kspar]               [plotMuCaSiO3]\n");
+    printf("                  [dummy]               [plotMuNa2SiO3]\n");
+    printf("                                        [plotMuKAlSiO4]\n");
+    printf("                                        [plotMuAlIndex]\n");
+    printf("                                        [plotXH2Ofl]\n");
+    printf("                                        [dummy]\n");
     exit(0);
   }
+  
+  useGenericMu = useMuOnYaxis || useMuOnYaxisSiO2onXaxis    || useMuOnYaxisTiO2onXaxis    || useMuOnYaxisAl2O3onXaxis ||
+                                 useMuOnYaxisFe2O3onXaxis   || useMuOnYaxisFe2SiO4onXaxis || useMuOnYaxisMg2SiO4onXaxis ||
+                                 useMuOnYaxisCaSiO3onXaxis  || useMuOnYaxisNa2SiO3onXaxis || useMuOnYaxisKAlSiO4onXaxis ||
+                                 useMuOnYaxisAlIndexonXaxis || useXH2OflOnXaxis;
   
   if (outputFile) output = fopen("output.dat", "w");
   
@@ -193,7 +227,13 @@ int main(int argc, char *argv[])  {
       GracePrintf("XAXIS TICK MINOR  50.00\n");
       GracePrintf("YAXIS TICK MAJOR 2.00\n");
       GracePrintf("YAXIS TICK MINOR 1.00\n");
-    } else if (useMuOnYaxis) {
+    } else if (useXH2OflOnXaxis)  {
+      GracePrintf("WORLD %lf, %lf, %lf, %lf\n",    0.0, -5.0, 1.0, 5.0);
+      GracePrintf("XAXIS TICK MAJOR 0.10\n");
+      GracePrintf("XAXIS TICK MINOR 0.05\n");
+      GracePrintf("YAXIS TICK MAJOR 2.00\n");
+      GracePrintf("YAXIS TICK MINOR 1.00\n");
+    } else if (useGenericMu) {
       GracePrintf("WORLD %lf, %lf, %lf, %lf\n",    0.0,  -5.0,    1.0,  5.0);
       GracePrintf("XAXIS TICK MAJOR 0.10\n");
       GracePrintf("XAXIS TICK MINOR 0.05\n");
@@ -211,8 +251,19 @@ int main(int argc, char *argv[])  {
 
     if      (useTonXaxis)                                                     GracePrintf("XAXIS LABEL \"T °C\"\n");
     else if (usePonXaxis)                                                     GracePrintf("XAXIS LABEL \"P MPa\"\n");
+    else if (useXH2OflOnXaxis)                                                GracePrintf("XAXIS LABEL \"X H2O fluid phase\"\n");
     else if (useMuOnYaxis && (usePureWater || useFluidWater))                 GracePrintf("XAXIS LABEL \"X H2O\"\n");
     else if (useMuOnYaxis && (usePureCarbonDioxide || useFluidCarbonDioxide)) GracePrintf("XAXIS LABEL \"X CO2\"\n");
+    else if (useMuOnYaxisSiO2onXaxis)                                         GracePrintf("XAXIS LABEL \"X SiO2\"\n");
+    else if (useMuOnYaxisTiO2onXaxis)                                         GracePrintf("XAXIS LABEL \"X TiO2\"\n");
+    else if (useMuOnYaxisAl2O3onXaxis)                                        GracePrintf("XAXIS LABEL \"X Al2O3\"\n");
+    else if (useMuOnYaxisFe2O3onXaxis)                                        GracePrintf("XAXIS LABEL \"X Fe2O3\"\n");
+    else if (useMuOnYaxisFe2SiO4onXaxis)                                      GracePrintf("XAXIS LABEL \"X Fe2SiO4\"\n");
+    else if (useMuOnYaxisMg2SiO4onXaxis)                                      GracePrintf("XAXIS LABEL \"X Mg2SiO4\"\n");
+    else if (useMuOnYaxisCaSiO3onXaxis)                                       GracePrintf("XAXIS LABEL \"X CaSiO3\"\n");
+    else if (useMuOnYaxisNa2SiO3onXaxis)                                      GracePrintf("XAXIS LABEL \"X Na2SiO3\"\n");
+    else if (useMuOnYaxisKAlSiO4onXaxis)                                      GracePrintf("XAXIS LABEL \"X KAlSiO4\"\n");
+    else if (useMuOnYaxisAlIndexonXaxis)                                      GracePrintf("XAXIS LABEL \"X Al2O3 - X Na2SiO3\"\n");
     else if (usePureWater || useFluidWater)                                   GracePrintf("XAXIS LABEL \"wt H2O\"\n");
     else if (usePureCarbonDioxide || useFluidCarbonDioxide)                   GracePrintf("XAXIS LABEL \"wt CO2\"\n");
     GracePrintf("XAXIS LABEL CHAR SIZE 0.8\n");
@@ -220,8 +271,8 @@ int main(int argc, char *argv[])  {
 
     GracePrintf("YAXIS TICKLABEL CHAR SIZE 0.8\n");
 
-    if      (useMuOnYaxis && (usePureWater || useFluidWater))                 GracePrintf("YAXIS LABEL \"residual muH2O\"\n");
-    else if (useMuOnYaxis && (usePureCarbonDioxide || useFluidCarbonDioxide)) GracePrintf("YAXIS LABEL \"residual muCO2\"\n");
+    if      (useGenericMu && (usePureWater || useFluidWater))                 GracePrintf("YAXIS LABEL \"residual muH2O\"\n");
+    else if (useGenericMu && (usePureCarbonDioxide || useFluidCarbonDioxide)) GracePrintf("YAXIS LABEL \"residual muCO2\"\n");
     else if (usePureWater || useFluidWater)                                   GracePrintf("YAXIS LABEL \"delta H2O\"\n");
     else if (usePureCarbonDioxide || useFluidCarbonDioxide)                   GracePrintf("YAXIS LABEL \"delta CO2\"\n");
     GracePrintf("YAXIS LABEL CHAR SIZE 0.8\n");
@@ -323,8 +374,19 @@ int main(int argc, char *argv[])  {
     y = atof(H2Opred) - x;
     if (useTonXaxis) x = atof(T);
     if (usePonXaxis) x = atof(P)*1000;
-    if (useMuOnYaxis) x = atof(H2O);
-    if (useMuOnYaxis) y = atof(Resh2oduan);
+    if (useXH2OflOnXaxis) x = 1.0;
+    if      (useMuOnYaxis)               x = atof(H2O);
+    else if (useMuOnYaxisSiO2onXaxis)    x = atof(SiO2);
+    else if (useMuOnYaxisTiO2onXaxis)    x = atof(TiO2);
+    else if (useMuOnYaxisAl2O3onXaxis)   x = atof(Al2O3);
+    else if (useMuOnYaxisFe2O3onXaxis)   x = atof(Fe2O3);
+    else if (useMuOnYaxisFe2SiO4onXaxis) x = atof(Fe2SiO4);
+    else if (useMuOnYaxisMg2SiO4onXaxis) x = atof(Mg2SiO4);
+    else if (useMuOnYaxisCaSiO3onXaxis)  x = atof(CaSiO3);
+    else if (useMuOnYaxisNa2SiO3onXaxis) x = atof(Na2SiO3);
+    else if (useMuOnYaxisKAlSiO4onXaxis) x = atof(KAlSiO4);
+    else if (useMuOnYaxisAlIndexonXaxis) x = (2.0*atof(H2O) - atof(SiO2))*atof(SiO2);
+    if (useGenericMu) y = atof(Resh2oduan);
     
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet, x, y);
     if (colorByT) {
@@ -427,8 +489,19 @@ int main(int argc, char *argv[])  {
     y = atof(CO2pred) - x;
     if(useTonXaxis) x = atof(T);
     if (usePonXaxis) x = atof(P)*1000;
-    if (useMuOnYaxis) x = atof(CO2);
-    if (useMuOnYaxis) y = atof(Resco2duan);
+    if (useXH2OflOnXaxis) x = 0.0;
+    if (useMuOnYaxis)                    x = atof(CO2);
+    else if (useMuOnYaxisSiO2onXaxis)    x = atof(SiO2);
+    else if (useMuOnYaxisTiO2onXaxis)    x = atof(TiO2);
+    else if (useMuOnYaxisAl2O3onXaxis)   x = atof(Al2O3);
+    else if (useMuOnYaxisFe2O3onXaxis)   x = atof(Fe2O3);
+    else if (useMuOnYaxisFe2SiO4onXaxis) x = atof(Fe2SiO4);
+    else if (useMuOnYaxisMg2SiO4onXaxis) x = atof(Mg2SiO4);
+    else if (useMuOnYaxisCaSiO3onXaxis)  x = atof(CaSiO3);
+    else if (useMuOnYaxisNa2SiO3onXaxis) x = atof(Na2SiO3);
+    else if (useMuOnYaxisKAlSiO4onXaxis) x = atof(KAlSiO4);
+    else if (useMuOnYaxisAlIndexonXaxis) x = (2.0*atof(H2O) - atof(SiO2))*atof(SiO2);
+    if (useGenericMu) y = atof(Resco2duan);
     
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet, x, y);
     if (colorByT) {
@@ -534,16 +607,37 @@ int main(int argc, char *argv[])  {
     if (useFluidWater) {
       x = atof(LH2O);
       y = atof(H2Opred) - x;
-      if (useMuOnYaxis) x = atof(H2O);
-      if (useMuOnYaxis) y = atof(Resh2oduan);
+      if (useMuOnYaxis)                    x = atof(H2O);
+      else if (useMuOnYaxisSiO2onXaxis)    x = atof(SiO2);
+      else if (useMuOnYaxisTiO2onXaxis)    x = atof(TiO2);
+      else if (useMuOnYaxisAl2O3onXaxis)   x = atof(Al2O3);
+      else if (useMuOnYaxisFe2O3onXaxis)   x = atof(Fe2O3);
+      else if (useMuOnYaxisFe2SiO4onXaxis) x = atof(Fe2SiO4);
+      else if (useMuOnYaxisMg2SiO4onXaxis) x = atof(Mg2SiO4);
+      else if (useMuOnYaxisCaSiO3onXaxis)  x = atof(CaSiO3);
+      else if (useMuOnYaxisNa2SiO3onXaxis) x = atof(Na2SiO3);
+      else if (useMuOnYaxisKAlSiO4onXaxis) x = atof(KAlSiO4);
+      else if (useMuOnYaxisAlIndexonXaxis) x = (2.0*atof(H2O) - atof(SiO2))*atof(SiO2);
+      if (useGenericMu) y = atof(Resh2oduan);
     } else if (useFluidCarbonDioxide) {
       x = atof(LCO2);
       y = atof(CO2pred) - x;
-      if (useMuOnYaxis) x = atof(CO2);
-      if (useMuOnYaxis) y = atof(Resco2duan);
+      if (useMuOnYaxis)                    x = atof(CO2);
+      else if (useMuOnYaxisSiO2onXaxis)    x = atof(SiO2);
+      else if (useMuOnYaxisTiO2onXaxis)    x = atof(TiO2);
+      else if (useMuOnYaxisAl2O3onXaxis)   x = atof(Al2O3);
+      else if (useMuOnYaxisFe2O3onXaxis)   x = atof(Fe2O3);
+      else if (useMuOnYaxisFe2SiO4onXaxis) x = atof(Fe2SiO4);
+      else if (useMuOnYaxisMg2SiO4onXaxis) x = atof(Mg2SiO4);
+      else if (useMuOnYaxisCaSiO3onXaxis)  x = atof(CaSiO3);
+      else if (useMuOnYaxisNa2SiO3onXaxis) x = atof(Na2SiO3);
+      else if (useMuOnYaxisKAlSiO4onXaxis) x = atof(KAlSiO4);
+      else if (useMuOnYaxisAlIndexonXaxis) x = (2.0*atof(H2O) - atof(SiO2))*atof(SiO2);
+      if (useGenericMu) y = atof(Resco2duan);
     }
-    if(useTonXaxis) x = atof(T);
+    if (useTonXaxis) x = atof(T);
     if (usePonXaxis) x = atof(P)*1000;
+    if (useXH2OflOnXaxis) x = atof(Xh2oduan);
     
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet, x, y);
     if (colorByT) {
@@ -572,7 +666,7 @@ int main(int argc, char *argv[])  {
   } else if (usePonXaxis) {
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet+1,    0.0, 0.0);
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet+1, 1000.0, 0.0); 
-  } else if (useMuOnYaxis) {
+  } else if (useGenericMu) {
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet+1,  0.0, 0.0);
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet+1,  1.0, 0.0); 
   } else {
