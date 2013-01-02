@@ -457,6 +457,7 @@ void create_tp_padb()
 
   XtManageChild(rowcol[4]);
   XtManageChild(form[1]);
+
 #if (XmVersion > 1) || (XmUPDATE_LEVEL > 3)
   XtVaGetValues(rowcol[0], XmNwidth,  &w, NULL); wSum = w;
   XtVaGetValues(rowcol[0], XmNheight, &h, NULL); hSum = h;

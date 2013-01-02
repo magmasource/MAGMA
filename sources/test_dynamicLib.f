@@ -6,7 +6,7 @@ program test
 ! storage for meltsgetoxidenames and meltsgetphasenames
 !
   character*20 oxides(50), phases(50)
-  integer numoxides, numphases
+  integer numoxides, numphases, phaseIndices(50)
 
 !
 ! storage for meltsprocess and meltsgetphaseproperties
@@ -18,7 +18,10 @@ program test
 !
 ! local storage
 !
-  integer i, j
+  integer i, j, k
+  
+  print *, "Press 1 then return when ready ..."
+  read *, i
 !
 ! meltsgetoxidenames
 !   character*n oxides(19) [ pre-allocate, must exceed numoxides in length ]
@@ -34,15 +37,16 @@ program test
   print *, "numxides = ", numoxides
 !
 ! meltsgetphasenames
-!   character*n phases(35) [ pre-allocate, must exceed numphases in length ]
+!   character*n phases(50) [ pre-allocate, must exceed numphases in length ]
 !   int n
 !   int numphases [ return ]
+!   int phaseIndices(50)
 ! 
   print *, "Before call to meltsgetphasenames..."
-  call meltsgetphasenames(phases, 20, numphases)
+  call meltsgetphasenames(phases, 20, numphases, phaseIndices)
   print *, "Return from meltsgetphasenames with result:"
   do i=1,numphases
-    print *, phases(i)
+    print *, phases(i), phaseIndices(i)
   end do
   print *, "numphases = ", numphases
   
@@ -86,8 +90,11 @@ program test
 !   integer status [ return, pass to meltsgeterrorstring ]
 !   double precision properties (11+numoxides+3, 20) [ pre-allocated memory, column dimension must be large enough to hold 
 !                                                      all stable phases in system ]
+!   integer phaseIndices(20) [return] [ pre-allocated memory, column dimension must be large enough to hold 
+!                                                      all stable phases in system ]
 !
-  call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, iterations, status, properties)
+  call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, &
+  iterations, status, properties, phaseIndices)
   print *, "... node = ", node
   print *, "... mode = ", mode
   do i=1,numoxides
@@ -97,6 +104,7 @@ program test
   print *, "... temperature = ", temperature
   do i=1,numphases
     print *, "... stable phases: ", phasenames(i)
+    print *, "... index:", phaseIndices(i)
     print *, "...... g       = ", properties( 1, i)
     print *, "...... h       = ", properties( 2, i)
     print *, "...... s       = ", properties( 3, i)
@@ -128,49 +136,51 @@ program test
   call meltsgeterrorstring(status, errorString, 100)
   print *, "... Error string: ", errorString
   
-    
-  print *, "Before second call to meltsprocess..."
-  node = 1;
-  mode = 0;
-  enthalpy = enthalpy - 500.0
+  do k=1,1000    
+    print *, "Before second call to meltsprocess..."
+    node = 1;
+    mode = 0;
+    enthalpy = enthalpy - 1.0
 !
 ! example of a continuation call, enthalpy/pressure specified
 !
-  call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, iterations, status, properties)
-  print *, "... node = ", node
-  print *, "... mode = ", mode
-  do i=1,numoxides
-    print *, "... input ", oxides(i), " = ", bulk(i)
-  end do
-  print *, "... enthalpy = ", enthalpy
-  print *, "... temperature = ", temperature
-  do i=1,numphases
-    print *, "... stable phases: ", phasenames(i)
-    print *, "...... g       = ", properties( 1, i)
-    print *, "...... h       = ", properties( 2, i)
-    print *, "...... s       = ", properties( 3, i)
-    print *, "...... v       = ", properties( 4, i)
-    print *, "...... cp      = ", properties( 5, i)
-    print *, "...... dcpdt   = ", properties( 6, i)
-    print *, "...... dvdt    = ", properties( 7, i)
-    print *, "...... dvdp    = ", properties( 8, i)
-    print *, "...... d2vdt2  = ", properties( 9, i)
-    print *, "...... d2vdtdp = ", properties(10, i)
-    print *, "...... d2vdp2  = ", properties(11, i)
-    do j=1,numoxides
-      print *, "...... composition ", oxides(j), " = ", properties(11+j, i)
+    call meltsprocess(node, mode, pressure, bulk, enthalpy, temperature, phasenames, 20, numphases, &
+    iterations, status, properties, phaseIndices)
+    print *, "... node = ", node
+    print *, "... mode = ", mode
+    do i=1,numoxides
+      print *, "... input ", oxides(i), " = ", bulk(i)
     end do
-    print *, "...... volume fraction  = ", properties(11+numoxides+1, i)
-    print *, "...... density (kg/m^3) = ", properties(11+numoxides+2, i)
-    print *, "...... viscosity (Pa-s) = ", properties(11+numoxides+3, i)
+    print *, "... enthalpy = ", enthalpy
+    print *, "... temperature = ", temperature
+    do i=1,numphases
+      print *, "... stable phases: ", phasenames(i)
+      print *, "... index:", phaseIndices(i)
+      print *, "...... g       = ", properties( 1, i)
+      print *, "...... h       = ", properties( 2, i)
+      print *, "...... s       = ", properties( 3, i)
+      print *, "...... v       = ", properties( 4, i)
+      print *, "...... cp      = ", properties( 5, i)
+      print *, "...... dcpdt   = ", properties( 6, i)
+      print *, "...... dvdt    = ", properties( 7, i)
+      print *, "...... dvdp    = ", properties( 8, i)
+      print *, "...... d2vdt2  = ", properties( 9, i)
+      print *, "...... d2vdtdp = ", properties(10, i)
+      print *, "...... d2vdp2  = ", properties(11, i)
+      do j=1,numoxides
+        print *, "...... composition ", oxides(j), " = ", properties(11+j, i)
+      end do
+      print *, "...... volume fraction  = ", properties(11+numoxides+1, i)
+      print *, "...... density (kg/m^3) = ", properties(11+numoxides+2, i)
+      print *, "...... viscosity (Pa-s) = ", properties(11+numoxides+3, i)
+    end do
+    print *, "... iterations = ", iterations
+    print *, "... status = ", status
+  
+    print *, "Before call to meltsgeterrorstring..."
+    call meltsgeterrorstring(status, errorString, 100)
+    print *, "... Error string: ", errorString
   end do
-  print *, "... iterations = ", iterations
-  print *, "... status = ", status
-  
-  print *, "Before call to meltsgeterrorstring..."
-  call meltsgeterrorstring(status, errorString, 100)
-  print *, "... Error string: ", errorString
-  
     
   print *, "Before call to meltsgetphaseproperties..."
 !

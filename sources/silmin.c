@@ -268,8 +268,8 @@ MELTS Source Code: RCS
 #define SQUARE(x) ((x)*(x))
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 
-#ifdef DEBUG
-#undef DEBUG
+#ifndef DEBUG
+#define DEBUG
 #endif
 
 #ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
@@ -1580,8 +1580,10 @@ jumpFromLinSearch:
     updateUserGraphGW();
 #endif
 
+#ifndef DO_NOT_PRODUCE_OUTPUT_FILES
     (void) putOutputDataToFile((char *) NULL);
     if (additionalOutput != NULL) (*additionalOutput)(addOutputFileName);
+#endif
 
 #ifndef BATCH_VERSION
     workProcData->active = TRUE;

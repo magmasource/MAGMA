@@ -15,27 +15,38 @@
 			<xs:choice>
 				<xs:sequence>
 					<xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1"/>
-					<xs:element name="changeLiquid" minOccurs="1" maxOccurs="1">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="SiO2" type="xs:double" minOccurs="0"/>
-								<xs:element name="TiO2" type="xs:double" minOccurs="0"/>
-								<xs:element name="Al2O3" type="xs:double" minOccurs="0"/>
-								<xs:element name="Fe2O3" type="xs:double" minOccurs="0"/>
-								<xs:element name="Cr2O3" type="xs:double" minOccurs="0"/>
-								<xs:element name="FeO" type="xs:double" minOccurs="0"/>
-								<xs:element name="MnO" type="xs:double" minOccurs="0"/>
-								<xs:element name="MgO" type="xs:double" minOccurs="0"/>
-								<xs:element name="NiO" type="xs:double" minOccurs="0"/>
-								<xs:element name="CoO" type="xs:double" minOccurs="0"/>
-								<xs:element name="CaO" type="xs:double" minOccurs="0"/>
-								<xs:element name="Na2O" type="xs:double" minOccurs="0"/>
-								<xs:element name="K2O" type="xs:double" minOccurs="0"/>
-								<xs:element name="P2O5" type="xs:double" minOccurs="0"/>
-								<xs:element name="H2O" type="xs:double" minOccurs="0"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
+					<xs:choice>
+						<xs:element name="changeLiquid" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SiO2" type="xs:double" minOccurs="0"/>
+									<xs:element name="TiO2" type="xs:double" minOccurs="0"/>
+									<xs:element name="Al2O3" type="xs:double" minOccurs="0"/>
+									<xs:element name="Fe2O3" type="xs:double" minOccurs="0"/>
+									<xs:element name="Cr2O3" type="xs:double" minOccurs="0"/>
+									<xs:element name="FeO" type="xs:double" minOccurs="0"/>
+									<xs:element name="MnO" type="xs:double" minOccurs="0"/>
+									<xs:element name="MgO" type="xs:double" minOccurs="0"/>
+									<xs:element name="NiO" type="xs:double" minOccurs="0"/>
+									<xs:element name="CoO" type="xs:double" minOccurs="0"/>
+									<xs:element name="CaO" type="xs:double" minOccurs="0"/>
+									<xs:element name="Na2O" type="xs:double" minOccurs="0"/>
+									<xs:element name="K2O" type="xs:double" minOccurs="0"/>
+									<xs:element name="P2O5" type="xs:double" minOccurs="0"/>
+									<xs:element name="H2O" type="xs:double" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="fractionateOnly" minOccurs="1" maxOccurs="2">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="fractionateSolids"/>
+									<xs:enumeration value="fractionateFluids"/>
+									<xs:enumeration value="fractionateLiquids"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:choice>
 				</xs:sequence>
 
 				<xs:sequence>
