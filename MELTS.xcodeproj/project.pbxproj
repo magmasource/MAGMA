@@ -227,6 +227,92 @@
 		77A74443163619B80038627C /* wadsleyite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8001627A92300D67FBB /* wadsleyite.c */; };
 		77A74444163619B80038627C /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
 		77A74445163619B80038627C /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
+		77C99AE4169B4FF500DF7464 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AE3169B4FF500DF7464 /* Cocoa.framework */; };
+		77C99AEE169B4FF500DF7464 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77C99AEC169B4FF500DF7464 /* InfoPlist.strings */; };
+		77C99AF2169B4FF500DF7464 /* rMELTSframework.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C99AF1169B4FF500DF7464 /* rMELTSframework.m */; };
+		77C99AFA169B4FF500DF7464 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AF9169B4FF500DF7464 /* SenTestingKit.framework */; };
+		77C99AFB169B4FF500DF7464 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AE3169B4FF500DF7464 /* Cocoa.framework */; };
+		77C99AFE169B4FF500DF7464 /* rMELTSframework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */; };
+		77C99B04169B4FF500DF7464 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77C99B02169B4FF500DF7464 /* InfoPlist.strings */; };
+		77C99B07169B4FF500DF7464 /* rMELTSframeworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C99B06169B4FF500DF7464 /* rMELTSframeworkTests.m */; };
+		77C99B0E169B511000DF7464 /* albite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7901627A92300D67FBB /* albite.c */; };
+		77C99B0F169B511000DF7464 /* alloy-liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7911627A92300D67FBB /* alloy-liquid.c */; };
+		77C99B10169B511000DF7464 /* alloy-solid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7921627A92300D67FBB /* alloy-solid.c */; };
+		77C99B11169B511000DF7464 /* amphibole.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7931627A92300D67FBB /* amphibole.c */; };
+		77C99B12169B511000DF7464 /* biotite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7961627A92300D67FBB /* biotite.c */; };
+		77C99B14169B511000DF7464 /* check_coexisting_liquids.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7981627A92300D67FBB /* check_coexisting_liquids.c */; };
+		77C99B15169B511000DF7464 /* check_coexisting_solids.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7991627A92300D67FBB /* check_coexisting_solids.c */; };
+		77C99B16169B511000DF7464 /* clinopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D79A1627A92300D67FBB /* clinopyroxene.c */; };
+		77C99B17169B511000DF7464 /* cummingtonite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A51627A92300D67FBB /* cummingtonite.c */; };
+		77C99B18169B511000DF7464 /* equality_constraints.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AA1627A92300D67FBB /* equality_constraints.c */; };
+		77C99B19169B511000DF7464 /* est_satState_revised.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AB1627A92300D67FBB /* est_satState_revised.c */; };
+		77C99B1A169B511000DF7464 /* est_saturation_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AC1627A92300D67FBB /* est_saturation_state.c */; };
+		77C99B1B169B511000DF7464 /* evaluate_saturation.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AD1627A92300D67FBB /* evaluate_saturation.c */; };
+		77C99B1C169B511000DF7464 /* feldspar.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AE1627A92300D67FBB /* feldspar.c */; };
+		77C99B1D169B511000DF7464 /* frac.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B11627A92300D67FBB /* frac.c */; };
+		77C99B1E169B511000DF7464 /* garnet.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B21627A92300D67FBB /* garnet.c */; };
+		77C99B1F169B511000DF7464 /* gibbs.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B31627A92300D67FBB /* gibbs.c */; };
+		77C99B20169B511000DF7464 /* gradient_hessian.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B41627A92300D67FBB /* gradient_hessian.c */; };
+		77C99B21169B511000DF7464 /* hornblende.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B71627A92300D67FBB /* hornblende.c */; };
+		77C99B22169B511000DF7464 /* ilmenite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B81627A92300D67FBB /* ilmenite.c */; };
+		77C99B23169B511000DF7464 /* kalsilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7BC1627A92300D67FBB /* kalsilite.c */; };
+		77C99B24169B511000DF7464 /* lawson_hanson.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C11627A92300D67FBB /* lawson_hanson.c */; };
+		77C99B25169B511000DF7464 /* leucite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C21627A92300D67FBB /* leucite.c */; };
+		77C99B26169B511000DF7464 /* linear_search.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C51627A92300D67FBB /* linear_search.c */; };
+		77C99B27169B511000DF7464 /* liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C71627A92300D67FBB /* liquid.c */; };
+		77C99B28169B511000DF7464 /* liquid_v34.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C81627A92300D67FBB /* liquid_v34.c */; };
+		77C99B29169B511000DF7464 /* liquidus.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C91627A92300D67FBB /* liquidus.c */; };
+		77C99B2A169B511000DF7464 /* majorite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CA1627A92300D67FBB /* majorite.c */; };
+		77C99B2B169B511000DF7464 /* melilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CE1627A92300D67FBB /* melilite.c */; };
+		77C99B2C169B511000DF7464 /* melts_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D01627A92300D67FBB /* melts_support.c */; };
+		77C99B2D169B511000DF7464 /* melts_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D11627A92300D67FBB /* melts_threads.c */; };
+		77C99B2E169B511000DF7464 /* mthread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D41627A92300D67FBB /* mthread.c */; };
+		77C99B2F169B511000DF7464 /* nash.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D51627A92300D67FBB /* nash.c */; };
+		77C99B30169B511000DF7464 /* nepheline.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D61627A92300D67FBB /* nepheline.c */; };
+		77C99B31169B511000DF7464 /* olivine-sx.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D71627A92300D67FBB /* olivine-sx.c */; };
+		77C99B32169B511000DF7464 /* olivine.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D81627A92300D67FBB /* olivine.c */; };
+		77C99B33169B511000DF7464 /* ortho-oxide.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D91627A92300D67FBB /* ortho-oxide.c */; };
+		77C99B34169B511000DF7464 /* orthopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DA1627A92300D67FBB /* orthopyroxene.c */; };
+		77C99B35169B511000DF7464 /* perovskite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DB1627A92300D67FBB /* perovskite.c */; };
+		77C99B36169B511000DF7464 /* read_write.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E01627A92300D67FBB /* read_write.c */; };
+		77C99B37169B511000DF7464 /* recipes.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E11627A92300D67FBB /* recipes.c */; };
+		77C99B38169B511000DF7464 /* rhombohedral.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E31627A92300D67FBB /* rhombohedral.c */; };
+		77C99B39169B511000DF7464 /* rhomsghiorso.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E41627A92300D67FBB /* rhomsghiorso.c */; };
+		77C99B3A169B511000DF7464 /* ringwoodite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E51627A92300D67FBB /* ringwoodite.c */; };
+		77C99B3B169B511000DF7464 /* silmin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E61627A92300D67FBB /* silmin.c */; };
+		77C99B3C169B511000DF7464 /* silmin_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E71627A92300D67FBB /* silmin_support.c */; };
+		77C99B3D169B511000DF7464 /* spinel.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EA1627A92300D67FBB /* spinel.c */; };
+		77C99B3E169B511000DF7464 /* subSolidusMuO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */; };
+		77C99B3F169B511000DF7464 /* wadsleyite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8001627A92300D67FBB /* wadsleyite.c */; };
+		77C99B40169B511000DF7464 /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
+		77C99B41169B511000DF7464 /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
+		77C99B42169B513600DF7464 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD78163B20B5004AA393 /* MELTSinput.xsd */; };
+		77C99B43169B513600DF7464 /* MELTSoutput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD79163B20B6004AA393 /* MELTSoutput.xsd */; };
+		77C99B44169B513600DF7464 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
+		77C99B45169B51D400DF7464 /* lawson_hanson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7721627A90000D67FBB /* lawson_hanson.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B46169B51D400DF7464 /* liq_struct_data.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7731627A90000D67FBB /* liq_struct_data.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B47169B51D400DF7464 /* mthread.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7791627A90000D67FBB /* mthread.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B48169B51D400DF7464 /* nash.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D77A1627A90000D67FBB /* nash.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B49169B51D400DF7464 /* nepheline.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D77B1627A90000D67FBB /* nepheline.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B4A169B51D400DF7464 /* param_struct_data.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D77D1627A90000D67FBB /* param_struct_data.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B4B169B51D400DF7464 /* param_struct_data_v34.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7801627A90000D67FBB /* param_struct_data_v34.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B4C169B51D400DF7464 /* recipes.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7821627A90000D67FBB /* recipes.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B4D169B51D400DF7464 /* silmin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7841627A90000D67FBB /* silmin.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B4E169B51D400DF7464 /* sol_struct_data.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7851627A90000D67FBB /* sol_struct_data.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B4F169B51D400DF7464 /* status.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7881627A90000D67FBB /* status.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		77C99B50169B697000DF7464 /* fluid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B01627A92300D67FBB /* fluid.c */; };
+		77C99B57169B6EAF00DF7464 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AE3169B4FF500DF7464 /* Cocoa.framework */; };
+		77C99B5D169B6EAF00DF7464 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77C99B5B169B6EAF00DF7464 /* InfoPlist.strings */; };
+		77C99B5F169B6EAF00DF7464 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C99B5E169B6EAF00DF7464 /* main.m */; };
+		77C99B66169B6EAF00DF7464 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C99B65169B6EAF00DF7464 /* AppDelegate.m */; };
+		77C99B6D169B6EF800DF7464 /* rMELTSframework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */; };
+		77C99B6F169B6EFD00DF7464 /* Bombaxtic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99B6E169B6EFD00DF7464 /* Bombaxtic.framework */; };
+		77C99B71169B72C300DF7464 /* bxapp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 77C99B70169B72C300DF7464 /* bxapp.icns */; };
+		77C99B72169B7D9900DF7464 /* rMELTSframework.h in Headers */ = {isa = PBXBuildFile; fileRef = 77C99AF0169B4FF500DF7464 /* rMELTSframework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		77E4B2CD169BA94300B27D84 /* BaseProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4B2CC169BA94300B27D84 /* BaseProcessor.m */; };
+		77E4B2CF169BD0FF00B27D84 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD78163B20B5004AA393 /* MELTSinput.xsd */; };
+		77E4B2D0169BD0FF00B27D84 /* MELTSoutput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD79163B20B6004AA393 /* MELTSoutput.xsd */; };
+		77E4B2D1169BD0FF00B27D84 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -251,6 +337,16 @@
 			script = "/usr/local/bin/gfortran -g -m64 -c ${PROJECT_DIR}/sources/${INPUT_FILE_NAME} -o ${TARGET_BUILD_DIR}/${INPUT_FILE_BASE}.o";
 		};
 /* End PBXBuildRule section */
+
+/* Begin PBXContainerItemProxy section */
+		77C99AFC169B4FF500DF7464 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 77B68D431627A64800C6296F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 77C99AE0169B4FF500DF7464;
+			remoteInfo = rMELTSframework;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		7785CD14163AFA68004AA393 /* CopyFiles */ = {
@@ -396,10 +492,37 @@
 		77665362163707080004A2D0 /* libport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libport.a; path = ../port3/libport.a; sourceTree = "<group>"; };
 		7785CD19163AFA68004AA393 /* public-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "public-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785CD75163AFE38004AA393 /* batch-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "batch-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7785CD78163B20B5004AA393 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSinput.xsd; sourceTree = "<group>"; };
-		7785CD79163B20B6004AA393 /* MELTSoutput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSoutput.xsd; sourceTree = "<group>"; };
-		7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSstatus.xsd; sourceTree = "<group>"; };
+		7785CD78163B20B5004AA393 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSinput.xsd; path = ../MELTSinput.xsd; sourceTree = "<group>"; };
+		7785CD79163B20B6004AA393 /* MELTSoutput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSoutput.xsd; path = ../MELTSoutput.xsd; sourceTree = "<group>"; };
+		7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSstatus.xsd; path = ../MELTSstatus.xsd; sourceTree = "<group>"; };
 		77A743F4163611C50038627C /* Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = rMELTSframework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C99AE3169B4FF500DF7464 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		77C99AE6169B4FF500DF7464 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		77C99AE7169B4FF500DF7464 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		77C99AE8169B4FF500DF7464 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		77C99AEB169B4FF500DF7464 /* rMELTSframework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rMELTSframework-Info.plist"; sourceTree = "<group>"; };
+		77C99AED169B4FF500DF7464 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		77C99AEF169B4FF500DF7464 /* rMELTSframework-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rMELTSframework-Prefix.pch"; sourceTree = "<group>"; };
+		77C99AF0169B4FF500DF7464 /* rMELTSframework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rMELTSframework.h; sourceTree = "<group>"; };
+		77C99AF1169B4FF500DF7464 /* rMELTSframework.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rMELTSframework.m; sourceTree = "<group>"; };
+		77C99AF8169B4FF500DF7464 /* rMELTSframeworkTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rMELTSframeworkTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C99AF9169B4FF500DF7464 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		77C99B01169B4FF500DF7464 /* rMELTSframeworkTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rMELTSframeworkTests-Info.plist"; sourceTree = "<group>"; };
+		77C99B03169B4FF500DF7464 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		77C99B05169B4FF500DF7464 /* rMELTSframeworkTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rMELTSframeworkTests.h; sourceTree = "<group>"; };
+		77C99B06169B4FF500DF7464 /* rMELTSframeworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rMELTSframeworkTests.m; sourceTree = "<group>"; };
+		77C99B55169B6EAF00DF7464 /* MELTS WS BxApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MELTS WS BxApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C99B5A169B6EAF00DF7464 /* MELTS WS BxApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MELTS WS BxApp-Info.plist"; sourceTree = "<group>"; };
+		77C99B5C169B6EAF00DF7464 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		77C99B5E169B6EAF00DF7464 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		77C99B60169B6EAF00DF7464 /* MELTS WS BxApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MELTS WS BxApp-Prefix.pch"; sourceTree = "<group>"; };
+		77C99B64169B6EAF00DF7464 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		77C99B65169B6EAF00DF7464 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		77C99B6E169B6EFD00DF7464 /* Bombaxtic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bombaxtic.framework; path = "../../ARCHIVE_XCODE/Bombax-Git/Bombax/src/bombaxtic/build/Release/Bombaxtic.framework"; sourceTree = "<group>"; };
+		77C99B70169B72C300DF7464 /* bxapp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = bxapp.icns; sourceTree = "<group>"; };
+		77E4B2CB169BA94300B27D84 /* BaseProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseProcessor.h; sourceTree = "<group>"; };
+		77E4B2CC169BA94300B27D84 /* BaseProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseProcessor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,6 +562,34 @@
 				77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */,
 				77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */,
 				77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77C99ADD169B4FF500DF7464 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99AE4169B4FF500DF7464 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77C99AF4169B4FF500DF7464 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99AFA169B4FF500DF7464 /* SenTestingKit.framework in Frameworks */,
+				77C99AFB169B4FF500DF7464 /* Cocoa.framework in Frameworks */,
+				77C99AFE169B4FF500DF7464 /* rMELTSframework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77C99B52169B6EAF00DF7464 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99B57169B6EAF00DF7464 /* Cocoa.framework in Frameworks */,
+				77C99B6F169B6EFD00DF7464 /* Bombaxtic.framework in Frameworks */,
+				77C99B6D169B6EF800DF7464 /* rMELTSframework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,6 +731,9 @@
 				77A743F4163611C50038627C /* Melts-rhyolite */,
 				7785CD19163AFA68004AA393 /* public-Melts-rhyolite */,
 				7785CD75163AFE38004AA393 /* batch-Melts-rhyolite */,
+				77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */,
+				77C99AF8169B4FF500DF7464 /* rMELTSframeworkTests.octest */,
+				77C99B55169B6EAF00DF7464 /* MELTS WS BxApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -594,18 +748,128 @@
 		77B68D411627A64800C6296F = {
 			isa = PBXGroup;
 			children = (
-				7785CD78163B20B5004AA393 /* MELTSinput.xsd */,
-				7785CD79163B20B6004AA393 /* MELTSoutput.xsd */,
-				7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */,
+				77C99B6E169B6EFD00DF7464 /* Bombaxtic.framework */,
 				77665364163707DE0004A2D0 /* Libraries */,
 				7734D78F1627A92300D67FBB /* sources */,
 				7734D76C1627A90000D67FBB /* includes */,
 				77A743F7163611C50038627C /* Melts-rhyolite */,
+				77C99AE9169B4FF500DF7464 /* rMELTSframework */,
+				77C99AFF169B4FF500DF7464 /* rMELTSframeworkTests */,
+				77C99B58169B6EAF00DF7464 /* MELTS WS BxApp */,
+				77C99AE2169B4FF500DF7464 /* Frameworks */,
 				77A743F5163611C50038627C /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		77C99AE2169B4FF500DF7464 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				77C99AE3169B4FF500DF7464 /* Cocoa.framework */,
+				77C99AF9169B4FF500DF7464 /* SenTestingKit.framework */,
+				77C99AE5169B4FF500DF7464 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		77C99AE5169B4FF500DF7464 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				77C99AE6169B4FF500DF7464 /* AppKit.framework */,
+				77C99AE7169B4FF500DF7464 /* CoreData.framework */,
+				77C99AE8169B4FF500DF7464 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		77C99AE9169B4FF500DF7464 /* rMELTSframework */ = {
+			isa = PBXGroup;
+			children = (
+				77C99AF0169B4FF500DF7464 /* rMELTSframework.h */,
+				77C99AF1169B4FF500DF7464 /* rMELTSframework.m */,
+				77C99AEA169B4FF500DF7464 /* Supporting Files */,
+			);
+			path = rMELTSframework;
+			sourceTree = "<group>";
+		};
+		77C99AEA169B4FF500DF7464 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7785CD78163B20B5004AA393 /* MELTSinput.xsd */,
+				7785CD79163B20B6004AA393 /* MELTSoutput.xsd */,
+				7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */,
+				77C99AEB169B4FF500DF7464 /* rMELTSframework-Info.plist */,
+				77C99AEC169B4FF500DF7464 /* InfoPlist.strings */,
+				77C99AEF169B4FF500DF7464 /* rMELTSframework-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		77C99AFF169B4FF500DF7464 /* rMELTSframeworkTests */ = {
+			isa = PBXGroup;
+			children = (
+				77C99B05169B4FF500DF7464 /* rMELTSframeworkTests.h */,
+				77C99B06169B4FF500DF7464 /* rMELTSframeworkTests.m */,
+				77C99B00169B4FF500DF7464 /* Supporting Files */,
+			);
+			path = rMELTSframeworkTests;
+			sourceTree = "<group>";
+		};
+		77C99B00169B4FF500DF7464 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				77C99B01169B4FF500DF7464 /* rMELTSframeworkTests-Info.plist */,
+				77C99B02169B4FF500DF7464 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		77C99B58169B6EAF00DF7464 /* MELTS WS BxApp */ = {
+			isa = PBXGroup;
+			children = (
+				77C99B64169B6EAF00DF7464 /* AppDelegate.h */,
+				77C99B65169B6EAF00DF7464 /* AppDelegate.m */,
+				77E4B2CB169BA94300B27D84 /* BaseProcessor.h */,
+				77E4B2CC169BA94300B27D84 /* BaseProcessor.m */,
+				77C99B59169B6EAF00DF7464 /* Supporting Files */,
+			);
+			path = "MELTS WS BxApp";
+			sourceTree = "<group>";
+		};
+		77C99B59169B6EAF00DF7464 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				77C99B70169B72C300DF7464 /* bxapp.icns */,
+				77C99B5A169B6EAF00DF7464 /* MELTS WS BxApp-Info.plist */,
+				77C99B5B169B6EAF00DF7464 /* InfoPlist.strings */,
+				77C99B5E169B6EAF00DF7464 /* main.m */,
+				77C99B60169B6EAF00DF7464 /* MELTS WS BxApp-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		77C99ADE169B4FF500DF7464 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99B72169B7D9900DF7464 /* rMELTSframework.h in Headers */,
+				77C99B45169B51D400DF7464 /* lawson_hanson.h in Headers */,
+				77C99B46169B51D400DF7464 /* liq_struct_data.h in Headers */,
+				77C99B47169B51D400DF7464 /* mthread.h in Headers */,
+				77C99B48169B51D400DF7464 /* nash.h in Headers */,
+				77C99B49169B51D400DF7464 /* nepheline.h in Headers */,
+				77C99B4A169B51D400DF7464 /* param_struct_data.h in Headers */,
+				77C99B4B169B51D400DF7464 /* param_struct_data_v34.h in Headers */,
+				77C99B4C169B51D400DF7464 /* recipes.h in Headers */,
+				77C99B4D169B51D400DF7464 /* silmin.h in Headers */,
+				77C99B4E169B51D400DF7464 /* sol_struct_data.h in Headers */,
+				77C99B4F169B51D400DF7464 /* status.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		7785CCC0163AFA68004AA393 /* public-Melts-rhyolite */ = {
@@ -661,6 +925,60 @@
 			productReference = 77A743F4163611C50038627C /* Melts-rhyolite */;
 			productType = "com.apple.product-type.tool";
 		};
+		77C99AE0169B4FF500DF7464 /* rMELTSframework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77C99B08169B4FF500DF7464 /* Build configuration list for PBXNativeTarget "rMELTSframework" */;
+			buildPhases = (
+				77C99ADC169B4FF500DF7464 /* Sources */,
+				77C99ADD169B4FF500DF7464 /* Frameworks */,
+				77C99ADE169B4FF500DF7464 /* Headers */,
+				77C99ADF169B4FF500DF7464 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = rMELTSframework;
+			productName = rMELTSframework;
+			productReference = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		77C99AF7169B4FF500DF7464 /* rMELTSframeworkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77C99B0B169B4FF500DF7464 /* Build configuration list for PBXNativeTarget "rMELTSframeworkTests" */;
+			buildPhases = (
+				77C99AF3169B4FF500DF7464 /* Sources */,
+				77C99AF4169B4FF500DF7464 /* Frameworks */,
+				77C99AF5169B4FF500DF7464 /* Resources */,
+				77C99AF6169B4FF500DF7464 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				77C99AFD169B4FF500DF7464 /* PBXTargetDependency */,
+			);
+			name = rMELTSframeworkTests;
+			productName = rMELTSframeworkTests;
+			productReference = 77C99AF8169B4FF500DF7464 /* rMELTSframeworkTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		77C99B54169B6EAF00DF7464 /* MELTS WS BxApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77C99B6A169B6EAF00DF7464 /* Build configuration list for PBXNativeTarget "MELTS WS BxApp" */;
+			buildPhases = (
+				77C99B51169B6EAF00DF7464 /* Sources */,
+				77C99B52169B6EAF00DF7464 /* Frameworks */,
+				77C99B53169B6EAF00DF7464 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MELTS WS BxApp";
+			productName = "MELTS WS BxApp";
+			productReference = 77C99B55169B6EAF00DF7464 /* MELTS WS BxApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -685,9 +1003,62 @@
 				77A743F3163611C50038627C /* Melts-rhyolite */,
 				7785CCC0163AFA68004AA393 /* public-Melts-rhyolite */,
 				7785CD1C163AFE38004AA393 /* batch-Melts-rhyolite */,
+				77C99AE0169B4FF500DF7464 /* rMELTSframework */,
+				77C99AF7169B4FF500DF7464 /* rMELTSframeworkTests */,
+				77C99B54169B6EAF00DF7464 /* MELTS WS BxApp */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		77C99ADF169B4FF500DF7464 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99B42169B513600DF7464 /* MELTSinput.xsd in Resources */,
+				77C99B43169B513600DF7464 /* MELTSoutput.xsd in Resources */,
+				77C99B44169B513600DF7464 /* MELTSstatus.xsd in Resources */,
+				77C99AEE169B4FF500DF7464 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77C99AF5169B4FF500DF7464 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99B04169B4FF500DF7464 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77C99B53169B6EAF00DF7464 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77E4B2CF169BD0FF00B27D84 /* MELTSinput.xsd in Resources */,
+				77E4B2D0169BD0FF00B27D84 /* MELTSoutput.xsd in Resources */,
+				77E4B2D1169BD0FF00B27D84 /* MELTSstatus.xsd in Resources */,
+				77C99B5D169B6EAF00DF7464 /* InfoPlist.strings in Resources */,
+				77C99B71169B72C300DF7464 /* bxapp.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		77C99AF6169B4FF500DF7464 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7785CCC1163AFA68004AA393 /* Sources */ = {
@@ -910,7 +1281,120 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		77C99ADC169B4FF500DF7464 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99B50169B697000DF7464 /* fluid.c in Sources */,
+				77C99B0E169B511000DF7464 /* albite.c in Sources */,
+				77C99B0F169B511000DF7464 /* alloy-liquid.c in Sources */,
+				77C99B10169B511000DF7464 /* alloy-solid.c in Sources */,
+				77C99B11169B511000DF7464 /* amphibole.c in Sources */,
+				77C99B12169B511000DF7464 /* biotite.c in Sources */,
+				77C99B14169B511000DF7464 /* check_coexisting_liquids.c in Sources */,
+				77C99B15169B511000DF7464 /* check_coexisting_solids.c in Sources */,
+				77C99B16169B511000DF7464 /* clinopyroxene.c in Sources */,
+				77C99B17169B511000DF7464 /* cummingtonite.c in Sources */,
+				77C99B18169B511000DF7464 /* equality_constraints.c in Sources */,
+				77C99B19169B511000DF7464 /* est_satState_revised.c in Sources */,
+				77C99B1A169B511000DF7464 /* est_saturation_state.c in Sources */,
+				77C99B1B169B511000DF7464 /* evaluate_saturation.c in Sources */,
+				77C99B1C169B511000DF7464 /* feldspar.c in Sources */,
+				77C99B1D169B511000DF7464 /* frac.c in Sources */,
+				77C99B1E169B511000DF7464 /* garnet.c in Sources */,
+				77C99B1F169B511000DF7464 /* gibbs.c in Sources */,
+				77C99B20169B511000DF7464 /* gradient_hessian.c in Sources */,
+				77C99B21169B511000DF7464 /* hornblende.c in Sources */,
+				77C99B22169B511000DF7464 /* ilmenite.c in Sources */,
+				77C99B23169B511000DF7464 /* kalsilite.c in Sources */,
+				77C99B24169B511000DF7464 /* lawson_hanson.c in Sources */,
+				77C99B25169B511000DF7464 /* leucite.c in Sources */,
+				77C99B26169B511000DF7464 /* linear_search.c in Sources */,
+				77C99B27169B511000DF7464 /* liquid.c in Sources */,
+				77C99B28169B511000DF7464 /* liquid_v34.c in Sources */,
+				77C99B29169B511000DF7464 /* liquidus.c in Sources */,
+				77C99B2A169B511000DF7464 /* majorite.c in Sources */,
+				77C99B2B169B511000DF7464 /* melilite.c in Sources */,
+				77C99B2C169B511000DF7464 /* melts_support.c in Sources */,
+				77C99B2D169B511000DF7464 /* melts_threads.c in Sources */,
+				77C99B2E169B511000DF7464 /* mthread.c in Sources */,
+				77C99B2F169B511000DF7464 /* nash.c in Sources */,
+				77C99B30169B511000DF7464 /* nepheline.c in Sources */,
+				77C99B31169B511000DF7464 /* olivine-sx.c in Sources */,
+				77C99B32169B511000DF7464 /* olivine.c in Sources */,
+				77C99B33169B511000DF7464 /* ortho-oxide.c in Sources */,
+				77C99B34169B511000DF7464 /* orthopyroxene.c in Sources */,
+				77C99B35169B511000DF7464 /* perovskite.c in Sources */,
+				77C99B36169B511000DF7464 /* read_write.c in Sources */,
+				77C99B37169B511000DF7464 /* recipes.c in Sources */,
+				77C99B38169B511000DF7464 /* rhombohedral.c in Sources */,
+				77C99B39169B511000DF7464 /* rhomsghiorso.c in Sources */,
+				77C99B3A169B511000DF7464 /* ringwoodite.c in Sources */,
+				77C99B3B169B511000DF7464 /* silmin.c in Sources */,
+				77C99B3C169B511000DF7464 /* silmin_support.c in Sources */,
+				77C99B3D169B511000DF7464 /* spinel.c in Sources */,
+				77C99B3E169B511000DF7464 /* subSolidusMuO2.c in Sources */,
+				77C99B3F169B511000DF7464 /* wadsleyite.c in Sources */,
+				77C99B40169B511000DF7464 /* water.c in Sources */,
+				77C99B41169B511000DF7464 /* wustite.c in Sources */,
+				77C99AF2169B4FF500DF7464 /* rMELTSframework.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77C99AF3169B4FF500DF7464 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99B07169B4FF500DF7464 /* rMELTSframeworkTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77C99B51169B6EAF00DF7464 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77C99B5F169B6EAF00DF7464 /* main.m in Sources */,
+				77C99B66169B6EAF00DF7464 /* AppDelegate.m in Sources */,
+				77E4B2CD169BA94300B27D84 /* BaseProcessor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		77C99AFD169B4FF500DF7464 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 77C99AE0169B4FF500DF7464 /* rMELTSframework */;
+			targetProxy = 77C99AFC169B4FF500DF7464 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		77C99AEC169B4FF500DF7464 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				77C99AED169B4FF500DF7464 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		77C99B02169B4FF500DF7464 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				77C99B03169B4FF500DF7464 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		77C99B5B169B6EAF00DF7464 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				77C99B5C169B6EAF00DF7464 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7785CD17163AFA68004AA393 /* Debug */ = {
@@ -1209,6 +1693,95 @@
 			};
 			name = Release;
 		};
+		77C99B09169B4FF500DF7464 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "rMELTSframework/rMELTSframework-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					RHYOLITE_ADJUSTMENTS,
+					BATCH_VERSION,
+				);
+				INFOPLIST_FILE = "rMELTSframework/rMELTSframework-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		77C99B0A169B4FF500DF7464 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "rMELTSframework/rMELTSframework-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					RHYOLITE_ADJUSTMENTS,
+					BATCH_VERSION,
+				);
+				INFOPLIST_FILE = "rMELTSframework/rMELTSframework-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		77C99B0C169B4FF500DF7464 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "rMELTSframework/rMELTSframework-Prefix.pch";
+				INFOPLIST_FILE = "rMELTSframeworkTests/rMELTSframeworkTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		77C99B0D169B4FF500DF7464 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "rMELTSframework/rMELTSframework-Prefix.pch";
+				INFOPLIST_FILE = "rMELTSframeworkTests/rMELTSframeworkTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		77C99B6B169B6EAF00DF7464 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MELTS WS BxApp/MELTS WS BxApp-Prefix.pch";
+				INFOPLIST_FILE = "MELTS WS BxApp/MELTS WS BxApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		77C99B6C169B6EAF00DF7464 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MELTS WS BxApp/MELTS WS BxApp-Prefix.pch";
+				INFOPLIST_FILE = "MELTS WS BxApp/MELTS WS BxApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1244,6 +1817,33 @@
 			buildConfigurations = (
 				77B68D491627A64800C6296F /* Debug */,
 				77B68D4A1627A64800C6296F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77C99B08169B4FF500DF7464 /* Build configuration list for PBXNativeTarget "rMELTSframework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77C99B09169B4FF500DF7464 /* Debug */,
+				77C99B0A169B4FF500DF7464 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77C99B0B169B4FF500DF7464 /* Build configuration list for PBXNativeTarget "rMELTSframeworkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77C99B0C169B4FF500DF7464 /* Debug */,
+				77C99B0D169B4FF500DF7464 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77C99B6A169B6EAF00DF7464 /* Build configuration list for PBXNativeTarget "MELTS WS BxApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77C99B6B169B6EAF00DF7464 /* Debug */,
+				77C99B6C169B6EAF00DF7464 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

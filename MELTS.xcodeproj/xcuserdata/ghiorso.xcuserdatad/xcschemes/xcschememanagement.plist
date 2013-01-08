@@ -4,20 +4,30 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>MELTS WS BxApp.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>20</integer>
+		</dict>
 		<key>Melts-rhyolite.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>batch-Melts-rhyolite.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>4</integer>
 		</dict>
 		<key>public-Melts-rhyolite.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>3</integer>
+		</dict>
+		<key>rMELTSframework.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>19</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -53,6 +63,31 @@
 			<true/>
 		</dict>
 		<key>77B68D481627A64800C6296F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77C99A90169B4EB000DF7464</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77C99AD7169B4F8300DF7464</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77C99AE0169B4FF500DF7464</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77C99AF7169B4FF500DF7464</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77C99B54169B6EAF00DF7464</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -58,6 +58,10 @@ MELTS Source Code: RCS
 
 
 #ifdef DEBUG
+#undef DEBUG
+#endif
+
+#ifdef DEBUG
 
 #include <ctype.h>
 #include <float.h>
