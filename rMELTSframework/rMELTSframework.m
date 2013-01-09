@@ -36,14 +36,6 @@ static SilminState *previousSilminState;
 #define REC 134
 
 
-/* returns RUN_LIQUIDUS_CALC    or           */
-/*         RUN_EQUILIBRATE_CALC if succesful */
-/*         FALSE                if not       */
-
-#define RUN_LIQUIDUS_CALC       2
-#define RUN_EQUILIBRATE_CALC    3
-#define RETURN_WITHOUT_CALC     4
-#define RETURN_DO_FRACTIONATION 5
 
 /*
 static int batchInputDataFromXmlFile(char *fileName) {
@@ -1281,36 +1273,8 @@ static void putOutputDataToXmlFile(char *outputFile) {
     rc = xmlTextWriterEndDocument(writer);
     xmlFreeTextWriter(writer);
 }
-
-static void putStatusDataToXmlFile(char *statusFile) {
-    xmlTextWriterPtr writer;
-    int rc;
-    const static char *m[] = {
-        "Success: Find liquidus",                                  // LIQUIDUS_SUCCESS
-        "Error: Maximum temperature in Find Liquidus",             // LIQUIDUS_MAX_T
-        "Error: Minimum temperature in Find Liquidus",             // LIQUIDUS_MIN_T
-        "Error: Maximum time limit exceeded in Find Liquidus",     // LIQUIDUS_TIME
-        "Error: Cannot specify multiple liquids in Find Liquidus", // LIQUIDUS_MULTIPLE
-        "Success: Equilibrate",                                    // SILMIN_SUCCESS
-        "Error: Quadratic Iterations exceeded",                    // SILMIN_QUAD_MAX
-        "Error: Zero steplength computed in linear search",        // SILMIN_LIN_ZERO
-        "Error: Maximum iterations exceeded in linear search",     // SILMIN_LIN_MAX
-        "Error: Cannot add a solid phase to liquid(+solids)",      // SILMIN_ADD_LIQUID_1
-        "Error: Cannot add a solid phase to solid(s)",             // SILMIN_ADD_LIQUID_2
-        "Error: Cannot add a liquid phase to solid(s)",            // SILMIN_ADD_LIQUID_3
-        "Error: Phase rule violation (rank deficiency)",           // SILMIN_RANK
-        "Error: Maximum time limit exceeded in Silmin",            // SILMIN_TIME
-        "Error: Internal",                                         // GENERIC_INTERNAL_ERROR
-    };
-    
-    printf("Output file name is %s\n", statusFile);
-    
-    writer = xmlNewTextWriterFilename(statusFile, 0);
-    rc = xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "MELTSstatus", "%s", m[meltsStatus.status]);
-    rc = xmlTextWriterEndDocument(writer);
-    xmlFreeTextWriter(writer);
-}
+ 
+*/
 
 static void doBatchFractionation(void) {
 	int i, j, k, ns, nl;
@@ -1521,10 +1485,17 @@ static void doBatchFractionation(void) {
     }
 }
 
-int main (int argc, char *argv[])
-{
-    calculationMode = MODE__MELTS;
-    
+#import "rMELTSframework.h"
+
+@implementation rMELTSframework
+
++(NSUInteger) MELTScalculationModeConstant { return MODE__MELTS; }
++(NSUInteger)pMELTScalculationModeConstant { return MODE_pMELTS; }
++(NSUInteger)xMELTScalculationModeConstant { return MODE_xMELTS; }
+
+-(id)initWithCalculationMode:(NSUInteger) mode {
+    self = [super init];
+    calculationMode = (int) mode;
     if (calculationMode == MODE__MELTS) {
         liquid = meltsLiquid;
         solids = meltsSolids;
@@ -1541,61 +1512,467 @@ int main (int argc, char *argv[])
     
     InitComputeDataStruct();
     
-            size_t len;
-            int ret;
-            char *outputFile;
+    for (int i=0; i<nc; i++) {
+        if      (!strcmp(bulkSystem[i].label, "SiO2" )) kSiO2  = i;
+        else if (!strcmp(bulkSystem[i].label, "TiO2" )) kTiO2  = i;
+        else if (!strcmp(bulkSystem[i].label, "Al2O3")) kAl2O3 = i;
+        else if (!strcmp(bulkSystem[i].label, "Fe2O3")) kFe2O3 = i;
+        else if (!strcmp(bulkSystem[i].label, "Cr2O3")) kCr2O3 = i;
+        else if (!strcmp(bulkSystem[i].label, "FeO"  )) kFeO   = i;
+        else if (!strcmp(bulkSystem[i].label, "MnO"  )) kMnO   = i;
+        else if (!strcmp(bulkSystem[i].label, "MgO"  )) kMgO   = i;
+        else if (!strcmp(bulkSystem[i].label, "NiO"  )) kNiO   = i;
+        else if (!strcmp(bulkSystem[i].label, "CoO"  )) kCoO   = i;
+        else if (!strcmp(bulkSystem[i].label, "CaO"  )) kCaO   = i;
+        else if (!strcmp(bulkSystem[i].label, "Na2O" )) kNa2O  = i;
+        else if (!strcmp(bulkSystem[i].label, "K2O"  )) kK2O   = i;
+        else if (!strcmp(bulkSystem[i].label, "P2O5" )) kP2O5  = i;
+        else if (!strcmp(bulkSystem[i].label, "H2O"  )) kH2O   = i;
+    }
+    
+    if (silminState == NULL) {
+        int i, np;
+        silminState = allocSilminStatePointer();
+        for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+        (silminState->incSolids)[npc] = TRUE;
+        silminState->nLiquidCoexist  = 1;
+        silminState->fo2Path  = FO2_NONE;
+    }
+    silminState->assimilate = FALSE;
+
+    return self;
+}
+
+-(id)init {
+    return [self initWithCalculationMode:MODE__MELTS];
+}
+
+-(NSUInteger)parseAndLoadDataStructuresFromXMLDocument:(NSXMLDocument *) inputXMLDocument {
+    NSXMLElement *rootElement = [inputXMLDocument rootElement];
+    NSArray *levelOneChildren = [rootElement children];
+    NSUInteger returnParam = GENERIC_CALC;
+    
+    for (NSXMLElement *levelOneChild in levelOneChildren) {
+        if ([[levelOneChild name] isEqualToString:@"initialize"]) {
+            NSUInteger i, j, np;
+            if (silminState != NULL) ; // destroy the old state - nyi
+            silminState = allocSilminStatePointer();
+            for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+            (silminState->incSolids)[npc] = TRUE;
+            silminState->nLiquidCoexist  = 1;
+            silminState->fo2Path  = FO2_NONE;
+            silminState->T = 0.0;
+            silminState->P = 0.0;
+            for (i=0, silminState->liquidMass=0.0; i<nc; i++) (silminState->bulkComp)[i] = 0.0;
             
-            if (silminState == NULL) {
-                int i, np;
-                silminState = allocSilminStatePointer();
-                for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-                (silminState->incSolids)[npc] = TRUE;
-                silminState->nLiquidCoexist  = 1;
-                silminState->fo2Path  = FO2_NONE;
+            NSArray *levelTwoChildren = [levelOneChild children];
+            for (NSXMLElement *levelTwoChild in levelTwoChildren) {
+                NSString *name = [levelTwoChild name];
+                if      ([name isEqualToString:@"SiO2" ]) (silminState->bulkComp)[kSiO2 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kSiO2 ].mw;
+                else if ([name isEqualToString:@"TiO2" ]) (silminState->bulkComp)[kTiO2 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kTiO2 ].mw;
+                else if ([name isEqualToString:@"Al2O3"]) (silminState->bulkComp)[kAl2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kAl2O3].mw;
+                else if ([name isEqualToString:@"Fe2O3"]) (silminState->bulkComp)[kFe2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kFe2O3].mw;
+                else if ([name isEqualToString:@"Cr2O3"]) (silminState->bulkComp)[kCr2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCr2O3].mw;
+                else if ([name isEqualToString:@"FeO"  ]) (silminState->bulkComp)[kFeO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kFeO  ].mw;
+                else if ([name isEqualToString:@"MnO"  ]) (silminState->bulkComp)[kMnO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kMnO  ].mw;
+                else if ([name isEqualToString:@"MgO"  ]) (silminState->bulkComp)[kMgO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kMgO  ].mw;
+                else if ([name isEqualToString:@"NiO"  ]) (silminState->bulkComp)[kNiO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kNiO  ].mw;
+                else if ([name isEqualToString:@"CoO"  ]) (silminState->bulkComp)[kCoO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCoO  ].mw;
+                else if ([name isEqualToString:@"CaO"  ]) (silminState->bulkComp)[kCaO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCaO  ].mw;
+                else if ([name isEqualToString:@"Na2O" ]) (silminState->bulkComp)[kNa2O ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kNa2O ].mw;
+                else if ([name isEqualToString:@"K2O"  ]) (silminState->bulkComp)[kK2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kK2O  ].mw;
+                else if ([name isEqualToString:@"P2O5" ]) (silminState->bulkComp)[kP2O5 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kP2O5 ].mw;
+                else if ([name isEqualToString:@"H2O"  ]) (silminState->bulkComp)[kH2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kH2O  ].mw;
+                silminState->liquidMass += [[levelTwoChild stringValue] doubleValue];
             }
-            silminState->assimilate = FALSE;
-            ret = batchInputDataFromXmlFile(argv[1]);
             
-            len = strlen(silminInputData.name) - 4;
-            outputFile = (char *) malloc((size_t) (len+9)*sizeof(char));
-            (void) strncpy(outputFile, silminInputData.name, len);
-            (void) strcpy(&outputFile[len], "-out.xml");
-            
-            if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
-            
-            if        (ret == FALSE) {
-                
-                } else if (ret == RUN_LIQUIDUS_CALC) {
-                    fileOpenAttempts = 0;
-                    meltsStatus.status = GENERIC_INTERNAL_ERROR;
-                    while(!liquidus());
-                    putOutputDataToXmlFile(oFileName);
-                    putStatusDataToXmlFile(sFileName);
-                } else if (ret == RUN_EQUILIBRATE_CALC) {
-                    fileOpenAttempts = 0;
-                    meltsStatus.status = GENERIC_INTERNAL_ERROR;
-                    while(!silmin());
-                    putOutputDataToXmlFile(oFileName);
-                    putStatusDataToXmlFile(sFileName);
-                } else if (ret == RETURN_WITHOUT_CALC) {
-                    fileOpenAttempts = 0;
-                    meltsStatus.status = SILMIN_SUCCESS;
-                    putOutputDataToXmlFile(oFileName);
-                    putStatusDataToXmlFile(sFileName);
-                } else if (ret == RETURN_DO_FRACTIONATION) {
-                    doBatchFractionation();
-                    fileOpenAttempts = 0;
-                    meltsStatus.status = SILMIN_SUCCESS;
-                    putOutputDataToXmlFile(oFileName);
-                    putStatusDataToXmlFile(sFileName);
+            for (i=0; i<nlc; i++)
+                for ((silminState->liquidComp)[0][i]=0.0, silminState->oxygen=0.0, j=0; j<nc; j++) {
+                    (silminState->liquidComp)[0][i] += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i];
+                    silminState->oxygen += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
                 }
             
-            free(outputFile);
+        } else if ([[levelOneChild name] isEqualToString:@"title"]) {
+            const char *content = [[levelOneChild stringValue] cStringUsingEncoding:[NSString defaultCStringEncoding]];
+            if (silminInputData.title != NULL) free(silminInputData.title);
+            silminInputData.title = (char *) malloc((size_t) (strlen((char *) content)+1)*sizeof(char));
+            (void) strcpy(silminInputData.title, (char *) content);
+            
+        } else if ([[levelOneChild name] isEqualToString:@"calculationMode"]) {
+            NSString *value = [levelOneChild stringValue];
+            if      ([value isEqualToString:@"findLiquidus"]) returnParam = RUN_LIQUIDUS_CALC;
+            else if ([value isEqualToString:@"equilibrate"])  returnParam = RUN_EQUILIBRATE_CALC;
+        
+        } else if ([[levelOneChild name] isEqualToString:@"fractionateOnly"]) {
+            NSString *content = [levelOneChild stringValue];
+            if      ([content isEqualToString:@"fractionateSolids" ]) {                                      silminState->fractionateSol =  TRUE;                                      }
+            else if ([content isEqualToString:@"fractionateFluids" ]) { silminState->fractionateFlu =  TRUE;                                                                           }
+            else if ([content isEqualToString:@"fractionateLiquids"]) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq =  TRUE; }
+            
+            if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
+                silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
+                silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
+            }
+            if (silminState->fractionateLiq && silminState->fracLComp == (double *) NULL) {
+                silminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
+            }
+            returnParam = RETURN_DO_FRACTIONATION;
+
+        } else if ([[levelOneChild name] isEqualToString:@"changeBulk"]) {
+            NSUInteger i, j;
+            double *changeBC = (double *) calloc((size_t) nc, sizeof(double));
+            NSArray *levelTwoChildren = [levelOneChild children];
+            for (NSXMLElement *levelTwoChild in levelTwoChildren) {
+                NSString *name = [levelTwoChild name];
+                if      ([name isEqualToString:@"SiO2" ]) changeBC[kSiO2 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kSiO2 ].mw;
+                else if ([name isEqualToString:@"TiO2" ]) changeBC[kTiO2 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kTiO2 ].mw;
+                else if ([name isEqualToString:@"Al2O3"]) changeBC[kAl2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kAl2O3].mw;
+                else if ([name isEqualToString:@"Fe2O3"]) changeBC[kFe2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kFe2O3].mw;
+                else if ([name isEqualToString:@"Cr2O3"]) changeBC[kCr2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCr2O3].mw;
+                else if ([name isEqualToString:@"FeO"  ]) changeBC[kFeO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kFeO  ].mw;
+                else if ([name isEqualToString:@"MnO"  ]) changeBC[kMnO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kMnO  ].mw;
+                else if ([name isEqualToString:@"MgO"  ]) changeBC[kMgO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kMgO  ].mw;
+                else if ([name isEqualToString:@"NiO"  ]) changeBC[kNiO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kNiO  ].mw;
+                else if ([name isEqualToString:@"CoO"  ]) changeBC[kCoO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCoO  ].mw;
+                else if ([name isEqualToString:@"CaO"  ]) changeBC[kCaO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCaO  ].mw;
+                else if ([name isEqualToString:@"Na2O" ]) changeBC[kNa2O ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kNa2O ].mw;
+                else if ([name isEqualToString:@"K2O"  ]) changeBC[kK2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kK2O  ].mw;
+                else if ([name isEqualToString:@"P2O5" ]) changeBC[kP2O5 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kP2O5 ].mw;
+                else if ([name isEqualToString:@"H2O"  ]) changeBC[kH2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kH2O  ].mw;
+                silminState->liquidMass += [[levelTwoChild stringValue] doubleValue];
+            }
+            
+            for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
+            for (i=0; i<nlc; i++)
+                for (j=0; j<nc; j++) {
+                    (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
+                    silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+                }
+            
+            free(changeBC);
+            
+        } else if ([[levelOneChild name] isEqualToString:@"changeLiquid"]) {
+            NSUInteger i, j;
+            double *changeBC = (double *) calloc((size_t) nc, sizeof(double));
+            NSArray *levelTwoChildren = [levelOneChild children];
+            for (NSXMLElement *levelTwoChild in levelTwoChildren) {
+                NSString *name = [levelTwoChild name];
+                if      ([name isEqualToString:@"SiO2" ]) changeBC[kSiO2 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kSiO2 ].mw;
+                else if ([name isEqualToString:@"TiO2" ]) changeBC[kTiO2 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kTiO2 ].mw;
+                else if ([name isEqualToString:@"Al2O3"]) changeBC[kAl2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kAl2O3].mw;
+                else if ([name isEqualToString:@"Fe2O3"]) changeBC[kFe2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kFe2O3].mw;
+                else if ([name isEqualToString:@"Cr2O3"]) changeBC[kCr2O3] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCr2O3].mw;
+                else if ([name isEqualToString:@"FeO"  ]) changeBC[kFeO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kFeO  ].mw;
+                else if ([name isEqualToString:@"MnO"  ]) changeBC[kMnO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kMnO  ].mw;
+                else if ([name isEqualToString:@"MgO"  ]) changeBC[kMgO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kMgO  ].mw;
+                else if ([name isEqualToString:@"NiO"  ]) changeBC[kNiO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kNiO  ].mw;
+                else if ([name isEqualToString:@"CoO"  ]) changeBC[kCoO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCoO  ].mw;
+                else if ([name isEqualToString:@"CaO"  ]) changeBC[kCaO  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCaO  ].mw;
+                else if ([name isEqualToString:@"Na2O" ]) changeBC[kNa2O ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kNa2O ].mw;
+                else if ([name isEqualToString:@"K2O"  ]) changeBC[kK2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kK2O  ].mw;
+                else if ([name isEqualToString:@"P2O5" ]) changeBC[kP2O5 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kP2O5 ].mw;
+                else if ([name isEqualToString:@"H2O"  ]) changeBC[kH2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kH2O  ].mw;
+                silminState->liquidMass += [[levelTwoChild stringValue] doubleValue];
+            }
+            
+            for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
+            for (i=0; i<nlc; i++)
+                for (j=0; j<nc; j++) {
+                    (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
+                    silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+                }
+            
+            free(changeBC);
+            returnParam = RETURN_WITHOUT_CALC;
+            
+        } else if ([[levelOneChild name] isEqualToString:@"constraints"]) {
+            NSXMLElement *levelTwoChild = [[levelOneChild children] objectAtIndex:0]; // There can be only one
+            
+            if ([[levelTwoChild name]isEqualToString:@"setTP"]) {
+                double oldInitialT = silminState->T;
+                silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
+                silminState->isentropic  = FALSE; silminState->refEntropy  = 0.0;
+                silminState->isochoric   = FALSE; silminState->refVolume   = 0.0;
+                
+                NSArray *levelThreeChildren = [levelTwoChild children];
+                for (NSXMLElement *levelThreeChild in levelThreeChildren) {
+                    NSString *name = [levelThreeChild name];
+                    if ([name isEqualToString:@"initialT"]) {
+                        silminState->T         = [[levelThreeChild stringValue] doubleValue] + 273.15;
+                        silminState->dspTstart = [[levelThreeChild stringValue] doubleValue] + 273.15;
+                    }
+                    else if ([name isEqualToString:@"finalT"  ]) silminState->dspTstop = [[levelThreeChild stringValue] doubleValue] + 273.15;
+                    else if ([name isEqualToString:@"incT"    ]) silminState->dspTinc  = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"initialP"]) {
+                        silminState->P         = [[levelThreeChild stringValue] doubleValue];
+                        silminState->dspPstart = [[levelThreeChild stringValue] doubleValue];
+                    }
+                    else if ([name isEqualToString:@"finalP"  ]) silminState->dspPstop = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"incP"    ]) silminState->dspPinc  = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"dpdt"    ]) silminState->dspDPDt  = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"fo2path" ]) {
+                        NSString *value = [levelThreeChild stringValue];
+                        if      ([value isEqualToString:@"none"]) silminState->fo2Path  = FO2_NONE;
+                        else if ([value isEqualToString:@"fmq" ]) silminState->fo2Path  = FO2_QFM;
+                        else if ([value isEqualToString:@"coh" ]) silminState->fo2Path  = FO2_COH;
+                        else if ([value isEqualToString:@"nno" ]) silminState->fo2Path  = FO2_NNO;
+                        else if ([value isEqualToString:@"iw"  ]) silminState->fo2Path  = FO2_IW;
+                        else if ([value isEqualToString:@"hm"  ]) silminState->fo2Path  = FO2_HM;
+                    }
+                    else if ([name isEqualToString:@"fo2Offset" ]) silminState->fo2Delta = [[levelThreeChild stringValue] doubleValue];
+                }
+                
+                if ((fabs(silminState->T - oldInitialT) < 1.0e-6) && (fabs(silminState->T - silminState->dspTstop) > 1.0e-6)) {
+                    if (fabs(silminState->T - silminState->dspTstop) > fabs(silminState->dspTinc)) {
+                        if (silminState->T > silminState->dspTstop) {
+                            silminState->T         -= fabs(silminState->dspTinc);
+                            silminState->dspTstart -= fabs(silminState->dspTinc);
+                        } else {
+                            silminState->T         += fabs(silminState->dspTinc);
+                            silminState->dspTstart += fabs(silminState->dspTinc);
+                        }
+                    } else {
+                        if (silminState->T > silminState->dspTstop) {
+                            silminState->T         -= 1.0e-6;
+                            silminState->dspTstart -= 1.0e-6;
+                        } else {
+                            silminState->T         += 1.0e-6;
+                            silminState->dspTstart += 1.0e-6;
+                        }
+                    }
+                }
+                
+            } else if ([[levelTwoChild name]isEqualToString:@"setTV"]) {
+                silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
+                silminState->isentropic  = FALSE; silminState->refEntropy  = 0.0;
+                silminState->isochoric   = TRUE;  silminState->refVolume   = 0.0;
+                
+                NSArray *levelThreeChildren = [levelTwoChild children];
+                for (NSXMLElement *levelThreeChild in levelThreeChildren) {
+                    NSString *name = [levelThreeChild name];
+                    if ([name isEqualToString:@"initialT"]) {
+                        silminState->T         = [[levelThreeChild stringValue] doubleValue] + 273.15;
+                        silminState->dspTstart = [[levelThreeChild stringValue] doubleValue] + 273.15;
+                    }
+                    else if ([name isEqualToString:@"finalT"  ]) silminState->dspTstop  = [[levelThreeChild stringValue] doubleValue] + 273.15;
+                    else if ([name isEqualToString:@"intT"    ]) silminState->dspTinc   = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"initialV"]) silminState->refVolume = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"finalV"  ]) silminState->dspVstop  = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"incV"    ]) silminState->dspVinc   = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"dvdt"    ]) silminState->dspDVDt   = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"fo2path" ]) {
+                        NSString *value = [levelThreeChild stringValue];
+                        if      ([value isEqualToString:@"none"]) silminState->fo2Path  = FO2_NONE;
+                        else if ([value isEqualToString:@"fmq" ]) silminState->fo2Path  = FO2_QFM;
+                        else if ([value isEqualToString:@"coh" ]) silminState->fo2Path  = FO2_COH;
+                        else if ([value isEqualToString:@"nno" ]) silminState->fo2Path  = FO2_NNO;
+                        else if ([value isEqualToString:@"iw"  ]) silminState->fo2Path  = FO2_IW;
+                        else if ([value isEqualToString:@"hm"  ]) silminState->fo2Path  = FO2_HM;
+                    }
+                    else if ([name isEqualToString:@"fo2Offset" ]) silminState->fo2Delta = [[levelThreeChild stringValue] doubleValue];
+                }
+                
+            } else if ([[levelTwoChild name]isEqualToString:@"setHP"]) {
+                silminState->isenthalpic = TRUE;
+                silminState->isentropic  = FALSE;
+                silminState->isochoric   = FALSE;
+                
+                NSArray *levelThreeChildren = [levelTwoChild children];
+                for (NSXMLElement *levelThreeChild in levelThreeChildren) {
+                    NSString *name = [levelThreeChild name];
+                    if      ([name isEqualToString:@"initialH"]) silminState->refEnthalpy = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"finalH"  ]) silminState->dspHstop    = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"intH"    ]) silminState->dspHinc     = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"initialP"]) {
+                        silminState->P         = [[levelThreeChild stringValue] doubleValue];
+                        silminState->dspPstart = [[levelThreeChild stringValue] doubleValue];
+                    }
+                    else if ([name isEqualToString:@"finalP"  ]) silminState->dspPstop    = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"incP"    ]) silminState->dspPinc     = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"dpdh"    ]) silminState->dspDPDH     = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"fo2path" ]) {
+                        NSString *value = [levelThreeChild stringValue];
+                        if      ([value isEqualToString:@"none"]) silminState->fo2Path  = FO2_NONE;
+                        else if ([value isEqualToString:@"fmq" ]) silminState->fo2Path  = FO2_QFM;
+                        else if ([value isEqualToString:@"coh" ]) silminState->fo2Path  = FO2_COH;
+                        else if ([value isEqualToString:@"nno" ]) silminState->fo2Path  = FO2_NNO;
+                        else if ([value isEqualToString:@"iw"  ]) silminState->fo2Path  = FO2_IW;
+                        else if ([value isEqualToString:@"hm"  ]) silminState->fo2Path  = FO2_HM;
+                    }
+                    else if ([name isEqualToString:@"fo2Offset" ]) silminState->fo2Delta = [[levelThreeChild stringValue] doubleValue];
+                }
+                
+                
+            } else if ([[levelTwoChild name]isEqualToString:@"setSP"]) {
+                silminState->isenthalpic = FALSE; silminState->refEnthalpy = 0.0;
+                silminState->isentropic  = TRUE;  silminState->refEntropy  = 0.0;
+                silminState->isochoric   = FALSE; silminState->refVolume   = 0.0;
+                
+                NSArray *levelThreeChildren = [levelTwoChild children];
+                for (NSXMLElement *levelThreeChild in levelThreeChildren) {
+                    NSString *name = [levelThreeChild name];
+                    if      ([name isEqualToString:@"initialS"]) silminState->refEntropy = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"finalS"  ]) silminState->dspSstop   = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"intS"    ]) silminState->dspSinc    = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"initialP"]) {
+                        silminState->P         = [[levelThreeChild stringValue] doubleValue];
+                        silminState->dspPstart = [[levelThreeChild stringValue] doubleValue];
+                    }
+                    else if ([name isEqualToString:@"finalP"  ]) silminState->dspPstop   = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"incP"    ]) silminState->dspPinc    = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"dsdh"    ]) silminState->dspDPDS    = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"fo2path" ]) {
+                        NSString *value = [levelThreeChild stringValue];
+                        if      ([value isEqualToString:@"none"]) silminState->fo2Path  = FO2_NONE;
+                        else if ([value isEqualToString:@"fmq" ]) silminState->fo2Path  = FO2_QFM;
+                        else if ([value isEqualToString:@"coh" ]) silminState->fo2Path  = FO2_COH;
+                        else if ([value isEqualToString:@"nno" ]) silminState->fo2Path  = FO2_NNO;
+                        else if ([value isEqualToString:@"iw"  ]) silminState->fo2Path  = FO2_IW;
+                        else if ([value isEqualToString:@"hm"  ]) silminState->fo2Path  = FO2_HM;
+                    }
+                    else if ([name isEqualToString:@"fo2Offset" ]) silminState->fo2Delta = [[levelThreeChild stringValue] doubleValue];
+                }
+            }
+            
+        } else if ([[levelOneChild name] isEqualToString:@"suppressPhase"]) {
+            const char *value = [[levelOneChild stringValue] cStringUsingEncoding:[NSString defaultCStringEncoding]];
+            NSUInteger i, j;
+            for (i=0, j=0; i<npc; i++) if (solids[i].type == PHASE) {
+                if (!strcmp(value, solids[i].label)) {
+                    if (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) (silminState->incSolids)[j] = FALSE;
+                    break;
+                }
+                j++;
+            }
+            
+        } else if ([[levelOneChild name] isEqualToString:@"fractionationMode"]) {
+            NSString *content = [levelOneChild stringValue];
+            if      ([content isEqualToString:@"fractionateSolids" ]) {                                      silminState->fractionateSol =  TRUE;                                      }
+            else if ([content isEqualToString:@"fractionateFluids" ]) { silminState->fractionateFlu =  TRUE;                                                                           }
+            else if ([content isEqualToString:@"fractionateLiquids"]) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq =  TRUE; }
+            else if ([content isEqualToString:@"fractionateNone"   ]) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq = FALSE; }
+            
+            if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
+                silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
+                silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
+            }
+            if (silminState->fractionateLiq && silminState->fracLComp == (double *) NULL) {
+                silminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
+            }
+        
+        } else if ([[levelOneChild name] isEqualToString:@"multLiquids"]) {
+            if ([[levelOneChild stringValue] isEqualToString:@"true"]) silminState->multipleLiqs = TRUE;
+            
+        } else if ([[levelOneChild name] isEqualToString:@"assimilant"]) {
+            silminState->assimilate = TRUE;
+            silminState->dspAssimUnits = ASSIM_PADB_UNITS_WEIGHT;
+            if (silminState->nDspAssimComp == NULL) silminState->nDspAssimComp = (int *)     calloc((unsigned) (npc+nc), sizeof(int));
+            if (silminState->dspAssimComp  == NULL) silminState->dspAssimComp  = (double **) calloc((unsigned) (npc+nc), sizeof(double *));
+            
+            NSArray *levelTwoChildren = [levelOneChild children];
+            for (NSXMLElement *levelTwoChild in levelTwoChildren) {
+                if      ([[levelTwoChild name] isEqualToString:@"temperature"]) silminState->dspAssimT    = [[levelTwoChild stringValue] doubleValue];
+                else if ([[levelTwoChild name] isEqualToString:@"increments" ]) silminState->dspAssimInc  = [[levelTwoChild stringValue] intValue];
+                else if ([[levelTwoChild name] isEqualToString:@"mass"       ]) silminState->dspAssimMass = [[levelTwoChild stringValue] doubleValue];
+                else if ([[levelTwoChild name] isEqualToString:@"units"      ]) NSLog(@"Not Yet Implemented, units");
+                else if ([[levelTwoChild name] isEqualToString:@"phase"      ]) {
+                    NSXMLElement *levelThreeChild = [[levelTwoChild children] objectAtIndex:0]; // there may be only one
+                    if ([[levelThreeChild name] isEqualToString:@"amorphous"] || [[levelThreeChild name] isEqualToString:@"liquid"]) {
+                        NSArray *levelFourChildren = [levelThreeChild children];
+                        for (NSXMLElement *levelFourChild in levelFourChildren) {
+                            NSString *name = [levelFourChild name];
+                            double value = [[levelFourChild stringValue] doubleValue];
+                            if      ([name isEqualToString:@"massFraction"]) NSLog(@"Not Yet Implemented, massFraction value = %lf", value);
+                            else if ([name isEqualToString:@"SiO2"        ]) NSLog(@"Not Yet Implemented, SiO2         value = %lf", value);
+                            else if ([name isEqualToString:@"TiO2"        ]) NSLog(@"Not Yet Implemented, TiO2         value = %lf", value);
+                            else if ([name isEqualToString:@"Al2O3"       ]) NSLog(@"Not Yet Implemented, Al2O3        value = %lf", value);
+                            else if ([name isEqualToString:@"Fe2O3"       ]) NSLog(@"Not Yet Implemented, Fe2O3        value = %lf", value);
+                            else if ([name isEqualToString:@"Cr2O3"       ]) NSLog(@"Not Yet Implemented, Cr2O3        value = %lf", value);
+                            else if ([name isEqualToString:@"FeO"         ]) NSLog(@"Not Yet Implemented, FeO          value = %lf", value);
+                            else if ([name isEqualToString:@"MnO"         ]) NSLog(@"Not Yet Implemented, MnO          value = %lf", value);
+                            else if ([name isEqualToString:@"MgO"         ]) NSLog(@"Not Yet Implemented, MgO          value = %lf", value);
+                            else if ([name isEqualToString:@"NiO"         ]) NSLog(@"Not Yet Implemented, NiO          value = %lf", value);
+                            else if ([name isEqualToString:@"CoO"         ]) NSLog(@"Not Yet Implemented, CoO          value = %lf", value);
+                            else if ([name isEqualToString:@"CaO"         ]) NSLog(@"Not Yet Implemented, CaO          value = %lf", value);
+                            else if ([name isEqualToString:@"Na2O"        ]) NSLog(@"Not Yet Implemented, Na2O         value = %lf", value);
+                            else if ([name isEqualToString:@"K2O"         ]) NSLog(@"Not Yet Implemented, K2O          value = %lf", value);
+                            else if ([name isEqualToString:@"P2O5"        ]) NSLog(@"Not Yet Implemented, P2O5         value = %lf", value);
+                            else if ([name isEqualToString:@"H2O"         ]) NSLog(@"Not Yet Implemented, H2O          value = %lf", value);
+                        }
+                    } else if ([[levelThreeChild name] isEqualToString:@"solid"]) {
+                        NSArray *levelFourChildren = [levelThreeChild children];
+                        for (NSXMLElement *levelFourChild in levelFourChildren) {
+                            NSString *name = [levelFourChild name];
+                            if      ([name isEqualToString:@"label"       ]) NSLog(@"Not Yet Implemented, label = %@", [levelFourChild stringValue]);
+                            else if ([name isEqualToString:@"massFraction"]) NSLog(@"Not Yet Implemented, massFraction value = %lf", [[levelFourChild stringValue] doubleValue]);
+                            else if ([name isEqualToString:@"component"   ]) {
+                                NSArray *levelFiveChildren = [levelFourChild children];
+                                for (NSXMLElement *levelFiveChild in levelFiveChildren) {
+                                    if      ([[levelFiveChild name] isEqualToString:@"label"  ]) NSLog(@"Not Yet Implemented, label   = %@", [levelFiveChild stringValue]);
+                                    else if ([[levelFiveChild name] isEqualToString:@"molFrac"]) NSLog(@"Not Yet Implemented, molFrac = %@", [levelFiveChild stringValue]);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+
+    }
+    
+    return returnParam;
 }
-*/
 
-#import "rMELTSframework.h"
+-(NSXMLDocument *)writeDataStructuresToXMLDocument {
+    NSArray *statusArray = [NSArray arrayWithObjects:
+                            @"Success: Find liquidus",                                  // LIQUIDUS_SUCCESS
+                            @"Error: Maximum temperature in Find Liquidus",             // LIQUIDUS_MAX_T
+                            @"Error: Minimum temperature in Find Liquidus",             // LIQUIDUS_MIN_T
+                            @"Error: Maximum time limit exceeded in Find Liquidus",     // LIQUIDUS_TIME
+                            @"Error: Cannot specify multiple liquids in Find Liquidus", // LIQUIDUS_MULTIPLE
+                            @"Success: Equilibrate",                                    // SILMIN_SUCCESS
+                            @"Error: Quadratic Iterations exceeded",                    // SILMIN_QUAD_MAX
+                            @"Error: Zero steplength computed in linear search",        // SILMIN_LIN_ZERO
+                            @"Error: Maximum iterations exceeded in linear search",     // SILMIN_LIN_MAX
+                            @"Error: Cannot add a solid phase to liquid(+solids)",      // SILMIN_ADD_LIQUID_1
+                            @"Error: Cannot add a solid phase to solid(s)",             // SILMIN_ADD_LIQUID_2
+                            @"Error: Cannot add a liquid phase to solid(s)",            // SILMIN_ADD_LIQUID_3
+                            @"Error: Phase rule violation (rank deficiency)",           // SILMIN_RANK
+                            @"Error: Maximum time limit exceeded in Silmin",            // SILMIN_TIME
+                            @"Error: Internal",                                         // GENERIC_INTERNAL_ERROR,
+                            nil];
+    
+    NSXMLDocument *outputXMLDocument = [[NSXMLDocument alloc] init];
+    NSXMLElement *root = [[NSXMLElement alloc] initWithName:@"MELTSoutput"];
+    
+    [root addChild:[[NSXMLElement alloc] initWithName:@"status" stringValue:[statusArray objectAtIndex:meltsStatus.status]]];
+    
+    [outputXMLDocument setRootElement:root];
+    return outputXMLDocument;
+}
 
-@implementation rMELTSframework
+-(Boolean)performMELTScalculation:(NSUInteger)type {
+    switch (type) {
+        case RUN_LIQUIDUS_CALC:
+            meltsStatus.status = GENERIC_INTERNAL_ERROR;
+            while(!liquidus());
+            break;
+        case RUN_EQUILIBRATE_CALC:
+            meltsStatus.status = GENERIC_INTERNAL_ERROR;
+            while(!silmin());
+            break;
+        case RETURN_WITHOUT_CALC:
+            meltsStatus.status = SILMIN_SUCCESS;
+            break;
+        case RETURN_DO_FRACTIONATION:
+            doBatchFractionation();
+            meltsStatus.status = SILMIN_SUCCESS;
+            break;
+        default:
+            break;
+    }
+    if (meltsStatus.status != GENERIC_INTERNAL_ERROR) return YES; else return NO;
+}
 
 @end

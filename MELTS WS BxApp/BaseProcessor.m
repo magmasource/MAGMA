@@ -12,34 +12,50 @@ static NSString *testXML = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?><MELTSinp
 
 @implementation BaseProcessor
 
-@synthesize respondUsingJSON;
-
 -(id)init {
     if ((self = [super init])) {
-        respondUsingJSON = YES;
+        _respondUsingJSON = NO;
+        _inputXML = nil;
     }
     return self;
 }
 
--(id)renderWithTransport:(BxTransport *)transport {
-    [transport write:@"<h2>renderWithTransport method of BaseProcessor called.</h2>"];
-    
+-(NSString *)parseAndValidateInputXML:(NSString *)inputXMLString {
     NSError *error = nil;
-    NSXMLDocument *inputXML = [[NSXMLDocument alloc] initWithXMLString:testXML options:NSXMLNodeOptionsNone error:&error];
-    if (error) [transport write:[@"Parse call, error = %@" stringByAppendingString:[error description]]];
+    [self setInputXML:[[NSXMLDocument alloc] initWithXMLString:testXML options:NSXMLNodeOptionsNone error:&error]];
+    if (error) return [error description];
     
     NSXMLNode *noNamespaceSchemaLocation = [NSXMLNode attributeWithName:@"xsi:noNamespaceSchemaLocation" stringValue:@"MELTSinput.xsd"];
-    NSXMLElement *rootElement = [inputXML rootElement];
+    NSXMLElement *rootElement = [[self inputXML] rootElement];
     NSMutableArray *rootAttributes = [[rootElement attributes] mutableCopy];
     [rootAttributes replaceObjectAtIndex:1 withObject:noNamespaceSchemaLocation];
     [rootElement setAttributes:rootAttributes];
-    BOOL isValid = [inputXML validateAndReturnError:&error];
-    if (error) [transport write:[@"Parse call, error = %@" stringByAppendingString:[error description]]];
-    if (isValid) {
-        [transport write:@"<h2>The input XML is valid</h2>"];
-    } else {
-        [transport write:@"<h2>The input XML is NOT valid</h2>"];
+    if (![[self inputXML] validateAndReturnError:&error]) return @"The input XML is NOT valid";
+    if (error) return [error description];
+    
+    return nil;
+}
+
+-(id)renderWithTransport:(BxTransport *)transport {
+    [transport write:@"<p>BaseProcessor Class:(renderWithTransport) Entry...</p>"];
+    NSString *error;
+    if ((error = [self parseAndValidateInputXML:testXML])) {
+        [transport writeFormat:@"<p>...BaseProcessor Class:(renderWithTransport) Error in parse: %@</p>", error];
+        return self;
     }
+    [transport write:@"<p>...BaseProcessor Class:(renderWithTransport) Document is valid.</p>"];
+    
+    rMELTSframework *melts = [[rMELTSframework alloc] initWithCalculationMode:[rMELTSframework MELTScalculationModeConstant]];
+    NSUInteger calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:[self inputXML]];
+    [transport writeFormat:@"<p>...BaseProcessor Class:(renderWithTransport) Input parsed, MELTS initialized %lu.</p>", calculationMode];
+    
+    
+    if ([melts performMELTScalculation:calculationMode])
+         [transport write:@"<p>...BaseProcessor Class:(renderWithTransport) MELTS call - success.</p>"];
+    else [transport write:@"<p>...BaseProcessor Class:(renderWithTransport) MELTS call - failure.</p>"];
+    
+    NSXMLDocument *outputXML = [melts writeDataStructuresToXMLDocument];
+    [transport writeFormat:@"<p>...BaseProcessor Class:(renderWithTransport) Output: %@.</p>", [outputXML description]];
     
     // NSDictionary *results = [Papale satFromgH2OgCO2:[transport queryVars] returnMode:respondUsingJSON];
     // [transport writeData:[NSJSONSerialization dataWithJSONObject:results options:0 error:nil]];

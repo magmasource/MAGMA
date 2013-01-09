@@ -11,9 +11,9 @@
 #import <rMELTSframework/rMELTSframework.h>
 
 @interface BaseProcessor : BxHandler {
-    BOOL respondUsingJSON;
 }
 
 @property BOOL respondUsingJSON;
+@property NSXMLDocument *inputXML;
 
 @end

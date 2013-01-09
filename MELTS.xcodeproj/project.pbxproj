@@ -1761,6 +1761,7 @@
 		77C99B6B169B6EAF00DF7464 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MELTS WS BxApp/MELTS WS BxApp-Prefix.pch";
@@ -1773,6 +1774,7 @@
 		77C99B6C169B6EAF00DF7464 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MELTS WS BxApp/MELTS WS BxApp-Prefix.pch";
