@@ -313,6 +313,10 @@
 		77E4B2CF169BD0FF00B27D84 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD78163B20B5004AA393 /* MELTSinput.xsd */; };
 		77E4B2D0169BD0FF00B27D84 /* MELTSoutput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD79163B20B6004AA393 /* MELTSoutput.xsd */; };
 		77E4B2D1169BD0FF00B27D84 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
+		77FE531A169F36B100D79522 /* xml2json.xslt in Resources */ = {isa = PBXBuildFile; fileRef = 77FE5319169F36B100D79522 /* xml2json.xslt */; };
+		77FE55AC169F447600D79522 /* static in Resources */ = {isa = PBXBuildFile; fileRef = 77FE55AB169F447600D79522 /* static */; };
+		77FE55AE169F463700D79522 /* Documentation.bxml in Resources */ = {isa = PBXBuildFile; fileRef = 77FE55AD169F463700D79522 /* Documentation.bxml */; };
+		77FE55B116A0E84900D79522 /* Test.bxml in Resources */ = {isa = PBXBuildFile; fileRef = 77FE55B016A0E84900D79522 /* Test.bxml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -523,6 +527,10 @@
 		77C99B70169B72C300DF7464 /* bxapp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = bxapp.icns; sourceTree = "<group>"; };
 		77E4B2CB169BA94300B27D84 /* BaseProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseProcessor.h; sourceTree = "<group>"; };
 		77E4B2CC169BA94300B27D84 /* BaseProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseProcessor.m; sourceTree = "<group>"; };
+		77FE5319169F36B100D79522 /* xml2json.xslt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = xml2json.xslt; sourceTree = "<group>"; };
+		77FE55AB169F447600D79522 /* static */ = {isa = PBXFileReference; lastKnownFileType = folder; path = static; sourceTree = "<group>"; };
+		77FE55AD169F463700D79522 /* Documentation.bxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Documentation.bxml; sourceTree = "<group>"; };
+		77FE55B016A0E84900D79522 /* Test.bxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test.bxml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -826,10 +834,13 @@
 		77C99B58169B6EAF00DF7464 /* MELTS WS BxApp */ = {
 			isa = PBXGroup;
 			children = (
+				77FE55AB169F447600D79522 /* static */,
 				77C99B64169B6EAF00DF7464 /* AppDelegate.h */,
 				77C99B65169B6EAF00DF7464 /* AppDelegate.m */,
 				77E4B2CB169BA94300B27D84 /* BaseProcessor.h */,
 				77E4B2CC169BA94300B27D84 /* BaseProcessor.m */,
+				77FE55AD169F463700D79522 /* Documentation.bxml */,
+				77FE55B016A0E84900D79522 /* Test.bxml */,
 				77C99B59169B6EAF00DF7464 /* Supporting Files */,
 			);
 			path = "MELTS WS BxApp";
@@ -838,6 +849,7 @@
 		77C99B59169B6EAF00DF7464 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				77FE5319169F36B100D79522 /* xml2json.xslt */,
 				77C99B70169B72C300DF7464 /* bxapp.icns */,
 				77C99B5A169B6EAF00DF7464 /* MELTS WS BxApp-Info.plist */,
 				77C99B5B169B6EAF00DF7464 /* InfoPlist.strings */,
@@ -966,6 +978,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 77C99B6A169B6EAF00DF7464 /* Build configuration list for PBXNativeTarget "MELTS WS BxApp" */;
 			buildPhases = (
+				77FE55AF169F4A8B00D79522 /* ShellScript */,
 				77C99B51169B6EAF00DF7464 /* Sources */,
 				77C99B52169B6EAF00DF7464 /* Frameworks */,
 				77C99B53169B6EAF00DF7464 /* Resources */,
@@ -1039,6 +1052,10 @@
 				77E4B2D1169BD0FF00B27D84 /* MELTSstatus.xsd in Resources */,
 				77C99B5D169B6EAF00DF7464 /* InfoPlist.strings in Resources */,
 				77C99B71169B72C300DF7464 /* bxapp.icns in Resources */,
+				77FE531A169F36B100D79522 /* xml2json.xslt in Resources */,
+				77FE55AC169F447600D79522 /* static in Resources */,
+				77FE55AE169F463700D79522 /* Documentation.bxml in Resources */,
+				77FE55B116A0E84900D79522 /* Test.bxml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,6 +1074,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		77FE55AF169F4A8B00D79522 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/python;
+			shellScript = "#!/usr/bin/python\n\n# This script runs /usr/bin/bxmlparser on each BXML file, generating an\n# Objective-C file in SRCROOT/_bxml_objc, and adds an import for the .m file\n# into handler_list.h\n\nimport os\n\nhandler_list_text = '/* AUTO-GENERATED. This if populated using your BXML files at compile time. */\\n\\n'\n\nsrcroot = os.environ['SRCROOT'] + \"/MELTS WS BxApp\"\nbxml_files = filter(lambda x:x.endswith('.bxml'), os.listdir(srcroot))\noutput_dir = srcroot + '/_bxml_objc'\nif not os.path.exists(output_dir):\n    os.mkdir(output_dir)\nfor bxml_file in bxml_files:\n    objc_file = bxml_file[:-4] + 'm'\n    if os.system(\"/usr/local/bin/bxmlparser '%s/%s' '%s/%s'\" % (srcroot, bxml_file, output_dir, objc_file)) == 0:\n        handler_list_text += '#import \"_bxml_objc/%s\"\\n' % (objc_file)\nhandler_list_text += '\\n'\nopen(srcroot + '/handler_list.h', 'w').write(handler_list_text)\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

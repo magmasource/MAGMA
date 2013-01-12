@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Bombaxtic/Bombaxtic.h>
+#import "handler_list.h"
 
 int main(int argc, char *argv[])
 {

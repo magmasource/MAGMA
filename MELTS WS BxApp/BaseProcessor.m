@@ -22,10 +22,11 @@ static NSString *testXML = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?><MELTSinp
 
 -(NSString *)parseAndValidateInputXML:(NSString *)inputXMLString {
     NSError *error = nil;
-    [self setInputXML:[[NSXMLDocument alloc] initWithXMLString:testXML options:NSXMLNodeOptionsNone error:&error]];
+    [self setInputXML:[[NSXMLDocument alloc] initWithXMLString:inputXMLString options:NSXMLNodeOptionsNone error:&error]];
     if (error) return [error description];
     
-    NSXMLNode *noNamespaceSchemaLocation = [NSXMLNode attributeWithName:@"xsi:noNamespaceSchemaLocation" stringValue:@"MELTSinput.xsd"];
+    NSString *xsdPath = [[NSBundle mainBundle] pathForResource:@"MELTSinput" ofType:@"xsd"];
+    NSXMLNode *noNamespaceSchemaLocation = [NSXMLNode attributeWithName:@"xsi:noNamespaceSchemaLocation" stringValue:xsdPath];
     NSXMLElement *rootElement = [[self inputXML] rootElement];
     NSMutableArray *rootAttributes = [[rootElement attributes] mutableCopy];
     [rootAttributes replaceObjectAtIndex:1 withObject:noNamespaceSchemaLocation];
@@ -38,8 +39,11 @@ static NSString *testXML = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?><MELTSinp
 
 -(id)renderWithTransport:(BxTransport *)transport {
     [transport write:@"<p>BaseProcessor Class:(renderWithTransport) Entry...</p>"];
+    
+    [transport write:[[transport postVars] objectForKey:@"dataXML"]];
+    
     NSString *error;
-    if ((error = [self parseAndValidateInputXML:testXML])) {
+    if ((error = [self parseAndValidateInputXML:[[transport postVars] objectForKey:@"dataXML"]])) {
         [transport writeFormat:@"<p>...BaseProcessor Class:(renderWithTransport) Error in parse: %@</p>", error];
         return self;
     }
@@ -55,10 +59,26 @@ static NSString *testXML = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?><MELTSinp
     else [transport write:@"<p>...BaseProcessor Class:(renderWithTransport) MELTS call - failure.</p>"];
     
     NSXMLDocument *outputXML = [melts writeDataStructuresToXMLDocument];
-    [transport writeFormat:@"<p>...BaseProcessor Class:(renderWithTransport) Output: %@.</p>", [outputXML description]];
+    [transport writeData:[outputXML XMLData]];
     
-    // NSDictionary *results = [Papale satFromgH2OgCO2:[transport queryVars] returnMode:respondUsingJSON];
-    // [transport writeData:[NSJSONSerialization dataWithJSONObject:results options:0 error:nil]];
+    // Output JSON
+    [transport write:@"<p>...BaseProcessor Class:(renderWithTransport) Transform XML to JSON.</p>"];
+    NSError *err = nil;
+    NSString *xsltPath = [[NSBundle mainBundle] pathForResource:@"xml2json" ofType:@"xslt"];
+    if (!xsltPath) {
+        [transport write:@"<p>...BaseProcessor Class:(renderWithTransport) Error - no path to xsl file.</p>"];
+        return self;
+    }
+    NSData *JSONdata = (NSData *)[outputXML objectByApplyingXSLTAtURL:[NSURL fileURLWithPath:xsltPath]
+                                                            arguments:nil  // no extra XSLT parameters needed
+                                                                error:&err];
+    if (!JSONdata) [transport write:@"<p>...BaseProcessor Class:(renderWithTransport) Error - no transformed file.</p>"];
+    if (err) {
+        [transport writeFormat:@"<p>...BaseProcessor Class:(renderWithTransport) Err: %@.</p>", [err localizedDescription]];
+        return self;
+    }
+    [transport writeData:JSONdata];
+    
     return self;
 }
 

@@ -11,8 +11,9 @@
 @implementation AppDelegate
 
 - (id)setup {
-    [self setHandler:@"BaseProcessor" forMatch:@"/MELTSWSBxApp/Equilibrate"];
-    [self setDefaultHandler:@"BaseProcessor"];
+    [self setHandler:@"BaseProcessor" forMatch:@"/MELTSWSBxApp/Compute"];
+    [self setHandler:@"Test" forMatch:@"/MELTSWSBxApp/Test"];
+    [self setDefaultHandler:@"Documentation"];
     return self;
 }
 

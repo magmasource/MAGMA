@@ -16,8 +16,9 @@
     <xs:complexType>
       <xs:sequence>
 
-        <xs:element name="inputFile" type="xs:string" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="outputFile" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="status" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="inputFile" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="outputFile" type="xs:string" minOccurs="0" maxOccurs="1"/>
         <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1"/>
         <xs:element name="time" type="xs:string" minOccurs="1" maxOccurs="1"/>
         <xs:element name="release" type="xs:string" minOccurs="1" maxOccurs="1"/>
