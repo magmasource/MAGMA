@@ -2,16 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BxApp Name</key>
-	<string>$(PRODUCT_NAME)</string>
-	<key>BxApp Description</key>
-	<string>rhyolite-MELTS, pMELTS Rest web service (XML)</string>
 	<key>BxApp Author</key>
 	<string>M. S. Ghiorso, OFM Research</string>
 	<key>BxApp Author URL</key>
 	<string>http://www.ofm-research.org</string>
 	<key>BxApp Bombastic Version</key>
 	<string>1.0.0</string>
+	<key>BxApp Description</key>
+	<string>rhyolite-MELTS, pMELTS Rest web service (XML)</string>
+	<key>BxApp Name</key>
+	<string>$(PRODUCT_NAME)</string>
 	<key>BxApp Static Resource Path</key>
 	<string>static</string>
 	<key>BxApp Static Web Path</key>
@@ -36,6 +36,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.education</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSHumanReadableCopyright</key>
