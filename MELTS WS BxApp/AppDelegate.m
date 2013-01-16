@@ -11,8 +11,13 @@
 @implementation AppDelegate
 
 - (id)setup {
+    // These are for debug mode
     [self setHandler:@"BaseProcessor" forMatch:@"/MELTSWSBxApp/Compute"];
     [self setHandler:@"Test" forMatch:@"/MELTSWSBxApp/Test"];
+    // These are for normal mode
+    [self setHandler:@"BaseProcessor" forMatch:@"/Compute"];
+    [self setHandler:@"Test" forMatch:@"/Test"];
+    // This is a default
     [self setDefaultHandler:@"Documentation"];
     return self;
 }

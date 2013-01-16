@@ -13,8 +13,6 @@
 		77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4B163656D4000C83ED /* libXm.4.dylib */; };
 		77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4C163656D4000C83ED /* libXt.6.dylib */; };
 		77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
-		770BBEFA16A21CD800B98F2D /* Bombaxtic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 770BBEF916A21CD800B98F2D /* Bombaxtic.framework */; };
-		770BBEFD16A222C600B98F2D /* Bombaxtic.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 770BBEF916A21CD800B98F2D /* Bombaxtic.framework */; };
 		770BBEFE16A2244C00B98F2D /* rMELTSframework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */; };
 		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
@@ -230,6 +228,8 @@
 		77A74443163619B80038627C /* wadsleyite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8001627A92300D67FBB /* wadsleyite.c */; };
 		77A74444163619B80038627C /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
 		77A74445163619B80038627C /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
+		77A98CBF16A60896003ABD24 /* Bombaxtic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A98CBE16A60896003ABD24 /* Bombaxtic.framework */; };
+		77A98CC016A608BC003ABD24 /* Bombaxtic.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77A98CBE16A60896003ABD24 /* Bombaxtic.framework */; };
 		77C99AE4169B4FF500DF7464 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AE3169B4FF500DF7464 /* Cocoa.framework */; };
 		77C99AEE169B4FF500DF7464 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77C99AEC169B4FF500DF7464 /* InfoPlist.strings */; };
 		77C99AF2169B4FF500DF7464 /* rMELTSframework.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C99AF1169B4FF500DF7464 /* rMELTSframework.m */; };
@@ -369,7 +369,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				770BBEFE16A2244C00B98F2D /* rMELTSframework.framework in CopyFiles */,
-				770BBEFD16A222C600B98F2D /* Bombaxtic.framework in CopyFiles */,
+				77A98CC016A608BC003ABD24 /* Bombaxtic.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,7 +412,6 @@
 		77032B4B163656D4000C83ED /* libXm.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXm.4.dylib; path = ../../../opt/local/lib/libXm.4.dylib; sourceTree = "<group>"; };
 		77032B4C163656D4000C83ED /* libXt.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXt.6.dylib; path = ../../../opt/local/lib/libXt.6.dylib; sourceTree = "<group>"; };
 		77032B521636576D000C83ED /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../opt/local/lib/libxml2.2.dylib; sourceTree = "<group>"; };
-		770BBEF916A21CD800B98F2D /* Bombaxtic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bombaxtic.framework; path = "../../../Library/Developer/Xcode/DerivedData/BomBaxWS-aickwkjmvirnmyhkmhwodolgqgci/Build/Products/Debug/Bombaxtic.framework"; sourceTree = "<group>"; };
 		7734D76D1627A90000D67FBB /* acegr_np.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acegr_np.h; sourceTree = "<group>"; };
 		7734D76E1627A90000D67FBB /* calculator_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calculator_icon.h; sourceTree = "<group>"; };
 		7734D76F1627A90000D67FBB /* calibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calibration.h; sourceTree = "<group>"; };
@@ -521,6 +520,7 @@
 		7785CD79163B20B6004AA393 /* MELTSoutput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSoutput.xsd; path = ../MELTSoutput.xsd; sourceTree = "<group>"; };
 		7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSstatus.xsd; path = ../MELTSstatus.xsd; sourceTree = "<group>"; };
 		77A743F4163611C50038627C /* Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
+		77A98CBE16A60896003ABD24 /* Bombaxtic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bombaxtic.framework; path = "../../../Library/Developer/Xcode/DerivedData/BomBaxWS-aickwkjmvirnmyhkmhwodolgqgci/Build/Products/Release/Bombaxtic.framework"; sourceTree = "<group>"; };
 		77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = rMELTSframework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C99AE3169B4FF500DF7464 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77C99AE6169B4FF500DF7464 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -615,7 +615,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				770BBEFA16A21CD800B98F2D /* Bombaxtic.framework in Frameworks */,
+				77A98CBF16A60896003ABD24 /* Bombaxtic.framework in Frameworks */,
 				77C99B57169B6EAF00DF7464 /* Cocoa.framework in Frameworks */,
 				77C99B6D169B6EF800DF7464 /* rMELTSframework.framework in Frameworks */,
 			);
@@ -776,6 +776,7 @@
 		77B68D411627A64800C6296F = {
 			isa = PBXGroup;
 			children = (
+				77A98CBE16A60896003ABD24 /* Bombaxtic.framework */,
 				77665364163707DE0004A2D0 /* Libraries */,
 				7734D78F1627A92300D67FBB /* sources */,
 				7734D76C1627A90000D67FBB /* includes */,
@@ -804,7 +805,6 @@
 				77C99AE6169B4FF500DF7464 /* AppKit.framework */,
 				77C99AE7169B4FF500DF7464 /* CoreData.framework */,
 				77C99AE8169B4FF500DF7464 /* Foundation.framework */,
-				770BBEF916A21CD800B98F2D /* Bombaxtic.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -1825,6 +1825,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/BomBaxWS-aickwkjmvirnmyhkmhwodolgqgci/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/BomBaxWS-aickwkjmvirnmyhkmhwodolgqgci/Build/Products/Release\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MELTS WS BxApp/MELTS WS BxApp-Prefix.pch";
@@ -1842,6 +1843,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/BomBaxWS-aickwkjmvirnmyhkmhwodolgqgci/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/BomBaxWS-aickwkjmvirnmyhkmhwodolgqgci/Build/Products/Release\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MELTS WS BxApp/MELTS WS BxApp-Prefix.pch";
