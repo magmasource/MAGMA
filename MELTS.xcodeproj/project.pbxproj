@@ -17,6 +17,7 @@
 		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
 		77665363163707080004A2D0 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
+		7777113D16A7177000042848 /* FetchDocumentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7777113C16A7177000042848 /* FetchDocumentation.m */; };
 		7785CCC2163AFA68004AA393 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		7785CCC3163AFA68004AA393 /* melts_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D01627A92300D67FBB /* melts_support.c */; };
 		7785CCC4163AFA68004AA393 /* melts_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D11627A92300D67FBB /* melts_threads.c */; };
@@ -317,7 +318,6 @@
 		77E4B2D1169BD0FF00B27D84 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
 		77FE531A169F36B100D79522 /* xml2json.xslt in Resources */ = {isa = PBXBuildFile; fileRef = 77FE5319169F36B100D79522 /* xml2json.xslt */; };
 		77FE55AC169F447600D79522 /* static in Resources */ = {isa = PBXBuildFile; fileRef = 77FE55AB169F447600D79522 /* static */; };
-		77FE55AE169F463700D79522 /* Documentation.bxml in Resources */ = {isa = PBXBuildFile; fileRef = 77FE55AD169F463700D79522 /* Documentation.bxml */; };
 		77FE55B116A0E84900D79522 /* Test.bxml in Resources */ = {isa = PBXBuildFile; fileRef = 77FE55B016A0E84900D79522 /* Test.bxml */; };
 /* End PBXBuildFile section */
 
@@ -514,6 +514,8 @@
 		7766535A1636FF610004A2D0 /* simann.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = simann.f; sourceTree = "<group>"; };
 		77665360163706D00004A2D0 /* libgfortran.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgfortran.3.dylib; path = /usr/local/gfortran/lib/libgfortran.3.dylib; sourceTree = "<absolute>"; };
 		77665362163707080004A2D0 /* libport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libport.a; path = ../port3/libport.a; sourceTree = "<group>"; };
+		7777113B16A7177000042848 /* FetchDocumentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchDocumentation.h; sourceTree = "<group>"; };
+		7777113C16A7177000042848 /* FetchDocumentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchDocumentation.m; sourceTree = "<group>"; };
 		7785CD19163AFA68004AA393 /* public-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "public-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785CD75163AFE38004AA393 /* batch-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "batch-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785CD78163B20B5004AA393 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSinput.xsd; path = ../MELTSinput.xsd; sourceTree = "<group>"; };
@@ -549,7 +551,6 @@
 		77E4B2CC169BA94300B27D84 /* BaseProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseProcessor.m; sourceTree = "<group>"; };
 		77FE5319169F36B100D79522 /* xml2json.xslt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = xml2json.xslt; sourceTree = "<group>"; };
 		77FE55AB169F447600D79522 /* static */ = {isa = PBXFileReference; lastKnownFileType = folder; path = static; sourceTree = "<group>"; };
-		77FE55AD169F463700D79522 /* Documentation.bxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Documentation.bxml; sourceTree = "<group>"; };
 		77FE55B016A0E84900D79522 /* Test.bxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test.bxml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -859,7 +860,8 @@
 				77C99B65169B6EAF00DF7464 /* AppDelegate.m */,
 				77E4B2CB169BA94300B27D84 /* BaseProcessor.h */,
 				77E4B2CC169BA94300B27D84 /* BaseProcessor.m */,
-				77FE55AD169F463700D79522 /* Documentation.bxml */,
+				7777113B16A7177000042848 /* FetchDocumentation.h */,
+				7777113C16A7177000042848 /* FetchDocumentation.m */,
 				77FE55B016A0E84900D79522 /* Test.bxml */,
 				77C99B59169B6EAF00DF7464 /* Supporting Files */,
 			);
@@ -1076,7 +1078,6 @@
 				77C99B71169B72C300DF7464 /* bxapp.icns in Resources */,
 				77FE531A169F36B100D79522 /* xml2json.xslt in Resources */,
 				77FE55AC169F447600D79522 /* static in Resources */,
-				77FE55AE169F463700D79522 /* Documentation.bxml in Resources */,
 				77FE55B116A0E84900D79522 /* Test.bxml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1408,6 +1409,7 @@
 				77C99B5F169B6EAF00DF7464 /* main.m in Sources */,
 				77C99B66169B6EAF00DF7464 /* AppDelegate.m in Sources */,
 				77E4B2CD169BA94300B27D84 /* BaseProcessor.m in Sources */,
+				7777113D16A7177000042848 /* FetchDocumentation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

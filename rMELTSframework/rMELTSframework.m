@@ -37,8 +37,6 @@ char *addOutputFileName = NULL;
 
 @implementation rMELTSframework
 
-static SilminState *previousSilminState;
-
 static void doBatchFractionation(void) {
 	int i, j, k, ns, nl;
 	int hasLiquid = ((silminState != NULL) && (silminState->liquidMass != 0.0));
@@ -252,22 +250,20 @@ static void doBatchFractionation(void) {
 +(NSUInteger)pMELTScalculationModeConstant { return MODE_pMELTS; }
 +(NSUInteger)xMELTScalculationModeConstant { return MODE_xMELTS; }
 
--(id)initWithCalculationMode:(NSUInteger) mode {
-    self = [super init];
-    calculationMode = (int) mode;
-    if (calculationMode == MODE__MELTS) {
-        liquid = meltsLiquid;
-        solids = meltsSolids;
-        nlc = meltsNlc;
-        nls = meltsNls;
-        npc = meltsNpc;
-    } else if (calculationMode == MODE_pMELTS) {
-        liquid = pMeltsLiquid;
-        solids = pMeltsSolids;
-        nlc = pMeltsNlc;
-        nls = pMeltsNls;
-        npc = pMeltsNpc;
-    }
+static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, kCaO, kNa2O, kK2O, kP2O5, kH2O;
+
++(void)initialize {
+    calculationMode = MODE__MELTS;
+    liquid = meltsLiquid;
+    solids = meltsSolids;
+    nlc = meltsNlc;
+    nls = meltsNls;
+    npc = meltsNpc;
+    // liquid = pMeltsLiquid;
+    // solids = pMeltsSolids;
+    // nlc = pMeltsNlc;
+    // nls = pMeltsNls;
+    // npc = pMeltsNpc;
     
     InitComputeDataStruct();
     
@@ -287,23 +283,51 @@ static void doBatchFractionation(void) {
         else if (!strcmp(bulkSystem[i].label, "K2O"  )) kK2O   = i;
         else if (!strcmp(bulkSystem[i].label, "P2O5" )) kP2O5  = i;
         else if (!strcmp(bulkSystem[i].label, "H2O"  )) kH2O   = i;
-    }
-    
-    if (silminState == NULL) {
-        int i, np;
-        silminState = allocSilminStatePointer();
-        for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-        (silminState->incSolids)[npc] = TRUE;
-        silminState->nLiquidCoexist  = 1;
-        silminState->fo2Path  = FO2_NONE;
-    }
-    silminState->assimilate = FALSE;
+    }    
+}
 
-    return self;
+typedef struct _nodeList {
+    int node;
+    SilminState *silminState;
+    SilminState *previousSilminState;
+} NodeList;
+
+static NodeList *nodeList;
+static int numberNodes;
+
+static int compareNodes(const void *aPt, const void *bPt) {
+    NodeList *a = (NodeList *) aPt;
+    NodeList *b = (NodeList *) bPt;
+    return (a->node - b->node);
+}
+
+static NodeList *getNodeListPointer(int node) {
+    NodeList key;
+    key.node = node;
+    return (NodeList *) bsearch(&key, nodeList, (size_t) numberNodes, sizeof(struct _nodeList), compareNodes);
 }
 
 -(id)init {
-    return [self initWithCalculationMode:MODE__MELTS];
+    self = [super init];
+    
+    if (numberNodes != 0) {
+        _nodeIndex = numberNodes;
+        numberNodes++;
+        nodeList = (NodeList *) realloc(nodeList, (size_t) numberNodes*sizeof(struct _nodeList));
+        (nodeList[numberNodes-1]).silminState = NULL;
+        (nodeList[numberNodes-1]).previousSilminState = NULL;
+        (nodeList[numberNodes-1]).node = _nodeIndex;
+        qsort(nodeList, (size_t) numberNodes, sizeof(struct _nodeList), compareNodes);
+    }  else {
+        _nodeIndex = 0;
+        numberNodes = 1;
+        nodeList = (NodeList *) realloc(nodeList, sizeof(struct _nodeList));
+        (nodeList[0]).silminState = NULL;
+        (nodeList[0]).previousSilminState = NULL;
+        (nodeList[0]).node = _nodeIndex;
+    }
+
+    return self;
 }
 
 -(NSUInteger)parseAndLoadDataStructuresFromXMLDocument:(NSXMLDocument *) inputXMLDocument {
@@ -311,11 +335,15 @@ static void doBatchFractionation(void) {
     NSArray *levelOneChildren = [rootElement children];
     NSUInteger returnParam = GENERIC_CALC;
     
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    
     for (NSXMLElement *levelOneChild in levelOneChildren) {
         if ([[levelOneChild name] isEqualToString:@"initialize"]) {
             NSUInteger i, j, np;
             if (silminState != NULL) ; // destroy the old state - nyi
             silminState = allocSilminStatePointer();
+            nodePointer->silminState = silminState;
             for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
             (silminState->incSolids)[npc] = TRUE;
             silminState->nLiquidCoexist  = 1;
@@ -716,6 +744,10 @@ static void doBatchFractionation(void) {
     NSXMLDocument *outputXMLDocument = [[NSXMLDocument alloc] init];
     NSXMLElement *root = [[NSXMLElement alloc] initWithName:@"MELTSoutput"];
     
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    SilminState *previousSilminState = nodePointer->previousSilminState;
+        
     [root addChild:[[NSXMLElement alloc] initWithName:@"status" stringValue:[statusArray objectAtIndex:meltsStatus.status]]];
 
      size_t len;
@@ -1391,7 +1423,12 @@ static void doBatchFractionation(void) {
 }
 
 -(Boolean)performMELTScalculation:(NSUInteger)type {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    SilminState *previousSilminState = nodePointer->previousSilminState;
     previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+    nodePointer->previousSilminState = previousSilminState;
+    
     switch (type) {
         case RUN_LIQUIDUS_CALC:
             meltsStatus.status = GENERIC_INTERNAL_ERROR;

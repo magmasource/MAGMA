@@ -11,4 +11,7 @@
 
 @interface AppDelegate : BxApp
 
+-(NSMutableDictionary *)lockState;
+-(id)unloackState;
+
 @end

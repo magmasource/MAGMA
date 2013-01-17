@@ -10,6 +10,8 @@
 
 @implementation AppDelegate
 
+static NSRecursiveLock *_stateLock = nil;
+
 - (id)setup {
     // These are for debug mode
     [self setHandler:@"BaseProcessor" forMatch:@"/MELTSWSBxApp/Compute"];
@@ -18,7 +20,18 @@
     [self setHandler:@"BaseProcessor" forMatch:@"/Compute"];
     [self setHandler:@"Test" forMatch:@"/Test"];
     // This is a default
-    [self setDefaultHandler:@"Documentation"];
+    [self setDefaultHandler:@"FetchDocumentation"];
+    return self;
+}
+
+-(NSMutableDictionary *)lockState {
+    if (!_stateLock) _stateLock = [[NSRecursiveLock alloc] init];
+    [_stateLock lock];
+    return self.state;
+}
+
+-(id)unloackState {
+    [_stateLock unlock];
     return self;
 }
 

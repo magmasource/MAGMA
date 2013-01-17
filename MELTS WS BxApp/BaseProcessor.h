@@ -15,5 +15,6 @@
 
 @property BOOL respondUsingJSON;
 @property NSXMLDocument *inputXML;
+@property Boolean debug;
 
 @end

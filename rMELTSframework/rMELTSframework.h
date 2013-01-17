@@ -15,15 +15,14 @@
 #define RETURN_WITHOUT_CALC     4
 #define RETURN_DO_FRACTIONATION 5
 
-@interface rMELTSframework : NSObject {
-    int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, kCaO, kNa2O, kK2O, kP2O5, kH2O;
-}
+@interface rMELTSframework : NSObject
+
+@property int nodeIndex;
 
 +(NSUInteger)MELTScalculationModeConstant;
 +(NSUInteger)pMELTScalculationModeConstant;
 +(NSUInteger)xMELTScalculationModeConstant;
 
--(id)initWithCalculationMode:(NSUInteger) mode;
 -(NSUInteger)parseAndLoadDataStructuresFromXMLDocument:(NSXMLDocument *) inputXMLDocument;
 -(NSXMLDocument *)writeDataStructuresToXMLDocument;
 -(Boolean)performMELTScalculation:(NSUInteger)type;
