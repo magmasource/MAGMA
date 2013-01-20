@@ -24,7 +24,7 @@
 +(NSUInteger)xMELTScalculationModeConstant;
 
 -(NSUInteger)parseAndLoadDataStructuresFromXMLDocument:(NSXMLDocument *) inputXMLDocument;
--(NSXMLDocument *)writeDataStructuresToXMLDocument;
+-(NSXMLDocument *)writeDataStructuresToXMLDocument:(NSString *)sessionID;
 -(Boolean)performMELTScalculation:(NSUInteger)type;
 
 @end

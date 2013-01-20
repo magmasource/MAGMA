@@ -722,7 +722,7 @@ static NodeList *getNodeListPointer(int node) {
     return returnParam;
 }
 
--(NSXMLDocument *)writeDataStructuresToXMLDocument {
+-(NSXMLDocument *)writeDataStructuresToXMLDocument:(NSString *)sessionID {
     NSArray *statusArray = [NSArray arrayWithObjects:
                             @"Success: Find liquidus",                                  // LIQUIDUS_SUCCESS
                             @"Error: Maximum temperature in Find Liquidus",             // LIQUIDUS_MAX_T
@@ -767,7 +767,7 @@ static NodeList *getNodeListPointer(int node) {
      len = strlen(cOut);
      cOut[len-1] = '\0';
     
-    [root addChild:[[NSXMLElement alloc] initWithName:@"inputFile"  stringValue:[NSString stringWithFormat:@"%s", silminInputData.name]]];
+    [root addChild:[[NSXMLElement alloc] initWithName:@"sessionID"  stringValue:[NSString stringWithFormat:@"%@", sessionID]]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"title"      stringValue:[NSString stringWithFormat:@"%s", silminInputData.title]]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"time"       stringValue:[NSString stringWithFormat:@"%s", cOut]]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"release"    stringValue:[NSString stringWithFormat:@"%s", "MELTS Web Services"]]];
@@ -1416,6 +1416,96 @@ static NodeList *getNodeListPointer(int node) {
                 [assimilantElement addChild:solidElement];
             }
         [root addChild:assimilantElement];
+    }
+    
+    for (j=0; j<npc; j++) if ((solids[j].type == PHASE) && ((silminState->ySol)[j] != 0.0)) {
+        double oxSum, affinity, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
+        
+        NSXMLElement *potentialSolidElement = [[NSXMLElement alloc] initWithName:@"potentialSolid"];
+        
+        if (solids[j].na == 1) {
+            affinity  	       = (silminState->ySol)[j];
+            gibbsEnergy	       = (solids[j].cur).g;
+            enthalpy	       = (solids[j].cur).h;
+            entropy	           = (solids[j].cur).s;
+            volume	           = (solids[j].cur).v;
+            heatCapacity       = (solids[j].cur).cp;
+            
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"name"            stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"formula"         stringValue:[NSString stringWithFormat:@"%s",   solids[j].formula]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"affinity" 	      stringValue:[NSString stringWithFormat:@"%.20g", affinity]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"density"	      stringValue:[NSString stringWithFormat:@"%.20g", (volume == 0.0) ? 0.0 : solids[j].mw/(10.0*volume)]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"gibbsFreeEnergy" stringValue:[NSString stringWithFormat:@"%.20g", gibbsEnergy]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	      stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	      stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	      stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
+            
+            for (i=0, oxSum=0.0; i<nc; i++) {
+                oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
+                oxSum    += oxVal[i];
+            }
+            if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
+            for (i=0; i<nc; i++) if (oxVal[i] != 0.0)
+                [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:[NSString stringWithFormat:@"%s", bulkSystem[i].label] stringValue:[NSString stringWithFormat:@"%.20g", oxVal[i]*100.0]]];
+            
+            NSXMLElement *componentElement = [[NSXMLElement alloc] initWithName:@"component"];
+            [componentElement addChild:[[NSXMLElement alloc] initWithName:@"name"         stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
+            [componentElement addChild:[[NSXMLElement alloc] initWithName:@"formula"      stringValue:[NSString stringWithFormat:@"%s",   solids[j].formula]]];
+            [componentElement addChild:[[NSXMLElement alloc] initWithName:@"moleFraction" stringValue:[NSString stringWithFormat:@"%.20g", 1.0]]];
+            [potentialSolidElement addChild:componentElement];
+            
+        } else {
+            char *formula;
+            affinity = (silminState->ySol)[j];
+            for (i=0; i<solids[j].na; i++) m[i] = (silminState->ySol)[j+1+i];
+            
+            (*solids[j].convert)(SECOND, THIRD, silminState->T, silminState->P, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
+            (*solids[j].display)(FIRST, silminState->T, silminState->P, r, &formula);
+            (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
+            (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
+            (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
+            (*solids[j].vmix) (FIRST, silminState->T, silminState->P, r, &volume,       NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL);
+            (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
+            
+            for (i=0, mass=0.0; i<solids[j].na; i++) {
+                gibbsEnergy  += m[i]*(solids[j+1+i].cur).g;
+                enthalpy	 += m[i]*(solids[j+1+i].cur).h;
+                entropy	     += m[i]*(solids[j+1+i].cur).s;
+                volume	     += m[i]*(solids[j+1+i].cur).v;
+                heatCapacity += m[i]*(solids[j+1+i].cur).cp;
+                mass         += m[i]*(solids[j+1+i]).mw;
+            }
+            
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"name"            stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"formula"         stringValue:[NSString stringWithFormat:@"%s",   formula]]]; free(formula);
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"affinity" 	      stringValue:[NSString stringWithFormat:@"%.20g", affinity]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"density"	      stringValue:[NSString stringWithFormat:@"%.20g", (volume == 0.0) ? 0.0 : mass/(10.0*volume)]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"gibbsFreeEnergy" stringValue:[NSString stringWithFormat:@"%.20g", gibbsEnergy]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	      stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	      stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	      stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
+            
+            for (i=0, oxSum=0.0; i<nc; i++) {
+                int k;
+                for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
+                oxSum += oxVal[i];
+            }
+            if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
+            for (i=0; i<nc; i++) if (oxVal[i] != 0.0)
+                [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:[NSString stringWithFormat:@"%s",bulkSystem[i].label] stringValue:[NSString stringWithFormat:@"%.20g", oxVal[i]*100.0]]];
+            
+            for (i=0; i<solids[j].na; i++) {
+                NSXMLElement *componentElement = [[NSXMLElement alloc] initWithName:@"component"];
+                [componentElement addChild:[[NSXMLElement alloc] initWithName:@"name"         stringValue:[NSString stringWithFormat:@"%s",   solids[j+1+i].label]]];
+                [componentElement addChild:[[NSXMLElement alloc] initWithName:@"formula"      stringValue:[NSString stringWithFormat:@"%s",   solids[j+1+i].formula]]];
+                [componentElement addChild:[[NSXMLElement alloc] initWithName:@"moleFraction" stringValue:[NSString stringWithFormat:@"%.20g", m[i]]]];
+                [potentialSolidElement addChild:componentElement];
+            }
+        }
+        
+        [root addChild:potentialSolidElement];
     }
     
     [outputXMLDocument setRootElement:root];

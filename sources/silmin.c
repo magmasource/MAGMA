@@ -343,7 +343,7 @@ int silmin(void)
   };
   static int curStage = 0;
   static int hasSupersaturation, conCols, conRows, iterQuad;
-  static double **cMatrix, *hVector, *dVector, *yVector, *ySol, *yLiq;
+  static double **cMatrix, *hVector, *dVector, *yVector;
   static double **eMatrix, **bMatrix, rNorm, sNorm;
   double mTotal;
   int i, j, k, nl, ns, stateChange, hasNlCon;
@@ -576,9 +576,9 @@ int silmin(void)
   /* ------------------------------------------------------------------------ */
   case CHECK_SATURATION:
 
-    /* Note: This routine uses the array ySol[]. It returns a result in
-             the the first npc elements. For liquids it uses yLiq[] and returns
-             nlc elements; yLiq[nlc-1] is the liquid affinity.
+    /* Note: This routine uses the array (silminState->ySol)[]. It returns a result in
+             the the first npc elements. For liquids it uses (silminState->yLiq)[] and returns
+             nlc elements; (silminState->yLiq)[nlc-1] is the liquid affinity.
 
        Note: The storage mode of the array silminState->solidComp obeys the
              following convention:
@@ -596,18 +596,18 @@ int silmin(void)
          (silminState->solidComp)[i][*] means the solid phase is present. This
          test is used in evaluateSaturationState()                            */
 
-    if (ySol == NULL) {
-      ySol = (double *) malloc((size_t) npc*sizeof(double));
-      yLiq = (double *) malloc((size_t) nlc*sizeof(double));
+    if ((silminState->ySol) == NULL) {
+      (silminState->ySol) = (double *) malloc((size_t) npc*sizeof(double));
+      (silminState->yLiq) = (double *) malloc((size_t) nlc*sizeof(double));
     }
     for (i=0; i<npc; i++) (silminState->cylSolids)[i] = 0;
 
     /* Only call at this stage if we are starting from liquid */
-    if (hasLiquid) hasSupersaturation = evaluateSaturationState(ySol, yLiq);
+    if (hasLiquid) hasSupersaturation = evaluateSaturationState((silminState->ySol), (silminState->yLiq));
     else           hasSupersaturation = FALSE;
 
 #ifndef BATCH_VERSION    
-    updateSolidADB(ySol, yLiq);
+    updateSolidADB((silminState->ySol), (silminState->yLiq));
     workProcData->active = TRUE;
 #endif
 
@@ -616,9 +616,9 @@ int silmin(void)
   /* ------------------------------------------------------------------------ */
   case ADD_PHASE:
 
-    /* Note: The storage ySol[0:npc-1] must contain results set by the
+    /* Note: The storage (silminState->ySol)[0:npc-1] must contain results set by the
              previous call to evaluateSaturationState. The space may be
-             reused upon exit from this case.  If liquid is absent, yLiq[0:nlc-1]
+             reused upon exit from this case.  If liquid is absent, (silminState->yLiq)[0:nlc-1]
              should contain results for liquid.  SilminState->incSolids[npc] is
              used to store inclusion or suppression of liquid phase.          */
 
@@ -626,12 +626,12 @@ int silmin(void)
       double minAffinity = 0.0;
       int    index = -9999;
       for (i=0; i<npc; i++) {
-        if (solids[i].type == PHASE && ySol[i] < 0.0) {
-          if (ySol[i] < minAffinity) { minAffinity = ySol[i]; index = i; }
+        if (solids[i].type == PHASE && (silminState->ySol)[i] < 0.0) {
+          if ((silminState->ySol)[i] < minAffinity) { minAffinity = (silminState->ySol)[i]; index = i; }
         } 
       }
-      if (yLiq[nlc-1] < minAffinity && silminState->incSolids[npc])
-        { minAffinity = yLiq[nlc-1]; index = -1; }
+      if ((silminState->yLiq)[nlc-1] < minAffinity && silminState->incSolids[npc])
+        { minAffinity = (silminState->yLiq)[nlc-1]; index = -1; }
       if (index >= 0) {
         double inmass = MASSIN;
         int acceptable = FALSE;
@@ -652,7 +652,7 @@ int silmin(void)
             else {
               int na = solids[index].na;
               double *mSol = (double *) malloc((size_t) na*sizeof(double));
-              (*solids[index].convert)(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL,&ySol[index+1],mSol, NULL, NULL,  NULL,  NULL);
+              (*solids[index].convert)(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL,&(silminState->ySol)[index+1],mSol, NULL, NULL,  NULL,  NULL);
               for (i=0; i<na; i++) for (j=0; j<nlc; j++) dummyComp[j] -= (solids[index+1+i].solToLiq)[j]*mSol[i]*inmass;
               free(mSol);
             }
@@ -683,7 +683,7 @@ int silmin(void)
           } else {
             int na = solids[index].na;
             double *mSol = (double *) malloc((size_t) na*sizeof(double));
-            (*solids[index].convert)(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL, &ySol[index+1], mSol, NULL, NULL,  NULL, NULL);
+            (*solids[index].convert)(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL, &(silminState->ySol)[index+1], mSol, NULL, NULL,  NULL, NULL);
             for (i=0; i<na; i++) {
               (silminState->solidComp)[index+1+i][0] = mSol[i]*(silminState->solidComp)[index][0];
               if (hasLiquid)
@@ -717,7 +717,7 @@ int silmin(void)
 #else
         fprintf(stderr, "...Adding liquid to the assemblage.\n");
 #endif
-        conLiq(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL, yLiq, mLiq, NULL, NULL, NULL);
+        conLiq(THIRD, FOURTH, silminState->T, silminState->P, NULL, NULL, (silminState->yLiq), mLiq, NULL, NULL, NULL);
         acceptable = FALSE;
         while (!acceptable) {
           double *deltaBulkComp = (double *) calloc((size_t) nc,sizeof(double));
@@ -1506,7 +1506,7 @@ jumpFromLinSearch:
   /* ------------------------------------------------------------------------ */
   case VERIFY_SATURATION:
 
-    if ((hasSupersaturation = evaluateSaturationState(ySol, yLiq))) curStep = ADD_PHASE;
+    if ((hasSupersaturation = evaluateSaturationState((silminState->ySol), (silminState->yLiq)))) curStep = ADD_PHASE;
     else if ((hasSupersaturation = checkForCoexistingSolids())) { 
       curStep = PROJECT_CONSTRAINTS;
 #ifndef BATCH_VERSION
@@ -1568,7 +1568,7 @@ jumpFromLinSearch:
     }
     
 #ifndef BATCH_VERSION
-    updateSolidADB(ySol, yLiq);
+    updateSolidADB((silminState->ySol), (silminState->yLiq));
     workProcData->active = TRUE;
 #endif
 

@@ -708,6 +708,8 @@ typedef struct _silminState {
   ThermoData assimTD;     /* -> thermodynamic properties of assimilant       */
 
   int     plotState;      /* current value of user configurable plot state   */
+  double  *ySol;          /* array output from evaluateSaturationState       */
+  double  *yLiq;          /* array output from evaluateSaturationState       */
 } SilminState;   
 
 extern SilminState *silminState;

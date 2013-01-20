@@ -52,6 +52,7 @@
         if ([transport rawPostData]) NSLog(@"Raw post data are available");
         else NSLog(@"Raw post data are not available.");
     }
+    [transport setHeader:@"Access-Control-Allow-Origin" value:@"*"];
     
     if ([[transport postVars] objectForKey:@"dataXML"]) {
         NSString *error = nil;;
@@ -86,6 +87,15 @@
     
     NSString *sessionId = [[transport cookies] objectForKey:@"sessionid"];
     
+    if (!sessionId) {
+        NSError *err;
+        NSArray *levelOneChildrenWithSessionID = [[self inputXML] nodesForXPath:@".//sessionID" error:&err];
+        if (levelOneChildrenWithSessionID && ([levelOneChildrenWithSessionID count] > 0)) {
+            sessionId = [(NSXMLElement *)[levelOneChildrenWithSessionID objectAtIndex:0] stringValue];
+            if (self.debug) NSLog(@"... BaseProcessor Class: Obtained session cookie from XML Input: %@", sessionId);
+        }
+    }
+    
     // Lock thread from here to ...
     [(AppDelegate *)[self app] lockState];
     
@@ -104,7 +114,7 @@
     if ([melts performMELTScalculation:calculationMode] && self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) MELTS call - success.");
     else if (self.debug)                                               NSLog(@"...BaseProcessor Class:(renderWithTransport) MELTS call - failure.");
     
-    NSXMLDocument *outputXML = [melts writeDataStructuresToXMLDocument];
+    NSXMLDocument *outputXML = [melts writeDataStructuresToXMLDocument:sessionId];
     
     [(AppDelegate *)[self app] unloackState];
     // ... to here

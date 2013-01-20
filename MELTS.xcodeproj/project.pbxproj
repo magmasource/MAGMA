@@ -14,6 +14,7 @@
 		77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4C163656D4000C83ED /* libXt.6.dylib */; };
 		77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
 		770BBEFE16A2244C00B98F2D /* rMELTSframework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */; };
+		7729C18416AB3596002A10D2 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7729C18316AB3596002A10D2 /* MELTSinput.xsd */; };
 		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
 		77665363163707080004A2D0 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
@@ -154,7 +155,6 @@
 		7785CD66163AFE38004AA393 /* melilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CE1627A92300D67FBB /* melilite.c */; };
 		7785CD68163AFE38004AA393 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
 		7785CD6F163AFE38004AA393 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
-		7785CD7B163B2222004AA393 /* MELTSinput.xsd in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7785CD78163B20B5004AA393 /* MELTSinput.xsd */; };
 		7785CD7C163B2227004AA393 /* MELTSoutput.xsd in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7785CD79163B20B6004AA393 /* MELTSoutput.xsd */; };
 		7785CD7D163B222D004AA393 /* MELTSstatus.xsd in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
 		77A743FB163619AA0038627C /* albite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7901627A92300D67FBB /* albite.c */; };
@@ -290,7 +290,6 @@
 		77C99B3F169B511000DF7464 /* wadsleyite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8001627A92300D67FBB /* wadsleyite.c */; };
 		77C99B40169B511000DF7464 /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
 		77C99B41169B511000DF7464 /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
-		77C99B42169B513600DF7464 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD78163B20B5004AA393 /* MELTSinput.xsd */; };
 		77C99B43169B513600DF7464 /* MELTSoutput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD79163B20B6004AA393 /* MELTSoutput.xsd */; };
 		77C99B44169B513600DF7464 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
 		77C99B45169B51D400DF7464 /* lawson_hanson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7734D7721627A90000D67FBB /* lawson_hanson.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -313,7 +312,6 @@
 		77C99B71169B72C300DF7464 /* bxapp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 77C99B70169B72C300DF7464 /* bxapp.icns */; };
 		77C99B72169B7D9900DF7464 /* rMELTSframework.h in Headers */ = {isa = PBXBuildFile; fileRef = 77C99AF0169B4FF500DF7464 /* rMELTSframework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		77E4B2CD169BA94300B27D84 /* BaseProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4B2CC169BA94300B27D84 /* BaseProcessor.m */; };
-		77E4B2CF169BD0FF00B27D84 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD78163B20B5004AA393 /* MELTSinput.xsd */; };
 		77E4B2D0169BD0FF00B27D84 /* MELTSoutput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD79163B20B6004AA393 /* MELTSoutput.xsd */; };
 		77E4B2D1169BD0FF00B27D84 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
 		77FE531A169F36B100D79522 /* xml2json.xslt in Resources */ = {isa = PBXBuildFile; fileRef = 77FE5319169F36B100D79522 /* xml2json.xslt */; };
@@ -390,7 +388,6 @@
 			files = (
 				7785CD7D163B222D004AA393 /* MELTSstatus.xsd in CopyFiles */,
 				7785CD7C163B2227004AA393 /* MELTSoutput.xsd in CopyFiles */,
-				7785CD7B163B2222004AA393 /* MELTSinput.xsd in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +409,7 @@
 		77032B4B163656D4000C83ED /* libXm.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXm.4.dylib; path = ../../../opt/local/lib/libXm.4.dylib; sourceTree = "<group>"; };
 		77032B4C163656D4000C83ED /* libXt.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXt.6.dylib; path = ../../../opt/local/lib/libXt.6.dylib; sourceTree = "<group>"; };
 		77032B521636576D000C83ED /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../opt/local/lib/libxml2.2.dylib; sourceTree = "<group>"; };
+		7729C18316AB3596002A10D2 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSinput.xsd; sourceTree = SOURCE_ROOT; };
 		7734D76D1627A90000D67FBB /* acegr_np.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acegr_np.h; sourceTree = "<group>"; };
 		7734D76E1627A90000D67FBB /* calculator_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calculator_icon.h; sourceTree = "<group>"; };
 		7734D76F1627A90000D67FBB /* calibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calibration.h; sourceTree = "<group>"; };
@@ -518,7 +516,6 @@
 		7777113C16A7177000042848 /* FetchDocumentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchDocumentation.m; sourceTree = "<group>"; };
 		7785CD19163AFA68004AA393 /* public-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "public-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785CD75163AFE38004AA393 /* batch-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "batch-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7785CD78163B20B5004AA393 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSinput.xsd; path = ../MELTSinput.xsd; sourceTree = "<group>"; };
 		7785CD79163B20B6004AA393 /* MELTSoutput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSoutput.xsd; path = ../MELTSoutput.xsd; sourceTree = "<group>"; };
 		7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSstatus.xsd; path = ../MELTSstatus.xsd; sourceTree = "<group>"; };
 		77A743F4163611C50038627C /* Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -823,7 +820,7 @@
 		77C99AEA169B4FF500DF7464 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7785CD78163B20B5004AA393 /* MELTSinput.xsd */,
+				7729C18316AB3596002A10D2 /* MELTSinput.xsd */,
 				7785CD79163B20B6004AA393 /* MELTSoutput.xsd */,
 				7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */,
 				77C99AEB169B4FF500DF7464 /* rMELTSframework-Info.plist */,
@@ -1052,10 +1049,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77C99B42169B513600DF7464 /* MELTSinput.xsd in Resources */,
 				77C99B43169B513600DF7464 /* MELTSoutput.xsd in Resources */,
 				77C99B44169B513600DF7464 /* MELTSstatus.xsd in Resources */,
 				77C99AEE169B4FF500DF7464 /* InfoPlist.strings in Resources */,
+				7729C18416AB3596002A10D2 /* MELTSinput.xsd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1071,7 +1068,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77E4B2CF169BD0FF00B27D84 /* MELTSinput.xsd in Resources */,
 				77E4B2D0169BD0FF00B27D84 /* MELTSoutput.xsd in Resources */,
 				77E4B2D1169BD0FF00B27D84 /* MELTSstatus.xsd in Resources */,
 				77C99B5D169B6EAF00DF7464 /* InfoPlist.strings in Resources */,
