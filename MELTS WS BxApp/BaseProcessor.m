@@ -53,6 +53,9 @@
         else NSLog(@"Raw post data are not available.");
     }
     [transport setHeader:@"Access-Control-Allow-Origin" value:@"*"];
+    [transport setHeader:@"Access-Control-Allow-Methods" value:@"GET,POST,OPTIONS"];
+    [transport setHeader:@"Access-Control-Allow-Headers" value:@"Content-Type"];
+    [transport setHeader:@"Access-Control-Max-Age" value:@"86400"];
     
     if ([[transport postVars] objectForKey:@"dataXML"]) {
         NSString *error = nil;;
