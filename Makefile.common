@@ -79,6 +79,7 @@ usage:
 	echo "       Test_simann"
 	echo "       Test_sulfide_liquid"
 	echo "       Test_dynamicLib"
+	echo "       Test_water"
 	echo "       Kevin KevinSolid"
 	echo "       Marc"
 
@@ -139,6 +140,7 @@ realclean:
 	$(RM) $(RMFLAGS) Test_eos-MS
 	$(RM) $(RMFLAGS) Test_eos-SACNK
 	$(RM) $(RMFLAGS) Test_mpi
+	$(RM) $(RMFLAGS) Test_water
 	$(RM) $(RMFLAGS) master
 	$(RM) $(RMFLAGS) slave
 	$(RM) $(RMFLAGS) Test_speciation
@@ -1213,6 +1215,16 @@ Test_gibbs-SACNK: test_gibbs.c gibbs.c liquid-SACNK.o melts_support-SACNK.o \
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
 	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
+	chmod 755 $@
+
+Test_water: test_water.c gibbs.c \
+            liq_struct_data.h silmin.h param_struct_data.h sol_struct_data.h recipes.h \
+            $(MELTSLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) $<
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(CC) $(LDFLAGS) -o $@ test_water.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(RM) $(RMFLAGS) test_water.o gibbs.o
 	chmod 755 $@
 
 Test_liquid: test_liquid.c \

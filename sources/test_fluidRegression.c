@@ -104,6 +104,8 @@ int main(int argc, char *argv[])  {
   int useMuOnYaxisKAlSiO4onXaxis = 0;
   int useMuOnYaxisAlIndexonXaxis = 0;
   
+  int makeAlkaliSilicaPlot       = 0;
+  
   int useGenericMu = 0;
   
   int negateFilterChoice = 0;
@@ -137,20 +139,21 @@ int main(int argc, char *argv[])  {
         printf("Unrecognizable filter: %s.  Command ignored.\n", argv[2]);
       }
       if (argc > 3) {
-        if      (!strcmp(argv[3], "plotT"))         useTonXaxis      = 1;
-        else if (!strcmp(argv[3], "plotP"))         usePonXaxis      = 1;
-        else if (!strcmp(argv[3], "plotXH2Ofl"))    useXH2OflOnXaxis = 1;
-        else if (!strcmp(argv[3], "plotMu"))        useMuOnYaxis     = 1;
-        else if (!strcmp(argv[3], "plotMuSiO2"))    useMuOnYaxisSiO2onXaxis    = 1;
-        else if (!strcmp(argv[3], "plotMuTiO2"))    useMuOnYaxisTiO2onXaxis    = 1;
-        else if (!strcmp(argv[3], "plotMuAl2O3"))   useMuOnYaxisAl2O3onXaxis   = 1;
-        else if (!strcmp(argv[3], "plotMuFe2O3"))   useMuOnYaxisFe2O3onXaxis   = 1;
-        else if (!strcmp(argv[3], "plotMuFe2SiO4")) useMuOnYaxisFe2SiO4onXaxis = 1;
-        else if (!strcmp(argv[3], "plotMuMg2SiO4")) useMuOnYaxisMg2SiO4onXaxis = 1;
-        else if (!strcmp(argv[3], "plotMuCaSiO3"))  useMuOnYaxisCaSiO3onXaxis  = 1;
-        else if (!strcmp(argv[3], "plotMuNa2SiO3")) useMuOnYaxisNa2SiO3onXaxis = 1;
-        else if (!strcmp(argv[3], "plotMuKAlSiO4")) useMuOnYaxisKAlSiO4onXaxis = 1;
-        else if (!strcmp(argv[3], "plotMuAlIndex")) useMuOnYaxisAlIndexonXaxis = 1;
+        if      (!strcmp(argv[3], "plotT"))            useTonXaxis      = 1;
+        else if (!strcmp(argv[3], "plotP"))            usePonXaxis      = 1;
+        else if (!strcmp(argv[3], "plotXH2Ofl"))       useXH2OflOnXaxis = 1;
+        else if (!strcmp(argv[3], "plotMu"))           useMuOnYaxis     = 1;
+        else if (!strcmp(argv[3], "plotMuSiO2"))       useMuOnYaxisSiO2onXaxis    = 1;
+        else if (!strcmp(argv[3], "plotMuTiO2"))       useMuOnYaxisTiO2onXaxis    = 1;
+        else if (!strcmp(argv[3], "plotMuAl2O3"))      useMuOnYaxisAl2O3onXaxis   = 1;
+        else if (!strcmp(argv[3], "plotMuFe2O3"))      useMuOnYaxisFe2O3onXaxis   = 1;
+        else if (!strcmp(argv[3], "plotMuFe2SiO4"))    useMuOnYaxisFe2SiO4onXaxis = 1;
+        else if (!strcmp(argv[3], "plotMuMg2SiO4"))    useMuOnYaxisMg2SiO4onXaxis = 1;
+        else if (!strcmp(argv[3], "plotMuCaSiO3"))     useMuOnYaxisCaSiO3onXaxis  = 1;
+        else if (!strcmp(argv[3], "plotMuNa2SiO3"))    useMuOnYaxisNa2SiO3onXaxis = 1;
+        else if (!strcmp(argv[3], "plotMuKAlSiO4"))    useMuOnYaxisKAlSiO4onXaxis = 1;
+        else if (!strcmp(argv[3], "plotMuAlIndex"))    useMuOnYaxisAlIndexonXaxis = 1;
+        else if (!strcmp(argv[3], "plotAlkaliSilica")) makeAlkaliSilicaPlot       = 1;
         if (argc > 4) {
           if      (!strcmp(argv[4], "negate"))     negateFilterChoice = 1;
           else if (!strcmp(argv[4], "colorByT"))   colorByT = 1;
@@ -174,6 +177,7 @@ int main(int argc, char *argv[])  {
     printf("                                        [plotMuKAlSiO4]\n");
     printf("                                        [plotMuAlIndex]\n");
     printf("                                        [plotXH2Ofl]\n");
+    printf("                                        [plotAlkaliSilica]\n");
     printf("                                        [dummy]\n");
     exit(0);
   }
@@ -239,6 +243,12 @@ int main(int argc, char *argv[])  {
       GracePrintf("XAXIS TICK MINOR 0.05\n");
       GracePrintf("YAXIS TICK MAJOR 2.00\n");
       GracePrintf("YAXIS TICK MINOR 1.00\n");
+    } else if (makeAlkaliSilicaPlot) {
+      GracePrintf("WORLD %lf, %lf, %lf, %lf\n",   30.0,  0.0,  100.0, 18.0);
+      GracePrintf("XAXIS TICK MAJOR 10.0\n");
+      GracePrintf("XAXIS TICK MINOR  5.0\n");
+      GracePrintf("YAXIS TICK MAJOR  5.0\n");
+      GracePrintf("YAXIS TICK MINOR  2.5\n");
     } else {
       GracePrintf("WORLD %lf, %lf, %lf, %lf\n",    0.0, -30.0,   30.0, 20.0);
       GracePrintf("XAXIS TICK MAJOR 2.00\n");
@@ -264,6 +274,7 @@ int main(int argc, char *argv[])  {
     else if (useMuOnYaxisNa2SiO3onXaxis)                                      GracePrintf("XAXIS LABEL \"X Na2SiO3\"\n");
     else if (useMuOnYaxisKAlSiO4onXaxis)                                      GracePrintf("XAXIS LABEL \"X KAlSiO4\"\n");
     else if (useMuOnYaxisAlIndexonXaxis)                                      GracePrintf("XAXIS LABEL \"X Al2O3 - X Na2SiO3\"\n");
+    else if (makeAlkaliSilicaPlot)                                            GracePrintf("XAXIS LABEL \"wt SiO2\"\n");
     else if (usePureWater || useFluidWater)                                   GracePrintf("XAXIS LABEL \"wt H2O\"\n");
     else if (usePureCarbonDioxide || useFluidCarbonDioxide)                   GracePrintf("XAXIS LABEL \"wt CO2\"\n");
     GracePrintf("XAXIS LABEL CHAR SIZE 0.8\n");
@@ -273,6 +284,7 @@ int main(int argc, char *argv[])  {
 
     if      (useGenericMu && (usePureWater || useFluidWater))                 GracePrintf("YAXIS LABEL \"residual muH2O\"\n");
     else if (useGenericMu && (usePureCarbonDioxide || useFluidCarbonDioxide)) GracePrintf("YAXIS LABEL \"residual muCO2\"\n");
+    else if (makeAlkaliSilicaPlot)                                            GracePrintf("YAXIS LABEL \"wt Na2O+K2O\"\n");
     else if (usePureWater || useFluidWater)                                   GracePrintf("YAXIS LABEL \"delta H2O\"\n");
     else if (usePureCarbonDioxide || useFluidCarbonDioxide)                   GracePrintf("YAXIS LABEL \"delta CO2\"\n");
     GracePrintf("YAXIS LABEL CHAR SIZE 0.8\n");
@@ -368,6 +380,7 @@ int main(int argc, char *argv[])  {
       GracePrintf("g0.s%1.1d SYMBOL FILL PATTERN 1\n", nSet);
       GracePrintf("g0.s%1.1d LEGEND \"%s\"\n",   nSet, lastAuthor);
       if (colorByT) GracePrintf("g0.s%1.1d TYPE XYCOLOR\n", nSet);
+      else if (makeAlkaliSilicaPlot) GracePrintf("g0.s%1.1d TYPE XYSIZE\n", nSet);
     }
     
     x = atof(LH2O);
@@ -386,6 +399,10 @@ int main(int argc, char *argv[])  {
     else if (useMuOnYaxisNa2SiO3onXaxis) x = atof(Na2SiO3);
     else if (useMuOnYaxisKAlSiO4onXaxis) x = atof(KAlSiO4);
     else if (useMuOnYaxisAlIndexonXaxis) x = (2.0*atof(H2O) - atof(SiO2))*atof(SiO2);
+    else if (makeAlkaliSilicaPlot) {
+      x = atof(LSiO2);
+      y = atof(LALKind);
+    }
     if (useGenericMu) y = atof(Resh2oduan);
     
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet, x, y);
@@ -396,6 +413,9 @@ int main(int argc, char *argv[])  {
       else if (t < 1100.0) GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 4);
       else if (t < 1300.0) GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 5);
       else                 GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 6); 
+    } else if (makeAlkaliSilicaPlot) {
+      double res = atof(H2Opred) - atof(LH2O);
+      GracePrintf("g0.s%2.2d.y1[%d] = %lf\n", nSet, nPoint, res);
     }
     nPoint++;
     if (outputFile) fprintf(output, "%s\t%s\t%s\t%s\t%s\t%s\n", lastAuthor, T, P, LH2O, Deph2oduan, Resh2oduan);
@@ -483,6 +503,7 @@ int main(int argc, char *argv[])  {
       GracePrintf("g0.s%1.1d SYMBOL FILL PATTERN 1\n", nSet);
       GracePrintf("g0.s%1.1d LEGEND \"%s\"\n",   nSet, lastAuthor);
       if (colorByT) GracePrintf("g0.s%1.1d TYPE XYCOLOR\n", nSet);
+      else if (makeAlkaliSilicaPlot) GracePrintf("g0.s%1.1d TYPE XYSIZE\n", nSet);
     }
     
     x = atof(LCO2);
@@ -501,6 +522,10 @@ int main(int argc, char *argv[])  {
     else if (useMuOnYaxisNa2SiO3onXaxis) x = atof(Na2SiO3);
     else if (useMuOnYaxisKAlSiO4onXaxis) x = atof(KAlSiO4);
     else if (useMuOnYaxisAlIndexonXaxis) x = (2.0*atof(H2O) - atof(SiO2))*atof(SiO2);
+    else if (makeAlkaliSilicaPlot) {
+      x = atof(LSiO2);
+      y = atof(LALKind);
+    }
     if (useGenericMu) y = atof(Resco2duan);
     
     GracePrintf("g0.s%2.2d POINT %lf, %lf\n", nSet, x, y);
@@ -511,6 +536,9 @@ int main(int argc, char *argv[])  {
       else if (t < 1100.0) GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 4);
       else if (t < 1300.0) GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 5);
       else                 GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 6); 
+    } else if (makeAlkaliSilicaPlot) {
+      double res = atof(CO2pred) - atof(LCO2);
+      GracePrintf("g0.s%2.2d.y1[%d] = %lf\n", nSet, nPoint, res);
     }
     nPoint++;
     if (outputFile) fprintf(output, "%s\t%s\t%s\t%s\t%s\t%s\n", lastAuthor, T, P, LCO2, Depco2duan, Resco2duan);
@@ -602,6 +630,7 @@ int main(int argc, char *argv[])  {
       GracePrintf("g0.s%1.1d SYMBOL FILL PATTERN 1\n", nSet);
       GracePrintf("g0.s%1.1d LEGEND \"%s\"\n",   nSet, lastAuthor);
       if (colorByT) GracePrintf("g0.s%1.1d TYPE XYCOLOR\n", nSet);
+      else if (makeAlkaliSilicaPlot) GracePrintf("g0.s%1.1d TYPE XYSIZE\n", nSet);
     }
     
     if (useFluidWater) {
@@ -618,6 +647,10 @@ int main(int argc, char *argv[])  {
       else if (useMuOnYaxisNa2SiO3onXaxis) x = atof(Na2SiO3);
       else if (useMuOnYaxisKAlSiO4onXaxis) x = atof(KAlSiO4);
       else if (useMuOnYaxisAlIndexonXaxis) x = (2.0*atof(H2O) - atof(SiO2))*atof(SiO2);
+      else if (makeAlkaliSilicaPlot) {
+        x = atof(LSiO2);
+        y = atof(LALKind);
+      }
       if (useGenericMu) y = atof(Resh2oduan);
     } else if (useFluidCarbonDioxide) {
       x = atof(LCO2);
@@ -633,6 +666,10 @@ int main(int argc, char *argv[])  {
       else if (useMuOnYaxisNa2SiO3onXaxis) x = atof(Na2SiO3);
       else if (useMuOnYaxisKAlSiO4onXaxis) x = atof(KAlSiO4);
       else if (useMuOnYaxisAlIndexonXaxis) x = (2.0*atof(H2O) - atof(SiO2))*atof(SiO2);
+      else if (makeAlkaliSilicaPlot) {
+        x = atof(LSiO2);
+        y = atof(LALKind);
+      }
       if (useGenericMu) y = atof(Resco2duan);
     }
     if (useTonXaxis) x = atof(T);
@@ -647,6 +684,12 @@ int main(int argc, char *argv[])  {
       else if (t < 1100.0) GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 4);
       else if (t < 1300.0) GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 5);
       else                 GracePrintf("g0.s%2.2d.y1[%d] = %d\n", nSet, nPoint, 6); 
+    } else if (makeAlkaliSilicaPlot && useFluidWater) {
+      double res = atof(H2Opred) - atof(LH2O);
+      GracePrintf("g0.s%2.2d.y1[%d] = %lf\n", nSet, nPoint, res);
+    } else if (makeAlkaliSilicaPlot && useFluidCarbonDioxide) {
+      double res = atof(CO2pred) - atof(LCO2);
+      GracePrintf("g0.s%2.2d.y1[%d] = %lf\n", nSet, nPoint, res);
     }
     nPoint++;
     if (outputFile) {
