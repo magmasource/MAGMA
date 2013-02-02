@@ -3,43 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <experiment>
 <number>89</number>
 <name>Z-342-34</name>
@@ -3535,11 +3498,11 @@
 <h2o_p>4</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>67.3644</sio2>
-<al2o3>18.3332</al2o3>
-<na2o>11.6444</na2o>
-<k2o>0.0194723</k2o>
-<h2o>2.6385</h2o>
+<sio2>67.28</sio2>
+<al2o3>18.31</al2o3>
+<na2o>11.63</na2o>
+<k2o>.02</k2o>
+<h2o>2.77</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3560,11 +3523,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>67.4564</sio2>
-<al2o3>18.3582</al2o3>
-<na2o>11.6603</na2o>
-<k2o>0.0194989</k2o>
-<h2o>2.50561</h2o>
+<sio2>67.41</sio2>
+<al2o3>18.35</al2o3>
+<na2o>11.65</na2o>
+<k2o>.02</k2o>
+<h2o>2.57</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3585,11 +3548,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>67.5354</sio2>
-<al2o3>18.3797</al2o3>
-<na2o>11.674</na2o>
-<k2o>0.0195217</k2o>
-<h2o>2.39141</h2o>
+<sio2>67.49</sio2>
+<al2o3>18.37</al2o3>
+<na2o>11.67</na2o>
+<k2o>.02</k2o>
+<h2o>2.45</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3610,11 +3573,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>67.3775</sio2>
-<al2o3>18.3367</al2o3>
-<na2o>11.6467</na2o>
-<k2o>0.0194761</k2o>
-<h2o>2.61953</h2o>
+<sio2>67.33</sio2>
+<al2o3>18.32</al2o3>
+<na2o>11.64</na2o>
+<k2o>.02</k2o>
+<h2o>2.69</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3635,11 +3598,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>67.5288</sio2>
-<al2o3>18.3779</al2o3>
-<na2o>11.6728</na2o>
-<k2o>0.0195198</k2o>
-<h2o>2.40094</h2o>
+<sio2>67.49</sio2>
+<al2o3>18.37</al2o3>
+<na2o>11.67</na2o>
+<k2o>.02</k2o>
+<h2o>2.46</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3660,11 +3623,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>67.6014</sio2>
-<al2o3>18.3977</al2o3>
-<na2o>11.6854</na2o>
-<k2o>0.0195408</k2o>
-<h2o>2.29604</h2o>
+<sio2>67.56</sio2>
+<al2o3>18.39</al2o3>
+<na2o>11.68</na2o>
+<k2o>.02</k2o>
+<h2o>2.35</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3685,11 +3648,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>67.641</sio2>
-<al2o3>18.4084</al2o3>
-<na2o>11.6922</na2o>
-<k2o>0.0195523</k2o>
-<h2o>2.23873</h2o>
+<sio2>67.61</sio2>
+<al2o3>18.40</al2o3>
+<na2o>11.69</na2o>
+<k2o>.02</k2o>
+<h2o>2.29</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3710,11 +3673,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>66.4458</sio2>
-<al2o3>18.0832</al2o3>
-<na2o>11.4856</na2o>
-<k2o>0.0192068</k2o>
-<h2o>3.9662</h2o>
+<sio2>66.33</sio2>
+<al2o3>18.05</al2o3>
+<na2o>11.47</na2o>
+<k2o>.02</k2o>
+<h2o>4.13</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3735,11 +3698,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>66.6699</sio2>
-<al2o3>18.1442</al2o3>
-<na2o>11.5244</na2o>
-<k2o>0.0192715</k2o>
-<h2o>3.64232</h2o>
+<sio2>66.57</sio2>
+<al2o3>18.12</al2o3>
+<na2o>11.51</na2o>
+<k2o>.02</k2o>
+<h2o>3.78</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3760,11 +3723,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>66.7471</sio2>
-<al2o3>18.1652</al2o3>
-<na2o>11.5377</na2o>
-<k2o>0.0192938</k2o>
-<h2o>3.53077</h2o>
+<sio2>66.66</sio2>
+<al2o3>18.14</al2o3>
+<na2o>11.52</na2o>
+<k2o>.02</k2o>
+<h2o>3.66</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3785,11 +3748,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>66.9343</sio2>
-<al2o3>18.2161</al2o3>
-<na2o>11.5701</na2o>
-<k2o>0.019348</k2o>
-<h2o>3.26013</h2o>
+<sio2>66.86</sio2>
+<al2o3>18.20</al2o3>
+<na2o>11.56</na2o>
+<k2o>.02</k2o>
+<h2o>3.37</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3810,11 +3773,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>64.8332</sio2>
-<al2o3>17.6443</al2o3>
-<na2o>11.2069</na2o>
-<k2o>0.0187406</k2o>
-<h2o>6.29685</h2o>
+<sio2>64.49</sio2>
+<al2o3>17.55</al2o3>
+<na2o>11.15</na2o>
+<k2o>.02</k2o>
+<h2o>6.79</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3835,11 +3798,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>64.6998</sio2>
-<al2o3>17.608</al2o3>
-<na2o>11.1838</na2o>
-<k2o>0.0187021</k2o>
-<h2o>6.48962</h2o>
+<sio2>64.39</sio2>
+<al2o3>17.52</al2o3>
+<na2o>11.13</na2o>
+<k2o>.02</k2o>
+<h2o>6.94</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3860,11 +3823,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>64.8211</sio2>
-<al2o3>17.641</al2o3>
-<na2o>11.2048</na2o>
-<k2o>0.0187371</k2o>
-<h2o>6.31441</h2o>
+<sio2>64.57</sio2>
+<al2o3>17.57</al2o3>
+<na2o>11.16</na2o>
+<k2o>.02</k2o>
+<h2o>6.68</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3892,11 +3855,11 @@
 <h2o_p>8.9</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>64.8393</sio2>
-<al2o3>17.646</al2o3>
-<na2o>11.2079</na2o>
-<k2o>0.0187424</k2o>
-<h2o>6.28807</h2o>
+<sio2>64.53</sio2>
+<al2o3>17.56</al2o3>
+<na2o>11.15</na2o>
+<k2o>.02</k2o>
+<h2o>6.74</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3924,11 +3887,11 @@
 <h2o_p>7.5</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>65.016</sio2>
-<al2o3>17.694</al2o3>
-<na2o>11.2385</na2o>
-<k2o>0.0187935</k2o>
-<h2o>6.0327</h2o>
+<sio2>64.70</sio2>
+<al2o3>17.61</al2o3>
+<na2o>11.18</na2o>
+<k2o>.02</k2o>
+<h2o>6.50</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3949,11 +3912,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>65.0894</sio2>
-<al2o3>17.714</al2o3>
-<na2o>11.2512</na2o>
-<k2o>0.0188147</k2o>
-<h2o>5.92662</h2o>
+<sio2>64.83</sio2>
+<al2o3>17.64</al2o3>
+<na2o>11.21</na2o>
+<k2o>.02</k2o>
+<h2o>6.30</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3974,11 +3937,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>65.3106</sio2>
-<al2o3>17.7742</al2o3>
-<na2o>11.2894</na2o>
-<k2o>0.0188786</k2o>
-<h2o>5.60695</h2o>
+<sio2>65.04</sio2>
+<al2o3>17.70</al2o3>
+<na2o>11.24</na2o>
+<k2o>.02</k2o>
+<h2o>6.01</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -3999,11 +3962,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>65.3044</sio2>
-<al2o3>17.7725</al2o3>
-<na2o>11.2883</na2o>
-<k2o>0.0188768</k2o>
-<h2o>5.61586</h2o>
+<sio2>65.07</sio2>
+<al2o3>17.71</al2o3>
+<na2o>11.25</na2o>
+<k2o>.02</k2o>
+<h2o>5.95</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4024,11 +3987,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>65.5084</sio2>
-<al2o3>17.8281</al2o3>
-<na2o>11.3236</na2o>
-<k2o>0.0189358</k2o>
-<h2o>5.32096</h2o>
+<sio2>65.30</sio2>
+<al2o3>17.77</al2o3>
+<na2o>11.29</na2o>
+<k2o>.02</k2o>
+<h2o>5.62</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4049,11 +4012,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>65.3167</sio2>
-<al2o3>17.7759</al2o3>
-<na2o>11.2905</na2o>
-<k2o>0.0188804</k2o>
-<h2o>5.59804</h2o>
+<sio2>65.09</sio2>
+<al2o3>17.71</al2o3>
+<na2o>11.25</na2o>
+<k2o>.02</k2o>
+<h2o>5.93</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4074,11 +4037,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>65.5146</sio2>
-<al2o3>17.8298</al2o3>
-<na2o>11.3247</na2o>
-<k2o>0.0189376</k2o>
-<h2o>5.312</h2o>
+<sio2>65.31</sio2>
+<al2o3>17.77</al2o3>
+<na2o>11.29</na2o>
+<k2o>.02</k2o>
+<h2o>5.61</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4099,11 +4062,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>65.4032</sio2>
-<al2o3>17.7994</al2o3>
-<na2o>11.3054</na2o>
-<k2o>0.0189054</k2o>
-<h2o>5.47311</h2o>
+<sio2>65.18</sio2>
+<al2o3>17.74</al2o3>
+<na2o>11.27</na2o>
+<k2o>.02</k2o>
+<h2o>5.79</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4131,11 +4094,11 @@
 <h2o_p>10.9</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>63.8697</sio2>
-<al2o3>17.3821</al2o3>
-<na2o>11.0403</na2o>
-<k2o>0.0184621</k2o>
-<h2o>7.68947</h2o>
+<sio2>63.43</sio2>
+<al2o3>17.26</al2o3>
+<na2o>10.96</na2o>
+<k2o>.02</k2o>
+<h2o>8.33</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4163,11 +4126,11 @@
 <h2o_p>10.3</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>64.1599</sio2>
-<al2o3>17.4611</al2o3>
-<na2o>11.0905</na2o>
-<k2o>0.018546</k2o>
-<h2o>7.27003</h2o>
+<sio2>63.77</sio2>
+<al2o3>17.35</al2o3>
+<na2o>11.02</na2o>
+<k2o>.02</k2o>
+<h2o>7.84</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4188,11 +4151,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>63.2219</sio2>
-<al2o3>17.2058</al2o3>
-<na2o>10.9284</na2o>
-<k2o>0.0182749</k2o>
-<h2o>8.62573</h2o>
+<sio2>62.72</sio2>
+<al2o3>17.07</al2o3>
+<na2o>10.84</na2o>
+<k2o>.02</k2o>
+<h2o>9.35</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4220,11 +4183,11 @@
 <h2o_p>14.1</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>62.0149</sio2>
-<al2o3>16.8773</al2o3>
-<na2o>10.7197</na2o>
-<k2o>0.017926</k2o>
-<h2o>10.3702</h2o>
+<sio2>61.18</sio2>
+<al2o3>16.65</al2o3>
+<na2o>10.58</na2o>
+<k2o>.02</k2o>
+<h2o>11.58</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4245,11 +4208,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>62.1262</sio2>
-<al2o3>16.9076</al2o3>
-<na2o>10.739</na2o>
-<k2o>0.0179582</k2o>
-<h2o>10.2092</h2o>
+<sio2>61.35</sio2>
+<al2o3>16.70</al2o3>
+<na2o>10.61</na2o>
+<k2o>.02</k2o>
+<h2o>11.33</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4270,11 +4233,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>62.0816</sio2>
-<al2o3>16.8955</al2o3>
-<na2o>10.7313</na2o>
-<k2o>0.0179453</k2o>
-<h2o>10.2737</h2o>
+<sio2>61.23</sio2>
+<al2o3>16.66</al2o3>
+<na2o>10.58</na2o>
+<k2o>.02</k2o>
+<h2o>11.51</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4302,11 +4265,11 @@
 <h2o_p>13.3</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>62.1597</sio2>
-<al2o3>16.9167</al2o3>
-<na2o>10.7448</na2o>
-<k2o>0.0179678</k2o>
-<h2o>10.1608</h2o>
+<sio2>61.41</sio2>
+<al2o3>16.71</al2o3>
+<na2o>10.62</na2o>
+<k2o>.02</k2o>
+<h2o>11.25</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4327,11 +4290,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>62.1095</sio2>
-<al2o3>16.9031</al2o3>
-<na2o>10.7361</na2o>
-<k2o>0.0179533</k2o>
-<h2o>10.2334</h2o>
+<sio2>61.30</sio2>
+<al2o3>16.68</al2o3>
+<na2o>10.60</na2o>
+<k2o>.02</k2o>
+<h2o>11.40</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4352,11 +4315,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>61.9927</sio2>
-<al2o3>16.8712</al2o3>
-<na2o>10.7159</na2o>
-<k2o>0.0179195</k2o>
-<h2o>10.4023</h2o>
+<sio2>61.16</sio2>
+<al2o3>16.64</al2o3>
+<na2o>10.57</na2o>
+<k2o>.02</k2o>
+<h2o>11.61</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4384,11 +4347,11 @@
 <h2o_p>23.6</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>60.5814</sio2>
-<al2o3>16.4872</al2o3>
-<na2o>10.4719</na2o>
-<k2o>0.0175116</k2o>
-<h2o>12.442</h2o>
+<sio2>59.36</sio2>
+<al2o3>16.15</al2o3>
+<na2o>10.26</na2o>
+<k2o>.02</k2o>
+<h2o>14.21</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4416,11 +4379,11 @@
 <h2o_p>21.7</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>60.0973</sio2>
-<al2o3>16.3554</al2o3>
-<na2o>10.3883</na2o>
-<k2o>0.0173717</k2o>
-<h2o>13.1417</h2o>
+<sio2>58.86</sio2>
+<al2o3>16.02</al2o3>
+<na2o>10.17</na2o>
+<k2o>.02</k2o>
+<h2o>14.93</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4448,11 +4411,11 @@
 <h2o_p>21.2</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>60.0139</sio2>
-<al2o3>16.3327</al2o3>
-<na2o>10.3738</na2o>
-<k2o>0.0173476</k2o>
-<h2o>13.2622</h2o>
+<sio2>58.61</sio2>
+<al2o3>15.95</al2o3>
+<na2o>10.13</na2o>
+<k2o>.02</k2o>
+<h2o>15.29</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4480,11 +4443,11 @@
 <h2o_p>6</h2o_p>
 </bulkComp>
 <liquid>
-<sio2>64.6874</sio2>
-<al2o3>17.8131</al2o3>
-<na2o>0.0391926</na2o>
-<k2o>15.4419</k2o>
-<h2o>2.01842</h2o>
+<sio2>64.43</sio2>
+<al2o3>17.80</al2o3>
+<na2o>.04</na2o>
+<k2o>15.43</k2o>
+<h2o>2.10</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4505,11 +4468,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>64.6938</sio2>
-<al2o3>17.8148</al2o3>
-<na2o>0.0391965</na2o>
-<k2o>15.4434</k2o>
-<h2o>2.00882</h2o>
+<sio2>64.66</sio2>
+<al2o3>17.80</al2o3>
+<na2o>.04</na2o>
+<k2o>15.43</k2o>
+<h2o>2.07</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4530,11 +4493,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>63.9109</sio2>
-<al2o3>17.5992</al2o3>
-<na2o>0.0387222</na2o>
-<k2o>15.2565</k2o>
-<h2o>3.19458</h2o>
+<sio2>63.87</sio2>
+<al2o3>17.59</al2o3>
+<na2o>.04</na2o>
+<k2o>15.25</k2o>
+<h2o>3.25</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4555,11 +4518,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>63.9915</sio2>
-<al2o3>17.6214</al2o3>
-<na2o>0.038771</na2o>
-<k2o>15.2758</k2o>
-<h2o>3.0726</h2o>
+<sio2>63.90</sio2>
+<al2o3>17.60</al2o3>
+<na2o>.04</na2o>
+<k2o>15.25</k2o>
+<h2o>3.21</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4580,11 +4543,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>62.7447</sio2>
-<al2o3>17.2781</al2o3>
-<na2o>0.0380156</na2o>
-<k2o>14.9781</k2o>
-<h2o>4.96103</h2o>
+<sio2>62.54</sio2>
+<al2o3>17.22</al2o3>
+<na2o>.04</na2o>
+<k2o>14.93</k2o>
+<h2o>5.27</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4605,11 +4568,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>62.7984</sio2>
-<al2o3>17.2929</al2o3>
-<na2o>0.0380481</na2o>
-<k2o>14.991</k2o>
-<h2o>4.87967</h2o>
+<sio2>62.58</sio2>
+<al2o3>17.23</al2o3>
+<na2o>.04</na2o>
+<k2o>14.94</k2o>
+<h2o>5.21</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4630,11 +4593,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>62.6019</sio2>
-<al2o3>17.2388</al2o3>
-<na2o>0.0379291</na2o>
-<k2o>14.9441</k2o>
-<h2o>5.17732</h2o>
+<sio2>62.44</sio2>
+<al2o3>17.19</al2o3>
+<na2o>.04</na2o>
+<k2o>14.90</k2o>
+<h2o>5.43</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4655,11 +4618,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>62.7925</sio2>
-<al2o3>17.2912</al2o3>
-<na2o>0.0380445</na2o>
-<k2o>14.9895</k2o>
-<h2o>4.88872</h2o>
+<sio2>62.63</sio2>
+<al2o3>17.25</al2o3>
+<na2o>.04</na2o>
+<k2o>14.95</k2o>
+<h2o>5.14</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4680,11 +4643,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>62.7567</sio2>
-<al2o3>17.2814</al2o3>
-<na2o>0.0380228</na2o>
-<k2o>14.981</k2o>
-<h2o>4.94297</h2o>
+<sio2>62.59</sio2>
+<al2o3>17.23</al2o3>
+<na2o>.04</na2o>
+<k2o>14.94</k2o>
+<h2o>5.20</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4705,11 +4668,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>61.6433</sio2>
-<al2o3>16.9748</al2o3>
-<na2o>0.0373483</na2o>
-<k2o>14.7152</k2o>
-<h2o>6.62932</h2o>
+<sio2>61.33</sio2>
+<al2o3>16.89</al2o3>
+<na2o>.04</na2o>
+<k2o>14.64</k2o>
+<h2o>7.10</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4730,11 +4693,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>60.6746</sio2>
-<al2o3>16.708</al2o3>
-<na2o>0.0367613</na2o>
-<k2o>14.484</k2o>
-<h2o>8.09668</h2o>
+<sio2>60.20</sio2>
+<al2o3>16.58</al2o3>
+<na2o>.04</na2o>
+<k2o>14.37</k2o>
+<h2o>8.81</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4755,11 +4718,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>60.2702</sio2>
-<al2o3>16.5967</al2o3>
-<na2o>0.0365163</na2o>
-<k2o>14.3874</k2o>
-<h2o>8.70915</h2o>
+<sio2>59.72</sio2>
+<al2o3>16.45</al2o3>
+<na2o>.04</na2o>
+<k2o>14.26</k2o>
+<h2o>9.54</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4780,11 +4743,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>60.2482</sio2>
-<al2o3>16.5906</al2o3>
-<na2o>0.036503</na2o>
-<k2o>14.3822</k2o>
-<h2o>8.74247</h2o>
+<sio2>59.70</sio2>
+<al2o3>16.44</al2o3>
+<na2o>.04</na2o>
+<k2o>14.25</k2o>
+<h2o>9.58</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4805,11 +4768,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>59.7358</sio2>
-<al2o3>16.4495</al2o3>
-<na2o>0.0361925</na2o>
-<k2o>14.2599</k2o>
-<h2o>9.51864</h2o>
+<sio2>59.07</sio2>
+<al2o3>16.27</al2o3>
+<na2o>.04</na2o>
+<k2o>14.10</k2o>
+<h2o>10.52</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -4830,11 +4793,11 @@
 <perr>0.002</perr>
 <phaselist>liq+fl</phaselist>
 <liquid>
-<sio2>59.5418</sio2>
-<al2o3>16.3961</al2o3>
-<na2o>0.036075</na2o>
-<k2o>14.2136</k2o>
-<h2o>9.81241</h2o>
+<sio2>58.84</sio2>
+<al2o3>16.20</al2o3>
+<na2o>.04</na2o>
+<k2o>14.05</k2o>
+<h2o>10.88</h2o>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -5982,7 +5945,7 @@
 <time>336</time>
 <t>800</t>
 <terr>10</terr>
-<p>0.5</p>
+<p>0.05</p>
 <perr>0.002</perr>
 <fo2>NNO</fo2>
 <fo2val>-13.6888</fo2val>
@@ -9593,9 +9556,9 @@
 <method>KFT</method>
 <method>IR</method>
 <method>FTIR</method>
-<t>500</t>
+<t>800</t>
 <terr>10</terr>
-<p>0.144</p>
+<p>0.5</p>
 <perr>0.005</perr>
 <fo2>NNO</fo2>
 <fo2val>-22.6958</fo2val>
@@ -10103,238 +10066,12 @@
 
 
 
-<experiment>
-<number>2999</number>
-<name>std1</name>
-<author>Behrens, H., Tamic, N., Holtz, F. (2004)</author>
-<lab>University of Hannover</lab>
-<device>IHPV</device>
-<container>Pt</container>
-<method>EMP</method>
-<method>CO2</method>
-<method>IR</method>
-<time>208</time>
-<t>1100</t>
-<terr>10</terr>
-<p>0.2</p>
-<perr>0.005</perr>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>76.78</sio2>
-<tio2>0.1</tio2>
-<al2o3>12.77</al2o3>
-<feo>0.52</feo>
-<mno>0.09</mno>
-<mgo>0.07</mgo>
-<cao>0.56</cao>
-<na2o>4.08</na2o>
-<k2o>4.55</k2o>
-<h2o_p>0.16</h2o_p>
-</bulkComp>
-<liquid>
-<sio2>73.2965</sio2>
-<tio2>0.095463</tio2>
-<al2o3>12.1906</al2o3>
-<feo>0.496408</feo>
-<mno>0.0859167</mno>
-<mgo>0.0668241</mgo>
-<cao>0.534593</cao>
-<na2o>3.89489</na2o>
-<k2o>4.34357</k2o>
-<h2o>4.45</h2o>
-<co2>0.087</co2>
-</liquid>
-<phase type="fluid">
-<h2o>0.3</h2o>
-<co2>0.68</co2>
-<h2oERR>0.23</h2oERR>
-</phase>
-</experiment>
-<experiment>
-<number>3000</number>
-<name>std3</name>
-<author>Behrens, H., Tamic, N., Holtz, F. (2004)</author>
-<lab>University of Hannover</lab>
-<device>IHPV</device>
-<container>Pt</container>
-<method>EMP</method>
-<method>CO2</method>
-<method>IR</method>
-<time>168</time>
-<t>1100</t>
-<terr>10</terr>
-<p>0.5</p>
-<perr>0.005</perr>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>76.78</sio2>
-<tio2>0.1</tio2>
-<al2o3>12.77</al2o3>
-<feo>0.52</feo>
-<mno>0.09</mno>
-<mgo>0.07</mgo>
-<cao>0.56</cao>
-<na2o>4.08</na2o>
-<k2o>4.55</k2o>
-<h2o_p>0.16</h2o_p>
-</bulkComp>
-<liquid>
-<sio2>71.3822</sio2>
-<tio2>0.0929698</tio2>
-<al2o3>11.8722</al2o3>
-<feo>0.483443</feo>
-<mno>0.0836728</mno>
-<mgo>0.0650789</mgo>
-<cao>0.520631</cao>
-<na2o>3.79317</na2o>
-<k2o>4.23013</k2o>
-<h2o>6.87</h2o>
-<co2>0.1602</co2>
-</liquid>
-<phase type="fluid">
-<h2o>0.45</h2o>
-<co2>0.53</co2>
-<h2oERR>0.57</h2oERR>
-</phase>
-</experiment>
 
-<experiment>
-<number>3002</number>
-<name>std7</name>
-<author>Behrens, H., Tamic, N., Holtz, F. (2004)</author>
-<lab>University of Hannover</lab>
-<device>IHPV</device>
-<container>Pt</container>
-<method>EMP</method>
-<method>CO2</method>
-<method>IR</method>
-<time>168</time>
-<t>1100</t>
-<terr>10</terr>
-<p>0.5</p>
-<perr>0.005</perr>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>76.78</sio2>
-<tio2>0.1</tio2>
-<al2o3>12.77</al2o3>
-<feo>0.52</feo>
-<mno>0.09</mno>
-<mgo>0.07</mgo>
-<cao>0.56</cao>
-<na2o>4.08</na2o>
-<k2o>4.55</k2o>
-<h2o_p>0.16</h2o_p>
-</bulkComp>
-<liquid>
-<sio2>72.9309</sio2>
-<tio2>0.0949868</tio2>
-<al2o3>12.1298</al2o3>
-<feo>0.493931</feo>
-<mno>0.0854881</mno>
-<mgo>0.0664908</mgo>
-<cao>0.531926</cao>
-<na2o>3.87546</na2o>
-<k2o>4.3219</k2o>
-<h2o>4.79</h2o>
-<co2>0.2232</co2>
-</liquid>
-<phase type="fluid">
-<h2o>0.43</h2o>
-<co2>0.55</co2>
-<h2oERR>0.2</h2oERR>
-</phase>
-</experiment>
-<experiment>
-<number>3003</number>
-<name>1P</name>
-<author>Behrens, H., Tamic, N., Holtz, F. (2004)</author>
-<lab>University of Hannover</lab>
-<device>IHPV</device>
-<container>Pt</container>
-<method>EMP</method>
-<method>CO2</method>
-<method>IR</method>
-<time>96</time>
-<t>1200</t>
-<terr>10</terr>
-<p>0.8</p>
-<perr>0.005</perr>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>76.78</sio2>
-<tio2>0.1</tio2>
-<al2o3>12.77</al2o3>
-<feo>0.52</feo>
-<mno>0.09</mno>
-<mgo>0.07</mgo>
-<cao>0.56</cao>
-<na2o>4.08</na2o>
-<k2o>4.55</k2o>
-<h2o_p>0.16</h2o_p>
-</bulkComp>
-<liquid>
-<sio2>71.1712</sio2>
-<tio2>0.092695</tio2>
-<al2o3>11.8372</al2o3>
-<feo>0.482014</feo>
-<mno>0.0834255</mno>
-<mgo>0.0648865</mgo>
-<cao>0.519092</cao>
-<na2o>3.78196</na2o>
-<k2o>4.21762</k2o>
-<h2o>6.95</h2o>
-<co2>0.355</co2>
-</liquid>
-<phase type="fluid"><h2o>1</h2o>
-<h2oERR>0.07</h2oERR>
-</phase>
-</experiment>
-<experiment>
-<number>3004</number>
-<name>2P</name>
-<author>Behrens, H., Tamic, N., Holtz, F. (2004)</author>
-<lab>University of Hannover</lab>
-<device>IHPV</device>
-<container>Pt</container>
-<method>EMP</method>
-<method>CO2</method>
-<method>IR</method>
-<time>96</time>
-<t>1200</t>
-<terr>10</terr>
-<p>0.8</p>
-<perr>0.005</perr>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>76.78</sio2>
-<tio2>0.1</tio2>
-<al2o3>12.77</al2o3>
-<feo>0.52</feo>
-<mno>0.09</mno>
-<mgo>0.07</mgo>
-<cao>0.56</cao>
-<na2o>4.08</na2o>
-<k2o>4.55</k2o>
-<h2o_p>0.16</h2o_p>
-</bulkComp>
-<liquid>
-<sio2>73.1535</sio2>
-<tio2>0.0952767</tio2>
-<al2o3>12.1668</al2o3>
-<feo>0.495439</feo>
-<mno>0.085749</mno>
-<mgo>0.0666937</mgo>
-<cao>0.53355</cao>
-<na2o>3.88729</na2o>
-<k2o>4.33509</k2o>
-<h2o>4.32</h2o>
-<co2>0.4033</co2>
-</liquid>
-<phase type="fluid"><h2o>1</h2o>
-<h2oERR>0.07</h2oERR>
-</phase>
-</experiment>
+
+
+
+
+
 
 
 
@@ -10427,7 +10164,7 @@
 <h2o_p>0.8</h2o_p>
 </bulkComp>
 <liquid>
-    <sio2>60.72</sio2><tio2>0.61</tio2><al2o3>72</al2o3><fe2o3>1.95</fe2o3><feo>1.95</feo><mgo>2.57</mgo><cao>5.47</cao><na2o>3.93</na2o><k2o>1.56</k2o><p2o5>0.23</p2o5>
+    <sio2>60.72</sio2><tio2>0.61</tio2><al2o3>16.71</al2o3><fe2o3>1.95</fe2o3><feo>1.95</feo><mgo>2.57</mgo><cao>5.47</cao><na2o>3.93</na2o><k2o>1.56</k2o><p2o5>0.23</p2o5>
     <h2o>4.3</h2o>
 
 </liquid>
@@ -10793,7 +10530,7 @@
 <time>48</time>
 <t>975</t>
 <terr>5</terr>
-<p>0.2944</p>
+<p>0.2461</p>
 <perr>5</perr>
 <fo2>NNO+2.8</fo2>
 <fo2val>-7.80319</fo2val>
@@ -23283,7 +23020,7 @@
 <t>552</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-20.7754</fo2min>
+<fo2>-20.853</fo2><fo2val>-20.853</fo2val><fo2min>-20.7754</fo2min>
 <fo2max>-16.5862</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23322,7 +23059,7 @@
 <t>552</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-20.7754</fo2min>
+<fo2>-20.853</fo2><fo2val>-20.853</fo2val><fo2min>-20.7754</fo2min>
 <fo2max>-16.5862</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23361,7 +23098,7 @@
 <t>552</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-20.7754</fo2min>
+<fo2>-20.853</fo2><fo2val>-20.853</fo2val><fo2min>-20.7754</fo2min>
 <fo2max>-16.5862</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23400,7 +23137,7 @@
 <t>698</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-16.3006</fo2min>
+<fo2>-16.311</fo2><fo2val>-16.311</fo2val><fo2min>-16.3006</fo2min>
 <fo2max>-12.3258</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23439,7 +23176,7 @@
 <t>698</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NONO</fo2><fo2min>-16.3006</fo2min>
+<fo2>-16.311</fo2><fo2val>-16.311</fo2val><fo2min>-16.3006</fo2min>
 <fo2max>-12.3258</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23478,7 +23215,7 @@
 <t>698</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-16.3006</fo2min>
+<fo2>-16.311</fo2><fo2val>-16.311</fo2val><fo2min>-16.3006</fo2min>
 <fo2max>-12.3258</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23517,7 +23254,7 @@
 <t>750</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-15.0179</fo2min>
+<fo2>-15.006</fo2><fo2val>-15.006</fo2val><fo2min>-15.0179</fo2min>
 <fo2max>-11.1103</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23556,7 +23293,7 @@
 <t>750</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-15.0179</fo2min>
+<fo2>-15.006</fo2><fo2val>-15.006</fo2val><fo2min>-15.0179</fo2min>
 <fo2max>-11.1103</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23598,7 +23335,7 @@
 <t>851</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-12.8691</fo2min>
+<fo2>-12.817</fo2><fo2val>-12.817</fo2val><fo2min>-12.8691</fo2min>
 <fo2max>-9.07387</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23641,7 +23378,7 @@
 <t>851</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-12.8691</fo2min>
+<fo2>-12.817</fo2><fo2val>-12.817</fo2val><fo2min>-12.8691</fo2min>
 <fo2max>-9.07387</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23683,7 +23420,7 @@
 <t>851</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-12.8691</fo2min>
+<fo2>-12.817</fo2><fo2val>-12.817</fo2val><fo2min>-12.8691</fo2min>
 <fo2max>-9.07387</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23725,7 +23462,7 @@
 <t>850</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-12.8885</fo2min>
+<fo2>-12.817</fo2><fo2val>-12.817</fo2val><fo2min>-12.8885</fo2min>
 <fo2max>-9.09224</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23765,7 +23502,7 @@
 <t>850</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-12.8885</fo2min>
+<fo2>-12.817</fo2><fo2val>-12.817</fo2val><fo2min>-12.8885</fo2min>
 <fo2max>-9.09224</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23799,7 +23536,7 @@
 <t>850</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-12.8885</fo2min>
+<fo2>-12.817</fo2><fo2val>-12.817</fo2val><fo2min>-12.8885</fo2min>
 <fo2max>-9.09224</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23833,7 +23570,7 @@
 <t>850</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-12.8885</fo2min>
+<fo2>-12.817</fo2><fo2val>-12.817</fo2val><fo2min>-12.8885</fo2min>
 <fo2max>-9.09224</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23868,7 +23605,7 @@
 <t>999</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-10.3432</fo2min>
+<fo2>-10.237</fo2><fo2val>-10.237</fo2val><fo2min>-10.3432</fo2min>
 <fo2max>-6.66645</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23903,7 +23640,7 @@
 <t>999</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-10.3432</fo2min>
+<fo2>-10.237</fo2><fo2val>-10.237</fo2val><fo2min>-10.3432</fo2min>
 <fo2max>-6.66645</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23938,7 +23675,7 @@
 <t>999</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-10.3432</fo2min>
+<fo2>-10.237</fo2><fo2val>-10.237</fo2val><fo2min>-10.3432</fo2min>
 <fo2max>-6.66645</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -23973,7 +23710,7 @@
 <t>1000</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-10.3282</fo2min>
+<fo2>-10.237</fo2><fo2val>-10.237</fo2val><fo2min>-10.3282</fo2min>
 <fo2max>-6.65201</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -24008,7 +23745,7 @@
 <t>1000</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-10.3282</fo2min>
+<fo2>-10.237</fo2><fo2val>-10.237</fo2val><fo2min>-10.3282</fo2min>
 <fo2max>-6.65201</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -24043,7 +23780,7 @@
 <t>1000</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-10.3282</fo2min>
+<fo2>-10.237</fo2><fo2val>-10.237</fo2val><fo2min>-10.3282</fo2min>
 <fo2max>-6.65201</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -24078,7 +23815,7 @@
 <t>1000</t>
 <terr>4</terr>
 <p>9.8e-05</p>
-<fo2>NNO</fo2><fo2min>-10.3282</fo2min>
+<fo2>-10.237</fo2><fo2val>-10.237</fo2val><fo2min>-10.3282</fo2min>
 <fo2max>-6.65201</fo2max>
 <phaselist>liq+fl</phaselist>
 <liquid>
@@ -24223,7 +23960,7 @@
 <time>48</time>
 <t>700</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0248</p>
 <perr>0.0002</perr>
 <fo2min>-16.2435</fo2min>
 <fo2max>-12.2766</fo2max>
@@ -24259,7 +23996,7 @@
 <time>48</time>
 <t>700</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0248</p>
 <perr>0.0002</perr>
 <fo2min>-16.2435</fo2min>
 <fo2max>-12.2766</fo2max>
@@ -24295,7 +24032,7 @@
 <time>72</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24331,7 +24068,7 @@
 <time>72</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24363,7 +24100,7 @@
 <time>72</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24395,7 +24132,7 @@
 <time>48</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0114</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24427,7 +24164,7 @@
 <time>48</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0114</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24459,7 +24196,7 @@
 <time>94</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0112</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24491,7 +24228,7 @@
 <time>94</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0112</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24523,7 +24260,7 @@
 <time>94</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0112</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24555,7 +24292,7 @@
 <time>94</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0112</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24587,7 +24324,7 @@
 <time>49</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0251</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24619,7 +24356,7 @@
 <time>49</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0251</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24651,7 +24388,7 @@
 <time>49</time>
 <t>850</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0251</p>
 <perr>0.0002</perr>
 <fo2min>-12.884</fo2min>
 <fo2max>-9.09224</fo2max>
@@ -24683,7 +24420,7 @@
 <time>48.1</time>
 <t>995</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-10.3997</fo2min>
 <fo2max>-6.7244</fo2max>
@@ -24715,7 +24452,7 @@
 <time>48.1</time>
 <t>995</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-10.3997</fo2min>
 <fo2max>-6.7244</fo2max>
@@ -24747,7 +24484,7 @@
 <time>48.1</time>
 <t>995</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-10.3997</fo2min>
 <fo2max>-6.7244</fo2max>
@@ -24779,7 +24516,7 @@
 <time>48.1</time>
 <t>995</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-10.3997</fo2min>
 <fo2max>-6.7244</fo2max>
@@ -24811,7 +24548,7 @@
 <time>24.5</time>
 <t>1002</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0112</p>
 <perr>0.0002</perr>
 <fo2min>-10.2942</fo2min>
 <fo2max>-6.62321</fo2max>
@@ -24843,7 +24580,7 @@
 <time>24.5</time>
 <t>1002</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0112</p>
 <perr>0.0002</perr>
 <fo2min>-10.2942</fo2min>
 <fo2max>-6.62321</fo2max>
@@ -24875,7 +24612,7 @@
 <time>24</time>
 <t>1000</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0252</p>
 <perr>0.0002</perr>
 <fo2min>-10.3243</fo2min>
 <fo2max>-6.65201</fo2max>
@@ -24907,7 +24644,7 @@
 <time>24</time>
 <t>1000</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0252</p>
 <perr>0.0002</perr>
 <fo2min>-10.3243</fo2min>
 <fo2max>-6.65201</fo2max>
@@ -24945,7 +24682,7 @@
 <time>24</time>
 <t>1000</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0252</p>
 <perr>0.0002</perr>
 <fo2min>-10.3243</fo2min>
 <fo2max>-6.65201</fo2max>
@@ -24977,7 +24714,7 @@
 <time>24</time>
 <t>1000</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.025</p>
 <perr>0.0002</perr>
 <fo2min>-10.3243</fo2min>
 <fo2max>-6.65201</fo2max>
@@ -25015,7 +24752,7 @@
 <time>24</time>
 <t>1000</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.025</p>
 <perr>0.0002</perr>
 <fo2min>-10.3243</fo2min>
 <fo2max>-6.65201</fo2max>
@@ -25053,7 +24790,7 @@
 <time>24</time>
 <t>1000</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.025</p>
 <perr>0.0002</perr>
 <fo2min>-10.3243</fo2min>
 <fo2max>-6.65201</fo2max>
@@ -25091,7 +24828,7 @@
 <time>40</time>
 <t>1200</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-7.73157</fo2min>
 <fo2max>-4.13148</fo2max>
@@ -25129,7 +24866,7 @@
 <time>40</time>
 <t>1200</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.0061</p>
 <perr>0.0002</perr>
 <fo2min>-7.73157</fo2min>
 <fo2max>-4.13148</fo2max>
@@ -25243,7 +24980,7 @@
 <time>22</time>
 <t>1200</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.025</p>
 <perr>0.0002</perr>
 <fo2min>-7.73157</fo2min>
 <fo2max>-4.13148</fo2max>
@@ -25281,7 +25018,7 @@
 <time>22</time>
 <t>1200</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.025</p>
 <perr>0.0002</perr>
 <fo2min>-7.73157</fo2min>
 <fo2max>-4.13148</fo2max>
@@ -25319,7 +25056,7 @@
 <time>22</time>
 <t>1200</t>
 <terr>7</terr>
-<p>0.011</p>
+<p>0.025</p>
 <perr>0.0002</perr>
 <fo2min>-7.73157</fo2min>
 <fo2max>-4.13148</fo2max>
@@ -46842,37 +46579,7 @@
 <phase type="fluid"><h2o>1.0</h2o>
 </phase>
 </experiment>
-<experiment>
-<number>57633</number>
-<name>AB6</name>
-<author>Kohn, S.C., Dupree, R., Smith, M.E. (1989)</author>
-<lab>University of Manchester</lab>
-<device>IHPV</device>
-<container>Pt</container>
-<method>LOI</method>
-<time>4</time>
-<t>1270</t>
-<p>0.005</p>
-<fo2min>-6.98688</fo2min>
-<fo2max>-3.38791</fo2max>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>68.74</sio2>
-<al2o3>19.442</al2o3>
-<na2o>11.818</na2o>
-</bulkComp>
-<liquid>
-<sio2>68.1557</sio2>
-<al2o3>19.2767</al2o3>
-<na2o>11.7175</na2o>
-<h2o>0.85</h2o>
-<h2oERR>0.13</h2oERR>
-<co2ERR>0.0266</co2ERR>
-</liquid>
-<phase type="fluid">
-<h2o>1</h2o>
-</phase>
-</experiment>
+
 <experiment>
 <number>57634</number>
 <name>AB7</name>
@@ -46965,37 +46672,7 @@
 <h2o>1</h2o>
 </phase>
 </experiment>
-<experiment>
-<number>57637</number>
-<name>AB5B</name>
-<author>Kohn, S.C., Dupree, R., Smith, M.E. (1989)</author>
-<lab>University of Manchester</lab>
-<device>PC</device>
-<container>Pt</container>
-<method>LOI</method>
-<time>3</time>
-<t>1100</t>
-<p>1</p>
-<fo2min>-8.60084</fo2min>
-<fo2max>-5.30813</fo2max>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>68.74</sio2>
-<al2o3>19.442</al2o3>
-<na2o>11.818</na2o>
-</bulkComp>
-<liquid>
-<sio2>63.1033</sio2>
-<al2o3>17.8478</al2o3>
-<na2o>10.8489</na2o>
-<h2o>8.2</h2o>
-<h2oERR>0.11</h2oERR>
-<co2ERR>0.0276</co2ERR>
-</liquid>
-<phase type="fluid">
-<h2o>1</h2o>
-</phase>
-</experiment>
+
 <experiment>
 <number>57638</number>
 <name>AB5D</name>
@@ -47058,37 +46735,7 @@
 <h2o>1</h2o>
 </phase>
 </experiment>
-<experiment>
-<number>57640</number>
-<name>AB5F</name>
-<author>Kohn, S.C., Dupree, R., Smith, M.E. (1989)</author>
-<lab>University of Manchester</lab>
-<device>PC</device>
-<container>Pt</container>
-<method>LOI</method>
-<time>3</time>
-<t>1100</t>
-<p>1.5</p>
-<fo2min>-8.43334</fo2min>
-<fo2max>-5.30813</fo2max>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>68.74</sio2>
-<al2o3>19.442</al2o3>
-<na2o>11.818</na2o>
-</bulkComp>
-<liquid>
-<sio2>60.3537</sio2>
-<al2o3>17.0701</al2o3>
-<na2o>10.3762</na2o>
-<h2o>12.2</h2o>
-<h2oERR>0.12</h2oERR>
-<co2ERR>0.0181</co2ERR>
-</liquid>
-<phase type="fluid">
-<h2o>1</h2o>
-</phase>
-</experiment>
+
 <experiment>
 <number>57641</number>
 <name>TJ41</name>
@@ -49989,7 +49636,7 @@
 <time>21.3</time>
 <t>1177</t>
 <terr>5</terr>
-<p>0.1177</p>
+<p>0.5130</p>
 <perr>0.00017</perr>
 <fo2min>-7.95898</fo2min>
 <fo2max>-4.38932</fo2max>
@@ -50734,58 +50381,8 @@
 <co2>1</co2>
 </phase>
 </experiment>
-<experiment>
-<number>57737</number>
-<name>Na-feldspar</name>
-<author>Voigt, D.E., Bodnar, R.J., Blencoe, J.G. (1981)</author>
-<lab>Pennsylvania State University</lab>
-<device>PC</device>
-<t>950</t>
-<p>0.5</p>
-<fo2min>-10.923</fo2min>
-<fo2max>-7.40114</fo2max>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>68.7403</sio2>
-<al2o3>19.4417</al2o3>
-<na2o>11.818</na2o>
-</bulkComp>
-<liquid>
-<sio2>62.5442</sio2>
-<al2o3>17.6893</al2o3>
-<na2o>10.7527</na2o>
-<h2o>9.01384</h2o>
-</liquid>
-<phase type="fluid">
-<h2o>1</h2o>
-</phase>
-</experiment>
-<experiment>
-<number>57738</number>
-<name>K-feldspar</name>
-<author>Voigt, D.E., Bodnar, R.J., Blencoe, J.G. (1981)</author>
-<lab>Pennsylvania State University</lab>
-<device>PC</device>
-<t>950</t>
-<p>0.5</p>
-<fo2min>-10.923</fo2min>
-<fo2max>-7.40114</fo2max>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>64.7619</sio2>
-<al2o3>18.3165</al2o3>
-<k2o>16.9215</k2o>
-</bulkComp>
-<liquid>
-<sio2>61.4418</sio2>
-<al2o3>17.3775</al2o3>
-<k2o>16.054</k2o>
-<h2o>5.12667</h2o>
-</liquid>
-<phase type="fluid">
-<h2o>1</h2o>
-</phase>
-</experiment>
+
+
 <experiment>
 <number>57739</number>
 <name>997</name>
@@ -63679,7 +63276,7 @@
 <device>IHPV</device>
 <container>Pt</container>
 <t>1125</t>
-<p>0.01</p>
+<p>0.1</p>
 <fo2min>-8.61599</fo2min>
 <fo2max>-4.99986</fo2max>
 <phaselist>liq+fl</phaselist>
@@ -66511,54 +66108,7 @@
 <co2ERR>0.03</co2ERR>
 </phase>
 </experiment>
-<experiment>
-<number>12573</number>
-<name>Alb1-H53 Q</name>
-<author>Behrens, H., Misiti, V., Freda, C., Vetere, F., Botcharnikov, R.E., Scarlato, P. (2009)</author>
-<lab>Hannover</lab>
-<device>IHPV</device>
-<container>AuPd</container>
-<method>EMP</method>
-<method>KFT</method>
-<method>FTIR</method>
-<time>1.5</time>
-<t>1200</t>
-<terr>10</terr>
-<p>0.2</p>
-<perr>0.005</perr>
-<fo2>QFM+1</fo2>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>49.89</sio2>
-<tio2>0.89</tio2>
-<al2o3>15.57</al2o3>
-<mgo>5.75</mgo>
-<mno>0.02</mno>
-<feo>7.82</feo>
-<cao>11.4</cao>
-<na2o>1.95</na2o>
-<k2o>7.52</k2o>
-<dt_entered>2012-12-14 00:00:00</dt_entered>
-</bulkComp>
-<liquid>
-<sio2>47.2755</sio2>
-<tio2>0.843359</tio2>
-<al2o3>14.754</al2o3>
-<feo>7.41019</feo>
-<mno>0.0189519</mno>
-<mgo>5.44867</mgo>
-<cao>10.8026</cao>
-<na2o>1.84781</na2o>
-<k2o>7.12591</k2o>
-<h2o>4.37</h2o>
-<co2>0.103</co2>
-<h2oERR>0.13</h2oERR>
-<co2ERR>0.005</co2ERR>
-<idERR>1559</idERR>
-</liquid>
-<phase type="fluid">
-</phase>
-</experiment>
+
 <experiment>
 <number>12574</number>
 <name>Alb1-H54 Q</name>
@@ -66611,54 +66161,7 @@
 <co2ERR>0.03</co2ERR>
 </phase>
 </experiment>
-<experiment>
-<number>12575</number>
-<name>Alb1-H55 Q</name>
-<author>Behrens, H., Misiti, V., Freda, C., Vetere, F., Botcharnikov, R.E., Scarlato, P. (2009)</author>
-<lab>Hannover</lab>
-<device>IHPV</device>
-<container>AuPd</container>
-<method>EMP</method>
-<method>KFT</method>
-<method>FTIR</method>
-<time>1.5</time>
-<t>1200</t>
-<terr>10</terr>
-<p>0.2</p>
-<perr>0.005</perr>
-<fo2>QFM+1</fo2>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>49.89</sio2>
-<tio2>0.89</tio2>
-<al2o3>15.57</al2o3>
-<mgo>5.75</mgo>
-<mno>0.02</mno>
-<feo>7.82</feo>
-<cao>11.4</cao>
-<na2o>1.95</na2o>
-<k2o>7.52</k2o>
-<dt_entered>2012-12-14 00:00:00</dt_entered>
-</bulkComp>
-<liquid>
-<sio2>48.8577</sio2>
-<tio2>0.871584</tio2>
-<al2o3>15.2478</al2o3>
-<feo>7.65819</feo>
-<mno>0.0195862</mno>
-<mgo>5.63102</mgo>
-<cao>11.1641</cao>
-<na2o>1.90965</na2o>
-<k2o>7.36439</k2o>
-<h2o>1.26</h2o>
-<co2>0.016</co2>
-<h2oERR>0.12</h2oERR>
-<co2ERR>0.005</co2ERR>
-<idERR>1561</idERR>
-</liquid>
-<phase type="fluid">
-</phase>
-</experiment>
+
 <experiment>
 <number>12576</number>
 <name>Alb1-H56 Q</name>

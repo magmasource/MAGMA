@@ -12,6 +12,9 @@ core
 *.res
 *.inp
 *.zip
+*.dat
+*.melts
+*.agr
 XML_IN/
 XML_OUT/
 XML_PROCESSED/
