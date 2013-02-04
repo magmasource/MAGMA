@@ -2235,8 +2235,8 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          exit(1);
       }
    } else if(strcmp(name, "water") == 0) {
-      double gH2O, hH2O, sH2O, cpH2O, dcpdtH2O, vH2O, dvdtH2O, dvdpH2O, 
-        d2vdt2H2O, d2vdtdpH2O, d2vdp2H2O;
+      double gH2O=0.0, hH2O=0.0, sH2O=0.0, cpH2O=0.0, dcpdtH2O=0.0, vH2O=0.0, dvdtH2O=0.0, dvdpH2O=0.0,
+        d2vdt2H2O=0.0, d2vdtdpH2O=0.0, d2vdp2H2O=0.0;
 
       if (calculationMode == MODE_pMELTS) {
          double x[2] = { 1.0, 0.0};

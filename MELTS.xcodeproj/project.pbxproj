@@ -231,6 +231,8 @@
 		77A74445163619B80038627C /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
 		77A98CBF16A60896003ABD24 /* Bombaxtic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A98CBE16A60896003ABD24 /* Bombaxtic.framework */; };
 		77A98CC016A608BC003ABD24 /* Bombaxtic.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77A98CBE16A60896003ABD24 /* Bombaxtic.framework */; };
+		77C0376916BF29D400F4BB81 /* FetchListOfOxides.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C0376816BF29D400F4BB81 /* FetchListOfOxides.m */; };
+		77C0376C16BF2DB200F4BB81 /* FetchListOfPhases.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C0376B16BF2DB200F4BB81 /* FetchListOfPhases.m */; };
 		77C99AE4169B4FF500DF7464 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AE3169B4FF500DF7464 /* Cocoa.framework */; };
 		77C99AEE169B4FF500DF7464 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77C99AEC169B4FF500DF7464 /* InfoPlist.strings */; };
 		77C99AF2169B4FF500DF7464 /* rMELTSframework.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C99AF1169B4FF500DF7464 /* rMELTSframework.m */; };
@@ -520,6 +522,10 @@
 		7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MELTSstatus.xsd; path = ../MELTSstatus.xsd; sourceTree = "<group>"; };
 		77A743F4163611C50038627C /* Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77A98CBE16A60896003ABD24 /* Bombaxtic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bombaxtic.framework; path = "../../../Library/Developer/Xcode/DerivedData/BomBaxWS-aickwkjmvirnmyhkmhwodolgqgci/Build/Products/Release/Bombaxtic.framework"; sourceTree = "<group>"; };
+		77C0376716BF29D400F4BB81 /* FetchListOfOxides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchListOfOxides.h; sourceTree = "<group>"; };
+		77C0376816BF29D400F4BB81 /* FetchListOfOxides.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchListOfOxides.m; sourceTree = "<group>"; };
+		77C0376A16BF2DB200F4BB81 /* FetchListOfPhases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchListOfPhases.h; sourceTree = "<group>"; };
+		77C0376B16BF2DB200F4BB81 /* FetchListOfPhases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchListOfPhases.m; sourceTree = "<group>"; };
 		77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = rMELTSframework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C99AE3169B4FF500DF7464 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77C99AE6169B4FF500DF7464 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -859,6 +865,10 @@
 				77E4B2CC169BA94300B27D84 /* BaseProcessor.m */,
 				7777113B16A7177000042848 /* FetchDocumentation.h */,
 				7777113C16A7177000042848 /* FetchDocumentation.m */,
+				77C0376716BF29D400F4BB81 /* FetchListOfOxides.h */,
+				77C0376816BF29D400F4BB81 /* FetchListOfOxides.m */,
+				77C0376A16BF2DB200F4BB81 /* FetchListOfPhases.h */,
+				77C0376B16BF2DB200F4BB81 /* FetchListOfPhases.m */,
 				77FE55B016A0E84900D79522 /* Test.bxml */,
 				77C99B59169B6EAF00DF7464 /* Supporting Files */,
 			);
@@ -1406,6 +1416,8 @@
 				77C99B66169B6EAF00DF7464 /* AppDelegate.m in Sources */,
 				77E4B2CD169BA94300B27D84 /* BaseProcessor.m in Sources */,
 				7777113D16A7177000042848 /* FetchDocumentation.m in Sources */,
+				77C0376916BF29D400F4BB81 /* FetchListOfOxides.m in Sources */,
+				77C0376C16BF2DB200F4BB81 /* FetchListOfPhases.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

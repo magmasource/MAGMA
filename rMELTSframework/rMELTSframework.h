@@ -23,6 +23,9 @@
 +(NSUInteger)pMELTScalculationModeConstant;
 +(NSUInteger)xMELTScalculationModeConstant;
 
++(NSXMLDocument *)oxideListAsXMLDocument;
++(NSXMLDocument *)phaseListAsXMLDocument;
+
 -(NSUInteger)parseAndLoadDataStructuresFromXMLDocument:(NSXMLDocument *) inputXMLDocument;
 -(NSXMLDocument *)writeDataStructuresToXMLDocument:(NSString *)sessionID;
 -(Boolean)performMELTScalculation:(NSUInteger)type;

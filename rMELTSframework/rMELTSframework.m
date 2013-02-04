@@ -286,6 +286,28 @@ static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, k
     }    
 }
 
++(NSXMLDocument *)oxideListAsXMLDocument {
+    NSXMLDocument *outputXMLDocument = [[NSXMLDocument alloc] init];
+    NSXMLElement *root = [[NSXMLElement alloc] initWithName:@"MELTSWSoxides"];
+    
+    for (int i=0; i<nc; i++)
+        [root addChild:[[NSXMLElement alloc] initWithName:@"Oxide" stringValue:[NSString stringWithFormat:@"%s", bulkSystem[i].label]]];
+    
+    [outputXMLDocument setRootElement:root];
+    return outputXMLDocument;
+}
+
++(NSXMLDocument *)phaseListAsXMLDocument {
+    NSXMLDocument *outputXMLDocument = [[NSXMLDocument alloc] init];
+    NSXMLElement *root = [[NSXMLElement alloc] initWithName:@"MELTSWSphases"];
+    
+    for (int i=0; i<npc; i++) if (solids[i].type == PHASE)
+        [root addChild:[[NSXMLElement alloc] initWithName:@"Phase" stringValue:[NSString stringWithFormat:@"%s", solids[i].label]]];
+    
+    [outputXMLDocument setRootElement:root];
+    return outputXMLDocument;
+}
+
 typedef struct _nodeList {
     int node;
     SilminState *silminState;

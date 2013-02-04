@@ -16,9 +16,13 @@ static NSRecursiveLock *_stateLock = nil;
     // These are for debug mode
     [self setHandler:@"BaseProcessor" forMatch:@"/MELTSWSBxApp/Compute"];
     [self setHandler:@"Test" forMatch:@"/MELTSWSBxApp/Test"];
+    [self setHandler:@"FetchListOfOxides" forMatch:@"/MELTSWSBxApp/Oxides"];
+    [self setHandler:@"FetchListOfPhases" forMatch:@"/MELTSWSBxApp/Phases"];
     // These are for normal mode
     [self setHandler:@"BaseProcessor" forMatch:@"/Compute"];
     [self setHandler:@"Test" forMatch:@"/Test"];
+    [self setHandler:@"FetchListOfOxides" forMatch:@"/Oxides"];
+    [self setHandler:@"FetchListOfPhases" forMatch:@"/Phases"];
     // This is a default
     [self setDefaultHandler:@"FetchDocumentation"];
     return self;

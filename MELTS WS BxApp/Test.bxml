@@ -13,11 +13,22 @@
 <input type="checkbox" name="returnJSON" value="Yes">Return results as JSON<br>
 <input name="submit" type="submit" value="submit" />
 </form>
+
 <p>Test input JSON</p>
 <form action="/MELTSWSBxApp/Compute" method="post" name="inputJSONForm">
 <textarea name="dataJSON" cols="80" rows="10">{"MELTSinput":{"initialize":{"SiO2":48.68,"TiO2":1.01,"Al2O3":17.64,"Fe2O3":0.89,"Cr2O3":0.0425,"FeO":7.59,"MnO":0,"MgO":9.1,"NiO":0,"CoO":0,"CaO":12.45,"Na2O":2.65,"K2O":0.03,"P2O5":0.08,"H2O":0.2},"calculationMode":"equilibrate","title":"Input a title for the run","constraints":{"setTP":{"initialT":1200,"initialP":1000}}}}</textarea>
 <br />
 <input type="checkbox" name="returnJSON" value="Yes">Return results as JSON<br>
+<input name="submit" type="submit" value="submit" />
+</form>
+
+<p>Test list of known oxides web service</p>
+<form action="/MELTSWSBxApp/Oxides" method="post" name="inputOxidesForm">
+<input name="submit" type="submit" value="submit" />
+</form>
+
+<p>Test list of known phases web service</p>
+<form action="/MELTSWSBxApp/Phases" method="post" name="inputPhasesForm">
 <input name="submit" type="submit" value="submit" />
 </form>
 
