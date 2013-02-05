@@ -799,11 +799,11 @@ static NodeList *getNodeListPointer(int node) {
     [root addChild:[[NSXMLElement alloc] initWithName:@"temperature" stringValue:[NSString stringWithFormat:@"%.20g", silminState->T-273.15]]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"pressure"    stringValue:[NSString stringWithFormat:@"%.20g", silminState->P]]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"log_fO2"     stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2]]];
-    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaHM"     stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_HM)]]];
-    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaNNO"    stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_NNO)]]];
-    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaFMQ"    stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_QFM)]]];
-    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaCOH"    stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH)]]];
-    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaIW"     stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_IW)]]];
+    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaHM"     stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - (getlog10fo2(silminState->T, silminState->P, FO2_HM)  - silminState->fo2Delta)]]];
+    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaNNO"    stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - (getlog10fo2(silminState->T, silminState->P, FO2_NNO) - silminState->fo2Delta)]]];
+    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaFMQ"    stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - (getlog10fo2(silminState->T, silminState->P, FO2_QFM) - silminState->fo2Delta)]]];
+    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaCOH"    stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - (getlog10fo2(silminState->T, silminState->P, FO2_COH) - silminState->fo2Delta)]]];
+    [root addChild:[[NSXMLElement alloc] initWithName:@"deltaIW"     stringValue:[NSString stringWithFormat:@"%.20g", silminState->fo2 - (getlog10fo2(silminState->T, silminState->P, FO2_IW)  - silminState->fo2Delta)]]];
     
     
     if (silminState->liquidMass != 0.0) {
