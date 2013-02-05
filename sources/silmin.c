@@ -433,8 +433,8 @@ int silmin(void)
   /* ======================================================================== */
   case CHANGE_COMPOSITION:
 
-#ifndef BATCH_VERSION
     updateBulkADB();
+#ifndef BATCH_VERSION
     updateStatusADB(STATUS_ADB_INDEX_MASS_LIQUID, &(silminState->liquidMass));
     if(silminState->fo2Path == FO2_NONE) updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
 
@@ -498,8 +498,8 @@ int silmin(void)
         }
       }
 
-#ifndef BATCH_VERSION      
       updateBulkADB();
+#ifndef BATCH_VERSION
       updateStatusADB(STATUS_ADB_INDEX_MASS_LIQUID, &(silminState->liquidMass));
       updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
 #endif
@@ -558,8 +558,8 @@ int silmin(void)
       printf("oxygen content = %13.6g\n", silminState->oxygen);
 #endif /* DEBUG */
 
-#ifndef BATCH_VERSION
       updateBulkADB();
+#ifndef BATCH_VERSION
       updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
 #endif
     }
@@ -1487,8 +1487,8 @@ jumpFromLinSearch:
 
     iterQuad = 0;
 
-#ifndef BATCH_VERSION
     updateBulkADB();
+#ifndef BATCH_VERSION
     updateSolidADB((double *) NULL, (double *) NULL);
     updateCompADB();
     updateStatusADB(STATUS_ADB_INDEX_MASS_LIQUID, &(silminState->liquidMass));

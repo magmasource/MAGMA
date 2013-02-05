@@ -1128,13 +1128,17 @@ int checkStateAgainstInterface(void)
 
 #undef ERROR
 
+#endif /* Batch version */
+
 /******************************************************************************
  * The screen update functions:
  ******************************************************************************/
 
 void updateBulkADB(void)
 {
+#ifndef BATCH_VERSION
   static char compositionEntry[9];
+#endif
   double sum, *temporary;
   int i, j, nl;
   int hasLiquid = (silminState->liquidMass != 0.0);
@@ -1166,6 +1170,7 @@ void updateBulkADB(void)
   }
   silminState->liquidMass = sum;
 
+#ifndef BATCH_VERSION
   /* display grams oxides and preserve an exact reference copy */
   for (i=0; i<nc; i++) {
     temporary[i] = (silminState->bulkComp)[i]*bulkSystem[i].mw;
@@ -1175,9 +1180,12 @@ void updateBulkADB(void)
       (silminState->dspBulkComp)[i] = atof(compositionEntry);
     }
   }
+#endif
 
   free(temporary);
 }
+
+#ifndef BATCH_VERSION
 
 typedef struct _clsStable {
   Widget   name;
