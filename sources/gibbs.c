@@ -936,7 +936,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
 	 
       /* special case - no EOS option */
       } else if( (strcmp(name, "H2O") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
-         double a = -33676.0, b = 18.3527;
+         double a = -33676.0 + phase->h/r, b = 18.3527 - phase->s/r;
          double phiP = (0.110/t + 4.432e-5 + 1.405e-7*t - 2.394e-11*t*t)*p
            + (7.337e-8/t - 1.170e-8 - 9.502e-13*t)*p*p
            + (1.876e-10/t + 4.586e-13)*CUBE(p) - 1.191e-14*QUARTIC(p)/t;
