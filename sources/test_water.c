@@ -26,7 +26,7 @@ int main() {
   int i, j;
   double t = 1173.15;
   double p = 5000.00;
-  FILE *output = fopen("junk.dat", "w");
+  FILE *output = fopen("thermo.dat", "w");
 
   printf("---> Default calculation mode is xMELTS.  Change this? (y or n): ");
   if (tolower(getchar()) == 'y') {
@@ -65,6 +65,9 @@ int main() {
     printf("%s\n", liquid[nls-1].label);
     printf("%s\n", solids[npc-9].label);
     printf("%s\n", solids[npc-10].label);
+    printf("%s\n", solids[npc-11].label);
+    printf("%s\n", solids[npc-12].label);
+    printf("%s\n", solids[npc-13].label);
   } else if (calculationMode == MODE__MELTS) printf("%s\n", solids[npc-10].label);
   else printf("%s\n", solids[npc-7].label);
 
@@ -101,8 +104,24 @@ int main() {
     }
 
   }
-
+  
   fclose(output);
+  
+  if (calculationMode == MODE_xMELTS) {
+    FILE *outputExtra = fopen("fluid.dat", "w");
+    t = 1273.15;
+    p = 2000.0;
+    gibbs(t, p, (char *) solids[npc- 9].label, &(solids[npc- 9].ref), NULL, NULL, &(solids[npc-11].cur)); // CO2 duan fluid
+    gibbs(t, p, (char *) solids[npc-10].label, &(solids[npc-10].ref), NULL, NULL, &(solids[npc-12].cur)); // H2O duan fluid
+    for (i=1; i<100; i++) {
+      double r = (double) i*0.01, mu[2];
+      (*solids[npc-13].activity)(SECOND, t, p, &r, NULL, mu, NULL);
+      fprintf(outputExtra, "%20.13e %20.13e %20.13e %20.13e %20.13e %20.13e %20.13e\n", t, p/10.0, r, mu[0], mu[1], 
+        mu[0]+(solids[npc-12].cur).g, mu[1]+(solids[npc-11].cur).g);
+    }
+    fclose(outputExtra);
+  }
+
   return 0;
 }
 
