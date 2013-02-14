@@ -70,7 +70,7 @@
         [transport setHttpStatusCode:415];
         [transport write:@"<p>MELTS WS: Parsing of JSON input is not yet supported.</p>"];
         return self;
-    } else if ([transport rawPostData] && [[[transport serverVars] objectForKey:@"CONTENT_TYPE"] isEqualToString:@"text/xml"]) {
+    } else if ([transport rawPostData] && [[[transport serverVars] objectForKey:@"CONTENT_TYPE"] hasPrefix:@"text/xml"]) {
         NSString *error = nil;;
         if (self.debug) NSLog(@"... input data transmitted as a post variable (dataXML) string.");
         if ((error = [self parseAndValidateInputXMLAsString:nil orAsData:[transport rawPostData]])) {
