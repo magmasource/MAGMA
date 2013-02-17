@@ -27,7 +27,7 @@ int main (int argc, char *argv[]) {
   double bulkComposition[20];
   int i, j;
   
-  if (argc != 10) {
+  if (argc != 11) {
     printf("Wrong number of arguments.\n");
     exit(1);
   }
@@ -46,7 +46,7 @@ int main (int argc, char *argv[]) {
   bulkComposition[11] = atof(argv[7]); /* Na2O  */
   bulkComposition[12] = atof(argv[8]); /* K2O   */
   bulkComposition[13] = 0.0;
-  bulkComposition[14] = 10.0;          /* H2O - saturation */
+  bulkComposition[14] = atof(argv[9]); /* H2O   */
   bulkComposition[15] = 0.0;
   bulkComposition[16] = 0.0;
   bulkComposition[17] = 0.0;
@@ -104,9 +104,9 @@ int main (int argc, char *argv[]) {
   silminState->dspTstart   = 1273.15;
   silminState->dspTstop    =  973.15; 
   silminState->dspTinc     =    1.0; 
-  silminState->P           = atof(argv[9]);  
-  silminState->dspPstart   = atof(argv[9]);  		  
-  silminState->dspPstop    = atof(argv[9]);
+  silminState->P           = atof(argv[10]);  
+  silminState->dspPstart   = atof(argv[10]);  		  
+  silminState->dspPstop    = atof(argv[10]);
   silminState->dspPinc     = 0.0;
   silminState->dspDPDH     = 0.0;
       
