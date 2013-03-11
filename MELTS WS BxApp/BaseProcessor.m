@@ -99,6 +99,11 @@
         }
     }
     
+    if ([[[[self inputXML] rootElement] elementsForName:@"initialize"] count] > 0) {
+        sessionId = nil;
+        if (self.debug) NSLog(@"Found an initialize tag and negated the session id.");
+    }
+    
     // Lock thread from here to ...
     [(AppDelegate *)[self app] lockState];
     

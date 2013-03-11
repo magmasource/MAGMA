@@ -268,8 +268,8 @@ MELTS Source Code: RCS
 #define SQUARE(x) ((x)*(x))
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 
-#ifndef DEBUG
-#define DEBUG
+#ifdef DEBUG
+#undef DEBUG
 #endif
 
 #ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
