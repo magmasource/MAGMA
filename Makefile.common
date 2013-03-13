@@ -82,6 +82,7 @@ usage:
 	echo "       Test_water"
 	echo "       Kevin KevinSolid"
 	echo "       Marc"
+	echo "       cpx-olv-rhm"
 
 strip:
 	strip Melts
@@ -152,6 +153,7 @@ realclean:
 	$(RM) $(RMFLAGS) Test_sulfide_liquid
 	$(RM) $(RMFLAGS) Kevin
 	$(RM) $(RMFLAGS) Marc
+	$(RM) $(RMFLAGS) cpx-olv-rhm
 
 version:
 	touch interface.c button_callbacks.c
@@ -1429,6 +1431,14 @@ Marc: marc.c \
 	$(CC) $(CFLAGS) $<
 	$(CC) $(LDFLAGS) -o $@ marc.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) marc.o 
+	chmod 755 $@
+
+cpx-olv-rhm: cpx-olv-rhm.c gibbs.c liq_struct_data.h mthread.h param_struct_data.h silmin.h sol_struct_data.h $(MELTSLIB) 
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS sources/cpx-olv-rhm.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
+	$(CC) $(LDFLAGS) -o $@ cpx-olv-rhm.o gibbs.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
+	$(RM) $(RMFLAGS) cpx-olv-rhm.o gibbs.o
 	chmod 755 $@
 
 # end of Makefile
