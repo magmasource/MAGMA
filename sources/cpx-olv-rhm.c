@@ -99,7 +99,8 @@ ilmenite:
   first = 1;
   iters = 0;
   while (!converged && (iters < 100)) {
-    double mu[10], f, df, fold, told;
+    static double fold, told;
+    double mu[10], f, df;
     
     gibbs(t, p, (char *) solids[nFa].label, &(solids[nFa].ref), NULL, NULL, &(solids[nFa].cur));
     gibbs(t, p, (char *) solids[nDi].label, &(solids[nDi].ref), NULL, NULL, &(solids[nDi].cur));

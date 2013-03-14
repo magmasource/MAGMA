@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>cpx-olv-rhm.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>public-Melts-rhyolite.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -23,6 +28,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>7766534F1636FEEB0004A2D0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7776DB8F16F157E300B32FA8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

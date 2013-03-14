@@ -16,6 +16,58 @@
 		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
 		77665363163707080004A2D0 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
+		7776DB9616F1584700B32FA8 /* cpx-olv-rhm.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DB9516F1584700B32FA8 /* cpx-olv-rhm.c */; };
+		7776DB9716F158D700B32FA8 /* albite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7901627A92300D67FBB /* albite.c */; };
+		7776DB9816F158DD00B32FA8 /* alloy-liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7911627A92300D67FBB /* alloy-liquid.c */; };
+		7776DB9916F158E100B32FA8 /* alloy-solid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7921627A92300D67FBB /* alloy-solid.c */; };
+		7776DB9A16F158E600B32FA8 /* amphibole.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7931627A92300D67FBB /* amphibole.c */; };
+		7776DB9B16F158EA00B32FA8 /* biotite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7961627A92300D67FBB /* biotite.c */; };
+		7776DB9C16F158F200B32FA8 /* check_coexisting_liquids.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7981627A92300D67FBB /* check_coexisting_liquids.c */; };
+		7776DB9D16F158FA00B32FA8 /* check_coexisting_solids.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7991627A92300D67FBB /* check_coexisting_solids.c */; };
+		7776DB9E16F1590000B32FA8 /* clinopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D79A1627A92300D67FBB /* clinopyroxene.c */; };
+		7776DBA016F1592E00B32FA8 /* cummingtonite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A51627A92300D67FBB /* cummingtonite.c */; };
+		7776DBA216F1593F00B32FA8 /* est_satState_revised.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AB1627A92300D67FBB /* est_satState_revised.c */; };
+		7776DBA316F1594300B32FA8 /* est_saturation_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AC1627A92300D67FBB /* est_saturation_state.c */; };
+		7776DBA416F1594700B32FA8 /* evaluate_saturation.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AD1627A92300D67FBB /* evaluate_saturation.c */; };
+		7776DBA516F1594B00B32FA8 /* feldspar.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AE1627A92300D67FBB /* feldspar.c */; };
+		7776DBA616F1594F00B32FA8 /* fluid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B01627A92300D67FBB /* fluid.c */; };
+		7776DBA716F1595300B32FA8 /* frac.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B11627A92300D67FBB /* frac.c */; };
+		7776DBA816F1595700B32FA8 /* garnet.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B21627A92300D67FBB /* garnet.c */; };
+		7776DBA916F1595A00B32FA8 /* gibbs.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B31627A92300D67FBB /* gibbs.c */; };
+		7776DBAB16F1596200B32FA8 /* hornblende.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B71627A92300D67FBB /* hornblende.c */; };
+		7776DBAC16F1596700B32FA8 /* ilmenite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B81627A92300D67FBB /* ilmenite.c */; };
+		7776DBAE16F1597400B32FA8 /* kalsilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7BC1627A92300D67FBB /* kalsilite.c */; };
+		7776DBAF16F1597800B32FA8 /* lawson_hanson.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C11627A92300D67FBB /* lawson_hanson.c */; };
+		7776DBB016F1597C00B32FA8 /* leucite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C21627A92300D67FBB /* leucite.c */; };
+		7776DBB216F1598300B32FA8 /* liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C71627A92300D67FBB /* liquid.c */; };
+		7776DBB316F1598700B32FA8 /* liquid_v34.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C81627A92300D67FBB /* liquid_v34.c */; };
+		7776DBB516F1598E00B32FA8 /* majorite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CA1627A92300D67FBB /* majorite.c */; };
+		7776DBB616F1599200B32FA8 /* melilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CE1627A92300D67FBB /* melilite.c */; };
+		7776DBB716F1599900B32FA8 /* melts_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D01627A92300D67FBB /* melts_support.c */; };
+		7776DBB816F1599D00B32FA8 /* melts_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D11627A92300D67FBB /* melts_threads.c */; };
+		7776DBB916F159A100B32FA8 /* mthread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D41627A92300D67FBB /* mthread.c */; };
+		7776DBBA16F159A500B32FA8 /* nash.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D51627A92300D67FBB /* nash.c */; };
+		7776DBBB16F159AA00B32FA8 /* nepheline.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D61627A92300D67FBB /* nepheline.c */; };
+		7776DBBC16F159AE00B32FA8 /* olivine-sx.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D71627A92300D67FBB /* olivine-sx.c */; };
+		7776DBBD16F159B100B32FA8 /* olivine.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D81627A92300D67FBB /* olivine.c */; };
+		7776DBBE16F159B600B32FA8 /* ortho-oxide.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D91627A92300D67FBB /* ortho-oxide.c */; };
+		7776DBBF16F159B900B32FA8 /* orthopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DA1627A92300D67FBB /* orthopyroxene.c */; };
+		7776DBC016F159BD00B32FA8 /* perovskite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DB1627A92300D67FBB /* perovskite.c */; };
+		7776DBC116F159C800B32FA8 /* read_write.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E01627A92300D67FBB /* read_write.c */; };
+		7776DBC216F159CC00B32FA8 /* recipes.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E11627A92300D67FBB /* recipes.c */; };
+		7776DBC316F159CF00B32FA8 /* rhombohedral.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E31627A92300D67FBB /* rhombohedral.c */; };
+		7776DBC416F159D300B32FA8 /* rhomsghiorso.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E41627A92300D67FBB /* rhomsghiorso.c */; };
+		7776DBC516F159DC00B32FA8 /* ringwoodite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E51627A92300D67FBB /* ringwoodite.c */; };
+		7776DBC716F159E600B32FA8 /* silmin_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E71627A92300D67FBB /* silmin_support.c */; };
+		7776DBC816F159E900B32FA8 /* spinel.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EA1627A92300D67FBB /* spinel.c */; };
+		7776DBC916F159ED00B32FA8 /* subSolidusMuO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */; };
+		7776DBCA16F159F600B32FA8 /* wadsleyite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8001627A92300D67FBB /* wadsleyite.c */; };
+		7776DBCB16F159FD00B32FA8 /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
+		7776DBCC16F15A0000B32FA8 /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
+		7776DBCE16F15C4E00B32FA8 /* biotiteTaj.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DBCD16F15C4E00B32FA8 /* biotiteTaj.c */; };
+		7776DBD016F15C6A00B32FA8 /* fluidPhase.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DBCF16F15C6A00B32FA8 /* fluidPhase.c */; };
+		7776DBD116F15D0700B32FA8 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
+		7776DBD316F15D3400B32FA8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7776DBD216F15D3300B32FA8 /* libxml2.dylib */; };
 		7785CCC2163AFA68004AA393 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		7785CCC3163AFA68004AA393 /* melts_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D01627A92300D67FBB /* melts_support.c */; };
 		7785CCC4163AFA68004AA393 /* melts_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D11627A92300D67FBB /* melts_threads.c */; };
@@ -253,6 +305,15 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7776DB8E16F157E300B32FA8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		7785CD14163AFA68004AA393 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -394,6 +455,11 @@
 		7766535A1636FF610004A2D0 /* simann.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = simann.f; sourceTree = "<group>"; };
 		77665360163706D00004A2D0 /* libgfortran.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgfortran.3.dylib; path = /usr/local/gfortran/lib/libgfortran.3.dylib; sourceTree = "<absolute>"; };
 		77665362163707080004A2D0 /* libport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libport.a; path = ../port3/libport.a; sourceTree = "<group>"; };
+		7776DB9016F157E300B32FA8 /* cpx-olv-rhm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "cpx-olv-rhm"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7776DB9516F1584700B32FA8 /* cpx-olv-rhm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "cpx-olv-rhm.c"; path = "sources/cpx-olv-rhm.c"; sourceTree = SOURCE_ROOT; };
+		7776DBCD16F15C4E00B32FA8 /* biotiteTaj.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = biotiteTaj.c; path = sources/biotiteTaj.c; sourceTree = SOURCE_ROOT; };
+		7776DBCF16F15C6A00B32FA8 /* fluidPhase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fluidPhase.c; path = sources/fluidPhase.c; sourceTree = SOURCE_ROOT; };
+		7776DBD216F15D3300B32FA8 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib/libxml2.dylib; sourceTree = DEVELOPER_DIR; };
 		7785CD19163AFA68004AA393 /* public-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "public-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785CD75163AFE38004AA393 /* batch-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "batch-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785CD78163B20B5004AA393 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSinput.xsd; sourceTree = "<group>"; };
@@ -403,6 +469,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7776DB8D16F157E300B32FA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7776DBD316F15D3400B32FA8 /* libxml2.dylib in Frameworks */,
+				7776DBD116F15D0700B32FA8 /* libport.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7785CD0B163AFA68004AA393 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -574,12 +649,23 @@
 			name = Libraries;
 			sourceTree = "<group>";
 		};
+		7776DB9116F157E300B32FA8 /* cpx-olv-rhm */ = {
+			isa = PBXGroup;
+			children = (
+				7776DBCF16F15C6A00B32FA8 /* fluidPhase.c */,
+				7776DBCD16F15C4E00B32FA8 /* biotiteTaj.c */,
+				7776DB9516F1584700B32FA8 /* cpx-olv-rhm.c */,
+			);
+			path = "cpx-olv-rhm";
+			sourceTree = "<group>";
+		};
 		77A743F5163611C50038627C /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				77A743F4163611C50038627C /* Melts-rhyolite */,
 				7785CD19163AFA68004AA393 /* public-Melts-rhyolite */,
 				7785CD75163AFE38004AA393 /* batch-Melts-rhyolite */,
+				7776DB9016F157E300B32FA8 /* cpx-olv-rhm */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -594,6 +680,7 @@
 		77B68D411627A64800C6296F = {
 			isa = PBXGroup;
 			children = (
+				7776DBD216F15D3300B32FA8 /* libxml2.dylib */,
 				7785CD78163B20B5004AA393 /* MELTSinput.xsd */,
 				7785CD79163B20B6004AA393 /* MELTSoutput.xsd */,
 				7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */,
@@ -601,6 +688,7 @@
 				7734D78F1627A92300D67FBB /* sources */,
 				7734D76C1627A90000D67FBB /* includes */,
 				77A743F7163611C50038627C /* Melts-rhyolite */,
+				7776DB9116F157E300B32FA8 /* cpx-olv-rhm */,
 				77A743F5163611C50038627C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -608,6 +696,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7776DB8F16F157E300B32FA8 /* cpx-olv-rhm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7776DB9416F157E300B32FA8 /* Build configuration list for PBXNativeTarget "cpx-olv-rhm" */;
+			buildPhases = (
+				7776DB8C16F157E300B32FA8 /* Sources */,
+				7776DB8D16F157E300B32FA8 /* Frameworks */,
+				7776DB8E16F157E300B32FA8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "cpx-olv-rhm";
+			productName = "cpx-olv-rhm";
+			productReference = 7776DB9016F157E300B32FA8 /* cpx-olv-rhm */;
+			productType = "com.apple.product-type.tool";
+		};
 		7785CCC0163AFA68004AA393 /* public-Melts-rhyolite */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7785CD16163AFA68004AA393 /* Build configuration list for PBXNativeTarget "public-Melts-rhyolite" */;
@@ -685,11 +790,69 @@
 				77A743F3163611C50038627C /* Melts-rhyolite */,
 				7785CCC0163AFA68004AA393 /* public-Melts-rhyolite */,
 				7785CD1C163AFE38004AA393 /* batch-Melts-rhyolite */,
+				7776DB8F16F157E300B32FA8 /* cpx-olv-rhm */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7776DB8C16F157E300B32FA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7776DB9616F1584700B32FA8 /* cpx-olv-rhm.c in Sources */,
+				7776DB9716F158D700B32FA8 /* albite.c in Sources */,
+				7776DB9816F158DD00B32FA8 /* alloy-liquid.c in Sources */,
+				7776DB9916F158E100B32FA8 /* alloy-solid.c in Sources */,
+				7776DB9A16F158E600B32FA8 /* amphibole.c in Sources */,
+				7776DB9B16F158EA00B32FA8 /* biotite.c in Sources */,
+				7776DB9C16F158F200B32FA8 /* check_coexisting_liquids.c in Sources */,
+				7776DB9D16F158FA00B32FA8 /* check_coexisting_solids.c in Sources */,
+				7776DB9E16F1590000B32FA8 /* clinopyroxene.c in Sources */,
+				7776DBA016F1592E00B32FA8 /* cummingtonite.c in Sources */,
+				7776DBA216F1593F00B32FA8 /* est_satState_revised.c in Sources */,
+				7776DBA316F1594300B32FA8 /* est_saturation_state.c in Sources */,
+				7776DBA416F1594700B32FA8 /* evaluate_saturation.c in Sources */,
+				7776DBA516F1594B00B32FA8 /* feldspar.c in Sources */,
+				7776DBA616F1594F00B32FA8 /* fluid.c in Sources */,
+				7776DBA716F1595300B32FA8 /* frac.c in Sources */,
+				7776DBA816F1595700B32FA8 /* garnet.c in Sources */,
+				7776DBA916F1595A00B32FA8 /* gibbs.c in Sources */,
+				7776DBAB16F1596200B32FA8 /* hornblende.c in Sources */,
+				7776DBAC16F1596700B32FA8 /* ilmenite.c in Sources */,
+				7776DBAE16F1597400B32FA8 /* kalsilite.c in Sources */,
+				7776DBAF16F1597800B32FA8 /* lawson_hanson.c in Sources */,
+				7776DBB016F1597C00B32FA8 /* leucite.c in Sources */,
+				7776DBB216F1598300B32FA8 /* liquid.c in Sources */,
+				7776DBB316F1598700B32FA8 /* liquid_v34.c in Sources */,
+				7776DBB516F1598E00B32FA8 /* majorite.c in Sources */,
+				7776DBB616F1599200B32FA8 /* melilite.c in Sources */,
+				7776DBB716F1599900B32FA8 /* melts_support.c in Sources */,
+				7776DBB816F1599D00B32FA8 /* melts_threads.c in Sources */,
+				7776DBB916F159A100B32FA8 /* mthread.c in Sources */,
+				7776DBBA16F159A500B32FA8 /* nash.c in Sources */,
+				7776DBBB16F159AA00B32FA8 /* nepheline.c in Sources */,
+				7776DBBC16F159AE00B32FA8 /* olivine-sx.c in Sources */,
+				7776DBBD16F159B100B32FA8 /* olivine.c in Sources */,
+				7776DBBE16F159B600B32FA8 /* ortho-oxide.c in Sources */,
+				7776DBBF16F159B900B32FA8 /* orthopyroxene.c in Sources */,
+				7776DBC016F159BD00B32FA8 /* perovskite.c in Sources */,
+				7776DBC116F159C800B32FA8 /* read_write.c in Sources */,
+				7776DBC216F159CC00B32FA8 /* recipes.c in Sources */,
+				7776DBC316F159CF00B32FA8 /* rhombohedral.c in Sources */,
+				7776DBC416F159D300B32FA8 /* rhomsghiorso.c in Sources */,
+				7776DBC516F159DC00B32FA8 /* ringwoodite.c in Sources */,
+				7776DBC716F159E600B32FA8 /* silmin_support.c in Sources */,
+				7776DBC816F159E900B32FA8 /* spinel.c in Sources */,
+				7776DBC916F159ED00B32FA8 /* subSolidusMuO2.c in Sources */,
+				7776DBCA16F159F600B32FA8 /* wadsleyite.c in Sources */,
+				7776DBCB16F159FD00B32FA8 /* water.c in Sources */,
+				7776DBCC16F15A0000B32FA8 /* wustite.c in Sources */,
+				7776DBCE16F15C4E00B32FA8 /* biotiteTaj.c in Sources */,
+				7776DBD016F15C6A00B32FA8 /* fluidPhase.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7785CCC1163AFA68004AA393 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -913,6 +1076,74 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		7776DB9216F157E300B32FA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					RHYOLITE_ADJUSTMENTS,
+					_NO_GRACE_PIPE,
+					_NO_WHITE_TEXTTW,
+					_NO_DRAWING_VLIST_PARENT,
+					XTFUNCPROTO,
+					__osf__,
+					BATCH_VERSION,
+				);
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+					/usr/X11R6/include,
+					/usr/include/libxml2,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					/usr/local/lib,
+					/usr/local/gfortran/lib,
+					"$(SRCROOT)/../port3",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+			};
+			name = Debug;
+		};
+		7776DB9316F157E300B32FA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					RHYOLITE_ADJUSTMENTS,
+					_NO_GRACE_PIPE,
+					_NO_WHITE_TEXTTW,
+					_NO_DRAWING_VLIST_PARENT,
+					XTFUNCPROTO,
+					__osf__,
+					BATCH_VERSION,
+				);
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+					/usr/X11R6/include,
+					/usr/include/libxml2,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					/usr/local/lib,
+					/usr/local/gfortran/lib,
+					"$(SRCROOT)/../port3",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+			};
+			name = Release;
+		};
 		7785CD17163AFA68004AA393 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1212,6 +1443,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7776DB9416F157E300B32FA8 /* Build configuration list for PBXNativeTarget "cpx-olv-rhm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7776DB9216F157E300B32FA8 /* Debug */,
+				7776DB9316F157E300B32FA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		7785CD16163AFA68004AA393 /* Build configuration list for PBXNativeTarget "public-Melts-rhyolite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
