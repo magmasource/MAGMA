@@ -430,7 +430,7 @@ int main (int argc, char *argv[]) {
     { "Ma_26-5-0.1",      "78.0687", "0.0584", "12.0221", "0.9490", "0.0687", "0.5286", "4.1972", "4.0074", "0.1000" }
   };
   
-  char *data_guil[10][10] = {
+  char *data_lowguil[10][10] = {
     /* these are the IMP data: Label1, SiO2, TiO2, Al2O3, FeO, MgO, CaO, Na2O, K2O, H2O */  
     { "16-Lu-2-4",     "74.1962", "0.0000", "12.1740", "0.6721", "0.0192", "0.4320", "3.7156", "4.7909", "4.0000" },
     { "16-Lu-2-6",     "72.6505", "0.0000", "11.9204", "0.6581", "0.0188", "0.4230", "3.6382", "4.6911", "6.0000" },
@@ -444,13 +444,116 @@ int main (int argc, char *argv[]) {
     { "Ma_26-5-6",     "73.4581", "0.0549", "11.3121", "0.8929", "0.0646", "0.4973", "3.9494", "3.7707", "6.0000" }
   };
 
+  char *data_guil[100][9] = {
+    /* these are ayla's data: SiO2, Al2O3, FeO, MgO, CaO, Na2O, K2O, TiO2 */
+    { "KPST-2A_1", "77.45", "12.55", "0.73", "0.05", "0.34", "1.98", "6.72", "0.13" },
+    { "KPST-2A_2", "77.63", "12.73", "0.66", "0.06", "0.38", "1.69", "6.68", "0.11" },
+    { "KPST-2A_3", "77.26", "12.66", "0.68", "0.05", "0.42", "1.81", "6.86", "0.16" },
+    { "KPST-2A_4", "76.63", "12.58", "0.79", "0.05", "0.40", "2.91", "6.44", "0.12" },
+    { "KPST-2A_5", "76.74", "12.44", "0.71", "0.05", "0.42", "2.65", "6.79", "0.15" },
+    { "KPST-2A_6", "76.48", "12.60", "0.72", "0.03", "0.39", "2.76", "6.76", "0.17" },
+    { "KPST-2A_7", "76.55", "12.60", "0.81", "0.06", "0.42", "2.96", "6.39", "0.13" },
+    { "KPST-2A_8", "76.70", "12.50", "0.77", "0.05", "0.40", "3.29", "6.08", "0.13" },
+    { "KPST-2A_9", "76.69", "12.70", "0.75", "0.02", "0.42", "2.83", "6.41", "0.12" },
+    { "KPST-2B_1", "76.59", "12.60", "0.68", "0.20", "0.37", "2.12", "7.29", "0.11" },
+    { "KPST-2B_2", "76.38", "12.55", "0.90", "0.08", "0.29", "2.39", "7.20", "0.15" },
+    { "KPST-2B_3", "76.67", "12.63", "0.46", "0.04", "0.31", "2.42", "7.28", "0.14" },
+    { "KPST-2B_4", "76.71", "12.95", "0.26", "0.34", "0.30", "2.17", "7.14", "0.11" },
+    { "KPST-2B_5", "76.18", "12.18", "0.94", "0.81", "0.38", "2.20", "7.02", "0.16" },
+    { "KPST-2B_6", "76.59", "12.76", "0.57", "0.03", "0.34", "2.50", "7.02", "0.12" },
+    { "KPST-2B_7", "76.57", "12.64", "0.55", "0.02", "0.33", "2.24", "7.44", "0.12" },
+    { "KPST-2B_8", "76.71", "12.45", "0.42", "0.09", "0.31", "2.33", "7.49", "0.15" },
+    { "KPST-2B_9", "76.87", "12.48", "0.42", "0.01", "0.29", "2.28", "7.46", "0.15" },
+    { "KPST-2B_10", "76.79", "12.73", "0.42", "0.01", "0.33", "2.19", "7.34", "0.13" },
+    { "KPST-2C_1", "76.85", "12.63", "0.81", "0.07", "0.43", "3.30", "5.70", "0.13" },
+    { "KPST-2C_2", "76.86", "12.54", "0.85", "0.05", "0.44", "3.56", "5.49", "0.13" },
+    { "KPST-2C_3", "76.59", "12.53", "0.76", "0.04", "0.43", "3.09", "6.32", "0.12" },
+    { "KPST-2C_4", "76.72", "12.62", "0.82", "0.06", "0.45", "3.36", "5.76", "0.13" },
+    { "KPST-2C_5", "76.71", "12.67", "0.72", "0.06", "0.48", "3.37", "5.78", "0.11" },
+    { "KPST-2C_6", "76.73", "12.65", "0.82", "0.09", "0.40", "3.62", "5.46", "0.15" },
+    { "KPST-2C_7", "76.67", "12.44", "0.81", "0.06", "0.37", "3.11", "6.35", "0.13" },
+    { "KPST-2C_8", "77.06", "12.62", "0.77", "0.02", "0.41", "3.31", "5.58", "0.12" },
+    { "KPST-2C_9", "76.76", "12.57", "0.84", "0.04", "0.43", "3.27", "5.88", "0.13" },
+    { "KPST-2C_10", "76.94", "12.62", "0.84", "0.08", "0.40", "3.47", "5.44", "0.13" },
+    { "PST-SD12C-1_1", "76.17", "13.02", "0.87", "0.00", "0.63", "3.74", "5.35", "0.10" },
+    { "PST-SD12C-1_2", "77.03", "12.98", "0.40", "0.00", "0.52", "3.61", "5.33", "0.12" },
+    { "PST-SD12C-1_3", "76.50", "12.90", "0.66", "0.07", "0.62", "3.73", "5.27", "0.15" },
+    { "PST-SD12C-1_4", "76.30", "12.83", "0.85", "0.00", "0.67", "3.72", "5.41", "0.14" },
+    { "PST-SD12C-4_1", "76.91", "12.96", "0.49", "0.00", "0.53", "3.70", "5.31", "0.10" },
+    { "PST-SD12C-4_2", "76.33", "12.95", "0.78", "0.00", "0.61", "3.69", "5.38", "0.16" },
+    { "PST-SD12C-4_3", "76.52", "12.92", "0.74", "0.00", "0.66", "3.65", "5.26", "0.18" },
+    { "PST-SD12C-4_4", "77.18", "12.93", "0.29", "0.00", "0.45", "3.59", "5.35", "0.14" },
+    { "PST-SD12D-5_1", "77.16", "13.04", "0.27", "0.00", "0.48", "3.58", "5.37", "0.11" },
+    { "PST-SD12D-5_2", "76.68", "13.01", "0.56", "0.00", "0.53", "3.78", "5.31", "0.14" },
+    { "PST-SD12D-5_3", "76.33", "13.04", "0.74", "0.06", "0.59", "3.75", "5.27", "0.14" },
+    { "PST-SD12D-5_4", "76.45", "12.86", "0.79", "0.05", "0.69", "3.73", "5.32", "0.11" },
+    { "PST-SD12D-6_1", "76.31", "12.85", "0.83", "0.09", "0.59", "3.68", "5.43", "0.15" },
+    { "PST-SD12D-6_2", "76.43", "13.05", "0.91", "0.00", "0.50", "3.78", "5.20", "0.12" },
+    { "PST-SD12D-6_3", "76.68", "13.06", "0.57", "0.08", "0.56", "3.58", "5.32", "0.15" },
+    { "PST-SD12D-6_4", "77.07", "12.98", "0.38", "0.00", "0.53", "3.60", "5.27", "0.16" },
+    { "PST-SD12D-6_5", "76.88", "13.04", "0.49", "0.00", "0.56", "3.64", "5.24", "0.16" },
+    { "PST-SD12D-7_1", "77.05", "12.97", "0.43", "0.00", "0.54", "3.66", "5.23", "0.11" },
+    { "PST-SD12D-7_2", "76.51", "12.89", "0.70", "0.00", "0.57", "3.75", "5.31", "0.19" },
+    { "PST-SD12D-7_3", "76.75", "12.85", "0.65", "0.16", "0.47", "3.57", "5.32", "0.12" },
+    { "PST-SD12D-7_4", "77.07", "13.10", "0.29", "0.00", "0.51", "3.55", "5.32", "0.16" },
+    { "PST-SD12D-7_5", "77.04", "13.00", "0.48", "0.00", "0.55", "3.60", "5.22", "0.10" },
+    { "PST-SD11A-4_1", "76.46", "12.92", "0.97", "0.06", "0.45", "3.59", "5.41", "0.12" },
+    { "PST-SD11A-4_2", "76.45", "12.99", "0.90", "0.00", "0.46", "3.51", "5.55", "0.16" },
+    { "PST-SD11A-4_3", "76.47", "13.07", "0.84", "0.00", "0.49", "3.51", "5.45", "0.12" },
+    { "PST-SD5-1_1", "76.95", "12.52", "0.86", "0.00", "0.42", "3.58", "5.53", "0.15" },
+    { "PST-SD5-1_2", "76.70", "12.70", "0.85", "0.00", "0.45", "3.64", "5.50", "0.16" },
+    { "PST-SD5-1_3", "76.92", "12.57", "0.84", "0.00", "0.43", "3.55", "5.54", "0.14" },
+    { "PST-SD5-1_4", "76.72", "12.65", "0.90", "0.09", "0.47", "3.68", "5.39", "0.09" },
+    { "PST-SD5-1_5", "76.59", "12.63", "0.87", "0.00", "0.46", "3.60", "5.62", "0.13" },
+    { "PST-SD11A-1_1", "76.60", "13.04", "0.94", "0.00", "0.37", "2.94", "5.90", "0.14" },
+    { "PST-SD11A-1_2", "76.70", "13.05", "0.87", "0.06", "0.32", "2.85", "5.92", "0.14" },
+    { "PST-SD11A-2_1", "77.05", "13.01", "0.87", "0.10", "0.18", "2.42", "6.26", "0.11" },
+    { "PST-SD11A-2_2", "76.97", "13.05", "0.78", "0.00", "0.07", "2.44", "6.49", "0.12" },
+    { "PST-SD11A-3_1", "76.88", "13.12", "0.95", "0.00", "0.23", "2.44", "6.16", "0.14" },
+    { "PST-SD11A-3_2", "77.11", "13.30", "0.68", "0.00", "0.23", "2.11", "6.32", "0.18" },
+    { "PST-SD11A-4_4", "76.54", "13.05", "0.90", "0.00", "0.46", "3.37", "5.53", "0.15" },
+    { "PST-SD11A-4_5", "76.37", "13.07", "0.92", "0.09", "0.44", "3.39", "5.53", "0.12" },
+    { "PST-SD11A-5_1", "76.52", "13.16", "0.83", "0.08", "0.17", "2.63", "6.39", "0.13" },
+    { "PST-SD11A-5_2", "76.75", "13.19", "0.80", "0.08", "0.11", "2.55", "6.37", "0.14" },
+    { "PST-SD11A-6_1", "77.00", "13.17", "0.92", "0.07", "0.30", "2.30", "6.10", "0.15" },
+    { "PST-SD11A-7_1", "76.05", "13.14", "0.99", "0.12", "0.52", "2.76", "6.17", "0.17" },
+    { "PST-SD11A-7_2", "76.06", "13.22", "1.03", "0.11", "0.57", "2.49", "6.24", "0.20" },
+    { "PST-SD11A-8_1", "76.70", "13.11", "0.92", "0.00", "0.40", "2.73", "5.89", "0.15" },
+    { "PST-SD11A-9_1", "76.56", "13.20", "1.00", "0.14", "0.49", "2.42", "5.98", "0.14" },
+    { "PST-SD11A-9_2", "76.43", "13.14", "1.04", "0.10", "0.53", "2.49", "5.98", "0.16" },
+    { "PST-SD02B-1_1", "76.68", "13.01", "0.80", "0.05", "0.29", "2.91", "6.00", "0.16" },
+    { "PST-SD02B-1_2", "76.70", "13.07", "0.74", "0.07", "0.32", "2.97", "5.92", "0.14" },
+    { "PST-SD02B-1_3", "76.68", "13.12", "0.79", "0.06", "0.25", "2.82", "6.14", "0.14" },
+    { "PST-SD02B-1a_1", "76.90", "12.94", "0.81", "0.10", "0.33", "2.98", "5.80", "0.14" },
+    { "PST-SD02B-1a_2", "76.76", "13.02", "0.81", "0.05", "0.28", "2.87", "6.09", "0.11" },
+    { "PST-SD02B-2_1", "76.69", "13.17", "0.67", "0.07", "0.27", "2.72", "6.19", "0.15" },
+    { "PST-SD02B-2_2", "76.90", "13.17", "0.54", "0.00", "0.37", "2.52", "6.39", "0.12" },
+    { "PST-SD02B-2a_1", "76.95", "12.94", "0.85", "0.06", "0.43", "2.86", "5.81", "0.10" },
+    { "PST-SD02B-4_1", "76.90", "13.04", "0.63", "0.06", "0.22", "2.53", "6.53", "0.09" },
+    { "PST-SD02B-4_2", "76.98", "13.02", "0.81", "0.00", "0.31", "3.08", "5.67", "0.15" },
+    { "PST-SD02B-4_3", "76.93", "13.01", "0.76", "0.00", "0.25", "2.77", "6.14", "0.14" },
+    { "PST-SD02B-5_1", "76.94", "12.96", "0.81", "0.08", "0.32", "2.58", "6.19", "0.12" },
+    { "PST-SD02B-7_1", "76.86", "13.04", "0.66", "0.00", "0.40", "2.80", "6.01", "0.18" },
+    { "PST-SD02B-7_2", "77.07", "12.99", "0.71", "0.07", "0.29", "2.68", "6.11", "0.08" },
+    { "PST-SD01C-1_1", "76.86", "13.28", "0.80", "0.07", "0.43", "2.41", "5.95", "0.20" },
+    { "PST-SD01C-1_2", "77.65", "13.05", "0.57", "0.07", "0.14", "2.08", "6.30", "0.16" },
+    { "PST-SD01C-3_1", "76.99", "13.35", "0.67", "0.05", "0.37", "2.41", "5.79", "0.15" },
+    { "PST-SD01C-4_1", "77.01", "13.14", "0.77", "0.09", "0.31", "2.51", "5.93", "0.14" },
+    { "PST-SD01C-4_2", "77.05", "13.06", "0.83", "0.07", "0.30", "2.59", "5.86", "0.17" },
+    { "PST-SD01C-5_1", "77.64", "13.07", "0.67", "0.00", "0.27", "2.24", "5.99", "0.12" },
+    { "PST-SD01C-7_1", "77.06", "13.12", "0.80", "0.05", "0.27", "2.43", "6.05", "0.11" },
+    { "PST-SD01C-7_2", "77.00", "13.09", "0.82", "0.07", "0.41", "2.54", "5.85", "0.15" },
+    { "PST-SD01C-8_1", "77.07", "13.11", "0.79", "0.00", "0.40", "2.55", "5.80", "0.14" },
+    { "PST-SD01C-8_2", "77.24", "13.12", "0.82", "0.08", "0.40", "2.40", "5.72", "0.15" },
+    { "PST-SD01C-8_3", "77.18", "13.20", "0.88", "0.06", "0.43", "2.46", "5.59", "0.13" }  
+  };
   char *string = (char *) malloc(500*sizeof(char));
   int i;
   
   system("rm -rf GUIL-RUNS");
   system("mkdir GUIL-RUNS");
   
-  for (i=0; i<10; i++) {
+  for (i=0; i<100; i++) {
   
   strcpy(string, "cd GUIL-RUNS; mkdir ");
   strcat(string, data_guil[i][0]);
@@ -459,21 +562,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 4000.0");
   system(string);
   
@@ -482,21 +585,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 375; cd 375; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 3750.0");
   system(string);
   
@@ -505,21 +608,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 350; cd 350; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 3500.0");
   system(string);
   
@@ -528,21 +631,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 325; cd 325; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 3250.0");
   system(string);
   
@@ -551,21 +654,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 300; cd 300; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 3000.0");
   system(string);
   
@@ -574,21 +677,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 275; cd 275; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 2750.0");
   system(string);
   
@@ -597,21 +700,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 250; cd 250; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 2500.0");
   system(string);
 
@@ -620,21 +723,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 225; cd 225; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 2250.0");
   system(string);
 
@@ -643,21 +746,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 200; cd 200; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 2000.0");
   system(string);
 
@@ -666,21 +769,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 175; cd 175; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 1750.0");
   system(string);
 
@@ -689,21 +792,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 150; cd 150; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 1500.0");
   system(string);
 
@@ -712,21 +815,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 125; cd 125; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 1250.0");
   system(string);
 
@@ -735,21 +838,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 100; cd 100; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 1000.0");
   system(string);
   
@@ -758,21 +861,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 75; cd 75; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 750.0");
   system(string);
   
@@ -781,21 +884,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 50; cd 50; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 500.0");
   system(string);
   
@@ -804,21 +907,21 @@ int main (int argc, char *argv[]) {
   strcat(string, "; mkdir 25; cd 25; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, data_guil[i][1]);  /* SiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][2]);  /* TiO2  */
+  strcat(string, data_guil[i][8]);  /* TiO2  */
   strcat(string, " ");
-  strcat(string, data_guil[i][3]);  /* Al2O3 */
+  strcat(string, data_guil[i][2]);  /* Al2O3 */
   strcat(string, " ");
-  strcat(string, data_guil[i][4]);  /* FeO   */
+  strcat(string, data_guil[i][3]);  /* FeO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][5]);  /* MgO   */
+  strcat(string, data_guil[i][4]);  /* MgO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][6]);  /* CaO   */
+  strcat(string, data_guil[i][5]);  /* CaO   */
   strcat(string, " ");
-  strcat(string, data_guil[i][7]);  /* Na2O  */
+  strcat(string, data_guil[i][6]);  /* Na2O  */
   strcat(string, " ");
-  strcat(string, data_guil[i][8]);  /* K2O   */
+  strcat(string, data_guil[i][7]);  /* K2O   */
   strcat(string, " ");
-  strcat(string, data_guil[i][9]); /* H2O   */
+  strcat(string, "7.0");            /* H2O   */
   strcat(string, " 250.0");
   system(string);
   

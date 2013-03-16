@@ -75,6 +75,7 @@ int main (int argc, char *argv[]) {
     else if (!strcmp(solids[i].label, "ortho-oxide"))   (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "alloy-solid"))   (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "alloy-liquid"))  (silminState->incSolids)[j] = FALSE;
+    else if (!strcmp(solids[i].label, "leucite"))       (silminState->incSolids)[j] = FALSE;
     else                                                (silminState->incSolids)[j] = TRUE; 
     j++; 
   }
