@@ -92,12 +92,12 @@ int main (int argc, char *argv[]) {
   
   double err[7];
   
-  err[0] = gasdev(&idum)*0.7;
+  err[0] = 0.0; // gasdev(&idum)*0.7;
   err[1] = 0.0; // gasdev(&idum)*0.4;
   err[2] = 0.0; // gasdev(&idum)*0.03;
   err[3] = 0.0; // gasdev(&idum)*0.01;
   err[4] = 0.0; // gasdev(&idum)*0.01;
-  err[5] = 0.0; // gasdev(&idum)*0.49;
+  err[5] = gasdev(&idum)*0.49;
   err[6] = 0.0; // gasdev(&idum)*0.24;
   
   printf("SiO2  = %6.2f +/- %6.2f\n", data[0], err[0]);
@@ -138,7 +138,7 @@ int main (int argc, char *argv[]) {
   strcat(string, "7.0");            /* H2O   */
   strcat(string, " 5000.0");
   system(string);
-#ifdef NEVER_DEFINED 
+
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
   strcat(string, "; mkdir 475; cd 475; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");  
@@ -194,7 +194,7 @@ int main (int argc, char *argv[]) {
   strcat(string, "7.0");            /* H2O   */
   strcat(string, " 4500.0");
   system(string);
-#endif  
+
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
   strcat(string, "; mkdir 425; cd 425; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");  
@@ -222,7 +222,7 @@ int main (int argc, char *argv[]) {
   strcat(string, "7.0");            /* H2O   */
   strcat(string, " 4250.0");
   system(string);
-#ifdef NEVER_DEFINED 
+
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
   strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");  
@@ -670,7 +670,7 @@ int main (int argc, char *argv[]) {
   strcat(string, "7.0");            /* H2O   */
   strcat(string, " 250.0");
   system(string);
-#endif 
+  
   }
 
 }
