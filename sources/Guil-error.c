@@ -138,7 +138,7 @@ int main (int argc, char *argv[]) {
   strcat(string, "7.0");            /* H2O   */
   strcat(string, " 5000.0");
   system(string);
-  
+#ifdef NEVER_DEFINED 
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
   strcat(string, "; mkdir 475; cd 475; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");  
@@ -194,7 +194,7 @@ int main (int argc, char *argv[]) {
   strcat(string, "7.0");            /* H2O   */
   strcat(string, " 4500.0");
   system(string);
-  
+#endif  
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
   strcat(string, "; mkdir 425; cd 425; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");  
@@ -220,9 +220,9 @@ int main (int argc, char *argv[]) {
   strcat(string, dataString);  /* K2O   */
   strcat(string, " ");
   strcat(string, "7.0");            /* H2O   */
-  strcat(string, "4250.0");
+  strcat(string, " 4250.0");
   system(string);
-  
+#ifdef NEVER_DEFINED 
   strcpy(string, "cd ERROR-RUNS; cd ");
   strcat(string, dirName);
   strcat(string, "; mkdir 400; cd 400; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");  
@@ -670,7 +670,7 @@ int main (int argc, char *argv[]) {
   strcat(string, "7.0");            /* H2O   */
   strcat(string, " 250.0");
   system(string);
-  
+#endif 
   }
 
 }
