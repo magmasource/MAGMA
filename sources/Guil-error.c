@@ -88,26 +88,29 @@ int main (int argc, char *argv[]) {
   system("rm -rf ERROR-RUNS");
   system("mkdir ERROR-RUNS");
   
-  for (i=0; i<100; i++) { // 1000
+  for (i=0; i<1000; i++) { // 100
   
   double err[7];
   
-  err[0] = 0.0; // gasdev(&idum)*0.7;
-  err[1] = 0.0; // gasdev(&idum)*0.4;
-  err[2] = 0.0; // gasdev(&idum)*0.03;
-  err[3] = 0.0; // gasdev(&idum)*0.01;
-  err[4] = 0.0; // gasdev(&idum)*0.01;
+  err[0] = gasdev(&idum)*0.7;
+  err[1] = gasdev(&idum)*0.4;
+  err[2] = gasdev(&idum)*0.03;
+  err[3] = gasdev(&idum)*0.01;
+  err[4] = gasdev(&idum)*0.01;
   err[5] = gasdev(&idum)*0.49;
-  err[6] = 0.0; // gasdev(&idum)*0.24;
+  err[6] = gasdev(&idum)*0.24;
   
-  printf("SiO2  = %6.2f +/- %6.2f\n", data[0], err[0]);
-  printf("Al2O3 = %6.2f +/- %6.2f\n", data[1], err[1]);
-  printf("FeO   = %6.2f +/- %6.2f\n", data[2], err[2]);
-  printf("MgO   = %6.2f +/- %6.2f\n", data[3], err[3]);
-  printf("CaO   = %6.2f +/- %6.2f\n", data[4], err[4]);
-  printf("Na2O  = %6.2f +/- %6.2f\n", data[5], err[5]);
-  printf("K2O   = %6.2f +/- %6.2f\n", data[6], err[6]);
-  
+  //printf("SiO2  = %6.2f +/- %6.2f\n", data[0], err[0]);
+  //printf("Al2O3 = %6.2f +/- %6.2f\n", data[1], err[1]);
+  //printf("FeO   = %6.2f +/- %6.2f\n", data[2], err[2]);
+  //printf("MgO   = %6.2f +/- %6.2f\n", data[3], err[3]);
+  //printf("CaO   = %6.2f +/- %6.2f\n", data[4], err[4]);
+  //printf("Na2O  = %6.2f +/- %6.2f\n", data[5], err[5]);
+  //printf("K2O   = %6.2f +/- %6.2f\n", data[6], err[6]);
+  printf("%10.6f,%10.6f,%10.6f,%10.6f,%10.6f,%10.6f,%10.6f\n",
+    data[0]+err[0],data[1]+err[1],data[2]+err[2],data[3]+err[3],
+    data[4]+err[4],data[5]+err[5],data[6]+err[6]);
+#ifdef NEVER_DEFINED  
   strcpy(string, "cd ERROR-RUNS; mkdir ");  
   sprintf(dirName, "16-Lu-2-case%d", i);
   strcat(string, dirName);
@@ -670,7 +673,7 @@ int main (int argc, char *argv[]) {
   strcat(string, "7.0");            /* H2O   */
   strcat(string, " 250.0");
   system(string);
-  
+#endif  
   }
 
 }
