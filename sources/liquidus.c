@@ -287,7 +287,7 @@ int liquidus(void)
     hasSupersaturation = evaluateSaturationState((silminState->ySol), (silminState->yLiq));
 
 #ifndef BATCH_VERSION
-    updateSolidADB(ySol, yLiq);
+    updateSolidADB((silminState->ySol), (silminState->yLiq));
     workProcData->active = TRUE;
 #endif
     curStep++;
