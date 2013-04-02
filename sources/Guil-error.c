@@ -93,12 +93,12 @@ int main (int argc, char *argv[]) {
   double err[7];
   
   err[0] = 0.0; // gasdev(&idum)*0.7;
-  err[1] = 0.0; // gasdev(&idum)*0.4;
+  err[1] = gasdev(&idum)*0.4;
   err[2] = 0.0; // gasdev(&idum)*0.03;
   err[3] = 0.0; // gasdev(&idum)*0.01;
   err[4] = 0.0; // gasdev(&idum)*0.01;
-  err[5] = gasdev(&idum)*0.49;
-  err[6] = 0.0; // gasdev(&idum)*0.24;
+  err[5] = 0.0; // gasdev(&idum)*0.49;
+  err[6] = 0.0; //gasdev(&idum)*0.24;
   
   printf("SiO2  = %6.2f +/- %6.2f\n", data[0], err[0]);
   printf("Al2O3 = %6.2f +/- %6.2f\n", data[1], err[1]);
