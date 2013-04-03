@@ -27,26 +27,26 @@ int main (int argc, char *argv[]) {
   double bulkComposition[20];
   int i, j;
   
-  if (argc != 11) {
+  if (argc != 13) {
     printf("Wrong number of arguments.\n");
     exit(1);
   }
   
-  bulkComposition[ 0] = atof(argv[1]); /* SiO2  */
-  bulkComposition[ 1] = atof(argv[2]); /* TiO2  */
-  bulkComposition[ 2] = atof(argv[3]); /* Al2O3 */
+  bulkComposition[ 0] = atof(argv[1]);  /* SiO2  */
+  bulkComposition[ 1] = atof(argv[2]);  /* TiO2  */
+  bulkComposition[ 2] = atof(argv[3]);  /* Al2O3 */
   bulkComposition[ 3] = 0.0;
   bulkComposition[ 4] = 0.0;
-  bulkComposition[ 5] = atof(argv[4]); /* FeO   */
-  bulkComposition[ 6] = 0.0;
-  bulkComposition[ 7] = atof(argv[5]); /* MgO   */
+  bulkComposition[ 5] = atof(argv[4]);  /* FeO   */
+  bulkComposition[ 6] = atof(argv[5]);  /* MnO   */
+  bulkComposition[ 7] = atof(argv[6]);  /* MgO   */
   bulkComposition[ 8] = 0.0;
   bulkComposition[ 9] = 0.0;
-  bulkComposition[10] = atof(argv[6]); /* CaO   */
-  bulkComposition[11] = atof(argv[7]); /* Na2O  */
-  bulkComposition[12] = atof(argv[8]); /* K2O   */
-  bulkComposition[13] = 0.0;
-  bulkComposition[14] = atof(argv[9]); /* H2O   */
+  bulkComposition[10] = atof(argv[7]);  /* CaO   */
+  bulkComposition[11] = atof(argv[8]);  /* Na2O  */
+  bulkComposition[12] = atof(argv[9]);  /* K2O   */
+  bulkComposition[13] = atof(argv[10]); /* P2O5  */
+  bulkComposition[14] = atof(argv[11]); /* H2O   */
   bulkComposition[15] = 0.0;
   bulkComposition[16] = 0.0;
   bulkComposition[17] = 0.0;
@@ -101,13 +101,13 @@ int main (int argc, char *argv[]) {
   silminState->isenthalpic = FALSE;  
   silminState->isentropic  = FALSE; 
   silminState->isochoric   = FALSE; 
-  silminState->T           = 1273.15;
-  silminState->dspTstart   = 1273.15;
-  silminState->dspTstop    =  973.15; 
+  silminState->T           = 1123.15;
+  silminState->dspTstart   = 1123.15;
+  silminState->dspTstop    =  963.15; 
   silminState->dspTinc     =    1.0; 
-  silminState->P           = atof(argv[10]);  
-  silminState->dspPstart   = atof(argv[10]);  		  
-  silminState->dspPstop    = atof(argv[10]);
+  silminState->P           = atof(argv[12]);  
+  silminState->dspPstart   = atof(argv[12]);  		  
+  silminState->dspPstop    = atof(argv[12]);
   silminState->dspPinc     = 0.0;
   silminState->dspDPDH     = 0.0;
       
