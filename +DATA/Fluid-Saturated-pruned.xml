@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<LEPRdatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../LEPRdatabase.xsd">
+<LEPRdatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../LEPRdatabase.xsd">
 
 
 
@@ -51703,7 +51704,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12382</number>
+<number>12593</number>
 <name>AW3</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -51726,19 +51727,19 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>48.2841</sio2>
-<tio2>2.56367</tio2>
-<al2o3>18.9157</al2o3>
-<feo>8.52247</feo>
-<mgo>2.68245</mgo>
-<cao>7.67121</cao>
-<na2o>5.74103</na2o>
-<k2o>2.59336</k2o>
+<sio2>48.2632</sio2>
+<tio2>2.80486</tio2>
+<al2o3>18.7767</al2o3>
+<feo>8.36057</feo>
+<mgo>2.75086</mgo>
+<cao>7.4965</cao>
+<na2o>5.9945</na2o>
+<k2o>2.61584</k2o>
 <h2o>2.46</h2o>
-<co2>0.566</co2>
+<co2>0.477</co2>
 </liquid>
 <phase type="fluid">
 <h2o>0.151</h2o>
@@ -51746,7 +51747,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12383</number>
+<number>12594</number>
 <name>AW12</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -51769,19 +51770,19 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>48.8139</sio2>
-<tio2>2.5918</tio2>
-<al2o3>19.1233</al2o3>
-<feo>8.37582</feo>
-<mgo>2.71189</mgo>
-<cao>7.75539</cao>
-<na2o>5.80404</na2o>
-<k2o>2.62182</k2o>
-<h2o>1.69</h2o>
-<co2>0.512</co2>
+<sio2>48.38</sio2>
+<tio2>2.67737</tio2>
+<al2o3>18.8251</al2o3>
+<feo>8.23963</feo>
+<mgo>2.76595</mgo>
+<cao>7.75376</cao>
+<na2o>6.08862</na2o>
+<k2o>2.64954</k2o>
+<h2o>2.11</h2o>
+<co2>0.51</co2>
 </liquid>
 <phase type="fluid">
 <h2o>0.063</h2o>
@@ -51789,7 +51790,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12384</number>
+<number>12595</number>
 <name>AW15</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -51812,19 +51813,19 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>48.5523</sio2>
-<tio2>2.57791</tio2>
-<al2o3>19.0208</al2o3>
-<feo>8.06218</feo>
-<mgo>2.69735</mgo>
-<cao>7.71382</cao>
-<na2o>5.77292</na2o>
-<k2o>2.60777</k2o>
-<h2o>2.39</h2o>
-<co2>0.605</co2>
+<sio2>48.6599</sio2>
+<tio2>2.78577</tio2>
+<al2o3>18.9538</al2o3>
+<feo>7.81474</feo>
+<mgo>2.7554</mgo>
+<cao>7.78235</cao>
+<na2o>5.24559</na2o>
+<k2o>2.51246</k2o>
+<h2o>2.98</h2o>
+<co2>0.51</co2>
 </liquid>
 <phase type="fluid">
 <h2o>0.267</h2o>
@@ -51832,7 +51833,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12385</number>
+<number>12596</number>
 <name>AW19</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -51855,27 +51856,27 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>49.0768</sio2>
-<tio2>2.60576</tio2>
-<al2o3>19.2263</al2o3>
-<feo>7.99836</feo>
-<mgo>2.72649</mgo>
-<cao>7.79715</cao>
-<na2o>5.83529</na2o>
-<k2o>2.63594</k2o>
+<sio2>49.0667</sio2>
+<tio2>2.77891</tio2>
+<al2o3>18.9909</al2o3>
+<feo>7.78984</feo>
+<mgo>2.78917</mgo>
+<cao>7.88554</cao>
+<na2o>5.99192</na2o>
+<k2o>2.67295</k2o>
 <h2o>1.69</h2o>
-<co2>0.408</co2>
+<co2>0.344</co2>
 </liquid>
 <phase type="fluid">
-<h2o>0.55</h2o>
-<co2>0.45</co2>
+<h2o>0.12</h2o>
+<co2>0.88</co2>
 </phase>
 </experiment>
 <experiment>
-<number>12386</number>
+<number>12597</number>
 <name>AW27</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -51898,27 +51899,27 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>48.5729</sio2>
-<tio2>2.57901</tio2>
-<al2o3>19.0289</al2o3>
-<feo>8.84231</feo>
-<mgo>2.6985</mgo>
-<cao>7.7171</cao>
-<na2o>5.77538</na2o>
-<k2o>2.60888</k2o>
-<h2o>1.82</h2o>
-<co2>0.357</co2>
+<sio2>48.2915</sio2>
+<tio2>2.80426</tio2>
+<al2o3>18.7943</al2o3>
+<feo>8.65296</feo>
+<mgo>2.76029</mgo>
+<cao>7.63815</cao>
+<na2o>5.92988</na2o>
+<k2o>2.53365</k2o>
+<h2o>2.28</h2o>
+<co2>0.315</co2>
 </liquid>
 <phase type="fluid">
-<h2o>0.45</h2o>
-<co2>0.55</co2>
+<h2o>0.57</h2o>
+<co2>0.43</co2>
 </phase>
 </experiment>
 <experiment>
-<number>12387</number>
+<number>12598</number>
 <name>AW34</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -51941,19 +51942,19 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>48.1967</sio2>
-<tio2>2.55903</tio2>
-<al2o3>18.8815</al2o3>
-<feo>9.28759</feo>
-<mgo>2.67759</mgo>
-<cao>7.65732</cao>
-<na2o>5.73064</na2o>
-<k2o>2.58867</k2o>
+<sio2>48.2307</sio2>
+<tio2>2.81577</tio2>
+<al2o3>18.6223</al2o3>
+<feo>9.2885</feo>
+<mgo>2.83591</mgo>
+<cao>7.35424</cao>
+<na2o>6.0471</na2o>
+<k2o>2.50346</k2o>
 <h2o>1.68</h2o>
-<co2>0.741</co2>
+<co2>0.622</co2>
 </liquid>
 <phase type="fluid">
 <h2o>0.47</h2o>
@@ -51961,7 +51962,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12388</number>
+<number>12599</number>
 <name>AW39</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -51984,19 +51985,19 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>47.4883</sio2>
-<tio2>2.52142</tio2>
-<al2o3>18.604</al2o3>
-<feo>8.26519</feo>
-<mgo>2.63824</mgo>
-<cao>7.54479</cao>
-<na2o>5.64642</na2o>
-<k2o>2.55062</k2o>
-<h2o>4.14</h2o>
-<co2>0.601</co2>
+<sio2>46.865</sio2>
+<tio2>2.8546</tio2>
+<al2o3>18.2443</al2o3>
+<feo>8.06145</feo>
+<mgo>2.7358</mgo>
+<cao>7.3758</cao>
+<na2o>5.18309</na2o>
+<k2o>2.42692</k2o>
+<h2o>5.76</h2o>
+<co2>0.493</co2>
 </liquid>
 <phase type="fluid">
 <h2o>0.653</h2o>
@@ -52004,7 +52005,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12389</number>
+<number>12600</number>
 <name>AW40</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -52027,27 +52028,27 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>46.8111</sio2>
-<tio2>2.48546</tio2>
-<al2o3>18.3387</al2o3>
-<feo>7.59074</feo>
-<mgo>2.60062</mgo>
-<cao>7.4372</cao>
-<na2o>5.5659</na2o>
-<k2o>2.51425</k2o>
+<sio2>46.9082</sio2>
+<tio2>2.73258</tio2>
+<al2o3>18.0416</al2o3>
+<feo>7.47345</feo>
+<mgo>2.73587</mgo>
+<cao>7.35822</cao>
+<na2o>5.75159</na2o>
+<k2o>2.44945</k2o>
 <h2o>5.97</h2o>
-<co2>0.686</co2>
+<co2>0.579</co2>
 </liquid>
 <phase type="fluid">
-<h2o>0.64</h2o>
-<co2>0.36</co2>
+<h2o>0.47</h2o>
+<co2>0.53</co2>
 </phase>
 </experiment>
 <experiment>
-<number>12390</number>
+<number>12601</number>
 <name>AW41</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -52070,27 +52071,27 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>46.2314</sio2>
-<tio2>2.45468</tio2>
-<al2o3>18.1116</al2o3>
-<feo>8.31179</feo>
-<mgo>2.56841</mgo>
-<cao>7.34509</cao>
-<na2o>5.49697</na2o>
-<k2o>2.48311</k2o>
+<sio2>46.3854</sio2>
+<tio2>2.65088</tio2>
+<al2o3>17.886</al2o3>
+<feo>8.25455</feo>
+<mgo>2.72719</mgo>
+<cao>7.23268</cao>
+<na2o>5.38802</na2o>
+<k2o>2.47835</k2o>
 <h2o>6.41</h2o>
 <co2>0.587</co2>
 </liquid>
 <phase type="fluid">
-<h2o>0.72</h2o>
-<co2>0.28</co2>
+<h2o>0.41</h2o>
+<co2>0.59</co2>
 </phase>
 </experiment>
 <experiment>
-<number>12391</number>
+<number>12602</number>
 <name>AW44</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -52113,17 +52114,17 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>49.2024</sio2>
-<tio2>2.61243</tio2>
-<al2o3>19.2755</al2o3>
-<feo>7.93815</feo>
-<mgo>2.73347</mgo>
-<cao>7.81711</cao>
-<na2o>5.85023</na2o>
-<k2o>2.64269</k2o>
+<sio2>48.5302</sio2>
+<tio2>2.87118</tio2>
+<al2o3>19.1861</al2o3>
+<feo>7.79261</feo>
+<mgo>2.88154</mgo>
+<cao>7.8237</cao>
+<na2o>6.28135</na2o>
+<k2o>2.70533</k2o>
 <h2o>1.21</h2o>
 <co2>0.718</co2>
 </liquid>
@@ -52133,7 +52134,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12392</number>
+<number>12603</number>
 <name>AW45</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -52156,27 +52157,27 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>46.954</sio2>
-<tio2>2.49305</tio2>
-<al2o3>18.3946</al2o3>
-<feo>8.66309</feo>
-<mgo>2.60855</mgo>
-<cao>7.45989</cao>
-<na2o>5.58288</na2o>
-<k2o>2.52192</k2o>
-<h2o>4.41</h2o>
-<co2>0.912</co2>
+<sio2>45.3582</sio2>
+<tio2>2.85732</tio2>
+<al2o3>18.3931</al2o3>
+<feo>8.50972</feo>
+<mgo>2.77225</mgo>
+<cao>7.35393</cao>
+<na2o>5.54034</na2o>
+<k2o>2.57512</k2o>
+<h2o>5.83</h2o>
+<co2>0.81</co2>
 </liquid>
 <phase type="fluid">
-<h2o>0.81</h2o>
-<co2>0.19</co2>
+<h2o>0.56</h2o>
+<co2>0.44</co2>
 </phase>
 </experiment>
 <experiment>
-<number>12393</number>
+<number>12604</number>
 <name>AW46</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -52199,19 +52200,19 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>46.8589</sio2>
-<tio2>2.488</tio2>
-<al2o3>18.3574</al2o3>
-<feo>8.30933</feo>
-<mgo>2.60327</mgo>
-<cao>7.44478</cao>
-<na2o>5.57157</na2o>
-<k2o>2.51681</k2o>
+<sio2>46.3826</sio2>
+<tio2>2.87556</tio2>
+<al2o3>18.1807</al2o3>
+<feo>8.26974</feo>
+<mgo>2.68875</mgo>
+<cao>7.51916</cao>
+<na2o>5.6377</na2o>
+<k2o>2.69876</k2o>
 <h2o>4.93</h2o>
-<co2>0.92</co2>
+<co2>0.817</co2>
 </liquid>
 <phase type="fluid">
 <h2o>0.5</h2o>
@@ -52219,7 +52220,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12394</number>
+<number>12605</number>
 <name>AW48</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -52242,19 +52243,19 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>49.5001</sio2>
-<tio2>2.62823</tio2>
-<al2o3>19.3921</al2o3>
-<feo>5.01292</feo>
-<mgo>2.75</mgo>
-<cao>7.8644</cao>
-<na2o>5.88562</na2o>
-<k2o>2.65867</k2o>
-<h2o>3.62</h2o>
-<co2>0.688</co2>
+<sio2>50.5087</sio2>
+<tio2>2.07484</tio2>
+<al2o3>20.4118</al2o3>
+<feo>4.68471</feo>
+<mgo>0.905624</mgo>
+<cao>5.5825</cao>
+<na2o>7.23716</na2o>
+<k2o>3.07964</k2o>
+<h2o>4.93</h2o>
+<co2>0.585</co2>
 </liquid>
 <phase type="fluid">
 <h2o>0.46</h2o>
@@ -52262,7 +52263,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12395</number>
+<number>12606</number>
 <name>AW49</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -52285,19 +52286,19 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>47.9658</sio2>
-<tio2>2.54677</tio2>
-<al2o3>18.791</al2o3>
-<feo>6.98149</feo>
-<mgo>2.66477</mgo>
-<cao>7.62065</cao>
-<na2o>5.70319</na2o>
-<k2o>2.57627</k2o>
+<sio2>46.933</sio2>
+<tio2>2.9727</tio2>
+<al2o3>19.0793</al2o3>
+<feo>6.84556</feo>
+<mgo>2.91269</mgo>
+<cao>7.79074</cao>
+<na2o>5.70964</na2o>
+<k2o>2.74337</k2o>
 <h2o>4.24</h2o>
-<co2>0.91</co2>
+<co2>0.773</co2>
 </liquid>
 <phase type="fluid">
 <h2o>0.41</h2o>
@@ -52305,7 +52306,7 @@
 </phase>
 </experiment>
 <experiment>
-<number>12396</number>
+<number>12607</number>
 <name>AW50</name>
 <author>Iacovino, K., Moore, G., Roggensack, K., Oppenheimer, C., Kyle, P. (2013)</author>
 <lab>Arizona State University</lab>
@@ -52328,23 +52329,23 @@
 <cao>7.75</cao>
 <na2o>5.8</na2o>
 <k2o>2.62</k2o>
-<dt_entered>2012-11-30 00:00:00</dt_entered>
+<dt_entered>2013-04-29 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>48.4891</sio2>
-<tio2>2.57455</tio2>
-<al2o3>18.996</al2o3>
-<feo>6.51094</feo>
-<mgo>2.69384</mgo>
-<cao>7.70378</cao>
-<na2o>5.76541</na2o>
-<k2o>2.60437</k2o>
+<sio2>48.7067</sio2>
+<tio2>2.82653</tio2>
+<al2o3>19.4736</al2o3>
+<feo>6.28078</feo>
+<mgo>2.31803</mgo>
+<cao>7.01371</cao>
+<na2o>5.99673</na2o>
+<k2o>2.76691</k2o>
 <h2o>4.27</h2o>
-<co2>0.392</co2>
+<co2>0.347</co2>
 </liquid>
 <phase type="fluid">
-<h2o>0.81</h2o>
-<co2>0.19</co2>
+<h2o>0.5</h2o>
+<co2>0.5</co2>
 </phase>
 </experiment>
 <experiment>
