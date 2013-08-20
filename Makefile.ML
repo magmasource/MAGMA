@@ -28,8 +28,8 @@ MELTS_WWW_BROWSER      =
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
 MELTS_X_VERSION        = X11R6/OpenMotif3
-MELTS_RELEASE_DATE     = July 2012
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.1 (rhyolite) (Mac OS X - 10.7.2, clang 3.0, 64 bit)
+MELTS_RELEASE_DATE     = August 2013
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2 (rhyolite) (Mac OS X - 10.8.4, clang 3.0, 64 bit)
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================

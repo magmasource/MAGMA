@@ -2146,7 +2146,7 @@ int main (int argc, char *argv[])
         printf("---> Calculation mode is xMELTS (experimental v 5.6.1).\n");
     } else if (calculationMode == MODE__MELTS) {
 #ifdef RHYOLITE_ADJUSTMENTS
-        printf("---> Calculation mode is rhyolite-MELTS (public release v 1.0.1).\n");
+        printf("---> Calculation mode is rhyolite-MELTS (public release v 1.0.2).\n");
 #else
         printf("---> Calculation mode is MELTS (public release v 5.6.1).\n");
 #endif
@@ -2195,7 +2195,7 @@ int main (int argc, char *argv[])
     icon_pixmap = XCreateBitmapFromData (XtDisplay (topLevel), RootWindowOfScreen (XtScreen (topLevel)), icon_bits, icon_width, icon_height);
     if      (calculationMode == MODE__MELTS)
 #ifdef RHYOLITE_ADJUSTMENTS
-        XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "rhyolite-MELTS (code release 1.0.1)",  XmNiconName, "Melts",  NULL);
+        XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "rhyolite-MELTS (code release 1.0.2)",  XmNiconName, "Melts",  NULL);
 #else
     XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "MELTS (code release 5.6.1)",  XmNiconName, "Melts",  NULL);
 #endif
