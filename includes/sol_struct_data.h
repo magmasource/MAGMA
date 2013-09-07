@@ -1518,7 +1518,7 @@ Solids xMeltsSolids[] = {
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
-#ifdef RHYOLITE_ADJUSTMENTS
+#ifdef NEVER_DEFINED
   {"biotite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -2300,26 +2300,6 @@ Solids xMeltsSolids[] = {
    EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
-  {"h2oduan", PHASE, "H2O", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                                        /* Calculated in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   }
-  },
-  {"co2duan", PHASE, "CO2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
-   0.0, 0.0,                                        /* Calculated in GIBBS.C */
-   {                /* ThermoRef structure                                   */
-   -54955.2356,     /* H ref (J) non-zero to allow phase inclusion in preclb */
-   0.0,             /* S ref (J/K)                                           */
-   0.0,             /* V ref (J/bar)                                         */
-   CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},                               
-   EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
-   }
-  },
   {"alloy-solid", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -3088,6 +3068,7 @@ Solids meltsSolids[] = {
    EOS_BERMAN, {{-1.392e-6, 3.481e-12, 24.374e-6, 98.338e-10}} 
    }
   },
+#ifdef NEVER_DEFINED
   {"biotitetaj", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
@@ -3161,6 +3142,7 @@ Solids meltsSolids[] = {
    EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}} 
    }
   },
+#endif
   {"biotite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */

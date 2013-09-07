@@ -937,6 +937,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
       /* special case - no EOS option */
       } else if( (strcmp(name, "H2O") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
          double a = -33676.0 + phase->h/r, b = 18.3527 - phase->s/r;
+#ifndef RHYOLITE_ADJUSTMENTS
          double phiP = (0.110/t + 4.432e-5 + 1.405e-7*t - 2.394e-11*t*t)*p
            + (7.337e-8/t - 1.170e-8 - 9.502e-13*t)*p*p
            + (1.876e-10/t + 4.586e-13)*CUBE(p) - 1.191e-14*QUARTIC(p)/t;
@@ -949,6 +950,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          double d3phiPdt3 = -6.0*0.110*p/QUARTIC(t)
            - 6.0*7.337e-8*p*p/QUARTIC(t) - 6.0*1.876e-10*CUBE(p)/QUARTIC(t) 
            + 6.0*1.191e-14*QUARTIC(p)/QUARTIC(t);
+#endif
          double gRobie = r*t*(2.9147*log(t) - 9.6863e-4*t + 6.8593e-8*t*t
            + 77.8899/sqrt(t) - 28954.8/t - 2263.27/SQUARE(t) - 15.8997);
          double dgRobiedt = r*(2.9147*log(t) - 9.6863e-4*t + 6.8593e-8*t*t
@@ -967,22 +969,45 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
            + 24.0*2263.27/QUINTIC(t));
          double gH2O, hH2O, sH2O, cpH2O, dcpdtH2O, vH2O, dvdtH2O, dvdpH2O, 
            d2vdt2H2O, d2vdtdpH2O, d2vdp2H2O, dgdt, d2gdt2, d3gdt3;
+           
+#ifdef RHYOLITE_ADJUSTMENTS
+         double vOaksLange    = 2.775;
+         double dvdtOaksLange = 1.086e-3;
+         double dvdpOaksLange = -0.382e-4;
+#endif
 
          whaar(1.0, t, &gH2O, &hH2O, &sH2O, &cpH2O, &dcpdtH2O, &vH2O, &dvdtH2O, 
            &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O);
 
+#ifdef RHYOLITE_ADJUSTMENTS
+         gl     = r*t*(a/t + b) + gH2O - gRobie 
+                + vOaksLange*(p-1.0) + dvdtOaksLange*(t-1673.15)*(p-1.0) + 0.5*dvdpOaksLange*(p-1.0)*(p-1.0);
+         dgdt   = r*(a/t + b) + r*t*(-a/SQUARE(t)) - dgRobiedt + dvdtOaksLange*(p-1.0);
+         sl     = sH2O - dgdt;
+         hl     = r*t*(a/t + b) + gH2O - gRobie  + t*(sH2O - dgdt) 
+                + vOaksLange*(p-1.0) + dvdtOaksLange*(t-1673.15)*(p-1.0) + 0.5*dvdpOaksLange*(p-1.0)*(p-1.0);
+         d2gdt2 = 2.0*r*(-a/SQUARE(t)) + r*t*(2.0*a/CUBE(t)) - d2gRobiedt2;
+         d3gdt3 = 3.0*r*(2.0*a/CUBE(t)) + r*t*(-6.0*a/QUARTIC(t)) - d3gRobiedt3;
+#else
          gl     = r*t*(a/t + b + phiP) + gH2O - gRobie;
-
          dgdt   = r*(a/t + b + phiP) + r*t*(-a/SQUARE(t) + dphiPdt) - dgRobiedt;
-         d2gdt2 = 2.0*r*(-a/SQUARE(t) + dphiPdt) + r*t*(2.0*a/CUBE(t) 
-                + d2phiPdt2) - d2gRobiedt2;
-         d3gdt3 = 3.0*r*(2.0*a/CUBE(t) + d2phiPdt2) + r*t*(-6.0*a/QUARTIC(t) 
-                + d3phiPdt3) - d3gRobiedt3;
-
          sl     = sH2O - dgdt;
          hl     = gl + t*sl;
+         d2gdt2 = 2.0*r*(-a/SQUARE(t) + dphiPdt) + r*t*(2.0*a/CUBE(t) + d2phiPdt2) - d2gRobiedt2;
+         d3gdt3 = 3.0*r*(2.0*a/CUBE(t) + d2phiPdt2) + r*t*(-6.0*a/QUARTIC(t) + d3phiPdt3) - d3gRobiedt3;
+#endif
+
          cpl    = cpH2O - t*d2gdt2;
          dcpldt = dcpdtH2O - d2gdt2 - t*d3gdt3;
+         
+#ifdef RHYOLITE_ADJUSTMENTS
+         vl       = vOaksLange + dvdtOaksLange*(t-1673.15) + dvdpOaksLange*(p-1.0);
+         dvldt    = dvdtOaksLange; 
+         dvldp    = dvdpOaksLange;
+         d2vldt2  = 0.0;
+         d2vldp2  = 0.0;
+         d2vldtdp = 0.0;
+#else         
          vl       = r*(0.110 + 4.432e-5*t + 1.405e-7*t*t - 2.394e-11*CUBE(t))
                   + 2.0*r*(7.337e-8 - 1.170e-8*t - 9.502e-13*t*t)*p
                   + 3.0*r*(1.876e-10 + 4.586e-13*t)*p*p 
@@ -994,14 +1019,15 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          d2vldt2  = r*(2.0*1.405e-7 - 6.0*2.394e-11*t) - 4.0*r*9.502e-13*p;
          d2vldp2  = 6.0*r*(1.876e-10 + 4.586e-13*t) - 24.0*r*1.191e-14*p;
          d2vldtdp = - 2.0*r*(1.170e-8 + 2.0*9.502e-13*t) + 6.0*r*4.586e-13*p;
+#endif
 
       /* special case - no EOS option */
       } else if( (strcmp(name, "CO2") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
-         double hCO2       = -372530.0 + phase->h;
-         double sCO2       =     194.2 + phase->s;
-         double vCO2       =  3.1;    /* Lange */
-         double dvCO2dt    =  0.0;
-         double dvCO2dp    =  0.0;
+         double hCO2       = -367339.0;
+         double sCO2       =     177.2;
+         double vCO2       =  2.536;
+         double dvCO2dt    =  1.086e-3;
+         double dvCO2dp    = -0.382e-4;
          
          vl       = vCO2 + dvCO2dt*(t-trl) + dvCO2dp*(p-pr);
          dvldt    = dvCO2dt; 
@@ -1012,7 +1038,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
                   
          gl     = hCO2 - t*sCO2 + vCO2*(p-pr) + dvCO2dt*(t-trl)*(p-pr) + dvCO2dp*(p*p/2.0 - pr*pr/2.0 -pr*(p-pr));
          sl     = sCO2 - dvCO2dt*(p-pr);
-         hl     = gl + t*sl; 
+         hl     = hCO2 + vCO2*(p-pr) + dvCO2dt*(t-trl)*(p-pr) + dvCO2dp*(p*p/2.0 - pr*pr/2.0 -pr*(p-pr)) - t*dvCO2dt*(p-pr);; 
          cpl    = 0.0;
          dcpldt = 0.0;
 

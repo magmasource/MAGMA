@@ -33,7 +33,7 @@ static ModelParameters originalModelParameters[] = {
   { "W(Na2SiO3   ,SiO2      )",      -99039.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(KAlSiO4   ,SiO2      )",      -33921.7,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,SiO2      )",       61891.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,SiO2      )", 	  41179.3,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 70625.7 */
+  { "W(CO2	 ,SiO2      )", 	  41179.3,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 41179.3 */
   { "W(S	 ,SiO2      )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,SiO2      )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,SiO2      )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
@@ -51,7 +51,7 @@ static ModelParameters originalModelParameters[] = {
   { "W(Na2SiO3   ,TiO2      )",      -15415.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(KAlSiO4   ,TiO2      )",      -48094.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,TiO2      )",       25938.8,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,TiO2      )", 	  20537.1,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 25567.2 */
+  { "W(CO2	 ,TiO2      )", 	  20537.1,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 20537.1 */
   { "W(S	 ,TiO2      )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,TiO2      )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,TiO2      )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
@@ -68,7 +68,7 @@ static ModelParameters originalModelParameters[] = {
   { "W(Na2SiO3   ,Al2O3     )",     -130785.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(KAlSiO4   ,Al2O3     )",      -25859.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,Al2O3     )",       52220.8,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,Al2O3     )", 	  59270.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 40890.3 */
+  { "W(CO2	 ,Al2O3     )", 	  59270.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 59270.2 */
   { "W(S	 ,Al2O3     )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,Al2O3     )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,Al2O3     )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
@@ -84,7 +84,7 @@ static ModelParameters originalModelParameters[] = {
   { "W(Na2SiO3   ,Fe2O3     )",     -149662.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(KAlSiO4   ,Fe2O3     )",       57555.9,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,Fe2O3     )",       -4213.9,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,Fe2O3     )", 	  1228.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 1583.9 */
+  { "W(CO2	 ,Fe2O3     )", 	  1228.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 1228.2 */
   { "W(S	 ,Fe2O3     )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,Fe2O3     )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,Fe2O3     )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
@@ -113,7 +113,7 @@ static ModelParameters originalModelParameters[] = {
   { "W(Na2SiO3   ,Fe2SiO4   )",      -90533.8,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(KAlSiO4   ,Fe2SiO4   )",       23649.4,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,Fe2SiO4   )",       87410.3,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,Fe2SiO4   )", 	  123147.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 137236.7 */
+  { "W(CO2	 ,Fe2SiO4   )", 	  123147.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 123147.0 */
   { "W(S	 ,Fe2SiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,Fe2SiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,Fe2SiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
@@ -138,7 +138,7 @@ static ModelParameters originalModelParameters[] = {
   { "W(Na2SiO3   ,Mg2SiO4   )",      -41876.9,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(KAlSiO4   ,Mg2SiO4   )",       22323.1,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,Mg2SiO4   )",      -23208.8,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,Mg2SiO4   )", 	 -23238.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 39168.5 */
+  { "W(CO2	 ,Mg2SiO4   )", 	 -23238.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species -23238.2 */
   { "W(S	 ,Mg2SiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,Mg2SiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,Mg2SiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
@@ -168,26 +168,26 @@ static ModelParameters originalModelParameters[] = {
   { "W(Na2SiO3   ,CaSiO3    )",      -13247.1,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(KAlSiO4   ,CaSiO3    )",       17111.1,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,CaSiO3    )",       37070.3,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,CaSiO3    )", 	  4882.1,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 49434.1 */
+  { "W(CO2	 ,CaSiO3    )", 	  4882.1,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 4882.1 */
   { "W(S	 ,CaSiO3    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,CaSiO3    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,CaSiO3    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(H2O	 ,CaSiO3    )",       20374.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
+  { "W(H2O	 ,CaSiO3    )",       13875.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 20374.6 */
 
   { "W(KAlSiO4   ,Na2SiO3   )",        6522.8,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,Na2SiO3   )",       15571.9,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,Na2SiO3   )", 	  -132044.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species -18776.6 */
+  { "W(CO2	 ,Na2SiO3   )", 	  -132044.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species -132044.2 */
   { "W(S	 ,Na2SiO3   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,Na2SiO3   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,Na2SiO3   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(H2O	 ,Na2SiO3   )",      -96937.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
+  { "W(H2O	 ,Na2SiO3   )",      -72798.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species -96937.6 */
 
   { "W(Ca3(PO4)2 ,KAlSiO4   )",       17100.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(CO2	 ,KAlSiO4   )", 	  -1221.7,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 37296.5 */
+  { "W(CO2	 ,KAlSiO4   )", 	  -1221.7,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species -1221.7 */
   { "W(S	 ,KAlSiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,KAlSiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,KAlSiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(H2O	 ,KAlSiO4   )",       10374.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
+  { "W(H2O	 ,KAlSiO4   )",       -3703.8,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 10374.2 */
 
   { "W(CO2	 ,Ca3(PO4)2 )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(S	 ,Ca3(PO4)2 )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
@@ -198,7 +198,7 @@ static ModelParameters originalModelParameters[] = {
   { "W(S	 ,CO2	    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,CO2	    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,CO2	    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(H2O	 ,CO2	    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
+  { "W(H2O	 ,CO2	    )",   39760.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 0.0 */
 
   { "W(Cl	 ,S	    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,S	    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
