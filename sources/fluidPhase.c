@@ -1393,8 +1393,6 @@ static void duanDriver(int useLowPcoeff, double t, double p, double x[2],
   double lnPhiH2O, lnPhiCO2, dlnPhiH2Odv, dlnPhiCO2dv, dlnPhiH2Odt, dlnPhiCO2dt;
   double d2lnPhiH2Odv2, d2lnPhiCO2dv2, d2lnPhiH2Odt2, d2lnPhiCO2dt2, d2lnPhiH2Odvdt, d2lnPhiCO2dvdt;
   double dlnPhiH2OdnH2O, dlnPhiH2OdnCO2, dlnPhiCO2dnH2O, dlnPhiCO2dnCO2;
-  double delv;
-  int iter;
     
   BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
@@ -1404,17 +1402,36 @@ static void duanDriver(int useLowPcoeff, double t, double p, double x[2],
   BetaAndDerivative   (useLowPcoeff, t, x, &beta,   betaPrime);
   GammaVcAndDerivative(useLowPcoeff, t, x, &gammav, gammavPrime, gamma2vPrime2);
 
-  iter = 0;
-  v = 8.314467*t/p;
-  while (iter < 200) {
-    double delv;
-    z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-    delv = z*8.314467*t/p - v;
-    if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-    v = (z*8.314467*t/p + v)/2.0;
-    iter++;
+  {
+    int iter = 0;
+    double delv = 1.0, vPrevious = 1.0, delvPrevious = 1.0;
+    
+    v = 8.314467*t/p;
+    while (iter < 200) {
+      z = 1.0 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
+      delv = z*8.314467*t/p - v;
+      if ( ((iter > 1) && (delv*delvPrevious < 0.0)) || (fabs(delv) < v*100.0*DBL_EPSILON) ) break;
+      vPrevious = v;
+      delvPrevious = delv;
+      v = (z*8.314467*t/p + v)/2.0;
+      iter++;
+    }
+    if (iter == 200) printf("mix: z = %g, v = %g, vPrev = %g, delv = %g, delvPrev = %g, iter = %d\n", z, v, vPrevious, delv, delvPrevious, iter);
+    else if (fabs(delv) > v*100.0*DBL_EPSILON) {
+      double dx;
+      double rtb = (delv < 0.0) ? (dx = vPrevious-v,v) : (dx = v-vPrevious,vPrevious);
+      iter = 0;
+      while (iter < 200) {
+        v = rtb + (dx *= 0.5);
+        z = 1.0 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
+        delv = z*8.314467*t/p - v;
+        if (delv <= 0.0) rtb = v;
+        if ( (fabs(dx) < 100.0*DBL_EPSILON) || (delv == 0.0) ) break;
+        iter++;
+      }
+      if ( (iter == 200) || (fabs(dx) > 100.0*DBL_EPSILON) ) printf("mix: z = %g, v = %g, delv = %g, iter = %d\n", z, v, delv, iter);
+    }
   }
-  if (iter == 200) printf("mix: z = %g, v = %g, delv = %g, iter = %d\n", z, v, delv, iter);
 
   lnPhiH2O  = 0.0;
   lnPhiH2O += -log(z);
@@ -1805,8 +1822,6 @@ static void duanH2ODriver(int useLowPcoeff, double t, double p, double *vPt, dou
 	 dfvPrimedt[2], d2fvPrimedt2[2], d3fvPrimedt3[2];
   double lnPhiH2O, dlnPhiH2Odv, dlnPhiH2Odt, d2lnPhiH2Odv2, d2lnPhiH2Odt2, d2lnPhiH2Odvdt;
   double x[2] = { 1.0, 0.0 }; /* H2O */
-  double delv;
-  int iter;
     
   BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
@@ -1816,17 +1831,36 @@ static void duanH2ODriver(int useLowPcoeff, double t, double p, double *vPt, dou
   BetaAndDerivative   (useLowPcoeff, t, x, &beta,   betaPrime);
   GammaVcAndDerivative(useLowPcoeff, t, x, &gammav, gammavPrime, gamma2vPrime2);
   
-  iter = 0;
-  v = 8.314467*t/p;
-  while (iter < 200) {
-    double delv;
-    z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-    delv = z*8.314467*t/p - v;
-    if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-    v = (z*8.314467*t/p + v)/2.0;
-    iter++;
+  {
+    int iter = 0;
+    double delv = 1.0, vPrevious = 1.0, delvPrevious = 1.0;
+    
+    v = 8.314467*t/p;
+    while (iter < 200) {
+      z = 1.0 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
+      delv = z*8.314467*t/p - v;
+      if ( ((iter > 1) && (delv*delvPrevious < 0.0)) || (fabs(delv) < v*100.0*DBL_EPSILON) ) break;
+      vPrevious = v;
+      delvPrevious = delv;
+      v = (z*8.314467*t/p + v)/2.0;
+      iter++;
+    }
+    if (iter == 200) printf("H2O: z = %g, v = %g, vPrev = %g, delv = %g, delvPrev = %g, iter = %d\n", z, v, vPrevious, delv, delvPrevious, iter);
+    else if (fabs(delv) > v*100.0*DBL_EPSILON) {
+      double dx;
+      double rtb = (delv < 0.0) ? (dx = vPrevious-v,v) : (dx = v-vPrevious,vPrevious);
+      iter = 0;
+      while (iter < 200) {
+        v = rtb + (dx *= 0.5);
+        z = 1.0 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
+        delv = z*8.314467*t/p - v;
+        if (delv <= 0.0) rtb = v;
+        if ( (fabs(dx) < 100.0*DBL_EPSILON) || (delv == 0.0) ) break;
+        iter++;
+      }
+      if ( (iter == 200) || (fabs(dx) > 100.0*DBL_EPSILON) ) printf("H2O: z = %g, v = %g, delv = %g, iter = %d\n", z, v, delv, iter);
+    }
   }
-  if (iter == 200) printf("h2o: z = %g, v = %g, delv = %g, iter = %d\n", z, v, delv, iter);
 
   lnPhiH2O  = 0.0;
   lnPhiH2O += -log(z);
@@ -1959,8 +1993,6 @@ static void duanCO2Driver(int useLowPcoeff, double t, double p, double *vPt, dou
 	 dfvPrimedt[2], d2fvPrimedt2[2], d3fvPrimedt3[2];
   double lnPhiCO2, dlnPhiCO2dv, dlnPhiCO2dt, d2lnPhiCO2dv2, d2lnPhiCO2dt2, d2lnPhiCO2dvdt;
   double x[2] = { 0.0, 1.0 }; /* CO2 */
-  double delv;
-  int iter;
   
   BVcAndDerivative    (useLowPcoeff, t, x, &bv,     bvPrime,    &dbvdt,    &d2bvdt2,  &d3bvdt3, dbvPrimedt, d2bvPrimedt2, d3bvPrimedt3, b2vPrime2);
   CVcAndDerivative    (useLowPcoeff, t, x, &cv,     cvPrime,    &dcvdt,    &d2cvdt2,  &d3cvdt3, dcvPrimedt, d2cvPrimedt2, d3cvPrimedt3, c2vPrime2);
@@ -1970,17 +2002,36 @@ static void duanCO2Driver(int useLowPcoeff, double t, double p, double *vPt, dou
   BetaAndDerivative   (useLowPcoeff, t, x, &beta,   betaPrime);
   GammaVcAndDerivative(useLowPcoeff, t, x, &gammav, gammavPrime, gamma2vPrime2);
   
-  iter = 0;
-  v = 8.314467*t/p;
-  while (iter < 200) {
-    double delv;
-    z = 1 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
-    delv = z*8.314467*t/p - v;
-    if (fabs(delv) < v*100.0*DBL_EPSILON) break;
-    v = (z*8.314467*t/p + v)/2.0;
-    iter++;
+  {
+    int iter = 0;
+    double delv = 1.0, vPrevious = 1.0, delvPrevious = 1.0;
+    
+    v = 8.314467*t/p;
+    while (iter < 200) {
+      z = 1.0 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
+      delv = z*8.314467*t/p - v;
+      if ( ((iter > 1) && (delv*delvPrevious < 0.0)) || (fabs(delv) < v*100.0*DBL_EPSILON) ) break;
+      vPrevious = v;
+      delvPrevious = delv;
+      v = (z*8.314467*t/p + v)/2.0;
+      iter++;
+    }
+    if (iter == 200) printf("CO2: z = %g, v = %g, vPrev = %g, delv = %g, delvPrev = %g, iter = %d\n", z, v, vPrevious, delv, delvPrevious, iter);
+    else if (fabs(delv) > v*100.0*DBL_EPSILON) {
+      double dx;
+      double rtb = (delv < 0.0) ? (dx = vPrevious-v,v) : (dx = v-vPrevious,vPrevious);
+      iter = 0;
+      while (iter < 200) {
+        v = rtb + (dx *= 0.5);
+        z = 1.0 + bv/v + cv/v/v + dv/v/v/v/v + ev/v/v/v/v/v + (fv/v/v) * (beta + gammav/v/v) * exp(-gammav/v/v);
+        delv = z*8.314467*t/p - v;
+        if (delv <= 0.0) rtb = v;
+        if ( (fabs(dx) < 100.0*DBL_EPSILON) || (delv == 0.0) ) break;
+        iter++;
+      }
+      if ( (iter == 200) || (fabs(dx) > 100.0*DBL_EPSILON) ) printf("CO2: z = %g, v = %g, delv = %g, iter = %d\n", z, v, delv, iter);
+    }
   }
-  if (iter == 200) printf("co2: z = %g, v = %g, delv = %g, iter = %d\n", z, v, delv, iter);
 
   lnPhiCO2  = 0.0;
   lnPhiCO2 += -log(z);
