@@ -7,14 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		77032B4D163656D4000C83ED /* libICE.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B48163656D4000C83ED /* libICE.6.dylib */; };
-		77032B4E163656D4000C83ED /* libMrm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B49163656D4000C83ED /* libMrm.4.dylib */; };
-		77032B4F163656D4000C83ED /* libX11.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4A163656D4000C83ED /* libX11.6.dylib */; };
-		77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4B163656D4000C83ED /* libXm.4.dylib */; };
-		77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4C163656D4000C83ED /* libXt.6.dylib */; };
-		77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
 		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
-		77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
 		77665363163707080004A2D0 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
 		7776DB9616F1584700B32FA8 /* cpx-olv-rhm.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DB9516F1584700B32FA8 /* cpx-olv-rhm.c */; };
 		7776DB9716F158D700B32FA8 /* albite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7901627A92300D67FBB /* albite.c */; };
@@ -67,7 +60,6 @@
 		7776DBCE16F15C4E00B32FA8 /* biotiteTaj.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DBCD16F15C4E00B32FA8 /* biotiteTaj.c */; };
 		7776DBD016F15C6A00B32FA8 /* fluidPhase.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DBCF16F15C6A00B32FA8 /* fluidPhase.c */; };
 		7776DBD116F15D0700B32FA8 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
-		7776DBD316F15D3400B32FA8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7776DBD216F15D3300B32FA8 /* libxml2.dylib */; };
 		7785CCC2163AFA68004AA393 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		7785CCC3163AFA68004AA393 /* melts_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D01627A92300D67FBB /* melts_support.c */; };
 		7785CCC4163AFA68004AA393 /* melts_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D11627A92300D67FBB /* melts_threads.c */; };
@@ -142,13 +134,6 @@
 		7785CD09163AFA68004AA393 /* majorite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CA1627A92300D67FBB /* majorite.c */; };
 		7785CD0A163AFA68004AA393 /* melilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CE1627A92300D67FBB /* melilite.c */; };
 		7785CD0C163AFA68004AA393 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
-		7785CD0D163AFA68004AA393 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
-		7785CD0E163AFA68004AA393 /* libICE.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B48163656D4000C83ED /* libICE.6.dylib */; };
-		7785CD0F163AFA68004AA393 /* libMrm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B49163656D4000C83ED /* libMrm.4.dylib */; };
-		7785CD10163AFA68004AA393 /* libX11.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4A163656D4000C83ED /* libX11.6.dylib */; };
-		7785CD11163AFA68004AA393 /* libXm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4B163656D4000C83ED /* libXm.4.dylib */; };
-		7785CD12163AFA68004AA393 /* libXt.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4C163656D4000C83ED /* libXt.6.dylib */; };
-		7785CD13163AFA68004AA393 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
 		7785CD1F163AFE38004AA393 /* melts_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D01627A92300D67FBB /* melts_support.c */; };
 		7785CD20163AFE38004AA393 /* melts_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D11627A92300D67FBB /* melts_threads.c */; };
 		7785CD21163AFE38004AA393 /* mthread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D41627A92300D67FBB /* mthread.c */; };
@@ -203,7 +188,6 @@
 		7785CD65163AFE38004AA393 /* majorite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CA1627A92300D67FBB /* majorite.c */; };
 		7785CD66163AFE38004AA393 /* melilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CE1627A92300D67FBB /* melilite.c */; };
 		7785CD68163AFE38004AA393 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
-		7785CD6F163AFE38004AA393 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
 		7785CD7B163B2222004AA393 /* MELTSinput.xsd in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7785CD78163B20B5004AA393 /* MELTSinput.xsd */; };
 		7785CD7C163B2227004AA393 /* MELTSoutput.xsd in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7785CD79163B20B6004AA393 /* MELTSoutput.xsd */; };
 		7785CD7D163B222D004AA393 /* MELTSstatus.xsd in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
@@ -279,6 +263,72 @@
 		77A74443163619B80038627C /* wadsleyite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8001627A92300D67FBB /* wadsleyite.c */; };
 		77A74444163619B80038627C /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
 		77A74445163619B80038627C /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
+		77C10B5017E0CA1A0096D003 /* fluidPhase.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DBCF16F15C6A00B32FA8 /* fluidPhase.c */; };
+		77C10B5117E0CA1B0096D003 /* fluidPhase.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DBCF16F15C6A00B32FA8 /* fluidPhase.c */; };
+		77C10B5217E0CA1B0096D003 /* fluidPhase.c in Sources */ = {isa = PBXBuildFile; fileRef = 7776DBCF16F15C6A00B32FA8 /* fluidPhase.c */; };
+		77C10B5817E0CC4D0096D003 /* libgrace_np.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5317E0CC4D0096D003 /* libgrace_np.a */; };
+		77C10B5917E0CC4D0096D003 /* libMrm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5417E0CC4D0096D003 /* libMrm.a */; };
+		77C10B5A17E0CC4D0096D003 /* libXft.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5517E0CC4D0096D003 /* libXft.a */; };
+		77C10B5B17E0CC4D0096D003 /* libXm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5617E0CC4D0096D003 /* libXm.a */; };
+		77C10B5C17E0CC4D0096D003 /* libXt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5717E0CC4D0096D003 /* libXt.a */; };
+		77C10B6217E0CCDF0096D003 /* libICE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5D17E0CCDF0096D003 /* libICE.a */; };
+		77C10B6317E0CCDF0096D003 /* libSM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5E17E0CCDF0096D003 /* libSM.a */; };
+		77C10B6417E0CCDF0096D003 /* libX11.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5F17E0CCDF0096D003 /* libX11.a */; };
+		77C10B6517E0CCDF0096D003 /* libXext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6017E0CCDF0096D003 /* libXext.a */; };
+		77C10B6617E0CCDF0096D003 /* libXpm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6117E0CCDF0096D003 /* libXpm.a */; };
+		77C10B6B17E0CD3F0096D003 /* libXau.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6717E0CD3F0096D003 /* libXau.a */; };
+		77C10B6C17E0CD3F0096D003 /* libXmu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6817E0CD3F0096D003 /* libXmu.a */; };
+		77C10B6D17E0CD3F0096D003 /* libXp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6917E0CD3F0096D003 /* libXp.a */; };
+		77C10B6E17E0CD3F0096D003 /* libXrender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6A17E0CD3F0096D003 /* libXrender.a */; };
+		77C10B7517E0CDA50096D003 /* libexpat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6F17E0CDA50096D003 /* libexpat.a */; };
+		77C10B7617E0CDA50096D003 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7017E0CDA50096D003 /* libjpeg.a */; };
+		77C10B7717E0CDA50096D003 /* libpng14.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7117E0CDA50096D003 /* libpng14.a */; };
+		77C10B7817E0CDA50096D003 /* libpng14.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7217E0CDA50096D003 /* libpng14.a */; };
+		77C10B7917E0CDA50096D003 /* libXdmcp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7317E0CDA50096D003 /* libXdmcp.a */; };
+		77C10B7A17E0CDA50096D003 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7417E0CDA50096D003 /* libz.a */; };
+		77C10B8217E0CE5A0096D003 /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7B17E0CE5A0096D003 /* libbz2.a */; };
+		77C10B8317E0CE5A0096D003 /* libcharset.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7C17E0CE5A0096D003 /* libcharset.a */; };
+		77C10B8417E0CE5A0096D003 /* libfontconfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7D17E0CE5A0096D003 /* libfontconfig.a */; };
+		77C10B8517E0CE5A0096D003 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7E17E0CE5A0096D003 /* libfreetype.a */; };
+		77C10B8617E0CE5A0096D003 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7F17E0CE5A0096D003 /* libiconv.a */; };
+		77C10B8717E0CE5A0096D003 /* libX11-xcb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8017E0CE5A0096D003 /* libX11-xcb.a */; };
+		77C10B8817E0CE5A0096D003 /* libxcb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8117E0CE5A0096D003 /* libxcb.a */; };
+		77C10B8B17E0CE920096D003 /* libgfortran.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8917E0CE920096D003 /* libgfortran.a */; };
+		77C10B8C17E0CE920096D003 /* libquadmath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8A17E0CE920096D003 /* libquadmath.a */; };
+		77C10B8E17E0CEA90096D003 /* libgcc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8D17E0CEA90096D003 /* libgcc.a */; };
+		77C10B9017E0CF370096D003 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8F17E0CF370096D003 /* libxml2.dylib */; };
+		77C10B9117E0D21A0096D003 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8F17E0CF370096D003 /* libxml2.dylib */; };
+		77C10B9217E0D2520096D003 /* libgcc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8D17E0CEA90096D003 /* libgcc.a */; };
+		77C10B9317E0D2560096D003 /* libgfortran.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8917E0CE920096D003 /* libgfortran.a */; };
+		77C10B9417E0D25A0096D003 /* libquadmath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8A17E0CE920096D003 /* libquadmath.a */; };
+		77C10B9517E0D2600096D003 /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7B17E0CE5A0096D003 /* libbz2.a */; };
+		77C10B9617E0D2630096D003 /* libcharset.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7C17E0CE5A0096D003 /* libcharset.a */; };
+		77C10B9717E0D2670096D003 /* libfontconfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7D17E0CE5A0096D003 /* libfontconfig.a */; };
+		77C10B9817E0D26C0096D003 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7E17E0CE5A0096D003 /* libfreetype.a */; };
+		77C10B9917E0D2700096D003 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7F17E0CE5A0096D003 /* libiconv.a */; };
+		77C10B9A17E0D2740096D003 /* libX11-xcb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8017E0CE5A0096D003 /* libX11-xcb.a */; };
+		77C10B9B17E0D2770096D003 /* libxcb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8117E0CE5A0096D003 /* libxcb.a */; };
+		77C10B9C17E0D27B0096D003 /* libexpat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6F17E0CDA50096D003 /* libexpat.a */; };
+		77C10B9D17E0D27E0096D003 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7017E0CDA50096D003 /* libjpeg.a */; };
+		77C10B9E17E0D2820096D003 /* libpng14.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7117E0CDA50096D003 /* libpng14.a */; };
+		77C10B9F17E0D28B0096D003 /* libXdmcp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7317E0CDA50096D003 /* libXdmcp.a */; };
+		77C10BA017E0D28F0096D003 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B7417E0CDA50096D003 /* libz.a */; };
+		77C10BA117E0D2930096D003 /* libXau.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6717E0CD3F0096D003 /* libXau.a */; };
+		77C10BA217E0D2970096D003 /* libXmu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6817E0CD3F0096D003 /* libXmu.a */; };
+		77C10BA317E0D29A0096D003 /* libXp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6917E0CD3F0096D003 /* libXp.a */; };
+		77C10BA417E0D29D0096D003 /* libXrender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6A17E0CD3F0096D003 /* libXrender.a */; };
+		77C10BA517E0D2A10096D003 /* libICE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5D17E0CCDF0096D003 /* libICE.a */; };
+		77C10BA617E0D2A40096D003 /* libSM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5E17E0CCDF0096D003 /* libSM.a */; };
+		77C10BA717E0D2A70096D003 /* libX11.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5F17E0CCDF0096D003 /* libX11.a */; };
+		77C10BA817E0D2AA0096D003 /* libXext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6017E0CCDF0096D003 /* libXext.a */; };
+		77C10BA917E0D2AE0096D003 /* libXpm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B6117E0CCDF0096D003 /* libXpm.a */; };
+		77C10BAA17E0D2B10096D003 /* libgrace_np.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5317E0CC4D0096D003 /* libgrace_np.a */; };
+		77C10BAB17E0D2B60096D003 /* libMrm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5417E0CC4D0096D003 /* libMrm.a */; };
+		77C10BAC17E0D2BA0096D003 /* libXft.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5517E0CC4D0096D003 /* libXft.a */; };
+		77C10BAD17E0D2BE0096D003 /* libXm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5617E0CC4D0096D003 /* libXm.a */; };
+		77C10BAE17E0D2C20096D003 /* libXt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B5717E0CC4D0096D003 /* libXt.a */; };
+		77C10BAF17E0D31C0096D003 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8F17E0CF370096D003 /* libxml2.dylib */; };
+		77C10BB017E0D3760096D003 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C10B8F17E0CF370096D003 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -347,12 +397,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		77032B48163656D4000C83ED /* libICE.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libICE.6.dylib; path = ../../../opt/local/lib/libICE.6.dylib; sourceTree = "<group>"; };
-		77032B49163656D4000C83ED /* libMrm.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMrm.4.dylib; path = ../../../opt/local/lib/libMrm.4.dylib; sourceTree = "<group>"; };
-		77032B4A163656D4000C83ED /* libX11.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libX11.6.dylib; path = ../../../opt/local/lib/libX11.6.dylib; sourceTree = "<group>"; };
-		77032B4B163656D4000C83ED /* libXm.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXm.4.dylib; path = ../../../opt/local/lib/libXm.4.dylib; sourceTree = "<group>"; };
-		77032B4C163656D4000C83ED /* libXt.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXt.6.dylib; path = ../../../opt/local/lib/libXt.6.dylib; sourceTree = "<group>"; };
-		77032B521636576D000C83ED /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../opt/local/lib/libxml2.2.dylib; sourceTree = "<group>"; };
 		7734D76D1627A90000D67FBB /* acegr_np.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acegr_np.h; sourceTree = "<group>"; };
 		7734D76E1627A90000D67FBB /* calculator_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calculator_icon.h; sourceTree = "<group>"; };
 		7734D76F1627A90000D67FBB /* calibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calibration.h; sourceTree = "<group>"; };
@@ -453,19 +497,48 @@
 		7734D8021627A92300D67FBB /* water.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = water.c; sourceTree = "<group>"; };
 		7734D8031627A92300D67FBB /* wustite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wustite.c; sourceTree = "<group>"; };
 		7766535A1636FF610004A2D0 /* simann.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = simann.f; sourceTree = "<group>"; };
-		77665360163706D00004A2D0 /* libgfortran.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgfortran.3.dylib; path = /usr/local/gfortran/lib/libgfortran.3.dylib; sourceTree = "<absolute>"; };
 		77665362163707080004A2D0 /* libport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libport.a; path = ../port3/libport.a; sourceTree = "<group>"; };
 		7776DB9016F157E300B32FA8 /* cpx-olv-rhm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "cpx-olv-rhm"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7776DB9516F1584700B32FA8 /* cpx-olv-rhm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "cpx-olv-rhm.c"; path = "sources/cpx-olv-rhm.c"; sourceTree = SOURCE_ROOT; };
 		7776DBCD16F15C4E00B32FA8 /* biotiteTaj.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = biotiteTaj.c; path = sources/biotiteTaj.c; sourceTree = SOURCE_ROOT; };
 		7776DBCF16F15C6A00B32FA8 /* fluidPhase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fluidPhase.c; path = sources/fluidPhase.c; sourceTree = SOURCE_ROOT; };
-		7776DBD216F15D3300B32FA8 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib/libxml2.dylib; sourceTree = DEVELOPER_DIR; };
 		7785CD19163AFA68004AA393 /* public-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "public-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785CD75163AFE38004AA393 /* batch-Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "batch-Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785CD78163B20B5004AA393 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSinput.xsd; sourceTree = "<group>"; };
 		7785CD79163B20B6004AA393 /* MELTSoutput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSoutput.xsd; sourceTree = "<group>"; };
 		7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSstatus.xsd; sourceTree = "<group>"; };
 		77A743F4163611C50038627C /* Melts-rhyolite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Melts-rhyolite"; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C10B5317E0CC4D0096D003 /* libgrace_np.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgrace_np.a; path = ../../../../../opt/local/lib/libgrace_np.a; sourceTree = "<group>"; };
+		77C10B5417E0CC4D0096D003 /* libMrm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMrm.a; path = ../../../../../opt/local/lib/libMrm.a; sourceTree = "<group>"; };
+		77C10B5517E0CC4D0096D003 /* libXft.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXft.a; path = ../../../../../opt/local/lib/libXft.a; sourceTree = "<group>"; };
+		77C10B5617E0CC4D0096D003 /* libXm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXm.a; path = ../../../../../opt/local/lib/libXm.a; sourceTree = "<group>"; };
+		77C10B5717E0CC4D0096D003 /* libXt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXt.a; path = ../../../../../opt/local/lib/libXt.a; sourceTree = "<group>"; };
+		77C10B5D17E0CCDF0096D003 /* libICE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libICE.a; path = ../../../../../opt/local/lib/libICE.a; sourceTree = "<group>"; };
+		77C10B5E17E0CCDF0096D003 /* libSM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSM.a; path = ../../../../../opt/local/lib/libSM.a; sourceTree = "<group>"; };
+		77C10B5F17E0CCDF0096D003 /* libX11.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libX11.a; path = ../../../../../opt/local/lib/libX11.a; sourceTree = "<group>"; };
+		77C10B6017E0CCDF0096D003 /* libXext.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXext.a; path = ../../../../../opt/local/lib/libXext.a; sourceTree = "<group>"; };
+		77C10B6117E0CCDF0096D003 /* libXpm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXpm.a; path = ../../../../../opt/local/lib/libXpm.a; sourceTree = "<group>"; };
+		77C10B6717E0CD3F0096D003 /* libXau.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXau.a; path = ../../../../../opt/local/lib/libXau.a; sourceTree = "<group>"; };
+		77C10B6817E0CD3F0096D003 /* libXmu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXmu.a; path = ../../../../../opt/local/lib/libXmu.a; sourceTree = "<group>"; };
+		77C10B6917E0CD3F0096D003 /* libXp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXp.a; path = ../../../../../opt/local/lib/libXp.a; sourceTree = "<group>"; };
+		77C10B6A17E0CD3F0096D003 /* libXrender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXrender.a; path = ../../../../../opt/local/lib/libXrender.a; sourceTree = "<group>"; };
+		77C10B6F17E0CDA50096D003 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = ../../../../../opt/local/lib/libexpat.a; sourceTree = "<group>"; };
+		77C10B7017E0CDA50096D003 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = ../../../../../opt/local/lib/libjpeg.a; sourceTree = "<group>"; };
+		77C10B7117E0CDA50096D003 /* libpng14.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng14.a; path = ../../../../../opt/local/lib/libpng14.a; sourceTree = "<group>"; };
+		77C10B7217E0CDA50096D003 /* libpng14.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng14.a; path = ../../../../../opt/local/lib/libpng14.a; sourceTree = "<group>"; };
+		77C10B7317E0CDA50096D003 /* libXdmcp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXdmcp.a; path = ../../../../../opt/local/lib/libXdmcp.a; sourceTree = "<group>"; };
+		77C10B7417E0CDA50096D003 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = ../../../../../opt/local/lib/libz.a; sourceTree = "<group>"; };
+		77C10B7B17E0CE5A0096D003 /* libbz2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbz2.a; path = ../../../../../opt/local/lib/libbz2.a; sourceTree = "<group>"; };
+		77C10B7C17E0CE5A0096D003 /* libcharset.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcharset.a; path = ../../../../../opt/local/lib/libcharset.a; sourceTree = "<group>"; };
+		77C10B7D17E0CE5A0096D003 /* libfontconfig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfontconfig.a; path = ../../../../../opt/local/lib/libfontconfig.a; sourceTree = "<group>"; };
+		77C10B7E17E0CE5A0096D003 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../../opt/local/lib/libfreetype.a; sourceTree = "<group>"; };
+		77C10B7F17E0CE5A0096D003 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = ../../../../../opt/local/lib/libiconv.a; sourceTree = "<group>"; };
+		77C10B8017E0CE5A0096D003 /* libX11-xcb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libX11-xcb.a"; path = "../../../../../opt/local/lib/libX11-xcb.a"; sourceTree = "<group>"; };
+		77C10B8117E0CE5A0096D003 /* libxcb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxcb.a; path = ../../../../../opt/local/lib/libxcb.a; sourceTree = "<group>"; };
+		77C10B8917E0CE920096D003 /* libgfortran.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgfortran.a; path = ../../../../../usr/local/gfortran/lib/libgfortran.a; sourceTree = "<group>"; };
+		77C10B8A17E0CE920096D003 /* libquadmath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libquadmath.a; path = ../../../../../usr/local/gfortran/lib/libquadmath.a; sourceTree = "<group>"; };
+		77C10B8D17E0CEA90096D003 /* libgcc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgcc.a; path = "../../../../../usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a"; sourceTree = "<group>"; };
+		77C10B8F17E0CF370096D003 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -473,8 +546,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7776DBD316F15D3400B32FA8 /* libxml2.dylib in Frameworks */,
 				7776DBD116F15D0700B32FA8 /* libport.a in Frameworks */,
+				77C10BB017E0D3760096D003 /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,14 +555,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77C10BAF17E0D31C0096D003 /* libxml2.dylib in Frameworks */,
 				7785CD0C163AFA68004AA393 /* libport.a in Frameworks */,
-				7785CD0D163AFA68004AA393 /* libgfortran.3.dylib in Frameworks */,
-				7785CD0E163AFA68004AA393 /* libICE.6.dylib in Frameworks */,
-				7785CD0F163AFA68004AA393 /* libMrm.4.dylib in Frameworks */,
-				7785CD10163AFA68004AA393 /* libX11.6.dylib in Frameworks */,
-				7785CD11163AFA68004AA393 /* libXm.4.dylib in Frameworks */,
-				7785CD12163AFA68004AA393 /* libXt.6.dylib in Frameworks */,
-				7785CD13163AFA68004AA393 /* libxml2.2.dylib in Frameworks */,
+				77C10B9217E0D2520096D003 /* libgcc.a in Frameworks */,
+				77C10B9317E0D2560096D003 /* libgfortran.a in Frameworks */,
+				77C10B9417E0D25A0096D003 /* libquadmath.a in Frameworks */,
+				77C10B9517E0D2600096D003 /* libbz2.a in Frameworks */,
+				77C10B9617E0D2630096D003 /* libcharset.a in Frameworks */,
+				77C10B9717E0D2670096D003 /* libfontconfig.a in Frameworks */,
+				77C10B9817E0D26C0096D003 /* libfreetype.a in Frameworks */,
+				77C10B9917E0D2700096D003 /* libiconv.a in Frameworks */,
+				77C10B9A17E0D2740096D003 /* libX11-xcb.a in Frameworks */,
+				77C10B9B17E0D2770096D003 /* libxcb.a in Frameworks */,
+				77C10B9C17E0D27B0096D003 /* libexpat.a in Frameworks */,
+				77C10B9D17E0D27E0096D003 /* libjpeg.a in Frameworks */,
+				77C10B9E17E0D2820096D003 /* libpng14.a in Frameworks */,
+				77C10B9F17E0D28B0096D003 /* libXdmcp.a in Frameworks */,
+				77C10BA017E0D28F0096D003 /* libz.a in Frameworks */,
+				77C10BA117E0D2930096D003 /* libXau.a in Frameworks */,
+				77C10BA217E0D2970096D003 /* libXmu.a in Frameworks */,
+				77C10BA317E0D29A0096D003 /* libXp.a in Frameworks */,
+				77C10BA417E0D29D0096D003 /* libXrender.a in Frameworks */,
+				77C10BA517E0D2A10096D003 /* libICE.a in Frameworks */,
+				77C10BA617E0D2A40096D003 /* libSM.a in Frameworks */,
+				77C10BA717E0D2A70096D003 /* libX11.a in Frameworks */,
+				77C10BA817E0D2AA0096D003 /* libXext.a in Frameworks */,
+				77C10BA917E0D2AE0096D003 /* libXpm.a in Frameworks */,
+				77C10BAA17E0D2B10096D003 /* libgrace_np.a in Frameworks */,
+				77C10BAB17E0D2B60096D003 /* libMrm.a in Frameworks */,
+				77C10BAC17E0D2BA0096D003 /* libXft.a in Frameworks */,
+				77C10BAD17E0D2BE0096D003 /* libXm.a in Frameworks */,
+				77C10BAE17E0D2C20096D003 /* libXt.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,8 +593,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77C10B9117E0D21A0096D003 /* libxml2.dylib in Frameworks */,
 				7785CD68163AFE38004AA393 /* libport.a in Frameworks */,
-				7785CD6F163AFE38004AA393 /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,14 +602,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77C10B9017E0CF370096D003 /* libxml2.dylib in Frameworks */,
 				77665363163707080004A2D0 /* libport.a in Frameworks */,
-				77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */,
-				77032B4D163656D4000C83ED /* libICE.6.dylib in Frameworks */,
-				77032B4E163656D4000C83ED /* libMrm.4.dylib in Frameworks */,
-				77032B4F163656D4000C83ED /* libX11.6.dylib in Frameworks */,
-				77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */,
-				77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */,
-				77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */,
+				77C10B5817E0CC4D0096D003 /* libgrace_np.a in Frameworks */,
+				77C10B5917E0CC4D0096D003 /* libMrm.a in Frameworks */,
+				77C10B5A17E0CC4D0096D003 /* libXft.a in Frameworks */,
+				77C10B5B17E0CC4D0096D003 /* libXm.a in Frameworks */,
+				77C10B5C17E0CC4D0096D003 /* libXt.a in Frameworks */,
+				77C10B6217E0CCDF0096D003 /* libICE.a in Frameworks */,
+				77C10B6317E0CCDF0096D003 /* libSM.a in Frameworks */,
+				77C10B6417E0CCDF0096D003 /* libX11.a in Frameworks */,
+				77C10B6517E0CCDF0096D003 /* libXext.a in Frameworks */,
+				77C10B6617E0CCDF0096D003 /* libXpm.a in Frameworks */,
+				77C10B6B17E0CD3F0096D003 /* libXau.a in Frameworks */,
+				77C10B6C17E0CD3F0096D003 /* libXmu.a in Frameworks */,
+				77C10B6D17E0CD3F0096D003 /* libXp.a in Frameworks */,
+				77C10B6E17E0CD3F0096D003 /* libXrender.a in Frameworks */,
+				77C10B7517E0CDA50096D003 /* libexpat.a in Frameworks */,
+				77C10B7617E0CDA50096D003 /* libjpeg.a in Frameworks */,
+				77C10B7717E0CDA50096D003 /* libpng14.a in Frameworks */,
+				77C10B7817E0CDA50096D003 /* libpng14.a in Frameworks */,
+				77C10B7917E0CDA50096D003 /* libXdmcp.a in Frameworks */,
+				77C10B7A17E0CDA50096D003 /* libz.a in Frameworks */,
+				77C10B8217E0CE5A0096D003 /* libbz2.a in Frameworks */,
+				77C10B8317E0CE5A0096D003 /* libcharset.a in Frameworks */,
+				77C10B8417E0CE5A0096D003 /* libfontconfig.a in Frameworks */,
+				77C10B8517E0CE5A0096D003 /* libfreetype.a in Frameworks */,
+				77C10B8617E0CE5A0096D003 /* libiconv.a in Frameworks */,
+				77C10B8717E0CE5A0096D003 /* libX11-xcb.a in Frameworks */,
+				77C10B8817E0CE5A0096D003 /* libxcb.a in Frameworks */,
+				77C10B8B17E0CE920096D003 /* libgfortran.a in Frameworks */,
+				77C10B8C17E0CE920096D003 /* libquadmath.a in Frameworks */,
+				77C10B8E17E0CEA90096D003 /* libgcc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,14 +757,38 @@
 		77665364163707DE0004A2D0 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				77C10B8F17E0CF370096D003 /* libxml2.dylib */,
+				77C10B8D17E0CEA90096D003 /* libgcc.a */,
+				77C10B8917E0CE920096D003 /* libgfortran.a */,
+				77C10B8A17E0CE920096D003 /* libquadmath.a */,
+				77C10B7B17E0CE5A0096D003 /* libbz2.a */,
+				77C10B7C17E0CE5A0096D003 /* libcharset.a */,
+				77C10B7D17E0CE5A0096D003 /* libfontconfig.a */,
+				77C10B7E17E0CE5A0096D003 /* libfreetype.a */,
+				77C10B7F17E0CE5A0096D003 /* libiconv.a */,
+				77C10B8017E0CE5A0096D003 /* libX11-xcb.a */,
+				77C10B8117E0CE5A0096D003 /* libxcb.a */,
+				77C10B6F17E0CDA50096D003 /* libexpat.a */,
+				77C10B7017E0CDA50096D003 /* libjpeg.a */,
+				77C10B7117E0CDA50096D003 /* libpng14.a */,
+				77C10B7217E0CDA50096D003 /* libpng14.a */,
+				77C10B7317E0CDA50096D003 /* libXdmcp.a */,
+				77C10B7417E0CDA50096D003 /* libz.a */,
+				77C10B6717E0CD3F0096D003 /* libXau.a */,
+				77C10B6817E0CD3F0096D003 /* libXmu.a */,
+				77C10B6917E0CD3F0096D003 /* libXp.a */,
+				77C10B6A17E0CD3F0096D003 /* libXrender.a */,
+				77C10B5D17E0CCDF0096D003 /* libICE.a */,
+				77C10B5E17E0CCDF0096D003 /* libSM.a */,
+				77C10B5F17E0CCDF0096D003 /* libX11.a */,
+				77C10B6017E0CCDF0096D003 /* libXext.a */,
+				77C10B6117E0CCDF0096D003 /* libXpm.a */,
+				77C10B5317E0CC4D0096D003 /* libgrace_np.a */,
+				77C10B5417E0CC4D0096D003 /* libMrm.a */,
+				77C10B5517E0CC4D0096D003 /* libXft.a */,
+				77C10B5617E0CC4D0096D003 /* libXm.a */,
+				77C10B5717E0CC4D0096D003 /* libXt.a */,
 				77665362163707080004A2D0 /* libport.a */,
-				77665360163706D00004A2D0 /* libgfortran.3.dylib */,
-				77032B521636576D000C83ED /* libxml2.2.dylib */,
-				77032B48163656D4000C83ED /* libICE.6.dylib */,
-				77032B49163656D4000C83ED /* libMrm.4.dylib */,
-				77032B4A163656D4000C83ED /* libX11.6.dylib */,
-				77032B4B163656D4000C83ED /* libXm.4.dylib */,
-				77032B4C163656D4000C83ED /* libXt.6.dylib */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -680,7 +824,6 @@
 		77B68D411627A64800C6296F = {
 			isa = PBXGroup;
 			children = (
-				7776DBD216F15D3300B32FA8 /* libxml2.dylib */,
 				7785CD78163B20B5004AA393 /* MELTSinput.xsd */,
 				7785CD79163B20B6004AA393 /* MELTSoutput.xsd */,
 				7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */,
@@ -772,7 +915,7 @@
 		77B68D431627A64800C6296F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Mark Ghiorso";
 			};
 			buildConfigurationList = 77B68D461627A64800C6296F /* Build configuration list for PBXProject "MELTS" */;
@@ -930,6 +1073,7 @@
 				7785CD08163AFA68004AA393 /* liquidus.c in Sources */,
 				7785CD09163AFA68004AA393 /* majorite.c in Sources */,
 				7785CD0A163AFA68004AA393 /* melilite.c in Sources */,
+				77C10B5117E0CA1B0096D003 /* fluidPhase.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -990,6 +1134,7 @@
 				7785CD64163AFE38004AA393 /* liquidus.c in Sources */,
 				7785CD65163AFE38004AA393 /* majorite.c in Sources */,
 				7785CD66163AFE38004AA393 /* melilite.c in Sources */,
+				77C10B5217E0CA1B0096D003 /* fluidPhase.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,6 +1215,7 @@
 				77A74424163619AA0038627C /* liquidus.c in Sources */,
 				77A74425163619AA0038627C /* majorite.c in Sources */,
 				77A74426163619AA0038627C /* melilite.c in Sources */,
+				77C10B5017E0CA1A0096D003 /* fluidPhase.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1106,7 +1252,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1140,7 +1286,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1179,6 +1325,7 @@
 					/usr/local/lib/,
 					/usr/local/gfortran/lib,
 					"\"$(SRCROOT)/../port3\"",
+					"\"/usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2\"",
 				);
 				PRODUCT_NAME = "public-Melts-rhyolite";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
@@ -1220,6 +1367,7 @@
 					/usr/local/lib/,
 					/usr/local/gfortran/lib,
 					"\"$(SRCROOT)/../port3\"",
+					"\"/usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2\"",
 				);
 				PRODUCT_NAME = "public-Melts-rhyolite";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
@@ -1342,6 +1490,7 @@
 					/usr/local/lib/,
 					/usr/local/gfortran/lib,
 					"\"$(SRCROOT)/../port3\"",
+					"\"/usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
@@ -1382,6 +1531,7 @@
 					/usr/local/lib/,
 					/usr/local/gfortran/lib,
 					"\"$(SRCROOT)/../port3\"",
+					"\"/usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
@@ -1411,7 +1561,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -1434,7 +1584,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -1450,6 +1600,7 @@
 				7776DB9316F157E300B32FA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7785CD16163AFA68004AA393 /* Build configuration list for PBXNativeTarget "public-Melts-rhyolite" */ = {
 			isa = XCConfigurationList;
