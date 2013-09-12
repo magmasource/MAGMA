@@ -537,7 +537,7 @@
 		77C10B8117E0CE5A0096D003 /* libxcb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxcb.a; path = ../../../../../opt/local/lib/libxcb.a; sourceTree = "<group>"; };
 		77C10B8917E0CE920096D003 /* libgfortran.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgfortran.a; path = ../../../../../usr/local/gfortran/lib/libgfortran.a; sourceTree = "<group>"; };
 		77C10B8A17E0CE920096D003 /* libquadmath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libquadmath.a; path = ../../../../../usr/local/gfortran/lib/libquadmath.a; sourceTree = "<group>"; };
-		77C10B8D17E0CEA90096D003 /* libgcc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgcc.a; path = "../../../../../usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a"; sourceTree = "<group>"; };
+		77C10B8D17E0CEA90096D003 /* libgcc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = libgcc.a; path = "../../../../../usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a"; sourceTree = "<group>"; };
 		77C10B8F17E0CF370096D003 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -604,7 +604,9 @@
 			files = (
 				77C10B9017E0CF370096D003 /* libxml2.dylib in Frameworks */,
 				77665363163707080004A2D0 /* libport.a in Frameworks */,
-				77C10B5817E0CC4D0096D003 /* libgrace_np.a in Frameworks */,
+				77C10B8E17E0CEA90096D003 /* libgcc.a in Frameworks */,
+				77C10B8B17E0CE920096D003 /* libgfortran.a in Frameworks */,
+				77C10B8C17E0CE920096D003 /* libquadmath.a in Frameworks */,
 				77C10B5917E0CC4D0096D003 /* libMrm.a in Frameworks */,
 				77C10B5A17E0CC4D0096D003 /* libXft.a in Frameworks */,
 				77C10B5B17E0CC4D0096D003 /* libXm.a in Frameworks */,
@@ -631,9 +633,7 @@
 				77C10B8617E0CE5A0096D003 /* libiconv.a in Frameworks */,
 				77C10B8717E0CE5A0096D003 /* libX11-xcb.a in Frameworks */,
 				77C10B8817E0CE5A0096D003 /* libxcb.a in Frameworks */,
-				77C10B8B17E0CE920096D003 /* libgfortran.a in Frameworks */,
-				77C10B8C17E0CE920096D003 /* libquadmath.a in Frameworks */,
-				77C10B8E17E0CEA90096D003 /* libgcc.a in Frameworks */,
+				77C10B5817E0CC4D0096D003 /* libgrace_np.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1485,13 +1485,8 @@
 					"MELTS_RELEASE_VERSION=\"\\\"5.6.1 ()(p)(x), V1.0.1 (rhyolite) (Mac OS X - 10.7.2, clang 3.0, 64 bit)\\\"\"",
 				);
 				HEADER_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = (
-					/opt/local/lib/,
-					/usr/local/lib/,
-					/usr/local/gfortran/lib,
-					"\"$(SRCROOT)/../port3\"",
-					"\"/usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "-Wl,-search_paths_first";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
 			};
@@ -1526,13 +1521,8 @@
 					"MELTS_RELEASE_VERSION=\"\\\"5.6.1 ()(p)(x), V1.0.1 (rhyolite) (Mac OS X - 10.7.2, clang 3.0, 64 bit)\\\"\"",
 				);
 				HEADER_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = (
-					/opt/local/lib/,
-					/usr/local/lib/,
-					/usr/local/gfortran/lib,
-					"\"$(SRCROOT)/../port3\"",
-					"\"/usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "-Wl,-search_paths_first";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/opt/local/include /usr/local/include /usr/X11R6/include /usr/include/libxml2";
 			};
