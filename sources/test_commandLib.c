@@ -17,7 +17,7 @@ MeltsStatus meltsStatus;
 
 #define REC   134
 
-int calculationMode = MODE__MELTS;
+int calculationMode = MODE_xMELTS;
 int quad_tol_modifier = 1;
 
 void (*additionalOutput) (char *filename) = NULL;
@@ -27,7 +27,7 @@ int main (int argc, char *argv[]) {
   double bulkComposition[20];
   int i, j;
   
-  if (argc != 10) {
+  if (argc != 13) {
     printf("Wrong number of arguments.\n");
     exit(1);
   }
@@ -35,19 +35,19 @@ int main (int argc, char *argv[]) {
   bulkComposition[ 0] = atof(argv[1]); /* SiO2  */
   bulkComposition[ 1] = atof(argv[2]); /* TiO2  */
   bulkComposition[ 2] = atof(argv[3]); /* Al2O3 */
-  bulkComposition[ 3] = 0.0;
+  bulkComposition[ 3] = atof(argv[4]); /* Fe2O3 */
   bulkComposition[ 4] = 0.0;
-  bulkComposition[ 5] = atof(argv[4]); /* FeO   */
+  bulkComposition[ 5] = atof(argv[5]); /* FeO   */
   bulkComposition[ 6] = 0.0;
-  bulkComposition[ 7] = atof(argv[5]); /* MgO   */
+  bulkComposition[ 7] = atof(argv[6]); /* MgO   */
   bulkComposition[ 8] = 0.0;
   bulkComposition[ 9] = 0.0;
-  bulkComposition[10] = atof(argv[6]); /* CaO   */
-  bulkComposition[11] = atof(argv[7]); /* Na2O  */
-  bulkComposition[12] = atof(argv[8]); /* K2O   */
+  bulkComposition[10] = atof(argv[7]); /* CaO   */
+  bulkComposition[11] = atof(argv[8]); /* Na2O  */
+  bulkComposition[12] = atof(argv[9]); /* K2O   */
   bulkComposition[13] = 0.0;
-  bulkComposition[14] = 10.0;          /* H2O - saturation */
-  bulkComposition[15] = 0.0;
+  bulkComposition[14] = atof(argv[10]);/* H2O   */
+  bulkComposition[15] = atof(argv[11]);/* CO2   */
   bulkComposition[16] = 0.0;
   bulkComposition[17] = 0.0;
   bulkComposition[18] = 0.0;
@@ -63,11 +63,11 @@ int main (int argc, char *argv[]) {
   
   silminState = allocSilminStatePointer();
   for (i=0, j=0; i<npc; i++) if (solids[i].type == PHASE) { 
-    if      (!strcmp(solids[i].label, "garnet"))        (silminState->incSolids)[j] = FALSE;
+    if      (!strcmp(solids[i].label, "fayalite"))      (silminState->incSolids)[j] = FALSE;
+    else if (!strcmp(solids[i].label, "garnet"))        (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "melilite"))      (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "hornblende"))    (silminState->incSolids)[j] = FALSE;
-    else if (!strcmp(solids[i].label, "biotitetaj"))    (silminState->incSolids)[j] = FALSE;
-    else if (!strcmp(solids[i].label, "fluid"))         (silminState->incSolids)[j] = FALSE;
+    else if (!strcmp(solids[i].label, "water"))         (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "cummingtonite")) (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "amphibole"))     (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "nepheline"))     (silminState->incSolids)[j] = FALSE;
@@ -75,6 +75,9 @@ int main (int argc, char *argv[]) {
     else if (!strcmp(solids[i].label, "ortho-oxide"))   (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "alloy-solid"))   (silminState->incSolids)[j] = FALSE;
     else if (!strcmp(solids[i].label, "alloy-liquid"))  (silminState->incSolids)[j] = FALSE;
+    else if (!strcmp(solids[i].label, "lime"))          (silminState->incSolids)[j] = FALSE;
+    else if (!strcmp(solids[i].label, "periclase"))     (silminState->incSolids)[j] = FALSE;
+    else if (!strcmp(solids[i].label, "leucite"))       (silminState->incSolids)[j] = FALSE;
     else                                                (silminState->incSolids)[j] = TRUE; 
     j++; 
   }
@@ -104,9 +107,9 @@ int main (int argc, char *argv[]) {
   silminState->dspTstart   = 1273.15;
   silminState->dspTstop    =  973.15;
   silminState->dspTinc     =    1.0; 
-  silminState->P           = atof(argv[9]);  
-  silminState->dspPstart   = atof(argv[9]);  		  
-  silminState->dspPstop    = atof(argv[9]);
+  silminState->P           = atof(argv[12]);  
+  silminState->dspPstart   = atof(argv[12]);  		  
+  silminState->dspPstop    = atof(argv[12]);
   silminState->dspPinc     = 0.0;
   silminState->dspDPDH     = 0.0;
       

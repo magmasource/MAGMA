@@ -82,6 +82,10 @@ LIBF2C =
 LIBXML = -L/usr/lib -lxml2
 LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
 
+# Set environment variable for backwards deployment to Mac OS X 10.7
+# ==================================================================
+export MACOSX_DEPLOYMENT_TARGET := 10.7
+
 include Makefile.common
 
 # end of Makefile

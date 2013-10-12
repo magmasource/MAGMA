@@ -172,7 +172,7 @@ static ModelParameters originalModelParameters[] = {
   { "W(S	 ,CaSiO3    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,CaSiO3    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,CaSiO3    )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(H2O	 ,CaSiO3    )",       13875.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 20374.6 */
+  { "W(H2O	 ,CaSiO3    )",       20374.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species  13875.6*/
 
   { "W(KAlSiO4   ,Na2SiO3   )",        6522.8,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Ca3(PO4)2 ,Na2SiO3   )",       15571.9,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
@@ -180,14 +180,14 @@ static ModelParameters originalModelParameters[] = {
   { "W(S	 ,Na2SiO3   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,Na2SiO3   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,Na2SiO3   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(H2O	 ,Na2SiO3   )",      -72798.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species -96937.6 */
+  { "W(H2O	 ,Na2SiO3   )",      -96937.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species  -72798.6*/
 
   { "W(Ca3(PO4)2 ,KAlSiO4   )",       17100.6,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(CO2	 ,KAlSiO4   )", 	  -1221.7,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species -1221.7 */
   { "W(S	 ,KAlSiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(Cl	 ,KAlSiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(F	 ,KAlSiO4   )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
-  { "W(H2O	 ,KAlSiO4   )",       -3703.8,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species 10374.2 */
+  { "W(H2O	 ,KAlSiO4   )",       10374.2,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species  -3703.8*/
 
   { "W(CO2	 ,Ca3(PO4)2 )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
   { "W(S	 ,Ca3(PO4)2 )", 	  0.0,  0.0,  0.0, FALSE, FALSE, FALSE, FALSE }, /* Basis species */
