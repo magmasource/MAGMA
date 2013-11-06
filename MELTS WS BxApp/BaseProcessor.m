@@ -118,14 +118,57 @@
     NSUInteger calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:[self inputXML]];
     if (self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) Input parsed, MELTS initialized %lu.", calculationMode);
     
+    //
+    // This is preliminary code that deals ONLY with possible temperature incremenmts
+    // ... It must be expanded to also deal with pressure, volume, enthalpy and entropy increments
+    // ... Functions in rMELTSframework are already in place to support this logic
     
-    if ([melts performMELTScalculation:calculationMode] && self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) MELTS call - success.");
-    else if (self.debug)                                               NSLog(@"...BaseProcessor Class:(renderWithTransport) MELTS call - failure.");
+    double tInitial   = [melts initialTemperature];
+    double tFinal     = [melts finalTemperature];
+    double tIncrement = [melts incrementTemperature];
     
-    NSXMLDocument *outputXML = [melts writeDataStructuresToXMLDocument:sessionId];
+    [melts setFinalTemperature:tInitial];
+    [melts setIncrementTemperature:0.0];
+    Boolean continueLoop = (tIncrement == 0.0) ? NO : YES;
+    NSMutableArray *meltsSteps = [NSMutableArray arrayWithCapacity:1];
+    
+    do {
+        NSLog(@"%lf %lf %lf", tInitial, tFinal, tIncrement);
+        if (tInitial == tFinal) continueLoop = NO;
+        
+        if ([melts performMELTScalculation:calculationMode] && self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) MELTS call - success.");
+        else if (self.debug)                                               NSLog(@"...BaseProcessor Class:(renderWithTransport) MELTS call - failure.");
+        
+        [meltsSteps addObject:[melts writeDataStructuresToXMLDocument:sessionId]];
+        
+        if (tFinal < tInitial) {
+            tInitial -= tIncrement;
+            if (tFinal > tInitial) tInitial = tFinal;
+        } else {
+            tInitial += tIncrement;
+            if (tFinal < tInitial) tInitial = tFinal;
+        }
+        
+        [melts setInitialTemperature:tInitial];
+        [melts setFinalTemperature:tInitial];
+    } while (continueLoop);
+    
+    // End of preliminary code
+    //
     
     [(AppDelegate *)[self app] unloackState];
     // ... to here
+    
+    NSXMLDocument *outputXML = nil;
+    if ([meltsSteps count] == 1) outputXML = [meltsSteps objectAtIndex:0];
+    else {
+        outputXML = [[NSXMLDocument alloc] init];
+        NSXMLElement *root = [[NSXMLElement alloc] initWithName:@"MELTSsequence"];
+        for (NSXMLDocument *step in meltsSteps) {
+            [root addChild:[[step rootElement] copy]];
+        }
+        [outputXML setRootElement:root];
+    }
     
     if (![self respondUsingJSON]) {
         [transport setHeader:@"Content-type" value:@"text/xml"];
@@ -138,6 +181,7 @@
             [transport setHttpStatusCode:500];
             [transport write:@"<p>MELTS WS: Internal error in converting XML to JSON.</p>"];
             if (self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) Error in transforming XML to JSON.");
+            [(AppDelegate *)[self app] unloackState];
             return self;
         }
         NSData *JSONdata = (NSData *)[outputXML objectByApplyingXSLTAtURL:[NSURL fileURLWithPath:xsltPath]
@@ -147,12 +191,14 @@
             [transport setHttpStatusCode:500];
             [transport write:@"<p>MELTS WS: Internal error in converting XML to JSON.</p>"];
             if (self.debug) NSLog(@"<p>...BaseProcessor Class:(renderWithTransport) Error - no transformed file.</p>");
+            [(AppDelegate *)[self app] unloackState];
             return self;
         }
         if (err) {
             [transport setHttpStatusCode:500];
             [transport write:@"<p>MELTS WS: Internal error in converting XML to JSON.</p>"];
             if (self.debug) NSLog(@"<p>...BaseProcessor Class:(renderWithTransport) Err: %@.</p>", [err localizedDescription]);
+            [(AppDelegate *)[self app] unloackState];
             return self;
         }
         

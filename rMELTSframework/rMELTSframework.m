@@ -246,6 +246,9 @@ static void doBatchFractionation(void) {
     }
 }
 
+#pragma mark -
+#pragma mark Class methods
+
 +(NSUInteger) MELTScalculationModeConstant { return MODE__MELTS; }
 +(NSUInteger)pMELTScalculationModeConstant { return MODE_pMELTS; }
 +(NSUInteger)xMELTScalculationModeConstant { return MODE_xMELTS; }
@@ -307,6 +310,9 @@ static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, k
     [outputXMLDocument setRootElement:root];
     return outputXMLDocument;
 }
+
+#pragma mark -
+#pragma mark Instance methods
 
 typedef struct _nodeList {
     int node;
@@ -1533,6 +1539,227 @@ static NodeList *getNodeListPointer(int node) {
     [outputXMLDocument setRootElement:root];
     return outputXMLDocument;
 }
+
+#pragma mark -
+#pragma mark Temperature sequence methods
+
+-(double)initialTemperature {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspTstart;
+}
+
+-(void)setInitialTemperature:(double)tValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->T = tValue;
+    silminState->dspTstart = tValue;
+}
+
+-(double)finalTemperature {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspTstop;
+}
+
+-(void)setFinalTemperature:(double)tValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspTstop = tValue;
+}
+
+-(double)incrementTemperature {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspTinc;
+}
+
+-(void)setIncrementTemperature:(double)tValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspTinc = tValue;
+}
+
+#pragma mark -
+#pragma mark Pressure sequence methods
+
+-(double)initialPressure {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspPstart;
+}
+
+-(void)setInitialPressure:(double)pValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->P = pValue;
+    silminState->dspPstart = pValue;
+}
+
+-(double)finalPressure {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspPstop;
+}
+
+-(void)setFinalPressure:(double)pValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspPstop = pValue;
+}
+
+-(double)incrementPressure {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspPinc;
+}
+
+-(void)setIncrementPressure:(double)pValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspPinc = pValue;
+}
+
+#pragma mark -
+#pragma mark Volume sequence methods
+
+-(double)initialVolume {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->refVolume;
+}
+
+-(void)setInitialVolume:(double)vValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->refVolume = vValue;
+}
+
+-(double)finalVolume {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspVstop;
+}
+
+-(void)setFinalVolume:(double)vValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspVstop = vValue;
+}
+
+-(double)incrementVolume {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspVinc;
+}
+
+-(void)setIncrementVolume:(double)vValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspVinc = vValue;
+}
+
+#pragma mark -
+#pragma mark Enthalpy sequence methods
+
+-(double)initialEnthalpy {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->refEnthalpy;
+}
+
+-(void)setInitialEnthalpy:(double)hValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->refEnthalpy = hValue;
+}
+
+-(double)finalEnthalpy {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspHstop;
+}
+
+-(void)setFinalEnthalpy:(double)hValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspHstop = hValue;
+}
+
+-(double)incrementEnthalpy {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspHinc;
+}
+
+-(void)setIncrementEnthalpy:(double)hValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspHinc = hValue;
+}
+
+#pragma mark -
+#pragma mark Entropy sequence methods
+
+-(double)initialEntropy {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->refEntropy;
+}
+
+-(void)setInitialEntropy:(double)sValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->refEntropy = sValue;
+}
+
+-(double)finalEntropy {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspSstop;
+}
+
+-(void)setFinalEntropy:(double)sValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspSstop = sValue;
+}
+
+-(double)incrementEntropy {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return silminState->dspSinc;
+}
+
+-(void)setIncrementEntropy:(double)sValue {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    silminState->dspSinc = sValue;
+}
+
+#pragma mark -
+#pragma mark Cal;culation mode inquiry methods
+
+-(Boolean)isIsochoric {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return (silminState->isochoric) ? YES : NO;
+}
+
+-(Boolean)isIsenthalpic {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return (silminState->isenthalpic) ? YES : NO;
+}
+
+-(Boolean)isIsotropic {
+    NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
+    silminState = nodePointer->silminState;
+    return (silminState->isentropic) ? YES : NO;
+}
+
+#pragma mark -
+#pragma mark Calculation engine
 
 -(Boolean)performMELTScalculation:(NSUInteger)type {
     NodeList *nodePointer = getNodeListPointer([self nodeIndex]);
