@@ -3,6 +3,7 @@
 Makefile*
 core
 *.a
+*.dylib
 *.so
 *.o
 *.tbl
