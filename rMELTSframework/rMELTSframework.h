@@ -14,6 +14,7 @@
 #define RUN_EQUILIBRATE_CALC    3
 #define RETURN_WITHOUT_CALC     4
 #define RETURN_DO_FRACTIONATION 5
+#define RUN_WET_LIQUIDUS_CALC   6
 
 @interface rMELTSframework : NSObject
 

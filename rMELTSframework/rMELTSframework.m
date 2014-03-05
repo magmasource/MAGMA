@@ -415,8 +415,9 @@ static NodeList *getNodeListPointer(int node) {
             
         } else if ([[levelOneChild name] isEqualToString:@"calculationMode"]) {
             NSString *value = [levelOneChild stringValue];
-            if      ([value isEqualToString:@"findLiquidus"]) returnParam = RUN_LIQUIDUS_CALC;
-            else if ([value isEqualToString:@"equilibrate"])  returnParam = RUN_EQUILIBRATE_CALC;
+            if      ([value isEqualToString:@"findLiquidus"])    returnParam = RUN_LIQUIDUS_CALC;
+            else if ([value isEqualToString:@"equilibrate"])     returnParam = RUN_EQUILIBRATE_CALC;
+            else if ([value isEqualToString:@"findWetLiquidus"]) returnParam = RUN_WET_LIQUIDUS_CALC;
         
         } else if ([[levelOneChild name] isEqualToString:@"fractionateOnly"]) {
             NSString *content = [levelOneChild stringValue];
@@ -1783,6 +1784,49 @@ static NodeList *getNodeListPointer(int node) {
         case RETURN_DO_FRACTIONATION:
             doBatchFractionation();
             meltsStatus.status = SILMIN_SUCCESS;
+            break;
+        case RUN_WET_LIQUIDUS_CALC:
+            meltsStatus.status = GENERIC_INTERNAL_ERROR;
+            int *oldIncSolids = (int *) malloc((size_t) npc*sizeof(NSUInteger));
+            double oldT = 0.0;
+            NSUInteger iter = 0;
+            
+            do {
+                oldT = silminState->T;
+                for (NSUInteger i=0, j=0; i<npc; i++) if ((solids[i].type == PHASE) && (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL))) {
+                    oldIncSolids[j] = (silminState->incSolids)[j];
+                    (silminState->incSolids)[j] = FALSE;
+                    if (!strcmp("water", solids[i].label)) (silminState->incSolids)[j] = TRUE;
+                    j++;
+                }
+                while(!silmin());
+                NSLog(@"<><><><> !!! <><><><> T after equilibrate: %lf", silminState->T);
+                if (meltsStatus.status != SILMIN_SUCCESS) {
+                    NSLog(@"<><><><> !!! <><><><>  Failure in silmin() stage of findWetLiquidus. Aborting ...");
+                    break;
+                }
+                
+                for (NSUInteger i=0, j=0; i<npc; i++) if ((solids[i].type == PHASE) && (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL))) {
+                    (silminState->incSolids)[j] = oldIncSolids[j];
+                    j++;
+                }
+                while(!liquidus());
+                NSLog(@"<><><><> !!! <><><><> T after liquidus: %lf, iter: %ld", silminState->T, iter);
+                if (meltsStatus.status != LIQUIDUS_SUCCESS) {
+                    NSLog(@"<><><><> !!! <><><><>  Failure in liquidus() stage of findWetLiquidus. Aborting ...");
+                    break;
+                }
+                
+                silminState->dspTstart = silminState->T;
+                silminState->dspTstop  = silminState->T;
+                iter++;
+            } while ((fabs(oldT - silminState->T) > 0.5) && (iter < 50));
+            
+            if (iter == 50) {
+                meltsStatus.status = GENERIC_INTERNAL_ERROR;
+                NSLog(@"<><><><> !!! <><><><> Unable to locate (Wet) liquidus.");
+            } else NSLog(@"<><><><> !!! <><><><> Found (Wet) liquidus at %lf (C) and %lf MPa.", silminState->T-273.15, silminState->P/10.0);
+            free(oldIncSolids);
             break;
         default:
             break;

@@ -79,12 +79,13 @@
 							<xs:restriction base="xs:string">
 								<xs:enumeration value="findLiquidus"/>
 								<xs:enumeration value="equilibrate"/>
+								<xs:enumeration value="findWetLiquidus"/>
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
 
 					<xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1"/>
-					
+
 					<xs:element name="sessionID" type="xs:string" minOccurs="0" maxOccurs="1"/>
 
 					<xs:element name="changeBulk" minOccurs="0" maxOccurs="1">
