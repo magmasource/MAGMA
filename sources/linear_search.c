@@ -345,6 +345,8 @@ double linearSearch(double lambda, int *notcomp)
           hypoState   = copySilminStateStructure(silminState,     hypoState);
           silminState = copySilminStateStructure(saveSilminState, silminState);
           for (i=0; i<npc; i++) {
+	    if (hypoState->nSolidCoexist[i] != 0) for (j=0;j<=solids[i].na;j++) (constraints->solidDelta)[i+j] = 
+              REALLOC((constraints->solidDelta)[i+j], hypoState->nSolidCoexist[i]*sizeof(double));
             for (j=0; j<hypoState->nSolidCoexist[i]; j++) {
               (constraints->solidDelta)[i][j] = hypoState->solidComp[i][j] - saveHypoState->solidComp[i][j];
               if (solids[i].na > 1) for (k=0; k<solids[i].na; k++) {
@@ -458,6 +460,8 @@ double linearSearch(double lambda, int *notcomp)
           hypoState   = copySilminStateStructure(silminState,     hypoState);
           silminState = copySilminStateStructure(saveSilminState, silminState);
           for (i=0; i<npc; i++) {
+	    if (hypoState->nSolidCoexist[i] != 0) for (j=0;j<=solids[i].na;j++) (constraints->solidDelta)[i+j] = 
+              REALLOC((constraints->solidDelta)[i+j], hypoState->nSolidCoexist[i]*sizeof(double));
             for (j=0; j<hypoState->nSolidCoexist[i]; j++) {
               (constraints->solidDelta)[i][j] = hypoState->solidComp[i][j] - saveHypoState->solidComp[i][j];
               if (solids[i].na > 1) for (k=0; k<solids[i].na; k++) {
@@ -582,9 +586,11 @@ double linearSearch(double lambda, int *notcomp)
           hypoState   = copySilminStateStructure(silminState,     hypoState);
           silminState = copySilminStateStructure(saveSilminState, silminState);
           for (i=0; i<npc; i++) {
+	    if (hypoState->nSolidCoexist[i] != 0) for (j=0;j<=solids[i].na;j++) (constraints->solidDelta)[i+j] = 
+              REALLOC((constraints->solidDelta)[i+j], hypoState->nSolidCoexist[i]*sizeof(double));
             for (j=0; j<hypoState->nSolidCoexist[i]; j++) {
               (constraints->solidDelta)[i][j] = hypoState->solidComp[i][j] - saveHypoState->solidComp[i][j];
-              if (solids[i].na == 1) for (k=0; k<solids[i].na; k++) {
+              if (solids[i].na > 1) for (k=0; k<solids[i].na; k++) {
                 (constraints->solidDelta)[i+1+k][j] = hypoState->solidComp[i+1+k][j] - saveHypoState->solidComp[i+1+k][j];
               }
             }
