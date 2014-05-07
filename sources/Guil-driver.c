@@ -2237,7 +2237,7 @@ int main (int argc, char *argv[]) {
   system("rm -rf GUIL-RUNS");
   system("mkdir GUIL-RUNS");
   
-  for (i=0; i<2; i++) {
+  for (i=0; i<255; i++) {
   
   strcpy(string, "cd GUIL-RUNS; mkdir ");
   strcat(string, data_guil[i][0]);
