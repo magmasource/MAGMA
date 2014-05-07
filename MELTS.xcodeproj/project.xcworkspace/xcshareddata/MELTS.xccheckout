@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A81F7CAC-F633-4443-99CC-E865E50314EB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MELTS</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0F429A31-B4EC-467B-8F37-87D0EBCEB028</key>
+		<string>ssh://public.ofm-research.org/xMelts.git</string>
+		<key>9519798E-FBEA-4793-9E7E-F5E976C63F45</key>
+		<string>ssh://public.ofm-research.org/port3.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MELTS.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0F429A31-B4EC-467B-8F37-87D0EBCEB028</key>
+		<string>../..</string>
+		<key>9519798E-FBEA-4793-9E7E-F5E976C63F45</key>
+		<string>../../../port3</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://public.ofm-research.org/xMelts.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0F429A31-B4EC-467B-8F37-87D0EBCEB028</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9519798E-FBEA-4793-9E7E-F5E976C63F45</string>
+			<key>IDESourceControlWCCName</key>
+			<string>port3</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0F429A31-B4EC-467B-8F37-87D0EBCEB028</string>
+			<key>IDESourceControlWCCName</key>
+			<string>xMelts</string>
+		</dict>
+	</array>
+</dict>
+</plist>

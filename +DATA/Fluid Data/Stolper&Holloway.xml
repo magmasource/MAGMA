@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase>
+<experiment>
+<number>12980</number>
+<name>TT152-4</name>
+<author>Stolper, E., Holloway, J.R. (1988)</author>
+<lab>Arizona State University</lab>
+<device>IHPV</device>
+<container>FePt</container>
+<method>EMP</method>
+<method>IR</method>
+<time>2</time>
+<t>1200</t>
+<terr>3</terr>
+<p>0.01</p>
+<perr>0.0001</perr>
+<fo2>QFM-2.5&lt;&gt;QFM+2</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>50.92</sio2>
+<tio2>2.02</tio2>
+<al2o3>13.71</al2o3>
+<mgo>7.11</mgo>
+<mno>0.19</mno>
+<feo>12.56</feo>
+<cao>10.88</cao>
+<na2o>2.63</na2o>
+<k2o>0.16</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>50.7966</sio2>
+<tio2>2.01511</tio2>
+<al2o3>13.6768</al2o3>
+<feo>12.5296</feo>
+<mno>0.18954</mno>
+<mgo>7.09277</mgo>
+<cao>10.8536</cao>
+<na2o>2.62363</na2o>
+<k2o>0.159612</k2o>
+<h2o>0.06</h2o>
+<co2>0.0027</co2>
+<h2oERR>0.01</h2oERR>
+<co2ERR>0.0006</co2ERR>
+<idERR>1811</idERR>
+</liquid>
+<phase type="fluid">
+<co2>1</co2>
+</phase>
+</experiment>
+<experiment>
+<number>12981</number>
+<name>TT152-3</name>
+<author>Stolper, E., Holloway, J.R. (1988)</author>
+<lab>Arizona State University</lab>
+<device>IHPV</device>
+<container>FePt</container>
+<method>EMP</method>
+<method>IR</method>
+<time>2</time>
+<t>1200</t>
+<terr>3</terr>
+<p>0.05</p>
+<perr>0.0005</perr>
+<fo2>QFM-2.5&lt;&gt;QFM+2</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>50.92</sio2>
+<tio2>2.02</tio2>
+<al2o3>13.71</al2o3>
+<mgo>7.11</mgo>
+<mno>0.19</mno>
+<feo>12.56</feo>
+<cao>10.88</cao>
+<na2o>2.63</na2o>
+<k2o>0.16</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>50.7624</sio2>
+<tio2>2.01375</tio2>
+<al2o3>13.6676</al2o3>
+<feo>12.5211</feo>
+<mno>0.189412</mno>
+<mgo>7.08799</mgo>
+<cao>10.8463</cao>
+<na2o>2.62186</na2o>
+<k2o>0.159505</k2o>
+<h2o>0.11</h2o>
+<co2>0.0201</co2>
+<h2oERR>0.02</h2oERR>
+<co2ERR>0.0018</co2ERR>
+<idERR>1812</idERR>
+</liquid>
+<phase type="fluid">
+<co2>1</co2>
+</phase>
+</experiment>
+<experiment>
+<number>12982</number>
+<name>TT152-2</name>
+<author>Stolper, E., Holloway, J.R. (1988)</author>
+<lab>Arizona State University</lab>
+<device>IHPV</device>
+<container>FePt</container>
+<method>EMP</method>
+<method>IR</method>
+<time>2</time>
+<t>1200</t>
+<terr>3</terr>
+<p>0.101</p>
+<perr>0.00101</perr>
+<fo2>QFM-2.5&lt;&gt;QFM+2</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>50.92</sio2>
+<tio2>2.02</tio2>
+<al2o3>13.71</al2o3>
+<mgo>7.11</mgo>
+<mno>0.19</mno>
+<feo>12.56</feo>
+<cao>10.88</cao>
+<na2o>2.63</na2o>
+<k2o>0.16</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>50.6586</sio2>
+<tio2>2.00963</tio2>
+<al2o3>13.6396</al2o3>
+<feo>12.4955</feo>
+<mno>0.189025</mno>
+<mgo>7.0735</mgo>
+<cao>10.8241</cao>
+<na2o>2.6165</na2o>
+<k2o>0.159179</k2o>
+<h2o>0.29</h2o>
+<co2>0.0443</co2>
+<h2oERR>0.02</h2oERR>
+<co2ERR>0.0025</co2ERR>
+<idERR>1813</idERR>
+</liquid>
+<phase type="fluid">
+<co2>1</co2>
+</phase>
+</experiment>
+</LEPRdatabase>
