@@ -39144,7 +39144,7 @@
 <time>1</time>
 <t>1400</t>
 <terr>5</terr>
-<p>1.0</p>
+<p>0.5</p>
 <perr>0.05</perr>
 <fo2>NNO+0.72</fo2>
 <fo2min>-5.74257</fo2min>
@@ -42148,41 +42148,7 @@
 <co2>1</co2>
 </phase>
 </experiment>
-<experiment>
-<number>57575</number>
-<name>T2779</name>
-<author>Mattey, D.P., Taylor, W.R., Green, D.H., Pillinger, C.T. (1990)</author>
-<lab>University of Tasmania</lab>
-<device>PC</device>
-<container>Pt</container>
-<method>EMP</method>
-<method>Manometry</method>
-<method>FTIR</method>
-<time>0.5</time>
-<t>1400</t>
-<terr>5</terr>
-<p>2</p>
-<perr>0.1</perr>
-<fo2min>-5.2202</fo2min>
-<fo2max>-2.14672</fo2max>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>46.54</sio2>
-<al2o3>19.74</al2o3>
-<cao>21.72</cao>
-<na2o>12</na2o>
-</bulkComp>
-<liquid>
-<sio2>46.3771</sio2>
-<al2o3>19.6709</al2o3>
-<cao>21.644</cao>
-<na2o>11.958</na2o>
-<co2>0.35</co2>
-</liquid>
-<phase type="fluid">
-<co2>1</co2>
-</phase>
-</experiment>
+
 <experiment>
 <number>57576</number>
 <name>T2772</name>
@@ -42463,41 +42429,7 @@
 <co2>1</co2>
 </phase>
 </experiment>
-<experiment>
-<number>57584</number>
-<name>T2757</name>
-<author>Mattey, D.P., Taylor, W.R., Green, D.H., Pillinger, C.T. (1990)</author>
-<lab>University of Tasmania</lab>
-<device>PC</device>
-<container>Pt</container>
-<method>EMP</method>
-<method>Manometry</method>
-<method>FTIR</method>
-<time>0.5</time>
-<t>1400</t>
-<terr>5</terr>
-<p>2</p>
-<perr>0.1</perr>
-<fo2min>-5.2202</fo2min>
-<fo2max>-2.14672</fo2max>
-<phaselist>liq+fl</phaselist>
-<bulkComp>
-<sio2>46.54</sio2>
-<al2o3>19.74</al2o3>
-<cao>21.72</cao>
-<na2o>12</na2o>
-</bulkComp>
-<liquid>
-<sio2>46.3213</sio2>
-<al2o3>19.6472</al2o3>
-<cao>21.6179</cao>
-<na2o>11.9436</na2o>
-<co2>0.47</co2>
-</liquid>
-<phase type="fluid">
-<co2>1</co2>
-</phase>
-</experiment>
+
 <experiment>
 <number>57585</number>
 <name>T2840</name>
@@ -61622,7 +61554,7 @@
 <experiment>
 <number>12920</number>
 <name>B2518-1</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -61673,7 +61605,7 @@
 <experiment>
 <number>12921</number>
 <name>B2518-3</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -61726,7 +61658,7 @@
 <experiment>
 <number>12922</number>
 <name>B2518-4</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -61779,7 +61711,7 @@
 <experiment>
 <number>12923</number>
 <name>B2518-54</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -61832,7 +61764,7 @@
 <experiment>
 <number>12924</number>
 <name>B2518-50</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -61885,7 +61817,7 @@
 <experiment>
 <number>12925</number>
 <name>B2518-9</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -61938,7 +61870,7 @@
 <experiment>
 <number>12926</number>
 <name>B2507-B-17</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -61987,7 +61919,7 @@
 <experiment>
 <number>12927</number>
 <name>B2507-21</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62038,7 +61970,7 @@
 <experiment>
 <number>12928</number>
 <name>B2507-22</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62089,7 +62021,7 @@
 <experiment>
 <number>12929</number>
 <name>B2507-23</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62142,7 +62074,7 @@
 <experiment>
 <number>12930</number>
 <name>B2507-24</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62195,7 +62127,7 @@
 <experiment>
 <number>12931</number>
 <name>B2507-25</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62248,7 +62180,7 @@
 <experiment>
 <number>12932</number>
 <name>B2507-B-5</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62297,7 +62229,7 @@
 <experiment>
 <number>12933</number>
 <name>B2507-29</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62350,7 +62282,7 @@
 <experiment>
 <number>12934</number>
 <name>B2507-30</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62402,7 +62334,7 @@
 <experiment>
 <number>12935</number>
 <name>B2507-52</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62455,7 +62387,7 @@
 <experiment>
 <number>12936</number>
 <name>A2549-B-13</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62504,7 +62436,7 @@
 <experiment>
 <number>12937</number>
 <name>A2549-12</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62557,7 +62489,7 @@
 <experiment>
 <number>12938</number>
 <name>A2549-11</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62607,7 +62539,7 @@
 <experiment>
 <number>12939</number>
 <name>A2549-14</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62660,7 +62592,7 @@
 <experiment>
 <number>12940</number>
 <name>A2549-13</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62709,7 +62641,7 @@
 <experiment>
 <number>12941</number>
 <name>A2549-51</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62762,7 +62694,7 @@
 <experiment>
 <number>12942</number>
 <name>A2549-B-4</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62811,7 +62743,7 @@
 <experiment>
 <number>12943</number>
 <name>A2549-B-12</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62860,7 +62792,7 @@
 <experiment>
 <number>12944</number>
 <name>A2549-18</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62913,7 +62845,7 @@
 <experiment>
 <number>12945</number>
 <name>A2549-48</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -62966,7 +62898,7 @@
 <experiment>
 <number>12946</number>
 <name>A2549-19</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63015,7 +62947,7 @@
 <experiment>
 <number>12947</number>
 <name>A2549-47</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63064,7 +62996,7 @@
 <experiment>
 <number>12948</number>
 <name>E2624-B-15</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63113,7 +63045,7 @@
 <experiment>
 <number>12949</number>
 <name>E2624-31</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63164,7 +63096,7 @@
 <experiment>
 <number>12950</number>
 <name>E2624-33</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63217,7 +63149,7 @@
 <experiment>
 <number>12951</number>
 <name>E2624-35</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63266,7 +63198,7 @@
 <experiment>
 <number>12952</number>
 <name>E2624-B-3</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63315,7 +63247,7 @@
 <experiment>
 <number>12953</number>
 <name>E2624-B-11</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63364,7 +63296,7 @@
 <experiment>
 <number>12954</number>
 <name>E2624-38</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63417,7 +63349,7 @@
 <experiment>
 <number>12955</number>
 <name>E2624-40</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63466,7 +63398,7 @@
 <experiment>
 <number>12956</number>
 <name>SC1-B156</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63511,7 +63443,7 @@
 <experiment>
 <number>12957</number>
 <name>SC1-B157</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63558,7 +63490,7 @@
 <experiment>
 <number>12958</number>
 <name>SC1-B158</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63605,7 +63537,7 @@
 <experiment>
 <number>12959</number>
 <name>SC1-B159</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63652,7 +63584,7 @@
 <experiment>
 <number>12960</number>
 <name>SC1-B160</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63699,7 +63631,7 @@
 <experiment>
 <number>12961</number>
 <name>OB93-B-9</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63744,7 +63676,7 @@
 <experiment>
 <number>12962</number>
 <name>OB93-M148 $</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63790,7 +63722,7 @@
 <experiment>
 <number>12963</number>
 <name>OB93-OB93-5</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63839,7 +63771,7 @@
 <experiment>
 <number>12964</number>
 <name>OB93-OB93-4</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63888,7 +63820,7 @@
 <experiment>
 <number>12965</number>
 <name>OB93-OB93-3</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63937,7 +63869,7 @@
 <experiment>
 <number>12966</number>
 <name>OB93-OB93-2</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -63986,7 +63918,7 @@
 <experiment>
 <number>12967</number>
 <name>OB93-OB93-1</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64035,7 +63967,7 @@
 <experiment>
 <number>12968</number>
 <name>Etna-B-16</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64082,7 +64014,7 @@
 <experiment>
 <number>12969</number>
 <name>Etna-B-1</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64129,7 +64061,7 @@
 <experiment>
 <number>12970</number>
 <name>Etna-Etna-11</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64177,7 +64109,7 @@
 <experiment>
 <number>12971</number>
 <name>Etna-Etna-15</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64228,7 +64160,7 @@
 <experiment>
 <number>12972</number>
 <name>Etna-Etna-14</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64279,7 +64211,7 @@
 <experiment>
 <number>12973</number>
 <name>Etna-Etna-13</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64330,7 +64262,7 @@
 <experiment>
 <number>12974</number>
 <name>Etna-Etna-12</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64381,7 +64313,7 @@
 <experiment>
 <number>12975</number>
 <name>169oxi-B-14</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64426,7 +64358,7 @@
 <experiment>
 <number>12976</number>
 <name>169oxi-169oxi-20</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64472,7 +64404,7 @@
 <experiment>
 <number>12977</number>
 <name>169oxi-169oxi-19</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64521,7 +64453,7 @@
 <experiment>
 <number>12978</number>
 <name>169oxi-169oxi-18</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -64570,7 +64502,7 @@
 <experiment>
 <number>12979</number>
 <name>169oxi-169oxi-17</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
