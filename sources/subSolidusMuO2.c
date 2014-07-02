@@ -226,11 +226,12 @@ int subsolidusmuO2(int mask,
     /* Decide whether a new reaction is needed */
     acceptable = TRUE;
     if (olddstoich != NULL) {
-      acceptable = acceptable & (n  == oldN);
-      acceptable = acceptable & (mm == oldMm);
+      acceptable = acceptable && (n  == oldN);
+      acceptable = acceptable && (mm == oldMm);
       for (i=2;i<MIN(n, oldN);i++) {
-	acceptable = acceptable & (phaseIndex[i] == oldPhaseIndex[i]);
-	acceptable = acceptable & (nCoexist[i]   == oldNCoexist[i]);
+	acceptable = acceptable && (phaseIndex[i] == oldPhaseIndex[i]);
+	acceptable = acceptable && (nCoexist[i]   == oldNCoexist[i]);
+	acceptable = acceptable && (fabs(silminState->solidComp[phaseIndex[i]][nCoexist[i]]) > 5.0e-06);
       }
     } else acceptable = FALSE;
 
@@ -324,7 +325,7 @@ int subsolidusmuO2(int mask,
 	  for (k=0,l=0; k<solids[j].na; k++) {
 	    if (phaseIndex[i+l] == j+1+k && nCoexist[i+l] == nCoexist[i]) {
               g0[i+l] = solids[phaseIndex[i+l]].cur.g;
-              a[i+l] = activities[k];
+              a[i+l] = MAX(activities[k], 1.0e-16);
 	      for (z=0, dadm=0.0; z<solids[j].nr; z++) dadm += dadr[k][z]*drdm[z][k];
               xi += SQUARE(dstoich[i+l])*dadm/a[i+l];
 	      l++;
@@ -346,8 +347,8 @@ int subsolidusmuO2(int mask,
         /* run the buffer reaction towards desired fO2 as far as legal */
         acceptable = FALSE;
         xi = fudge*(*muO2-tempmuO2)/(R*silminState->T*xi);
-	if (!(iter & 3)) error0 = tempmuO2 - *muO2;
-        if (!((iter-1) & 3)) {
+	if (!(iter == 3)) error0 = tempmuO2 - *muO2;
+        if (!((iter-1) == 3)) {
 	  if (error0 != (tempmuO2-*muO2)) fudge *= error0/(error0 - tempmuO2 + *muO2);
         }
 	iter++;
