@@ -67115,10 +67115,7 @@
         <p>1</p>
         <fo2>NNO-1.25</fo2>
         <phaselist>liq+fl</phaselist>
-        <bulkComp>
-            <dt_entered>2014-05-02 00:00:00</dt_entered>
-        </bulkComp>
-        <liquid>
+         <liquid>
             <sio2>57.25</sio2>
             <tio2>0.89</tio2>
             <al2o3>17.42</al2o3>
@@ -67155,10 +67152,7 @@
         <p>1</p>
         <fo2>NNO-1.35</fo2>
         <phaselist>liq+fl</phaselist>
-        <bulkComp>
-            <dt_entered>2014-05-02 00:00:00</dt_entered>
-        </bulkComp>
-        <liquid>
+         <liquid>
             <sio2>58.79</sio2>
             <tio2>0.85</tio2>
             <al2o3>17.31</al2o3>
@@ -67196,9 +67190,6 @@
         <p>1</p>
         <fo2>NNO-1.12</fo2>
         <phaselist>liq+fl</phaselist>
-        <bulkComp>
-            <dt_entered>2014-05-02 00:00:00</dt_entered>
-        </bulkComp>
         <liquid>
             <sio2>58.1</sio2>
             <tio2>0.85</tio2>
@@ -67236,10 +67227,7 @@
         <p>1</p>
         <fo2>NNO-1.25</fo2>
         <phaselist>liq+fl</phaselist>
-        <bulkComp>
-            <dt_entered>2014-05-02 00:00:00</dt_entered>
-        </bulkComp>
-        <liquid>
+         <liquid>
             <sio2>56.8</sio2>
             <tio2>0.89</tio2>
             <al2o3>17.42</al2o3>
