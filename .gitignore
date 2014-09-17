@@ -43,6 +43,8 @@ Entropy_reg
 Entropy_reg-MS
 Guil-driver
 Guil-error
+Guil-EBT-CO2
+Guil-LBT-CO2
 LinAndPelton
 Make-liquid-model
 Make_species_map
