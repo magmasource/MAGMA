@@ -20494,6 +20494,7 @@
 <sio2>55.73</sio2>
 <tio2>1.03</tio2>
 <al2o3>17.01</al2o3>
+    <feo>6.99</feo>
 <mno>0.12</mno>
 <mgo>4.18</mgo>
 <cao>7.2</cao>
@@ -20501,6 +20502,8 @@
 <k2o>1.56</k2o>
 <h2o>2.82</h2o>
 <co2>0.15</co2>
+    <h2oERR>0.10</h2oERR>
+    <co2ERR>0.016</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.24</h2o>
@@ -20531,6 +20534,7 @@
 <sio2>56.15</sio2>
 <tio2>1.04</tio2>
 <al2o3>17.14</al2o3>
+    <feo>7.04</feo>
 <mno>0.12</mno>
 <mgo>4.21</mgo>
 <cao>7.25</cao>
@@ -20538,6 +20542,8 @@
 <k2o>1.57</k2o>
 <h2o>2.12</h2o>
 <co2>0.12</co2>
+    <h2oERR>0.16</h2oERR>
+    <co2ERR>0.012</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.25</h2o>
@@ -20568,6 +20574,7 @@
 <sio2>56.53</sio2>
 <tio2>1.04</tio2>
 <al2o3>17.25</al2o3>
+    <feo>7.09</feo>
 <mno>0.12</mno>
 <mgo>4.24</mgo>
 <cao>7.3</cao>
@@ -20575,6 +20582,8 @@
 <k2o>1.58</k2o>
 <h2o>1.45</h2o>
 <co2>0.13</co2>
+    <h2oERR>0.07</h2oERR>
+    <co2ERR>0.014</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.35</h2o>
@@ -20605,6 +20614,7 @@
 <sio2>56.88</sio2>
 <tio2>1.05</tio2>
 <al2o3>17.36</al2o3>
+    <feo>7.13</feo>
 <mno>0.12</mno>
 <mgo>4.27</mgo>
 <cao>7.35</cao>
@@ -20612,6 +20622,8 @@
 <k2o>1.59</k2o>
 <h2o>0.83</h2o>
 <co2>0.14</co2>
+    <h2oERR>0.09</h2oERR>
+    <co2ERR>0.014</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.15</h2o>
@@ -20642,6 +20654,7 @@
 <sio2>52.67</sio2>
 <tio2>0.97</tio2>
 <al2o3>16.07</al2o3>
+    <feo>6.60</feo>
 <mno>0.11</mno>
 <mgo>3.95</mgo>
 <cao>6.8</cao>
@@ -20649,6 +20662,8 @@
 <k2o>1.48</k2o>
 <h2o>7.97</h2o>
 <co2>0.32</co2>
+    <h2oERR>0.28</h2oERR>
+    <co2ERR>0.034</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.49</h2o>
@@ -20679,6 +20694,7 @@
 <sio2>54.03</sio2>
 <tio2>1</tio2>
 <al2o3>16.49</al2o3>
+    <feo>6.77</feo>
 <mno>0.11</mno>
 <mgo>4.05</mgo>
 <cao>6.98</cao>
@@ -20686,6 +20702,8 @@
 <k2o>1.51</k2o>
 <h2o>5.57</h2o>
 <co2>0.36</co2>
+    <h2oERR>0.11</h2oERR>
+    <co2ERR>0.038</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.46</h2o>
@@ -20716,6 +20734,7 @@
 <sio2>55.43</sio2>
 <tio2>1.02</tio2>
 <al2o3>16.92</al2o3>
+    <feo>6.95</feo>
 <mno>0.12</mno>
 <mgo>4.16</mgo>
 <cao>7.16</cao>
@@ -20723,6 +20742,8 @@
 <k2o>1.55</k2o>
 <h2o>3.11</h2o>
 <co2>0.37</co2>
+    <h2oERR>0.05</h2oERR>
+    <co2ERR>0.038</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.17</h2o>
@@ -20753,6 +20774,7 @@
 <sio2>56.66</sio2>
 <tio2>1.05</tio2>
 <al2o3>17.29</al2o3>
+    <feo>7.10</feo>
 <mno>0.12</mno>
 <mgo>4.25</mgo>
 <cao>7.32</cao>
@@ -20760,6 +20782,8 @@
 <k2o>1.59</k2o>
 <h2o>0.89</h2o>
 <co2>0.45</co2>
+    <h2oERR>0.09</h2oERR>
+    <co2ERR>0.046</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.18</h2o>
@@ -20790,6 +20814,7 @@
 <sio2>55.46</sio2>
 <tio2>1.02</tio2>
 <al2o3>16.93</al2o3>
+    <feo>6.95</feo>
 <mno>0.12</mno>
 <mgo>4.16</mgo>
 <cao>7.16</cao>
@@ -20797,6 +20822,8 @@
 <k2o>1.55</k2o>
 <h2o>3.33</h2o>
 <co2>0.1</co2>
+    <h2oERR>0.14</h2oERR>
+    <co2ERR>0.0118</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.45</h2o>
@@ -20827,6 +20854,7 @@
 <sio2>55.61</sio2>
 <tio2>1.03</tio2>
 <al2o3>16.97</al2o3>
+    <feo>6.97</feo>
 <mno>0.12</mno>
 <mgo>4.17</mgo>
 <cao>7.18</cao>
@@ -20834,6 +20862,8 @@
 <k2o>1.56</k2o>
 <h2o>3.04</h2o>
 <co2>0.13</co2>
+    <h2oERR>0.05</h2oERR>
+    <co2ERR>0.013</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.21</h2o>
@@ -20864,6 +20894,7 @@
 <sio2>56.32</sio2>
 <tio2>1.04</tio2>
 <al2o3>17.19</al2o3>
+    <feo>7.06</feo>
 <mno>0.12</mno>
 <mgo>4.23</mgo>
 <cao>7.28</cao>
@@ -20871,6 +20902,8 @@
 <k2o>1.58</k2o>
 <h2o>1.78</h2o>
 <co2>0.16</co2>
+    <h2oERR>0.28</h2oERR>
+    <co2ERR>0.017</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.09</h2o>
@@ -20901,6 +20934,7 @@
 <sio2>56.58</sio2>
 <tio2>1.04</tio2>
 <al2o3>17.27</al2o3>
+    <feo>7.09</feo>
 <mno>0.12</mno>
 <mgo>4.25</mgo>
 <cao>7.31</cao>
@@ -20908,6 +20942,8 @@
 <k2o>1.59</k2o>
 <h2o>1.27</h2o>
 <co2>0.22</co2>
+    <h2oERR>0.07</h2oERR>
+    <co2ERR>0.023</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.27</h2o>
@@ -20938,6 +20974,7 @@
 <sio2>52.76</sio2>
 <tio2>0.97</tio2>
 <al2o3>16.1</al2o3>
+    <feo>6.61</feo>
 <mno>0.11</mno>
 <mgo>3.96</mgo>
 <cao>6.82</cao>
@@ -20945,6 +20982,8 @@
 <k2o>1.48</k2o>
 <h2o>7.81</h2o>
 <co2>0.33</co2>
+    <h2oERR>0.28</h2oERR>
+    <co2ERR>0.034</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.47</h2o>
@@ -20975,6 +21014,7 @@
 <sio2>54.88</sio2>
 <tio2>1.01</tio2>
 <al2o3>16.75</al2o3>
+    <feo>6.88</feo>
 <mno>0.11</mno>
 <mgo>4.12</mgo>
 <cao>7.09</cao>
@@ -20982,6 +21022,8 @@
 <k2o>1.54</k2o>
 <h2o>4.05</h2o>
 <co2>0.4</co2>
+    <h2oERR>0.07</h2oERR>
+    <co2ERR>0.042</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.29</h2o>
@@ -21012,6 +21054,7 @@
 <sio2>55.91</sio2>
 <tio2>1.03</tio2>
 <al2o3>17.06</al2o3>
+    <feo>7.01</feo>
 <mno>0.12</mno>
 <mgo>4.2</mgo>
 <cao>7.22</cao>
@@ -21019,6 +21062,8 @@
 <k2o>1.57</k2o>
 <h2o>2.24</h2o>
 <co2>0.41</co2>
+    <h2oERR>0.09</h2oERR>
+    <co2ERR>0.043</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.22</h2o>
@@ -21049,6 +21094,7 @@
 <sio2>56.5</sio2>
 <tio2>1.04</tio2>
 <al2o3>17.24</al2o3>
+    <feo>7.08</feo>
 <mno>0.12</mno>
 <mgo>4.24</mgo>
 <cao>7.3</cao>
@@ -21056,15 +21102,8 @@
 <k2o>1.58</k2o>
 <h2o>1.26</h2o>
 <co2>0.37</co2>
-<sio2ERR>0.3</sio2ERR>
-<tio2ERR>0.04</tio2ERR>
-<al2o3ERR>0.2</al2o3ERR>
-<feoERR>0.1</feoERR>
-<mnoERR>0.03</mnoERR>
-<mgoERR>0.05</mgoERR>
-<caoERR>0.13</caoERR>
-<na2oERR>0.06</na2oERR>
-<k2oERR>0.04</k2oERR>
+    <h2oERR>0.07</h2oERR>
+    <co2ERR>0.037</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.05</h2o>
@@ -21095,6 +21134,7 @@
 <sio2>55.63</sio2>
 <tio2>1.03</tio2>
 <al2o3>16.98</al2o3>
+    <feo>6.97</feo>
 <mno>0.12</mno>
 <mgo>4.17</mgo>
 <cao>7.19</cao>
@@ -21102,15 +21142,8 @@
 <k2o>1.56</k2o>
 <h2o>2.99</h2o>
 <co2>0.16</co2>
-<sio2ERR>0.3</sio2ERR>
-<tio2ERR>0.02</tio2ERR>
-<al2o3ERR>0.1</al2o3ERR>
-<feoERR>0.14</feoERR>
-<mnoERR>0.02</mnoERR>
-<mgoERR>0.06</mgoERR>
-<caoERR>0.06</caoERR>
-<na2oERR>0.07</na2oERR>
-<k2oERR>0.03</k2oERR>
+    <h2oERR>0.06</h2oERR>
+    <co2ERR>0.018</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.51</h2o>
@@ -21141,6 +21174,7 @@
 <sio2>56.18</sio2>
 <tio2>1.04</tio2>
 <al2o3>17.15</al2o3>
+    <feo>7.04</feo>
 <mno>0.12</mno>
 <mgo>4.22</mgo>
 <cao>7.26</cao>
@@ -21148,15 +21182,8 @@
 <k2o>1.57</k2o>
 <h2o>2</h2o>
 <co2>0.18</co2>
-<sio2ERR>0.3</sio2ERR>
-<tio2ERR>0.03</tio2ERR>
-<al2o3ERR>0.1</al2o3ERR>
-<feoERR>0.06</feoERR>
-<mnoERR>0.02</mnoERR>
-<mgoERR>0.03</mgoERR>
-<caoERR>0.05</caoERR>
-<na2oERR>0.22</na2oERR>
-<k2oERR>0.02</k2oERR>
+    <h2oERR>0.14</h2oERR>
+    <co2ERR>0.019</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.28</h2o>
@@ -21187,6 +21214,7 @@
 <sio2>52.74</sio2>
 <tio2>0.97</tio2>
 <al2o3>16.1</al2o3>
+    <feo>6.61</feo>
 <mno>0.11</mno>
 <mgo>3.96</mgo>
 <cao>6.81</cao>
@@ -21194,15 +21222,8 @@
 <k2o>1.48</k2o>
 <h2o>7.72</h2o>
 <co2>0.45</co2>
-<sio2ERR>1.1</sio2ERR>
-<tio2ERR>0.05</tio2ERR>
-<al2o3ERR>0.7</al2o3ERR>
-<feoERR>0.56</feoERR>
-<mnoERR>0.04</mnoERR>
-<mgoERR>0.57</mgoERR>
-<caoERR>0.92</caoERR>
-<na2oERR>0.25</na2oERR>
-<k2oERR>0.13</k2oERR>
+    <h2oERR>0.24</h2oERR>
+    <co2ERR>0.047</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.53</h2o>
@@ -21233,6 +21254,7 @@
 <sio2>54.57</sio2>
 <tio2>1.01</tio2>
 <al2o3>16.65</al2o3>
+    <feo>6.84</feo>
 <mno>0.11</mno>
 <mgo>4.09</mgo>
 <cao>7.05</cao>
@@ -21240,15 +21262,8 @@
 <k2o>1.53</k2o>
 <h2o>4.56</h2o>
 <co2>0.43</co2>
-<sio2ERR>0.8</sio2ERR>
-<tio2ERR>0.05</tio2ERR>
-<al2o3ERR>0.5</al2o3ERR>
-<feoERR>0.4</feoERR>
-<mnoERR>0.08</mnoERR>
-<mgoERR>0.12</mgoERR>
-<caoERR>0.28</caoERR>
-<na2oERR>0.17</na2oERR>
-<k2oERR>0.09</k2oERR>
+    <h2oERR>0.12</h2oERR>
+    <co2ERR>0.044</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.34</h2o>
@@ -21279,6 +21294,7 @@
 <sio2>55.4</sio2>
 <tio2>1.02</tio2>
 <al2o3>16.91</al2o3>
+    <feo>6.94</feo>
 <mno>0.12</mno>
 <mgo>4.16</mgo>
 <cao>7.16</cao>
@@ -21286,15 +21302,8 @@
 <k2o>1.55</k2o>
 <h2o>3.1</h2o>
 <co2>0.45</co2>
-<sio2ERR>0.8</sio2ERR>
-<tio2ERR>0.07</tio2ERR>
-<al2o3ERR>0.2</al2o3ERR>
-<feoERR>0.18</feoERR>
-<mnoERR>0.05</mnoERR>
-<mgoERR>0.08</mgoERR>
-<caoERR>0.17</caoERR>
-<na2oERR>0.16</na2oERR>
-<k2oERR>0.08</k2oERR>
+    <h2oERR>0.06</h2oERR>
+    <co2ERR>0.046</co2ERR>
 </liquid>
 <phase type="fluid">
 <h2o>0.22</h2o>
@@ -21325,21 +21334,14 @@
 <sio2>51.7</sio2>
 <tio2>0.95</tio2>
 <al2o3>15.78</al2o3>
+    <feo>6.48</feo>
 <mno>0.11</mno>
 <mgo>3.88</mgo>
 <cao>6.68</cao>
 <na2o>2.99</na2o>
 <k2o>1.45</k2o>
 <h2o>9.98</h2o>
-<sio2ERR>0.6</sio2ERR>
-<tio2ERR>0.07</tio2ERR>
-<al2o3ERR>0.3</al2o3ERR>
-<feoERR>0.18</feoERR>
-<mnoERR>0.05</mnoERR>
-<mgoERR>0.06</mgoERR>
-<caoERR>0.12</caoERR>
-<na2oERR>0.22</na2oERR>
-<k2oERR>0.08</k2oERR>
+    <h2oERR>0.11</h2oERR>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -21368,21 +21370,14 @@
 <sio2>54.29</sio2>
 <tio2>1</tio2>
 <al2o3>16.57</al2o3>
+    <feo>6.80</feo>
 <mno>0.11</mno>
 <mgo>4.07</mgo>
 <cao>7.01</cao>
 <na2o>3.14</na2o>
 <k2o>1.52</k2o>
 <h2o>5.48</h2o>
-<sio2ERR>0.7</sio2ERR>
-<tio2ERR>0.06</tio2ERR>
-<al2o3ERR>0.4</al2o3ERR>
-<feoERR>0.23</feoERR>
-<mnoERR>0.05</mnoERR>
-<mgoERR>0.06</mgoERR>
-<caoERR>0.2</caoERR>
-<na2oERR>0.19</na2oERR>
-<k2oERR>0.06</k2oERR>
+    <h2oERR>0.10</h2oERR>
 </liquid>
 <phase type="fluid">
 <h2o>1</h2o>
@@ -61503,7 +61498,7 @@
 <experiment>
 <number>12919</number>
 <name>B2518-2</name>
-<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A> (2014)</author>
+<author>Shishkina, T.A., Botcharnikov, R.E., Holtz, F., Almeev, R.R., Jazwa, A.M., Jakubiak, A.A. (2014)</author>
 <lab>Hannover</lab>
 <device>IHPV</device>
 <container>AuPd</container>
@@ -73330,57 +73325,785 @@
 <phase type="fluid">
 <h2o>1</h2o>
 </phase>
-</experiment>
- 
-<experiment>
-<number>999999</number>
-<name>Dummy</name>
-<author>Dummy</author>
-<lab>Dummy</lab>
-<device>IHPV</device>
+</experiment>    
+    <experiment>
+<number>13846</number>
+<name>PMSC-B96</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
 <container>AuPd</container>
-<method>KFT</method>
-<method>FTIR</method>
 <method>EMP</method>
-<time>24</time>
-<t>1250</t>
-<terr>10</terr>
-<p>0.4</p>
-<perr>0.005</perr>
-<fo2>QFM-4.15</fo2>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>3</p>
+<fo2>-7.855</fo2>
 <phaselist>liq+fl</phaselist>
 <bulkComp>
-<sio2>53.47</sio2>
-<tio2>0.71</tio2>
-<al2o3>15.48</al2o3>
-<mgo>4.88</mgo>
-<mno>0.1</mno>
-<feo>8.39</feo>
-<cao>8.51</cao>
-<na2o>3.66</na2o>
-<k2o>4.72</k2o>
-<h2o_p>0.029</h2o_p>
-<dt_entered>2012-12-14 00:00:00</dt_entered>
+<sio2>68.81</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.72</al2o3>
+<mgo>0.19</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.47</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.29</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
 </bulkComp>
 <liquid>
-<sio2>52.8475</sio2>
-<tio2>0.701734</tio2>
-<al2o3>15.2998</al2o3>
-<feo>8.29232</feo>
-<mno>0.0988358</mno>
-<mgo>4.82319</mgo>
-<cao>8.41092</cao>
-<na2o>3.61739</na2o>
-<k2o>4.66505</k2o>
-<h2o>0.95</h2o>
-<co2>0.2933</co2>
-<h2oERR>0.06</h2oERR>
-<co2ERR>0.0089</co2ERR>
-<idERR>1478</idERR>
+<sio2>70.46</sio2>
+<tio2>0.52</tio2>
+<al2o3>15.83</al2o3>
+<feo>0.28</feo>
+<mno>0.37</mno>
+<mgo>0.43</mgo>
+<cao>1.49</cao>
+<na2o>3.85</na2o>
+<k2o>6.58</k2o>
+<p2o5>0.19</p2o5>
+<h2o>0.38</h2o>
+<co2>1.45</co2>
+<sio2ERR>0.25</sio2ERR>
+<tio2ERR>0.04</tio2ERR>
+<al2o3ERR>0.19</al2o3ERR>
+<feoERR>0.05</feoERR>
+<mnoERR>0.03</mnoERR>
+<mgoERR>0.02</mgoERR>
+<caoERR>0.05</caoERR>
+<na2oERR>0.09</na2oERR>
+<k2oERR>0.11</k2oERR>
+<p2o5ERR>0.07</p2o5ERR>
+<h2oERR>0.03</h2oERR>
+<co2ERR>0.1</co2ERR>
+<idERR>2426</idERR>
 </liquid>
 <phase type="fluid">
-<h2o>0.02</h2o>
-<co2>0.98</co2>
+<h2o>0.005</h2o>
+<co2>0.995</co2>
+<h2oERR>0.005</h2oERR>
+<co2ERR>0.005</co2ERR>
 </phase>
 </experiment>
+<experiment>
+<number>13847</number>
+<name>PMSC-B98</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>2.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.81</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.72</al2o3>
+<mgo>0.19</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.47</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.29</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>70.6</sio2>
+<tio2>0.51</tio2>
+<al2o3>15.76</al2o3>
+<feo>0.35</feo>
+<mno>0.35</mno>
+<mgo>0.41</mgo>
+<cao>1.46</cao>
+<na2o>3.87</na2o>
+<k2o>6.51</k2o>
+<p2o5>0.17</p2o5>
+<h2o>0.46</h2o>
+<co2>1.11</co2>
+<sio2ERR>0.35</sio2ERR>
+<tio2ERR>0.04</tio2ERR>
+<al2o3ERR>0.22</al2o3ERR>
+<feoERR>0.1</feoERR>
+<mnoERR>0.04</mnoERR>
+<mgoERR>0.03</mgoERR>
+<caoERR>0.06</caoERR>
+<na2oERR>0.11</na2oERR>
+<k2oERR>0.11</k2oERR>
+<p2o5ERR>0.07</p2o5ERR>
+<h2oERR>0.03</h2oERR>
+<co2ERR>0.02</co2ERR>
+<idERR>2427</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.005</h2o>
+<co2>0.995</co2>
+<h2oERR>0.005</h2oERR>
+<co2ERR>0.005</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13848</number>
+<name>PMSC-B101</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.81</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.72</al2o3>
+<mgo>0.19</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.47</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.29</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>70.76</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.83</al2o3>
+<feo>0.33</feo>
+<mno>0.34</mno>
+<mgo>0.41</mgo>
+<cao>1.42</cao>
+<na2o>3.78</na2o>
+<k2o>6.4</k2o>
+<p2o5>0.23</p2o5>
+<h2o>0.51</h2o>
+<co2>0.73</co2>
+<sio2ERR>0.2</sio2ERR>
+<tio2ERR>0.04</tio2ERR>
+<al2o3ERR>0.12</al2o3ERR>
+<feoERR>0.08</feoERR>
+<mnoERR>0.04</mnoERR>
+<mgoERR>0.06</mgoERR>
+<caoERR>0.09</caoERR>
+<na2oERR>0.1</na2oERR>
+<k2oERR>0.13</k2oERR>
+<p2o5ERR>0.09</p2o5ERR>
+<h2oERR>0.04</h2oERR>
+<co2ERR>0.06</co2ERR>
+<idERR>2428</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.005</h2o>
+<co2>0.995</co2>
+<h2oERR>0.005</h2oERR>
+<co2ERR>0.005</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13849</number>
+<name>PMSC-B104</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>1.5</p>
+<fo2>-7.795</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.81</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.72</al2o3>
+<mgo>0.19</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.47</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.29</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.64</sio2>
+<tio2>0.48</tio2>
+<al2o3>16.02</al2o3>
+<feo>0.22</feo>
+<mno>0.24</mno>
+<mgo>0.42</mgo>
+<cao>1.12</cao>
+<na2o>3.36</na2o>
+<k2o>6.32</k2o>
+<p2o5>0.18</p2o5>
+<h2o>0.39</h2o>
+<co2>0.58</co2>
+<sio2ERR>0.29</sio2ERR>
+<tio2ERR>0.04</tio2ERR>
+<al2o3ERR>0.24</al2o3ERR>
+<feoERR>0.04</feoERR>
+<mnoERR>0.04</mnoERR>
+<mgoERR>0.05</mgoERR>
+<caoERR>0.05</caoERR>
+<na2oERR>0.1</na2oERR>
+<k2oERR>0.1</k2oERR>
+<p2o5ERR>0.07</p2o5ERR>
+<h2oERR>0.03</h2oERR>
+<co2ERR>0.05</co2ERR>
+<idERR>2429</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.005</h2o>
+<co2>0.995</co2>
+<h2oERR>0.005</h2oERR>
+<co2ERR>0.005</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13850</number>
+<name>PMSCH-B116</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>3</p>
+<fo2>-8.1</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.77</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.71</al2o3>
+<mgo>0.19</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.47</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.35</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.63</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.12</al2o3>
+<feo>0.56</feo>
+<mno>0.34</mno>
+<mgo>0.41</mgo>
+<cao>1.53</cao>
+<na2o>3.52</na2o>
+<k2o>6.31</k2o>
+<p2o5>0.1</p2o5>
+<h2o>1.82</h2o>
+<co2>1.81</co2>
+<sio2ERR>0.27</sio2ERR>
+<tio2ERR>0.03</tio2ERR>
+<al2o3ERR>0.13</al2o3ERR>
+<feoERR>0.09</feoERR>
+<mnoERR>0.04</mnoERR>
+<mgoERR>0.01</mgoERR>
+<caoERR>0.05</caoERR>
+<na2oERR>0.12</na2oERR>
+<k2oERR>0.15</k2oERR>
+<p2o5ERR>0.07</p2o5ERR>
+<h2oERR>0.13</h2oERR>
+<co2ERR>0.15</co2ERR>
+<idERR>2430</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.218</h2o>
+<co2>0.719</co2>
+<h2oERR>0.012</h2oERR>
+<co2ERR>0.012</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13851</number>
+<name>PMSCH-B129</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>2.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.77</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.71</al2o3>
+<mgo>0.19</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.47</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.35</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>70.95</sio2>
+<tio2>0.51</tio2>
+<al2o3>14.65</al2o3>
+<feo>0.39</feo>
+<mno>0.39</mno>
+<mgo>0.39</mgo>
+<cao>1.54</cao>
+<na2o>4.34</na2o>
+<k2o>6.73</k2o>
+<p2o5>0.11</p2o5>
+<h2o>1.52</h2o>
+<co2>1.59</co2>
+<sio2ERR>0.17</sio2ERR>
+<tio2ERR>0.02</tio2ERR>
+<al2o3ERR>0.16</al2o3ERR>
+<feoERR>0.08</feoERR>
+<mnoERR>0.04</mnoERR>
+<mgoERR>0.01</mgoERR>
+<caoERR>0.04</caoERR>
+<na2oERR>0.09</na2oERR>
+<k2oERR>0.07</k2oERR>
+<p2o5ERR>0.07</p2o5ERR>
+<h2oERR>0.09</h2oERR>
+<co2ERR>0.03</co2ERR>
+<idERR>2431</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.377</h2o>
+<co2>0.623</co2>
+<h2oERR>0.004</h2oERR>
+<co2ERR>0.004</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13854</number>
+<name>PMSCH-B207</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.77</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.71</al2o3>
+<mgo>0.19</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.47</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.35</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>70.74</sio2>
+<tio2>0.54</tio2>
+<al2o3>14.91</al2o3>
+<feo>0.38</feo>
+<mno>0.3</mno>
+<mgo>0.46</mgo>
+<cao>1.6</cao>
+<na2o>4.08</na2o>
+<k2o>6.88</k2o>
+<p2o5>0.11</p2o5>
+<h2o>1.35</h2o>
+<co2>1.34</co2>
+<sio2ERR>0.62</sio2ERR>
+<tio2ERR>0.02</tio2ERR>
+<al2o3ERR>0.27</al2o3ERR>
+<feoERR>0.07</feoERR>
+<mnoERR>0.02</mnoERR>
+<mgoERR>0.03</mgoERR>
+<caoERR>0.07</caoERR>
+<na2oERR>0.15</na2oERR>
+<k2oERR>0.18</k2oERR>
+<p2o5ERR>0.05</p2o5ERR>
+<h2oERR>0.07</h2oERR>
+<co2ERR>0.02</co2ERR>
+<idERR>2432</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.397</h2o>
+<co2>0.603</co2>
+<h2oERR>0.003</h2oERR>
+<co2ERR>0.003</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13855</number>
+<name>PMSCH-B139</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>1.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.77</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.71</al2o3>
+<mgo>0.19</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.47</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.35</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>70.15</sio2>
+<tio2>0.5</tio2>
+<al2o3>14.61</al2o3>
+<feo>0.17</feo>
+<mno>0.21</mno>
+<mgo>0.89</mgo>
+<cao>2.26</cao>
+<na2o>4.31</na2o>
+<k2o>6.77</k2o>
+<p2o5>0.13</p2o5>
+<h2o>1.27</h2o>
+<co2>0.84</co2>
+<sio2ERR>0.22</sio2ERR>
+<tio2ERR>0.02</tio2ERR>
+<al2o3ERR>0.23</al2o3ERR>
+<feoERR>0.04</feoERR>
+<mnoERR>0.03</mnoERR>
+<mgoERR>0.19</mgoERR>
+<caoERR>0.21</caoERR>
+<na2oERR>0.08</na2oERR>
+<k2oERR>0.09</k2oERR>
+<p2o5ERR>0.07</p2o5ERR>
+<h2oERR>0.09</h2oERR>
+<co2ERR>0.06</co2ERR>
+<idERR>2433</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.344</h2o>
+<co2>0.656</co2>
+<h2oERR>0.002</h2oERR>
+<co2ERR>0.002</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13856</number>
+<name>PMSCH7-B195</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>3</p>
+<fo2>-7.06</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.81</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.72</al2o3>
+<mgo>0.2</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.48</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.29</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.57</sio2>
+<tio2>0.51</tio2>
+<al2o3>13.18</al2o3>
+<feo>0.83</feo>
+<mno>0.44</mno>
+<mgo>0.44</mgo>
+<cao>1.62</cao>
+<na2o>4.49</na2o>
+<k2o>6.69</k2o>
+<p2o5>0.23</p2o5>
+<h2o>2.79</h2o>
+<co2>2.3</co2>
+<sio2ERR>0.78</sio2ERR>
+<tio2ERR>0.02</tio2ERR>
+<al2o3ERR>0.1</al2o3ERR>
+<feoERR>0.04</feoERR>
+<mnoERR>0.04</mnoERR>
+<mgoERR>0.02</mgoERR>
+<caoERR>0.04</caoERR>
+<na2oERR>0.08</na2oERR>
+<k2oERR>0.11</k2oERR>
+<p2o5ERR>0.05</p2o5ERR>
+<h2oERR>0.16</h2oERR>
+<co2ERR>0.06</co2ERR>
+<idERR>2434</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.65</h2o>
+<co2>0.35</co2>
+<h2oERR>0.002</h2oERR>
+<co2ERR>0.002</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13858</number>
+<name>PMSCH7-B200</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>2.5</p>
+<fo2>-7.365</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.81</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.72</al2o3>
+<mgo>0.2</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.48</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.29</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.56</sio2>
+<tio2>0.53</tio2>
+<al2o3>13.24</al2o3>
+<feo>0.65</feo>
+<mno>0.42</mno>
+<mgo>0.43</mgo>
+<cao>1.61</cao>
+<na2o>4.54</na2o>
+<k2o>6.82</k2o>
+<p2o5>0.21</p2o5>
+<h2o>2.62</h2o>
+<co2>2.06</co2>
+<sio2ERR>0.51</sio2ERR>
+<tio2ERR>0.03</tio2ERR>
+<al2o3ERR>0.12</al2o3ERR>
+<feoERR>0.09</feoERR>
+<mnoERR>0.03</mnoERR>
+<mgoERR>0.02</mgoERR>
+<caoERR>0.03</caoERR>
+<na2oERR>0.12</na2oERR>
+<k2oERR>0.13</k2oERR>
+<p2o5ERR>0.03</p2o5ERR>
+<h2oERR>0.16</h2oERR>
+<co2ERR>0.08</co2ERR>
+<idERR>2435</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.663</h2o>
+<co2>0.337</co2>
+<h2oERR>0.002</h2oERR>
+<co2ERR>0.002</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13859</number>
+<name>PMSCH7-B193</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>2</p>
+<fo2>-6.925</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.81</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.72</al2o3>
+<mgo>0.2</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.48</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.29</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.5</sio2>
+<tio2>0.49</tio2>
+<al2o3>13.16</al2o3>
+<feo>0.81</feo>
+<mno>0.42</mno>
+<mgo>0.48</mgo>
+<cao>1.67</cao>
+<na2o>4.46</na2o>
+<k2o>6.77</k2o>
+<p2o5>0.24</p2o5>
+<h2o>2.67</h2o>
+<co2>1.65</co2>
+<sio2ERR>0.58</sio2ERR>
+<tio2ERR>0.02</tio2ERR>
+<al2o3ERR>0.16</al2o3ERR>
+<feoERR>0.08</feoERR>
+<mnoERR>0.03</mnoERR>
+<mgoERR>0.02</mgoERR>
+<caoERR>0.04</caoERR>
+<na2oERR>0.15</na2oERR>
+<k2oERR>0.11</k2oERR>
+<p2o5ERR>0.03</p2o5ERR>
+<h2oERR>0.13</h2oERR>
+<co2ERR>0.04</co2ERR>
+<idERR>2436</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.641</h2o>
+<co2>0.359</co2>
+<h2oERR>0.003</h2oERR>
+<co2ERR>0.003</co2ERR>
+</phase>
+</experiment>
+<experiment>
+<number>13860</number>
+<name>PMSCH7-B192</name>
+<author>Duncan, M.S., Dasgupta, R. (2014)</author>
+<lab>Rice University</lab>
+<device>PC</device>
+<container>AuPd</container>
+<method>EMP</method>
+<method>FTIR</method>
+<time>60</time>
+<t>1300</t>
+<p>1.5</p>
+<fo2>-6.695</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.81</sio2>
+<tio2>0.5</tio2>
+<al2o3>15.72</al2o3>
+<mgo>0.2</mgo>
+<mno>0.5</mno>
+<feo>0.99</feo>
+<cao>1.48</cao>
+<na2o>4.19</na2o>
+<k2o>7.33</k2o>
+<p2o5>0.29</p2o5>
+<dt_entered>2014-08-14 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.65</sio2>
+<tio2>0.52</tio2>
+<al2o3>13.25</al2o3>
+<feo>0.52</feo>
+<mno>0.45</mno>
+<mgo>0.57</mgo>
+<cao>1.67</cao>
+<na2o>4.46</na2o>
+<k2o>6.67</k2o>
+<p2o5>0.23</p2o5>
+<h2o>2.64</h2o>
+<co2>0.97</co2>
+<sio2ERR>0.48</sio2ERR>
+<tio2ERR>0.02</tio2ERR>
+<al2o3ERR>0.05</al2o3ERR>
+<feoERR>0.05</feoERR>
+<mnoERR>0.03</mnoERR>
+<mgoERR>0.02</mgoERR>
+<caoERR>0.04</caoERR>
+<na2oERR>0.12</na2oERR>
+<k2oERR>0.11</k2oERR>
+<p2o5ERR>0.06</p2o5ERR>
+<h2oERR>0.17</h2oERR>
+<co2ERR>0.08</co2ERR>
+<idERR>2437</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>0.647</h2o>
+<co2>0.647</co2>
+<h2oERR>0.003</h2oERR>
+<co2ERR>0.003</co2ERR>
+</phase>
+</experiment>
+    
+    <experiment>
+        <number>999999</number>
+        <name>Dummy</name>
+        <author>Dummy</author>
+        <lab>Dummy</lab>
+        <device>IHPV</device>
+        <container>AuPd</container>
+        <method>KFT</method>
+        <method>FTIR</method>
+        <method>EMP</method>
+        <time>24</time>
+        <t>1250</t>
+        <terr>10</terr>
+        <p>0.4</p>
+        <perr>0.005</perr>
+        <fo2>QFM-4.15</fo2>
+        <phaselist>liq+fl</phaselist>
+        <bulkComp>
+            <sio2>53.47</sio2>
+            <tio2>0.71</tio2>
+            <al2o3>15.48</al2o3>
+            <mgo>4.88</mgo>
+            <mno>0.1</mno>
+            <feo>8.39</feo>
+            <cao>8.51</cao>
+            <na2o>3.66</na2o>
+            <k2o>4.72</k2o>
+            <h2o_p>0.029</h2o_p>
+            <dt_entered>2012-12-14 00:00:00</dt_entered>
+        </bulkComp>
+        <liquid>
+            <sio2>52.8475</sio2>
+            <tio2>0.701734</tio2>
+            <al2o3>15.2998</al2o3>
+            <feo>8.29232</feo>
+            <mno>0.0988358</mno>
+            <mgo>4.82319</mgo>
+            <cao>8.41092</cao>
+            <na2o>3.61739</na2o>
+            <k2o>4.66505</k2o>
+            <h2o>0.95</h2o>
+            <co2>0.2933</co2>
+            <h2oERR>0.06</h2oERR>
+            <co2ERR>0.0089</co2ERR>
+            <idERR>1478</idERR>
+        </liquid>
+        <phase type="fluid">
+            <h2o>0.02</h2o>
+            <co2>0.98</co2>
+        </phase>
+    </experiment>
+    
 </LEPRdatabase>

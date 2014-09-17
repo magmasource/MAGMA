@@ -197,6 +197,10 @@ MELTS Source Code: RCS
 #define QUARTZ_ADJUSTMENT 0.0
 #endif
 
+#ifdef USE_NEW_MELTS_WATER_MODEL
+#undef USE_NEW_MELTS_WATER_MODEL
+#endif
+
 #define SQUARE(x)  ((x)*(x))
 #define CUBE(x)    ((x)*(x)*(x))
 #define QUARTIC(x) ((x)*(x)*(x)*(x))
@@ -429,6 +433,9 @@ static void getFe2AlO4_5properties(double t, double *g, double *h, double *s,
    double *cp, double *dcpdt);
 static void getFe2AlO4_1properties(double t, double *g, double *h, double *s, 
    double *cp, double *dcpdt);
+static void getCaCO3properties(double t, double p, double *g, double *h, double *s, 
+   double *cp, double *dcpdt, double *v, double *dvdt, double *dvdp, 
+   double *d2vdt2, double *d2vdtdp, double *d2vdp2);
 
 static void intEOSsolid(ThermoRef *phase, double t, double p, double *g, 
    double *h, double *s, double *cp, double *dcpdt, double *v, double *dvdt, 
@@ -935,9 +942,67 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          dcpldt = dcpdtH2O;
 	 
       /* special case - no EOS option */
-      } else if( (strcmp(name, "H2O") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
+      } else if( (strcmp(name, "H2O") == 0) && (calculationMode == MODE__MELTS) ) {
          double a = -33676.0 + phase->h/r, b = 18.3527 - phase->s/r;
-#ifndef RHYOLITE_ADJUSTMENTS
+         double phiP = (0.110/t + 4.432e-5 + 1.405e-7*t - 2.394e-11*t*t)*p
+           + (7.337e-8/t - 1.170e-8 - 9.502e-13*t)*p*p
+           + (1.876e-10/t + 4.586e-13)*CUBE(p) - 1.191e-14*QUARTIC(p)/t;
+         double dphiPdt = (-0.110/SQUARE(t) + 1.405e-7 - 2.0*2.394e-11*t)*p
+           + (-7.337e-8/SQUARE(t) - 9.502e-13)*p*p
+           - 1.876e-10*CUBE(p)/SQUARE(t) + 1.191e-14*QUARTIC(p)/SQUARE(t);
+         double d2phiPdt2 = (2.0*0.110/CUBE(t) - 2.0*2.394e-11)*p
+           + 2.0*7.337e-8*p*p/CUBE(t) + 2.0*1.876e-10*CUBE(p)/CUBE(t) 
+           - 2.0*1.191e-14*QUARTIC(p)/CUBE(t);
+         double d3phiPdt3 = -6.0*0.110*p/QUARTIC(t)
+           - 6.0*7.337e-8*p*p/QUARTIC(t) - 6.0*1.876e-10*CUBE(p)/QUARTIC(t) 
+           + 6.0*1.191e-14*QUARTIC(p)/QUARTIC(t);
+         double gRobie = r*t*(2.9147*log(t) - 9.6863e-4*t + 6.8593e-8*t*t
+           + 77.8899/sqrt(t) - 28954.8/t - 2263.27/SQUARE(t) - 15.8997);
+         double dgRobiedt = r*(2.9147*log(t) - 9.6863e-4*t + 6.8593e-8*t*t
+           + 77.8899/sqrt(t) - 28954.8/t - 2263.27/SQUARE(t) - 15.8997) +
+           r*t*(2.9147/t - 9.6863e-4 + 2.0*6.8593e-8*t - 0.5*77.8899/pow(t, 
+           (double) 1.5) + 28954.8/SQUARE(t) + 2.0*2263.27/CUBE(t));
+         double d2gRobiedt2 = 2.0*r*(2.9147/t - 9.6863e-4 + 2.0*6.8593e-8*t 
+           - 0.5*77.8899/pow(t, (double) 1.5) + 28954.8/SQUARE(t) 
+           + 2.0*2263.27/CUBE(t)) + r*t*(-2.9147/SQUARE(t) + 2.0*6.8593e-8 
+           + 1.5*0.5*77.8899/pow(t, (double) 2.5) - 2.0*28954.8/CUBE(t) 
+           - 6.0*2263.27/QUARTIC(t));
+         double d3gRobiedt3 = 3.0*r*(-2.9147/SQUARE(t) + 2.0*6.8593e-8 
+           + 1.5*0.5*77.8899/pow(t, (double) 2.5) - 2.0*28954.8/CUBE(t) 
+           - 6.0*2263.27/QUARTIC(t)) + r*t*(2.0*2.9147/CUBE(t) 
+           - 2.5*1.5*0.5*77.8899/pow(t, (double) 3.5) + 6.0*28954.8/QUARTIC(t) 
+           + 24.0*2263.27/QUINTIC(t));
+         double gH2O, hH2O, sH2O, cpH2O, dcpdtH2O, vH2O, dvdtH2O, dvdpH2O, 
+           d2vdt2H2O, d2vdtdpH2O, d2vdp2H2O, dgdt, d2gdt2, d3gdt3;
+           
+         whaar(1.0, t, &gH2O, &hH2O, &sH2O, &cpH2O, &dcpdtH2O, &vH2O, &dvdtH2O, 
+           &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O);
+
+         gl     = r*t*(a/t + b + phiP) + gH2O - gRobie;
+         dgdt   = r*(a/t + b + phiP) + r*t*(-a/SQUARE(t) + dphiPdt) - dgRobiedt;
+         sl     = sH2O - dgdt;
+         hl     = gl + t*sl;
+         d2gdt2 = 2.0*r*(-a/SQUARE(t) + dphiPdt) + r*t*(2.0*a/CUBE(t) + d2phiPdt2) - d2gRobiedt2;
+         d3gdt3 = 3.0*r*(2.0*a/CUBE(t) + d2phiPdt2) + r*t*(-6.0*a/QUARTIC(t) + d3phiPdt3) - d3gRobiedt3;
+
+         cpl    = cpH2O - t*d2gdt2;
+         dcpldt = dcpdtH2O - d2gdt2 - t*d3gdt3;
+         
+         vl       = r*(0.110 + 4.432e-5*t + 1.405e-7*t*t - 2.394e-11*CUBE(t))
+                  + 2.0*r*(7.337e-8 - 1.170e-8*t - 9.502e-13*t*t)*p
+                  + 3.0*r*(1.876e-10 + 4.586e-13*t)*p*p 
+                  - 4.0*r*1.191e-14*CUBE(p);
+         dvldt    = r*(4.432e-5 + 2.0*1.405e-7*t - 3.0*2.394e-11*t*t)
+                  - 2.0*r*(1.170e-8 + 2.0*9.502e-13*t)*p + 3.0*r*4.586e-13*p*p; 
+         dvldp    = 2.0*r*(7.337e-8 - 1.170e-8*t - 9.502e-13*t*t)
+                  + 6.0*r*(1.876e-10 + 4.586e-13*t)*p - 12.0*r*1.191e-14*p*p;
+         d2vldt2  = r*(2.0*1.405e-7 - 6.0*2.394e-11*t) - 4.0*r*9.502e-13*p;
+         d2vldp2  = 6.0*r*(1.876e-10 + 4.586e-13*t) - 24.0*r*1.191e-14*p;
+         d2vldtdp = - 2.0*r*(1.170e-8 + 2.0*9.502e-13*t) + 6.0*r*4.586e-13*p;
+
+      } else if( (strcmp(name, "H2O") == 0) && (calculationMode == MODE_xMELTS) ) {
+         double a = -33676.0 + phase->h/r, b = 18.3527 - phase->s/r;
+#ifndef USE_NEW_MELTS_WATER_MODEL
          double phiP = (0.110/t + 4.432e-5 + 1.405e-7*t - 2.394e-11*t*t)*p
            + (7.337e-8/t - 1.170e-8 - 9.502e-13*t)*p*p
            + (1.876e-10/t + 4.586e-13)*CUBE(p) - 1.191e-14*QUARTIC(p)/t;
@@ -970,16 +1035,19 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          double gH2O, hH2O, sH2O, cpH2O, dcpdtH2O, vH2O, dvdtH2O, dvdpH2O, 
            d2vdt2H2O, d2vdtdpH2O, d2vdp2H2O, dgdt, d2gdt2, d3gdt3;
            
-#ifdef RHYOLITE_ADJUSTMENTS
+#ifdef USE_NEW_MELTS_WATER_MODEL
          double vOaksLange    = 2.775;
          double dvdtOaksLange = 1.086e-3;
          double dvdpOaksLange = -0.382e-4;
+         
+         a +=  2783.6851512128/r;
+         b -=     2.3838467967178/r;
 #endif
 
          whaar(1.0, t, &gH2O, &hH2O, &sH2O, &cpH2O, &dcpdtH2O, &vH2O, &dvdtH2O, 
            &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O);
 
-#ifdef RHYOLITE_ADJUSTMENTS
+#ifdef USE_NEW_MELTS_WATER_MODEL
          gl     = r*t*(a/t + b) + gH2O - gRobie 
                 + vOaksLange*(p-1.0) + dvdtOaksLange*(t-1673.15)*(p-1.0) + 0.5*dvdpOaksLange*(p-1.0)*(p-1.0);
          dgdt   = r*(a/t + b) + r*t*(-a/SQUARE(t)) - dgRobiedt + dvdtOaksLange*(p-1.0);
@@ -1000,7 +1068,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          cpl    = cpH2O - t*d2gdt2;
          dcpldt = dcpdtH2O - d2gdt2 - t*d3gdt3;
          
-#ifdef RHYOLITE_ADJUSTMENTS
+#ifdef USE_NEW_MELTS_WATER_MODEL
          vl       = vOaksLange + dvdtOaksLange*(t-1673.15) + dvdpOaksLange*(p-1.0);
          dvldt    = dvdtOaksLange; 
          dvldp    = dvdpOaksLange;
@@ -1022,12 +1090,16 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
 #endif
 
       /* special case - no EOS option */
-      } else if( (strcmp(name, "CO2") == 0) && ( (calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS) ) ) {
-         double hCO2       = -367339.0;
-         double sCO2       =     177.2;
-         double vCO2       =  2.536;
-         double dvCO2dt    =  1.086e-3;
-         double dvCO2dp    = -0.382e-4;
+      } else if( (strcmp(name, "CO2") == 0) && (calculationMode == MODE_xMELTS) ) {
+         double hCO2       =  - 630.93193811701;
+         double sCO2       =  - 109.39331414050;
+         double vCO2       =  4.0157994267547;
+         double dvCO2dt    =  1.213189e-3;
+         double dvCO2dp    = -0.4267387e-4;
+         
+         double gDuan1bar, hDuan1bar, sDuan1bar, cpDuan1bar, dcpdtDuan1bar, vDuan1bar, dvdtDuan1bar, dvdpDuan1bar, d2vdt2Duan1bar, d2vdtdpDuan1bar, d2vdp2Duan1bar;
+         propertiesOfPureCO2(t, 1.0, &gDuan1bar, &hDuan1bar, &sDuan1bar, &cpDuan1bar, &dcpdtDuan1bar, 
+                                     &vDuan1bar, &dvdtDuan1bar, &dvdpDuan1bar, &d2vdt2Duan1bar, &d2vdtdpDuan1bar, &d2vdp2Duan1bar);
          
          vl       = vCO2 + dvCO2dt*(t-trl) + dvCO2dp*(p-pr);
          dvldt    = dvCO2dt; 
@@ -1036,12 +1108,23 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          d2vldp2  = 0.0;
          d2vldtdp = 0.0;
                   
-         gl     = hCO2 - t*sCO2 + vCO2*(p-pr) + dvCO2dt*(t-trl)*(p-pr) + dvCO2dp*(p*p/2.0 - pr*pr/2.0 -pr*(p-pr));
-         sl     = sCO2 - dvCO2dt*(p-pr);
-         hl     = hCO2 + vCO2*(p-pr) + dvCO2dt*(t-trl)*(p-pr) + dvCO2dp*(p*p/2.0 - pr*pr/2.0 -pr*(p-pr)) - t*dvCO2dt*(p-pr);; 
-         cpl    = 0.0;
-         dcpldt = 0.0;
+         gl     = gDuan1bar + hCO2 - t*sCO2 + vCO2*(p-pr) + dvCO2dt*(t-trl)*(p-pr) + dvCO2dp*(p*p/2.0 - pr*pr/2.0 -pr*(p-pr));
+         sl     = sDuan1bar + sCO2 - dvCO2dt*(p-pr);
+         hl     = hDuan1bar + hCO2 + vCO2*(p-pr) + dvCO2dt*(t-trl)*(p-pr) + dvCO2dp*(p*p/2.0 - pr*pr/2.0 -pr*(p-pr)) - t*dvCO2dt*(p-pr);; 
+         cpl    = cpDuan1bar;
+         dcpldt = dcpdtDuan1bar;
 
+      /* special case - no EOS option */
+      } else if( (strcmp(name, "CaCO3") == 0) && (calculationMode == MODE_xMELTS) ) {
+        double hCorr = - 17574.497522747;
+        double vCorr = - 1.9034060173857;
+
+        getCaCO3properties(t, p, &gl, &hl, &sl, &cpl, &dcpldt, &vl, &dvldt, &dvldp, &d2vldt2, &d2vldtdp, &d2vldp2);
+   
+        hl += hCorr;
+        vl += vCorr;
+        gl += hCorr + vCorr*(p-pr);
+      
       /* special case - no EOS option */
       } else if ( (strcmp(name, "Si0.25OH") == 0) && (calculationMode == MODE_xMELTS) ) {
          hl     = phase->h;
@@ -2831,6 +2914,64 @@ static void getO2properties(double t, double p, double *g, double *h,
   }
 }
 #endif
+
+static void getCaCO3properties(double t, double p, double *g, double *h, double *s, double *cp, double *dcpdt, 
+   double *v, double *dvdt, double *dvdp, double *d2vdt2, double *d2vdtdp, double *d2vdp2) {
+   int nSiO2 = -1, nCaSiO3 = -1, nCO2 = -1;
+   ThermoData result;
+  
+   if ( (nSiO2 == -1) || (nCaSiO3 == -1) || (nCO2 == -1) ) {
+     int i;
+     for (i=0; i<nlc; i++) if (strcmp(liquid[i].label, "SiO2")   == 0) { nSiO2   = i; break; }
+     for (i=0; i<nlc; i++) if (strcmp(liquid[i].label, "CaSiO3") == 0) { nCaSiO3 = i; break; }
+     for (i=0; i<nlc; i++) if (strcmp(liquid[i].label, "CO2")    == 0) { nCO2    = i; break; }
+     if ( (nSiO2 == -1) || (nCaSiO3 == -1) || (nCO2 == -1)) {
+        printf("FATAL ERROR in Gibbs.c. Request for CaCO3 properties when nSiO2 = %d, nCaSiO3 = %d and nCO2 = %d.\n", nSiO2, nCaSiO3, nCO2);
+        exit(0);
+     }
+  }
+  
+  /* reaction: CaSiO3 + CO2 - SiO2 = CaCO3 */
+  
+  gibbs(t, p, (char *) liquid[nCaSiO3].label, &(liquid[nCaSiO3].ref), &(liquid[nCaSiO3].liq), &(liquid[nCaSiO3].fus), &result);
+        *g       = result.g;
+        *h       = result.h;
+        *s       = result.s;
+        *cp      = result.cp;
+        *dcpdt   = result.dcpdt;
+        *v       = result.v;
+        *dvdt    = result.dvdt;
+        *dvdp    = result.dvdp;
+        *d2vdp2  = result.d2vdt2;
+        *d2vdtdp = result.d2vdtdp;
+        *d2vdp2  = result.d2vdp2;
+  
+  gibbs(t, p, (char *) liquid[nCO2].label, &(liquid[nCO2].ref), &(liquid[nCO2].liq), &(liquid[nCO2].fus), &result);
+        *g       += result.g;
+        *h       += result.h;
+        *s       += result.s;
+        *cp      += result.cp;
+        *dcpdt   += result.dcpdt;
+        *v       += result.v;
+        *dvdt    += result.dvdt;
+        *dvdp    += result.dvdp;
+        *d2vdp2  += result.d2vdt2;
+        *d2vdtdp += result.d2vdtdp;
+        *d2vdp2  += result.d2vdp2;
+        
+  gibbs(t, p, (char *) liquid[nSiO2].label, &(liquid[nSiO2].ref), &(liquid[nSiO2].liq), &(liquid[nSiO2].fus), &result);
+        *g       -= result.g;
+        *h       -= result.h;
+        *s       -= result.s;
+        *cp      -= result.cp;
+        *dcpdt   -= result.dcpdt;
+        *v       -= result.v;
+        *dvdt    -= result.dvdt;
+        *dvdp    -= result.dvdp;
+        *d2vdp2  -= result.d2vdt2;
+        *d2vdtdp -= result.d2vdtdp;
+        *d2vdp2  -= result.d2vdp2;  
+}
 
 static void getSiOHproperties(double t, double *g, double *h, double *s, double *cp, double *dcpdt) {
   int nSiO2 = -1, nH2O = -1;

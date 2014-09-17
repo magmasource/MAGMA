@@ -53,11 +53,13 @@ int main (int argc, char *argv[]) {
   bulkComposition[18] = 0.0;
   bulkComposition[19] = 0.0;
   
+  /* use xMELTS calibration
   liquid = meltsLiquid;
   solids = meltsSolids;
   nlc = meltsNlc;
   nls = meltsNls;
   npc = meltsNpc;
+  */
   
   InitComputeDataStruct();
   

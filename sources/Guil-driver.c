@@ -8,7 +8,7 @@ int main (int argc, char *argv[]) {
   
   system("rm -rf Bishop_runs");
   system("mkdir Bishop_runs");
-  /*
+  
   // 0 ppm CO2, 4.47 wt% H2O
   // LBT 75.51 0.21 13.0 0.0000 1.1000 0.25 0.95 3.35 5.55
   strcpy(string, "cd Bishop_runs; mkdir EBT-1_000; cd EBT-1_000;");
@@ -45,12 +45,12 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 250; cd 250; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.000 2500.0");
   system(string);
-  */
-  strcpy(string, "cd Bishop_runs; mkdir EBT-1_000; cd EBT-1_000;");
+  
+  strcpy(string, "cd Bishop_runs; cd EBT-1_000;");
   strcat(string, "mkdir 225; cd 225; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.000 2250.0");
   system(string);
-  /*
+  
   strcpy(string, "cd Bishop_runs; cd EBT-1_000;");
   strcat(string, "mkdir 200; cd 200; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.000 2000.0");
@@ -111,12 +111,12 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 250; cd 250; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.001 2500.0");
   system(string);
-  */
-  strcpy(string, "cd Bishop_runs; mkdir EBT-1_001; cd EBT-1_001;");
+  
+  strcpy(string, "cd Bishop_runs; cd EBT-1_001;");
   strcat(string, "mkdir 225; cd 225; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.001 2250.0");
   system(string);
-  /*
+  
   strcpy(string, "cd Bishop_runs; cd EBT-1_001;");
   strcat(string, "mkdir 200; cd 200; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.001 2000.0");
@@ -177,12 +177,12 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 250; cd 250; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.002 2500.0");
   system(string);
-  */
-  strcpy(string, "cd Bishop_runs; mkdir EBT-1_002; cd EBT-1_002;");
+  
+  strcpy(string, "cd Bishop_runs; cd EBT-1_002;");
   strcat(string, "mkdir 225; cd 225; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.002 2250.0");
   system(string);
-  /*
+  
   strcpy(string, "cd Bishop_runs; cd EBT-1_002;");
   strcat(string, "mkdir 200; cd 200; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.002 2000.0");
@@ -243,12 +243,12 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 250; cd 250; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.005 2500.0");
   system(string);
-  */
-  strcpy(string, "cd Bishop_runs; mkdir EBT-1_005; cd EBT-1_005;");
+  
+  strcpy(string, "cd Bishop_runs; cd EBT-1_005;");
   strcat(string, "mkdir 225; cd 225; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.005 2250.0");
   system(string);
-  /*
+  
   strcpy(string, "cd Bishop_runs; cd EBT-1_005;");
   strcat(string, "mkdir 200; cd 200; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.005 2000.0");
@@ -309,12 +309,12 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 250; cd 250; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.010 2500.0");
   system(string);
-  */
-  strcpy(string, "cd Bishop_runs; mkdir EBT-1_010; cd EBT-1_010;");
+  
+  strcpy(string, "cd Bishop_runs; cd EBT-1_010;");
   strcat(string, "mkdir 225; cd 225; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.010 2250.0");
   system(string);
-  /*
+  
   strcpy(string, "cd Bishop_runs; cd EBT-1_010;");
   strcat(string, "mkdir 200; cd 200; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.010 2000.0");
@@ -375,12 +375,12 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 250; cd 250; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.020 2500.0");
   system(string);
-  */
-  strcpy(string, "cd Bishop_runs; mkdir EBT-1_020; cd EBT-1_020;");
+  
+  strcpy(string, "cd Bishop_runs; cd EBT-1_020;");
   strcat(string, "mkdir 225; cd 225; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.020 2250.0");
   system(string);
-  /*
+  
   strcpy(string, "cd Bishop_runs; cd EBT-1_020;");
   strcat(string, "mkdir 200; cd 200; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.020 2000.0");
@@ -441,12 +441,12 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 250; cd 250; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.050 2500.0");
   system(string);
-  */
-  strcpy(string, "cd Bishop_runs; mkdir EBT-1_050; cd EBT-1_050;");
+  
+  strcpy(string, "cd Bishop_runs; cd EBT-1_050;");
   strcat(string, "mkdir 225; cd 225; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.050 2250.0");
   system(string);
-  /*
+  
   strcpy(string, "cd Bishop_runs; cd EBT-1_050;");
   strcat(string, "mkdir 200; cd 200; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.050 2000.0");
@@ -507,12 +507,12 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 250; cd 250; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.100 2500.0");
   system(string);
-  */
-  strcpy(string, "cd Bishop_runs; mkdir EBT-1_100; cd EBT-1_100;");
+  
+  strcpy(string, "cd Bishop_runs; cd EBT-1_100;");
   strcat(string, "mkdir 225; cd 225; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.100 2250.0");
   system(string);
-  /*
+  
   strcpy(string, "cd Bishop_runs; cd EBT-1_100;");
   strcat(string, "mkdir 200; cd 200; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.100 2000.0");
@@ -537,5 +537,5 @@ int main (int argc, char *argv[]) {
   strcat(string, "mkdir 100; cd 100; ulimit -t 30; /Users/ghiorso/Documents/ARCHIVE_CODE/xMelts/Test_commandLib ");
   strcat(string, "77.70 0.09 12.0 0.0000 0.6500 0.04 0.45 3.70 5.36 4.47 0.100 1000.0");
   system(string);
-  */
+  
 }
