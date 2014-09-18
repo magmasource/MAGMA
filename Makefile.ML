@@ -48,7 +48,7 @@ ARFLAGS  = rv
 DYFLAGS	 = xv
 CC       = clang
 FC       = gfortran
-CFLAGS   = -ansi -c -O3 $(BATCH) \
+CFLAGS   = -ansi -c -O3 $(BATCH) -mmacosx-version-min=10.7 \
            -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS   = -O3
 RANLIB   = ranlib
@@ -81,6 +81,10 @@ PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a /opt/local/lib/libXft.a
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
 LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
+
+# Set environment variable for backwards deployment to Mac OS X 10.7
+# ==================================================================
+export MACOSX_DEPLOYMENT_TARGET := 10.7
 
 include Makefile.common
 

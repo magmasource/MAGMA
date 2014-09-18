@@ -1222,6 +1222,8 @@ int putOutputDataToFile(char *fileName)
     for (j=0; j<npc; j++) {
       if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
       if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
+      if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
+      if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
       for (ns=0; ns<(silminState->nFracCoexist)[j]; ns++) {
         if (solids[j].na == 1) {
           mass  	     = (silminState->fracSComp)[j][ns]*solids[j].mw;

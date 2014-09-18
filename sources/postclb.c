@@ -591,14 +591,24 @@ Boolean postclb(XtPointer client_data)
 	fprintf(resFile,"LEPR N,T (C),P (GPa),log fO2,Palk,Mal,Pal,L SiO2,L MgNum,L ALKind,L MgO,L CaO,L H2O,L CO2,S Fe2SiO5,S Fe2SiO4,S Fe2SiO4.6,S H2O,S Si0.25OH,S Al0.33OH");
 #endif
 	if (solids[i].convert == NULL) {
-	  fprintf(resFile,",Dep %s (kJ),Res %s (kJ),Afn %s (kJ)\n", solids[i].label, solids[i].label, solids[i].label);
+	  fprintf(resFile,",Dep %s (kJ),Res %s (kJ),Afn %s (kJ)", solids[i].label, solids[i].label, solids[i].label);
 	} else {
 	  for (k=0; k<solids[i].na; k++) 
 	    fprintf(resFile,",X %s,Dep %s (kJ),Res %s (kJ)", solids[i+1+k].label, solids[i+1+k].label, solids[i+1+k].label);
 	  for (k=0; k<nes; k++) if (!strcmp(extraSolids[k].phase,solids[i].label))
 	    fprintf(resFile,",X %s,Dep %s (kJ),Res %s (kJ)", extraSolids[k].species, extraSolids[k].species, extraSolids[k].species);
-	  fprintf(resFile,"\n");
 	}
+	if        (!strcmp(solids[i].label, "h2oduan")) {
+	  for (k=0; k<nlc; k++) fprintf(resFile, ",%s", liquid[k].label);
+	  fprintf(resFile, ",%s,%s", "iters", "H2O pred");
+	} else if (!strcmp(solids[i].label, "co2duan")) {
+	  for (k=0; k<nlc; k++) fprintf(resFile, ",%s", liquid[k].label);
+	  fprintf(resFile, ",%s,%s", "iters", "CO2 pred");
+	} else if (!strcmp(solids[i].label, "fluid")) {
+	  for (k=0; k<nlc; k++) fprintf(resFile, ",%s", liquid[k].label);
+	  fprintf(resFile, ",%s,%s,%s", "iters", "H2O pred", "CO2 pred");
+	}
+	fprintf(resFile,"\n");
 	firstTime = FALSE;
 	printMe   = FALSE;
       }
@@ -607,32 +617,130 @@ Boolean postclb(XtPointer client_data)
       if (solids[i].convert == NULL) {
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
         if ((residualDataInput[j].depenG)[l] != 0.0) 
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
 	    (residualDataInput[j].depenG)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
 	else
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,0.0,0.0", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, wtAl2O3, wtCaO, wtNa2O, wtK2O, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
 #else
         if ((residualDataInput[j].depenG)[l] != 0.0) 
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2],
 	    (residualDataInput[j].depenG)[l], (isEqual) ? (residualOutput[j].residuals)[l] : 0.0, (isEqual) ? 0.0 : (residualOutput[j].residuals)[l]);
 	else
-          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,,\n", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
+          fprintf(resFile, "%d,%g,%g,%g,%d,%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,%g,0.0,0.0", residualDataInput[j].LEPRnum, residualDataInput[j].t-273.15, 
 	    residualDataInput[j].p/10000.0, residualDataInput[j].fo2, aluminousIndex[0], aluminousIndex[1], aluminousIndex[2], 
 	    wtSiO2, MgNum, alkIndex, wtMgO, wtCaO, wtH2O, wtCO2, FEspecies[0], FEspecies[1], FEspecies[2], H2Ospecies[0], H2Ospecies[1], H2Ospecies[2]);
-#endif	        
+#endif	  
+
+        if (!strcmp(solids[i].label, "h2oduan")) {
+	      double wtH2Otemp, xLiq[19], rLiq[18], mu[19], targetMu, xOpt, xOptOld, f, fOld, df;
+	      int first = TRUE, iter = 0;
+	      printf("---> h2oduan\n");
+	        
+	      setModeToMixingLiq(FALSE);
+	      actLiq(SECOND, residualDataInput[j].t, residualDataInput[j].p, (residualDataInput[j].rLiq)[0], NULL, mu, NULL, NULL);
+	      conLiq(THIRD, FOURTH, residualDataInput[j].t,  residualDataInput[j].p, NULL, NULL, (residualDataInput[j].rLiq)[0], xLiq, NULL, NULL, NULL);
+	      for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
+	        
+	      targetMu = mu[18] + (residualOutput[j].residuals)[l]*1000.0*3.0;
+	      printf("target mu[H2O] = %g X[H2O] = %g\n", targetMu, xLiq[18]);
+	      f = 1000.0;
+	      xOpt = xLiq[18];
+	        
+	      while ((fabs(f) > 1.0e-1) && (iter < 100)) {
+	        xLiq[18] = xOpt;
+	        conLiq(SECOND, THIRD, residualDataInput[j].t,  residualDataInput[j].p, NULL, xLiq, rLiq, NULL, NULL, NULL, NULL);
+	        actLiq(SECOND, residualDataInput[j].t, residualDataInput[j].p, rLiq, NULL, mu, NULL, NULL);
+	        f = mu[18] - targetMu;
+	            
+	        if (first) {
+	          xOptOld = xLiq[18];
+	          if ((residualOutput[j].residuals)[l] > 0.0)  xOpt = 1.05*xLiq[18]; else xOpt = xLiq[18]/1.05;
+	          fOld = f;
+	          first = FALSE;
+	        } else {
+	          df = (xOpt != xOptOld) ? (f-fOld)/(xOpt-xOptOld) : 1.0;
+	          xOptOld = xOpt;
+	          fOld = f;
+	          xOpt -= f/df;
+	          if (xOpt < 0.0) xOpt = 0.0001;
+	          if (xOpt > 1.0) xOpt = 0.9999;
+	        }
+	        iter++;
+	      }
+	        
+	      double wtLiq[16];
+	      for (k=0, sumOx=0.0; k<nc; k++) {
+            for (kk=0, wtLiq[k]=0.0; kk<nlc; kk++) wtLiq[k] += (liquid[kk].liqToOx)[k]*xLiq[kk];
+			sumOx += wtLiq[k]*bulkSystem[k].mw;
+          }
+          wtH2Otemp    = 100.0*wtLiq[14]*bulkSystem[14].mw/sumOx;
+      	  printf("iter = %d, wt%% H2O = %g, wt%%\n", iter, wtH2Otemp);
+      	  fprintf(resFile, ",%d,%g\n", iter, wtH2Otemp);
+
+        } else if (!strcmp(solids[i].label, "co2duan")) {
+          double wtCO2temp, xLiq[19], rLiq[18], mu[19], targetMu, xOpt, xOptOld, f, fOld, df;
+	      int first = TRUE, iter = 0;
+	      printf("---> co2duan\n");
+	        
+	      setModeToMixingLiq(FALSE);
+	      actLiq(SECOND, residualDataInput[j].t, residualDataInput[j].p, (residualDataInput[j].rLiq)[0], NULL, mu, NULL, NULL);
+	      conLiq(THIRD, FOURTH, residualDataInput[j].t,  residualDataInput[j].p, NULL, NULL, (residualDataInput[j].rLiq)[0], xLiq, NULL, NULL, NULL);
+	      for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
+	        
+	      targetMu = mu[14] + (residualOutput[j].residuals)[l]*1000.0*3.0;
+	      printf("target mu[CO2] = %g X[CO2] = %g\n", targetMu, xLiq[14]);
+	      f = 1000.0;
+	      xOpt = xLiq[14];
+	        
+	      while ((fabs(f) > 1.0e-1) && (iter < 100)) {
+	        xLiq[14] = xOpt;
+	        conLiq(SECOND, THIRD, residualDataInput[j].t,  residualDataInput[j].p, NULL, xLiq, rLiq, NULL, NULL, NULL, NULL);
+	        actLiq(SECOND, residualDataInput[j].t, residualDataInput[j].p, rLiq, NULL, mu, NULL, NULL);
+	        f = mu[14] - targetMu;
+	            
+	        if (first) {
+	          xOptOld = xLiq[14];
+	          if ((residualOutput[j].residuals)[l] > 0.0)  xOpt = 1.05*xLiq[14]; else xOpt = xLiq[14]/1.05;
+	          fOld = f;
+	          first = FALSE;
+	        } else {
+	          df = (f-fOld)/(xOpt-xOptOld);
+	          xOptOld = xOpt;
+	          fOld = f;
+	          xOpt -= f/df;
+	          if (xOpt < 0.0) xOpt = 0.000001;
+	          if (xOpt > 2.0) xOpt = 1.999999;
+	        }
+	        if (xOpt ==	xOptOld) iter = 100;   
+	        iter++;
+	      }
+	        
+	      double wtLiq[16];
+	      for (k=0, sumOx=0.0; k<nc; k++) {
+            for (kk=0, wtLiq[k]=0.0; kk<nlc; kk++) wtLiq[k] += (liquid[kk].liqToOx)[k]*xLiq[kk];
+			sumOx += wtLiq[k]*bulkSystem[k].mw;
+          }
+      	  wtCO2temp    = 100.0*wtLiq[15]*bulkSystem[15].mw/sumOx;
+      	  printf("iter = %d, wt%% CO2 = %g\n", iter, wtCO2temp);
+      	  fprintf(resFile, ",%d,%g\n", iter, wtCO2temp);
+        
+        } else { // end h2oduan, co2duan test
+          fprintf(resFile, "\n");
+        }
+      
       /* Multi-component phase */
       } else {
         if (lastComponent > (residualDataInput[j].cIndex)[l] || lastLiquid != j) {
-	  if (printMe) {
-	    for (k=0; k<(solids[i].na+ne); k++) {
-	      if (depVar[k] != 0.0) fprintf(resFile, ",%g,%g,%g", xVar[k], depVar[k], resVar[k]); else fprintf(resFile, ",,,");
-	    }
+	      if (printMe) {
+	      for (k=0; k<(solids[i].na+ne); k++) {
+	        if (depVar[k] != 0.0) fprintf(resFile, ",%g,%g,%g", xVar[k], depVar[k], resVar[k]); else fprintf(resFile, ",0.0,0.0,0.0");
+	      }
 	    
 	    if (!strcmp(solids[i].label, "fluid")) {
 	      double wtH2Otemp, wtCO2temp;
@@ -646,7 +754,7 @@ Boolean postclb(XtPointer client_data)
 	        conLiq(THIRD, FOURTH, residualDataInput[lastLiquid].t,  residualDataInput[lastLiquid].p, NULL, NULL, (residualDataInput[lastLiquid].rLiq)[0], xLiq, NULL, NULL, NULL);
 	        for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
 	        
-	        targetMu = mu[18] + resVar[0]*1000.0;
+	        targetMu = mu[18] + resVar[0]*1000.0*3.0;
 	        printf("target mu[H2O] = %g X[CO2] = %g X[H2O] = %g\n", targetMu, xLiq[14], xLiq[18]);
 	        f = 1000.0;
 	        xOpt    =  xLiq[18];
@@ -693,7 +801,7 @@ Boolean postclb(XtPointer client_data)
 	        conLiq(THIRD, FOURTH, residualDataInput[lastLiquid].t,  residualDataInput[lastLiquid].p, NULL, NULL, (residualDataInput[lastLiquid].rLiq)[0], xLiq, NULL, NULL, NULL);
 	        for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
 	        
-	        targetMu = mu[14] + resVar[1]*1000.0;
+	        targetMu = mu[14] + resVar[1]*1000.0*3.0;
 	        //printf("target mu[CO2] = %g X[CO2] = %g X[H2O] = %g\n", targetMu, xLiq[14], xLiq[18]);
 	        f = 1000.0;
 	        xOpt    =  xLiq[14];
@@ -742,8 +850,8 @@ Boolean postclb(XtPointer client_data)
 	        conLiq(THIRD, FOURTH, residualDataInput[lastLiquid].t,  residualDataInput[lastLiquid].p, NULL, NULL, (residualDataInput[lastLiquid].rLiq)[0], xLiq, NULL, NULL, NULL);
 	        for (k=0; k<nlc; k++) fprintf(resFile, ",%g", xLiq[k]);
 	        
-	        targetMu[0] = mu[18] + resVar[0]*1000.0;
-	        targetMu[1] = mu[14] + resVar[1]*1000.0;
+	        targetMu[0] = mu[18] + resVar[0]*1000.0*3.0;
+	        targetMu[1] = mu[14] + resVar[1]*1000.0*3.0;
 	        printf("target mu[H2O] = %g mu[CO2] = %g X[CO2] = %g X[H2O] = %g\n", targetMu[0], targetMu[1], xLiq[14], xLiq[18]);
 	        f[0] = 1000.0;
 	        f[1] = 1000.0;
@@ -835,7 +943,8 @@ Boolean postclb(XtPointer client_data)
       		fprintf(resFile, ",%d,%g\n", iter, pOpt);
 	        */
 	      }
-	    } else { // end test on fluid phase
+	    // end of test on fluid phase
+	    } else { 
 	    	fprintf(resFile, "\n");
 	    }
 	    for (k=0; k<(solids[i].na+ne); k++) { xVar[k] = 0.0; depVar[k] = 0.0; resVar[k] = 0.0; }
@@ -875,7 +984,7 @@ Boolean postclb(XtPointer client_data)
 
     if (printMe) {
       for (k=0; k<(solids[i].na+ne); k++) {
-        if (depVar[k] != 0.0) fprintf(resFile, ",%g,%g,%g", xVar[k], depVar[k], resVar[k]); else fprintf(resFile, ",,,");
+        if (depVar[k] != 0.0) fprintf(resFile, ",%g,%g,%g", xVar[k], depVar[k], resVar[k]); else fprintf(resFile, ",0.0,0.0,0.0");
       }
       fprintf(resFile, "\n");
       for (k=0; k<(solids[i].na+ne); k++) { xVar[k] = 0.0; depVar[k] = 0.0; resVar[k] = 0.0; }

@@ -1406,6 +1406,8 @@ static void putOutputDataToXmlFile(char *outputFile) {
 	    
 	    if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
 	    if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
+	    if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
+	    if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
 	    
 	    for (ns=0; ns<(silminState->nFracCoexist)[j]; ns++) {
 	      double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
@@ -1600,6 +1602,8 @@ static void putOutputDataToXmlFile(char *outputFile) {
 	    
 	    if ( previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
 	    if (!previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
+	    if ( previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
+	    if (!previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
 	    
 	    for (ns=0; ns<(previousSilminState->nFracCoexist)[j]; ns++) {
 	      double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;

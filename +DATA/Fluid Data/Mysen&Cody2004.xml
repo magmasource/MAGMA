@@ -1,0 +1,1487 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase>
+<experiment>
+<number>12814</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>60.4434</sio2>
+<na2o>31.1747</na2o>
+<h2o>8.38188</h2o>
+<h2oERR>0.18123</h2oERR>
+<idERR>1697</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12815</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>60.9962</sio2>
+<na2o>31.4598</na2o>
+<h2o>7.54409</h2o>
+<h2oERR>0.457218</h2oERR>
+<idERR>1698</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12816</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.474</sio2>
+<na2o>31.7062</na2o>
+<h2o>6.81983</h2o>
+<h2oERR>0.18432</h2oERR>
+<idERR>1699</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12817</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.9881</sio2>
+<na2o>31.9714</na2o>
+<h2o>6.04049</h2o>
+<h2oERR>0.185861</h2oERR>
+<idERR>1700</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12818</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>58.3037</sio2>
+<na2o>30.0711</na2o>
+<h2o>11.6252</h2o>
+<h2oERR>0.305925</h2oERR>
+<idERR>1701</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12819</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>59.1045</sio2>
+<na2o>30.4841</na2o>
+<h2o>10.4114</h2o>
+<h2oERR>0.310127</h2oERR>
+<idERR>1702</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12820</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>59.6863</sio2>
+<na2o>30.7842</na2o>
+<h2o>9.52959</h2o>
+<h2oERR>0.313179</h2oERR>
+<idERR>1703</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12821</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>60.198</sio2>
+<na2o>31.0481</na2o>
+<h2o>8.75395</h2o>
+<h2oERR>0.270741</h2oERR>
+<idERR>1704</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12822</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>56.7415</sio2>
+<na2o>29.2653</na2o>
+<h2o>13.9932</h2o>
+<h2oERR>0.212663</h2oERR>
+<idERR>1705</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12823</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>57.4501</sio2>
+<na2o>29.6308</na2o>
+<h2o>12.9191</h2o>
+<h2oERR>0.430637</h2oERR>
+<idERR>1706</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12824</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>58.0753</sio2>
+<na2o>29.9533</na2o>
+<h2o>11.9714</h2o>
+<h2oERR>0.391791</h2oERR>
+<idERR>1707</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12825</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>58.7402</sio2>
+<na2o>30.2962</na2o>
+<h2o>10.9636</h2o>
+<h2oERR>0.308215</h2oERR>
+<idERR>1708</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12826</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>2</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>56.1918</sio2>
+<na2o>28.9818</na2o>
+<h2o>14.8264</h2o>
+<h2oERR>0.126361</h2oERR>
+<idERR>1709</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12827</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>2</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>56.7173</sio2>
+<na2o>29.2529</na2o>
+<h2o>14.0298</h2o>
+<h2oERR>0.212572</h2oERR>
+<idERR>1710</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12828</number>
+<name>NS2</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>2</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>65.9732</sio2>
+<na2o>34.0268</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>57.2528</sio2>
+<na2o>29.5291</na2o>
+<h2o>13.2181</h2o>
+<h2oERR>0.386243</h2oERR>
+<idERR>1711</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12829</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>65.9135</sio2>
+<na2o>25.497</na2o>
+<h2o>8.58953</h2o>
+<h2oERR>0.516311</h2oERR>
+<idERR>1712</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12830</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>66.3182</sio2>
+<na2o>25.6535</na2o>
+<h2o>8.02834</h2o>
+<h2oERR>0.519481</h2oERR>
+<idERR>1713</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12831</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>66.6961</sio2>
+<na2o>25.7997</na2o>
+<h2o>7.50416</h2o>
+<h2oERR>0.332463</h2oERR>
+<idERR>1714</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12832</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>67.1747</sio2>
+<na2o>25.9848</na2o>
+<h2o>6.84047</h2o>
+<h2oERR>0.334848</h2oERR>
+<idERR>1715</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12833</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.7334</sio2>
+<na2o>24.2668</na2o>
+<h2o>12.9998</h2o>
+<h2oERR>0.357382</h2oERR>
+<idERR>1716</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12834</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>63.528</sio2>
+<na2o>24.5742</na2o>
+<h2o>11.8978</h2o>
+<h2oERR>0.31667</h2oERR>
+<idERR>1717</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12835</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>64.3431</sio2>
+<na2o>24.8895</na2o>
+<h2o>10.7675</h2o>
+<h2oERR>0.641466</h2oERR>
+<idERR>1718</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12836</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>64.8482</sio2>
+<na2o>25.0849</na2o>
+<h2o>10.067</h2o>
+<h2oERR>0.323251</h2oERR>
+<idERR>1719</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12837</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.0958</sio2>
+<na2o>23.6334</na2o>
+<h2o>15.2708</h2o>
+<h2oERR>0.304546</h2oERR>
+<idERR>1720</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12838</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.7948</sio2>
+<na2o>23.9038</na2o>
+<h2o>14.3014</h2o>
+<h2oERR>0.308031</h2oERR>
+<idERR>1721</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12839</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.4266</sio2>
+<na2o>24.1482</na2o>
+<h2o>13.4252</h2o>
+<h2oERR>0.355635</h2oERR>
+<idERR>1722</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12840</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.8176</sio2>
+<na2o>24.2994</na2o>
+<h2o>12.883</h2o>
+<h2oERR>0.357862</h2oERR>
+<idERR>1723</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12841</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>2</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>60.3346</sio2>
+<na2o>23.3389</na2o>
+<h2o>16.3265</h2o>
+<h2oERR>0.429646</h2oERR>
+<idERR>1724</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12842</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>2</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.2023</sio2>
+<na2o>23.6746</na2o>
+<h2o>15.1231</h2o>
+<h2oERR>0.34866</h2oERR>
+<idERR>1725</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12843</number>
+<name>NS2 2/3</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>2</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1072</sio2>
+<na2o>27.8928</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.4165</sio2>
+<na2o>23.7574</na2o>
+<h2o>14.8262</h2o>
+<h2oERR>0.306145</h2oERR>
+<idERR>1726</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12844</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.9019</sio2>
+<na2o>18.5423</na2o>
+<h2o>9.55585</h2o>
+<h2oERR>0.145521</h2oERR>
+<idERR>1727</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12845</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.3582</sio2>
+<na2o>18.6599</na2o>
+<h2o>8.9819</h2o>
+<h2oERR>0.244073</h2oERR>
+<idERR>1728</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12846</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>73.0355</sio2>
+<na2o>18.8346</na2o>
+<h2o>8.12983</h2o>
+<h2oERR>0.344902</h2oERR>
+<idERR>1729</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12847</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>73.1437</sio2>
+<na2o>18.8625</na2o>
+<h2o>7.99383</h2o>
+<h2oERR>0.345412</h2oERR>
+<idERR>1730</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12848</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>68.4172</sio2>
+<na2o>17.6436</na2o>
+<h2o>13.9391</h2o>
+<h2oERR>0.276936</h2oERR>
+<idERR>1731</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12849</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>69.2806</sio2>
+<na2o>17.8663</na2o>
+<h2o>12.8531</h2o>
+<h2oERR>0.233692</h2oERR>
+<idERR>1732</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12850</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>69.5406</sio2>
+<na2o>17.9334</na2o>
+<h2o>12.526</h2o>
+<h2oERR>0.375311</h2oERR>
+<idERR>1733</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12851</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>69.6059</sio2>
+<na2o>17.9502</na2o>
+<h2o>12.4439</h2o>
+<h2oERR>0.375664</h2oERR>
+<idERR>1734</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12852</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>66.8136</sio2>
+<na2o>17.2301</na2o>
+<h2o>15.9563</h2o>
+<h2oERR>0.135223</h2oERR>
+<idERR>1735</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12853</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>66.8438</sio2>
+<na2o>17.2379</na2o>
+<h2o>15.9184</h2o>
+<h2oERR>0.360756</h2oERR>
+<idERR>1736</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12854</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>66.8136</sio2>
+<na2o>17.2301</na2o>
+<h2o>15.9563</h2o>
+<h2oERR>0.360594</h2oERR>
+<idERR>1737</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12855</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>66.7234</sio2>
+<na2o>17.2068</na2o>
+<h2o>16.0698</h2o>
+<h2oERR>0.40512</h2oERR>
+<idERR>1738</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12856</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1000</t>
+<terr>10</terr>
+<p>2</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>65.8929</sio2>
+<na2o>16.9927</na2o>
+<h2o>17.1144</h2o>
+<h2oERR>0.133359</h2oERR>
+<idERR>1739</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12857</number>
+<name>NS4</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>2</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>79.4986</sio2>
+<na2o>20.5014</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>65.0543</sio2>
+<na2o>16.7764</na2o>
+<h2o>18.1693</h2o>
+<h2oERR>0.48276</h2oERR>
+<idERR>1740</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12858</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>79.393</sio2>
+<na2o>10.2371</na2o>
+<h2o>10.3699</h2o>
+<h2oERR>0.354095</h2oERR>
+<idERR>1741</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12859</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>78.7556</sio2>
+<na2o>10.1549</na2o>
+<h2o>11.0895</h2o>
+<h2oERR>0.702504</h2oERR>
+<idERR>1742</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12860</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>0.8</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>78.2452</sio2>
+<na2o>10.0891</na2o>
+<h2o>11.6658</h2o>
+<h2oERR>0.299122</h2oERR>
+<idERR>1743</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12861</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>75.0284</sio2>
+<na2o>9.67428</na2o>
+<h2o>15.2973</h2o>
+<h2oERR>0.286825</h2oERR>
+<idERR>1744</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12862</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>74.3531</sio2>
+<na2o>9.5872</na2o>
+<h2o>16.0597</h2o>
+<h2oERR>0.284243</h2oERR>
+<idERR>1745</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12863</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>1.3</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>73.1063</sio2>
+<na2o>9.42644</na2o>
+<h2o>17.4673</h2o>
+<h2oERR>0.465794</h2oERR>
+<idERR>1746</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12864</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1100</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>73.5172</sio2>
+<na2o>9.47942</na2o>
+<h2o>17.0034</h2o>
+<h2oERR>0.281047</h2oERR>
+<idERR>1747</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12865</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1200</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.8677</sio2>
+<na2o>9.26673</na2o>
+<h2o>18.8656</h2o>
+<h2oERR>0.549483</h2oERR>
+<idERR>1748</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12866</number>
+<name>NS8</name>
+<author>Mysen, B.O., Cody, G.D. (2004)</author>
+<lab>Geophysical Laboratory</lab>
+<device>PC</device>
+<container>Pt</container>
+<t>1300</t>
+<terr>10</terr>
+<p>1.65</p>
+<perr>0.1</perr>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>88.5785</sio2>
+<na2o>11.4215</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>70.3536</sio2>
+<na2o>9.0715</na2o>
+<h2o>20.5749</h2o>
+<h2oERR>0.268953</h2oERR>
+<idERR>1749</idERR>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+</LEPRdatabase>

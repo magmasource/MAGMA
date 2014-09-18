@@ -499,10 +499,26 @@ Liquid xMeltsLiquid[] = {
     0.0,		     /* Cp liquid (J/K) 			      */
     0.0 		     /* T glass transition (K)  		      */
     }
+  },
+  {"CaCO3"      , NULL,
+    {                        /* ThermoRef structure block                     */
+    0.0,		     /* H ref (J)				      */
+    0.0,		     /* S ref (J/K)				      */
+    0.0,		     /* V ref (J/bar)				      */
+    CP_BERMAN,  {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
+    EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
+    },{              /* ThermoLiq structure block                     */
+    0.0,		     /* V liq (J)				      */
+    EOS_KRESS, {{0.0, 0.0, 0.0, 0.0}},
+    1000.0,		     /* T fusion (K) dummy			      */
+    0.0,		     /* S fusion (J/K)  			      */
+    0.0,		     /* Cp liquid (J/K) 			      */
+    0.0 		     /* T glass transition (K)  		      */
+    }
   }
 };
 
-int    nlc     = (sizeof xMeltsLiquid / sizeof(struct _liquid));
+int    nlc     = (sizeof xMeltsLiquid / sizeof(struct _liquid)) - 1;
 int    nls     = (sizeof xMeltsLiquid / sizeof(struct _liquid));
 Liquid *liquid = xMeltsLiquid;
 

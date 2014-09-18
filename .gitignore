@@ -12,6 +12,9 @@ core
 *.res
 *.inp
 *.zip
+*.dat
+*.melts
+*.agr
 XML_IN/
 XML_OUT/
 XML_PROCESSED/
@@ -38,6 +41,10 @@ Analyze-water-MS
 Convert_liquid
 Entropy_reg
 Entropy_reg-MS
+Guil-driver
+Guil-error
+Guil-EBT-CO2
+Guil-LBT-CO2
 LinAndPelton
 Make-liquid-model
 Make_species_map
@@ -56,6 +63,7 @@ Test_entropy-MS
 Test_entropy-SACNK
 Test_dn2gb
 Test_fluid
+Test_fluidRegression
 Test_fo2
 Test_gibbs
 Test_gibbs-MS

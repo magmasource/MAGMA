@@ -322,7 +322,7 @@ static const int iCmpFe2AlO3_5 = -1; /* Index of Fe2AlO3.5 in s[] array         
 static const int iCmpFe2AlO4_1 = -1; /* Index of Fe2AlO4.1 in s[] array                   */
 #else
 #define NA 19                    /* Number of liquid components 		          */
-#define NS  0                    /* Number of ordering parameters for liquid species      */
+#define NS  1                    /* Number of ordering parameters for liquid species      */
 #define NY  0                    /* Number of ordering parameters for coordination states */
 static const int iOxAl2O3      =  2; /* Index of Al2O3 in bulksystem[] structure array    */
 static const int iOxFe2O3      =  3; /* Index of Fe2O3 in bulksystem[] structure array    */
@@ -1004,6 +1004,10 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   for (i=0; i<NR; i++) xSpecies[ i+1] = r[i]*coeff;  /* basis */
   for (i=0; i<NS; i++) xSpecies[NA+i] = s[i];        /* depen */
   
+  xSpecies[ 0] += s[0]; // special case SiO2
+  xSpecies[10] -= s[0]; // special case CaSiO3
+  xSpecies[14] -= s[0]; // special case CO2
+  
   /* Catch bad input data */
   for (i=0;  i<NE; i++) okay &= (xSpecies[i] >= 0.0);
   if (!okay) return okay;
@@ -1033,6 +1037,10 @@ static int rANDsTOx (double r[NR], double s[NT]) {
                          dxSpeciesds[NA+i][i] = 1.0;                /* depen */
   }
   
+  dxSpeciesds[ 0][0] += 1.0; // special case SiO2
+  dxSpeciesds[10][0] -= 1.0; // special case CaCO3
+  dxSpeciesds[14][0] -= 1.0; // special case CO2
+  
   /* d2 xSpecies / dr ds */
   for (i=0; i<NR; i++) {
     for (j=0; j<NS; j++) {
@@ -1043,6 +1051,7 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   
   /* Total moles of species relative to 1 mole of basis components */
   denom = 12.0;                                    /* Special case */
+  dDenomds[0] = 0.0;  // CaCO3
   
   nSpecies = 12.0/denom;
   for (i=0; i<NS; i++) {
@@ -11557,9 +11566,9 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
                                   /* [ 0] SiO2 [ 1] Al2O3 [ 2] CaO [ 3] Na2O [ 4] K2O [ 5] H2O */
     static const int nCon = 6;
 #else
-    static const int indexCon[] = { 0, 2, 3, 5, 7, 10, 11, 12, 14 };
-                                  /* [ 0] SiO2 [ 2] Al2O3 [ 3] Fe2O3 [ 5] FeO [ 7] MgO [10] CaO [11] Na2O [12] K2O [14] H2O */
-    static const int nCon = 9;
+    static const int indexCon[] = { 0, 10, 14 };
+                                  /* [ 0] SiO2 [10] CaO [14] CO2 */
+    static const int nCon = 3;
 #endif
     static double **a, *sMin, *sMax, tolerance;
     static int *iposv, *izrov;
@@ -13018,7 +13027,7 @@ actLiq(int mask, double t, double p, double *x,
     
     g = gT;
     for (j=0; j<NR; j++) g += fr[nCO2][j]*dgdrT[j];
-    printf("X H2O, XCO2 = %g %g, muTernary CO2 %g %g\n", r[13], r[17], g, mu[nCO2]);
+    // printf("X H2O, XCO2 = %g %g, muTernary CO2 %g %g\n", r[13], r[17], g, mu[nCO2]);
   }
 
   if (mask & THIRD) {
