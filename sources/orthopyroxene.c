@@ -1388,7 +1388,8 @@ pureOrder(int mask, double t, double p,
     double dgds, sNew;
     sOld = 2.0;
     sNew = 0.5;
-    while (ABS(sNew-sOld) > 10.0*DBL_EPSILON) { 
+      int iter = 0;
+    while ((ABS(sNew-sOld) > 10.0*DBL_EPSILON) && (iter < 100)) {
       double s;
       s      = sNew;
       dgds   = DES_GDS1;
@@ -1398,6 +1399,7 @@ pureOrder(int mask, double t, double p,
       s      = MIN(s,  1.0 - DBL_EPSILON);
       s      = MAX(s, -1.0 + DBL_EPSILON);
       sNew   = s;
+        iter++;
     }
     tOld = t;
     pOld = p;

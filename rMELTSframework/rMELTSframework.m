@@ -1777,6 +1777,13 @@ static NodeList *getNodeListPointer(int node) {
         case RUN_EQUILIBRATE_CALC:
             meltsStatus.status = GENERIC_INTERNAL_ERROR;
             while(!silmin());
+            if      (meltsStatus.status == SILMIN_ADD_LIQUID_1) { NSLog(@"... !!! <><><><>  Failure in silmin(): ADD_LIQUID_1"); meltsStatus.status = GENERIC_INTERNAL_ERROR; }
+            else if (meltsStatus.status == SILMIN_ADD_LIQUID_2) { NSLog(@"... !!! <><><><>  Failure in silmin(): ADD_LIQUID_2"); meltsStatus.status = GENERIC_INTERNAL_ERROR; }
+            else if (meltsStatus.status == SILMIN_ADD_LIQUID_3) { NSLog(@"... !!! <><><><>  Failure in silmin(): ADD_LIQUID_3"); meltsStatus.status = GENERIC_INTERNAL_ERROR; }
+            else if (meltsStatus.status == SILMIN_LIN_MAX     ) { NSLog(@"... !!! <><><><>  Failure in silmin(): LIN_MAX");  }
+            else if (meltsStatus.status == SILMIN_LIN_ZERO    ) { NSLog(@"... !!! <><><><>  Failure in silmin(): LIN_ZERO"); }
+            else if (meltsStatus.status == SILMIN_QUAD_MAX    ) { NSLog(@"... !!! <><><><>  Failure in silmin(): QUAD_MAX"); }
+            else if (meltsStatus.status == SILMIN_RANK        ) { NSLog(@"... !!! <><><><>  Failure in silmin(): RANK");     }
             break;
         case RETURN_WITHOUT_CALC:
             meltsStatus.status = SILMIN_SUCCESS;

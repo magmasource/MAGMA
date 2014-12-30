@@ -10,33 +10,33 @@
 	<string>MELTS</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>0F429A31-B4EC-467B-8F37-87D0EBCEB028</key>
-		<string>ssh://public.ofm-research.org/xMelts.git</string>
-		<key>9519798E-FBEA-4793-9E7E-F5E976C63F45</key>
-		<string>ssh://public.ofm-research.org/port3.git</string>
+		<key>2499F363383BA3FB2EED04427654AD329B8C6D5C</key>
+		<string>public.ofm-research.org:xMelts.git</string>
+		<key>403A20DFE1208572BA7F0ACC1BF2EA73FF1A0726</key>
+		<string>public.ofm-research.org:port3.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>MELTS.xcodeproj/project.xcworkspace</string>
+	<string>MELTS.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>0F429A31-B4EC-467B-8F37-87D0EBCEB028</key>
+		<key>2499F363383BA3FB2EED04427654AD329B8C6D5C</key>
 		<string>../..</string>
-		<key>9519798E-FBEA-4793-9E7E-F5E976C63F45</key>
+		<key>403A20DFE1208572BA7F0ACC1BF2EA73FF1A0726</key>
 		<string>../../../port3</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://public.ofm-research.org/xMelts.git</string>
+	<string>public.ofm-research.org:xMelts.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>0F429A31-B4EC-467B-8F37-87D0EBCEB028</string>
+	<string>2499F363383BA3FB2EED04427654AD329B8C6D5C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>9519798E-FBEA-4793-9E7E-F5E976C63F45</string>
+			<string>403A20DFE1208572BA7F0ACC1BF2EA73FF1A0726</string>
 			<key>IDESourceControlWCCName</key>
 			<string>port3</string>
 		</dict>
@@ -44,7 +44,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>0F429A31-B4EC-467B-8F37-87D0EBCEB028</string>
+			<string>2499F363383BA3FB2EED04427654AD329B8C6D5C</string>
 			<key>IDESourceControlWCCName</key>
 			<string>xMelts</string>
 		</dict>

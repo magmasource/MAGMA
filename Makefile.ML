@@ -22,14 +22,14 @@ MELTS_HARDWARE_VERSION = 3.4 GHz Quad Core Intel i7
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 3.0
-MELTS_OS_VERSION       = Mac OS X - 10.8.0
+MELTS_OS_VERSION       = Mac OS X - 10.10.0
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
 MELTS_X_VERSION        = X11R6/OpenMotif3
 MELTS_RELEASE_DATE     = August 2013
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2 (rhyolite) (Mac OS X - 10.8.4, clang 3.0, 64 bit)
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2 (rhyolite) (Mac OS X - 10.10.0, clang 3.0, 64 bit)
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
@@ -71,13 +71,16 @@ endif
 # Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
 # ========================================================================================================
 
-LIBS    = -L/opt/local/lib -lMrm -lXm -lgrace_np -lXt -lXp -lX11 -lXext -lXpm -lXmu ../port3/libport.a
-PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a /opt/local/lib/libXft.a /opt/local/lib/libgrace_np.a /opt/local/lib/libXt.a /opt/local/lib/libXp.a \
-          /opt/local/lib/libSM.a /opt/local/lib/libICE.a /opt/local/lib/libX11.a /opt/local/lib/libXext.a /opt/local/lib/libXpm.a /opt/local/lib/libXmu.a \
-          /opt/local/lib/libXRender.a /opt/local/lib/libXau.a /opt/local/lib/libXdmcp.a /opt/local/lib/libjpeg.a /opt/local/lib/libpng.a /opt/local/lib/libpng14.a \
-          /opt/local/lib/libexpat.a /opt/local/lib/libz.a /opt/local/lib/libbz2.a /opt/local/lib/libfreetype.a /opt/local/lib/libcharset.a /opt/local/lib/libfontconfig.a \
-          /opt/local/lib/libiconv.a /opt/local/lib/libX11-xcb.a /opt/local/lib/libxcb.a ../port3/libport.a /usr/local/gfortran/lib/libgfortran.a \
-          /usr/local/gfortran/lib/libquadmath.a /usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a
+LIBS    = -L/opt/local/lib -lMrm -lXm -lgrace_np -L/opt/X11/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu ../port3/libport.a
+#PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a /opt/local/lib/libXft.a /opt/local/lib/libgrace_np.a /opt/local/lib/libXt.a /opt/local/lib/libXp.a \
+#          /opt/local/lib/libSM.a /opt/local/lib/libICE.a /opt/local/lib/libX11.a /opt/local/lib/libXext.a /opt/local/lib/libXpm.a /opt/local/lib/libXmu.a \
+#          /opt/local/lib/libXRender.a /opt/local/lib/libXau.a /opt/local/lib/libXdmcp.a /opt/local/lib/libjpeg.a /opt/local/lib/libpng.a /opt/local/lib/libpng14.a \
+#          /opt/local/lib/libexpat.a /opt/local/lib/libz.a /opt/local/lib/libbz2.a /opt/local/lib/libfreetype.a /opt/local/lib/libcharset.a /opt/local/lib/libfontconfig.a \
+#          /opt/local/lib/libiconv.a /opt/local/lib/libX11-xcb.a /opt/local/lib/libxcb.a ../port3/libport.a /usr/local/gfortran/lib/libgfortran.a \
+#          /usr/local/gfortran/lib/libquadmath.a /usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a
+PUBLIBS = /opt/local/lib/libMrm.a /opt/local/lib/libXm.a -L/opt/X11/lib -lXft -lXt -lXp -lX11 -lXext -lXpm -lXmu -lpng -lfreetype \
+          /opt/local/lib/libfontconfig.a /opt/local/lib/libiconv.a /opt/local/lib/libgrace_np.a /opt/local/lib/libjpeg.a /opt/local/lib/libexpat.a \
+          ../port3/libport.a /usr/local/gfortran/lib/libgfortran.a /usr/local/gfortran/lib/libquadmath.a /usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
 LIBBATCH = -L/usr/lib -lxml2 -lz -liconv

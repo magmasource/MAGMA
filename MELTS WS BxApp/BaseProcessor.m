@@ -9,6 +9,8 @@
 #import "BaseProcessor.h"
 #import "AppDelegate.h"
 
+#include <pthread.h>
+
 @implementation BaseProcessor
 
 -(id)init {
@@ -41,16 +43,18 @@
 
 -(id)renderWithTransport:(BxTransport *)transport {
     if (self.debug) {
-        NSLog(@"BaseProcessor Class:(renderWithTransport) Entry...");
-        NSLog(@"Query variables:  %@", [[transport queryVars] description]);
-        NSLog(@"Post variables:   %@", [[transport postVars] description]);
-        NSLog(@"Server variables: %@", [[transport serverVars] description]);
-        NSLog(@"Cookies:          %@", [[transport cookies] description]);
+        unsigned long long tid;
+        pthread_threadid_np(pthread_self(), &tid);
+        NSLog(@"<*><*><*>BaseProcessor Class:(renderWithTransport, pid = %d, thread = %llu) Entry...", getpid(), tid);
+        NSLog(@"... Query variables:  %@", [[transport queryVars] description]);
+        NSLog(@"... Post variables:   %@", [[transport postVars] description]);
+        NSLog(@"... Server variables: %@", [[transport serverVars] description]);
+        NSLog(@"... Cookies:          %@", [[transport cookies] description]);
         [(AppDelegate *)[self app] lockState];
-        NSLog(@"State:            %@", [[[self app] state] description]);
+        NSLog(@"... State:            %@", [[[self app] state] description]);
         [(AppDelegate *)[self app] unloackState];
-        if ([transport rawPostData]) NSLog(@"Raw post data are available");
-        else NSLog(@"Raw post data are not available.");
+        if ([transport rawPostData]) NSLog(@"... Raw post data are available");
+        else NSLog(@"... Raw post data are not available.");
     }
     [transport setHeader:@"Access-Control-Allow-Origin" value:@"*"];
     [transport setHeader:@"Access-Control-Allow-Methods" value:@"GET,POST,OPTIONS"];
@@ -59,52 +63,92 @@
     
     if ([[transport postVars] objectForKey:@"dataXML"]) {
         NSString *error = nil;;
-        if (self.debug) NSLog(@"... input data transmitted as a post variable (dataXML) string.");
+        if (self.debug) NSLog(@"... Input data transmitted as a post variable (dataXML) string. Parsing.");
         if ((error = [self parseAndValidateInputXMLAsString:[[transport postVars] objectForKey:@"dataXML"] orAsData:nil])) {
             [transport setHttpStatusCode:400];
             [transport writeFormat:@"<p>MELTS WS: Error in parsing of XML string form data: %@</p>", error];
+            if (self.debug) NSLog(@"... ERROR. Cannot parse input XML. Return status 400.");
             return self;
         }
-        if (self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) XML Document is valid.");
+        if (self.debug) NSLog(@"... Data parsed. XML Document is valid.");
+        
     } else if ([[transport postVars] objectForKey:@"dataJSON"]) {
+        if (self.debug) NSLog(@"... Input data transmitted as a post variable (dataJSON) string. Parsing.");
         [transport setHttpStatusCode:415];
         [transport write:@"<p>MELTS WS: Parsing of JSON input is not yet supported.</p>"];
+        if (self.debug) NSLog(@"... ERROR. Cannot parse input JSON. Return status 415.");
         return self;
+        
     } else if ([transport rawPostData] && [[[transport serverVars] objectForKey:@"CONTENT_TYPE"] hasPrefix:@"text/xml"]) {
         NSString *error = nil;;
-        if (self.debug) NSLog(@"... input data transmitted as a post variable (dataXML) string.");
+        if (self.debug) NSLog(@"... Input data transmitted as a post variable (dataXML) string.");
         if ((error = [self parseAndValidateInputXMLAsString:nil orAsData:[transport rawPostData]])) {
             [transport setHttpStatusCode:400];
             [transport writeFormat:@"<p>MELTS WS: Error in parsing of XML string form data: %@</p>", error];
+            if (self.debug) NSLog(@"... ERROR. Cannot parse input XML. Return status 400.");
             return self;
         }
-        if (self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) XML Document is valid.");
+        if (self.debug) NSLog(@"... Data parsed. XML Document is valid.");
+        
     } else {
         [transport setHttpStatusCode:415];
         [transport write:@"<p>MELTS WS: Unrecognizable or unspecified input.</p>"];
+        if (self.debug) NSLog(@"... ERROR. Unrecognizable or unspecified input. Return status 415.");
         return self;
+    }
+    
+    // Version check
+    {
+        NSError *err;
+        NSArray *levelOneChildrenWithSessionID = [[self inputXML] nodesForXPath:@".//title" error:&err];
+        if (levelOneChildrenWithSessionID && ([levelOneChildrenWithSessionID count] > 0)) {
+            NSString *title = [(NSXMLElement *)[levelOneChildrenWithSessionID objectAtIndex:0] stringValue];
+            NSRange range = [title rangeOfString:@"(version "];
+            if (range.location != NSNotFound) {
+                NSString *versionString = [title substringFromIndex:range.location+range.length];
+                NSArray *version = [versionString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@".)"]];
+                if ([version count] > 2) {
+                    NSInteger major = [[version objectAtIndex:0] integerValue];
+                    NSInteger minor = [[version objectAtIndex:1] integerValue];
+                    NSInteger micro = [[version objectAtIndex:2] integerValue];
+                    if (self.debug) NSLog(@"... Excel workbook version:%lu, %lu, %lu", major, minor, micro);
+                    if ((major < 1) || (minor < 0) || (micro < 3)) {
+                        NSXMLDocument *outputXMLDocument = [[NSXMLDocument alloc] init];
+                        NSXMLElement *root = [[NSXMLElement alloc] initWithName:@"MELTSoutput"];
+                        [root addChild:[[NSXMLElement alloc] initWithName:@"status" stringValue:@"upgrade"]];
+                        [outputXMLDocument setRootElement:root];
+                        [transport setHeader:@"Content-type" value:@"text/xml"];
+                        [transport writeData:[outputXMLDocument XMLData]];
+                        if (self.debug) NSLog(@"... Return XML output.");
+                        if (self.debug) NSLog(@"<*><*><*>BaseProcessor Class:(renderWithTransport). Exit status 200.");
+                        return self;
+                    }
+                }
+            }
+        }
     }
     
     [self setRespondUsingJSON:NO];
     if ([[transport postVars] objectForKey:@"returnJSON"]) [self setRespondUsingJSON:YES];
     
     NSString *sessionId = [[transport cookies] objectForKey:@"sessionid"];
-    
     if (!sessionId) {
         NSError *err;
         NSArray *levelOneChildrenWithSessionID = [[self inputXML] nodesForXPath:@".//sessionID" error:&err];
         if (levelOneChildrenWithSessionID && ([levelOneChildrenWithSessionID count] > 0)) {
             sessionId = [(NSXMLElement *)[levelOneChildrenWithSessionID objectAtIndex:0] stringValue];
-            if (self.debug) NSLog(@"... BaseProcessor Class: Obtained session cookie from XML Input: %@", sessionId);
+            if (self.debug) NSLog(@"... Obtained session Id from XML Input: %@", sessionId);
         }
-    }
+    } else if (self.debug) NSLog(@"... Obtained session Id from cookie: %@", sessionId);
     
     if ([[[[self inputXML] rootElement] elementsForName:@"initialize"] count] > 0) {
+        if (sessionId) [[[self app] state] removeObjectForKey:sessionId];
         sessionId = nil;
-        if (self.debug) NSLog(@"Found an initialize tag and negated the session id.");
+        if (self.debug) NSLog(@"... Found an initialize tag and negated the session Id.");
     }
     
     // Lock thread from here to ...
+    if (self.debug) NSLog(@"... LOCKED THREAD");
     [(AppDelegate *)[self app] lockState];
     
     rMELTSframework *melts = nil;
@@ -114,9 +158,10 @@
         melts = [[rMELTSframework alloc] init];
         [[[self app] state] setObject:melts forKey:sessionId];
     } else melts = [[[self app] state] objectForKey:sessionId];
+    if (self.debug) NSLog(@"... MELTS framework object retrieved/assigned to session Id: %@", sessionId);
     
     NSUInteger calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:[self inputXML]];
-    if (self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) Input parsed, MELTS initialized %lu.", calculationMode);
+    if (self.debug) NSLog(@"... MELTS framework initialized with calculation mode: %lu.", calculationMode);
     
     //
     // This is preliminary code that deals ONLY with possible temperature incremenmts
@@ -132,31 +177,41 @@
     Boolean continueLoop = (tIncrement == 0.0) ? NO : YES;
     NSMutableArray *meltsSteps = [NSMutableArray arrayWithCapacity:1];
     
+    if (self.debug) NSLog(@"... MELTS input: T initial: %lf, T final: %lf, Tincrement: %lf", tInitial, tFinal, tIncrement);
     do {
-        NSLog(@"%lf %lf %lf", tInitial, tFinal, tIncrement);
         if (tInitial == tFinal) continueLoop = NO;
-        
-        if ([melts performMELTScalculation:calculationMode] && self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) MELTS call - success.");
-        else if (self.debug)                                               NSLog(@"...BaseProcessor Class:(renderWithTransport) MELTS call - failure.");
-        
-        [meltsSteps addObject:[melts writeDataStructuresToXMLDocument:sessionId]];
-        
-        if (tFinal < tInitial) {
-            tInitial -= tIncrement;
-            if (tFinal > tInitial) tInitial = tFinal;
-        } else {
-            tInitial += tIncrement;
-            if (tFinal < tInitial) tInitial = tFinal;
+        @try {
+            if ([melts performMELTScalculation:calculationMode] && self.debug) NSLog(@"... MELTS call returned: success.");
+            else if (self.debug)                                               NSLog(@"... MELTS call returned: failure.");
+            
+            [meltsSteps addObject:[melts writeDataStructuresToXMLDocument:sessionId]];
+            
+            if (tFinal < tInitial) {
+                tInitial -= tIncrement;
+                if (tFinal > tInitial) tInitial = tFinal;
+            } else {
+                tInitial += tIncrement;
+                if (tFinal < tInitial) tInitial = tFinal;
+            }
+            
+            [melts setInitialTemperature:tInitial];
+            [melts setFinalTemperature:tInitial];
         }
-        
-        [melts setInitialTemperature:tInitial];
-        [melts setFinalTemperature:tInitial];
+        @catch (NSException *exception) {
+            continueLoop = NO;
+            if (self.debug) {
+                NSLog(@"... MELTS framework encountered an exception: %@.", [exception description]);
+                NSLog(@"... Removing MELTS framework object for session ID: %@.", sessionId);
+            }
+            [[[self app] state] removeObjectForKey:sessionId];
+        }
     } while (continueLoop);
     
     // End of preliminary code
     //
     
     [(AppDelegate *)[self app] unloackState];
+    if (self.debug) NSLog(@"... UNLOCKED THREAD");
     // ... to here
     
     NSXMLDocument *outputXML = nil;
@@ -173,15 +228,17 @@
     if (![self respondUsingJSON]) {
         [transport setHeader:@"Content-type" value:@"text/xml"];
         [transport writeData:[outputXML XMLData]];
+        if (self.debug) NSLog(@"... Return XML output.");
+        
     } else {
-        if (self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) Transform XML to JSON.");
+        if (self.debug) NSLog(@"... Transform XML to JSON.");
         NSError *err = nil;
         NSString *xsltPath = [[NSBundle mainBundle] pathForResource:@"xml2json" ofType:@"xslt"];
         if (!xsltPath) {
             [transport setHttpStatusCode:500];
             [transport write:@"<p>MELTS WS: Internal error in converting XML to JSON.</p>"];
-            if (self.debug) NSLog(@"...BaseProcessor Class:(renderWithTransport) Error in transforming XML to JSON.");
-            [(AppDelegate *)[self app] unloackState];
+            if (self.debug) NSLog(@"... Error in transforming XML to JSON.");
+            if (self.debug) NSLog(@"<*><*><*>BaseProcessor Class:(renderWithTransport). Exit status 500.");
             return self;
         }
         NSData *JSONdata = (NSData *)[outputXML objectByApplyingXSLTAtURL:[NSURL fileURLWithPath:xsltPath]
@@ -190,22 +247,24 @@
         if (!JSONdata) {
             [transport setHttpStatusCode:500];
             [transport write:@"<p>MELTS WS: Internal error in converting XML to JSON.</p>"];
-            if (self.debug) NSLog(@"<p>...BaseProcessor Class:(renderWithTransport) Error - no transformed file.</p>");
-            [(AppDelegate *)[self app] unloackState];
+            if (self.debug) NSLog(@"<p>... Error - no transformed file.</p>");
+            if (self.debug) NSLog(@"<*><*><*>BaseProcessor Class:(renderWithTransport). Exit status 500.");
             return self;
         }
         if (err) {
             [transport setHttpStatusCode:500];
             [transport write:@"<p>MELTS WS: Internal error in converting XML to JSON.</p>"];
-            if (self.debug) NSLog(@"<p>...BaseProcessor Class:(renderWithTransport) Err: %@.</p>", [err localizedDescription]);
-            [(AppDelegate *)[self app] unloackState];
+            if (self.debug) NSLog(@"<p>... Error: %@.</p>", [err localizedDescription]);
+            if (self.debug) NSLog(@"<*><*><*>BaseProcessor Class:(renderWithTransport). Exit status 500.");
             return self;
         }
         
         [transport setHeader:@"Content-type" value:@"application/json"];
         [transport writeData:JSONdata];
+        if (self.debug) NSLog(@"... Return JSON output.");
     }
     
+    if (self.debug) NSLog(@"<*><*><*>BaseProcessor Class:(renderWithTransport). Exit status 200.");
     return self;
 }
 

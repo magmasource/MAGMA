@@ -660,7 +660,13 @@ int silmin(void)
             if (acceptable == FALSE) {
 	      inmass *= 0.5;
 #ifdef BATCH_VERSION
-              if (inmass < 10.0*DBL_EPSILON) { meltsStatus.status = SILMIN_ADD_LIQUID_1; return TRUE; }
+              if (inmass < 10.0*DBL_EPSILON) {
+                  meltsStatus.status = SILMIN_ADD_LIQUID_1;
+                  curStage = 0;
+                  curStep = 0;
+                  hasSupersaturation = 0;
+                  return TRUE;
+              }
 #endif      
 	    }
             free(dummyComp);
@@ -698,7 +704,13 @@ int silmin(void)
           if (acceptable == FALSE) {
 	    inmass /= 2.0; /* note this only happens without liquid */
 #ifdef BATCH_VERSION
-            if (inmass < 10.0*DBL_EPSILON) { meltsStatus.status = SILMIN_ADD_LIQUID_2; return TRUE; }
+            if (inmass < 10.0*DBL_EPSILON) {
+                meltsStatus.status = SILMIN_ADD_LIQUID_2;
+                curStage = 0;
+                curStep = 0;
+                hasSupersaturation = 0;
+                return TRUE;
+            }
 #endif      
 	  }
           free(deltaBulkComp);
@@ -732,7 +744,13 @@ int silmin(void)
           if (acceptable == FALSE) {
 	    inmass /= 2.0;
 #ifdef BATCH_VERSION
-            if (inmass < 10.0*DBL_EPSILON) { meltsStatus.status = SILMIN_ADD_LIQUID_3; return TRUE; }
+            if (inmass < 10.0*DBL_EPSILON) {
+                meltsStatus.status = SILMIN_ADD_LIQUID_3;
+                curStage = 0;
+                curStep = 0;
+                hasSupersaturation = 0;
+                return TRUE;
+            }
 #endif      
 	  }
         }
