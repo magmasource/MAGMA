@@ -6,7 +6,7 @@
 	<string>M. S. Ghiorso, OFM Research</string>
 	<key>BxApp Author URL</key>
 	<string>http://www.ofm-research.org</string>
-	<key>BxApp Bombastic Version</key>
+	<key>BxApp Bombaxtic Version</key>
 	<string>1.0.0</string>
 	<key>BxApp Description</key>
 	<string>rhyolite-MELTS, pMELTS Rest web service (XML)</string>
@@ -23,7 +23,7 @@
 	<key>CFBundleIconFile</key>
 	<string>bxapp</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.markghiorso.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.markghiorso.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

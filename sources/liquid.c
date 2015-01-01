@@ -327,16 +327,16 @@ static const int iCmpFe2AlO4_1 = -1; /* Index of Fe2AlO4.1 in s[] array         
 static const int iOxAl2O3      =  2; /* Index of Al2O3 in bulksystem[] structure array    */
 static const int iOxFe2O3      =  3; /* Index of Fe2O3 in bulksystem[] structure array    */
 static const int iOxFeO        =  5; /* Index of FeO in bulksystem[] structure array      */
-static const int iOxCaO        = 10; /* Index of CaO in bulksystem[] structure array      */
-static const int iOxNa2O       = 11; /* Index of Na2O in bulksystem[] structure array     */
-static const int iOxK2O        = 12; /* Index of K2O in bulksystem[] structure array      */
+//static const int iOxCaO        = 10; /* Index of CaO in bulksystem[] structure array      */
+//static const int iOxNa2O       = 11; /* Index of Na2O in bulksystem[] structure array     */
+//static const int iOxK2O        = 12; /* Index of K2O in bulksystem[] structure array      */
 static const int iOxFeO1_3     = 19; /* Index of FeO1.3 in bulksystem[] structure array   */
-static const int iCmpAl2O3     =  1; /* Index of Al2O3 in r[] array                       */
-static const int iCmpFe2SiO5   = -1; /* Index of Fe2SiO5 in r[] array                     */
-static const int iCmpFe2SiO4   =  4; /* Index of Fe2SiO4 in r[] array                     */
+//static const int iCmpAl2O3     =  1; /* Index of Al2O3 in r[] array                       */
+//static const int iCmpFe2SiO5   = -1; /* Index of Fe2SiO5 in r[] array                     */
+//static const int iCmpFe2SiO4   =  4; /* Index of Fe2SiO4 in r[] array                     */
 static const int iCmpFe2SiO4_6 = -1; /* Index of Fe2SiO4.6 in s[] array                   */
-static const int iCmpFe2AlO4_5 = -1; /* Index of Fe2AlO4.5 in s[] array                   */
-static const int iCmpFe2AlO3_5 = -1; /* Index of Fe2AlO3.5 in s[] array                   */
+//static const int iCmpFe2AlO4_5 = -1; /* Index of Fe2AlO4.5 in s[] array                   */
+//static const int iCmpFe2AlO3_5 = -1; /* Index of Fe2AlO3.5 in s[] array                   */
 static const int iCmpFe2AlO4_1 = -1; /* Index of Fe2AlO4.1 in s[] array                   */
 #endif
 

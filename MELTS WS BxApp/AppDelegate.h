@@ -9,7 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import <Bombaxtic/Bombaxtic.h>
 
-@interface AppDelegate : BxApp
+@interface AppDelegate : BxApp {
+    IBOutlet NSWindow *_configurationWindow;
+}
+
+@property NSString *bomBaxticVersion;
+@property NSString *appVersion;
+@property NSString *appDescription;
 
 -(NSMutableDictionary *)lockState;
 -(id)unloackState;
