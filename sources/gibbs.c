@@ -197,6 +197,8 @@ MELTS Source Code: RCS
 #define QUARTZ_ADJUSTMENT 0.0
 #endif
 
+#define NO_HIGH_STRUCTURAL_STATE_FELDSPAR
+
 #ifdef USE_NEW_MELTS_WATER_MODEL
 #undef USE_NEW_MELTS_WATER_MODEL
 #endif
@@ -2564,6 +2566,8 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          or additional first-order phase transitions                         */
 
       if(strcmp(name, "albite") == 0) {
+#ifdef HIGH_STRUCTURAL_STATE_FELDSPAR
+#else
          double gDis, hDis, sDis, cpDis, dcpdtDis, vDis, dvdtDis, dvdpDis,
            d2vdt2Dis, d2vdtdpDis, d2vdp2Dis;
 
@@ -2594,6 +2598,7 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
          printf("***** d2VdTdP = %g\n", d2vdtdpDis); 
          printf("***** d2VdP2  = %g\n", d2vdp2Dis);
 */
+#endif
       } else if(strcmp(name, "gehlenite") == 0) {
 
          double td, d0, d1, d2, d3, d4, d5, dhdis, dsdis, dvdis;
@@ -2814,7 +2819,11 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
       } else if(strcmp(name, "sanidine") == 0) {
          double td, d0, d1, d2, d3, d4, d5, dhdis, dsdis, dvdis;
 
+#ifdef HIGH_STRUCTURAL_STATE_FELDSPAR
+         td = 1436.0;
+#else
          td = MIN(1436.0,t);
+#endif
          d0 = 282.98;
          d1 = -4.83e3;
          d2 = 36.21e5;

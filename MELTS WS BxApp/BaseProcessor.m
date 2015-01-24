@@ -163,39 +163,104 @@
     NSUInteger calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:[self inputXML]];
     if (self.debug) NSLog(@"... MELTS framework initialized with calculation mode: %lu.", calculationMode);
     
-    //
-    // This is preliminary code that deals ONLY with possible temperature incremenmts
-    // ... It must be expanded to also deal with pressure, volume, enthalpy and entropy increments
-    // ... Functions in rMELTSframework are already in place to support this logic
+    BOOL isenthalpic = [melts isIsenthalpic];
+    BOOL isentropic  = [melts isIsenthalpic];
+    BOOL isochoric   = [melts isIsochoric];
     
-    double tInitial   = [melts initialTemperature];
-    double tFinal     = [melts finalTemperature];
-    double tIncrement = [melts incrementTemperature];
+    double varOneInitial = 0.0, varOneFinal = 0.0, varOneIncrement = 0.0;
+    if (!isenthalpic && !isentropic) {
+        varOneInitial   = [melts initialTemperature];
+        varOneFinal     = [melts finalTemperature];
+        varOneIncrement = [melts incrementTemperature];
+        
+        [melts setFinalTemperature:varOneInitial];
+        [melts setIncrementTemperature:0.0];
+    } else if (isenthalpic) {
+        varOneInitial   = [melts initialEnthalpy];
+        varOneFinal     = [melts finalEnthalpy];
+        varOneIncrement = [melts incrementEnthalpy];
+        
+        [melts setFinalEnthalpy:varOneInitial];
+        [melts setIncrementEnthalpy:0.0];
+    } else if (isentropic) {
+        varOneInitial   = [melts initialEntropy];
+        varOneFinal     = [melts finalEntropy];
+        varOneIncrement = [melts incrementEntropy];
+        
+        [melts setFinalEntropy:varOneInitial];
+        [melts setIncrementEntropy:0.0];
+    }
     
-    [melts setFinalTemperature:tInitial];
-    [melts setIncrementTemperature:0.0];
-    Boolean continueLoop = (tIncrement == 0.0) ? NO : YES;
+    double varTwoInitial = 0.0, varTwoFinal = 0.0, varTwoIncrement = 0.0;
+    if (!isochoric) {
+        varTwoInitial = [melts initialPressure];
+        varTwoFinal   = [melts finalPressure];
+        varTwoIncrement = [melts incrementPressure];
+        
+        [melts setFinalPressure:varTwoInitial];
+        [melts setIncrementPressure:0.0];
+    } else {
+        varTwoInitial = [melts initialVolume];
+        varTwoFinal   = [melts finalVolume];
+        varTwoIncrement = [melts incrementVolume];
+        
+        [melts setFinalVolume:varTwoInitial];
+        [melts setIncrementVolume:0.0];
+    }
+    
+    Boolean continueLoop = ((varOneIncrement == 0.0) && (varTwoIncrement == 0.0)) ? NO : YES;
     NSMutableArray *meltsSteps = [NSMutableArray arrayWithCapacity:1];
     
-    if (self.debug) NSLog(@"... MELTS input: T initial: %lf, T final: %lf, Tincrement: %lf", tInitial, tFinal, tIncrement);
+    if (self.debug) {
+        NSString *varOne = @"T", *varTwo = @"P";
+        if (isenthalpic)     varOne = @"H";
+        else if (isentropic) varOne = @"S";
+        else if (isochoric)  varTwo = @"V";
+        NSLog(@"... MELTS input: %@ initial: %lf, %@ final: %lf, %@ increment: %lf", varOne, varOneInitial, varOne, varOneFinal, varOne, varOneIncrement);
+        NSLog(@"                 %@ initial: %lf, %@ final: %lf, %@ increment: %lf", varTwo, varTwoInitial, varTwo, varTwoFinal, varTwo, varTwoIncrement);
+    }
     do {
-        if (tInitial == tFinal) continueLoop = NO;
+        if (varOneInitial == varOneFinal) continueLoop = NO;
         @try {
             if ([melts performMELTScalculation:calculationMode] && self.debug) NSLog(@"... MELTS call returned: success.");
             else if (self.debug)                                               NSLog(@"... MELTS call returned: failure.");
             
             [meltsSteps addObject:[melts writeDataStructuresToXMLDocument:sessionId]];
             
-            if (tFinal < tInitial) {
-                tInitial -= tIncrement;
-                if (tFinal > tInitial) tInitial = tFinal;
+            if (varOneFinal < varOneInitial) {
+                varOneInitial -= varOneIncrement;
+                if (varOneFinal > varOneInitial) varOneInitial = varOneFinal;
             } else {
-                tInitial += tIncrement;
-                if (tFinal < tInitial) tInitial = tFinal;
+                varOneInitial += varOneIncrement;
+                if (varOneFinal < varOneInitial) varOneInitial = varOneFinal;
             }
             
-            [melts setInitialTemperature:tInitial];
-            [melts setFinalTemperature:tInitial];
+            if (varTwoFinal < varTwoInitial) {
+                varTwoInitial -= varTwoIncrement;
+                if (varTwoFinal > varTwoInitial) varTwoInitial = varTwoFinal;
+            } else {
+                varTwoInitial += varTwoIncrement;
+                if (varTwoFinal < varTwoInitial) varTwoInitial = varTwoFinal;
+            }
+            
+            if (!isenthalpic && !isentropic) {
+                [melts setInitialTemperature:varOneInitial];
+                [melts setFinalTemperature:varOneInitial];
+            } else if (isenthalpic) {
+                [melts setInitialEnthalpy:varOneInitial];
+                [melts setFinalEnthalpy:varOneInitial];
+            } else if (isentropic) {
+                [melts setInitialEntropy:varOneInitial];
+                [melts setFinalEntropy:varOneInitial];
+            }
+            
+            if (!isochoric) {
+                [melts setInitialPressure:varTwoInitial];
+                [melts setFinalPressure:varTwoInitial];
+            } else {
+                [melts setInitialVolume:varTwoInitial];
+                [melts setFinalVolume:varTwoInitial];
+            }
         }
         @catch (NSException *exception) {
             continueLoop = NO;
@@ -206,9 +271,6 @@
             [[[self app] state] removeObjectForKey:sessionId];
         }
     } while (continueLoop);
-    
-    // End of preliminary code
-    //
     
     [(AppDelegate *)[self app] unloackState];
     if (self.debug) NSLog(@"... UNLOCKED THREAD");
