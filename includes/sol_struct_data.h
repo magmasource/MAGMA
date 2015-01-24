@@ -10,6 +10,8 @@
 #define SANIDINE_ADJUSTMENT 0.0
 #endif
 
+#define WETTING_ANGLE_CORR 0.0
+
 /*
 MELTS Source Code: RCS $Log: sol_struct_data.h,v $
 MELTS Source Code: RCS Revision 1.19  2008/03/06 17:51:23  ghiorso
@@ -2959,7 +2961,7 @@ Solids meltsSolids[] = {
   {"albite", COMPONENT, "NaAlSi3O8", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,                                      /* Salje correction in GIBBS.C */
    {                /* ThermoRef structure                                   */
-   -3921618.0,      /* H ref (J)                   monalbite - Berman (1988) */
+   -3921618.0+(WETTING_ANGLE_CORR), /* H ref (J)   monalbite - Berman (1988) */
    224.412,         /* S ref (J/K)                             Berman (1988) */
    10.083,          /* V ref (J/bar)                           Berman (1988) */
    CP_BERMAN,  {{393.64, -24.155E2, -78.928E5, 107.064E7, 0.0, 0.0, 0.0, 0.0}},          
@@ -2969,7 +2971,8 @@ Solids meltsSolids[] = {
   {"anorthite", COMPONENT, "CaAl2Si2O8", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
    0.0, 0.0,
    {                /* ThermoRef structure                                   */
-   -4228730.0+3.7*4184.0,     /* H ref (J)   Berman (1988)  Carpenter I1->C1 */
+   -4228730.0+3.7*4184.0+(WETTING_ANGLE_CORR),     
+                              /* H ref (J)   Berman (1988)  Carpenter I1->C1 */
    200.186+3.7*4184.0/2200.0, /* S ref (J/K) Berman (1988)  Carpenter I1->C1 */
    10.075,           /* V ref (J/bar)                          Berman (1988) */
    CP_BERMAN,  {{439.37, -37.341E2, 0.0, -31.702E7, 0.0, 0.0, 0.0, 0.0}},                
@@ -2980,9 +2983,10 @@ Solids meltsSolids[] = {
    0.0, 0.0,                             /* K-feldspar, ordering done in GIBBS.C */
    {                /* ThermoRef structure                                   */
 #ifdef FOWLER
-   -3970791.0+2500.0,/* H ref (J)                              Berman (1988) */
+   -3970791.0+2500.0+(WETTING_ANGLE_CORR),        /* H ref (J) Berman (1988) */
 #else
-   -3970791.0+(SANIDINE_ADJUSTMENT),              /* H ref (J) Berman (1988) */
+   -3970791.0+(SANIDINE_ADJUSTMENT)+(WETTING_ANGLE_CORR),              
+                                                  /* H ref (J) Berman (1988) */
 #endif
    214.145,          /* S ref (J/K)                            Berman (1988) */
    10.869,           /* V ref (J/bar)                          Berman (1988) */

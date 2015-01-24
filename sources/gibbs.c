@@ -199,6 +199,8 @@ MELTS Source Code: RCS
 
 #define NO_HIGH_STRUCTURAL_STATE_FELDSPAR
 
+#define WETTING_ANGLE_CORR 0.0
+
 #ifdef USE_NEW_MELTS_WATER_MODEL
 #undef USE_NEW_MELTS_WATER_MODEL
 #endif
@@ -1927,8 +1929,8 @@ void gibbs(double t, double p, char *name, ThermoRef *phase,
       }
       
       /* Do equation of state integral */
-      gs = hs -t*ss + (QUARTZ_ADJUSTMENT);
-      hs += (QUARTZ_ADJUSTMENT);
+      gs = hs -t*ss + (QUARTZ_ADJUSTMENT)+(WETTING_ANGLE_CORR);
+      hs += (QUARTZ_ADJUSTMENT)+(WETTING_ANGLE_CORR);
       intEOSsolid(phase, t, p, &gs, &hs, &ss, &cps, &dcpsdt, &vs, &dvsdt, &dvsdp, &d2vsdt2, &d2vsdtdp, &d2vsdp2);
       if (phase->eos_type == EOS_BERMAN) {
         phase->v             = vR;
