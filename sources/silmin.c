@@ -934,13 +934,15 @@ int silmin(void)
       updateStatusADB(STATUS_ADB_INDEX_T, &(silminState->T));
       tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
-      silminState->dspTstart = silminState->T - 273.15;
+      //silminState->dspTstart = silminState->T - 273.15; Fix: MSG 2/11/15
+        silminState->dspTstart = silminState->T;
     } else if (silminState->isentropic  && (silminState->refEntropy  != 0.0)) { correctTforChangeInEntropy(); 
 #ifndef BATCH_VERSION
       updateStatusADB(STATUS_ADB_INDEX_T, &(silminState->T));
       tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
-      silminState->dspTstart = silminState->T - 273.15;
+      //silminState->dspTstart = silminState->T - 273.15; Fix: MSG 2/11/15
+        silminState->dspTstart = silminState->T;
     } else if (silminState->isochoric   && (silminState->refVolume   != 0.0)) { 
       correctPforChangeInVolume();  
 #ifndef BATCH_VERSION
@@ -1233,7 +1235,8 @@ jumpFromLinSearch:
         updateStatusADB(STATUS_ADB_INDEX_T, &(silminState->T));
         tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
-        silminState->dspTstart = silminState->T - 273.15;
+        //silminState->dspTstart = silminState->T - 273.15; Fix: MSG 2/11/15
+          silminState->dspTstart = silminState->T;
 	
 	if (silminState->fo2Path != FO2_NONE) {
 #ifdef DEBUG

@@ -180,15 +180,17 @@
         varOneFinal     = [melts finalEnthalpy];
         varOneIncrement = [melts incrementEnthalpy];
         
-        [melts setFinalEnthalpy:varOneInitial];
+        [melts setInitialEnthalpy:varOneFinal];
         [melts setIncrementEnthalpy:0.0];
+        varOneInitial = varOneFinal;
     } else if (isentropic) {
         varOneInitial   = [melts initialEntropy];
         varOneFinal     = [melts finalEntropy];
         varOneIncrement = [melts incrementEntropy];
         
-        [melts setFinalEntropy:varOneInitial];
+        [melts setInitialEntropy:varOneFinal];
         [melts setIncrementEntropy:0.0];
+        varOneInitial = varOneFinal;
     }
     
     double varTwoInitial = 0.0, varTwoFinal = 0.0, varTwoIncrement = 0.0;
@@ -204,8 +206,9 @@
         varTwoFinal   = [melts finalVolume];
         varTwoIncrement = [melts incrementVolume];
         
-        [melts setFinalVolume:varTwoInitial];
+        [melts setInitialVolume:varTwoFinal];
         [melts setIncrementVolume:0.0];
+        varTwoInitial = varTwoFinal;
     }
     
     Boolean continueLoop = ((varOneIncrement == 0.0) && (varTwoIncrement == 0.0)) ? NO : YES;
@@ -224,6 +227,9 @@
         @try {
             if ([melts performMELTScalculation:calculationMode] && self.debug) NSLog(@"... MELTS call returned: success.");
             else if (self.debug)                                               NSLog(@"... MELTS call returned: failure.");
+            NSLog(@"... MELTS out  : %@ initial: %lf, %@ final: %lf, %@ increment: %lf", @"T", [melts initialTemperature], @"T", [melts finalTemperature], @"T", [melts incrementTemperature]);
+            NSLog(@"... MELTS out  : %@ initial: %lf, %@ final: %lf, %@ increment: %lf", @"P", [melts initialPressure],    @"P", [melts finalPressure],    @"P", [melts incrementPressure]);
+            NSLog(@"... MELTS out  : %@ initial: %lf, %@ final: %lf, %@ increment: %lf", @"H", [melts initialEnthalpy],    @"H", [melts finalEnthalpy],    @"H", [melts incrementEnthalpy]);
             
             [meltsSteps addObject:[melts writeDataStructuresToXMLDocument:sessionId]];
             

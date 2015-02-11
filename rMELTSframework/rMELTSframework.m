@@ -578,7 +578,7 @@ static NodeList *getNodeListPointer(int node) {
                         silminState->dspTinc   = 0.0;
                     }
                     else if ([name isEqualToString:@"finalT"  ]) silminState->dspTstop  = [[levelThreeChild stringValue] doubleValue] + 273.15;
-                    else if ([name isEqualToString:@"intT"    ]) silminState->dspTinc   = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"incT"    ]) silminState->dspTinc   = [[levelThreeChild stringValue] doubleValue];
                     else if ([name isEqualToString:@"initialV"]) silminState->refVolume = [[levelThreeChild stringValue] doubleValue];
                     else if ([name isEqualToString:@"finalV"  ]) silminState->dspVstop  = [[levelThreeChild stringValue] doubleValue];
                     else if ([name isEqualToString:@"incV"    ]) silminState->dspVinc   = [[levelThreeChild stringValue] doubleValue];
@@ -605,7 +605,7 @@ static NodeList *getNodeListPointer(int node) {
                     NSString *name = [levelThreeChild name];
                     if      ([name isEqualToString:@"initialH"]) silminState->refEnthalpy = [[levelThreeChild stringValue] doubleValue];
                     else if ([name isEqualToString:@"finalH"  ]) silminState->dspHstop    = [[levelThreeChild stringValue] doubleValue];
-                    else if ([name isEqualToString:@"intH"    ]) silminState->dspHinc     = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"incH"    ]) silminState->dspHinc     = [[levelThreeChild stringValue] doubleValue];
                     else if ([name isEqualToString:@"initialP"]) {
                         silminState->P         = [[levelThreeChild stringValue] doubleValue];
                         silminState->dspPstart = [[levelThreeChild stringValue] doubleValue];
@@ -638,7 +638,7 @@ static NodeList *getNodeListPointer(int node) {
                     NSString *name = [levelThreeChild name];
                     if      ([name isEqualToString:@"initialS"]) silminState->refEntropy = [[levelThreeChild stringValue] doubleValue];
                     else if ([name isEqualToString:@"finalS"  ]) silminState->dspSstop   = [[levelThreeChild stringValue] doubleValue];
-                    else if ([name isEqualToString:@"intS"    ]) silminState->dspSinc    = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"incS"    ]) silminState->dspSinc    = [[levelThreeChild stringValue] doubleValue];
                     else if ([name isEqualToString:@"initialP"]) {
                         silminState->P         = [[levelThreeChild stringValue] doubleValue];
                         silminState->dspPstart = [[levelThreeChild stringValue] doubleValue];
@@ -1776,6 +1776,16 @@ static NodeList *getNodeListPointer(int node) {
             break;
         case RUN_EQUILIBRATE_CALC:
             meltsStatus.status = GENERIC_INTERNAL_ERROR;
+            if (silminState->isenthalpic) {
+                correctTforChangeInEnthalpy();
+                NSLog(@"Before silimn() call, refH = %lf, corrected T = %lf", silminState->refEnthalpy, silminState->T);
+            } else if (silminState->isentropic) {
+                correctTforChangeInEntropy();
+                NSLog(@"Before silimn() call, refS = %lf, corrected T = %lf", silminState->refEntropy, silminState->T);
+            } else if (silminState->isochoric) {
+                correctPforChangeInVolume();
+                NSLog(@"Before silimn() call, refV = %lf, corrected P = %lf", silminState->refVolume, silminState->P);
+            }
             while(!silmin());
             if      (meltsStatus.status == SILMIN_ADD_LIQUID_1) { NSLog(@"... !!! <><><><>  Failure in silmin(): ADD_LIQUID_1"); meltsStatus.status = GENERIC_INTERNAL_ERROR; }
             else if (meltsStatus.status == SILMIN_ADD_LIQUID_2) { NSLog(@"... !!! <><><><>  Failure in silmin(): ADD_LIQUID_2"); meltsStatus.status = GENERIC_INTERNAL_ERROR; }
@@ -1784,6 +1794,9 @@ static NodeList *getNodeListPointer(int node) {
             else if (meltsStatus.status == SILMIN_LIN_ZERO    ) { NSLog(@"... !!! <><><><>  Failure in silmin(): LIN_ZERO"); }
             else if (meltsStatus.status == SILMIN_QUAD_MAX    ) { NSLog(@"... !!! <><><><>  Failure in silmin(): QUAD_MAX"); }
             else if (meltsStatus.status == SILMIN_RANK        ) { NSLog(@"... !!! <><><><>  Failure in silmin(): RANK");     }
+            if (silminState->isenthalpic) NSLog(@"Aftersilimn() call,  refH = %lf, corrected T = %lf", silminState->refEnthalpy, silminState->T);
+            else if (silminState->isentropic) NSLog(@"Aftersilimn() call,  refS = %lf, corrected T = %lf", silminState->refEntropy, silminState->T);
+            else if (silminState->isochoric) NSLog(@"Aftersilimn() call,  refV = %lf, corrected P = %lf", silminState->refVolume, silminState->P);
             break;
         case RETURN_WITHOUT_CALC:
             meltsStatus.status = SILMIN_SUCCESS;
