@@ -174,7 +174,11 @@ int evaluateSaturationState(double *rSol, double *rLiq)
     // This results in a saturation state convergence to an incorrect composition/affinity for phases that 
     // contain ferric iron if the Fe2O3 chemical potential is not adjusted for internal consistency with K&C.
     
-    if ( (silminState->fo2Path != FO2_NONE) && ( (calculationMode == MODE_xMELTS) || (calculationMode == MODE__MELTS) ) ) {
+    if ( (silminState->fo2Path != FO2_NONE) && ((calculationMode == MODE_xMELTS) ||
+                                                (calculationMode == MODE__MELTS) ||
+                                                (calculationMode == MODE__MELTSandCO2) ||
+                                                (calculationMode == MODE__MELTSandCO2_H2O)
+                                                )) {
       // This is the chemical potential of oxygen calculated from the imposed buffer
       double muO2 = R*(silminState->T)*(silminState->fo2)*log(10.0) + oxygen.cur.g;
       // This is the free energy change of the reaction: Fe2SiO4 + 1/2 O2 = Fe2O3 + SiO2 (MELTS component choice)

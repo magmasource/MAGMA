@@ -249,9 +249,11 @@ static void doBatchFractionation(void) {
 #pragma mark -
 #pragma mark Class methods
 
-+(NSUInteger) MELTScalculationModeConstant { return MODE__MELTS; }
-+(NSUInteger)pMELTScalculationModeConstant { return MODE_pMELTS; }
-+(NSUInteger)xMELTScalculationModeConstant { return MODE_xMELTS; }
++(NSUInteger)          MELTScalculationModeConstant { return MODE__MELTS;           }
++(NSUInteger)         pMELTScalculationModeConstant { return MODE_pMELTS;           }
++(NSUInteger)         xMELTScalculationModeConstant { return MODE_xMELTS;           }
++(NSUInteger)    MELTSandCO2calculationModeConstant { return MODE__MELTSandCO2;     }
++(NSUInteger)MELTSandCO2_H2OcalculationModeConstant { return MODE__MELTSandCO2_H2O; }
 
 static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, kCaO, kNa2O, kK2O, kP2O5, kH2O;
 
@@ -262,11 +264,27 @@ static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, k
     nlc = meltsNlc;
     nls = meltsNls;
     npc = meltsNpc;
-    // liquid = pMeltsLiquid;
-    // solids = pMeltsSolids;
-    // nlc = pMeltsNlc;
-    // nls = pMeltsNls;
-    // npc = pMeltsNpc;
+    
+//    calculationMode = MODE__MELTSandCO2;
+//    liquid = meltsFluidLiquid;
+//    solids = meltsFluidSolids;
+//    nlc = meltsFluidNlc;
+//    nls = meltsFluidNls;
+//    npc = meltsFluidNpc;
+    
+//    calculationMode = MODE__MELTSandCO2_H2O;
+//    liquid = meltsFluidLiquid;
+//    solids = meltsFluidSolids;
+//    nlc = meltsFluidNlc;
+//    nls = meltsFluidNls;
+//    npc = meltsFluidNpc;
+    
+//    calculationMode = MODE_pMELTS;
+//    liquid = pMeltsLiquid;
+//    solids = pMeltsSolids;
+//    nlc = pMeltsNlc;
+//    nls = pMeltsNls;
+//    npc = pMeltsNpc;
     
     InitComputeDataStruct();
     

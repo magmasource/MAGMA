@@ -321,6 +321,8 @@
 		77E4B2CD169BA94300B27D84 /* BaseProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4B2CC169BA94300B27D84 /* BaseProcessor.m */; };
 		77E4B2D0169BD0FF00B27D84 /* MELTSoutput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD79163B20B6004AA393 /* MELTSoutput.xsd */; };
 		77E4B2D1169BD0FF00B27D84 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7785CD7A163B20B6004AA393 /* MELTSstatus.xsd */; };
+		77F62F991A9BCD3D00588361 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
+		77F62F9B1A9BD7CF00588361 /* liquid_CO2_H2O.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F9A1A9BD7CF00588361 /* liquid_CO2_H2O.c */; };
 		77FE531A169F36B100D79522 /* xml2json.xslt in Resources */ = {isa = PBXBuildFile; fileRef = 77FE5319169F36B100D79522 /* xml2json.xslt */; };
 		77FE55AC169F447600D79522 /* static in Resources */ = {isa = PBXBuildFile; fileRef = 77FE55AB169F447600D79522 /* static */; };
 		77FE55B116A0E84900D79522 /* Test.bxml in Resources */ = {isa = PBXBuildFile; fileRef = 77FE55B016A0E84900D79522 /* Test.bxml */; };
@@ -559,6 +561,10 @@
 		77C99B70169B72C300DF7464 /* bxapp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = bxapp.icns; sourceTree = "<group>"; };
 		77E4B2CB169BA94300B27D84 /* BaseProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseProcessor.h; sourceTree = "<group>"; };
 		77E4B2CC169BA94300B27D84 /* BaseProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseProcessor.m; sourceTree = "<group>"; };
+		77F62F941A9BC57800588361 /* param_struct_data_CO2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = param_struct_data_CO2.h; sourceTree = "<group>"; };
+		77F62F951A9BC59200588361 /* param_struct_data_CO2_H2O.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = param_struct_data_CO2_H2O.h; sourceTree = "<group>"; };
+		77F62F981A9BCD3D00588361 /* liquid_CO2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = liquid_CO2.c; sourceTree = "<group>"; };
+		77F62F9A1A9BD7CF00588361 /* liquid_CO2_H2O.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = liquid_CO2_H2O.c; sourceTree = "<group>"; };
 		77FE5319169F36B100D79522 /* xml2json.xslt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = xml2json.xslt; sourceTree = "<group>"; };
 		77FE55AB169F447600D79522 /* static */ = {isa = PBXFileReference; lastKnownFileType = folder; path = static; sourceTree = "<group>"; };
 		77FE55B016A0E84900D79522 /* Test.bxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test.bxml; sourceTree = "<group>"; };
@@ -652,6 +658,8 @@
 				7734D77A1627A90000D67FBB /* nash.h */,
 				7734D77B1627A90000D67FBB /* nepheline.h */,
 				7734D77D1627A90000D67FBB /* param_struct_data.h */,
+				77F62F941A9BC57800588361 /* param_struct_data_CO2.h */,
+				77F62F951A9BC59200588361 /* param_struct_data_CO2_H2O.h */,
 				7734D7801627A90000D67FBB /* param_struct_data_v34.h */,
 				7734D7811627A90000D67FBB /* param_temp.h */,
 				7734D7821627A90000D67FBB /* recipes.h */,
@@ -713,6 +721,8 @@
 				7734D7C21627A92300D67FBB /* leucite.c */,
 				7734D7C51627A92300D67FBB /* linear_search.c */,
 				7734D7C71627A92300D67FBB /* liquid.c */,
+				77F62F981A9BCD3D00588361 /* liquid_CO2.c */,
+				77F62F9A1A9BD7CF00588361 /* liquid_CO2_H2O.c */,
 				7734D7C81627A92300D67FBB /* liquid_v34.c */,
 				7734D7C91627A92300D67FBB /* liquidus.c */,
 				7734D7CA1627A92300D67FBB /* majorite.c */,
@@ -1300,6 +1310,7 @@
 				77A7443B163619B80038627C /* silmin_support.c in Sources */,
 				77A7443E163619B80038627C /* spinel.c in Sources */,
 				77A7443F163619B80038627C /* subSolidusMuO2.c in Sources */,
+				77F62F991A9BCD3D00588361 /* liquid_CO2.c in Sources */,
 				77A74440163619B80038627C /* vframe.c in Sources */,
 				77A74441163619B80038627C /* vheader.c in Sources */,
 				77A74442163619B80038627C /* vlist.c in Sources */,
@@ -1316,6 +1327,7 @@
 				77A74401163619AA0038627C /* check_coexisting_liquids.c in Sources */,
 				77A74402163619AA0038627C /* check_coexisting_solids.c in Sources */,
 				77A74403163619AA0038627C /* clinopyroxene.c in Sources */,
+				77F62F9B1A9BD7CF00588361 /* liquid_CO2_H2O.c in Sources */,
 				77A74404163619AA0038627C /* create_assimilant_padb.c in Sources */,
 				77A74405163619AA0038627C /* create_managed.c in Sources */,
 				77A74406163619AA0038627C /* create_menu_bar.c in Sources */,
@@ -1745,7 +1757,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -1767,7 +1779,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};

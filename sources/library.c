@@ -13,7 +13,6 @@ MeltsStatus meltsStatus;
 
 #include "liq_struct_data.h"
 #include "sol_struct_data.h"
-#include "param_struct_data.h"
 
 #define REC   134
 

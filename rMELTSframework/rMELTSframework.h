@@ -23,6 +23,8 @@
 +(NSUInteger)MELTScalculationModeConstant;
 +(NSUInteger)pMELTScalculationModeConstant;
 +(NSUInteger)xMELTScalculationModeConstant;
++(NSUInteger)MELTSandCO2calculationModeConstant;
++(NSUInteger)MELTSandCO2_H2OcalculationModeConstant;
 
 +(NSXMLDocument *)oxideListAsXMLDocument;
 +(NSXMLDocument *)phaseListAsXMLDocument;

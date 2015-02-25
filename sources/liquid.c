@@ -225,6 +225,8 @@ MELTS Source Code: RCS
 #include "mthread.h"
 #include <signal.h>
 
+#include "param_struct_data.h"
+
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
 
@@ -278,6 +280,34 @@ void vmixLiq_v34 (int mask, double t, double p, double *x, double *vmix,  double
 void muO2Liq_v34 (int mask, double t, double p, double *m, double *muO2,  double *dm,   double *dt,   double *dp, double **d2m, double *d2mt, double *d2mp,
                                                            double *d2t2,  double *d2tp, double *d2p2);
 void visLiq_v34  (int mask, double t, double p, double *x, double *viscosity);
+
+void conLiq_CO2  (int inpMask, int outMask, double t, double p, double *o, double *m, double *r, double *x, double **dm, double ***dm2, double *logfo2);
+int  testLiq_CO2 (int mask, double t, double p, int na, int nr, char **names, char **formulas, double *r, double *m);
+void dispLiq_CO2 (int mask, double t, double p, double *x, char **formula);
+void actLiq_CO2  (int mask, double t, double p, double *x, double *a,     double *mu,   double **dx);
+void gmixLiq_CO2 (int mask, double t, double p, double *x, double *gmix,  double *dx,   double **dx2);
+void hmixLiq_CO2 (int mask, double t, double p, double *x, double *hmix);
+void smixLiq_CO2 (int mask, double t, double p, double *x, double *smix,  double *dx,   double **dx2);
+void cpmixLiq_CO2(int mask, double t, double p, double *x, double *cpmix, double *dt,   double *dx);
+void vmixLiq_CO2 (int mask, double t, double p, double *x, double *vmix,  double *dx,   double **dx2, double *dt, double *dp,   double *dt2,  double *dtdp,
+                  double *dp2,   double *dxdt, double *dxdp);
+void muO2Liq_CO2 (int mask, double t, double p, double *m, double *muO2,  double *dm,   double *dt,   double *dp, double **d2m, double *d2mt, double *d2mp,
+                  double *d2t2,  double *d2tp, double *d2p2);
+void visLiq_CO2  (int mask, double t, double p, double *x, double *viscosity);
+
+void conLiq_CO2_H2O  (int inpMask, int outMask, double t, double p, double *o, double *m, double *r, double *x, double **dm, double ***dm2, double *logfo2);
+int  testLiq_CO2_H2O (int mask, double t, double p, int na, int nr, char **names, char **formulas, double *r, double *m);
+void dispLiq_CO2_H2O (int mask, double t, double p, double *x, char **formula);
+void actLiq_CO2_H2O  (int mask, double t, double p, double *x, double *a,     double *mu,   double **dx);
+void gmixLiq_CO2_H2O (int mask, double t, double p, double *x, double *gmix,  double *dx,   double **dx2);
+void hmixLiq_CO2_H2O (int mask, double t, double p, double *x, double *hmix);
+void smixLiq_CO2_H2O (int mask, double t, double p, double *x, double *smix,  double *dx,   double **dx2);
+void cpmixLiq_CO2_H2O(int mask, double t, double p, double *x, double *cpmix, double *dt,   double *dx);
+void vmixLiq_CO2_H2O (int mask, double t, double p, double *x, double *vmix,  double *dx,   double **dx2, double *dt, double *dp,   double *dt2,  double *dtdp,
+                  double *dp2,   double *dxdt, double *dxdp);
+void muO2Liq_CO2_H2O (int mask, double t, double p, double *m, double *muO2,  double *dm,   double *dt,   double *dp, double **d2m, double *d2mt, double *d2mp,
+                  double *d2t2,  double *d2tp, double *d2p2);
+void visLiq_CO2_H2O  (int mask, double t, double p, double *x, double *viscosity);
 
 /*
  *=============================================================================
@@ -12609,7 +12639,16 @@ conLiq(int inpMask, int outMask, double t, double p,
   
   liqERRstate = ERR_NONE;
   
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { conLiq_v34(inpMask, outMask, t, p, o, m, r, x, dm, d2m, logfo2); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS) ) {
+      conLiq_v34(inpMask, outMask, t, p, o, m, r, x, dm, d2m, logfo2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      conLiq_CO2(inpMask, outMask, t, p, o, m, r, x, dm, d2m, logfo2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      conLiq_CO2_H2O(inpMask, outMask, t, p, o, m, r, x, dm, d2m, logfo2);
+      return;
+  }
   
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -12882,6 +12921,8 @@ testLiq(int mask, double t, double p,
   int result = TRUE, i;
   
   if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) return testLiq_v34(mask, t, p, na, nr, names, formulas, r, m);
+    else if (calculationMode == MODE__MELTSandCO2) return testLiq_CO2(mask, t, p, na, nr, names, formulas, r, m);
+    else if (calculationMode == MODE__MELTSandCO2_H2O) return testLiq_CO2_H2O(mask, t, p, na, nr, names, formulas, r, m);
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -12951,7 +12992,16 @@ dispLiq(int mask, double t, double p, double *x,
 {
   double *r = x;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { dispLiq_v34(mask, t, p, x, formula); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      dispLiq_v34(mask, t, p, x, formula);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      dispLiq_CO2(mask, t, p, x, formula);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      dispLiq_CO2_H2O(mask, t, p, x, formula);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -12998,7 +13048,16 @@ actLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { actLiq_v34(mask, t, p, x, a, mu, dx); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      actLiq_v34(mask, t, p, x, a, mu, dx);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      actLiq_CO2(mask, t, p, x, a, mu, dx);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      actLiq_CO2_H2O(mask, t, p, x, a, mu, dx);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13370,7 +13429,16 @@ gmixLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { gmixLiq_v34(mask, t, p, x, gmix, dx, dx2); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      gmixLiq_v34(mask, t, p, x, gmix, dx, dx2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      gmixLiq_CO2(mask, t, p, x, gmix, dx, dx2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      gmixLiq_CO2_H2O(mask, t, p, x, gmix, dx, dx2);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13463,7 +13531,16 @@ hmixLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { hmixLiq_v34 (mask, t, p, x, hmix); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      hmixLiq_v34 (mask, t, p, x, hmix);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      hmixLiq_CO2(mask, t, p, x, hmix);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      hmixLiq_CO2_H2O(mask, t, p, x, hmix);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13558,7 +13635,16 @@ smixLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { smixLiq_v34(mask, t, p, x, smix, dx, dx2); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      smixLiq_v34(mask, t, p, x, smix, dx, dx2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      smixLiq_CO2(mask, t, p, x, smix, dx, dx2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      smixLiq_CO2_H2O(mask, t, p, x, smix, dx, dx2);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13714,7 +13800,16 @@ cpmixLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { cpmixLiq_v34(mask, t, p, x, cpmix, dt, dx); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      cpmixLiq_v34(mask, t, p, x, cpmix, dt, dx);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      cpmixLiq_CO2(mask, t, p, x, cpmix, dt, dx);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      cpmixLiq_CO2_H2O(mask, t, p, x, cpmix, dt, dx);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13836,6 +13931,12 @@ vmixLiq(int mask, double t, double p, double *x,
   if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { 
     vmixLiq_v34 (mask, t, p, x, vmix, dx, dx2, dt, dp, dt2, dtdp, dp2, dxdt, dxdp);
     return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      vmixLiq_CO2 (mask, t, p, x, vmix, dx, dx2, dt, dp, dt2, dtdp, dp2, dxdt, dxdp);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      vmixLiq_CO2_H2O (mask, t, p, x, vmix, dx, dx2, dt, dp, dt2, dtdp, dp2, dxdt, dxdp);
+      return;
   }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
@@ -14277,6 +14378,12 @@ muO2Liq(int mask, double t, double p, double *m,
   if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { 
     muO2Liq_v34(mask, t, p, m, muO2, dm, dt, dp, d2m, d2mt, d2mp, d2t2, d2tp, d2p2);
     return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      muO2Liq_CO2(mask, t, p, m, muO2, dm, dt, dp, d2m, d2mt, d2mp, d2t2, d2tp, d2p2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      muO2Liq_CO2_H2O(mask, t, p, m, muO2, dm, dt, dp, d2m, d2mt, d2mp, d2t2, d2tp, d2p2);
+      return;
   }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
@@ -14452,7 +14559,16 @@ visLiq(int mask, double t, double p, double *r,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { visLiq_v34(mask, t, p, r, viscosity); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      visLiq_v34(mask, t, p, r, viscosity);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      visLiq_CO2(mask, t, p, r, viscosity);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      visLiq_CO2_H2O(mask, t, p, r, viscosity);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 

@@ -201,8 +201,10 @@ $(MELTSLIB)(initialize_strings.o):       initialize_strings.c interface.h
 $(MELTSLIB)(lawson_hanson.o):            lawson_hanson.c lawson_hanson.h
 $(MELTSLIB)(leucite.o):                  leucite.c recipes.h silmin.h mthread.h
 $(MELTSLIB)(linear_search.o):            linear_search.c interface.h silmin.h mthread.h
-$(MELTSLIB)(liquid.o):                   liquid.c silmin.h mthread.h
+$(MELTSLIB)(liquid.o):                   liquid.c param_struct_data.h silmin.h mthread.h
 $(MELTSLIB)(liquid_v34.o):               liquid_v34.c param_struct_data_v34.h silmin.h mthread.h
+$(MELTSLIB)(liquid_CO2.o):               liquid_CO2.c param_struct_data_CO2.h silmin.h mthread.h
+$(MELTSLIB)(liquid_CO2_H2O.o):           liquid_CO2_H2O.c param_struct_data_CO2_H2O.h silmin.h mthread.h
 $(MELTSLIB)(liquidus.o):                 liquidus.c interface.h recipes.h silmin.h mthread.h
 $(MELTSLIB)(majorite.o):                 majorite.c silmin.h mthread.h
 $(MELTSLIB)(melilite.o):                 melilite.c silmin.h mthread.h
@@ -258,8 +260,10 @@ $(MELTSBATCHLIB)(ilmenite.o):                 ilmenite.c silmin.h mthread.h
 $(MELTSBATCHLIB)(lawson_hanson.o):            lawson_hanson.c lawson_hanson.h
 $(MELTSBATCHLIB)(leucite.o):                  leucite.c recipes.h silmin.h mthread.h
 $(MELTSBATCHLIB)(linear_search.o):            linear_search.c silmin.h mthread.h
-$(MELTSBATCHLIB)(liquid.o):                   liquid.c silmin.h mthread.h
+$(MELTSBATCHLIB)(liquid.o):                   liquid.c param_struct_data.h silmin.h mthread.h
 $(MELTSBATCHLIB)(liquid_v34.o):               liquid_v34.c param_struct_data_v34.h silmin.h mthread.h
+$(MELTSBATCHLIB)(liquid_CO2.o):               liquid_CO2.c param_struct_data_CO2.h silmin.h mthread.h
+$(MELTSBATCHLIB)(liquid_CO2_H2O.o):           liquid_CO2_H2O.c param_struct_data_CO2_H2O.h silmin.h mthread.h
 $(MELTSBATCHLIB)(liquidus.o):                 liquidus.c recipes.h silmin.h mthread.h status.h
 $(MELTSBATCHLIB)(majorite.o):                 majorite.c silmin.h mthread.h
 $(MELTSBATCHLIB)(melilite.o):                 melilite.c silmin.h mthread.h
@@ -311,10 +315,12 @@ $(MELTSDYNAMICLIB)(hornblende.o):               hornblende.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(ilmenite.o):                 ilmenite.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(lawson_hanson.o):            lawson_hanson.c lawson_hanson.h
 $(MELTSDYNAMICLIB)(leucite.o):                  leucite.c recipes.h silmin.h mthread.h
-$(MELTSDYNAMICLIB)(library.o):                  library.c silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h status.h
+$(MELTSDYNAMICLIB)(library.o):                  library.c silmin.h liq_struct_data.h sol_struct_data.h status.h
 $(MELTSDYNAMICLIB)(linear_search.o):            linear_search.c silmin.h mthread.h
-$(MELTSDYNAMICLIB)(liquid.o):                   liquid.c silmin.h mthread.h
+$(MELTSDYNAMICLIB)(liquid.o):                   liquid.c param_struct_data.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(liquid_v34.o):               liquid_v34.c param_struct_data_v34.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(liquid_CO2.o):               liquid_CO2.c param_struct_data_CO2.h silmin.h mthread.h
+$(MELTSDYNAMICLIB)(liquid_CO2_H2O.o):           liquid_CO2_H2O.c param_struct_data_CO2_H2O.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(liquidus.o):                 liquidus.c recipes.h silmin.h mthread.h status.h
 $(MELTSDYNAMICLIB)(majorite.o):                 majorite.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(melilite.o):                 melilite.c silmin.h mthread.h
@@ -367,8 +373,10 @@ $(MELTSCOMMANDLIB)(ilmenite.o):                 ilmenite.c silmin.h mthread.h
 $(MELTSCOMMANDLIB)(lawson_hanson.o):            lawson_hanson.c lawson_hanson.h
 $(MELTSCOMMANDLIB)(leucite.o):                  leucite.c recipes.h silmin.h mthread.h
 $(MELTSCOMMANDLIB)(linear_search.o):            linear_search.c silmin.h mthread.h
-$(MELTSCOMMANDLIB)(liquid.o):                   liquid.c silmin.h mthread.h
+$(MELTSCOMMANDLIB)(liquid.o):                   liquid.c param_struct_data.h silmin.h mthread.h
 $(MELTSCOMMANDLIB)(liquid_v34.o):               liquid_v34.c param_struct_data_v34.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(liquid_CO2.o):               liquid_CO2.c param_struct_data_CO2.h silmin.h mthread.h
+$(MELTSCOMMANDLIB)(liquid_CO2_H2O.o):           liquid_CO2_H2O.c param_struct_data_CO2_H2O.h silmin.h mthread.h
 $(MELTSCOMMANDLIB)(liquidus.o):                 liquidus.c recipes.h silmin.h mthread.h status.h
 $(MELTSCOMMANDLIB)(majorite.o):                 majorite.c silmin.h mthread.h
 $(MELTSCOMMANDLIB)(melilite.o):                 melilite.c silmin.h mthread.h
@@ -441,6 +449,8 @@ $(MELTSLIB): $(MELTSLIB)(albite.o) \
              $(MELTSLIB)(linear_search.o) \
              $(MELTSLIB)(liquid.o) \
              $(MELTSLIB)(liquid_v34.o) \
+             $(MELTSLIB)(liquid_CO2.o) \
+             $(MELTSLIB)(liquid_CO2_H2O.o) \
              $(MELTSLIB)(liquidus.o) \
              $(MELTSLIB)(majorite.o) \
              $(MELTSLIB)(melilite.o) \
@@ -499,6 +509,8 @@ $(MELTSBATCHLIB): $(MELTSBATCHLIB)(albite.o) \
                   $(MELTSBATCHLIB)(linear_search.o) \
                   $(MELTSBATCHLIB)(liquid.o) \
                   $(MELTSBATCHLIB)(liquid_v34.o) \
+                  $(MELTSBATCHLIB)(liquid_CO2.o) \
+                  $(MELTSBATCHLIB)(liquid_CO2_H2O.o) \
                   $(MELTSBATCHLIB)(liquidus.o) \
                   $(MELTSBATCHLIB)(majorite.o) \
                   $(MELTSBATCHLIB)(melilite.o) \
@@ -555,6 +567,8 @@ $(MELTSDYNAMICLIB): $(MELTSDYNAMICLIB)(albite.o) \
                     $(MELTSDYNAMICLIB)(linear_search.o) \
                     $(MELTSDYNAMICLIB)(liquid.o) \
                     $(MELTSDYNAMICLIB)(liquid_v34.o) \
+                    $(MELTSDYNAMICLIB)(liquid_CO2.o) \
+                    $(MELTSDYNAMICLIB)(liquid_CO2_H2O.o) \
                     $(MELTSDYNAMICLIB)(liquidus.o) \
                     $(MELTSDYNAMICLIB)(majorite.o) \
                     $(MELTSDYNAMICLIB)(melilite.o) \
@@ -610,6 +624,8 @@ $(MELTSCOMMANDLIB): $(MELTSCOMMANDLIB)(albite.o) \
                     $(MELTSCOMMANDLIB)(linear_search.o) \
                     $(MELTSCOMMANDLIB)(liquid.o) \
                     $(MELTSCOMMANDLIB)(liquid_v34.o) \
+                    $(MELTSCOMMANDLIB)(liquid_CO2.o) \
+                    $(MELTSCOMMANDLIB)(liquid_CO2_H2O.o) \
                     $(MELTSCOMMANDLIB)(liquidus.o) \
                     $(MELTSCOMMANDLIB)(majorite.o) \
                     $(MELTSCOMMANDLIB)(melilite.o) \
@@ -733,7 +749,7 @@ Make_species_map: make_species_map.c \
 	chmod 755 $@
 
 Melts: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-       calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h \
+       calibration.h interface.h liq_struct_data.h mthread.h recipes.h res_struct_data.h silmin.h \
        sol_struct_data.h vframe.h vheader.h vlist.h \
        sources/melts.icon $(MELTSLIB) 
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
@@ -836,7 +852,7 @@ Melts-SACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_satu
 	chmod 755 $@
 
 Melts-mpi: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-       calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
+       calibration.h interface.h liq_struct_data.h mthread.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
        vframe.h vheader.h vlist.h \
        sources/melts.icon $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
@@ -916,7 +932,7 @@ Melts-mSACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_sat
 	touch $@
 
 Melts-batch: interface.c lawson_hanson.h liq_struct_data.h nash.h param_struct_data.h \
-             param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
+             param_struct_data_v34.h param_struct_data_CO2.h param_struct_data_CO2_H2O.h recipes.h silmin.h sol_struct_data.h status.h \
              albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
              check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
              est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
@@ -938,7 +954,7 @@ Melts-batchPrivate: interface.c gibbs.c \
 	chmod 755 Melts-batch
 
 Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_data.h \
-               param_struct_data_v34.h recipes.h silmin.h sol_struct_data.h status.h \
+               param_struct_data_v34.h param_struct_data_CO2.h param_struct_data_CO2_H2O.h recipes.h silmin.h sol_struct_data.h status.h \
                albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
                check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
                est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
@@ -965,7 +981,7 @@ Melts-commandPrivate: test_commandLib.c gibbs.c $(MELTSCOMMANDLIB)
 	chmod 755 Test_commandLib
 
 Melts-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-              calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
+              calibration.h interface.h liq_struct_data.h mthread.h recipes.h res_struct_data.h silmin.h sol_struct_data.h \
               vframe.h vheader.h vlist.h \
               sources/melts.icon $(MELTSLIB) 
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
@@ -998,7 +1014,7 @@ Melts-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_sat
 	chmod 755 $@
 
 Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-                calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h \
+                calibration.h interface.h liq_struct_data.h mthread.h recipes.h res_struct_data.h silmin.h \
                 sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB) 
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS \
@@ -1030,7 +1046,7 @@ Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_s
 	chmod 755 $@
 
 Melts-rhyolite-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-                       calibration.h interface.h liq_struct_data.h mthread.h param_struct_data.h recipes.h res_struct_data.h silmin.h \
+                       calibration.h interface.h liq_struct_data.h mthread.h recipes.h res_struct_data.h silmin.h \
                        sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB) 
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS \

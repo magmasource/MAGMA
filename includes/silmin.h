@@ -603,10 +603,12 @@ extern Oxygen oxygen;
  * Status of calculation and intensive and extensive variables for the system
  */
 
-#define MODE_xMELTS  0
-#define MODE__MELTS  1
-#define MODE_pMELTS  2
-#define MODE_DEFAULT MODE_xMELTS
+#define MODE_xMELTS           0
+#define MODE__MELTS           1
+#define MODE_pMELTS           2
+#define MODE__MELTSandCO2     3
+#define MODE__MELTSandCO2_H2O 4
+#define MODE_DEFAULT          MODE_xMELTS
 
 extern int calculationMode;
 
