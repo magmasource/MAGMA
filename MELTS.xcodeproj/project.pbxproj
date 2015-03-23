@@ -14,6 +14,21 @@
 		77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4C163656D4000C83ED /* libXt.6.dylib */; };
 		77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
 		770BBEFE16A2244C00B98F2D /* rMELTSframework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		7712E4C21AA65F9B00F2F218 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
+		7712E4C31AA65F9C00F2F218 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
+		7712E4C41AA65F9D00F2F218 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
+		7712E4C51AA65FD100F2F218 /* liquid_CO2_H2O.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F9A1A9BD7CF00588361 /* liquid_CO2_H2O.c */; };
+		7712E4C61AA65FD200F2F218 /* liquid_CO2_H2O.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F9A1A9BD7CF00588361 /* liquid_CO2_H2O.c */; };
+		7712E4C71AA65FD300F2F218 /* liquid_CO2_H2O.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F9A1A9BD7CF00588361 /* liquid_CO2_H2O.c */; };
+		771572011AB1494D001E1D21 /* ch4co2.c in Sources */ = {isa = PBXBuildFile; fileRef = 771571FA1AB1494D001E1D21 /* ch4co2.c */; };
+		771572021AB1494D001E1D21 /* der.c in Sources */ = {isa = PBXBuildFile; fileRef = 771571FB1AB1494D001E1D21 /* der.c */; };
+		771572031AB1494D001E1D21 /* fluid.c in Sources */ = {isa = PBXBuildFile; fileRef = 771571FC1AB1494D001E1D21 /* fluid.c */; };
+		771572041AB1494D001E1D21 /* h2o.c in Sources */ = {isa = PBXBuildFile; fileRef = 771571FD1AB1494D001E1D21 /* h2o.c */; };
+		771572051AB1494D001E1D21 /* shi.c in Sources */ = {isa = PBXBuildFile; fileRef = 771571FE1AB1494D001E1D21 /* shi.c */; };
+		771572061AB1494D001E1D21 /* superfl.c in Sources */ = {isa = PBXBuildFile; fileRef = 771571FF1AB1494D001E1D21 /* superfl.c */; };
+		771572071AB1494D001E1D21 /* tolja.c in Sources */ = {isa = PBXBuildFile; fileRef = 771572001AB1494D001E1D21 /* tolja.c */; };
+		7715720A1AB14C10001E1D21 /* superfluid.c in Sources */ = {isa = PBXBuildFile; fileRef = 771572091AB14C10001E1D21 /* superfluid.c */; };
+		7715720C1AB64790001E1D21 /* libf2c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7715720B1AB64790001E1D21 /* libf2c.a */; };
 		7729C18416AB3596002A10D2 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7729C18316AB3596002A10D2 /* MELTSinput.xsd */; };
 		77424DB41A5473E800DCC674 /* ConfigurationWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77424DB21A5473E800DCC674 /* ConfigurationWindow.xib */; };
 		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
@@ -418,6 +433,16 @@
 		77032B4B163656D4000C83ED /* libXm.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXm.4.dylib; path = ../../../opt/local/lib/libXm.4.dylib; sourceTree = "<group>"; };
 		77032B4C163656D4000C83ED /* libXt.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXt.6.dylib; path = ../../../opt/local/lib/libXt.6.dylib; sourceTree = "<group>"; };
 		77032B521636576D000C83ED /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../opt/local/lib/libxml2.2.dylib; sourceTree = "<group>"; };
+		771571FA1AB1494D001E1D21 /* ch4co2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ch4co2.c; path = Superfluid/ch4co2.c; sourceTree = SOURCE_ROOT; };
+		771571FB1AB1494D001E1D21 /* der.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = der.c; path = Superfluid/der.c; sourceTree = SOURCE_ROOT; };
+		771571FC1AB1494D001E1D21 /* fluid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fluid.c; path = Superfluid/fluid.c; sourceTree = SOURCE_ROOT; };
+		771571FD1AB1494D001E1D21 /* h2o.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = h2o.c; path = Superfluid/h2o.c; sourceTree = SOURCE_ROOT; };
+		771571FE1AB1494D001E1D21 /* shi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = shi.c; path = Superfluid/shi.c; sourceTree = SOURCE_ROOT; };
+		771571FF1AB1494D001E1D21 /* superfl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = superfl.c; path = Superfluid/superfl.c; sourceTree = SOURCE_ROOT; };
+		771572001AB1494D001E1D21 /* tolja.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tolja.c; path = Superfluid/tolja.c; sourceTree = SOURCE_ROOT; };
+		771572081AB14A38001E1D21 /* f2c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = f2c.h; sourceTree = "<group>"; };
+		771572091AB14C10001E1D21 /* superfluid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = superfluid.c; sourceTree = "<group>"; };
+		7715720B1AB64790001E1D21 /* libf2c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libf2c.a; path = ../../../../../usr/local/lib/libf2c.a; sourceTree = "<group>"; };
 		7729C18316AB3596002A10D2 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSinput.xsd; sourceTree = SOURCE_ROOT; };
 		7734D76D1627A90000D67FBB /* acegr_np.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acegr_np.h; sourceTree = "<group>"; };
 		7734D76E1627A90000D67FBB /* calculator_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calculator_icon.h; sourceTree = "<group>"; };
@@ -602,6 +627,7 @@
 				77665363163707080004A2D0 /* libport.a in Frameworks */,
 				77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */,
 				77032B4D163656D4000C83ED /* libICE.6.dylib in Frameworks */,
+				7715720C1AB64790001E1D21 /* libf2c.a in Frameworks */,
 				77032B4E163656D4000C83ED /* libMrm.4.dylib in Frameworks */,
 				77032B4F163656D4000C83ED /* libX11.6.dylib in Frameworks */,
 				77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */,
@@ -641,6 +667,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		771571F91AB148C3001E1D21 /* Superfluid */ = {
+			isa = PBXGroup;
+			children = (
+				771571FA1AB1494D001E1D21 /* ch4co2.c */,
+				771571FB1AB1494D001E1D21 /* der.c */,
+				771571FC1AB1494D001E1D21 /* fluid.c */,
+				771571FD1AB1494D001E1D21 /* h2o.c */,
+				771571FE1AB1494D001E1D21 /* shi.c */,
+				771571FF1AB1494D001E1D21 /* superfl.c */,
+				771572001AB1494D001E1D21 /* tolja.c */,
+				771572081AB14A38001E1D21 /* f2c.h */,
+			);
+			name = Superfluid;
+			sourceTree = "<group>";
+		};
 		7734D76C1627A90000D67FBB /* includes */ = {
 			isa = PBXGroup;
 			children = (
@@ -679,6 +720,8 @@
 		7734D78F1627A92300D67FBB /* sources */ = {
 			isa = PBXGroup;
 			children = (
+				771572091AB14C10001E1D21 /* superfluid.c */,
+				771571F91AB148C3001E1D21 /* Superfluid */,
 				779914F819CCA32000D58ED2 /* fluidPhase.c */,
 				7766535A1636FF610004A2D0 /* simann.f */,
 				7734D7901627A92300D67FBB /* albite.c */,
@@ -763,6 +806,7 @@
 		77665364163707DE0004A2D0 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				7715720B1AB64790001E1D21 /* libf2c.a */,
 				77665362163707080004A2D0 /* libport.a */,
 				77665360163706D00004A2D0 /* libgfortran.3.dylib */,
 				77032B521636576D000C83ED /* libxml2.2.dylib */,
@@ -1048,7 +1092,7 @@
 		77B68D431627A64800C6296F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0610;
+				LastTestingUpgradeCheck = 0620;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Mark Ghiorso";
 			};
@@ -1168,6 +1212,7 @@
 				7785CCD6163AFA68004AA393 /* silmin_support.c in Sources */,
 				7785CCD7163AFA68004AA393 /* spinel.c in Sources */,
 				7785CCD8163AFA68004AA393 /* subSolidusMuO2.c in Sources */,
+				7712E4C21AA65F9B00F2F218 /* liquid_CO2.c in Sources */,
 				7785CCD9163AFA68004AA393 /* vframe.c in Sources */,
 				7785CCDA163AFA68004AA393 /* vheader.c in Sources */,
 				7785CCDB163AFA68004AA393 /* vlist.c in Sources */,
@@ -1184,6 +1229,7 @@
 				7785CCE5163AFA68004AA393 /* check_coexisting_liquids.c in Sources */,
 				7785CCE6163AFA68004AA393 /* check_coexisting_solids.c in Sources */,
 				7785CCE7163AFA68004AA393 /* clinopyroxene.c in Sources */,
+				7712E4C51AA65FD100F2F218 /* liquid_CO2_H2O.c in Sources */,
 				7785CCE8163AFA68004AA393 /* create_assimilant_padb.c in Sources */,
 				7785CCE9163AFA68004AA393 /* create_managed.c in Sources */,
 				7785CCEA163AFA68004AA393 /* create_menu_bar.c in Sources */,
@@ -1229,6 +1275,7 @@
 				7785CD1F163AFE38004AA393 /* melts_support.c in Sources */,
 				7785CD20163AFE38004AA393 /* melts_threads.c in Sources */,
 				7785CD21163AFE38004AA393 /* mthread.c in Sources */,
+				7712E4C31AA65F9C00F2F218 /* liquid_CO2.c in Sources */,
 				7785CD22163AFE38004AA393 /* nash.c in Sources */,
 				7785CD23163AFE38004AA393 /* nepheline.c in Sources */,
 				7785CD24163AFE38004AA393 /* olivine-sx.c in Sources */,
@@ -1261,6 +1308,7 @@
 				7785CD50163AFE38004AA393 /* est_satState_revised.c in Sources */,
 				7785CD51163AFE38004AA393 /* est_saturation_state.c in Sources */,
 				7785CD52163AFE38004AA393 /* evaluate_saturation.c in Sources */,
+				7712E4C61AA65FD200F2F218 /* liquid_CO2_H2O.c in Sources */,
 				7785CD53163AFE38004AA393 /* feldspar.c in Sources */,
 				7785CD54163AFE38004AA393 /* fluid.c in Sources */,
 				7785CD55163AFE38004AA393 /* frac.c in Sources */,
@@ -1294,6 +1342,7 @@
 				77A7442A163619B80038627C /* nash.c in Sources */,
 				77A7442B163619B80038627C /* nepheline.c in Sources */,
 				77A7442C163619B80038627C /* olivine-sx.c in Sources */,
+				771572061AB1494D001E1D21 /* superfl.c in Sources */,
 				77A7442D163619B80038627C /* olivine.c in Sources */,
 				77A7442E163619B80038627C /* ortho-oxide.c in Sources */,
 				77A7442F163619B80038627C /* orthopyroxene.c in Sources */,
@@ -1339,16 +1388,21 @@
 				77A7440C163619AA0038627C /* create_xy_plot_padb.c in Sources */,
 				77A7440D163619AA0038627C /* cummingtonite.c in Sources */,
 				77A7440E163619AA0038627C /* debugMainLoop.c in Sources */,
+				771572031AB1494D001E1D21 /* fluid.c in Sources */,
 				77A7440F163619AA0038627C /* equality_constraints.c in Sources */,
+				771572011AB1494D001E1D21 /* ch4co2.c in Sources */,
 				77A74410163619AA0038627C /* est_satState_revised.c in Sources */,
+				771572071AB1494D001E1D21 /* tolja.c in Sources */,
 				77A74411163619AA0038627C /* est_saturation_state.c in Sources */,
 				77A74412163619AA0038627C /* evaluate_saturation.c in Sources */,
 				77A74413163619AA0038627C /* feldspar.c in Sources */,
 				77A74414163619AA0038627C /* fluid.c in Sources */,
 				77A74415163619AA0038627C /* frac.c in Sources */,
 				77A74416163619AA0038627C /* garnet.c in Sources */,
+				7715720A1AB14C10001E1D21 /* superfluid.c in Sources */,
 				77A74417163619AA0038627C /* gibbs.c in Sources */,
 				77A74418163619AA0038627C /* gradient_hessian.c in Sources */,
+				771572021AB1494D001E1D21 /* der.c in Sources */,
 				77A74419163619AA0038627C /* hornblende.c in Sources */,
 				77A7441A163619AA0038627C /* ilmenite.c in Sources */,
 				77A7441B163619AA0038627C /* initialize_colors.c in Sources */,
@@ -1359,8 +1413,10 @@
 				77A74420163619AA0038627C /* leucite.c in Sources */,
 				77A74421163619AA0038627C /* linear_search.c in Sources */,
 				77A74422163619AA0038627C /* liquid.c in Sources */,
+				771572041AB1494D001E1D21 /* h2o.c in Sources */,
 				77A74423163619AA0038627C /* liquid_v34.c in Sources */,
 				77A74424163619AA0038627C /* liquidus.c in Sources */,
+				771572051AB1494D001E1D21 /* shi.c in Sources */,
 				77A74425163619AA0038627C /* majorite.c in Sources */,
 				77A74426163619AA0038627C /* melilite.c in Sources */,
 			);
@@ -1373,6 +1429,7 @@
 				77C99B50169B697000DF7464 /* fluid.c in Sources */,
 				77C99B0E169B511000DF7464 /* albite.c in Sources */,
 				77C99B0F169B511000DF7464 /* alloy-liquid.c in Sources */,
+				7712E4C41AA65F9D00F2F218 /* liquid_CO2.c in Sources */,
 				77C99B10169B511000DF7464 /* alloy-solid.c in Sources */,
 				77C99B11169B511000DF7464 /* amphibole.c in Sources */,
 				77C99B12169B511000DF7464 /* biotite.c in Sources */,
@@ -1405,6 +1462,7 @@
 				77C99B2E169B511000DF7464 /* mthread.c in Sources */,
 				77C99B2F169B511000DF7464 /* nash.c in Sources */,
 				77C99B30169B511000DF7464 /* nepheline.c in Sources */,
+				7712E4C71AA65FD300F2F218 /* liquid_CO2_H2O.c in Sources */,
 				77C99B31169B511000DF7464 /* olivine-sx.c in Sources */,
 				77C99B32169B511000DF7464 /* olivine.c in Sources */,
 				77C99B33169B511000DF7464 /* ortho-oxide.c in Sources */,

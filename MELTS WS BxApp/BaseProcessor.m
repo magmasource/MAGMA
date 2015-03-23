@@ -230,6 +230,7 @@
             NSLog(@"... MELTS out  : %@ initial: %lf, %@ final: %lf, %@ increment: %lf", @"T", [melts initialTemperature], @"T", [melts finalTemperature], @"T", [melts incrementTemperature]);
             NSLog(@"... MELTS out  : %@ initial: %lf, %@ final: %lf, %@ increment: %lf", @"P", [melts initialPressure],    @"P", [melts finalPressure],    @"P", [melts incrementPressure]);
             NSLog(@"... MELTS out  : %@ initial: %lf, %@ final: %lf, %@ increment: %lf", @"H", [melts initialEnthalpy],    @"H", [melts finalEnthalpy],    @"H", [melts incrementEnthalpy]);
+            NSLog(@"... MELTS out  : %@ initial: %lf, %@ final: %lf, %@ increment: %lf", @"V", [melts initialVolume],      @"V", [melts finalVolume],      @"V", [melts incrementVolume]);
             
             [meltsSteps addObject:[melts writeDataStructuresToXMLDocument:sessionId]];
             

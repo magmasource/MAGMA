@@ -22,7 +22,7 @@ MeltsStatus meltsStatus;
 
 #include "liq_struct_data.h"
 #include "sol_struct_data.h"
-#include "param_struct_data.h"
+//#include "param_struct_data.h"
 
 int calculationMode = MODE_DEFAULT;
 int quad_tol_modifier = 1;
@@ -597,10 +597,10 @@ static NodeList *getNodeListPointer(int node) {
                     }
                     else if ([name isEqualToString:@"finalT"  ]) silminState->dspTstop  = [[levelThreeChild stringValue] doubleValue] + 273.15;
                     else if ([name isEqualToString:@"incT"    ]) silminState->dspTinc   = [[levelThreeChild stringValue] doubleValue];
-                    else if ([name isEqualToString:@"initialV"]) silminState->refVolume = [[levelThreeChild stringValue] doubleValue];
-                    else if ([name isEqualToString:@"finalV"  ]) silminState->dspVstop  = [[levelThreeChild stringValue] doubleValue];
-                    else if ([name isEqualToString:@"incV"    ]) silminState->dspVinc   = [[levelThreeChild stringValue] doubleValue];
-                    else if ([name isEqualToString:@"dvdt"    ]) silminState->dspDVDt   = [[levelThreeChild stringValue] doubleValue];
+                    else if ([name isEqualToString:@"initialV"]) silminState->refVolume = [[levelThreeChild stringValue] doubleValue]/10.0;
+                    else if ([name isEqualToString:@"finalV"  ]) silminState->dspVstop  = [[levelThreeChild stringValue] doubleValue]/10.0;
+                    else if ([name isEqualToString:@"incV"    ]) silminState->dspVinc   = [[levelThreeChild stringValue] doubleValue]/10.0;
+                    else if ([name isEqualToString:@"dvdt"    ]) silminState->dspDVDt   = [[levelThreeChild stringValue] doubleValue]/10.0;
                     else if ([name isEqualToString:@"fo2path" ]) {
                         NSString *value = [levelThreeChild stringValue];
                         if      ([value isEqualToString:@"none"]) silminState->fo2Path  = FO2_NONE;
@@ -963,7 +963,7 @@ static NodeList *getNodeListPointer(int node) {
                 totalGibbsEnergy  += gibbsEnergy;
                 totalEnthalpy     += enthalpy;
                 totalEntropy      += entropy;
-                totalVolume	    += volume;
+                totalVolume	      += volume;
                 totalHeatCapacity += heatCapacity;
      
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"name"            stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];

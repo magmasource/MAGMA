@@ -386,6 +386,7 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   for (i=0, rSum=0.0; i<NR; i++) rSum += r[i];
   
   coeff = 1.0;
+    for (i=0; i<NS; i++) dcoeffds[i] = 0.0;
   
   /* xSpecies */
   xSpecies[ 0] = 1.0 - rSum*coeff;                   /* SiO2  */
@@ -1978,7 +1979,11 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
       if (fabs(s[i]) < tolerance) s[i] = 0.0; 
     }
     
-    if(!rANDsTOx (r, s)) fprintf(stderr, "Simplex method suceeded but failed to find feasible solution in initialGuessOrdering.\n");
+      if(!rANDsTOx (r, s)) {
+#ifdef DEBUG
+          fprintf(stderr, "Simplex method suceeded but failed to find feasible solution in initialGuessOrdering.\n");
+#endif
+      }
     
     for (i=NS; i<NT; i++) s[i] = 1.0/(((double) NY)+1.0);
     

@@ -2256,6 +2256,98 @@ Solids xMeltsSolids[] = {
             CP_BERMAN,  {{61.10965, -2.96199e2, -6.21154e5, 0.5844612e7, 0.0, 0.0, 0.0, 0.0}},
             EOS_BERMAN, {{-0.6223329e-6, 1.5114e-12, 37.4774182e-6, 3.556e-10}}
         }
+    },
+    {"calcite", PHASE, "CaCO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -1206819.0,                                   /* H ref, Berman (1988) */
+            91.725,                                       /* S ref, Berman (1988) */
+            3.690,                                        /* V ref, Berman (1988) */
+            CP_BERMAN,  {{178.19, -16.577E2, -4.827E5, 16.660E7, 0.0, 0.0, 0.0, 0.0}},
+            EOS_BERMAN, {{-1.4E-6, 0.0, 8.907E-6, 227.402E-10}}
+        }
+    },
+    {"aragonite", PHASE, "CaCO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -1206819.0+1100.0, /* H ref, Berman (1988) calcite 
+                                         + Robie (1995) correction cal -> arag    */
+            88.0,                                         /* S ref, Robie (1995)  */
+            3.415,                                        /* V ref, Robie (1995)  */
+            CP_BERMAN,  {{166.62, -14.994E2, 0.0, 5.449E7, 0.0, 0.0, 0.0, 0.0}},  // Berman and Brown (1985)
+            EOS_BERMAN, {{-1.4E-6, 0.0, 8.907E-6, 227.402E-10}}  // left to parallel calcite (from Berman, 1988)
+        }
+    },
+    {"magnesite", PHASE, "MgCO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -1113636.0,                                   /* H ref, Berman (1988) */
+            65.210,                                       /* S ref, Berman (1988) */
+            2.803,                                        /* V ref, Berman (1988) */
+            CP_BERMAN,  {{162.30, -11.093E2, -48.826E5, 87.466E7, 0.0, 0.0, 0.0, 0.0}},
+            EOS_BERMAN, {{-0.890E-6, 2.212E-12, 18.436E-6, 415.968E-10}}
+        }
+    },
+    {"siderite", PHASE, "FeCO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -755900.0,                                    /* H ref, Robie (1995)  */
+            95.5,                                         /* S ref, Robie (1995)  */
+            2.938,                                        /* V ref, Robie (1995)  */
+            CP_BERMAN,  {{177.36, -16.694E2, -3.551E5, 15.078E7, 0.0, 0.0, 0.0, 0.0}}, // Berman and Brown (1985)
+            EOS_BERMAN, {{-0.890E-6, 2.212E-12, 18.436E-6, 415.968E-10}} // left to parallel calcite (from Berman, 1988)
+        }
+    },
+    {"dolomite", PHASE, "CaMg(CO3)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -2324500.0+1100.0,                            /* H ref, Robie (1995)  */
+            // adjusted for internal consistency with Berman's (1988) calcite
+            155.2,                                        /* S ref, Robie (1995)  */
+            6.434,                                        /* V ref, Robie (1995)  */
+            CP_BERMAN,  {{368.02, -37.508E2, 0.0, 18.079E7, 0.0, 0.0, 0.0, 0.0}}, // Berman and Brown (1985)
+            EOS_BERMAN, {{-1.4E-6, 0.0, 8.907E-6, 227.402E-10}} // left to parallel calcite (from Berman, 1988)
+        }
+    },
+    {"spurrite", PHASE, "Ca5Si2O8CO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -5840200.0,                                   /* H ref, Robie (1995)   */
+            331.0,                                        /* S ref, Robie (1995)   */
+            14.712,                                       /* V ref, from unit cell */
+            CP_BERMAN,  {{597.163, -36.929E2, -50.5712E5, 43.382E7, 0.0, 0.0, 0.0, 0.0}}, // Berman and Brown (1985) - estimate
+            EOS_BERMAN, {{-0.890E-6, 2.212E-12, 18.436E-6, 415.968E-10}} // left to parallel calcite (from Berman, 1988)
+        }
+    },
+	{"tilleyite", PHASE, "Ca5Si2O7(CO3)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -6372200.0,                                   /* H ref, Robie (1995)   */
+            394.0,                                        /* S ref, Robie (1995)   */
+            17.43,                                        /* V ref, from unit cell */
+            CP_BERMAN,  {{716.789, -51.992E2, -50.5712E5, 60.769E7, 0.0, 0.0, 0.0, 0.0}}, // Berman and Brown (1985) - estimate
+            EOS_BERMAN, {{-0.890E-6, 2.212E-12, 18.436E-6, 415.968E-10}} // left to parallel calcite (from Berman, 1988)
+        }
+    },
+    {"diamond", PHASE, "C", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {                /* ThermoRef structure                                   */
+            1900.0,          /* H ref (J)                                             */
+            2.38,            /* S ref (J/K)                                           */
+            0.3417,          /* V ref (J/bar)                                         */
+            CP_SAXENA,  {{98.45, -3.655e-2, 1.217e6, 1.098e-5, 0.0, -1.659e3, 0.0}},
+            EOS_VINET,  {{0.2243e-4, 444.0, 1.9}}
+        }
+    },
+    {"graphite", PHASE, "C", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {                /* ThermoRef structure                                   */
+            0.0,             /* H ref (J)                                             */
+            5.74,            /* S ref (J/K)                                           */
+            0.5298,          /* V ref (J/bar)                                         */
+            CP_SAXENA,  {{60.86, -1.024e-2, 7.139e5, 1.669e-6, 0.0, -9.922e2, 0.0}},
+            EOS_VINET,  {{0.3460e-4, 33.8, 8.9}}
+        }
     }
 };
 
@@ -5020,6 +5112,17 @@ Solids meltsFluidSolids[] = {
             EOS_BERMAN, {{-1.4E-6, 0.0, 8.907E-6, 227.402E-10}}
         }
     },
+    {"aragonite", PHASE, "CaCO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -1206819.0+1100.0, /* H ref, Berman (1988) calcite 
+                                         + Robie (1995) correction cal -> arag    */
+            88.0,                                         /* S ref, Robie (1995)  */
+            3.415,                                        /* V ref, Robie (1995)  */
+            CP_BERMAN,  {{166.62, -14.994E2, 0.0, 5.449E7, 0.0, 0.0, 0.0, 0.0}},  // Berman and Brown (1985)
+            EOS_BERMAN, {{-1.4E-6, 0.0, 8.907E-6, 227.402E-10}}  // left to parallel calcite (from Berman, 1988)
+        }
+    },
     {"magnesite", PHASE, "MgCO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
         0.0, 0.0,
         {
@@ -5028,6 +5131,67 @@ Solids meltsFluidSolids[] = {
             2.803,                                        /* V ref, Berman (1988) */
             CP_BERMAN,  {{162.30, -11.093E2, -48.826E5, 87.466E7, 0.0, 0.0, 0.0, 0.0}},
             EOS_BERMAN, {{-0.890E-6, 2.212E-12, 18.436E-6, 415.968E-10}}
+        }
+    },
+    {"siderite", PHASE, "FeCO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -755900.0,                                    /* H ref, Robie (1995)  */
+            95.5,                                         /* S ref, Robie (1995)  */
+            2.938,                                        /* V ref, Robie (1995)  */
+            CP_BERMAN,  {{177.36, -16.694E2, -3.551E5, 15.078E7, 0.0, 0.0, 0.0, 0.0}}, // Berman and Brown (1985)
+            EOS_BERMAN, {{-0.890E-6, 2.212E-12, 18.436E-6, 415.968E-10}} // left to parallel calcite (from Berman, 1988)
+        }
+    },
+    {"dolomite", PHASE, "CaMg(CO3)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -2324500.0+1100.0,                            /* H ref, Robie (1995)  */
+            // adjusted for internal consistency with Berman's (1988) calcite
+            155.2,                                        /* S ref, Robie (1995)  */
+            6.434,                                        /* V ref, Robie (1995)  */
+            CP_BERMAN,  {{368.02, -37.508E2, 0.0, 18.079E7, 0.0, 0.0, 0.0, 0.0}}, // Berman and Brown (1985)
+            EOS_BERMAN, {{-1.4E-6, 0.0, 8.907E-6, 227.402E-10}} // left to parallel calcite (from Berman, 1988)
+        }
+    },
+    {"spurrite", PHASE, "Ca5Si2O8CO3", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -5840200.0,                                   /* H ref, Robie (1995)   */
+            331.0,                                        /* S ref, Robie (1995)   */
+            14.712,                                       /* V ref, from unit cell */
+            CP_BERMAN,  {{597.163, -36.929E2, -50.5712E5, 43.382E7, 0.0, 0.0, 0.0, 0.0}}, // Berman and Brown (1985) - estimate
+            EOS_BERMAN, {{-0.890E-6, 2.212E-12, 18.436E-6, 415.968E-10}} // left to parallel calcite (from Berman, 1988)
+        }
+    },
+	{"tilleyite", PHASE, "Ca5Si2O7(CO3)2", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {
+            -6372200.0,                                   /* H ref, Robie (1995)   */
+            394.0,                                        /* S ref, Robie (1995)   */
+            17.43,                                        /* V ref, from unit cell */
+            CP_BERMAN,  {{716.789, -51.992E2, -50.5712E5, 60.769E7, 0.0, 0.0, 0.0, 0.0}}, // Berman and Brown (1985) - estimate
+            EOS_BERMAN, {{-0.890E-6, 2.212E-12, 18.436E-6, 415.968E-10}} // left to parallel calcite (from Berman, 1988)
+        }
+    },
+    {"diamond", PHASE, "C", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {                /* ThermoRef structure                                   */
+            1900.0,          /* H ref (J)                                             */
+            2.38,            /* S ref (J/K)                                           */
+            0.3417,          /* V ref (J/bar)                                         */
+            CP_SAXENA,  {{98.45, -3.655e-2, 1.217e6, 1.098e-5, 0.0, -1.659e3, 0.0}},
+            EOS_VINET,  {{0.2243e-4, 444.0, 1.9}}
+        }
+    },
+    {"graphite", PHASE, "C", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+        0.0, 0.0,
+        {                /* ThermoRef structure                                   */
+            0.0,             /* H ref (J)                                             */
+            5.74,            /* S ref (J/K)                                           */
+            0.5298,          /* V ref (J/bar)                                         */
+            CP_SAXENA,  {{60.86, -1.024e-2, 7.139e5, 1.669e-6, 0.0, -9.922e2, 0.0}},
+            EOS_VINET,  {{0.3460e-4, 33.8, 8.9}}
         }
     }
 };

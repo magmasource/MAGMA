@@ -386,6 +386,7 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   for (i=0, rSum=0.0; i<NR; i++) rSum += r[i];
   
   coeff = 1.0;
+    for (i=0; i<NS; i++) dcoeffds[i] = 0.0;
   
   /* xSpecies */
   xSpecies[ 0] = 1.0 - rSum*coeff;                   /* SiO2  */
