@@ -23,10 +23,10 @@ void (*additionalOutput) (char *filename) = NULL;
 char *addOutputFileName = NULL;
 
 int main (int argc, char *argv[]) {
-  double bulkComposition[20];
+  double bulkComposition[20], deltaNNO;
   int i, j;
   
-  if (argc != 13) {
+  if (argc != 14) {
     printf("Wrong number of arguments.\n");
     exit(1);
   }
@@ -82,7 +82,13 @@ int main (int argc, char *argv[]) {
   }
   (silminState->incSolids)[npc] = TRUE;
   silminState->nLiquidCoexist  = 1;  
-  silminState->fo2Path  = FO2_NNO;
+  deltaNNO = atof(argv[13]);
+  if      ((deltaNNO > -2.1) && (deltaNNO < -1.9))  silminState->fo2Path  = FO2_QFM_M1;
+  else if ((deltaNNO > -1.1) && (deltaNNO < -0.9))  silminState->fo2Path  = FO2_QFM;
+  else if ((deltaNNO > -0.1) && (deltaNNO <  0.1))  silminState->fo2Path  = FO2_QFM_P1;
+  else if ((deltaNNO >  0.9) && (deltaNNO <  1.1))  silminState->fo2Path  = FO2_QFM_P2;
+  else if ((deltaNNO >  1.9) && (deltaNNO <  2.1))  silminState->fo2Path  = FO2_QFM_P3;
+  else silminState->fo2Path  = FO2_NNO;
   silminState->fo2Delta = 0.0;
 
   silminState->fractionateFlu = FALSE;
@@ -102,8 +108,8 @@ int main (int argc, char *argv[]) {
   silminState->isenthalpic = FALSE;  
   silminState->isentropic  = FALSE; 
   silminState->isochoric   = FALSE; 
-  silminState->T           = 1373.15;
-  silminState->dspTstart   = 1373.15;
+  silminState->T           = 1473.15;
+  silminState->dspTstart   = 1473.15;
   silminState->dspTstop    =  973.15;
   silminState->dspTinc     =    1.0; 
   silminState->P           = atof(argv[12]);  

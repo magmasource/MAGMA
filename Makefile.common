@@ -1444,8 +1444,8 @@ Marc: marc.c \
       silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
       $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
-	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ marc.o $(MELTSLIB) $(LIBS)
+	$(CC) $(CFLAGS) -mmacosx-version-min=10.6 $<
+	$(CC) $(LDFLAGS) -mmacosx-version-min=10.6 -o $@ marc.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) marc.o 
 	chmod 755 $@
 

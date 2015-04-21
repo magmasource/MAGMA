@@ -417,7 +417,44 @@ int main(int argc, char*argv[]) {
      elements[i] = 0.0;
      for (j=0; j<nc; j++) if ((bulkSystem[j].oxToElm)[i] != 0) elements[i] += ((double) (bulkSystem[j].oxToElm)[i])*moles[j];
    }
-   conOpx(FIRST,  SECOND, t, p, elements, moles, NULL, NULL, NULL, NULL, NULL, NULL);
+   
+   // decide how to do the opx composition conversion
+   if ((argc < 3*nc+3+1) || (strcmp(argv[3*nc+3], "no") == 0))  {  // no information sent or keepOpxFe2O3 is "no", default to all iron as FeO
+   	conOpx(FIRST,  SECOND, t, p, elements, moles, NULL, NULL, NULL, NULL, NULL, NULL);
+   } else { // use input Fe2O3 for Opx as entered
+   	double *e = elements;
+   	double *m = moles;
+    double sumcat, sumchg, fe2, fe3;
+    static const int Na = 11;
+    static const int Mg = 12;
+    static const int Al = 13;
+    static const int Si = 14;
+    static const int Ca = 20;
+    static const int Ti = 22;
+    static const int Cr = 24;
+    static const int Mn = 25;
+    static const int Fe = 26;
+
+    /* Sum the cations and correct the analysis for silica deficiency */
+    sumcat  = e[Na] +     e[Mg] +     e[Al] +     e[Si] +     e[Ca] +     e[Ti] +     e[Cr] +     e[Mn] + e[Fe];
+    sumchg  = e[Na] + 2.0*e[Mg] + 3.0*e[Al] + 4.0*e[Si] + 2.0*e[Ca] + 4.0*e[Ti] + 3.0*e[Cr] + 2.0*e[Mn];
+
+    /* Compute the ferric/ferrous ratio */
+    fe3 = 3.0*sumcat - sumchg - 2.0*e[Fe];
+    fe2 = e[Fe] - fe3;
+    if (fe3 < 0.0) { fe3 = 0.0; fe2 = e[Fe]; }
+    if (fe2 < 0.0) { fe2 = 0.0; fe3 = e[Fe]; }
+      
+    /* Assign moles of endmembers */
+    m[0] = -fe3/2.0 - fe2 - e[Mn] - e[Al]/2.0 - e[Cr]/2.0 + e[Ca] + e[Na]/2.0 - e[Ti];
+    m[1] =  fe3/4.0 + fe2/2.0 + e[Mn]/2.0 + e[Al]/4.0 + e[Cr]/4.0 - e[Ca]/2.0 + e[Mg]/2.0 - e[Na]/4.0;
+    m[2] =  fe2 + e[Mn];
+    m[3] = -fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 + e[Ti];
+    m[4] =  fe3/2.0 - e[Al]/2.0 - e[Cr]/2.0 + e[Na]/2.0 + e[Ti];
+    m[5] =  fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 - e[Ti];
+    m[6] =  e[Na];
+   }
+   
    if(!testOpx(SIXTH, t, p, 0, 0, NULL, NULL, NULL, moles)) { printf("Error: Bad orthopyroxene\n"); exit(0); }
    conOpx(SECOND, THIRD, t, p, NULL, moles, rOpx, NULL, NULL, NULL, NULL, NULL);
 
