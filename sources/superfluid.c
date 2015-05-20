@@ -2,6 +2,9 @@
 #include "recipes.h"
 #include <signal.h>
 
+#include "f2c.h"
+extern int fder_(doublereal *xx, doublereal *tt, doublereal *pp, doublereal *vv, doublereal *gg, doublereal *ggi);
+
 #define FILE_TIME_STAMP_BUFFER_SIZE 30
 
 static char fileTimeStamp[FILE_TIME_STAMP_BUFFER_SIZE];
@@ -572,7 +575,9 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
 //}
 
 static double fillG (double r[NR], double s[NT], double t, double p) {
-    double result = 0.0;
+    double vol, result, gi[13];
+    rANDsTOx(r, s);
+    (void) fder_(xSpecies, &t, &p, &vol, &result, gi);
     return result;
 }
 
@@ -593,9 +598,24 @@ static void fillDGDR (double r[NR], double s[NT], double t, double p, double *re
 }
 
 static void fillDGDS (double r[NR], double s[NT], double t, double p, double *result) {
+    double vol, g, gi[13], sTemp[NT];
+    rANDsTOx(r, s);
+    (void) fder_(xSpecies, &t, &p, &vol, &g, gi);
+    for (int i=0; i<NS; i++) sTemp[i] = s[i];
+    
     for (int i=0; i<NS; i++) {
-        result[i] = 0.0;
+        if (s[i] == 0.0) result[i] = 0.0;
+        else {
+            double gTemp;
+            sTemp[i] = (1.0+sqrt(DBL_EPSILON))*s[i];
+            rANDsTOx(r, sTemp);
+            (void) fder_(xSpecies, &t, &p, &vol, &gTemp, gi);
+            result[i] = (gTemp-g)/(sTemp[i]-s[i]);
+            sTemp[i] = s[i];
+        }
     }
+    
+    rANDsTOx(r, s);
 }
 
 static void fillD2GDR2 (double r[NR], double s[NT], double t, double p, double **result) {
@@ -625,9 +645,33 @@ static void fillD2GDRDP (double r[NR], double s[NT], double t, double p, double 
 }
 
 static void fillD2GDS2 (double r[NR], double s[NT], double t, double p, double **result) {
+    double vol, g, gi[13], sTemp[NT], dgForward[NS], dgBackward[NS];
+    rANDsTOx(r, s);
+    (void) fder_(xSpecies, &t, &p, &vol, &g, gi);
+    for (int i=0; i<NS; i++) sTemp[i] = s[i];
+    
     for (int i=0; i<NS; i++) {
-        result[i][i] = 0.0;
-        for (int j=i+1; j<NS; j++) {
+        if (s[i] == 0.0) { dgForward[i] = 0.0; dgBackward[i] = 0.0; }
+        else {
+            double gTemp;
+            sTemp[i] = (1.0+sqrt(DBL_EPSILON))*s[i];
+            rANDsTOx(r, sTemp);
+            (void) fder_(xSpecies, &t, &p, &vol, &gTemp, gi);
+            dgForward[i] = (gTemp-g)/(sTemp[i]-s[i]);
+            
+            sTemp[i] = (1.0-sqrt(DBL_EPSILON))*s[i];
+            rANDsTOx(r, sTemp);
+            (void) fder_(xSpecies, &t, &p, &vol, &gTemp, gi);
+            dgBackward[i] = (g-gTemp)/(s[i]-sTemp[i]);
+            sTemp[i] = s[i];
+        }
+    }
+    
+    // Fix this
+    for (int i=0; i<NS; i++) {
+        double dsi = s[i]*sqrt(DBL_EPSILON);
+        for (int j=i; j<NS; j++) {
+            double dsj = s[j]*sqrt(DBL_EPSILON);
             result[i][j] = 0.0;
             result[j][i] = 0.0;
         }
