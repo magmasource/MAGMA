@@ -83,7 +83,8 @@ int main (int argc, char *argv[]) {
   (silminState->incSolids)[npc] = TRUE;
   silminState->nLiquidCoexist  = 1;  
   deltaNNO = atof(argv[13]);
-  if      ((deltaNNO > -2.1) && (deltaNNO < -1.9))  silminState->fo2Path  = FO2_QFM_M1;
+  if      (deltaNNO  == 0.0) silminState->fo2Path  = FO2_NNO;
+  else if ((deltaNNO > -2.1) && (deltaNNO < -1.9))  silminState->fo2Path  = FO2_QFM_M1;
   else if ((deltaNNO > -1.1) && (deltaNNO < -0.9))  silminState->fo2Path  = FO2_QFM;
   else if ((deltaNNO > -0.1) && (deltaNNO <  0.1))  silminState->fo2Path  = FO2_QFM_P1;
   else if ((deltaNNO >  0.9) && (deltaNNO <  1.1))  silminState->fo2Path  = FO2_QFM_P2;
@@ -108,8 +109,8 @@ int main (int argc, char *argv[]) {
   silminState->isenthalpic = FALSE;  
   silminState->isentropic  = FALSE; 
   silminState->isochoric   = FALSE; 
-  silminState->T           = 1473.15;
-  silminState->dspTstart   = 1473.15;
+  silminState->T           = 1373.15;
+  silminState->dspTstart   = 1373.15;
   silminState->dspTstop    =  973.15;
   silminState->dspTinc     =    1.0; 
   silminState->P           = atof(argv[12]);  
