@@ -950,6 +950,8 @@ int putOutputDataToFile(char *fileName)
   else if (silminState->fo2Path == FO2_QFM_M7) fprintf(output, "fO2 path = QFM-7  ");
   else if (silminState->fo2Path == FO2_QFM_M8) fprintf(output, "fO2 path = QFM-8  ");
   else if (silminState->fo2Path == FO2_QFM_M9) fprintf(output, "fO2 path = QFM-9  ");
+  else if (silminState->fo2Path == FO2_QFM_P0_5) fprintf(output, "fO2 path = QFM+0.5  ");
+  else if (silminState->fo2Path == FO2_QFM_P1_5) fprintf(output, "fO2 path = QFM+1.5  ");
   
   if (silminState->fractionateSol) fprintf(output, "Fractionate Solids  ");
   if (silminState->fractionateFlu) fprintf(output, "Fractionate Fluids  ");

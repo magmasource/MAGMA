@@ -630,6 +630,8 @@ extern int calculationMode;
 #define FO2_QFM_M7 15
 #define FO2_QFM_M8 16
 #define FO2_QFM_M9 17
+#define FO2_QFM_P0_5 18
+#define FO2_QFM_P1_5 19
 
 typedef struct _silminState {
   double  *bulkComp;      /* current bulk composition (moles of oxides)      */

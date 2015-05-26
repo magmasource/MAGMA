@@ -501,6 +501,8 @@ static int batchInputDataFromFile(char *fileName)
             else if (!strncmp(&line[14], "-7fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M7;
             else if (!strncmp(&line[14], "-8fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M8;
             else if (!strncmp(&line[14], "-9fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M9;
+            else if (!strncmp(&line[14], "+0.5fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P0_5;
+            else if (!strncmp(&line[14], "+1.5fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P1_5;
             else { return FALSE; }
             
             /* -> suppress a solid phase record */

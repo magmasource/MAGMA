@@ -262,6 +262,8 @@ double getlog10fo2(double t, double p, int buffer)
     else if (buffer == FO2_QFM_M7) return -24441.9/t + 0.110*(p-1.0)/t +  8.290 - 7.0;
     else if (buffer == FO2_QFM_M8) return -24441.9/t + 0.110*(p-1.0)/t +  8.290 - 8.0;
     else if (buffer == FO2_QFM_M9) return -24441.9/t + 0.110*(p-1.0)/t +  8.290 - 9.0;
+    else if (buffer == FO2_QFM_P0_5) return -24441.9/t + 0.110*(p-1.0)/t +  8.290 + 0.5;
+    else if (buffer == FO2_QFM_P1_5) return -24441.9/t + 0.110*(p-1.0)/t +  8.290 + 1.5;
     else                           return 0.0;
 }
 
@@ -284,6 +286,8 @@ double getdlog10fo2dt(double t, double p, int buffer)
     else if (buffer == FO2_QFM_M7) return 24441.9/SQUARE(t) - 0.110*(p-1.0)/SQUARE(t);
     else if (buffer == FO2_QFM_M8) return 24441.9/SQUARE(t) - 0.110*(p-1.0)/SQUARE(t);
     else if (buffer == FO2_QFM_M9) return 24441.9/SQUARE(t) - 0.110*(p-1.0)/SQUARE(t);
+    else if (buffer == FO2_QFM_P0_5) return 24441.9/SQUARE(t) - 0.110*(p-1.0)/SQUARE(t);
+    else if (buffer == FO2_QFM_P1_5) return 24441.9/SQUARE(t) - 0.110*(p-1.0)/SQUARE(t);
     else                           return 0.0;
 }
 
@@ -306,6 +310,8 @@ double getdlog10fo2dp(double t, double p, int buffer)
     else if (buffer == FO2_QFM_M7) return 0.110/t;
     else if (buffer == FO2_QFM_M8) return 0.110/t;
     else if (buffer == FO2_QFM_M9) return 0.110/t;
+    else if (buffer == FO2_QFM_P0_5) return 0.110/t;
+    else if (buffer == FO2_QFM_P1_5) return 0.110/t;
     else                           return 0.110/t;
 }
 
@@ -328,6 +334,8 @@ double getd2log10fo2dt2(double t, double p, int buffer)
     else if (buffer == FO2_QFM_M7) return -2.0*24441.9/CUBE(t) + 2.0*0.110*(p-1.0)/CUBE(t);
     else if (buffer == FO2_QFM_M8) return -2.0*24441.9/CUBE(t) + 2.0*0.110*(p-1.0)/CUBE(t);
     else if (buffer == FO2_QFM_M9) return -2.0*24441.9/CUBE(t) + 2.0*0.110*(p-1.0)/CUBE(t);
+    else if (buffer == FO2_QFM_P0_5) return -2.0*24441.9/CUBE(t) + 2.0*0.110*(p-1.0)/CUBE(t);
+    else if (buffer == FO2_QFM_P1_5) return -2.0*24441.9/CUBE(t) + 2.0*0.110*(p-1.0)/CUBE(t);
     else                           return 0.0;
 }
 
@@ -350,6 +358,8 @@ double getd2log10fo2dp2(double t, double p, int buffer)
     else if (buffer == FO2_QFM_M7) return 0.0;
     else if (buffer == FO2_QFM_M8) return 0.0;
     else if (buffer == FO2_QFM_M9) return 0.0;
+    else if (buffer == FO2_QFM_P0_5) return 0.0;
+    else if (buffer == FO2_QFM_P1_5) return 0.0;
     else                           return 0.0;
 }
 
