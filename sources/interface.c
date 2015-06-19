@@ -204,7 +204,7 @@ static SilminState *previousSilminState;
 #endif
 
 #ifdef RHYOLITE_ADJUSTMENTS
-#define RELEASE "rhyolite-MELTS (1.0.1) pMELTS (5.6.1) - (" __DATE__ " - " __TIME__ ")"
+#define RELEASE "rhyolite-MELTS (1.0.2, 1.1.0, 1.2.0) pMELTS (5.6.1) - (" __DATE__ " - " __TIME__ ")"
 #else
 #define RELEASE "()(p)(x)Melts (MELTS V5.6.0) - (" __DATE__ " - " __TIME__ ")"
 #endif
