@@ -4,63 +4,19 @@
 
 int main (int argc, char *argv[]) {
 
-  char *data_guil[55][13] = { 
-/* these are Lydia's data: SiO2, TiO2, Al2O3, FeO, MnO, MgO, CaO, Na2O, K2O, P2O5, H2O, delta QFM */
-    { "OhiB_H2O_10_QFM_0", "69.27", "0.80", "14.85", "3.71", "0.00", "0.96", "3.02", "4.07", "3.32", "0.00", "10", "0" }, 
-    { "OhiB_H2O_10_QFM_0.5", "69.27", "0.80", "14.85", "3.71", "0.00", "0.96", "3.02", "4.07", "3.32", "0.00", "10", "0.5" }, 
-    { "OhiB_H2O_10_QFM_1", "69.27", "0.80", "14.85", "3.71", "0.00", "0.96", "3.02", "4.07", "3.32", "0.00", "10", "1" }, 
-    { "OhiB_H2O_10_QFM_1.5", "69.27", "0.80", "14.85", "3.71", "0.00", "0.96", "3.02", "4.07", "3.32", "0.00", "10", "1.5" }, 
-    { "OhiB_H2O_10_QFM_2", "69.27", "0.80", "14.85", "3.71", "0.00", "0.96", "3.02", "4.07", "3.32", "0.00", "10", "2" }, 
-    { "X225BD_H2O_10_QFM_0", "69.53", "0.79", "14.75", "3.61", "0.00", "0.93", "2.96", "4.02", "3.40", "0.00", "10", "0" }, 
-    { "X225BD_H2O_10_QFM_0.5", "69.53", "0.79", "14.75", "3.61", "0.00", "0.93", "2.96", "4.02", "3.40", "0.00", "10", "0.5" }, 
-    { "X225BD_H2O_10_QFM_1", "69.53", "0.79", "14.75", "3.61", "0.00", "0.93", "2.96", "4.02", "3.40", "0.00", "10", "1" }, 
-    { "X225BD_H2O_10_QFM_1.5", "69.53", "0.79", "14.75", "3.61", "0.00", "0.93", "2.96", "4.02", "3.40", "0.00", "10", "1.5" }, 
-    { "X225BD_H2O_10_QFM_2", "69.53", "0.79", "14.75", "3.61", "0.00", "0.93", "2.96", "4.02", "3.40", "0.00", "10", "2" }, 
-    { "X225CE_H2O_10_QFM_0", "70.16", "0.72", "14.58", "3.45", "0.00", "0.81", "2.70", "4.12", "3.45", "0.00", "10", "0" }, 
-    { "X225CE_H2O_10_QFM_0.5", "70.16", "0.72", "14.58", "3.45", "0.00", "0.81", "2.70", "4.12", "3.45", "0.00", "10", "0.5" }, 
-    { "X225CE_H2O_10_QFM_1", "70.16", "0.72", "14.58", "3.45", "0.00", "0.81", "2.70", "4.12", "3.45", "0.00", "10", "1" }, 
-    { "X225CE_H2O_10_QFM_1.5", "70.16", "0.72", "14.58", "3.45", "0.00", "0.81", "2.70", "4.12", "3.45", "0.00", "10", "1.5" }, 
-    { "X225CE_H2O_10_QFM_2", "70.16", "0.72", "14.58", "3.45", "0.00", "0.81", "2.70", "4.12", "3.45", "0.00", "10", "2" }, 
-    { "X225DE_H2O_10_QFM_0", "69.86", "0.75", "14.74", "3.42", "0.00", "0.87", "2.84", "4.08", "3.44", "0.00", "10", "0" }, 
-    { "X225DE_H2O_10_QFM_0.5", "69.86", "0.75", "14.74", "3.42", "0.00", "0.87", "2.84", "4.08", "3.44", "0.00", "10", "0.5" }, 
-    { "X225DE_H2O_10_QFM_1", "69.86", "0.75", "14.74", "3.42", "0.00", "0.87", "2.84", "4.08", "3.44", "0.00", "10", "1" }, 
-    { "X225DE_H2O_10_QFM_1.5", "69.86", "0.75", "14.74", "3.42", "0.00", "0.87", "2.84", "4.08", "3.44", "0.00", "10", "1.5" }, 
-    { "X225DE_H2O_10_QFM_2", "69.86", "0.75", "14.74", "3.42", "0.00", "0.87", "2.84", "4.08", "3.44", "0.00", "10", "2" }, 
-    { "X129AC_H2O_10_QFM_0", "71.84", "0.61", "14.10", "2.90", "0.00", "0.61", "2.27", "3.73", "3.94", "0.00", "10", "0" }, 
-    { "X129AC_H2O_10_QFM_0.5", "71.84", "0.61", "14.10", "2.90", "0.00", "0.61", "2.27", "3.73", "3.94", "0.00", "10", "0.5" }, 
-    { "X129AC_H2O_10_QFM_1", "71.84", "0.61", "14.10", "2.90", "0.00", "0.61", "2.27", "3.73", "3.94", "0.00", "10", "1" }, 
-    { "X129AC_H2O_10_QFM_1.5", "71.84", "0.61", "14.10", "2.90", "0.00", "0.61", "2.27", "3.73", "3.94", "0.00", "10", "1.5" }, 
-    { "X129AC_H2O_10_QFM_2", "71.84", "0.61", "14.10", "2.90", "0.00", "0.61", "2.27", "3.73", "3.94", "0.00", "10", "2" }, 
-    { "X109AC-1_H2O_10_QFM_0", "70.31", "0.76", "14.27", "3.78", "0.00", "0.84", "2.83", "3.58", "3.64", "0.00", "10", "0" }, 
-    { "X109AC-1_H2O_10_QFM_0.5", "70.31", "0.76", "14.27", "3.78", "0.00", "0.84", "2.83", "3.58", "3.64", "0.00", "10", "0.5" }, 
-    { "X109AC-1_H2O_10_QFM_1", "70.31", "0.76", "14.27", "3.78", "0.00", "0.84", "2.83", "3.58", "3.64", "0.00", "10", "1" }, 
-    { "X109AC-1_H2O_10_QFM_1.5", "70.31", "0.76", "14.27", "3.78", "0.00", "0.84", "2.83", "3.58", "3.64", "0.00", "10", "1.5" }, 
-    { "X109AC-1_H2O_10_QFM_2", "70.31", "0.76", "14.27", "3.78", "0.00", "0.84", "2.83", "3.58", "3.64", "0.00", "10", "2" }, 
-    { "X109AC-2_H2O_10_QFM_0", "63.94", "1.11", "14.97", "7.49", "0.00", "1.68", "4.80", "3.43", "2.59", "0.00", "10", "0" }, 
-    { "X109AC-2_H2O_10_QFM_0.5", "63.94", "1.11", "14.97", "7.49", "0.00", "1.68", "4.80", "3.43", "2.59", "0.00", "10", "0.5" }, 
-    { "X109AC-2_H2O_10_QFM_1", "63.94", "1.11", "14.97", "7.49", "0.00", "1.68", "4.80", "3.43", "2.59", "0.00", "10", "1" }, 
-    { "X109AC-2_H2O_10_QFM_1.5", "63.94", "1.11", "14.97", "7.49", "0.00", "1.68", "4.80", "3.43", "2.59", "0.00", "10", "1.5" }, 
-    { "X109AC-2_H2O_10_QFM_2", "63.94", "1.11", "14.97", "7.49", "0.00", "1.68", "4.80", "3.43", "2.59", "0.00", "10", "2" }, 
-    { "X108BC_H2O_10_QFM_0", "64.85", "1.15", "14.65", "6.75", "0.00", "1.71", "4.48", "3.64", "2.78", "0.00", "10", "0" }, 
-    { "X108BC_H2O_10_QFM_0.5", "64.85", "1.15", "14.65", "6.75", "0.00", "1.71", "4.48", "3.64", "2.78", "0.00", "10", "0.5" }, 
-    { "X108BC_H2O_10_QFM_1", "64.85", "1.15", "14.65", "6.75", "0.00", "1.71", "4.48", "3.64", "2.78", "0.00", "10", "1" }, 
-    { "X108BC_H2O_10_QFM_1.5", "64.85", "1.15", "14.65", "6.75", "0.00", "1.71", "4.48", "3.64", "2.78", "0.00", "10", "1.5" }, 
-    { "X108BC_H2O_10_QFM_2", "64.85", "1.15", "14.65", "6.75", "0.00", "1.71", "4.48", "3.64", "2.78", "0.00", "10", "2" }, 
-    { "X108AD_H2O_10_QFM_0", "64.76", "1.01", "15.19", "6.15", "0.00", "1.88", "4.59", "3.71", "2.71", "0.00", "10", "0" }, 
-    { "X108AD_H2O_10_QFM_0.5", "64.76", "1.01", "15.19", "6.15", "0.00", "1.88", "4.59", "3.71", "2.71", "0.00", "10", "0.5" }, 
-    { "X108AD_H2O_10_QFM_1", "64.76", "1.01", "15.19", "6.15", "0.00", "1.88", "4.59", "3.71", "2.71", "0.00", "10", "1" }, 
-    { "X108AD_H2O_10_QFM_1.5", "64.76", "1.01", "15.19", "6.15", "0.00", "1.88", "4.59", "3.71", "2.71", "0.00", "10", "1.5" }, 
-    { "X108AD_H2O_10_QFM_2", "64.76", "1.01", "15.19", "6.15", "0.00", "1.88", "4.59", "3.71", "2.71", "0.00", "10", "2" }, 
-    { "X161AC_H2O_10_QFM_0", "63.20", "1.10", "15.53", "7.11", "0.00", "1.84", "5.26", "3.39", "2.58", "0.00", "10", "0" }, 
-    { "X161AC_H2O_10_QFM_0.5", "63.20", "1.10", "15.53", "7.11", "0.00", "1.84", "5.26", "3.39", "2.58", "0.00", "10", "0.5" }, 
-    { "X161AC_H2O_10_QFM_1", "63.20", "1.10", "15.53", "7.11", "0.00", "1.84", "5.26", "3.39", "2.58", "0.00", "10", "1" }, 
-    { "X161AC_H2O_10_QFM_1.5", "63.20", "1.10", "15.53", "7.11", "0.00", "1.84", "5.26", "3.39", "2.58", "0.00", "10", "1.5" }, 
-    { "X161AC_H2O_10_QFM_2", "63.20", "1.10", "15.53", "7.11", "0.00", "1.84", "5.26", "3.39", "2.58", "0.00", "10", "2" }, 
-    { "X262AD_H2O_10_QFM_0", "70.78", "0.74", "14.30", "3.33", "0.00", "0.73", "2.54", "3.96", "3.62", "0.00", "10", "0" }, 
-    { "X262AD_H2O_10_QFM_0.5", "70.78", "0.74", "14.30", "3.33", "0.00", "0.73", "2.54", "3.96", "3.62", "0.00", "10", "0.5" }, 
-    { "X262AD_H2O_10_QFM_1", "70.78", "0.74", "14.30", "3.33", "0.00", "0.73", "2.54", "3.96", "3.62", "0.00", "10", "1" }, 
-    { "X262AD_H2O_10_QFM_1.5", "70.78", "0.74", "14.30", "3.33", "0.00", "0.73", "2.54", "3.96", "3.62", "0.00", "10", "1.5" }, 
-    { "X262AD_H2O_10_QFM_2", "70.78", "0.74", "14.30", "3.33", "0.00", "0.73", "2.54", "3.96", "3.62", "0.00", "10", "2" }
+  char *data_guil[11][11] = { 
+/* these are Lydia's data: SiO2, TiO2, Al2O3, FeO, MnO, MgO, CaO, Na2O, K2O, P2O5, H2O, delta NNO */
+    { "D157", "68.40182648", "0.507356672", "16.2658549", "3.396480224", "0.131912735", "0.720446474", "2.749873161", "5.083713851", "2.262810756", "0.101471334" }, 
+    { "Oh4_1", "67.67374716", "0.546504434", "16.01361105", "3.609193782", "0.144359662", "1.020829037", "3.15528975", "5.269127655", "2.010723861", "0.154671066" }, 
+    { "Oh4_4", "66.02557545", "0.624040921", "16.76726343", "3.902939951", "0.163682864", "0.971867008", "3.549872123", "5.15601023", "2.230179028", "0.173913043" }, 
+    { "Oh4_7", "65.56776557", "0.610500611", "16.92104192", "4.147399139", "0.152625153", "1.027676028", "3.540903541", "5.413105413", "1.984126984", "0.172975173" }, 
+    { "D153b", "70.07898246", "0.471843266", "15.47851062", "3.036537204", "0.112832085", "0.676992512", "2.656682737", "4.338906555", "2.697712586", "0.112832085" }, 
+    { "D153c", "67.02105909", "0.562257207", "17.0926191", "3.467819391", "0.1226743", "0.776937232", "3.404211818", "4.947863423", "2.17746882", "0.040891433" }, 
+    { "D192", "68.14030718", "0.487754255", "16.51100042", "3.268240685", "0.145288501", "0.799086758", "2.750103778", "4.555832296", "2.926525529", "0.051888751" }, 
+    { "D27", "69.40728545", "0.483638609", "15.93949372", "2.536976516", "0.082321465", "0.637991356", "2.623996707", "5.227413048", "2.675447623", "0.102901832" }, 
+    { "D3", "68.02051282", "0.564102564", "16.53333333", "3.709917195", "0.133333333", "0.8", "2.892307692", "4.656410256", "2.256410256", "0.020512821" }, 
+    { "D59", "69.16521203", "0.503131738", "16.01807167", "3.307588245", "0.123215936", "0.667419653", "2.608070644", "4.353629736", "2.803162542", "0.082143957" }, 
+    { "D87", "69.80228292", "0.4790053", "15.34855279", "3.191276862", "0.122299225", "0.693028944", "2.751732572", "4.830819405", "2.303302079", "0.122299225" }
   };
   
   char *string = (char *) malloc(500*sizeof(char));
@@ -69,7 +25,7 @@ int main (int argc, char *argv[]) {
   system("rm -rf GUIL-RUNS");
   system("mkdir GUIL-RUNS");
   
-  for (i=0; i<55; i++) {
+  for (i=0; i<11; i++) {
   
   strcpy(string, "cd GUIL-RUNS; mkdir ");
   strcat(string, data_guil[i][0]);
@@ -96,10 +52,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 5000.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -125,10 +81,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 4750.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -154,10 +110,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 4500.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -183,10 +139,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 4250.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -212,10 +168,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 4000.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -241,10 +197,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 3750.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -270,10 +226,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 3500.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -299,10 +255,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 3250.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -328,10 +284,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 3000.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -357,10 +313,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 2750.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -386,10 +342,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 2500.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -415,10 +371,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 2250.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -444,10 +400,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 2000.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -473,10 +429,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 1750.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -502,10 +458,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 1500.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -531,10 +487,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 1250.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -560,10 +516,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 1000.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -589,10 +545,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 750.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -618,10 +574,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 500.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   strcpy(string, "cd GUIL-RUNS; cd ");
@@ -647,10 +603,10 @@ int main (int argc, char *argv[]) {
   strcat(string, " ");
   strcat(string, data_guil[i][10]); /* P2O5  */
   strcat(string, " ");
-  strcat(string, data_guil[i][11]); /* H2O   */
+  strcat(string, "10.0"); /* H2O   */
   strcat(string, " 250.0");
   strcat(string, " ");
-  strcat(string, data_guil[i][12]);  /* delta QFM  */
+  strcat(string, "0.0");  /* delta NNO  */
   system(string);
   
   }
