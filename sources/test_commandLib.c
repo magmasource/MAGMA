@@ -85,7 +85,7 @@ int main (int argc, char *argv[]) {
   deltaQFM = atof(argv[13]);
   if      ((deltaQFM > -2.1) && (deltaQFM < -1.9))  silminState->fo2Path  = FO2_QFM_M2;
   else if ((deltaQFM > -1.1) && (deltaQFM < -0.9))  silminState->fo2Path  = FO2_QFM_M1;
-  else if ((deltaQFM > -0.1) && (deltaQFM <  0.1))  silminState->fo2Path  = FO2_NNO;  // special case
+  else if ((deltaQFM > -0.1) && (deltaQFM <  0.1))  silminState->fo2Path  = FO2_QFM;
   else if ((deltaQFM >  0.4) && (deltaQFM <  0.6))  silminState->fo2Path  = FO2_QFM_P0_5;
   else if ((deltaQFM >  0.9) && (deltaQFM <  1.1))  silminState->fo2Path  = FO2_QFM_P1;
   else if ((deltaQFM >  1.4) && (deltaQFM <  1.6))  silminState->fo2Path  = FO2_QFM_P1_5;
