@@ -1092,7 +1092,7 @@
 		77B68D431627A64800C6296F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0620;
+				LastTestingUpgradeCheck = 0640;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Mark Ghiorso";
 			};

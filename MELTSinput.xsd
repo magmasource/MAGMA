@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="2.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.0">
 
 	<!-- XML input for Melts-batch -->
 	<!--   temperature               is input in centigrade -->
@@ -8,7 +8,7 @@
 	<!--   mass                      is input in grams -->
 	<!--   thermodynamic properties are input in joules or cc - they are extensive -->
 	<!--   oxide composition data   are input in grams -->
-	<!-- M S Ghiorso - coded October 2006, revised July 2007 -->
+	<!-- M S Ghiorso - coded October 2006, revised July 2007, July 2015 -->
 
 	<xs:element name="MELTSinput">
 		<xs:complexType>
@@ -35,6 +35,7 @@
 									<xs:element name="K2O" type="xs:double" minOccurs="0"/>
 									<xs:element name="P2O5" type="xs:double" minOccurs="0"/>
 									<xs:element name="H2O" type="xs:double" minOccurs="0"/>
+									<xs:element name="CO2" type="xs:double" minOccurs="0"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -70,6 +71,7 @@
 								<xs:element name="K2O" type="xs:double" minOccurs="0"/>
 								<xs:element name="P2O5" type="xs:double" minOccurs="0"/>
 								<xs:element name="H2O" type="xs:double" minOccurs="0"/>
+								<xs:element name="CO2" type="xs:double" minOccurs="0"/>
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
@@ -106,6 +108,7 @@
 								<xs:element name="K2O" type="xs:double" minOccurs="0"/>
 								<xs:element name="P2O5" type="xs:double" minOccurs="0"/>
 								<xs:element name="H2O" type="xs:double" minOccurs="0"/>
+								<xs:element name="CO2" type="xs:double" minOccurs="0"/>
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
@@ -306,6 +309,7 @@
 												minOccurs="0"/>
 												<xs:element name="H2O" type="xs:double"
 												minOccurs="0"/>
+													<xs:element name="CO2" type="xs:double" minOccurs="0"/>
 												</xs:sequence>
 												</xs:complexType>
 											</xs:element>
@@ -364,6 +368,7 @@
 												minOccurs="0"/>
 												<xs:element name="H2O" type="xs:double"
 												minOccurs="0"/>
+													<xs:element name="CO2" type="xs:double" minOccurs="0"/>
 												</xs:sequence>
 												</xs:complexType>
 											</xs:element>

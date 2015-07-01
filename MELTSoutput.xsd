@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="2.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.0">
 
   <!-- XML output produced from Melts-batch -->
   <!--   temperature               is output in centigrade -->
@@ -10,7 +10,7 @@
   <!--   viscosity                 is output in poise -->
   <!--   thermodynamic properties are output in joules or cc - they are extensive -->
   <!--   oxide composition data   are output in wt% -->
-  <!-- M S Ghiorso - coded October 2006, 2012, 2013 -->
+  <!-- M S Ghiorso - coded October 2006, 2012, 2013, 2015 -->
 
   <xs:element name="MELTSoutput">
     <xs:complexType>
@@ -45,6 +45,11 @@
               <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdt" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdt2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdtdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdp2" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="SiO2" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
@@ -61,6 +66,7 @@
               <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
               <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
               <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="CO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -76,6 +82,11 @@
               <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdt" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdt2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdtdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdp2" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="SiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
               <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
@@ -92,6 +103,7 @@
               <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
               <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
               <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="CO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
 
               <xs:element name="component" minOccurs="1" maxOccurs="unbounded">
                 <xs:complexType>
@@ -116,6 +128,11 @@
               <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdt" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdt2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdtdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdp2" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
             </xs:sequence>
           </xs:complexType>
@@ -138,6 +155,11 @@
                     <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="dvdt" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="dvdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="d2vdt2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="d2vdtdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="d2vdp2" type="xs:double" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="SiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
@@ -154,6 +176,7 @@
                     <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="CO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
 
                     <xs:element name="component" minOccurs="1" maxOccurs="unbounded">
                       <xs:complexType>
@@ -179,6 +202,11 @@
                     <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="dvdt" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="dvdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="d2vdt2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="d2vdtdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="d2vdp2" type="xs:double" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="SiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
@@ -195,6 +223,7 @@
                     <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="CO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
@@ -221,6 +250,11 @@
               <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdt" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdt2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdtdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdp2" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
             </xs:sequence>
           </xs:complexType>
@@ -235,6 +269,11 @@
               <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdt" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdt2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdtdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdp2" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
             </xs:sequence>
           </xs:complexType>
@@ -282,6 +321,11 @@
               <xs:element name="enthalpy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="entropy" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="volume" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdt" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="dvdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdt2" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdtdp" type="xs:double" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="d2vdp2" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="heatCapacity" type="xs:double" minOccurs="1" maxOccurs="1"/>
               <xs:element name="SiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
               <xs:element name="TiO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
@@ -298,6 +342,7 @@
               <xs:element name="K2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
               <xs:element name="P2O5" type="xs:double" minOccurs="0" maxOccurs="1"/>
               <xs:element name="H2O" type="xs:double" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="CO2" type="xs:double" minOccurs="0" maxOccurs="1"/>
 
               <xs:element name="component" minOccurs="1" maxOccurs="unbounded">
                 <xs:complexType>

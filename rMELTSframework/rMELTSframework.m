@@ -255,7 +255,7 @@ static void doBatchFractionation(void) {
 +(NSUInteger)    MELTSandCO2calculationModeConstant { return MODE__MELTSandCO2;     }
 +(NSUInteger)MELTSandCO2_H2OcalculationModeConstant { return MODE__MELTSandCO2_H2O; }
 
-static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, kCaO, kNa2O, kK2O, kP2O5, kH2O;
+static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, kCaO, kNa2O, kK2O, kP2O5, kH2O, kCO2;
 
 +(void)initialize {
     calculationMode = MODE__MELTS;
@@ -304,6 +304,7 @@ static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, k
         else if (!strcmp(bulkSystem[i].label, "K2O"  )) kK2O   = i;
         else if (!strcmp(bulkSystem[i].label, "P2O5" )) kP2O5  = i;
         else if (!strcmp(bulkSystem[i].label, "H2O"  )) kH2O   = i;
+        else if (!strcmp(bulkSystem[i].label, "CO2"  )) kCO2   = i;
     }    
 }
 
@@ -416,6 +417,7 @@ static NodeList *getNodeListPointer(int node) {
                 else if ([name isEqualToString:@"K2O"  ]) (silminState->bulkComp)[kK2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kK2O  ].mw;
                 else if ([name isEqualToString:@"P2O5" ]) (silminState->bulkComp)[kP2O5 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kP2O5 ].mw;
                 else if ([name isEqualToString:@"H2O"  ]) (silminState->bulkComp)[kH2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kH2O  ].mw;
+                else if ([name isEqualToString:@"CO2"  ]) (silminState->bulkComp)[kCO2  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCO2  ].mw;
                 silminState->liquidMass += [[levelTwoChild stringValue] doubleValue];
             }
             
@@ -473,6 +475,7 @@ static NodeList *getNodeListPointer(int node) {
                 else if ([name isEqualToString:@"K2O"  ]) changeBC[kK2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kK2O  ].mw;
                 else if ([name isEqualToString:@"P2O5" ]) changeBC[kP2O5 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kP2O5 ].mw;
                 else if ([name isEqualToString:@"H2O"  ]) changeBC[kH2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kH2O  ].mw;
+                else if ([name isEqualToString:@"CO2"  ]) changeBC[kCO2  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCO2  ].mw;
                 silminState->liquidMass += [[levelTwoChild stringValue] doubleValue];
             }
             
@@ -506,6 +509,7 @@ static NodeList *getNodeListPointer(int node) {
                 else if ([name isEqualToString:@"K2O"  ]) changeBC[kK2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kK2O  ].mw;
                 else if ([name isEqualToString:@"P2O5" ]) changeBC[kP2O5 ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kP2O5 ].mw;
                 else if ([name isEqualToString:@"H2O"  ]) changeBC[kH2O  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kH2O  ].mw;
+                else if ([name isEqualToString:@"CO2"  ]) changeBC[kCO2  ] = [[levelTwoChild stringValue] doubleValue]/bulkSystem[kCO2  ].mw;
                 silminState->liquidMass += [[levelTwoChild stringValue] doubleValue];
             }
             
@@ -743,6 +747,7 @@ static NodeList *getNodeListPointer(int node) {
                             else if ([name isEqualToString:@"K2O"         ]) NSLog(@"Not Yet Implemented, K2O          value = %lf", value);
                             else if ([name isEqualToString:@"P2O5"        ]) NSLog(@"Not Yet Implemented, P2O5         value = %lf", value);
                             else if ([name isEqualToString:@"H2O"         ]) NSLog(@"Not Yet Implemented, H2O          value = %lf", value);
+                            else if ([name isEqualToString:@"CO2"         ]) NSLog(@"Not Yet Implemented, CO2          value = %lf", value);
                         }
                     } else if ([[levelThreeChild name] isEqualToString:@"solid"]) {
                         NSArray *levelFourChildren = [levelThreeChild children];
@@ -800,8 +805,9 @@ static NodeList *getNodeListPointer(int node) {
      size_t len;
      time_t tp;
      char * cOut;
-     double gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, cpLiq = 0.0, mLiq = 0.0, viscosity = 0.0;
+     double gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, dvdtLiq=0.0, dvdpLiq=0.0, d2vdt2Liq=0.0, d2vdtdpLiq=0.0, d2vdp2Liq=0.0, cpLiq = 0.0, mLiq = 0.0, viscosity = 0.0;
      double totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0, totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0;
+     double totalDvdt=0.0, totalDvdp=0.0, totalD2vdt2=0.0, totalD2vdtdp=0.0, totalD2vdp2=0.0;
      static double *m, *r, *oxVal;
      int i, j;
      
@@ -836,7 +842,7 @@ static NodeList *getNodeListPointer(int node) {
         
         for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
             double moles, oxSum;
-            double gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
+            double gibbsEnergy, enthalpy, entropy, volume, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, heatCapacity;
             
             NSXMLElement *liquidElement = [[NSXMLElement alloc] initWithName:@"liquid"];
             
@@ -845,7 +851,7 @@ static NodeList *getNodeListPointer(int node) {
             gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
             hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy,	  NULL);
             smixLiq (FIRST, silminState->T, silminState->P, r, &entropy,	  NULL, NULL, NULL);
-            vmixLiq (FIRST, silminState->T, silminState->P, r, &volume,	      NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+            vmixLiq (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, silminState->T, silminState->P, r, &volume,	NULL, NULL, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, NULL, NULL, NULL);
             cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
             visLiq  (FIRST, silminState->T, silminState->P, r, &viscosity);
             
@@ -854,6 +860,11 @@ static NodeList *getNodeListPointer(int node) {
             enthalpy     *= moles;
             entropy      *= moles;
             volume	     *= moles;
+            dvdt	     *= moles;
+            dvdp	     *= moles;
+            d2vdt2	     *= moles;
+            d2vdtdp	     *= moles;
+            d2vdp2	     *= moles;
             heatCapacity *= moles;
             
             for (i=0; i<nlc; i++) {
@@ -861,6 +872,11 @@ static NodeList *getNodeListPointer(int node) {
                 enthalpy     += (silminState->liquidComp)[nl][i]*(liquid[i].cur).h;
                 entropy      += (silminState->liquidComp)[nl][i]*(liquid[i].cur).s;
                 volume       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).v;
+                dvdt         += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dvdt;
+                dvdp         += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dvdp;
+                d2vdt2       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdt2;
+                d2vdtdp      += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdtdp;
+                d2vdp2       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).d2vdp2;
                 heatCapacity += (silminState->liquidComp)[nl][i]*(liquid[i].cur).cp;
             }
             
@@ -871,7 +887,7 @@ static NodeList *getNodeListPointer(int node) {
             }
             if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
             
-            gLiq += gibbsEnergy; hLiq += enthalpy; sLiq += entropy; vLiq += volume; cpLiq += heatCapacity; mLiq += oxSum;
+            gLiq += gibbsEnergy; hLiq += enthalpy; sLiq += entropy; vLiq += volume; dvdtLiq += dvdt; dvdpLiq += dvdp; d2vdt2Liq += d2vdt2; d2vdtdpLiq += d2vdtdp; d2vdp2Liq += d2vdp2; cpLiq += heatCapacity; mLiq += oxSum;
             
             [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"mass"            stringValue:[NSString stringWithFormat:@"%.20g", oxSum]]];
             [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"density"         stringValue:[NSString stringWithFormat:@"%.20g", (volume == 0.0) ? 0.0 : oxSum/(10.0*volume)]]];
@@ -880,6 +896,11 @@ static NodeList *getNodeListPointer(int node) {
             [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"        stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
             [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"         stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
             [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"          stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+            [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"            stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+            [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"            stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+            [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"          stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+            [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"         stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+            [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"          stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
             [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
             
             for (i=0; i<nc; i++) if (oxVal[i] != 0.0)
@@ -889,10 +910,10 @@ static NodeList *getNodeListPointer(int node) {
         }
     }
      
-    for (j=0, totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0, totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0; j<npc; j++) {
+    for (j=0, totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0, totalEntropy=0.0, totalVolume=0.0, totalDvdt=0.0, totalDvdp=0.0, totalD2vdt2=0.0, totalD2vdtdp=0.0, totalD2vdp2=0.0, totalHeatCapacity=0.0; j<npc; j++) {
         int ns;
         for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
-            double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
+            double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, heatCapacity;
             
             NSXMLElement *solidElement = [[NSXMLElement alloc] initWithName:@"solid"];
             
@@ -902,12 +923,22 @@ static NodeList *getNodeListPointer(int node) {
                 enthalpy	       = (silminState->solidComp)[j][ns]*(solids[j].cur).h;
                 entropy	           = (silminState->solidComp)[j][ns]*(solids[j].cur).s;
                 volume	           = (silminState->solidComp)[j][ns]*(solids[j].cur).v;
+                dvdt	           = (silminState->solidComp)[j][ns]*(solids[j].cur).dvdt;
+                dvdp	           = (silminState->solidComp)[j][ns]*(solids[j].cur).dvdp;
+                d2vdt2	           = (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdt2;
+                d2vdtdp	           = (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdtdp;
+                d2vdp2	           = (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdp2;
                 heatCapacity       = (silminState->solidComp)[j][ns]*(solids[j].cur).cp;
                 totalMass	      += (silminState->solidComp)[j][ns]*solids[j].mw;
                 totalGibbsEnergy  += (silminState->solidComp)[j][ns]*(solids[j].cur).g;
                 totalEnthalpy     += (silminState->solidComp)[j][ns]*(solids[j].cur).h;
                 totalEntropy      += (silminState->solidComp)[j][ns]*(solids[j].cur).s;
                 totalVolume	      += (silminState->solidComp)[j][ns]*(solids[j].cur).v;
+                totalDvdt	      += (silminState->solidComp)[j][ns]*(solids[j].cur).dvdt;
+                totalDvdp	      += (silminState->solidComp)[j][ns]*(solids[j].cur).dvdp;
+                totalD2vdt2	      += (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdt2;
+                totalD2vdtdp	  += (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdtdp;
+                totalD2vdp2	      += (silminState->solidComp)[j][ns]*(solids[j].cur).d2vdp2;
                 totalHeatCapacity += (silminState->solidComp)[j][ns]*(solids[j].cur).cp;
                 
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"name"            stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
@@ -918,6 +949,11 @@ static NodeList *getNodeListPointer(int node) {
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	     stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	     stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	         stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"	         stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"	         stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"	         stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"	     stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"	         stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
                 
                 for (i=0, oxSum=0.0; i<nc; i++) {
@@ -945,18 +981,28 @@ static NodeList *getNodeListPointer(int node) {
                 (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
                 (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
                 (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-                (*solids[j].vmix) (FIRST, silminState->T, silminState->P, r, &volume,       NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL);
+                (*solids[j].vmix) (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, silminState->T, silminState->P, r, &volume, NULL, NULL, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, NULL, NULL);
                 (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
                 gibbsEnergy  *= (silminState->solidComp)[j][ns];
                 enthalpy     *= (silminState->solidComp)[j][ns];
                 entropy      *= (silminState->solidComp)[j][ns];
                 volume       *= (silminState->solidComp)[j][ns];
+                dvdt         *= (silminState->solidComp)[j][ns];
+                dvdp         *= (silminState->solidComp)[j][ns];
+                d2vdt2       *= (silminState->solidComp)[j][ns];
+                d2vdtdp      *= (silminState->solidComp)[j][ns];
+                d2vdp2       *= (silminState->solidComp)[j][ns];
                 heatCapacity *= (silminState->solidComp)[j][ns];
                 for (i=0; i<solids[j].na; i++) {
                     gibbsEnergy  += m[i]*(solids[j+1+i].cur).g;
                     enthalpy	 += m[i]*(solids[j+1+i].cur).h;
                     entropy	 += m[i]*(solids[j+1+i].cur).s;
                     volume	 += m[i]*(solids[j+1+i].cur).v;
+                    dvdt	 += m[i]*(solids[j+1+i].cur).dvdt;
+                    dvdp	 += m[i]*(solids[j+1+i].cur).dvdp;
+                    d2vdt2	 += m[i]*(solids[j+1+i].cur).d2vdt2;
+                    d2vdtdp	 += m[i]*(solids[j+1+i].cur).d2vdtdp;
+                    d2vdp2	 += m[i]*(solids[j+1+i].cur).d2vdp2;
                     heatCapacity += m[i]*(solids[j+1+i].cur).cp;
                 }
                 totalMass	    += mass;
@@ -964,6 +1010,11 @@ static NodeList *getNodeListPointer(int node) {
                 totalEnthalpy     += enthalpy;
                 totalEntropy      += entropy;
                 totalVolume	      += volume;
+                totalDvdt	      += dvdt;
+                totalDvdp	      += dvdp;
+                totalD2vdt2	      += d2vdt2;
+                totalD2vdtdp	  += d2vdtdp;
+                totalD2vdp2	      += d2vdp2;
                 totalHeatCapacity += heatCapacity;
      
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"name"            stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
@@ -974,6 +1025,11 @@ static NodeList *getNodeListPointer(int node) {
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	     stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	     stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	         stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"	         stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"	         stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"	         stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"	     stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+                [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"	         stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
                 [solidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
      
                 for (i=0, oxSum=0.0; i<nc; i++) {
@@ -1006,6 +1062,11 @@ static NodeList *getNodeListPointer(int node) {
         [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	       stringValue:[NSString stringWithFormat:@"%.20g", totalEnthalpy]]];
         [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"         stringValue:[NSString stringWithFormat:@"%.20g", totalEntropy]]];
         [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"volume" 	       stringValue:[NSString stringWithFormat:@"%.20g", totalVolume*10.0]]];
+        [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt" 	       stringValue:[NSString stringWithFormat:@"%.20g", totalDvdt*10.0]]];
+        [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp" 	       stringValue:[NSString stringWithFormat:@"%.20g", totalDvdp*10.0]]];
+        [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2" 	       stringValue:[NSString stringWithFormat:@"%.20g", totalD2vdt2*10.0]]];
+        [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp" 	       stringValue:[NSString stringWithFormat:@"%.20g", totalD2vdtdp*10.0]]];
+        [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2" 	       stringValue:[NSString stringWithFormat:@"%.20g", totalD2vdp2*10.0]]];
         [totalSolidsElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"	   stringValue:[NSString stringWithFormat:@"%.20g", totalHeatCapacity]]];
         [root addChild:totalSolidsElement];
     }
@@ -1028,7 +1089,7 @@ static NodeList *getNodeListPointer(int node) {
                  if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
                  
                  for (ns=0; ns<(silminState->nFracCoexist)[j]; ns++) {
-                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
+                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, heatCapacity;
                      double tmpMoles = ((previousSilminState->nFracCoexist)[j] <= ns) ? (silminState->fracSComp)[j][ns]
                      : (silminState->fracSComp)[j][ns] - (previousSilminState->fracSComp)[j][ns];
                      if (fabs(tmpMoles) < 10.0*DBL_EPSILON) continue;
@@ -1041,12 +1102,22 @@ static NodeList *getNodeListPointer(int node) {
                          enthalpy	        = tmpMoles*(solids[j].cur).h;
                          entropy 	        = tmpMoles*(solids[j].cur).s;
                          volume  	        = tmpMoles*(solids[j].cur).v;
+                         dvdt   	        = tmpMoles*(solids[j].cur).dvdt;
+                         dvdp   	        = tmpMoles*(solids[j].cur).dvdp;
+                         d2vdt2  	        = tmpMoles*(solids[j].cur).d2vdt2;
+                         d2vdtdp  	        = tmpMoles*(solids[j].cur).d2vdtdp;
+                         d2vdp2  	        = tmpMoles*(solids[j].cur).d2vdp2;
                          heatCapacity	    = tmpMoles*(solids[j].cur).cp;
                          totalMass	       += tmpMoles*solids[j].mw;
                          totalGibbsEnergy  += tmpMoles*(solids[j].cur).g;
                          totalEnthalpy	   += tmpMoles*(solids[j].cur).h;
                          totalEntropy	   += tmpMoles*(solids[j].cur).s;
                          totalVolume	   += tmpMoles*(solids[j].cur).v;
+                         totalDvdt  	   += tmpMoles*(solids[j].cur).dvdt;
+                         totalDvdp  	   += tmpMoles*(solids[j].cur).dvdp;
+                         totalD2vdt2	   += tmpMoles*(solids[j].cur).d2vdt2;
+                         totalD2vdtdp	   += tmpMoles*(solids[j].cur).d2vdtdp;
+                         totalD2vdp2	   += tmpMoles*(solids[j].cur).d2vdp2;
                          totalHeatCapacity += tmpMoles*(solids[j].cur).cp;
      
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"name"		      stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
@@ -1057,6 +1128,11 @@ static NodeList *getNodeListPointer(int node) {
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	      stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	      stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"volume" 	      stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt" 	          stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"	  stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
      
                          for (i=0, oxSum=0.0; i<nc; i++) {
@@ -1086,25 +1162,40 @@ static NodeList *getNodeListPointer(int node) {
                          (*solids[j].gmix)   (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
                          (*solids[j].hmix)   (FIRST, silminState->T, silminState->P, r, &enthalpy);
                          (*solids[j].smix)   (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-                         (*solids[j].vmix)   (FIRST, silminState->T, silminState->P, r, &volume,	   NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL);
+                         (*solids[j].vmix)   (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, silminState->T, silminState->P, r, &volume, NULL, NULL, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, NULL, NULL);
                          (*solids[j].cpmix)  (FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
                          gibbsEnergy  *= tmpMoles;
                          enthalpy     *= tmpMoles;
                          entropy      *= tmpMoles;
                          volume       *= tmpMoles;
+                         dvdt         *= tmpMoles;
+                         dvdp         *= tmpMoles;
+                         d2vdt2       *= tmpMoles;
+                         d2vdtdp      *= tmpMoles;
+                         d2vdp2       *= tmpMoles;
                          heatCapacity *= tmpMoles;
                          for (i=0; i<solids[j].na; i++) {
                              gibbsEnergy  += m[i]*(solids[j+1+i].cur).g;
                              enthalpy     += m[i]*(solids[j+1+i].cur).h;
                              entropy      += m[i]*(solids[j+1+i].cur).s;
                              volume       += m[i]*(solids[j+1+i].cur).v;
+                             dvdt         += m[i]*(solids[j+1+i].cur).dvdt;
+                             dvdp         += m[i]*(solids[j+1+i].cur).dvdp;
+                             d2vdt2       += m[i]*(solids[j+1+i].cur).d2vdt2;
+                             d2vdtdp      += m[i]*(solids[j+1+i].cur).d2vdtdp;
+                             d2vdp2       += m[i]*(solids[j+1+i].cur).d2vdp2;
                              heatCapacity += m[i]*(solids[j+1+i].cur).cp;
                          }
                          totalMass	  += mass;
                          totalGibbsEnergy  += gibbsEnergy;
-                         totalEnthalpy	  += enthalpy;
-                         totalEntropy	  += entropy;
-                         totalVolume	  += volume;
+                         totalEnthalpy	   += enthalpy;
+                         totalEntropy	   += entropy;
+                         totalVolume	   += volume;
+                         totalDvdt  	   += dvdt;
+                         totalDvdp  	   += dvdp;
+                         totalD2vdt2	   += d2vdt2;
+                         totalD2vdtdp	   += d2vdtdp;
+                         totalD2vdp2	   += d2vdp2;
                          totalHeatCapacity += heatCapacity;
      
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"name"		      stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
@@ -1115,6 +1206,11 @@ static NodeList *getNodeListPointer(int node) {
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	      stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	      stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"volume" 	      stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
                          
                          for (i=0, oxSum=0.0; i<nc; i++) {
@@ -1141,7 +1237,7 @@ static NodeList *getNodeListPointer(int node) {
          }
      
          if (silminState->fractionateLiq) {
-             double oxSum, mass, moles, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
+             double oxSum, mass, moles, gibbsEnergy, enthalpy, entropy, volume, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, heatCapacity;
              char *formula;
              
              for (i=0, mass=0.0, moles=0.0; i<nlc; i++) {
@@ -1162,25 +1258,40 @@ static NodeList *getNodeListPointer(int node) {
                  gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
                  hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy,     NULL);
                  smixLiq (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL, NULL);
-                 vmixLiq (FIRST, silminState->T, silminState->P, r, &volume,       NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL, NULL);
+                 vmixLiq (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, silminState->T, silminState->P, r, &volume, NULL, NULL, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, NULL, NULL, NULL);
                  cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
                  gibbsEnergy  *= moles;
-                 enthalpy	 *= moles;
-                 entropy	 *= moles;
-                 volume	 *= moles;
+                 enthalpy	  *= moles;
+                 entropy	  *= moles;
+                 volume	      *= moles;
+                 dvdt	      *= moles;
+                 dvdp	      *= moles;
+                 d2vdt2	      *= moles;
+                 d2vdtdp	  *= moles;
+                 d2vdp2	      *= moles;
                  heatCapacity *= moles;
                  for (i=0; i<nlc; i++) {
                      gibbsEnergy  += m[i]*(liquid[i].cur).g;
                      enthalpy     += m[i]*(liquid[i].cur).h;
-                     entropy	   += m[i]*(liquid[i].cur).s;
-                     volume	   += m[i]*(liquid[i].cur).v;
+                     entropy	  += m[i]*(liquid[i].cur).s;
+                     volume	      += m[i]*(liquid[i].cur).v;
+                     dvdt	      += m[i]*(liquid[i].cur).dvdt;
+                     dvdp	      += m[i]*(liquid[i].cur).dvdp;
+                     d2vdt2	      += m[i]*(liquid[i].cur).d2vdt2;
+                     d2vdtdp	  += m[i]*(liquid[i].cur).d2vdtdp;
+                     d2vdp2	      += m[i]*(liquid[i].cur).d2vdp2;
                      heatCapacity += m[i]*(liquid[i].cur).cp;
                  }
-                 totalMass	      += mass;
+                 totalMass	       += mass;
                  totalGibbsEnergy  += gibbsEnergy;
                  totalEnthalpy     += enthalpy;
                  totalEntropy      += entropy;
                  totalVolume       += volume;
+                 totalDvdt         += dvdt;
+                 totalDvdp         += dvdp;
+                 totalD2vdt2       += d2vdt2;
+                 totalD2vdtdp      += d2vdtdp;
+                 totalD2vdp2       += d2vdp2;
                  totalHeatCapacity += heatCapacity;
                  
                  for (i=0, oxSum=0.0; i<nc; i++) {
@@ -1196,6 +1307,11 @@ static NodeList *getNodeListPointer(int node) {
                  [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	       stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
                  [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	       stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
                  [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	       stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt" 	       stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"            stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"	       stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"	       stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"	       stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
                  [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
                  
                  for (i=0; i<nc; i++) if (oxVal[i] != 0.0)
@@ -1222,7 +1338,7 @@ static NodeList *getNodeListPointer(int node) {
                  if (!previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
                  
                  for (ns=0; ns<(previousSilminState->nFracCoexist)[j]; ns++) {
-                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
+                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, heatCapacity;
                      
                      NSXMLElement *solidElement = [[NSXMLElement alloc] initWithName:@"solid"];
      
@@ -1232,12 +1348,22 @@ static NodeList *getNodeListPointer(int node) {
                          enthalpy	        = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).h;
                          entropy 	        = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).s;
                          volume  	        = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).v;
+                         dvdt   	        = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).dvdt;
+                         dvdp   	        = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
+                         d2vdt2  	        = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).d2vdt2;
+                         d2vdtdp  	        = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).d2vdtdp;
+                         d2vdp2  	        = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).d2vdp2;
                          heatCapacity	    = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).cp;
                          totalMass	       += (previousSilminState->fracSComp)[j][ns]*solids[j].mw;
                          totalGibbsEnergy  += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).g;
                          totalEnthalpy	   += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).h;
                          totalEntropy	   += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).s;
                          totalVolume	   += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).v;
+                         totalDvdt         += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).dvdt;
+                         totalDvdp	       += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
+                         totalD2vdt2	   += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).d2vdt2;
+                         totalD2vdtdp	   += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).d2vdtdp;
+                         totalD2vdp2	   += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).d2vdp2;
                          totalHeatCapacity += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).cp;
                          
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"name"		      stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
@@ -1248,6 +1374,11 @@ static NodeList *getNodeListPointer(int node) {
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	      stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	      stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"volume" 	      stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"	  stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
      
                          for (i=0, oxSum=0.0; i<nc; i++) {
@@ -1275,25 +1406,40 @@ static NodeList *getNodeListPointer(int node) {
                          (*solids[j].gmix)   (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
                          (*solids[j].hmix)   (FIRST, silminState->T, silminState->P, r, &enthalpy);
                          (*solids[j].smix)   (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-                         (*solids[j].vmix)   (FIRST, silminState->T, silminState->P, r, &volume,	   NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL);
+                         (*solids[j].vmix)   (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, silminState->T, silminState->P, r, &volume, NULL, NULL, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, NULL, NULL);
                          (*solids[j].cpmix)  (FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
                          gibbsEnergy  *= (previousSilminState->fracSComp)[j][ns];
                          enthalpy     *= (previousSilminState->fracSComp)[j][ns];
                          entropy      *= (previousSilminState->fracSComp)[j][ns];
                          volume       *= (previousSilminState->fracSComp)[j][ns];
+                         dvdt         *= (previousSilminState->fracSComp)[j][ns];
+                         dvdp         *= (previousSilminState->fracSComp)[j][ns];
+                         d2vdt2       *= (previousSilminState->fracSComp)[j][ns];
+                         d2vdtdp      *= (previousSilminState->fracSComp)[j][ns];
+                         d2vdp2       *= (previousSilminState->fracSComp)[j][ns];
                          heatCapacity *= (previousSilminState->fracSComp)[j][ns];
                          for (i=0; i<solids[j].na; i++) {
                              gibbsEnergy  += m[i]*(solids[j+1+i].cur).g;
                              enthalpy     += m[i]*(solids[j+1+i].cur).h;
                              entropy      += m[i]*(solids[j+1+i].cur).s;
                              volume       += m[i]*(solids[j+1+i].cur).v;
+                             dvdt         += m[i]*(solids[j+1+i].cur).dvdt;
+                             dvdp         += m[i]*(solids[j+1+i].cur).dvdp;
+                             d2vdt2       += m[i]*(solids[j+1+i].cur).d2vdt2;
+                             d2vdtdp      += m[i]*(solids[j+1+i].cur).d2vdtdp;
+                             d2vdp2       += m[i]*(solids[j+1+i].cur).d2vdp2;
                              heatCapacity += m[i]*(solids[j+1+i].cur).cp;
                          }
-                         totalMass	  += mass;
+                         totalMass	       += mass;
                          totalGibbsEnergy  += gibbsEnergy;
-                         totalEnthalpy	  += enthalpy;
-                         totalEntropy	  += entropy;
-                         totalVolume	  += volume;
+                         totalEnthalpy	   += enthalpy;
+                         totalEntropy	   += entropy;
+                         totalVolume	   += volume;
+                         totalDvdt	       += dvdt;
+                         totalDvdp         += dvdp;
+                         totalD2vdt2	   += d2vdt2;
+                         totalD2vdtdp	   += d2vdtdp;
+                         totalD2vdp2	   += d2vdp2;
                          totalHeatCapacity += heatCapacity;
                          
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"name"		      stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
@@ -1304,6 +1450,11 @@ static NodeList *getNodeListPointer(int node) {
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	      stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	      stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"volume" 	      stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+                         [solidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2" 	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
                          [solidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
      
                          for (i=0, oxSum=0.0; i<nc; i++) {
@@ -1330,7 +1481,7 @@ static NodeList *getNodeListPointer(int node) {
          }
      
          if (previousSilminState->fractionateLiq) {
-             double oxSum, mass, moles, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
+             double oxSum, mass, moles, gibbsEnergy, enthalpy, entropy, volume, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, heatCapacity;
              char *formula;
              
              for (i=0, mass=0.0, moles=0.0; i<nlc; i++) {
@@ -1349,25 +1500,40 @@ static NodeList *getNodeListPointer(int node) {
                  gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
                  hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy,     NULL);
                  smixLiq (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL, NULL);
-                 vmixLiq (FIRST, silminState->T, silminState->P, r, &volume,       NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL, NULL);
+                 vmixLiq (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, silminState->T, silminState->P, r, &volume, NULL, NULL, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, NULL, NULL, NULL);
                  cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
                  gibbsEnergy  *= moles;
-                 enthalpy	 *= moles;
-                 entropy	 *= moles;
-                 volume	 *= moles;
+                 enthalpy	  *= moles;
+                 entropy	  *= moles;
+                 volume	      *= moles;
+                 dvdt	      *= moles;
+                 dvdp	      *= moles;
+                 d2vdt2	      *= moles;
+                 d2vdtdp	  *= moles;
+                 d2vdp2    	  *= moles;
                  heatCapacity *= moles;
                  for (i=0; i<nlc; i++) {
                      gibbsEnergy  += m[i]*(liquid[i].cur).g;
                      enthalpy     += m[i]*(liquid[i].cur).h;
-                     entropy	   += m[i]*(liquid[i].cur).s;
-                     volume	   += m[i]*(liquid[i].cur).v;
+                     entropy	  += m[i]*(liquid[i].cur).s;
+                     volume	      += m[i]*(liquid[i].cur).v;
+                     dvdt	      += m[i]*(liquid[i].cur).dvdt;
+                     dvdp	      += m[i]*(liquid[i].cur).dvdp;
+                     d2vdt2	      += m[i]*(liquid[i].cur).d2vdt2;
+                     d2vdtdp	  += m[i]*(liquid[i].cur).d2vdtdp;
+                     d2vdp2	      += m[i]*(liquid[i].cur).d2vdp2;
                      heatCapacity += m[i]*(liquid[i].cur).cp;
                  }
-                 totalMass	      += mass;
+                 totalMass	       += mass;
                  totalGibbsEnergy  += gibbsEnergy;
                  totalEnthalpy     += enthalpy;
                  totalEntropy      += entropy;
                  totalVolume       += volume;
+                 totalDvdt         += dvdt;
+                 totalDvdp         += dvdp;
+                 totalD2vdt2       += d2vdt2;
+                 totalD2vdtdp      += d2vdtdp;
+                 totalD2vdp2       += d2vdp2;
                  totalHeatCapacity += heatCapacity;
                  
                  for (i=0, oxSum=0.0; i<nc; i++) {
@@ -1383,6 +1549,11 @@ static NodeList *getNodeListPointer(int node) {
                  [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	       stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
                  [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	       stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
                  [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	       stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"	           stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"	           stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"	       stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"	       stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+                 [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"	       stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
                  [liquidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
                  
                  for (i=0; i<nc; i++) if (oxVal[i] != 0.0)
@@ -1404,6 +1575,11 @@ static NodeList *getNodeListPointer(int node) {
     [systemElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"        stringValue:[NSString stringWithFormat:@"%.20g", hLiq+totalEnthalpy]]];
     [systemElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"         stringValue:[NSString stringWithFormat:@"%.20g", sLiq+totalEntropy]]];
     [systemElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	      stringValue:[NSString stringWithFormat:@"%.20g", (vLiq+totalVolume)*10.0]]];
+    [systemElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"  	      stringValue:[NSString stringWithFormat:@"%.20g", (dvdtLiq+totalDvdt)*10.0]]];
+    [systemElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"  	      stringValue:[NSString stringWithFormat:@"%.20g", (dvdpLiq+totalDvdp)*10.0]]];
+    [systemElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"	      stringValue:[NSString stringWithFormat:@"%.20g", (d2vdt2Liq+totalD2vdt2)*10.0]]];
+    [systemElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"	      stringValue:[NSString stringWithFormat:@"%.20g", (d2vdtdpLiq+totalD2vdtdp)*10.0]]];
+    [systemElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"	      stringValue:[NSString stringWithFormat:@"%.20g", (d2vdp2Liq+totalD2vdp2)*10.0]]];
     [systemElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", cpLiq+totalHeatCapacity]]];
     [root addChild:systemElement];
     
@@ -1424,6 +1600,11 @@ static NodeList *getNodeListPointer(int node) {
         [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"        stringValue:[NSString stringWithFormat:@"%.20g", mO2*(oxygen.cur).h]]];
         [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"         stringValue:[NSString stringWithFormat:@"%.20g", mO2*(oxygen.cur).s]]];
         [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	      stringValue:[NSString stringWithFormat:@"%.20g", mO2*10.0*(oxygen.cur).v]]];
+        [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"  	      stringValue:[NSString stringWithFormat:@"%.20g", mO2*10.0*(oxygen.cur).dvdt]]];
+        [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"  	      stringValue:[NSString stringWithFormat:@"%.20g", mO2*10.0*(oxygen.cur).dvdp]]];
+        [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"	      stringValue:[NSString stringWithFormat:@"%.20g", mO2*10.0*(oxygen.cur).d2vdt2]]];
+        [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"	      stringValue:[NSString stringWithFormat:@"%.20g", mO2*10.0*(oxygen.cur).d2vdtdp]]];
+        [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"	      stringValue:[NSString stringWithFormat:@"%.20g", mO2*10.0*(oxygen.cur).d2vdp2]]];
         [oxygenElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", mO2*(oxygen.cur).cp]]];
         [root addChild:oxygenElement];
     }
@@ -1466,7 +1647,7 @@ static NodeList *getNodeListPointer(int node) {
     }
     
     for (j=0; j<npc; j++) if ((solids[j].type == PHASE) && ((silminState->ySol)[j] != 0.0)) {
-        double oxSum, affinity, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
+        double oxSum, affinity, mass, gibbsEnergy, enthalpy, entropy, volume, dvdt, dvdp, d2vdt2, d2vdtdp, d2vdp2, heatCapacity;
         
         NSXMLElement *potentialSolidElement = [[NSXMLElement alloc] initWithName:@"potentialSolid"];
         
@@ -1476,6 +1657,11 @@ static NodeList *getNodeListPointer(int node) {
             enthalpy	       = (solids[j].cur).h;
             entropy	           = (solids[j].cur).s;
             volume	           = (solids[j].cur).v;
+            dvdt	           = (solids[j].cur).dvdt;
+            dvdp	           = (solids[j].cur).dvdp;
+            d2vdt2	           = (solids[j].cur).d2vdt2;
+            d2vdtdp	           = (solids[j].cur).d2vdtdp;
+            d2vdp2	           = (solids[j].cur).d2vdp2;
             heatCapacity       = (solids[j].cur).cp;
             
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"name"            stringValue:[NSString stringWithFormat:@"%s",   solids[j].label]]];
@@ -1486,6 +1672,11 @@ static NodeList *getNodeListPointer(int node) {
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	      stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	      stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	      stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"  	      stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
             
             for (i=0, oxSum=0.0; i<nc; i++) {
@@ -1512,7 +1703,7 @@ static NodeList *getNodeListPointer(int node) {
             (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
             (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
             (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-            (*solids[j].vmix) (FIRST, silminState->T, silminState->P, r, &volume,       NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL);
+            (*solids[j].vmix) (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, silminState->T, silminState->P, r, &volume, NULL, NULL, &dvdt, &dvdp, &d2vdt2, &d2vdtdp, &d2vdp2, NULL, NULL);
             (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
             
             for (i=0, mass=0.0; i<solids[j].na; i++) {
@@ -1520,6 +1711,11 @@ static NodeList *getNodeListPointer(int node) {
                 enthalpy	 += m[i]*(solids[j+1+i].cur).h;
                 entropy	     += m[i]*(solids[j+1+i].cur).s;
                 volume	     += m[i]*(solids[j+1+i].cur).v;
+                dvdt	     += m[i]*(solids[j+1+i].cur).dvdt;
+                dvdp	     += m[i]*(solids[j+1+i].cur).dvdp;
+                d2vdt2	     += m[i]*(solids[j+1+i].cur).d2vdt2;
+                d2vdtdp	     += m[i]*(solids[j+1+i].cur).d2vdtdp;
+                d2vdp2	     += m[i]*(solids[j+1+i].cur).d2vdp2;
                 heatCapacity += m[i]*(solids[j+1+i].cur).cp;
                 mass         += m[i]*(solids[j+1+i]).mw;
             }
@@ -1532,6 +1728,11 @@ static NodeList *getNodeListPointer(int node) {
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"enthalpy"	      stringValue:[NSString stringWithFormat:@"%.20g", enthalpy]]];
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"entropy"	      stringValue:[NSString stringWithFormat:@"%.20g", entropy]]];
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"volume"	      stringValue:[NSString stringWithFormat:@"%.20g", volume*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdt"            stringValue:[NSString stringWithFormat:@"%.20g", dvdt*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"dvdp"	          stringValue:[NSString stringWithFormat:@"%.20g", dvdp*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdt2"	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdt2*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdtdp"	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdtdp*10.0]]];
+            [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"d2vdp2"	      stringValue:[NSString stringWithFormat:@"%.20g", d2vdp2*10.0]]];
             [potentialSolidElement addChild:[[NSXMLElement alloc] initWithName:@"heatCapacity"    stringValue:[NSString stringWithFormat:@"%.20g", heatCapacity]]];
             
             for (i=0, oxSum=0.0; i<nc; i++) {
