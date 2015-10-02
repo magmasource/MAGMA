@@ -1652,11 +1652,12 @@ int silmin(void)
                         }
                     }
                 }
+                int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
                 for (i=0; i<npc; i++) {
-                    if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "water")) continue;
-                    if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "water")) continue;
-                    if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "fluid")) continue;
-                    if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "fluid")) continue;
+                    if ( haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "water")) continue;
+                    if ( haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "water")) continue;
+                    if (!haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "fluid")) continue;
+                    if (!haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "fluid")) continue;
                     for (ns=0; ns<(silminState->nSolidCoexist)[i]; ns++) {
                         if (solids[i].na == 1) {
                             (silminState->fracSComp)[i][ns] += (silminState->solidComp)[i][ns]-MASSIN;
