@@ -1652,7 +1652,7 @@ void VListMakeLineVisible(w, closure, visible)
     int column, tier, x, y, width, height;
 
     if (!XtIsRealized ((Widget) w) || w->batchUpdate) {
-	w->visibleClosure = (long) closure;
+	w->visibleClosure = (int) closure;
 	w->visiblePosition = visible;
 	return;
     }
@@ -2247,7 +2247,7 @@ static void ButtonReleaseHandler(Widget gW, XtPointer closure,
 	  && (eventP->type == ButtonRelease))
 	    CallSelectCallbacks (w, eventP, 1);
     } else {
-	w->upTime = eventP->time;	/* to test against next Down time */
+	w->upTime = (int) eventP->time;	/* to test against next Down time */
 
 	NewSelectColumnTier (w, w->upColumn, w->upTier);
 	CallSelectCallbacks (w, eventP, 0);
@@ -2746,7 +2746,7 @@ Opaque VListAddLine(w, vLinesP, row)
 
         if (lineInfoP->vLine.textP) {
 	    lineInfoP->vLine.textP = XtNewString (lineInfoP->vLine.textP);
-	    lineInfoP->textStrlen = strlen (lineInfoP->vLine.textP);
+	    lineInfoP->textStrlen = (int) strlen (lineInfoP->vLine.textP);
 	    ComputeSegmentDefaults (w, lineInfoP);
 	    ComputeTextInfo (w, lineInfoP);
 	} else {
@@ -2837,7 +2837,7 @@ void VListChangeLine(w, closure, vLineP)
       || strcmp (vLineP->textP, lineInfoP->vLine.textP))) {
 	XtFree (lineInfoP->vLine.textP);
         lineInfoP->vLine.textP = XtNewString (vLineP->textP);
-	lineInfoP->textStrlen = strlen (lineInfoP->vLine.textP);
+	lineInfoP->textStrlen = (int) strlen (lineInfoP->vLine.textP);
 	recomputeTextInfo = redraw = 1;
     }
 

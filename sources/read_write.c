@@ -282,7 +282,8 @@ int getInputDataFromFile(char *fileName)
   static FILE *input = NULL;
   static char line[REC];
 
-  int i, j, len, ns;
+  size_t len;
+  int i, j, ns;
   int curPhase = 0;
   Arg arg_set[20];
   float temporary;
@@ -301,7 +302,7 @@ int getInputDataFromFile(char *fileName)
 
   if (defFileName != (char *) NULL) free(defFileName);
   defFileName = (char *) malloc((unsigned) (strlen(fileName)+1)*sizeof(char));
-  (void *) strcpy(defFileName, fileName);
+  (void) strcpy(defFileName, fileName);
 
   if (silminInputData.name == NULL)  silminInputData.name  = (char *) malloc((unsigned) (REC+1)*sizeof(char));
   if (silminInputData.title == NULL) silminInputData.title = (char *) malloc((unsigned) (REC+1)*sizeof(char));
@@ -662,7 +663,7 @@ int putInputDataToFile(char *fileName)
     }
     if (defFileName != (char *) NULL) free(defFileName);
     defFileName = (char *) malloc((unsigned) (strlen(fileName)+1)*sizeof(char));
-    (void *) strcpy(defFileName, fileName);
+    (void) strcpy(defFileName, fileName);
   } else if (defFileName != (char *) NULL) {
     if((output = fopen (defFileName, "w")) == NULL) {
       ABORT("Error in SILMIN file output procedure. Cannot open file:\n", defFileName)
@@ -854,13 +855,15 @@ int putOutputDataToFile(char *fileName)
   static int rowIndex = 0;
 #endif
   static double *m, *r, *oxVal;
-  double moles,        viscosity,         gLiq, hLiq, sLiq, vLiq, cpLiq, mLiq,
+  double moles,        viscosity, gLiq, hLiq, sLiq, vLiq, cpLiq, dvdtLiq, dvdpLiq, mLiq,
          mass,         totalMass,
          gibbsEnergy,  totalGibbsEnergy,
          enthalpy,     totalEnthalpy,
          entropy,      totalEntropy, 
          volume,       totalVolume,
          heatCapacity, totalHeatCapacity,
+	 dVolumeDt,    totaldVolumeDt,
+	 dVolumeDp,    totaldVolumeDp,
          oxSum;
   int i, j, nl, ns;
   int hasLiquid = (silminState->liquidMass != 0.0);
@@ -900,6 +903,9 @@ int putOutputDataToFile(char *fileName)
     for (i=0; i<nlc; i++) fprintf(tableLiq, ",activity %s", liquid[i].label);
     fprintf(tableLiq, ",liq vis (log 10 poise),sol mass (gm),sol rho (gm/cc)");
     fprintf(tableLiq, ",sol G (kJ),sol H (kJ),sol S (J/K),sol V (cc),sol Cp (J/K)");
+    fprintf(tableLiq, ",sys G (kJ),sys H (kJ),sys S (J/K),sys V (cc),sys Cp (J/K)");
+    fprintf(tableLiq, ",sys dVdT (cc/K),sys dVdP (cc/bar),sys alpha (1/K),sys beta (1/bar)");
+    fprintf(tableLiq, ",liq dVdT (cc/K),liq dVdP (cc/bar),liq alpha (1/K),liq beta (1/bar)");
     fprintf(tableLiq, "\n");
   }
   if (tableSol == NULL) {
@@ -944,6 +950,8 @@ int putOutputDataToFile(char *fileName)
   else if (silminState->fo2Path == FO2_QFM_M7) fprintf(output, "fO2 path = QFM-7  ");
   else if (silminState->fo2Path == FO2_QFM_M8) fprintf(output, "fO2 path = QFM-8  ");
   else if (silminState->fo2Path == FO2_QFM_M9) fprintf(output, "fO2 path = QFM-9  ");
+  else if (silminState->fo2Path == FO2_QFM_P0_5) fprintf(output, "fO2 path = QFM+0.5  ");
+  else if (silminState->fo2Path == FO2_QFM_P1_5) fprintf(output, "fO2 path = QFM+1.5  ");
   
   if (silminState->fractionateSol) fprintf(output, "Fractionate Solids  ");
   if (silminState->fractionateFlu) fprintf(output, "Fractionate Fluids  ");
@@ -957,20 +965,22 @@ int putOutputDataToFile(char *fileName)
   fprintf(output, "\n\n");
 
   if (hasLiquid) {
-    gLiq = 0.0; hLiq = 0.0; sLiq = 0.0; vLiq = 0.0; cpLiq = 0.0; mLiq = 0.0;
+    gLiq = 0.0; hLiq = 0.0; sLiq = 0.0; vLiq = 0.0; cpLiq = 0.0; mLiq = 0.0; dvdtLiq = 0.0; dvdpLiq = 0.0;
     for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
       conLiq(SECOND, THIRD, silminState->T, silminState->P, NULL, silminState->liquidComp[nl], r, NULL, NULL, NULL, NULL);
 
       gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
       hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy,     NULL);
       smixLiq (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL, NULL);
-      vmixLiq (FIRST, silminState->T, silminState->P, r, &volume,       NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      vmixLiq (FIRST | FOURTH | FIFTH, 
+                      silminState->T, silminState->P, r, &volume,       NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL, NULL, NULL, NULL, NULL);
       cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
       visLiq  (FIRST, silminState->T, silminState->P, r, &viscosity);
 
       for (i=0, moles=0.0; i<nlc; i++) moles +=  (silminState->liquidComp)[nl][i];
-      gibbsEnergy *= moles; enthalpy	 *= moles; entropy *= moles;
-      volume	  *= moles; heatCapacity *= moles;
+      gibbsEnergy *= moles; enthalpy	 *= moles; entropy   *= moles;
+      volume	  *= moles; heatCapacity *= moles; dVolumeDt *= moles;
+      dVolumeDp   *= moles;
 
       for (i=0; i<nlc; i++) {
     	gibbsEnergy  += (silminState->liquidComp)[nl][i]*(liquid[i].cur).g;
@@ -978,6 +988,8 @@ int putOutputDataToFile(char *fileName)
     	entropy      += (silminState->liquidComp)[nl][i]*(liquid[i].cur).s;
     	volume       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).v;
     	heatCapacity += (silminState->liquidComp)[nl][i]*(liquid[i].cur).cp;
+	dVolumeDt    += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dvdt;
+	dVolumeDp    += (silminState->liquidComp)[nl][i]*(liquid[i].cur).dvdp;
       }
 
       for (i=0, oxSum=0.0; i<nc; i++) {
@@ -988,6 +1000,7 @@ int putOutputDataToFile(char *fileName)
       if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
 
       gLiq += gibbsEnergy; hLiq += enthalpy; sLiq += entropy; vLiq += volume; cpLiq += heatCapacity; mLiq += oxSum;
+      dvdtLiq += dVolumeDt; dvdpLiq += dVolumeDp;
 
       fprintf(output, "%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", "Liquid", oxSum, (volume == 0.0) ? 0.0 : oxSum/(10.0*volume));
       fprintf(output, "  viscosity = %.2f (log 10 poise)", viscosity);
@@ -1019,11 +1032,11 @@ int putOutputDataToFile(char *fileName)
 #endif
     }
   } else {
-    gLiq = 0.0; hLiq = 0.0; sLiq = 0.0; vLiq = 0.0; cpLiq = 0.0; mLiq = 0.0;
+    gLiq = 0.0; hLiq = 0.0; sLiq = 0.0; vLiq = 0.0; cpLiq = 0.0; mLiq = 0.0; dvdtLiq = 0.0; dvdpLiq = 0.0;
   }
 
   for (j=0, totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0,
-    totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0; j<npc; j++) 
+    totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0, totaldVolumeDt=0.0, totaldVolumeDp=0.0; j<npc; j++) 
   for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
     if (solids[j].na == 1) {
       mass               = (silminState->solidComp)[j][ns]*solids[j].mw;
@@ -1032,12 +1045,16 @@ int putOutputDataToFile(char *fileName)
       entropy            = (silminState->solidComp)[j][ns]*(solids[j].cur).s;
       volume             = (silminState->solidComp)[j][ns]*(solids[j].cur).v;
       heatCapacity       = (silminState->solidComp)[j][ns]*(solids[j].cur).cp;
+      dVolumeDt          = (silminState->solidComp)[j][ns]*(solids[j].cur).dvdt;
+      dVolumeDp          = (silminState->solidComp)[j][ns]*(solids[j].cur).dvdp;
       totalMass         += (silminState->solidComp)[j][ns]*solids[j].mw;
       totalGibbsEnergy  += (silminState->solidComp)[j][ns]*(solids[j].cur).g;
       totalEnthalpy     += (silminState->solidComp)[j][ns]*(solids[j].cur).h;
       totalEntropy      += (silminState->solidComp)[j][ns]*(solids[j].cur).s;
       totalVolume       += (silminState->solidComp)[j][ns]*(solids[j].cur).v;
       totalHeatCapacity += (silminState->solidComp)[j][ns]*(solids[j].cur).cp;
+      totaldVolumeDt    += (silminState->solidComp)[j][ns]*(solids[j].cur).dvdt;
+      totaldVolumeDp    += (silminState->solidComp)[j][ns]*(solids[j].cur).dvdp;
       fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
       fprintf(output, "\n");
       fprintf(output, "                 %s\n", solids[j].formula); 
@@ -1050,7 +1067,7 @@ int putOutputDataToFile(char *fileName)
       fprintf(output, "\n");
 #ifdef MAKE_TABLES
       if (tableSol[j] == NULL) {
-        int len = strlen(solids[j].label);
+        size_t len = strlen(solids[j].label);
         char *nameOfFile = (char *) calloc((unsigned) (len+5), sizeof(char));
         strcpy(nameOfFile, solids[j].label);
         for (i=0; i<len; i++) if(nameOfFile[i] == ' ') nameOfFile[i] = '-';
@@ -1095,19 +1112,24 @@ int putOutputDataToFile(char *fileName)
       (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
       (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
       (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-      (*solids[j].vmix) (FIRST, silminState->T, silminState->P, r, &volume,       NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL);
+      (*solids[j].vmix) (FIRST | FOURTH | FIFTH, 
+                                silminState->T, silminState->P, r, &volume,       NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL);
       (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
       gibbsEnergy  *= (silminState->solidComp)[j][ns]; 
       enthalpy     *= (silminState->solidComp)[j][ns]; 
       entropy      *= (silminState->solidComp)[j][ns];
       volume       *= (silminState->solidComp)[j][ns];
       heatCapacity *= (silminState->solidComp)[j][ns];
+      dVolumeDt    *= (silminState->solidComp)[j][ns];
+      dVolumeDp    *= (silminState->solidComp)[j][ns];
       for (i=0; i<solids[j].na; i++) {
         gibbsEnergy  += m[i]*(solids[j+1+i].cur).g;
         enthalpy     += m[i]*(solids[j+1+i].cur).h;
         entropy      += m[i]*(solids[j+1+i].cur).s;
         volume       += m[i]*(solids[j+1+i].cur).v;
         heatCapacity += m[i]*(solids[j+1+i].cur).cp;
+	dVolumeDt    += m[i]*(solids[j+1+i].cur).dvdt;
+	dVolumeDp    += m[i]*(solids[j+1+i].cur).dvdp;
       }
       totalMass         += mass;
       totalGibbsEnergy  += gibbsEnergy;
@@ -1115,6 +1137,8 @@ int putOutputDataToFile(char *fileName)
       totalEntropy      += entropy;
       totalVolume       += volume;
       totalHeatCapacity += heatCapacity;
+      totaldVolumeDt    += dVolumeDt;
+      totaldVolumeDp    += dVolumeDp;
       fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
       fprintf(output, "     (analysis in mole %%)\n");
       fprintf(output, "                 %s\n", formula); free(formula); 
@@ -1133,7 +1157,7 @@ int putOutputDataToFile(char *fileName)
       fprintf(output, "\n");
 #ifdef MAKE_TABLES
       if (tableSol[j] == NULL) {
-        int len = strlen(solids[j].label);
+        size_t len = strlen(solids[j].label);
         char *nameOfFile = (char *) calloc((unsigned) (len+5), sizeof(char));
         strcpy(nameOfFile, solids[j].label);
         for (i=0; i<len; i++) if(nameOfFile[i] == ' ') nameOfFile[i] = '-';
@@ -1144,6 +1168,7 @@ int putOutputDataToFile(char *fileName)
           return GET_INPUT_ERROR_BAD_FILE;
 #else
           printf("Error in SILMIN file output procedure. Cannot open file: %s\n", nameOfFile);
+          free(nameOfFile);
           return FALSE;
 #endif /* BATCH_VERSION */
         } 
@@ -1185,7 +1210,6 @@ int putOutputDataToFile(char *fileName)
   if (hasLiquid) {
     fprintf(tableLiq, ",%.13e,%.4f", totalMass, (totalVolume == 0.0) ? 0.0 : totalMass/(10.0*totalVolume));
     fprintf(tableLiq, ",%.13e,%.13e,%.13e,%.13e,%.13e", totalGibbsEnergy/1000.0, totalEnthalpy/1000.0, totalEntropy, totalVolume*10.0, totalHeatCapacity);
-    fprintf(tableLiq, "\n");
   }
 #endif
 
@@ -1200,6 +1224,8 @@ int putOutputDataToFile(char *fileName)
     for (j=0; j<npc; j++) {
       if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
       if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
+      if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
+      if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
       for (ns=0; ns<(silminState->nFracCoexist)[j]; ns++) {
         if (solids[j].na == 1) {
           mass  	     = (silminState->fracSComp)[j][ns]*solids[j].mw;
@@ -1208,12 +1234,16 @@ int putOutputDataToFile(char *fileName)
           entropy	     = (silminState->fracSComp)[j][ns]*(solids[j].cur).s;
           volume	     = (silminState->fracSComp)[j][ns]*(solids[j].cur).v;
           heatCapacity       = (silminState->fracSComp)[j][ns]*(solids[j].cur).cp;
+	  dVolumeDt          = (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdt;
+	  dVolumeDp          = (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
           totalMass	    += (silminState->fracSComp)[j][ns]*solids[j].mw;
           totalGibbsEnergy  += (silminState->fracSComp)[j][ns]*(solids[j].cur).g;
           totalEnthalpy     += (silminState->fracSComp)[j][ns]*(solids[j].cur).h;
           totalEntropy      += (silminState->fracSComp)[j][ns]*(solids[j].cur).s;
           totalVolume	    += (silminState->fracSComp)[j][ns]*(solids[j].cur).v;
           totalHeatCapacity += (silminState->fracSComp)[j][ns]*(solids[j].cur).cp;
+	  totaldVolumeDt    += (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdt;
+	  totaldVolumeDp    += (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
           fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
           fprintf(output, "\n");
           fprintf(output, "		    %s\n", solids[j].formula); 
@@ -1235,19 +1265,24 @@ int putOutputDataToFile(char *fileName)
           (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
           (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
           (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-          (*solids[j].vmix) (FIRST, silminState->T, silminState->P, r, &volume,       NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL);
+          (*solids[j].vmix) (FIRST | FOURTH | FIFTH, 
+	                            silminState->T, silminState->P, r, &volume,       NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL);
           (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
           gibbsEnergy  *= (silminState->fracSComp)[j][ns]; 
           enthalpy     *= (silminState->fracSComp)[j][ns]; 
           entropy      *= (silminState->fracSComp)[j][ns];
           volume       *= (silminState->fracSComp)[j][ns];
           heatCapacity *= (silminState->fracSComp)[j][ns];
+	  dVolumeDt    *= (silminState->fracSComp)[j][ns];
+	  dVolumeDp    *= (silminState->fracSComp)[j][ns];
           for (i=0; i<solids[j].na; i++) {
             gibbsEnergy  += m[i]*(solids[j+1+i].cur).g;
             enthalpy	 += m[i]*(solids[j+1+i].cur).h;
             entropy	 += m[i]*(solids[j+1+i].cur).s;
             volume	 += m[i]*(solids[j+1+i].cur).v;
             heatCapacity += m[i]*(solids[j+1+i].cur).cp;
+	    dVolumeDt    += m[i]*(solids[j+1+i].cur).dvdt;
+	    dVolumeDp    += m[i]*(solids[j+1+i].cur).dvdp;
           }
           totalMass	    += mass;
           totalGibbsEnergy  += gibbsEnergy;
@@ -1255,6 +1290,8 @@ int putOutputDataToFile(char *fileName)
           totalEntropy      += entropy;
           totalVolume	    += volume;
           totalHeatCapacity += heatCapacity;
+	  totaldVolumeDt    += dVolumeDt;
+	  totaldVolumeDp    += dVolumeDp;
           fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
           fprintf(output, "	(analysis in mole %%)\n");
           fprintf(output, "		    %s\n", formula); free(formula); 
@@ -1291,19 +1328,24 @@ int putOutputDataToFile(char *fileName)
       gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy, NULL, NULL);
       hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy, NULL);
       smixLiq (FIRST, silminState->T, silminState->P, r, &entropy, NULL, NULL, NULL);
-      vmixLiq (FIRST, silminState->T, silminState->P, r, &volume, NULL, NULL, NULL, NULL, NULL, NULL,  NULL, NULL, NULL, NULL);
+      vmixLiq (FIRST | FOURTH | FIFTH, 
+                      silminState->T, silminState->P, r, &volume, NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL, NULL);
       cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
       gibbsEnergy  *= moles;
       enthalpy     *= moles;
       entropy	   *= moles;
       volume	   *= moles;
       heatCapacity *= moles;
+      dVolumeDt    *= moles;
+      dVolumeDp    *= moles;
       for (i=0; i<nlc; i++) {
         gibbsEnergy  += m[i]*(liquid[i].cur).g;
         enthalpy     += m[i]*(liquid[i].cur).h;
         entropy      += m[i]*(liquid[i].cur).s;
         volume       += m[i]*(liquid[i].cur).v;
         heatCapacity += m[i]*(liquid[i].cur).cp;
+	dVolumeDt    += m[i]*(liquid[i].cur).dvdt;
+	dVolumeDp    += m[i]*(liquid[i].cur).dvdp;
       }
       totalMass 	+= mass;
       totalGibbsEnergy  += gibbsEnergy;
@@ -1311,6 +1353,8 @@ int putOutputDataToFile(char *fileName)
       totalEntropy	+= entropy;
       totalVolume	+= volume;
       totalHeatCapacity += heatCapacity;
+      totaldVolumeDt    += dVolumeDt;
+      totaldVolumeDp    += dVolumeDp;
       fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", "liquid", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
       fprintf(output, "     (analysis in wt %%)\n");
       fprintf(output, " 		%s\n", formula); free(formula);
@@ -1336,6 +1380,24 @@ int putOutputDataToFile(char *fileName)
   fprintf(output, "V = %.2f (cc)  ",   (vLiq+totalVolume)*10.0);
   fprintf(output, "Cp = %.2f (J/K)  ", cpLiq+totalHeatCapacity);
   fprintf(output, "\n");
+#ifdef MAKE_TABLES
+  if (hasLiquid) {
+    fprintf(tableLiq, ",%20.13e", (gLiq+totalGibbsEnergy)/1000.0);
+    fprintf(tableLiq, ",%20.13e", (hLiq+totalEnthalpy)/1000.0);
+    fprintf(tableLiq, ",%20.13e", (sLiq+totalEntropy));
+    fprintf(tableLiq, ",%20.13e", (vLiq+totalVolume)*10.0);
+    fprintf(tableLiq, ",%20.13e", (cpLiq+totalHeatCapacity));
+    fprintf(tableLiq, ",%20.13e", (dvdtLiq+totaldVolumeDt)*10.0);
+    fprintf(tableLiq, ",%20.13e", (dvdpLiq+totaldVolumeDp)*10.0);
+    fprintf(tableLiq, ",%20.13e", ((vLiq+totalVolume) != 0.0) ?  (dvdtLiq+totaldVolumeDt)/(vLiq+totalVolume) : 0.0);
+    fprintf(tableLiq, ",%20.13e", ((vLiq+totalVolume) != 0.0) ? -(dvdpLiq+totaldVolumeDp)/(vLiq+totalVolume) : 0.0);
+    fprintf(tableLiq, ",%20.13e", dvdtLiq*10.0);
+    fprintf(tableLiq, ",%20.13e", dvdpLiq*10.0);
+    fprintf(tableLiq, ",%20.13e", (vLiq != 0.0) ?  dvdtLiq/vLiq : 0.0);
+    fprintf(tableLiq, ",%20.13e", (vLiq != 0.0) ? -dvdpLiq/vLiq : 0.0);
+    fprintf(tableLiq, "\n");
+  }
+#endif
 
   if (silminState->fo2Path != FO2_NONE) {
     double mO2 = -silminState->oxygen;
@@ -1384,8 +1446,8 @@ int putOutputDataToFile(char *fileName)
   wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "Current state of the system recorded in file %s.\n", meltsEnviron.OUTPUT_FILE);
   return GET_INPUT_SUCCESS;
 #else
-  if(!fflush(NULL)) printf("Output files flushed."); else printf("Error returned when attempting to flush output files.");
-  printf("Current state of the system recorded in file melts.out.\n");
+  if(!fflush(NULL)) fprintf(stderr, "Output files flushed."); else fprintf(stderr, "Error returned when attempting to flush output files.");
+  fprintf(stderr, "Current state of the system recorded in file melts.out.\n");
   return TRUE;
 #endif
 }

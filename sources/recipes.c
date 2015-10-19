@@ -173,7 +173,18 @@ void gaussj(double **a, int n, double **b, int m)
     }
     indxr[i]=irow;
     indxc[i]=icol;
-    if (a[icol][icol] == 0.0) nrerror("gaussj: Singular Matrix-2");
+    if (a[icol][icol] == 0.0) {
+      /* original: nrerror("gaussj: Singular Matrix-2");            */
+      /* Returns the identity matrix as inverse instead of aborting */
+      for (i=1; i<=n; i++) {
+        for (j=1; j<=n; j++) a[i][j] = 0.0;
+        a[i][i] = 1.0; 
+      }
+      free_ivector(ipiv,1,n);
+      free_ivector(indxr,1,n);
+      free_ivector(indxc,1,n);
+      return;
+    }
     pivinv=1.0/a[icol][icol];
     a[icol][icol]=1.0;
     for (l=1;l<=n;l++) a[icol][l] *= pivinv;
@@ -255,12 +266,12 @@ void indexx(unsigned long n, double arr[], unsigned long indx[])
       jstack += 2;
       if (jstack > NSTACK) nrerror("NSTACK too small in indexx.");
       if (ir-i+1 >= j-l) {
-        istack[jstack]=ir;
-        istack[jstack-1]=i;
+        istack[jstack] = (int) ir;
+        istack[jstack-1] = (int) i;
         ir=j-1;
       } else {
-        istack[jstack]=j-1;
-        istack[jstack-1]=l;
+        istack[jstack] = (int) (j-1);
+        istack[jstack-1] = (int) l;
         l=i;
       }
     }

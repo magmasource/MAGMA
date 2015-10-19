@@ -51743,17 +51743,6 @@
 <k2o>0.140000</k2o>
 <p2o5>0.120000</p2o5>
 </liquid>
-<phase type="clinopyroxene">
-<sio2>52.099998</sio2>
-<tio2>0.800000</tio2>
-<al2o3>0.280000</al2o3>
-<cr2o3>0.170000</cr2o3>
-<feo>7.880000</feo>
-<mno>0.210000</mno>
-<mgo>19.200001</mgo>
-<cao>14.800000</cao>
-<na2o>0.440000</na2o>
-</phase>
 <phase type="feldspar">
 <sio2>53.299999</sio2>
 <al2o3>28.799999</al2o3>

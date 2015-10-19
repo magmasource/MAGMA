@@ -289,12 +289,12 @@ testLiq_v34(int mask, double t, double p,
   const char *NAMES[NA]    = { "SiO2"  , "TiO2"  , "Al2O3" , "Fe2O3" , "Cr2O3" ,
                                "FeO"   , "MnO"   , "MgO"   , "NiO"   , "CoO"   ,
                                "CaO"   , "Na2O"  , "K2O"   , "P2O5"  , "H2O"   ,
-                               "CO2"   , "S"     , "Cl"    , "F"     };
+                               "CO2"   , "SO3"   , "Cl2O-1", "F2O-1" };
   const char *FORMULAS[NA] = { "SiO2"     , "TiO2"     , "Al2O3"    , "Fe2O3"    , 
                                "MgCr2O4"  , "Fe2SiO4"  , "MnSi0.5O2", "Mg2SiO4"  , 
                                "NiSi0.5O2", "CoSi0.5O2", "CaSiO3"   , "Na2SiO3"  ,
-                               "KAlSiO4"  , "Ca3(PO4)2", "CO2"      , "S"        ,
-                               "Cl"       , "F"        , "H2O"      };
+                               "KAlSiO4"  , "Ca3(PO4)2", "CO2"      , "SO3"      ,
+                               "Cl2O-1"   , "F2O-1"    , "H2O"      };
   int result = TRUE, i;
   double sum;
 
@@ -397,6 +397,7 @@ actLiq_v34(int mask, double t, double p, double *r,
       a[i] = - gex;
       for (j=0;   j<i;  j++) a[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
       for (j=i+1; j<NA; j++) a[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
+        
       a[i] = (x[i] != 0.0) ? x[i]*exp(a[i]/(R*t)) : 0.0;
       a[i] = (i != NA-1)   ? (1.0 - x[NA-1])*a[i] : x[NA-1]*a[NA-1]; 
     }
@@ -420,9 +421,11 @@ actLiq_v34(int mask, double t, double p, double *r,
       a[i] = - gex;
       for (j=0;   j<i;  j++) a[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
       for (j=i+1; j<NA; j++) a[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
+        
       a[i] = (x[i] != 0.0) ? x[i]*exp(a[i]/(R*t)) : 0.0;
       a[i] = (i != NA-1)   ? (1.0 - x[NA-1])*a[i] : x[NA-1]*a[NA-1];
     }
+      
     for (i=0; i<NR; i++) {
       for (dgexdr[i] = x[0]*(WH(0,i+1)-t*WS(0,i+1)+(p-1.0)*WV(0,i+1)), j=0; 
         j<NR; j++) dgexdr[i] += (i != j) ? r[j]*((WH(i+1,j+1)-t*WS(i+1,j+1)
@@ -432,9 +435,9 @@ actLiq_v34(int mask, double t, double p, double *r,
 
     /* Special case for component 0 (SiO2)                                    */
     for (j=0; j<NR; j++) {
-      dr[0][j] = - R*t/x[0] + (WH(0,j+1)-t*WS(0,j+1)+(p-1.0)*WV(0,j+1)) 
-               - dgexdr[j];
+      dr[0][j] = - R*t/x[0] + (WH(0,j+1)-t*WS(0,j+1)+(p-1.0)*WV(0,j+1)) - dgexdr[j];
       if (j == NR-1) dr[0][j] += - R*t/(1.0-x[NA-1]);
+        
       dr[0][j] *= a[0]/(R*t);
     }
 
@@ -447,6 +450,7 @@ actLiq_v34(int mask, double t, double p, double *r,
         if (i != NA-1 && j == NR-1) dr[i][NR-1] += - R*t/(1.0-x[NA-1]);
         else if (i == NA-1 && j == NR-1 && x[NA-1] != 0.0) 
           dr[NA-1][NR-1] += R*t/x[NA-1];
+      
         dr[i][j] *= a[i]/(R*t);
       }
     }
@@ -499,6 +503,7 @@ gmixLiq_v34(int mask, double t, double p, double *r,
                : - r[j]*(WH(0,j+1)-t*WS(0,j+1)+(p-1.0)*WV(0,j+1));
     }
     dr[NR-1] += (x[NA-1] != 0.0) ? R*t*(log(x[NA-1])-log(1.0-x[NA-1])) : 0.0;
+    
   }
 
   if(mask & THIRD) {
@@ -513,6 +518,7 @@ gmixLiq_v34(int mask, double t, double p, double *r,
     }
     dr2[NR-1][NR-1] += 
       (x[NA-1] != 0.0) ? R*t*(1.0/x[NA-1] + 1.0/(1.0-x[NA-1])) : 0.0;
+      
   }
 }
 
@@ -533,6 +539,7 @@ hmixLiq_v34(int mask, double t, double p, double *r,
   for (*hmix = 0.0, i=0; i<NA; i++) {
     for (j=i+1; j<NA; j++) *hmix += x[i]*x[j]*(WH(i,j)+(p-1.0)*WV(i,j));
   }
+  
 }
 
 void 

@@ -1,8 +1,10 @@
 
 # =================================================================================
-# Makefile for build of the xMELTS package on Linux (Ubuntu - 9.04)
-#   $Id: Makefile.leopard-intel,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
+# Makefile for build of the xMELTS package on Linux (Ubuntu - 12.04)
+#   $Id: Makefile.ubuntu,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
 # =================================================================================
+
+MAKEFILE       = Makefile.ubuntu
 
 # Compilation options
 # ===================
@@ -10,7 +12,8 @@
 PROTO   = XTFUNCPROTO
 VLIST   = _NO_DRAWINGA_VLIST_PARENT
 ENTRYC  = _NO_WHITE_TEXTW
-ACEPLT  =     GRACE_PIPE
+ACEPLT  = UBUNTU
+#ACEPLT  =     GRACE_PIPE
 
 # Environment variable defaults
 # =============================
@@ -22,22 +25,22 @@ MELTS_HARDWARE_VERSION = 2.66 GHz Intel Core 2 Duo
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 3.0
-MELTS_OS_VERSION       = Ubuntu - 9.04
+MELTS_OS_VERSION       = Ubuntu - 10.04
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
-MELTS_X_VERSION        = X.Org/OpenMotif3
-MELTS_RELEASE_DATE     = October 2009
-MELTS_RELEASE_VERSION  = 5.6.0 (Ubuntu - 9.04, gcc 4.3)
+MELTS_X_VERSION        = X.Org / OSF Motif 2.3
+MELTS_RELEASE_DATE     = October 2010
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.1 (rhyolite) (Ubuntu - 12.04, gcc 4.6)
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
 
 INCC   = /usr/include
 INCXM  = /usr/include
-INCX   = /usr/X11R6/include
-INCF2C = /usr/include
+INCX   = /usr/include
+INCF2C = .
 INCXML = /usr/include/libxml2
 
 # Compiler choice and flags - Do not delete the $(BATCH) macro
@@ -45,18 +48,24 @@ INCXML = /usr/include/libxml2
 
 AR       = ar
 ARFLAGS  = rv
+# 'ar xv' extracts object files from the static library, avoiding recompilation
+DYFLAGS	 = xv
 CC       = gcc
-FC       = fort77
+FC       = gfortran
 # cannot use -ansi with -D__USE_ISOC99 (Mac has a BSD flag so doesn't need -D__USE_ISOC99)
-CFLAGS   = -D__USE_ISOC99 -c -fno-common -g -O2 -Wall $(BATCH) \
-           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCF2C) -I$(INCXML) -D__osf__ \
-	   -DF2C
-# Buffer overflow fixed so no need for this anymore
-# -D_FORTIFY_SOURCE=0
-FFLAGS   = -O2
+CFLAGS   = -D__USE_ISOC99 -c -fno-common -g -O3 -falign-loops=16 -ftree-vectorize -mfpmath=sse -Wall $(BATCH) \
+           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+
+# For Mac -dynamiclib is a wrapper for libtool so we do not need the position indepdent code flag
+# For Linux need to make 'realclean Melts-dynamic DYNAMIC=true' as archiving seems to loose the PIC property
+ifneq ($(DYNAMIC),)
+CFLAGS	 += -fPIC
+endif
+
+FFLAGS   = -O3
 RANLIB   = ranlib
-#For Mac need 'ranlib -s'; For Linux need 'ar -s' or just 'ranlib'
-#RANLIBFG = -s
+# For Mac need 'ranlib -s'; For Linux need 'ar -s' or just 'ranlib'
+RANLIBFG = 
 RM       = rm
 RMFLAGS  = -f
 MPICC      = mpicc
@@ -66,19 +75,31 @@ MPILDFLAGS = -L/usr/lib -lmpi
 # Loader flags (default is shared, add -non_shared)
 # =================================================
 
-LDFLAGS = 
+LDFLAGS =
+SONAME = so
+ifneq ($(DYNAMIC),)
+override DYNAMIC = -shared
+endif
 
 # Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
-# for staticcally linked OpenMotif3 use    instead of -L/sw/lib -lMrm -lXm
 # ========================================================================================================
 
-LIBS    = -L/usr/lib -lMrm -lXm -L/usr/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
-          ../port3/libport.a /usr/lib/libf2c.a
-PUBLIBS = /usr/lib/libMrm.a /usr/lib/libXm.a -L/usr/lib -lgrace_np -L/usr/X11R6/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu \
-          ../port3/libport.a /usr/lib/libf2c.a
-LIBF2C = /usr/lib/libf2c.a
+# Ubuntu has libiconv built into libc (see libc-bin in synaptic)
+# /usr/lib/x86_64-linux-gnu/libgrace_np.a -lgrace_np
+LIBS    = -L/usr/lib/x86_64-linux-gnu/ -lMrm -lXm -lXmu -lXt -lXp -lXext -lXpm -lX11 ../port3/libport.a
+PUBLIBS = /usr/lib/libMrm.a /usr/lib/libXm.a \
+	 /usr/lib/x86_64-linux-gnu/libXft.a /usr/lib/x86_64-linux-gnu/libXmu.a /usr/lib/x86_64-linux-gnu/libXt.a \
+	 /usr/lib/x86_64-linux-gnu/libXp.a /usr/lib/x86_64-linux-gnu/libSM.a /usr/lib/x86_64-linux-gnu/libICE.a \
+	 /usr/lib/x86_64-linux-gnu/libXext.a /usr/lib/x86_64-linux-gnu/libXpm.a /usr/lib/x86_64-linux-gnu/libXrender.a \
+	 /usr/lib/x86_64-linux-gnu/libX11-xcb.a /usr/lib/x86_64-linux-gnu/libX11.a /usr/lib/x86_64-linux-gnu/libxcb.a \
+	 /usr/lib/x86_64-linux-gnu/libXau.a /usr/lib/x86_64-linux-gnu/libXdmcp.a /usr/lib/x86_64-linux-gnu/libfontconfig.a \
+	 /usr/lib/x86_64-linux-gnu/libexpat.a /usr/lib/x86_64-linux-gnu/libfreetype.a /usr/lib/x86_64-linux-gnu/libjpeg.a \
+	 /usr/lib/x86_64-linux-gnu/libpng.a /usr/lib/x86_64-linux-gnu/libz.a \
+	 ../port3/libport.a /usr/lib/gcc/x86_64-linux-gnu/4.6/libgfortran.a 
+
+LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
-LIBBATCH = /usr/lib/libxml2.a -L/usr/lib -lz -liconv
+LIBBATCH = -L/usr/lib -lxml2 -lz
 
 include Makefile.common
 

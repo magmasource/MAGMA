@@ -518,7 +518,7 @@ static void create_phase_adb() {
       }
       XmToggleButtonSetState(vTogglesMin[j], modelParameters[nls*(nls-1)/2+nls+j].activeV, False);
 
-      top = top + 3;
+      top = top + 2;
       if (top > 95) {
         offset += 33;
         top = 6;
@@ -631,8 +631,8 @@ static void create_component_adb() {
    * 6 is the conversion from spacing to pixels (arbitrary; whatever looks good).
    **********************************************************************************/
   component_adb = XtVaCreateWidget("Form", xmFormWidgetClass, pane, 
-    XmNheight,         ( 5+2*nls+ 5)*6,
-    XmNwidth,          (15+2*nls+15)*6,
+    XmNheight,         ( 5+2*nls+ 5)*6*2,
+    XmNwidth,          (15+2*nls+15)*6*2,
   NULL);
 
   /* make labels for left edge and diagonal entries */
@@ -654,7 +654,7 @@ static void create_component_adb() {
       XmNleftAttachment, XmATTACH_POSITION, XmNleftPosition, left,
       NULL);
     XmStringFree(csString);
-    top = top + 2;
+    top = top + 3;
   }
 
   bot  = 5; left = 15;
@@ -672,7 +672,7 @@ static void create_component_adb() {
       XmNleftAttachment,   XmATTACH_POSITION, XmNleftPosition,   left,
       NULL);
     XmStringFree(csString);
-    bot = bot + 2; left = left + 2;
+    bot = bot + 3; left = left + 3;
   }
 
   /* make toggle button entries to fill in the matrix */
@@ -684,7 +684,7 @@ static void create_component_adb() {
 
   left = 15;
   for (j=0, l=0; j<nls; j++) {
-    top = 5 + j*2;
+    top = 5 + j*3;
     for (k =(j+1); k<nls; k++,l++) {
       square = XCreatePixmapFromBitmapData(XtDisplay(topLevel), RootWindowOfScreen(XtScreen(topLevel)), 
                  bits, width, height, red, white, DefaultDepthOfScreen(XtScreen(topLevel)));
@@ -703,9 +703,9 @@ static void create_component_adb() {
       XtAddCallback(paramSetToggles[l], XmNvalueChangedCallback, cmptg_callback, (XtPointer) longTag);
       }
       XmToggleButtonSetState(paramSetToggles[l], modelParameters[l].activeH, False);    
-      top = top + 2;
+      top = top + 3;
     }
-    left = left + 2;
+    left = left + 3;
   }      
 
   /* Create Parameter selection button */
@@ -812,7 +812,7 @@ static void create_std_adb() {
       XmNleftAttachment, XmATTACH_POSITION, XmNleftPosition, left,
       NULL);
     XmStringFree(csString);
-    top = top + 2;
+    top = top + 3;
   }
 
   top  = 9;
@@ -829,7 +829,7 @@ static void create_std_adb() {
       XmNleftAttachment, XmATTACH_POSITION, XmNleftPosition, left,
       NULL);
     XmStringFree(csString);
-    top = top + 2;
+    top = top + 3;
   }
 
   /* make toggle button entries to fill in the matrix */
@@ -878,7 +878,7 @@ static void create_std_adb() {
       else if (j == 1) XmToggleButtonSetState(stdSetToggles[l], modelParameters[nls*(nls-1)/2+k].activeS, False);
       else if (j == 2) XmToggleButtonSetState(stdSetToggles[l], modelParameters[nls*(nls-1)/2+k].activeF, False);
       else if (j == 3) XmToggleButtonSetState(stdSetToggles[l], modelParameters[nls*(nls-1)/2+k].activeV, False);
-      top = top + 2;
+      top = top + 3;
     }
     left = left + 7;
   }      
@@ -915,7 +915,7 @@ static void create_std_adb() {
       if      (j == 0) XmToggleButtonSetState(stdSetToggles[l], eosModelParameters[k].activeKp,   False);
       else if (j == 1) XmToggleButtonSetState(stdSetToggles[l], eosModelParameters[k].activeKpp,  False);
       else if (j == 2) XmToggleButtonSetState(stdSetToggles[l], eosModelParameters[k].activeKppp, False);
-      top = top + 2;
+      top = top + 3;
     }
     left = left + 10;
   }      

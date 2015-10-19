@@ -603,10 +603,12 @@ extern Oxygen oxygen;
  * Status of calculation and intensive and extensive variables for the system
  */
 
-#define MODE_xMELTS  0
-#define MODE__MELTS  1
-#define MODE_pMELTS  2
-#define MODE_DEFAULT MODE_xMELTS
+#define MODE_xMELTS           0
+#define MODE__MELTS           1
+#define MODE_pMELTS           2
+#define MODE__MELTSandCO2     3
+#define MODE__MELTSandCO2_H2O 4
+#define MODE_DEFAULT          MODE_xMELTS
 
 extern int calculationMode;
 
@@ -628,6 +630,8 @@ extern int calculationMode;
 #define FO2_QFM_M7 15
 #define FO2_QFM_M8 16
 #define FO2_QFM_M9 17
+#define FO2_QFM_P0_5 18
+#define FO2_QFM_P1_5 19
 
 typedef struct _silminState {
   double  *bulkComp;      /* current bulk composition (moles of oxides)      */
@@ -708,6 +712,8 @@ typedef struct _silminState {
   ThermoData assimTD;     /* -> thermodynamic properties of assimilant       */
 
   int     plotState;      /* current value of user configurable plot state   */
+  double  *ySol;          /* array output from evaluateSaturationState       */
+  double  *yLiq;          /* array output from evaluateSaturationState       */
 } SilminState;   
 
 extern SilminState *silminState;

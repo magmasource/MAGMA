@@ -818,7 +818,7 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
   long tag = (long) cData;
   XmTextVerifyCallbackStruct *cbData = (XmTextVerifyCallbackStruct *) cbDataGen;
   char *value;
-  int len;
+  long len;
 
   switch (cbData->reason) {
 
@@ -847,7 +847,7 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
       else {
         if (len + cbData->text->length > CHAR_LENGTH) {
           cbData->text->ptr[CHAR_LENGTH-len] = 0;
-          cbData->text->length = strlen(cbData->text->ptr);
+          cbData->text->length = (int) strlen(cbData->text->ptr);
         }
         if (tag == K_TEXT_CONSTANT) {       /* if constant, must be a number */
           for (len=0; len<cbData->text->length; len++) {
@@ -855,7 +855,7 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
               cbData->text->ptr[len] != '.' && cbData->text->ptr[len] != ' ' &&
               cbData->text->ptr[len] != '-' ) {
               int j;
-              for (j=len; (j+1)<cbData->text->length; j++)
+              for (j=(int)len; (j+1)<cbData->text->length; j++)
                 cbData->text->ptr[j] = cbData->text->ptr[j+1];
               cbData->text->length--;  len--;
             }
@@ -907,7 +907,9 @@ Boolean launchUserGraphGW(Widget w)
 
 void updateUserGraphGW(void)
 {
-  static Boolean firstTime = True;
+#ifdef GRACE_PIPE
+    static Boolean firstTime = True;
+#endif
 
   if (silminHistory == NULL && silminState != NULL) {
     silminHistory  = (SilminHistory *) calloc((unsigned) 1, sizeof(SilminHistory));

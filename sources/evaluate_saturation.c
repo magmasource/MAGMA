@@ -128,6 +128,12 @@ MELTS Source Code: RCS
 #include "silmin.h"               /*SILMIN structures include file          */
 #include "recipes.h"
 
+int getAffinityAndCompositionGeneric(double t, double p, int index,                           
+  int *zeroX, double *muMinusMu0, double *affinity, double *indepVar);
+
+int getAffinityAndCompositionPyroxene(double t, double p, int index,                           
+  int *zeroX, double *muMinusMu0, double *affinity, double *indepVar);
+
 #ifdef DEBUG
 #undef DEBUG
 #endif
@@ -162,6 +168,42 @@ int evaluateSaturationState(double *rSol, double *rLiq)
       (double *) NULL, (double **) NULL, (double ***) NULL,  &(silminState->fo2));
     actLiq(SECOND, t, p, rLiq, NULL, muLiq, NULL, NULL);
     for (i=0; i<nlc; i++) if ((silminState->liquidComp)[0][i] != 0.0) muLiq[i] += (liquid[i].cur).g;
+    
+    // Correction to Fe2O3 chemical potential due to the fact that when the fO2 buffer path is constrained,
+    // homogeneous redox equilibrium in the melt is not consistent with Kress and Carmichael.
+    // This results in a saturation state convergence to an incorrect composition/affinity for phases that 
+    // contain ferric iron if the Fe2O3 chemical potential is not adjusted for internal consistency with K&C.
+    
+    if ( (silminState->fo2Path != FO2_NONE) && ((calculationMode == MODE_xMELTS) ||
+                                                (calculationMode == MODE__MELTS) ||
+                                                (calculationMode == MODE__MELTSandCO2) ||
+                                                (calculationMode == MODE__MELTSandCO2_H2O)
+                                                )) {
+      // This is the chemical potential of oxygen calculated from the imposed buffer
+      double muO2 = R*(silminState->T)*(silminState->fo2)*log(10.0) + oxygen.cur.g;
+      // This is the free energy change of the reaction: Fe2SiO4 + 1/2 O2 = Fe2O3 + SiO2 (MELTS component choice)
+      // If Kress & Carmichael were consistent with homogeneous equilibrium in MELTS, then this number would be zero
+      double deltaG = muLiq[0] + muLiq[3] - muLiq[5] - muO2/2.0;
+#ifdef DEBUG
+      printf("The chemical potential of oxygen is %g, deltaG is %g\n", muO2, deltaG);
+#endif
+      // adjust the chemical potential of Fe2O3 so that the fO2 constraint will propagate
+      // into the correct selection of saturation phases
+      muLiq[3] -= deltaG;
+      
+    } else if ( (silminState->fo2Path != FO2_NONE) && (calculationMode == MODE_pMELTS) ) {
+      // This is the chemical potential of oxygen calculated from the imposed buffer
+      double muO2 = R*(silminState->T)*(silminState->fo2)*log(10.0) + oxygen.cur.g;
+      // This is the free energy change of the reaction: Fe2SiO4 + 1/2 O2 = Fe2O3 + 1/4 Si4O8 (pMELTS component choice)
+      // If Kress & Carmichael were consistent with homogeneous equilibrium in MELTS, then this number would be zero
+      double deltaG = muLiq[0]/4.0 + muLiq[3] - muLiq[5] - muO2/2.0;
+#ifdef DEBUG
+      printf("The chemical potential of oxygen is %g, deltaG is %g\n", muO2, deltaG);
+#endif
+      // adjust the chemical potential of Fe2O3 so that the fO2 constraint will propagate
+      // into the correct selection of saturation phases
+      muLiq[3] -= deltaG;
+    }
 
     for (i=0;i<nlc;i++) liquidComp[i] = silminState->liquidComp[0][i];
 
@@ -298,15 +340,34 @@ int evaluateSaturationState(double *rSol, double *rLiq)
              variables (ie. solids[i].nr of them) is returned in
              rSol[i+1] to rSol[i+1+solids[i].nr]. It may be converted
              subsequently to moles of endmembers if necessary                 */
-
+#ifdef RHYOLITE_ADJUSTMENTS	     
+	  if (!strcmp(solids[i].label, "feldspar")) {
+#ifdef DEBUG
+              printf("Using generic method for feldspar.\n");
+#endif
+	      getAffinityAndCompositionGeneric(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
+	      
+	  } else if (!strcmp(solids[i].label, "orthopyroxene")) {
+#ifdef DEBUG
+              printf("Using speciation method for orthopyroxene.\n");
+#endif
+	      getAffinityAndCompositionPyroxene(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
+	      
+	  } else if (!strcmp(solids[i].label, "clinopyroxene")) {
+#ifdef DEBUG
+              printf("Using speciation method for clinopyroxene.\n");
+#endif
+	      getAffinityAndCompositionPyroxene(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
 /*
-          if (!strcmp(solids[i].label, "leucite ss")) {
-            muSol[1] = 0.0; zeroX[1] = TRUE;
-          }
-*/
-
-          if (!getAffinityAndComposition(t, p, i, zeroX, muSol, &rSol[i],
-                   &rSol[i+1])) {		   
+	  } else if (!strcmp(solids[i].label, "spinel")) {
+#ifdef DEBUG
+              printf("Using speciation method for spinel.\n");
+#endif
+	      getAffinityAndCompositionSpinel(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1]);
+*/	      
+      } else 
+#endif /* RHYOLITE_ADJUSTMENTS */	  
+	  if (!getAffinityAndComposition(t, p, i, zeroX, muSol, &rSol[i], &rSol[i+1])) {		   
             if (!strcmp(solids[i].label, "clinopyroxene") || 
                 !strcmp(solids[i].label, "orthopyroxene")    ) {
 #ifdef DO_PYROXENE_COMPROMISE
@@ -369,7 +430,7 @@ int evaluateSaturationState(double *rSol, double *rLiq)
               } else for (k=0; k<=solids[i].na; k++) rSol[i+k] = 0.0;
 
             } else for (k=0; k<=solids[i].na; k++) rSol[i+k] = 0.0;
-          }
+          }  /* end of if-block for getAffinityAndComposition() */
 
           hasSupersat |= (rSol[i] < 0.0);
           i += solids[i].na;

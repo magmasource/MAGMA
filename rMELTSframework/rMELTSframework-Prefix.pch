@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'rMELTSframework' target in the 'rMELTSframework' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

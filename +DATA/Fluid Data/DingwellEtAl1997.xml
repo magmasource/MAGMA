@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase>
+<experiment>
+<number>12768</number>
+<name>HPG8</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.6</sio2>
+<al2o3>12.5</al2o3>
+<na2o>4.6</na2o>
+<k2o>4.2</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>76.7589</sio2>
+<al2o3>12.2072</al2o3>
+<na2o>4.49225</na2o>
+<k2o>4.10162</k2o>
+<h2o>2.44</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12769</number>
+<name>HPG8</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>800</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.6</sio2>
+<al2o3>12.5</al2o3>
+<na2o>4.6</na2o>
+<k2o>4.2</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>73.9265</sio2>
+<al2o3>11.7568</al2o3>
+<na2o>4.32649</na2o>
+<k2o>3.95027</k2o>
+<h2o>6.04</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12770</number>
+<name>HPG8</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>900</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.6</sio2>
+<al2o3>12.5</al2o3>
+<na2o>4.6</na2o>
+<k2o>4.2</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.2357</sio2>
+<al2o3>11.3288</al2o3>
+<na2o>4.16901</na2o>
+<k2o>3.80649</k2o>
+<h2o>9.46</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12771</number>
+<name>HPG8+2AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>77.2</sio2>
+<al2o3>13.9</al2o3>
+<na2o>4.5</na2o>
+<k2o>4.3</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>75.5617</sio2>
+<al2o3>13.605</al2o3>
+<na2o>4.4045</na2o>
+<k2o>4.20875</k2o>
+<h2o>2.22</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12772</number>
+<name>HPG8+2AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>800</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>77.2</sio2>
+<al2o3>13.9</al2o3>
+<na2o>4.5</na2o>
+<k2o>4.3</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.5093</sio2>
+<al2o3>13.0554</al2o3>
+<na2o>4.22658</na2o>
+<k2o>4.03873</k2o>
+<h2o>6.17</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12773</number>
+<name>HPG8+2AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>900</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>77.2</sio2>
+<al2o3>13.9</al2o3>
+<na2o>4.5</na2o>
+<k2o>4.3</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>69.6964</sio2>
+<al2o3>12.549</al2o3>
+<na2o>4.06261</na2o>
+<k2o>3.88205</k2o>
+<h2o>9.81</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12774</number>
+<name>HPG8+5AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>75.4</sio2>
+<al2o3>16.1</al2o3>
+<na2o>4.7</na2o>
+<k2o>4.3</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12775</number>
+<name>HPG8+5AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>800</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>75.4</sio2>
+<al2o3>16.1</al2o3>
+<na2o>4.7</na2o>
+<k2o>4.3</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12776</number>
+<name>HPG8+5AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>900</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>75.4</sio2>
+<al2o3>16.1</al2o3>
+<na2o>4.7</na2o>
+<k2o>4.3</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>67.5524</sio2>
+<al2o3>14.4243</al2o3>
+<na2o>4.21083</na2o>
+<k2o>3.85246</k2o>
+<h2o>9.96</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12777</number>
+<name>HPG8-2AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>81.3</sio2>
+<al2o3>11.3</al2o3>
+<na2o>4.9</na2o>
+<k2o>4.1</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>77.9712</sio2>
+<al2o3>10.8373</al2o3>
+<na2o>4.69937</na2o>
+<k2o>3.93213</k2o>
+<h2o>2.56</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12778</number>
+<name>HPG8-2AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>800</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>81.3</sio2>
+<al2o3>11.3</al2o3>
+<na2o>4.9</na2o>
+<k2o>4.1</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>75.0265</sio2>
+<al2o3>10.428</al2o3>
+<na2o>4.52189</na2o>
+<k2o>3.78362</k2o>
+<h2o>6.24</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12779</number>
+<name>HPG8-2AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>900</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>81.3</sio2>
+<al2o3>11.3</al2o3>
+<na2o>4.9</na2o>
+<k2o>4.1</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.7697</sio2>
+<al2o3>9.97536</al2o3>
+<na2o>4.3256</na2o>
+<k2o>3.61938</k2o>
+<h2o>10.31</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12780</number>
+<name>HPG8-5AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>900</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>83.3</sio2>
+<al2o3>8.3</al2o3>
+<na2o>5</na2o>
+<k2o>4.8</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>79.6772</sio2>
+<al2o3>7.93902</al2o3>
+<na2o>4.78254</na2o>
+<k2o>4.59124</k2o>
+<h2o>3.01</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12781</number>
+<name>HPG8-5AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>800</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>83.3</sio2>
+<al2o3>8.3</al2o3>
+<na2o>5</na2o>
+<k2o>4.8</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>76.5473</sio2>
+<al2o3>7.62716</al2o3>
+<na2o>4.59467</na2o>
+<k2o>4.41089</k2o>
+<h2o>6.82</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12782</number>
+<name>HPG8-5AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>800</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>83.3</sio2>
+<al2o3>8.3</al2o3>
+<na2o>5</na2o>
+<k2o>4.8</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.8505</sio2>
+<al2o3>7.25882</al2o3>
+<na2o>4.37278</na2o>
+<k2o>4.19787</k2o>
+<h2o>11.32</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12783</number>
+<name>HPG8-5AL</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>900</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>83.3</sio2>
+<al2o3>8.3</al2o3>
+<na2o>5</na2o>
+<k2o>4.8</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.1687</sio2>
+<al2o3>7.19088</al2o3>
+<na2o>4.33185</na2o>
+<k2o>4.15858</k2o>
+<h2o>12.15</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12784</number>
+<name>HPG8+5Na</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>74.1</sio2>
+<al2o3>11.7</al2o3>
+<na2o>9</na2o>
+<k2o>4.4</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.3222</sio2>
+<al2o3>11.4193</al2o3>
+<na2o>8.78407</na2o>
+<k2o>4.29444</k2o>
+<h2o>3.18</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12785</number>
+<name>HPG8+10Na</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>72.1</sio2>
+<al2o3>10.9</al2o3>
+<na2o>12.9</na2o>
+<k2o>3.8</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>69.6629</sio2>
+<al2o3>10.5316</al2o3>
+<na2o>12.464</na2o>
+<k2o>3.67155</k2o>
+<h2o>3.67</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>12786</number>
+<name>HPG8+5K</name>
+<author>Dingwell, D.B., Holtz, F., Behrens, H. (1997)</author>
+<lab>Hannover</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>KFT</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>74.6</sio2>
+<al2o3>11.8</al2o3>
+<na2o>4.4</na2o>
+<k2o>9.2</k2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.4142</sio2>
+<al2o3>11.4543</al2o3>
+<na2o>4.27108</na2o>
+<k2o>8.93044</k2o>
+<h2o>2.93</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+</LEPRdatabase>

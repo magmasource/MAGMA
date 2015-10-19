@@ -413,7 +413,7 @@ int main()
      /*                 SiO2 TiO2 Al2O3 Fe2O3 Cr2O3   FeO  MnO   MgO   NiO   CoO   CaO Na2O  K2O P2O5  H2O   CO2   SO3 Cl2O-1 F2O-1 */
 /*    double grams[] = { 45.0, 2.0, 10.0,  0.2, 0.01, 10.0, 0.5, 20.0, 0.05, 0.05, 10.0, 2.0, 0.5, 0.5, 0.1, 0.05, 0.05,  0.05, 0.05 }; */
 /*   double grams[] = { 60.46, 0.45, 16.29,  0.921154, 0.04, 2.42796, 0.05, 1.94, 0.01, 0.01, 4.42, 4.02, 1.8, 0.01, 6.69, 0.01, 0.01,  0.01, 0.01 }; */
-     double grams[] = { 49.0, 0.5, 16.0,  0.0, 0.0, 11.0, 0.0, 10.0, 0.5, 0.0, 10.0, 3.0, 0.5, 0.0, 0.0, 0.0, 0.0,  0.0, 0.0 };
+     double grams[] = { 48.7, 0.89, 17.74,  0.0, 0.0, 9.1, 0.17, 6.8, 0.0, 0.0, 11.04, 2.26, 0.22, 0.15, 2.62, 0.3172, 0.0, 0.0,  0.0 };
      for (i=0; i<nc; i++) grams[i] /= bulkSystem[i].mw;
      for (i=0; i<nlc; i++) for (j=0,moles[i]=0.0; j<nc; j++) moles[i] += grams[j]*(bulkSystem[j].oxToLiq)[i];
    } else {
@@ -461,22 +461,23 @@ int main()
    }
    printf("\n");
 
-   /* Calculate species distribution and report results */
-   conLiq(THIRD, FOURTH | EIGHTH, t, p, NULL, NULL, x, xSpecies, NULL, NULL, NULL);
-   printf("Distribution of species from conLiq:\n");
-   for (i=0; i<nls; i++) printf("x[%20.20s] = %g\n", liquid[i].label, xSpecies[i]);
-   printf("\n");
-   
-   /* Calculate CN state distribution and report results */
-   conLiq(THIRD, FOURTH | NINTH, t, p, NULL, NULL, x, xSpecies, NULL, NULL, NULL);
-   printf("CN state distribution from conLiq:\n");
-   for (i=0; i<nCN; i++) printf("fraction CN[%1.1d] = %g\n", 3+i, xSpecies[i]);
-   printf("\n");
+   if (calculationMode == MODE_xMELTS) {
+     /* Calculate species distribution and report results */
+     conLiq(THIRD, FOURTH | EIGHTH, t, p, NULL, NULL, x, xSpecies, NULL, NULL, NULL);
+     printf("Distribution of species from conLiq:\n");
+     for (i=0; i<nls; i++) printf("x[%20.20s] = %g\n", liquid[i].label, xSpecies[i]);
+     printf("\n");
+     
+     /* Calculate CN state distribution and report results */
+     conLiq(THIRD, FOURTH | NINTH, t, p, NULL, NULL, x, xSpecies, NULL, NULL, NULL);
+     printf("CN state distribution from conLiq:\n");
+     for (i=0; i<nCN; i++) printf("fraction CN[%1.1d] = %g\n", 3+i, xSpecies[i]);
+     printf("\n");
 
-   /* Test EOS model for this T and P combination */
-   gmixLiq(FIRST, t, p, x, &g, NULL, NULL);
-   if (!testLiq(EIGHTH, 0, 0, 0, 0, NULL, NULL, NULL, NULL)) { printf("EOS failure in liquid properties functions. Error: %d\n", liqERRstate); return 0; }
-
+     /* Test EOS model for this T and P combination */
+     gmixLiq(FIRST, t, p, x, &g, NULL, NULL);
+     if (!testLiq(EIGHTH, 0, 0, 0, 0, NULL, NULL, NULL, NULL)) { printf("EOS failure in liquid properties functions. Error: %d\n", liqERRstate); return 0; }
+   }
 
    /***************************************************************************
     Question to proceed
@@ -597,77 +598,83 @@ int main()
      }
    } else getchar();
    
-   printf("\n");
-   /* The next is a non-public call to actLiq */
-   actLiq(FIFTH, t, p, x, NULL, dgdw, NULL, NULL); 
+   if (calculationMode == MODE_xMELTS) {
+   
+     printf("\n");
+     /* The next is a non-public call to actLiq */
+     actLiq(FIFTH, t, p, x, NULL, dgdw, NULL, NULL); 
 
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate g-parameter H derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].enthalpy;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].enthalpy));
-       double left, right;
-       modelParameters[i].enthalpy = param + delta;
-       gmixLiq(FIRST, t, p, x, &left, NULL, NULL);
-       modelParameters[i].enthalpy = param - delta;
-       gmixLiq(FIRST, t, p, x, &right,  NULL, NULL);
-       modelParameters[i].enthalpy = param;
-       temp = ((left-g)/delta + (g-right)/delta)/2.0;
-       TEST(dgdw[i]);
-       printf("%s dgdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dgdw[i], temp, "from g - central difference");
-     }
-   } else getchar();
-      
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate g-parameter S derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].entropy;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].entropy));
-       double left, right;
-       modelParameters[i].entropy = param + delta;
-       gmixLiq(FIRST, t, p, x, &left, NULL, NULL);
-       modelParameters[i].entropy = param - delta;
-       gmixLiq(FIRST, t, p, x, &right,  NULL, NULL);
-       modelParameters[i].entropy = param;
-       temp = ((left-g)/delta + (g-right)/delta)/2.0;
-       TEST(dgdw[i+nls+nls*(nls-1)/2]);
-       printf("%s dgdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dgdw[i+nls+nls*(nls-1)/2], temp, "from g - central difference");
-     }
-   } else getchar();
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate g-parameter H derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+     	 double param = modelParameters[i].enthalpy;
+     	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].enthalpy));
+     	 double left, right;
+     	 modelParameters[i].enthalpy = param + delta;
+     	 gmixLiq(FIRST, t, p, x, &left, NULL, NULL);
+     	 modelParameters[i].enthalpy = param - delta;
+     	 gmixLiq(FIRST, t, p, x, &right,  NULL, NULL);
+     	 modelParameters[i].enthalpy = param;
+     	 temp = ((left-g)/delta + (g-right)/delta)/2.0;
+     	 TEST(dgdw[i]);
+     	 printf("%s dgdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dgdw[i], temp, "from g - central difference");
+       }
+     } else getchar();
+     	
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate g-parameter S derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+     	 double param = modelParameters[i].entropy;
+     	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].entropy));
+     	 double left, right;
+     	 modelParameters[i].entropy = param + delta;
+     	 gmixLiq(FIRST, t, p, x, &left, NULL, NULL);
+     	 modelParameters[i].entropy = param - delta;
+     	 gmixLiq(FIRST, t, p, x, &right,  NULL, NULL);
+     	 modelParameters[i].entropy = param;
+     	 temp = ((left-g)/delta + (g-right)/delta)/2.0;
+     	 TEST(dgdw[i+nls+nls*(nls-1)/2]);
+     	 printf("%s dgdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dgdw[i+nls+nls*(nls-1)/2], temp, "from g - central difference");
+       }
+     } else getchar();
  
-   printf("Evaluate g-parameter V derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar();
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].volume;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].volume));
-       double left, right;
-       modelParameters[i].volume = param + delta;
-       gmixLiq(FIRST, t, p, x, &left, NULL, NULL);
-       modelParameters[i].volume = param - delta;
-       gmixLiq(FIRST, t, p, x, &right,  NULL, NULL);
-       modelParameters[i].volume = param;
-       temp = ((left-g)/delta + (g-right)/delta)/2.0;
-       TEST(dgdw[i+2*nls+2*nls*(nls-1)/2]);
-       printf("%s dgdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dgdw[i+2*nls+2*nls*(nls-1)/2], temp, "from g - central difference");
-     }
-   }  else getchar();
+     printf("Evaluate g-parameter V derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar();
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+     	 double param = modelParameters[i].volume;
+     	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].volume));
+     	 double left, right;
+     	 modelParameters[i].volume = param + delta;
+     	 gmixLiq(FIRST, t, p, x, &left, NULL, NULL);
+     	 modelParameters[i].volume = param - delta;
+     	 gmixLiq(FIRST, t, p, x, &right,  NULL, NULL);
+     	 modelParameters[i].volume = param;
+     	 temp = ((left-g)/delta + (g-right)/delta)/2.0;
+     	 TEST(dgdw[i+2*nls+2*nls*(nls-1)/2]);
+     	 printf("%s dgdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dgdw[i+2*nls+2*nls*(nls-1)/2], temp, "from g - central difference");
+       }
+     }  else getchar();
  
+   }
    printf("\n");
 
    /***************************************************************************
     Evaluate activity routines
     ***************************************************************************/
-   actLiq(FIRST | SECOND | THIRD | FOURTH, t, p, x, a,    mu,    dadx, dmudw);
-   actLiq(EIGHTH | NINTH,                  t, p, x, NULL, dmudt, NULL, d2mudtdw);
+   actLiq(FIRST | SECOND | THIRD, t, p, x, a, mu, dadx, NULL);
+   if (calculationMode == MODE_xMELTS) {
+     actLiq(FOURTH,         t, p, x, NULL,  NULL, NULL, dmudw);
+     actLiq(EIGHTH | NINTH, t, p, x, NULL, dmudt, NULL, d2mudtdw);
+   }
 
    /***************************************************************************
     Question to proceed
@@ -720,133 +727,136 @@ int main()
      }
    } else getchar();
 
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate chemical potential-parameter H derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     for (i=0; i<nlc; i++) {
-       for (j=0; j<(nls*(nls-1)/2+nls); j++) {
-  	 double param = modelParameters[j].enthalpy;
-  	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[j].enthalpy));
-  	 double left, right;
-  	 modelParameters[j].enthalpy = param + delta;
-  	 actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
-  	 left = vtemp[i];
-  	 modelParameters[j].enthalpy = param - delta;
-  	 actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
-  	 right = vtemp[i];
-  	 modelParameters[j].enthalpy = param;
-  	 temp = ((left-mu[i])/delta + (mu[i]-right)/delta)/2.0;
-  	 TEST(dmudw[i][j]);
-  	 printf("%s dmudw[%s][%s] = %g (%g, %s)\n", flag, liquid[i].label, modelParameters[j].label,
-  	   dmudw[i][j], temp, "from m[] - central difference");
+   if (calculationMode == MODE_xMELTS) {
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate chemical potential-parameter H derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       for (i=0; i<nlc; i++) {
+    	 for (j=0; j<(nls*(nls-1)/2+nls); j++) {
+    	   double param = modelParameters[j].enthalpy;
+    	   double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[j].enthalpy));
+    	   double left, right;
+    	   modelParameters[j].enthalpy = param + delta;
+    	   actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
+    	   left = vtemp[i];
+    	   modelParameters[j].enthalpy = param - delta;
+    	   actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
+    	   right = vtemp[i];
+    	   modelParameters[j].enthalpy = param;
+    	   temp = ((left-mu[i])/delta + (mu[i]-right)/delta)/2.0;
+    	   TEST(dmudw[i][j]);
+    	   printf("%s dmudw[%s][%s] = %g (%g, %s)\n", flag, liquid[i].label, modelParameters[j].label,
+    	     dmudw[i][j], temp, "from m[] - central difference");
+    	 }
        }
-     }
-   } else getchar();
+     } else getchar();
+     
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate chemical potential-parameter S derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       for (i=0; i<nlc; i++) {
+    	 for (j=0; j<(nls*(nls-1)/2+nls); j++) {
+    	   double param = modelParameters[j].entropy;
+    	   double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[j].entropy));
+    	   double left, right;
+    	   modelParameters[j].entropy = param + delta;
+    	   actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
+    	   left = vtemp[i];
+    	   modelParameters[j].entropy = param - delta;
+    	   actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
+    	   right = vtemp[i];
+    	   modelParameters[j].entropy = param;
+    	   temp = ((left-mu[i])/delta + (mu[i]-right)/delta)/2.0;
+    	   TEST(dmudw[i][j+nls*(nls-1)/2+nls]);
+    	   printf("%s dmudw[%s][%s] = %g (%g, %s)\n", flag, liquid[i].label, modelParameters[j].label,
+    	     dmudw[i][j+nls*(nls-1)/2+nls], temp, "from m[] - central difference");
+    	 }
+       }
+     } else getchar();
+
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate chemical potential-parameter V derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       /* print and test dmudw[][] */
+       for (i=0; i<nlc; i++) {
+    	 for (j=0; j<(nls*(nls-1)/2+nls); j++) {
+    	   double param = modelParameters[j].volume;
+    	   double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[j].volume));
+    	   double left, right;
+    	   modelParameters[j].volume = param + delta;
+    	   actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
+    	   left = vtemp[i];
+    	   modelParameters[j].volume = param - delta;
+    	   actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
+    	   right = vtemp[i];
+    	   modelParameters[j].volume = param;
+    	   temp = ((left-mu[i])/delta + (mu[i]-right)/delta)/2.0;
+    	   TEST(dmudw[i][j+2*nls*(nls-1)/2+2*nls]);
+    	   printf("%s dmudw[%s][%s] = %g (%g, %s)\n", flag, liquid[i].label, modelParameters[j].label,
+    	     dmudw[i][j+2*nls*(nls-1)/2+2*nls], temp, "from m[] - central difference");
+    	 }
+       }
+     } else getchar();
+
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate derivative of chemical potential with respect to T now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       /* print and test dmudt */
+       actLiq(SECOND, t+deltaT, p, x, NULL, vtemp, NULL, NULL);
+       for (i=0; i<nlc; i++) {
+    	 temp = (vtemp[i]-mu[i])/deltaT;
+    	 TEST(dmudt[i]);
+    	 printf("%s dmudt[%s] = %g (%g, %s)\n", flag, liquid[i].label, dmudt[i], temp, "from mu");
+       }
+     } else getchar();
+
+     /***************************************************************************
+      Question to proceed +2*nls*(nls-1)/2+2*nls]
+      ***************************************************************************/
+     printf("Evaluate derivative of chemical potential with respect to T and W now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       /* print and test d2mudtdw[][] */
+       for (i=0; i<nlc; i++) {
+    	 for (j=0; j<(nls*(nls-1)/2+nls); j++) {
+    	   double param = modelParameters[j].enthalpy;
+    	   double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[j].enthalpy));
+    	   double left, right;
+    	   modelParameters[j].enthalpy = param + delta;
+    	   actLiq(EIGHTH, t, p, x, NULL, vtemp, NULL, NULL);
+    	   left = vtemp[i];
+    	   modelParameters[j].enthalpy = param - delta;
+    	   actLiq(EIGHTH, t, p, x, NULL, vtemp, NULL, NULL);
+    	   right = vtemp[i];
+    	   modelParameters[j].enthalpy = param;
+    	   temp = ((left-dmudt[i])/delta + (dmudt[i]-right)/delta)/2.0;
+    	   TEST(d2mudtdw[i][j]);
+    	   printf("%s dmudw[%s][%s] = %g (%g, %s)\n", flag, liquid[i].label, modelParameters[j].label,
+    	     d2mudtdw[i][j], temp, "from dmudt[] - central difference");
+    	 }
+       }
+     } else getchar();
+   }
    
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate chemical potential-parameter S derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     for (i=0; i<nlc; i++) {
-       for (j=0; j<(nls*(nls-1)/2+nls); j++) {
-  	 double param = modelParameters[j].entropy;
-  	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[j].entropy));
-  	 double left, right;
-  	 modelParameters[j].entropy = param + delta;
-  	 actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
-  	 left = vtemp[i];
-  	 modelParameters[j].entropy = param - delta;
-  	 actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
-  	 right = vtemp[i];
-  	 modelParameters[j].entropy = param;
-  	 temp = ((left-mu[i])/delta + (mu[i]-right)/delta)/2.0;
-  	 TEST(dmudw[i][j+nls*(nls-1)/2+nls]);
-  	 printf("%s dmudw[%s][%s] = %g (%g, %s)\n", flag, liquid[i].label, modelParameters[j].label,
-  	   dmudw[i][j+nls*(nls-1)/2+nls], temp, "from m[] - central difference");
-       }
-     }
-   } else getchar();
-
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate chemical potential-parameter V derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     /* print and test dmudw[][] */
-     for (i=0; i<nlc; i++) {
-       for (j=0; j<(nls*(nls-1)/2+nls); j++) {
-  	 double param = modelParameters[j].volume;
-  	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[j].volume));
-  	 double left, right;
-  	 modelParameters[j].volume = param + delta;
-  	 actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
-  	 left = vtemp[i];
-  	 modelParameters[j].volume = param - delta;
-  	 actLiq(SECOND, t, p, x, NULL, vtemp, NULL, NULL);
-  	 right = vtemp[i];
-  	 modelParameters[j].volume = param;
-  	 temp = ((left-mu[i])/delta + (mu[i]-right)/delta)/2.0;
-  	 TEST(dmudw[i][j+2*nls*(nls-1)/2+2*nls]);
-  	 printf("%s dmudw[%s][%s] = %g (%g, %s)\n", flag, liquid[i].label, modelParameters[j].label,
-  	   dmudw[i][j+2*nls*(nls-1)/2+2*nls], temp, "from m[] - central difference");
-       }
-     }
-   } else getchar();
-
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate derivative of chemical potential with respect to T now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     /* print and test dmudt */
-     actLiq(SECOND, t+deltaT, p, x, NULL, vtemp, NULL, NULL);
-     for (i=0; i<nlc; i++) {
-       temp = (vtemp[i]-mu[i])/deltaT;
-       TEST(dmudt[i]);
-       printf("%s dmudt[%s] = %g (%g, %s)\n", flag, liquid[i].label, dmudt[i], temp, "from mu");
-     }
-   } else getchar();
-
-   /***************************************************************************
-    Question to proceed +2*nls*(nls-1)/2+2*nls]
-    ***************************************************************************/
-   printf("Evaluate derivative of chemical potential with respect to T and W now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     /* print and test d2mudtdw[][] */
-     for (i=0; i<nlc; i++) {
-       for (j=0; j<(nls*(nls-1)/2+nls); j++) {
-  	 double param = modelParameters[j].enthalpy;
-  	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[j].enthalpy));
-  	 double left, right;
-  	 modelParameters[j].enthalpy = param + delta;
-  	 actLiq(EIGHTH, t, p, x, NULL, vtemp, NULL, NULL);
-  	 left = vtemp[i];
-  	 modelParameters[j].enthalpy = param - delta;
-  	 actLiq(EIGHTH, t, p, x, NULL, vtemp, NULL, NULL);
-  	 right = vtemp[i];
-  	 modelParameters[j].enthalpy = param;
-  	 temp = ((left-dmudt[i])/delta + (dmudt[i]-right)/delta)/2.0;
-  	 TEST(d2mudtdw[i][j]);
-  	 printf("%s dmudw[%s][%s] = %g (%g, %s)\n", flag, liquid[i].label, modelParameters[j].label,
-  	   d2mudtdw[i][j], temp, "from dmudt[] - central difference");
-       }
-     }
-   } else getchar();
-
    printf("\n");
    
    /***************************************************************************
     Evaluate entropy of mixing and its derivatives
     ***************************************************************************/
-   smixLiq(FIRST | SECOND | THIRD | FOURTH, t, p, x, &s, dsdx, d2sdx2, dsdw);
+   smixLiq(FIRST | SECOND | THIRD, t, p, x, &s, dsdx, d2sdx2, NULL);
+   if (calculationMode == MODE_xMELTS) smixLiq(FOURTH, t, p, x, NULL, NULL, NULL, dsdw);
 
    /***************************************************************************
     Question to proceed
@@ -898,66 +908,68 @@ int main()
      }
    } else getchar();
    
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate s-parameter H derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].enthalpy;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].enthalpy));
-       double left, right;
-       modelParameters[i].enthalpy = param + delta;
-       smixLiq(FIRST, t, p, x, &left, NULL, NULL, NULL);
-       modelParameters[i].enthalpy = param - delta;
-       smixLiq(FIRST, t, p, x, &right,  NULL, NULL, NULL);
-       modelParameters[i].enthalpy = param;
-       temp = ((left-s)/delta + (s-right)/delta)/2.0;
-       TEST(dsdw[i]);
-       printf("%s dsdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dsdw[i], temp, "from s - central difference");
-     }
-   } else getchar();
-      
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate s-parameter S derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].entropy;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].entropy));
-       double left, right;
-       modelParameters[i].entropy = param + delta;
-       smixLiq(FIRST, t, p, x, &left, NULL, NULL, NULL);
-       modelParameters[i].entropy = param - delta;
-       smixLiq(FIRST, t, p, x, &right,  NULL, NULL, NULL);
-       modelParameters[i].entropy = param;
-       temp = ((left-s)/delta + (s-right)/delta)/2.0;
-       TEST(dsdw[i+nls+nls*(nls-1)/2]);
-       printf("%s dsdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dsdw[i+nls+nls*(nls-1)/2], temp, "from s - central difference");
-     }
-   } else getchar();
+   if (calculationMode == MODE_xMELTS) {
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate s-parameter H derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+    	 double param = modelParameters[i].enthalpy;
+    	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].enthalpy));
+    	 double left, right;
+    	 modelParameters[i].enthalpy = param + delta;
+    	 smixLiq(FIRST, t, p, x, &left, NULL, NULL, NULL);
+    	 modelParameters[i].enthalpy = param - delta;
+    	 smixLiq(FIRST, t, p, x, &right,  NULL, NULL, NULL);
+    	 modelParameters[i].enthalpy = param;
+    	 temp = ((left-s)/delta + (s-right)/delta)/2.0;
+    	 TEST(dsdw[i]);
+    	 printf("%s dsdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dsdw[i], temp, "from s - central difference");
+       }
+     } else getchar();
+    	
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate s-parameter S derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+    	 double param = modelParameters[i].entropy;
+    	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].entropy));
+    	 double left, right;
+    	 modelParameters[i].entropy = param + delta;
+    	 smixLiq(FIRST, t, p, x, &left, NULL, NULL, NULL);
+    	 modelParameters[i].entropy = param - delta;
+    	 smixLiq(FIRST, t, p, x, &right,  NULL, NULL, NULL);
+    	 modelParameters[i].entropy = param;
+    	 temp = ((left-s)/delta + (s-right)/delta)/2.0;
+    	 TEST(dsdw[i+nls+nls*(nls-1)/2]);
+    	 printf("%s dsdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dsdw[i+nls+nls*(nls-1)/2], temp, "from s - central difference");
+       }
+     } else getchar();
  
-   printf("Evaluate s-parameter V derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar();
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].volume;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].volume));
-       double left, right;
-       modelParameters[i].volume = param + delta;
-       smixLiq(FIRST, t, p, x, &left, NULL, NULL, NULL);
-       modelParameters[i].volume = param - delta;
-       smixLiq(FIRST, t, p, x, &right,  NULL, NULL, NULL);
-       modelParameters[i].volume = param;
-       temp = ((left-s)/delta + (s-right)/delta)/2.0;
-       TEST(dsdw[i+2*nls+2*nls*(nls-1)/2]);
-       printf("%s dsdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dsdw[i+2*nls+2*nls*(nls-1)/2], temp, "from s - central difference");
-     }
-   }  else getchar();
-
+     printf("Evaluate s-parameter V derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar();
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+    	 double param = modelParameters[i].volume;
+    	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].volume));
+    	 double left, right;
+    	 modelParameters[i].volume = param + delta;
+    	 smixLiq(FIRST, t, p, x, &left, NULL, NULL, NULL);
+    	 modelParameters[i].volume = param - delta;
+    	 smixLiq(FIRST, t, p, x, &right,  NULL, NULL, NULL);
+    	 modelParameters[i].volume = param;
+    	 temp = ((left-s)/delta + (s-right)/delta)/2.0;
+    	 TEST(dsdw[i+2*nls+2*nls*(nls-1)/2]);
+    	 printf("%s dsdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dsdw[i+2*nls+2*nls*(nls-1)/2], temp, "from s - central difference");
+       }
+     }  else getchar();
+   }
+   
    printf("\n");
    
    /**************************************************************************
@@ -1150,73 +1162,76 @@ int main()
     Evaluate enthalpy of mixing and its parameter derivatives
     ***************************************************************************/
 
-    hmixLiq(FIRST | SECOND, t, p, x, &h, dhdw);
+    hmixLiq(FIRST, t, p, x, &h, NULL);
+    if (calculationMode == MODE_xMELTS) hmixLiq(SECOND, t, p, x, NULL, dhdw);
 
     /* print and test h */
     temp = g + t*s;
     TEST(h);
     printf("%s h = %g (%g, %s)\n", flag, h, temp, "from g and s"); 
 
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate h-parameter H derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].enthalpy;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].enthalpy));
-       double left, right;
-       modelParameters[i].enthalpy = param + delta;
-       hmixLiq(FIRST, t, p, x, &left, NULL);
-       modelParameters[i].enthalpy = param - delta;
-       hmixLiq(FIRST, t, p, x, &right,  NULL);
-       modelParameters[i].enthalpy = param;
-       temp = ((left-h)/delta + (h-right)/delta)/2.0;
-       TEST(dhdw[i]);
-       printf("%s dhdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dhdw[i], temp, "from h - central difference");
-     }
-   } else getchar();
-      
-   /***************************************************************************
-    Question to proceed
-    ***************************************************************************/
-   printf("Evaluate h-parameter S derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar(); 
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].entropy;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].entropy));
-       double left, right;
-       modelParameters[i].entropy = param + delta;
-       hmixLiq(FIRST, t, p, x, &left, NULL);
-       modelParameters[i].entropy = param - delta;
-       hmixLiq(FIRST, t, p, x, &right,  NULL);
-       modelParameters[i].entropy = param;
-       temp = ((left-h)/delta + (h-right)/delta)/2.0;
-       TEST(dhdw[i+nls+nls*(nls-1)/2]);
-       printf("%s dhdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dhdw[i+nls+nls*(nls-1)/2], temp, "from h - central difference");
-     }
-   } else getchar();
+   if (calculationMode == MODE_xMELTS) { 
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate h-parameter H derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+    	 double param = modelParameters[i].enthalpy;
+    	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].enthalpy));
+    	 double left, right;
+    	 modelParameters[i].enthalpy = param + delta;
+    	 hmixLiq(FIRST, t, p, x, &left, NULL);
+    	 modelParameters[i].enthalpy = param - delta;
+    	 hmixLiq(FIRST, t, p, x, &right,  NULL);
+    	 modelParameters[i].enthalpy = param;
+    	 temp = ((left-h)/delta + (h-right)/delta)/2.0;
+    	 TEST(dhdw[i]);
+    	 printf("%s dhdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dhdw[i], temp, "from h - central difference");
+       }
+     } else getchar();
+    	
+     /***************************************************************************
+      Question to proceed
+      ***************************************************************************/
+     printf("Evaluate h-parameter S derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar(); 
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+    	 double param = modelParameters[i].entropy;
+    	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].entropy));
+    	 double left, right;
+    	 modelParameters[i].entropy = param + delta;
+    	 hmixLiq(FIRST, t, p, x, &left, NULL);
+    	 modelParameters[i].entropy = param - delta;
+    	 hmixLiq(FIRST, t, p, x, &right,  NULL);
+    	 modelParameters[i].entropy = param;
+    	 temp = ((left-h)/delta + (h-right)/delta)/2.0;
+    	 TEST(dhdw[i+nls+nls*(nls-1)/2]);
+    	 printf("%s dhdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dhdw[i+nls+nls*(nls-1)/2], temp, "from h - central difference");
+       }
+     } else getchar();
  
-   printf("Evaluate h-parameter V derivatives now (y or n)? ");
-   if (tolower(getchar()) == 'y') {
-     getchar();
-     for (i=0; i<(nls*(nls-1)/2+nls); i++) {
-       double param = modelParameters[i].volume;
-       double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].volume));
-       double left, right;
-       modelParameters[i].volume = param + delta;
-       hmixLiq(FIRST, t, p, x, &left, NULL);
-       modelParameters[i].volume = param - delta;
-       hmixLiq(FIRST, t, p, x, &right,  NULL);
-       modelParameters[i].volume = param;
-       temp = ((left-h)/delta + (h-right)/delta)/2.0;
-       TEST(dhdw[i+2*nls+2*nls*(nls-1)/2]);
-       printf("%s dhdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dhdw[i+2*nls+2*nls*(nls-1)/2], temp, "from h - central difference");
-     }
-   }  else getchar();
-
+     printf("Evaluate h-parameter V derivatives now (y or n)? ");
+     if (tolower(getchar()) == 'y') {
+       getchar();
+       for (i=0; i<(nls*(nls-1)/2+nls); i++) {
+    	 double param = modelParameters[i].volume;
+    	 double delta = sqrt(sqrt(TAU))*(1.0+ABS(modelParameters[i].volume));
+    	 double left, right;
+    	 modelParameters[i].volume = param + delta;
+    	 hmixLiq(FIRST, t, p, x, &left, NULL);
+    	 modelParameters[i].volume = param - delta;
+    	 hmixLiq(FIRST, t, p, x, &right,  NULL);
+    	 modelParameters[i].volume = param;
+    	 temp = ((left-h)/delta + (h-right)/delta)/2.0;
+    	 TEST(dhdw[i+2*nls+2*nls*(nls-1)/2]);
+    	 printf("%s dhdw[%s] = %g (%g, %s)\n", flag, modelParameters[i].label, dhdw[i+2*nls+2*nls*(nls-1)/2], temp, "from h - central difference");
+       }
+     }  else getchar();
+   }
+   
     printf("\n");
 
    /***************************************************************************

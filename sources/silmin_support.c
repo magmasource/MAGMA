@@ -303,6 +303,30 @@ MELTS Source Code: RCS
 
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 
+Constraints *allocConstraintsPointer(void)
+{
+  Constraints *p;
+  
+  p = (Constraints *) malloc((unsigned) sizeof(Constraints));
+  /*p->lambda      = (double *)  malloc((unsigned) (nc+4)*sizeof(double));
+  p->liquidDelta = (double *)  malloc((unsigned)    nlc*sizeof(double));
+  p->solidDelta  = (double **) malloc((unsigned)    npc*sizeof(double *));
+  for (i=0; i<npc; i++) p->solidDelta[i] = (double *) malloc((unsigned) sizeof(double));*/
+  return p;
+}
+
+void destroyConstraintsStructure(void *pt)
+{
+  Constraints *p = pt;
+  /*int i;
+
+  for (i=0; i<npc; i++) free((p->solidDelta)[i]);
+  free(p->lambda);
+  free(p->liquidDelta);
+  free(p->solidDelta);*/
+  free(p);
+}
+
 SilminState *allocSilminStatePointer(void)
 {
   int i;
@@ -330,6 +354,34 @@ SilminState *allocSilminStatePointer(void)
   }
 
   return p;
+}
+
+void destroySilminStateStructure(void *pt)
+{
+  SilminState *p = pt;
+  int i;
+  
+  for (i=0; i<MAX(1,p->nLiquidCoexist);i++) {
+    free((p->liquidComp)[i]);
+    free((p->liquidDelta)[i]);
+  }
+
+  for (i=0; i<npc; i++) {
+    free((p->solidComp)[i]);
+    free((p->solidDelta)[i]);
+  }
+  
+  free(p->bulkComp);
+  free(p->dspBulkComp);
+  free(p->liquidComp);
+  free(p->liquidDelta);
+  free(p->solidComp);
+  free(p->nSolidCoexist);
+  free(p->solidDelta);
+  free(p->incSolids);   
+  free(p->cylSolids);   
+  
+  free(p);
 }
 
 SilminState *copySilminStateStructure(SilminState *pOld, SilminState *pNew)
@@ -681,7 +733,7 @@ int checkStateAgainstInterface(void)
     }
   }
   if (sum <= 0.00) ERROR("Please specify a bulk composition first!")
-  if (mask && SILMIN_STATE_CHANGE_BULK) {
+  if (mask & SILMIN_STATE_CHANGE_BULK) {
     for (i=0; i<nc; i++) {
       (silminState->dspBulkComp)[i] += diff[i];             /* grams oxides */
       diff[i]                       /= bulkSystem[i].mw;
@@ -1076,13 +1128,17 @@ int checkStateAgainstInterface(void)
 
 #undef ERROR
 
+#endif /* Batch version */
+
 /******************************************************************************
  * The screen update functions:
  ******************************************************************************/
 
 void updateBulkADB(void)
 {
+#ifndef BATCH_VERSION
   static char compositionEntry[9];
+#endif
   double sum, *temporary;
   int i, j, nl;
   int hasLiquid = (silminState->liquidMass != 0.0);
@@ -1114,6 +1170,7 @@ void updateBulkADB(void)
   }
   silminState->liquidMass = sum;
 
+#ifndef BATCH_VERSION
   /* display grams oxides and preserve an exact reference copy */
   for (i=0; i<nc; i++) {
     temporary[i] = (silminState->bulkComp)[i]*bulkSystem[i].mw;
@@ -1123,9 +1180,12 @@ void updateBulkADB(void)
       (silminState->dspBulkComp)[i] = atof(compositionEntry);
     }
   }
+#endif
 
   free(temporary);
 }
+
+#ifndef BATCH_VERSION
 
 typedef struct _clsStable {
   Widget   name;
@@ -1178,7 +1238,10 @@ void updateCompADB(void)
   int i, j, k, l, n, nl, ns;
 
   XtVaGetValues(compPDmenu, XmNmenuHistory, &selected, NULL);
-  XtVaGetValues(selected,   XmNlabelString, &csString, NULL);
+  if(selected == (Widget) NULL)
+    csString = XmStringCreateLtoR("none", "ISO8859-1");
+  else
+    XtVaGetValues(selected,   XmNlabelString, &csString, NULL);
 
   if (nsCur == NULL) {
     noneString.label = XmStringCopy(csString);
@@ -1670,7 +1733,13 @@ void correctTforChangeInEnthalpy(void)
       double muO2;
       silminState->fo2 = getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
       muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-      subsolidusmuO2(0,  &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      if (!subsolidusmuO2(0,  &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+        printf("Failure to impose fo2 buffer in subsolidus.  Releasing buffer constraint from system.\n");
+	silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+        XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+      }
     }
 
     hTotal  = 0.0;
@@ -1757,7 +1826,13 @@ void correctTforChangeInEntropy(void)
       double muO2;
       silminState->fo2 = getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
       muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-      subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      if (!subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+        printf("Failure to impose fo2 buffer in subsolidus.  Releasing buffer constraint on the system.\n");
+	silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+        XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+      }
     }
 
     sTotal  = 0.0;
@@ -1844,7 +1919,13 @@ void correctPforChangeInVolume(void)
       double muO2;
       silminState->fo2 = getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
       muO2 = silminState->fo2*(R*silminState->T*log(10.0));
-      subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      if (!subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+        printf("Failure to impose fo2 buffer in subsolidus.  Releasing buffer constraint from the system.\n");
+	silminState->fo2Path = FO2_NONE;
+#ifndef BATCH_VERSION
+        XmToggleButtonGadgetSetState(tg_path_none, True, True);
+#endif
+      }
     }
 
     vTotal  = 0.0;

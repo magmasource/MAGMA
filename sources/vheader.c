@@ -178,7 +178,7 @@ static void ComputeLabelInfo(w)
     if (!w->labelCnt) return;
 
     for (label=0, lInfoP=w->labelInfosP; label<w->labelCnt; label++, lInfoP++) {
-        lInfoP->textStrlen = strlen (lInfoP->vLabel.textP);
+        lInfoP->textStrlen = (int) strlen (lInfoP->vLabel.textP);
 
 	lInfoP->y = w->topMarginHeight
 	    + lInfoP->vLabel.row * (w->charHeight + w->spacingHeight);

@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase>
+<experiment>
+<number>13133</number>
+<name>1</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>100</sio2>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>96.8671</sio2>
+<h2o>3.13294</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13134</number>
+<name>2</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>100</sio2>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>95.6598</sio2>
+<h2o>4.34024</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13135</number>
+<name>3</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>100</sio2>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>94.5825</sio2>
+<h2o>5.41752</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13136</number>
+<name>4</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.6</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>100</sio2>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>93.8176</sio2>
+<h2o>6.18243</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13137</number>
+<name>5</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.8</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>100</sio2>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>91.479</sio2>
+<h2o>8.52103</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13138</number>
+<name>6</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>59.4486</sio2>
+<al2o3>25.2206</al2o3>
+<na2o>15.3308</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>57.635</sio2>
+<al2o3>24.4512</al2o3>
+<na2o>14.8631</na2o>
+<h2o>3.05068</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13139</number>
+<name>7</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>59.4486</sio2>
+<al2o3>25.2206</al2o3>
+<na2o>15.3308</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>56.3506</sio2>
+<al2o3>23.9063</al2o3>
+<na2o>14.5319</na2o>
+<h2o>5.21123</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13140</number>
+<name>8</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>59.4486</sio2>
+<al2o3>25.2206</al2o3>
+<na2o>15.3308</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>55.2238</sio2>
+<al2o3>23.4283</al2o3>
+<na2o>14.2413</na2o>
+<h2o>7.10659</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13141</number>
+<name>9</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>59.4486</sio2>
+<al2o3>25.2206</al2o3>
+<na2o>15.3308</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>54.1673</sio2>
+<al2o3>22.9801</al2o3>
+<na2o>13.9688</na2o>
+<h2o>8.88374</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13142</number>
+<name>10</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>59.4486</sio2>
+<al2o3>25.2206</al2o3>
+<na2o>15.3308</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>53.5362</sio2>
+<al2o3>22.7124</al2o3>
+<na2o>13.8061</na2o>
+<h2o>9.94531</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13143</number>
+<name>11</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.6</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>59.4486</sio2>
+<al2o3>25.2206</al2o3>
+<na2o>15.3308</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>53.3264</sio2>
+<al2o3>22.6233</al2o3>
+<na2o>13.752</na2o>
+<h2o>10.2983</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13144</number>
+<name>12</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.7</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>59.4486</sio2>
+<al2o3>25.2206</al2o3>
+<na2o>15.3308</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>53.0889</sio2>
+<al2o3>22.5226</al2o3>
+<na2o>13.6907</na2o>
+<h2o>10.6977</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13145</number>
+<name>13</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.8</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>59.4486</sio2>
+<al2o3>25.2206</al2o3>
+<na2o>15.3308</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>52.8583</sio2>
+<al2o3>22.4247</al2o3>
+<na2o>13.6313</na2o>
+<h2o>11.0857</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13146</number>
+<name>14</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>66.486</sio2>
+<al2o3>18.8041</al2o3>
+<na2o>11.4304</na2o>
+<h2o>3.27938</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13147</number>
+<name>15</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>64.9128</sio2>
+<al2o3>18.3592</al2o3>
+<na2o>11.1599</na2o>
+<h2o>5.56806</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13148</number>
+<name>16</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>64.1127</sio2>
+<al2o3>18.1329</al2o3>
+<na2o>11.0224</na2o>
+<h2o>6.732</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13149</number>
+<name>17</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.3</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>63.5604</sio2>
+<al2o3>17.9767</al2o3>
+<na2o>10.9274</na2o>
+<h2o>7.53549</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13150</number>
+<name>18</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.932</sio2>
+<al2o3>17.799</al2o3>
+<na2o>10.8194</na2o>
+<h2o>8.44961</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13151</number>
+<name>19</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.7046</sio2>
+<al2o3>17.7346</al2o3>
+<na2o>10.7803</na2o>
+<h2o>8.7805</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13152</number>
+<name>20</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.6</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.3783</sio2>
+<al2o3>17.6424</al2o3>
+<na2o>10.7242</na2o>
+<h2o>9.25513</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13153</number>
+<name>21</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.7</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.9737</sio2>
+<al2o3>17.5279</al2o3>
+<na2o>10.6546</na2o>
+<h2o>9.84379</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13154</number>
+<name>22</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.8</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.7403</sio2>
+<al2o3>19.4417</al2o3>
+<na2o>11.818</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.6744</sio2>
+<al2o3>17.4433</al2o3>
+<na2o>10.6032</na2o>
+<h2o>10.2791</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13155</number>
+<name>23</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.5638</sio2>
+<al2o3>13.3321</al2o3>
+<na2o>8.10412</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>76.156</sio2>
+<al2o3>12.9235</al2o3>
+<na2o>7.85575</na2o>
+<h2o>3.06477</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13156</number>
+<name>24</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.5638</sio2>
+<al2o3>13.3321</al2o3>
+<na2o>8.10412</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>74.8678</sio2>
+<al2o3>12.7048</al2o3>
+<na2o>7.72286</na2o>
+<h2o>4.70453</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13157</number>
+<name>25</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.5638</sio2>
+<al2o3>13.3321</al2o3>
+<na2o>8.10412</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>73.2969</sio2>
+<al2o3>12.4383</al2o3>
+<na2o>7.56081</na2o>
+<h2o>6.70405</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13158</number>
+<name>26</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.3</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.5638</sio2>
+<al2o3>13.3321</al2o3>
+<na2o>8.10412</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.8678</sio2>
+<al2o3>12.3655</al2o3>
+<na2o>7.51655</na2o>
+<h2o>7.2502</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13159</number>
+<name>27</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.5638</sio2>
+<al2o3>13.3321</al2o3>
+<na2o>8.10412</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.3871</sio2>
+<al2o3>12.2839</al2o3>
+<na2o>7.46697</na2o>
+<h2o>7.86208</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13160</number>
+<name>28</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.5638</sio2>
+<al2o3>13.3321</al2o3>
+<na2o>8.10412</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>72.1218</sio2>
+<al2o3>12.2389</al2o3>
+<na2o>7.4396</na2o>
+<h2o>8.19979</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13161</number>
+<name>29</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.6</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.5638</sio2>
+<al2o3>13.3321</al2o3>
+<na2o>8.10412</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.8756</sio2>
+<al2o3>12.1971</al2o3>
+<na2o>7.41421</na2o>
+<h2o>8.51308</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13162</number>
+<name>30</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.8</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>78.5638</sio2>
+<al2o3>13.3321</al2o3>
+<na2o>8.10412</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.5602</sio2>
+<al2o3>12.1436</al2o3>
+<na2o>7.38167</na2o>
+<h2o>8.91458</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13163</number>
+<name>31</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>76.142</sio2>
+<al2o3>10.7676</al2o3>
+<na2o>13.0905</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>73.0081</sio2>
+<al2o3>10.3244</al2o3>
+<na2o>12.5517</na2o>
+<h2o>4.11584</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13164</number>
+<name>32</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>76.142</sio2>
+<al2o3>10.7676</al2o3>
+<na2o>13.0905</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>71.3043</sio2>
+<al2o3>10.0834</al2o3>
+<na2o>12.2588</na2o>
+<h2o>6.35352</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13165</number>
+<name>33</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>76.142</sio2>
+<al2o3>10.7676</al2o3>
+<na2o>13.0905</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>70.3189</sio2>
+<al2o3>9.9441</al2o3>
+<na2o>12.0894</na2o>
+<h2o>7.64759</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13166</number>
+<name>34</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>76.142</sio2>
+<al2o3>10.7676</al2o3>
+<na2o>13.0905</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>69.8637</sio2>
+<al2o3>9.87972</al2o3>
+<na2o>12.0111</na2o>
+<h2o>8.2455</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13167</number>
+<name>35</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>76.142</sio2>
+<al2o3>10.7676</al2o3>
+<na2o>13.0905</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>69.6417</sio2>
+<al2o3>9.84833</al2o3>
+<na2o>11.973</na2o>
+<h2o>8.537</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13168</number>
+<name>36</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.8</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>76.142</sio2>
+<al2o3>10.7676</al2o3>
+<na2o>13.0905</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>69.1651</sio2>
+<al2o3>9.78093</al2o3>
+<na2o>11.891</na2o>
+<h2o>9.16293</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13169</number>
+<name>37</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>85.3299</sio2>
+<na2o>14.6701</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>81.0621</sio2>
+<na2o>13.9364</na2o>
+<h2o>5.00149</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13170</number>
+<name>38</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>85.3299</sio2>
+<na2o>14.6701</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>78.9307</sio2>
+<na2o>13.5699</na2o>
+<h2o>7.49937</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13171</number>
+<name>39</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>85.3299</sio2>
+<na2o>14.6701</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>77.5267</sio2>
+<na2o>13.3286</na2o>
+<h2o>9.14475</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13172</number>
+<name>40</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.3</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>85.3299</sio2>
+<na2o>14.6701</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>77.243</sio2>
+<na2o>13.2798</na2o>
+<h2o>9.47722</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13173</number>
+<name>41</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>85.3299</sio2>
+<na2o>14.6701</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>76.6403</sio2>
+<na2o>13.1762</na2o>
+<h2o>10.1835</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13174</number>
+<name>42</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>85.3299</sio2>
+<na2o>14.6701</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>76.3003</sio2>
+<na2o>13.1177</na2o>
+<h2o>10.582</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13175</number>
+<name>43</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.7</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>85.3299</sio2>
+<na2o>14.6701</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>75.307</sio2>
+<na2o>12.9469</na2o>
+<h2o>11.7461</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13176</number>
+<name>44</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.8</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>85.3299</sio2>
+<na2o>14.6701</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>74.5244</sio2>
+<na2o>12.8124</na2o>
+<h2o>12.6632</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13177</number>
+<name>45</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.05</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>61.4752</sio2>
+<al2o3>17.3869</al2o3>
+<na2o>21.1379</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>59.0332</sio2>
+<al2o3>16.6963</al2o3>
+<na2o>20.2982</na2o>
+<h2o>3.97235</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13178</number>
+<name>46</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>61.4752</sio2>
+<al2o3>17.3869</al2o3>
+<na2o>21.1379</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>57.7551</sio2>
+<al2o3>16.3348</al2o3>
+<na2o>19.8588</na2o>
+<h2o>6.05134</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13179</number>
+<name>47</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>61.4752</sio2>
+<al2o3>17.3869</al2o3>
+<na2o>21.1379</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>56.0742</sio2>
+<al2o3>15.8594</al2o3>
+<na2o>19.2808</na2o>
+<h2o>8.78563</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13180</number>
+<name>48</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.3</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>61.4752</sio2>
+<al2o3>17.3869</al2o3>
+<na2o>21.1379</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>55.763</sio2>
+<al2o3>15.7714</al2o3>
+<na2o>19.1738</na2o>
+<h2o>9.29184</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13181</number>
+<name>49</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>61.4752</sio2>
+<al2o3>17.3869</al2o3>
+<na2o>21.1379</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>55.4182</sio2>
+<al2o3>15.6739</al2o3>
+<na2o>19.0553</na2o>
+<h2o>9.85265</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13182</number>
+<name>50</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.6</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>61.4752</sio2>
+<al2o3>17.3869</al2o3>
+<na2o>21.1379</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>55.1733</sio2>
+<al2o3>15.6046</al2o3>
+<na2o>18.971</na2o>
+<h2o>10.2511</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13183</number>
+<name>51</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.7</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>61.4752</sio2>
+<al2o3>17.3869</al2o3>
+<na2o>21.1379</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>54.9156</sio2>
+<al2o3>15.5317</al2o3>
+<na2o>18.8824</na2o>
+<h2o>10.6703</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13184</number>
+<name>52</name>
+<author>Octoby, S., Hamilton, D.L. (1978)</author>
+<lab>University of Manchester</lab>
+<device>IHPV</device>
+<container>Pt</container>
+<method>gravimeytric</method>
+<t>1000</t>
+<p>0.8</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>61.4752</sio2>
+<al2o3>17.3869</al2o3>
+<na2o>21.1379</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>54.7881</sio2>
+<al2o3>15.4956</al2o3>
+<na2o>18.8386</na2o>
+<h2o>10.8776</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+</LEPRdatabase>

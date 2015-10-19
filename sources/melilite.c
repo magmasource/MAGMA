@@ -88,7 +88,9 @@ MELTS Source Code: RCS
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
 #include "recipes.h"
 
-#define DEBUG
+#ifdef DEBUG
+#undef DEBUG
+#endif
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
@@ -543,7 +545,7 @@ pureOrder(int mask, double t, double p,
 
   if ( (t != tOld) || (p != pOld) ) {
     double dgds[NS], sNew[NS];
-    for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.1; }
+    for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.1; dgds[i] = 0.0; }
     while ( (ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) ) {
       double s[NS];
 
@@ -1399,7 +1401,7 @@ order(int mask, double t, double p, double r[NR],
   if ( (t != tOld)       || (p != pOld) ||
        (r[0] != rOld[0]) || (r[1] != rOld[1]) || (r[2] != rOld[2]) ) {
     double dgds[NS], sNew[NS];
-    for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.1*r[i]; }
+    for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.1*r[i]; dgds[i] = 0.0; }
     while ( ((ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) ) && (iter < MAX_ITER)) {
       double s[NS];
       

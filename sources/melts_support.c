@@ -296,7 +296,8 @@ void InitComputeDataStruct(void)
       solids[i].mw = formulaToMwStoich((char *) solids[i].formula, elementsToSolids[i]);
       for(j=0,solids[i].nAtoms=0.0; j<ne; j++) solids[i].nAtoms += elementsToSolids[i][j];
       if (solids[i].type == PHASE) {
-         for (j=i+1; solids[j].type == COMPONENT && j<npc; j++); j--;
+         for (j=i+1; solids[j].type == COMPONENT && j<npc; j++);
+         j--;
          solids[i].na = MAX(j-i  , 1);
          solids[i].nr = MAX(j-i-1, 0);
       }
@@ -501,9 +502,9 @@ void InitComputeDataStruct(void)
      for (i=0;  i<nc;  i++) if (!strcmp(bulkSystem[i].label, "Al2O3")) { indexAl2O3     = i; break; }
 #ifndef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
      for (i=nc; i<nls; i++) if (!strcmp(liquid[i].label, "Fe2SiO4.6")) { indexFe2SiO4_6 = i; break; }
-     if (indexFe2SiO4_6 == -1) { printf("ERROR in InitComputeDataStruct. Cannot find species Fe2SiO4.6\n"); exit(0); }
+     if (indexFe2SiO4_6 == -1) printf("ERROR in InitComputeDataStruct. Cannot find species Fe2SiO4.6\n");
 #endif
-     if (indexAl2O3 == -1)     { printf("ERROR in InitComputeDataStruct. Cannot find component Al2O3\n");   exit(0); }
+     if (indexAl2O3 == -1)     printf("ERROR in InitComputeDataStruct. Cannot find component Al2O3\n");
 #endif
      
      for (i=0; i<nc; i++) {
@@ -555,7 +556,7 @@ void InitComputeDataStruct(void)
      /* Compute volumetric properties of liquid species                       */
      /* --> Note loop is executed only if the liquid volume is initially zero */
      
-     for (i=0; i<nls; i++) if (liquid[i].liq.v == 0.0) {
+     for (i=0; i<nls; i++) if ((liquid[i].liq.v == 0.0) && (liquid[i].liq.eos_type == EOS_GHIORSO) ) {
        double totalMoles = 0.0;
        
        for (j=0; j<nc; j++) {
@@ -682,6 +683,7 @@ void InitComputeDataStruct(void)
        if(temp != NULL) free(temp);
      } /* end of loop over all species */
      
+     /*
      printf("---> Correct the std state liquid properties and zero the modelParameters? (y or n): ");
      if (tolower(getchar()) == 'y') {
        getchar();
@@ -695,7 +697,7 @@ void InitComputeDataStruct(void)
          modelParameters[nls*(nls-1)/2+i].volume   = 0.0;
        }
      } else getchar();
-     
+     */
      
      for (i=0; i<npc; i++) {
        solids[i].ref.h += modelParameters[nls*(nls-1)/2+nls+i].enthalpy;
@@ -723,7 +725,8 @@ void InitComputeDataStruct(void)
 
 double formulaToMwStoich(char *formula, double *stoich)
 {
-   int len, i, j;
+    size_t len;
+   int i, j;
    char c, *sym, *num, *temp;
    double mw = 0.0, mult = 1.0;
 
@@ -763,8 +766,9 @@ double formulaToMwStoich(char *formula, double *stoich)
          if (c == '(') {
             int close, finish, k;
 
-            for(close=i+1; temp[close] != ')' && close < len; close++);
-            if(close == len) {free(temp); free(num); return 0.0;}
+            for(close=i+1; temp[close] != ')' && close < len; close++)
+                ;
+             if(close == len) {free(sym); free(temp); free(num); return 0.0;}
             close++;
             for(finish=close; !isupper(temp[finish]) && 
                 (temp[finish] != '(') && (finish < len); finish++);

@@ -132,7 +132,7 @@ MELTS Source Code: RCS
 
 #ifdef SPECIAL  /* If defined, return SUCCESS if affinity is negative     */
 #undef SPECIAL  /* even if convergence criteria (Fmin < sqrt(DBL_EPSILON) */
-#endif           /* is not satisfied                                       */
+#endif          /* is not satisfied                                       */
 
 /*****************************************************************************
  * External variables whose scope is confined to this file:

@@ -7782,7 +7782,7 @@
 <terr>20</terr>
 <p>7</p>
 <perr>0.25</perr>
-<bulkComp>
+<phaselist>liq+gt</phaselist><bulkComp>
 <sio2>45.5</sio2>
 <tio2>0.19</tio2>
 <al2o3>3.3</al2o3>

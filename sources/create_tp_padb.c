@@ -457,6 +457,7 @@ void create_tp_padb()
 
   XtManageChild(rowcol[4]);
   XtManageChild(form[1]);
+
 #if (XmVersion > 1) || (XmUPDATE_LEVEL > 3)
   XtVaGetValues(rowcol[0], XmNwidth,  &w, NULL); wSum = w;
   XtVaGetValues(rowcol[0], XmNheight, &h, NULL); hSum = h;
@@ -530,7 +531,7 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
   long tag = (long) cData;
   XmTextVerifyCallbackStruct *cbData = (XmTextVerifyCallbackStruct *) cbDataGen;
   char *number, *output;
-  int len;
+  long len;
 
   switch (cbData->reason) {
 
@@ -572,14 +573,14 @@ static void text_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
       else {
         if (len + cbData->text->length > CHAR_LENGTH) {
           cbData->text->ptr[CHAR_LENGTH-len] = 0;
-          cbData->text->length = strlen(cbData->text->ptr);
+          cbData->text->length = (int) strlen(cbData->text->ptr);
         }
         for (len=0; len<cbData->text->length; len++) {
           if (!isdigit(cbData->text->ptr[len]) &&
             cbData->text->ptr[len] != '.' && cbData->text->ptr[len] != ' ' &&
             cbData->text->ptr[len] != '-') {
             int j;
-            for (j=len; (j+1)<cbData->text->length; j++)
+            for (j=(int)len; (j+1)<cbData->text->length; j++)
               cbData->text->ptr[j] = cbData->text->ptr[j+1];
             cbData->text->length--;  len--;
           }
@@ -749,7 +750,8 @@ static void button_callback(Widget w, XtPointer cData, XtPointer cbDataGen)
         }
       }
       free(output);
-    } else if (tag == XmCR_HELP) ;
+    } else if (tag == XmCR_HELP)
+        ;
     break;
 
   case XmCR_HELP :

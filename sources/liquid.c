@@ -217,13 +217,15 @@ MELTS Source Code: RCS
 #undef DEBUG
 #endif
 
-#define USE_GHIORSO_KRESS_MODEL
+#define DO_NOT_USE_GHIORSO_KRESS_MODEL
 #define USE_KRESS_CARMICHAEL_FO2
 
 #include "silmin.h"
 #include "recipes.h"
 #include "mthread.h"
 #include <signal.h>
+
+#include "param_struct_data.h"
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
@@ -279,6 +281,33 @@ void muO2Liq_v34 (int mask, double t, double p, double *m, double *muO2,  double
                                                            double *d2t2,  double *d2tp, double *d2p2);
 void visLiq_v34  (int mask, double t, double p, double *x, double *viscosity);
 
+void conLiq_CO2  (int inpMask, int outMask, double t, double p, double *o, double *m, double *r, double *x, double **dm, double ***dm2, double *logfo2);
+int  testLiq_CO2 (int mask, double t, double p, int na, int nr, char **names, char **formulas, double *r, double *m);
+void dispLiq_CO2 (int mask, double t, double p, double *x, char **formula);
+void actLiq_CO2  (int mask, double t, double p, double *x, double *a,     double *mu,   double **dx);
+void gmixLiq_CO2 (int mask, double t, double p, double *x, double *gmix,  double *dx,   double **dx2);
+void hmixLiq_CO2 (int mask, double t, double p, double *x, double *hmix);
+void smixLiq_CO2 (int mask, double t, double p, double *x, double *smix,  double *dx,   double **dx2);
+void cpmixLiq_CO2(int mask, double t, double p, double *x, double *cpmix, double *dt,   double *dx);
+void vmixLiq_CO2 (int mask, double t, double p, double *x, double *vmix,  double *dx,   double **dx2, double *dt, double *dp,   double *dt2,  double *dtdp,
+                  double *dp2,   double *dxdt, double *dxdp);
+void muO2Liq_CO2 (int mask, double t, double p, double *m, double *muO2,  double *dm,   double *dt,   double *dp, double **d2m, double *d2mt, double *d2mp,
+                  double *d2t2,  double *d2tp, double *d2p2);
+void visLiq_CO2  (int mask, double t, double p, double *x, double *viscosity);
+
+void conLiq_CO2_H2O  (int inpMask, int outMask, double t, double p, double *o, double *m, double *r, double *x, double **dm, double ***dm2, double *logfo2);
+int  testLiq_CO2_H2O (int mask, double t, double p, int na, int nr, char **names, char **formulas, double *r, double *m);
+void dispLiq_CO2_H2O (int mask, double t, double p, double *x, char **formula);
+void actLiq_CO2_H2O  (int mask, double t, double p, double *x, double *a,     double *mu,   double **dx);
+void gmixLiq_CO2_H2O (int mask, double t, double p, double *x, double *gmix,  double *dx,   double **dx2);
+void hmixLiq_CO2_H2O (int mask, double t, double p, double *x, double *hmix);
+void smixLiq_CO2_H2O (int mask, double t, double p, double *x, double *smix,  double *dx,   double **dx2);
+void cpmixLiq_CO2_H2O(int mask, double t, double p, double *x, double *cpmix, double *dt,   double *dx);
+void vmixLiq_CO2_H2O (int mask, double t, double p, double *x, double *vmix,  double *dx,   double **dx2, double *dt, double *dp,   double *dt2,  double *dtdp,
+                  double *dp2,   double *dxdt, double *dxdp);
+void muO2Liq_CO2_H2O (int mask, double t, double p, double *m, double *muO2,  double *dm,   double *dt,   double *dp, double **d2m, double *d2mt, double *d2mp,
+                  double *d2t2,  double *d2tp, double *d2p2);
+void visLiq_CO2_H2O  (int mask, double t, double p, double *x, double *viscosity);
 
 /*
  *=============================================================================
@@ -323,22 +352,22 @@ static const int iCmpFe2AlO3_5 = -1; /* Index of Fe2AlO3.5 in s[] array         
 static const int iCmpFe2AlO4_1 = -1; /* Index of Fe2AlO4.1 in s[] array                   */
 #else
 #define NA 19                    /* Number of liquid components 		          */
-#define NS 23                    /* Number of ordering parameters for liquid species      */
+#define NS  1                    /* Number of ordering parameters for liquid species      */
 #define NY  0                    /* Number of ordering parameters for coordination states */
 static const int iOxAl2O3      =  2; /* Index of Al2O3 in bulksystem[] structure array    */
 static const int iOxFe2O3      =  3; /* Index of Fe2O3 in bulksystem[] structure array    */
 static const int iOxFeO        =  5; /* Index of FeO in bulksystem[] structure array      */
-static const int iOxCaO        = 10; /* Index of CaO in bulksystem[] structure array      */
-static const int iOxNa2O       = 11; /* Index of Na2O in bulksystem[] structure array     */
-static const int iOxK2O        = 12; /* Index of K2O in bulksystem[] structure array      */
+//static const int iOxCaO        = 10; /* Index of CaO in bulksystem[] structure array      */
+//static const int iOxNa2O       = 11; /* Index of Na2O in bulksystem[] structure array     */
+//static const int iOxK2O        = 12; /* Index of K2O in bulksystem[] structure array      */
 static const int iOxFeO1_3     = 19; /* Index of FeO1.3 in bulksystem[] structure array   */
-static const int iCmpAl2O3     =  1; /* Index of Al2O3 in r[] array                       */
-static const int iCmpFe2SiO5   =  2; /* Index of Fe2SiO5 in r[] array                     */
-static const int iCmpFe2SiO4   =  4; /* Index of Fe2SiO4 in r[] array                     */
-static const int iCmpFe2SiO4_6 =  0; /* Index of Fe2SiO4.6 in s[] array                   */
-static const int iCmpFe2AlO4_5 =  3; /* Index of Fe2AlO4.5 in s[] array                   */
-static const int iCmpFe2AlO3_5 =  4; /* Index of Fe2AlO3.5 in s[] array                   */
-static const int iCmpFe2AlO4_1 =  9; /* Index of Fe2AlO4.1 in s[] array                   */
+//static const int iCmpAl2O3     =  1; /* Index of Al2O3 in r[] array                       */
+//static const int iCmpFe2SiO5   = -1; /* Index of Fe2SiO5 in r[] array                     */
+//static const int iCmpFe2SiO4   =  4; /* Index of Fe2SiO4 in r[] array                     */
+static const int iCmpFe2SiO4_6 = -1; /* Index of Fe2SiO4.6 in s[] array                   */
+//static const int iCmpFe2AlO4_5 = -1; /* Index of Fe2AlO4.5 in s[] array                   */
+//static const int iCmpFe2AlO3_5 = -1; /* Index of Fe2AlO3.5 in s[] array                   */
+static const int iCmpFe2AlO4_1 = -1; /* Index of Fe2AlO4.1 in s[] array                   */
 #endif
 
 #define NT (NS+NY)               /* Number of ordering parameters                         */
@@ -346,6 +375,115 @@ static const int iCmpFe2AlO4_1 =  9; /* Index of Fe2AlO4.1 in s[] array         
 #define NW ((NA+NS)*(NA+NS-1)/2) /* Number of regular solution interaction parameters     */
 #define NV (NR+NS)               /* Number of independent variables in the model          */
 #define NP (NA+NS+NW)            /* Number of model parameters  		          */
+
+static int nH2O, nCO2;
+
+static double gT, dgdrT[NR], d2gdr2T[NR][NR], d3gdr3T[NR][NR][NR];
+
+static void ternaryH2OCO2terms(int mask, double *r) {
+  static const double WHCX[NA] = { 
+                                    0.0*3.0, //  0    SiO2
+                                    0.0*3.0, //  1  0 TiO2
+                                    0.0*3.0, //  2  1 Al2O3
+                                    0.0*3.0, //  3  2 FE2O3
+                                    0.0*3.0, //  4  3 MgCr2O3
+                                    0.0*3.0, //  5  4 Fe2SiO4
+                                    0.0*3.0, //  6  5 MnSi1/2O2
+                                    0.0*3.0, //  7  6 Mg2SiO4
+                                    0.0*3.0, //  8  7 NiSi1/2O2
+                                    0.0*3.0, //  9  8 CoSi1/2O2
+                                    0.0*3.0, // 10  9 CaSiO3
+                                    0.0*3.0, // 11 10 Na2SiO3
+                                    0.0*3.0, // 12 11 KAlSiO4
+                                    0.0*3.0, // 13 12 Ca3(PO4)2
+                                    0.0*3.0, // 14 13 CO2
+                                    0.0*3.0, // 15 14 SO3
+                                    0.0*3.0, // 16 15 Cl2O
+                                    0.0*3.0, // 17 16 F2O
+                                    0.0*3.0  // 18 17 H2O 
+                             };
+  static double x[NA];
+  int i;
+  
+  for (i=0, x[0]=1.0; i<NR; i++) { x[0] -= r[i]; x[i+1] = r[i]; }
+  
+  if (mask & FIRST) {
+    for (i=0, gT=0.0; i<NA; i++) gT += WHCX[i]*x[nH2O]*x[nCO2]*x[i];
+  }
+  
+  if (mask & SECOND) {
+    int j;
+    for (i=0; i<NR; i++) {
+      dgdrT[i] = 0.0;
+      switch (i) {
+        case 13:
+        {
+          dgdrT[nCO2-1] = 0.0;
+          for (j=1; j<NA; j++) dgdrT[nCO2-1] += x[nH2O]*(WHCX[j]-WHCX[0])*x[j];
+          dgdrT[nCO2-1] += WHCX[0]*x[nH2O] + (WHCX[nCO2]-WHCX[0])*x[nH2O]*x[nCO2];
+          break;
+        }
+        case 17:
+        {
+          dgdrT[nH2O-1] = 0.0;
+          for (j=1; j<NA; j++) dgdrT[nH2O-1] += x[nCO2]*(WHCX[j]-WHCX[0])*x[j];
+          dgdrT[nH2O-1] += WHCX[0]*x[nCO2] + (WHCX[nH2O]-WHCX[0])*x[nH2O]*x[nCO2];
+          break;
+        }
+        default:
+        {
+          dgdrT[i] = (WHCX[i+1]-WHCX[0])*x[nH2O]*x[nCO2];
+        }
+      }
+    }
+  }
+  
+  if (mask & THIRD) {
+    int j;
+    for (i=0; i<NR; i++) for (j=0; j<NR; j++) d2gdr2T[i][j] = 0.0;
+    d2gdr2T[nH2O-1][nH2O-1] = 2.0*(WHCX[nH2O]-WHCX[0])*x[nCO2];
+    d2gdr2T[nCO2-1][nCO2-1] = 2.0*(WHCX[nCO2]-WHCX[0])*x[nH2O];
+    
+    d2gdr2T[nH2O-1][nCO2-1] = WHCX[0]*(x[0]-x[nCO2]-x[nH2O]);
+      for (i=1; i<NA; i++) d2gdr2T[nH2O-1][nCO2-1] += WHCX[i]*x[i];
+      d2gdr2T[nH2O-1][nCO2-1] += WHCX[nCO2]*x[nCO2] + WHCX[nH2O]*x[nH2O];
+      d2gdr2T[nCO2-1][nH2O-1] = d2gdr2T[nH2O-1][nCO2-1];
+      
+    for (i=1; i<NA; i++) {
+      if (i != nCO2 && i != nH2O) {
+        d2gdr2T[i-1][nH2O-1] = (WHCX[i]-WHCX[0])*x[nCO2];
+        d2gdr2T[nH2O-1][i-1] = d2gdr2T[i-1][nH2O-1];
+      
+        d2gdr2T[i-1][nCO2-1] = (WHCX[i]-WHCX[0])*x[nH2O];
+        d2gdr2T[nCO2-1][i-1] = d2gdr2T[i-1][nCO2-1];
+      }
+    }
+  }
+  
+  if (mask & FOURTH) {
+    int j, k;
+    for (i=0; i<NR; i++) for (j=0; j<NR; j++) for (k=0; k<NR; k++) d3gdr3T[i][j][k] = 0.0;
+    d3gdr3T[nH2O-1][nH2O-1][nCO2-1] = 2.0*(WHCX[nH2O]-WHCX[0]);
+      d3gdr3T[nH2O-1][nCO2-1][nH2O-1] = d3gdr3T[nH2O-1][nH2O-1][nCO2-1];
+      d3gdr3T[nCO2-1][nH2O-1][nH2O-1] = d3gdr3T[nH2O-1][nH2O-1][nCO2-1];
+      
+    d3gdr3T[nH2O-1][nCO2-1][nCO2-1] = 2.0*(WHCX[nCO2]-WHCX[0]);
+      d3gdr3T[nCO2-1][nH2O-1][nCO2-1] = d3gdr3T[nH2O-1][nCO2-1][nCO2-1];
+      d3gdr3T[nCO2-1][nCO2-1][nH2O-1] = d3gdr3T[nH2O-1][nCO2-1][nCO2-1];
+      
+    for (i=1; i<NA; i++) {
+      if (i != nCO2 && i != nH2O) {
+        d3gdr3T[i-1][nH2O-1][nCO2-1] = WHCX[i] - WHCX[0];
+        d3gdr3T[i-1][nCO2-1][nH2O-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+        d3gdr3T[nH2O-1][i-1][nCO2-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+        d3gdr3T[nCO2-1][i-1][nH2O-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+        d3gdr3T[nH2O-1][nCO2-1][i-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+        d3gdr3T[nCO2-1][nH2O-1][i-1] = d3gdr3T[i-1][nH2O-1][nCO2-1];
+      }
+    }
+  }
+  
+}
 
 /* The statics from here to ... */
 
@@ -388,7 +526,6 @@ static void threadInit(void) {
 /* The statics from here ... */
 
 static int NE;   /* Number of liquid endmembers (species) */
-static int nH2O;
 
 static double Gconst,       *gr,       *gs,       **grr,        **grs,       **gss;
 static double Hconst,       *hr,       *hs,       **hrr,        **hrs,       **hss;
@@ -452,7 +589,9 @@ static void initializeLiquid(void) {
   }
     
   nH2O = -1;
-  for (i=0; i<NE; i++) if ((strcmp(liquid[i].label, "H2O-OH") == 0) || (strcmp(liquid[i].label, "h2o-oh") == 0)) { nH2O = i; break; }
+  for (i=0; i<NE; i++) if ((strcmp(liquid[i].label, "H2O") == 0) || (strcmp(liquid[i].label, "h2o") == 0)) { nH2O = i; break; }
+  nCO2 = -1;
+  for (i=0; i<NE; i++) if ((strcmp(liquid[i].label, "CO2") == 0) || (strcmp(liquid[i].label, "co2") == 0)) { nCO2 = i; break; }
   
   /* Static global storage for endmember species mole fractions */
   xSpecies       = vector(0, NE-1);
@@ -884,61 +1023,21 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   static double tolerance;
   double rSum, coeff, dcoeffds[NS], denom, dDenomds[NS];
   int i, j, k, okay = TRUE;
-  const double y = 0.3; /* Fe2SiO(4+2*0.3) or Fe2AlO(3.5+2*0.3) */
+  /* const double y = 0.3; */ /* Fe2SiO(4+2*0.3) or Fe2AlO(3.5+2*0.3) */
   
   for (i=0, rSum=0.0; i<NR; i++) rSum += r[i];
   
-  coeff = 1.0 - s[ 1]/4.0 - s[ 3]/2.0 - s[ 4]/2.0 - s[ 5]/2.0 - s[ 6]/2.0 
-              - s[ 7]/2.0 - s[ 8]/2.0 - s[ 9]/2.0 - s[10]/3.0 - s[11]/2.0
-	      - s[13]/2.0 - s[14]/2.0 - s[15]/2.0 - s[16]/2.0 - s[17]/2.0
-	      - s[18]/2.0 - s[19]/2.0 + s[20]/2.0 + s[21]/2.0 + s[22]/2.0;
+  coeff = 1.0;
+    for (i=0; i<NS; i++) dcoeffds[i] = 0.0;
   
-  dcoeffds[ 0] =      0.0; 
-  dcoeffds[ 1] = -1.0/4.0; 
-  dcoeffds[ 2] =      0.0; 
-  dcoeffds[ 3] = -1.0/2.0; 
-  dcoeffds[ 4] = -1.0/2.0; 
-  dcoeffds[ 5] = -1.0/2.0; 
-  dcoeffds[ 6] = -1.0/2.0; 
-  dcoeffds[ 7] = -1.0/2.0; 
-  dcoeffds[ 8] = -1.0/2.0; 
-  dcoeffds[ 9] = -1.0/2.0; 
-  dcoeffds[10] = -1.0/3.0; 
-  dcoeffds[11] = -1.0/2.0; 
-  dcoeffds[12] =      0.0; 
-  dcoeffds[13] = -1.0/2.0; 
-  dcoeffds[14] = -1.0/2.0; 
-  dcoeffds[15] = -1.0/2.0; 
-  dcoeffds[16] = -1.0/2.0; 
-  dcoeffds[17] = -1.0/2.0; 
-  dcoeffds[18] = -1.0/2.0; 
-  dcoeffds[19] = -1.0/2.0; 
-  dcoeffds[20] =  1.0/2.0; 
-  dcoeffds[21] =  1.0/2.0; 
-  dcoeffds[22] =  1.0/2.0; 
-
   /* xSpecies */
   xSpecies[ 0] = 1.0 - rSum*coeff;                   /* SiO2  */
   for (i=0; i<NR; i++) xSpecies[ i+1] = r[i]*coeff;  /* basis */
   for (i=0; i<NS; i++) xSpecies[NA+i] = s[i];        /* depen */
   
-  xSpecies[ 0] += - s[ 1]/2.0 - s[ 2]/2.0 + s[ 3]/2.0 + s[ 4]/2.0  /* special case SiO2    */ 
-                  + s[ 5]/2.0 + s[ 6]/2.0 + s[ 7]/2.0 + s[ 8]/2.0 
-		  + s[ 9]/2.0 - s[10]/3.0 - s[12]/2.0 - s[14]/3.0
-		  - s[15]/4.0 - s[16]/4.0 - s[17]/4.0 - s[22]/4.0;           
-  xSpecies[ 2] += - s[ 3]/2.0 - s[ 4]/2.0 - s[ 5]/2.0              /* special case Al2O3   */
-                  - s[ 6]/2.0 - s[ 7]/2.0 - s[ 8]/2.0 
-		  - s[ 9]/2.0 - s[10]/6.0 - s[11]/2.0 
-		  - s[13]/2.0 - s[20]/2.0 - s[21]/2.0 - s[22]/2.0;  
-  xSpecies[ 3] += - 2.0*y*s[0] - s[3] - 2.0*y*s[9] - s[14]/6.0;    /* special case Fe2O3   */  
-  xSpecies[ 5] +=  (2.0*y-1.0)*s[0] -s[4] + (2.0*y-1.0)*s[9]       /* special case Fe2SiO4 */ 
-                  - s[12]/2.0 - s[13]/2.0 - s[15]/4.0;
-  xSpecies[ 7] += - s[2]/2.0 - s[5] -s[11]/2.0 - s[16]/4.0;        /* special case Mg2SiO4 */  
-  xSpecies[10] += - s[6] - s[17]/4.0 - s[22]/4.0;             	   /* special case Ca2SiO4 */
-  xSpecies[11] += - s[7] - s[18]/2.0 - s[20]/2.0;             	   /* special case Na2SiO3 */
-  xSpecies[12] += - s[8] - s[19]/2.0 - s[21]/2.0;             	   /* special case K2SiO3  */  
-  xSpecies[18] += - s[ 1]/2.0 - s[10]/2.0 - s[14]/2.0 - s[15]/2.0  /* special case H2O     */
-                  - s[16]/2.0 - s[17]/2.0 - s[18]/2.0 - s[19]/2.0;
+  xSpecies[ 0] += s[0]; // special case SiO2
+  xSpecies[10] -= s[0]; // special case CaSiO3
+  xSpecies[14] -= s[0]; // special case CO2
   
   /* Catch bad input data */
   for (i=0;  i<NE; i++) okay &= (xSpecies[i] >= 0.0);
@@ -954,7 +1053,7 @@ static int rANDsTOx (double r[NR], double s[NT]) {
 
   /* Correct roundoff problems - removed check on 4/10/02 when MgO species was included */
   if (tolerance == 0.0) tolerance = pow(DBL_EPSILON, (double) (2.0/3.0));
-/*  for (i=0; i<(NA+NS); i++) if (fabs(xSpecies[i]) < tolerance) xSpecies[i] = 0.0; */
+  /*  for (i=0; i<(NA+NS); i++) if (fabs(xSpecies[i]) < tolerance) xSpecies[i] = 0.0; */
 
   /* d xSpecies / dr */
   for (i=0; i<NR; i++) { 
@@ -969,39 +1068,10 @@ static int rANDsTOx (double r[NR], double s[NT]) {
                          dxSpeciesds[NA+i][i] = 1.0;                /* depen */
   }
   
-  dxSpeciesds[ 0][ 1] += - 1.0/2.0;     dxSpeciesds[ 0][ 2] += - 1.0/2.0; /* special case SiO2    */
-  dxSpeciesds[ 0][ 3] +=   1.0/2.0;     dxSpeciesds[ 0][ 4] +=   1.0/2.0;     
-  dxSpeciesds[ 0][ 5] +=   1.0/2.0;     dxSpeciesds[ 0][ 6] +=   1.0/2.0;     
-  dxSpeciesds[ 0][ 7] +=   1.0/2.0;     dxSpeciesds[ 0][ 8] +=   1.0/2.0;     
-  dxSpeciesds[ 0][ 9] +=   1.0/2.0;     dxSpeciesds[ 0][10] += - 1.0/3.0;
-  dxSpeciesds[ 0][12] += - 1.0/2.0;     dxSpeciesds[ 0][14] += - 1.0/3.0;     
-  dxSpeciesds[ 0][15] += - 1.0/4.0;     dxSpeciesds[ 0][16] += - 1.0/4.0;     
-  dxSpeciesds[ 0][17] += - 1.0/4.0;     dxSpeciesds[ 0][22] += - 1.0/4.0; 
-  dxSpeciesds[ 2][ 3] += - 1.0/2.0;     dxSpeciesds[ 2][ 4] += - 1.0/2.0; /* special case Al2O3   */
-  dxSpeciesds[ 2][ 5] += - 1.0/2.0;     dxSpeciesds[ 2][ 6] += - 1.0/2.0;
-  dxSpeciesds[ 2][ 7] += - 1.0/2.0;     dxSpeciesds[ 2][ 8] += - 1.0/2.0;
-  dxSpeciesds[ 2][ 9] += - 1.0/2.0;     dxSpeciesds[ 2][10] += - 1.0/6.0;
-  dxSpeciesds[ 2][11] += - 1.0/2.0;     dxSpeciesds[ 2][13] += - 1.0/2.0;
-  dxSpeciesds[ 2][20] += - 1.0/2.0;     dxSpeciesds[ 2][21] += - 1.0/2.0;
-  dxSpeciesds[ 2][22] += - 1.0/2.0;
-  dxSpeciesds[ 3][ 0] += - 2.0*y;       dxSpeciesds[ 3][ 3] += - 1.0;     /* special case Fe2O3   */
-  dxSpeciesds[ 3][ 9] += - 2.0*y;       dxSpeciesds[ 3][14] += - 1.0/6.0;
-  dxSpeciesds[ 5][ 0] +=   2.0*y - 1.0; dxSpeciesds[ 5][ 4] += - 1.0;     /* special case Fe2SiO4 */
-  dxSpeciesds[ 5][ 9] +=   2.0*y - 1.0; dxSpeciesds[ 5][12] += - 1.0/2.0;     
-  dxSpeciesds[ 5][13] += - 1.0/2.0;     dxSpeciesds[ 5][15] += - 1.0/4.0;
-  dxSpeciesds[ 7][ 2] += - 1.0/2.0;  	dxSpeciesds[ 7][ 5] += - 1.0;     /* special case Mg2SiO4 */
-  dxSpeciesds[ 7][11] += - 1.0/2.0;  	dxSpeciesds[ 7][16] += - 1.0/4.0;
-  dxSpeciesds[10][ 6] += - 1.0;  	dxSpeciesds[10][17] += - 1.0/4.0; /* special case Ca2SiO4 */
-  dxSpeciesds[10][22] += - 1.0/4.0;
-  dxSpeciesds[11][ 7] += - 1.0;  	dxSpeciesds[11][18] += - 1.0/2.0; /* special case Na2SiO3 */
-  dxSpeciesds[11][20] += - 1.0/2.0;
-  dxSpeciesds[12][ 8] += - 1.0;  	dxSpeciesds[12][19] += - 1.0/2.0; /* special case K2SiO3  */
-  dxSpeciesds[12][21] += - 1.0/2.0;
-  dxSpeciesds[18][ 1] += - 1.0/2.0;  	dxSpeciesds[18][10] += - 1.0/2.0; /* special case H2O	  */
-  dxSpeciesds[18][14] += - 1.0/2.0;  	dxSpeciesds[18][15] += - 1.0/2.0;  	
-  dxSpeciesds[18][16] += - 1.0/2.0;  	dxSpeciesds[18][17] += - 1.0/2.0;  	
-  dxSpeciesds[18][18] += - 1.0/2.0;  	dxSpeciesds[18][19] += - 1.0/2.0;  	
-   
+  dxSpeciesds[ 0][0] += 1.0; // special case SiO2
+  dxSpeciesds[10][0] -= 1.0; // special case CaCO3
+  dxSpeciesds[14][0] -= 1.0; // special case CO2
+  
   /* d2 xSpecies / dr ds */
   for (i=0; i<NR; i++) {
     for (j=0; j<NS; j++) {
@@ -1011,35 +1081,9 @@ static int rANDsTOx (double r[NR], double s[NT]) {
   }
   
   /* Total moles of species relative to 1 mole of basis components */
-  denom = 12.0      - 3.0*s[ 1] - 6.0*s[ 3] - 6.0*s[ 4] - 6.0*s[ 5] - 6.0*s[ 6] 
-        - 6.0*s[ 7] - 6.0*s[ 8] - 6.0*s[ 9] - 4.0*s[10] - 6.0*s[11] - 6.0*s[13]
-	- 6.0*s[14] - 6.0*s[15] - 6.0*s[16] - 6.0*s[17] - 6.0*s[18] - 6.0*s[19]
-	+ 6.0*s[20] + 6.0*s[21] + 6.0*s[22];                                    /* Special case */
+  denom = 12.0;                                    /* Special case */
+  dDenomds[0] = 0.0;  // CaCO3
   
-  dDenomds[ 0] =  0.0; /* Fe2SiO(4+2y)   */
-  dDenomds[ 1] = -3.0; /* Si(1/4)OH      */
-  dDenomds[ 2] =  0.0; /* MgSiO3         */
-  dDenomds[ 3] = -6.0; /* Fe2AlO4.5      */
-  dDenomds[ 4] = -6.0; /* Fe2AlO3.5      */
-  dDenomds[ 5] = -6.0; /* Mg2AlO3.5      */
-  dDenomds[ 6] = -6.0; /* Ca2AlO3.5      */
-  dDenomds[ 7] = -6.0; /* Na2AlO2.5      */
-  dDenomds[ 8] = -6.0; /* K2AlO2.5       */
-  dDenomds[ 9] = -6.0; /* Fe2AlO(3.5+2y) */
-  dDenomds[10] = -4.0; /* Al(1/3)OH      */
-  dDenomds[11] = -6.0; /* MgAlO2.5       */
-  dDenomds[12] =  0.0; /* FeSiO3         */
-  dDenomds[13] = -6.0; /* FeAlO2.5       */
-  dDenomds[14] = -6.0; /* Fe(1/3)OH      */
-  dDenomds[15] = -6.0; /* Fe(1/2)OH      */
-  dDenomds[16] = -6.0; /* Mg(1/2)OH      */
-  dDenomds[17] = -6.0; /* Ca(1/2)OH      */
-  dDenomds[18] = -6.0; /* NaOH           */
-  dDenomds[19] = -6.0; /* KOH            */
-  dDenomds[20] =  6.0; /* NaAlSiO4       */
-  dDenomds[21] =  6.0; /* KAlSiO4        */
-  dDenomds[22] =  6.0; /* Ca(1/2)AlSiO4  */
-
   nSpecies = 12.0/denom;
   for (i=0; i<NS; i++) {
     dnSpeciesds[i] = -12.0*dDenomds[i]/(denom*denom);
@@ -7903,6 +7947,9 @@ static double fillG (double r[NR], double s[NT], double t, double p) {
   for (i=0, config=0.0; i<NE; i++) if (xSpecies[i] > 0.0) config += xSpecies[i]*log(xSpecies[i]);
   if (nH2O != -1 && xSpecies[nH2O] > 0.0 && xSpecies[nH2O] < 1.0) config += xSpecies[nH2O]*log(xSpecies[nH2O]) + (1.0-xSpecies[nH2O])*log(1.0-xSpecies[nH2O]); 
   result += R*t*nSpecies*config;
+  
+  ternaryH2OCO2terms(FIRST, r);
+  result += gT;
 
 #ifdef USE_GHIORSO_KRESS_MODEL
   {
@@ -8093,6 +8140,9 @@ static void fillDGDR (double r[NR], double s[NT], double t, double p, double *re
       config += dxSpeciesdr[nH2O][j]*(log(xSpecies[nH2O]) - log(1.0-xSpecies[nH2O])); 
     result[j] += R*t*nSpecies*config;
   }
+  
+  ternaryH2OCO2terms(SECOND, r);
+  for (j=0; j<NR; j++) result[j] += dgdrT[j];
 
 #ifdef USE_GHIORSO_KRESS_MODEL
   {
@@ -8287,6 +8337,9 @@ static void fillD2GDR2 (double r[NR], double s[NT], double t, double p, double *
       result[k][j]  = result[j][k];
     }
   }
+  
+  ternaryH2OCO2terms(THIRD, r);
+  for (j=0; j<NR; j++) for (i=j; i<NR; i++) { result[j][i] += d2gdr2T[j][i]; result[i][j] = result[j][i]; }
   
 #ifdef USE_GHIORSO_KRESS_MODEL
   {
@@ -8954,7 +9007,7 @@ static void fillD2GDPDW (double r[NR], double s[NT], double t, double p, double 
    **************************************/
 #ifndef USE_GHIORSO_KRESS_MODEL
 {
-  int i, j, k, l, m, n
+  int i, j, k, l, m, n;
   for (i=0, n=0; i<NE; i++) for (l=i+1; l<NE; l++, n++) {
     result[2*NP+n] += taylorCoeff[n+NE+1][0+1];
     m = 0;
@@ -9020,6 +9073,20 @@ static void fillD3GDR3 (double r[NR], double s[NT], double t, double p, double *
           config += -dxSpeciesdr[nH2O][j]*dxSpeciesdr[nH2O][k]*dxSpeciesdr[nH2O][l]
 	            *(1.0/(xSpecies[nH2O]*xSpecies[nH2O]) - 1.0/((1.0-xSpecies[nH2O])*(1.0-xSpecies[nH2O]))); 	  
         result[j][k][l] += R*t*nSpecies*config;
+        result[k][j][l]  = result[j][k][l];
+        result[l][j][k]  = result[j][k][l];
+        result[l][k][j]  = result[j][k][l];
+        result[j][l][k]  = result[j][k][l];
+        result[k][l][j]  = result[j][k][l];
+      }
+    }
+  }
+  
+  ternaryH2OCO2terms(FOURTH, r);
+  for (j=0; j<NR; j++) {
+    for (k=j; k<NR; k++) {
+      for (l=k; l<NR; l++) {
+        result[j][k][l] += d3gdr3T[j][k][l];
         result[k][j][l]  = result[j][k][l];
         result[l][j][k]  = result[j][k][l];
         result[l][k][j]  = result[j][k][l];
@@ -11463,6 +11530,8 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
   static double *sCorr;
   double factor = 1.0;
   
+  if (NT == 0) return;
+  
 #ifdef DEBUG
   printf("Call to initialGuessOrdering in liquid.c\n");
 #endif
@@ -11528,9 +11597,9 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
                                   /* [ 0] SiO2 [ 1] Al2O3 [ 2] CaO [ 3] Na2O [ 4] K2O [ 5] H2O */
     static const int nCon = 6;
 #else
-    static const int indexCon[] = { 0, 2, 3, 5, 7, 10, 11, 12, 14 };
-                                  /* [ 0] SiO2 [ 2] Al2O3 [ 3] Fe2O3 [ 5] FeO [ 7] MgO [10] CaO [11] Na2O [12] K2O [14] H2O */
-    static const int nCon = 9;
+    static const int indexCon[] = { 0, 10, 14 };
+                                  /* [ 0] SiO2 [10] CaO [14] CO2 */
+    static const int nCon = 3;
 #endif
     static double **a, *sMin, *sMax, tolerance;
     static int *iposv, *izrov;
@@ -12571,7 +12640,16 @@ conLiq(int inpMask, int outMask, double t, double p,
   
   liqERRstate = ERR_NONE;
   
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { conLiq_v34(inpMask, outMask, t, p, o, m, r, x, dm, d2m, logfo2); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS) ) {
+      conLiq_v34(inpMask, outMask, t, p, o, m, r, x, dm, d2m, logfo2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      conLiq_CO2(inpMask, outMask, t, p, o, m, r, x, dm, d2m, logfo2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      conLiq_CO2_H2O(inpMask, outMask, t, p, o, m, r, x, dm, d2m, logfo2);
+      return;
+  }
   
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -12844,6 +12922,8 @@ testLiq(int mask, double t, double p,
   int result = TRUE, i;
   
   if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) return testLiq_v34(mask, t, p, na, nr, names, formulas, r, m);
+    else if (calculationMode == MODE__MELTSandCO2) return testLiq_CO2(mask, t, p, na, nr, names, formulas, r, m);
+    else if (calculationMode == MODE__MELTSandCO2_H2O) return testLiq_CO2_H2O(mask, t, p, na, nr, names, formulas, r, m);
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -12913,7 +12993,16 @@ dispLiq(int mask, double t, double p, double *x,
 {
   double *r = x;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { dispLiq_v34(mask, t, p, x, formula); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      dispLiq_v34(mask, t, p, x, formula);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      dispLiq_CO2(mask, t, p, x, formula);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      dispLiq_CO2_H2O(mask, t, p, x, formula);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -12960,7 +13049,16 @@ actLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { actLiq_v34(mask, t, p, x, a, mu, dx); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      actLiq_v34(mask, t, p, x, a, mu, dx);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      actLiq_CO2(mask, t, p, x, a, mu, dx);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      actLiq_CO2_H2O(mask, t, p, x, a, mu, dx);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -12987,6 +13085,9 @@ actLiq(int mask, double t, double p, double *x,
       if (returnMixingProperties) mu[i] -= G(i);
     }
     
+    g = gT;
+    for (j=0; j<NR; j++) g += fr[nCO2][j]*dgdrT[j];
+    // printf("X H2O, XCO2 = %g %g, muTernary CO2 %g %g\n", r[13], r[17], g, mu[nCO2]);
   }
 
   if (mask & THIRD) {
@@ -13329,7 +13430,16 @@ gmixLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { gmixLiq_v34(mask, t, p, x, gmix, dx, dx2); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      gmixLiq_v34(mask, t, p, x, gmix, dx, dx2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      gmixLiq_CO2(mask, t, p, x, gmix, dx, dx2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      gmixLiq_CO2_H2O(mask, t, p, x, gmix, dx, dx2);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13422,7 +13532,16 @@ hmixLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { hmixLiq_v34 (mask, t, p, x, hmix); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      hmixLiq_v34 (mask, t, p, x, hmix);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      hmixLiq_CO2(mask, t, p, x, hmix);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      hmixLiq_CO2_H2O(mask, t, p, x, hmix);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13517,7 +13636,16 @@ smixLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { smixLiq_v34(mask, t, p, x, smix, dx, dx2); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      smixLiq_v34(mask, t, p, x, smix, dx, dx2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      smixLiq_CO2(mask, t, p, x, smix, dx, dx2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      smixLiq_CO2_H2O(mask, t, p, x, smix, dx, dx2);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13673,7 +13801,16 @@ cpmixLiq(int mask, double t, double p, double *x,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { cpmixLiq_v34(mask, t, p, x, cpmix, dt, dx); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      cpmixLiq_v34(mask, t, p, x, cpmix, dt, dx);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      cpmixLiq_CO2(mask, t, p, x, cpmix, dt, dx);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      cpmixLiq_CO2_H2O(mask, t, p, x, cpmix, dt, dx);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 
@@ -13795,6 +13932,12 @@ vmixLiq(int mask, double t, double p, double *x,
   if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { 
     vmixLiq_v34 (mask, t, p, x, vmix, dx, dx2, dt, dp, dt2, dtdp, dp2, dxdt, dxdp);
     return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      vmixLiq_CO2 (mask, t, p, x, vmix, dx, dx2, dt, dp, dt2, dtdp, dp2, dxdt, dxdp);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      vmixLiq_CO2_H2O (mask, t, p, x, vmix, dx, dx2, dt, dp, dt2, dtdp, dp2, dxdt, dxdp);
+      return;
   }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
@@ -14236,6 +14379,12 @@ muO2Liq(int mask, double t, double p, double *m,
   if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { 
     muO2Liq_v34(mask, t, p, m, muO2, dm, dt, dp, d2m, d2mt, d2mp, d2t2, d2tp, d2p2);
     return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      muO2Liq_CO2(mask, t, p, m, muO2, dm, dt, dp, d2m, d2mt, d2mp, d2t2, d2tp, d2p2);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      muO2Liq_CO2_H2O(mask, t, p, m, muO2, dm, dt, dp, d2m, d2mt, d2mp, d2t2, d2tp, d2p2);
+      return;
   }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
@@ -14411,7 +14560,16 @@ visLiq(int mask, double t, double p, double *r,
 
   liqERRstate = ERR_NONE;
 
-  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) { visLiq_v34(mask, t, p, r, viscosity); return; }
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS)) {
+      visLiq_v34(mask, t, p, r, viscosity);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2) {
+      visLiq_CO2(mask, t, p, r, viscosity);
+      return;
+  } else if (calculationMode == MODE__MELTSandCO2_H2O) {
+      visLiq_CO2_H2O(mask, t, p, r, viscosity);
+      return;
+  }
 
   MTHREAD_ONCE(&initThreadBlock, threadInit);
 

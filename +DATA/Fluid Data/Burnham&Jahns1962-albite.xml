@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<experiment>
+<number>13223</number>
+<name>TBS-5D</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>3</time>
+<t>870</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>64.5569</sio2>
+<al2o3>17.6959</al2o3>
+<na2o>11.3472</na2o>
+<h2o>6.4</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13224</number>
+<name>TBS-5E</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>3</time>
+<t>870</t>
+<p>0.2</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>64.4879</sio2>
+<al2o3>17.677</al2o3>
+<na2o>11.335</na2o>
+<h2o>6.5</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13225</number>
+<name>TBS-13B</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>8</time>
+<t>810</t>
+<p>0.36</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.7637</sio2>
+<al2o3>17.2044</al2o3>
+<na2o>11.032</na2o>
+<h2o>9</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13226</number>
+<name>TBS-13C</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>8</time>
+<t>810</t>
+<p>0.36</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.9016</sio2>
+<al2o3>17.2422</al2o3>
+<na2o>11.0562</na2o>
+<h2o>8.8</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13227</number>
+<name>TBS-13D</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>8</time>
+<t>810</t>
+<p>0.36</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>63.0395</sio2>
+<al2o3>17.28</al2o3>
+<na2o>11.0805</na2o>
+<h2o>8.6</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13228</number>
+<name>TBS-13E</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>8</time>
+<t>810</t>
+<p>0.36</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>63.1775</sio2>
+<al2o3>17.3178</al2o3>
+<na2o>11.1047</na2o>
+<h2o>8.4</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13229</number>
+<name>TBS-2E</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>3.5</time>
+<t>800</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.3498</sio2>
+<al2o3>17.091</al2o3>
+<na2o>10.9592</na2o>
+<h2o>9.6</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13230</number>
+<name>TBS-2F</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>3.5</time>
+<t>800</t>
+<p>0.4</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.6257</sio2>
+<al2o3>17.1666</al2o3>
+<na2o>11.0077</na2o>
+<h2o>9.2</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13231</number>
+<name>TBYS-2</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>6</time>
+<t>780</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.2119</sio2>
+<al2o3>17.0531</al2o3>
+<na2o>10.935</na2o>
+<h2o>9.8</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13232</number>
+<name>TBYS-3</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>6</time>
+<t>780</t>
+<p>0.5</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.0739</sio2>
+<al2o3>17.0153</al2o3>
+<na2o>10.9107</na2o>
+<h2o>10</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13233</number>
+<name>TBYS-16</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>8</time>
+<t>780</t>
+<p>0.49</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.2119</sio2>
+<al2o3>17.0531</al2o3>
+<na2o>10.935</na2o>
+<h2o>9.8</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13234</number>
+<name>TBYS-17</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>8</time>
+<t>780</t>
+<p>0.49</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>62.3498</sio2>
+<al2o3>17.091</al2o3>
+<na2o>10.9592</na2o>
+<h2o>9.6</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13235</number>
+<name>TBS-12B</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>19</time>
+<t>750</t>
+<p>0.67</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>60.9704</sio2>
+<al2o3>16.7128</al2o3>
+<na2o>10.7168</na2o>
+<h2o>11.6</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13236</number>
+<name>TBS-12C</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>19</time>
+<t>750</t>
+<p>0.67</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>61.1083</sio2>
+<al2o3>16.7506</al2o3>
+<na2o>10.741</na2o>
+<h2o>11.4</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13237</number>
+<name>TBS-11A</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>20</time>
+<t>735</t>
+<p>0.71</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>60.5566</sio2>
+<al2o3>16.5994</al2o3>
+<na2o>10.644</na2o>
+<h2o>12.2</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13238</number>
+<name>TBS-9A</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>4.25</time>
+<t>750</t>
+<p>0.84</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>59.1082</sio2>
+<al2o3>16.2024</al2o3>
+<na2o>10.3894</na2o>
+<h2o>14.3</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13239</number>
+<name>TBS-10F</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>6</time>
+<t>690</t>
+<p>1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>57.108</sio2>
+<al2o3>15.6541</al2o3>
+<na2o>10.0379</na2o>
+<h2o>17.2</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13240</number>
+<name>TBS-10G</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>6</time>
+<t>690</t>
+<p>1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>57.5219</sio2>
+<al2o3>15.7675</al2o3>
+<na2o>10.1106</na2o>
+<h2o>16.6</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+<experiment>
+<number>13241</number>
+<name>TBS-10H</name>
+<author>Burnham, C.W., Jahns, R.H. (1962)</author>
+<lab>Pennsylvania State University</lab>
+<device>IHPV</device>
+<container>Au</container>
+<method>gravimetry</method>
+<time>6</time>
+<t>690</t>
+<p>1</p>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>68.84</sio2>
+<al2o3>18.87</al2o3>
+<na2o>12.1</na2o>
+<dt_entered>2014-05-06 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>58.1426</sio2>
+<al2o3>15.9377</al2o3>
+<na2o>10.2197</na2o>
+<h2o>15.7</h2o>
+</liquid>
+<phase type="fluid">
+<h2o>1</h2o>
+</phase>
+</experiment>
+</LEPRdatabase>

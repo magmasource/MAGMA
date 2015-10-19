@@ -135,6 +135,10 @@ MELTS Source Code: RCS
 #include "recipes.h"                
 #include "silmin.h"
 
+#ifdef DEBUG
+#undef DEBUG
+#endif
+
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 #define SQUARE(x) ((x)*(x))
 
@@ -162,12 +166,19 @@ int subsolidusmuO2(int mask,
   double *m , *r, *activities;
   double **stMatrix, *dstoich, *RHS;
   static double *olddstoich;
-  double fudge = 1.0, error0 = 0.0;
+  double fudge = 1.0, error0 = 0.0, molesO2 = 0.0;
   int iter = 0;
 
   m = vector(0, nlc);
   r = vector(0, nlc);
   activities = vector(0, nlc);
+  
+  if (silminState->liquidMass != 0.0) for (ns=0; ns<silminState->nLiquidCoexist; ns++) for (i=0; i<nlc; i++) 
+    molesO2 += (oxygen.liqToOx)[i]*(silminState->liquidComp)[ns][i];
+  for (i=0; i<npc; i++) for (ns=0; ns<(silminState->nSolidCoexist)[i]; ns++) {
+    if (solids[i].na == 1) molesO2 += (silminState->solidComp)[i][ns]*(oxygen.solToOx)[i];
+    else for (j=0; j<solids[i].na; j++) molesO2 += (silminState->solidComp)[i+1+j][ns]*(oxygen.solToOx)[i+1+j];
+  }
 
   /* liquid is absent -> need subsolidus reaction */
   if (silminState->liquidMass == 0.0) {
@@ -177,10 +188,10 @@ int subsolidusmuO2(int mask,
       free_vector(r, 0, nlc); 
       free_vector(activities, 0, nlc);
       *muO2 = 0.0;
-      return 0;
+      return TRUE;
     }
 
-    oxide      = (int *)    calloc((size_t) (nc+1),sizeof(double));
+    oxide      = (int *)    calloc((size_t) (nc+1),sizeof(int));
     phaseIndex = (int *)    calloc((size_t) (n+1), sizeof(int));
     nCoexist   = (int *)    calloc((size_t) (n+1), sizeof(int));
     RHS        = (double *) calloc((size_t) (nc+1),sizeof(double));
@@ -256,7 +267,7 @@ int subsolidusmuO2(int mask,
         } else {
           printf("Failed to find buffering reaction\n");
           *muO2 = 0.0;
-          return 0;
+          return FALSE;
         }
         free_matrix(v, 1, n, 1, n);
         free_vector(w, 1, n);
@@ -264,7 +275,7 @@ int subsolidusmuO2(int mask,
       } else {
         printf("Can't compute fO2 without FEO and FE2O3\n");
         *muO2 = 0.0;
-        return 0;
+        return FALSE;
       }
       free_matrix(stMatrix, 1, mm, 1, n);
 
@@ -342,18 +353,33 @@ int subsolidusmuO2(int mask,
 	iter++;
         while (acceptable == FALSE) {
           acceptable = TRUE;
-          if ((silminState->oxygen -= xi) < 0.0) acceptable = FALSE;
+          if ((molesO2 -= xi) < 0.0) {
+	    acceptable = FALSE;
+#ifdef DEBUG
+            printf("...subsolidusfO2: In while loop, Failure for oxygen.\n");
+#endif
+	  }
           for (i=2; i<n; i++) silminState->solidComp[phaseIndex[i]][nCoexist[i]] += xi * dstoich[i];
           for (i=0; i<npc; i++) { /* recompute phase abundance, check phases */
             if (solids[i].type == PHASE) {
               if (solids[i].na == 1) {
-                if (silminState->solidComp[i][0] < 0.0) acceptable = FALSE;
+                if (silminState->solidComp[i][0] < 0.0) {
+		  acceptable = FALSE;
+#ifdef DEBUG
+                  printf("...subsolidusfO2: In while loop, Failure for phase %s.\n", solids[i].label);
+#endif
+		}
               } else {
                 double *mmm = (double *) malloc((size_t) solids[i].na*sizeof(double));
                 for (k=0; k<silminState->nSolidCoexist[i]; k++) {
                   for (silminState->solidComp[i][k]=0.0, j=0; j<solids[i].na; j++)
                     silminState->solidComp[i][k] += (mmm[j] = silminState->solidComp[i+1+j][k]);
-                  if (!(*solids[i].test)(SIXTH,silminState->T,silminState->P, solids[i].na, solids[i].nr, NULL, NULL, NULL, mmm)) acceptable = FALSE;
+                  if (!(*solids[i].test)(SIXTH,silminState->T,silminState->P, solids[i].na, solids[i].nr, NULL, NULL, NULL, mmm)) {
+		    acceptable = FALSE;
+#ifdef DEBUG
+                    printf("...subsolidusfO2: In while loop, Failure for phase %s.\n", solids[i].label);
+#endif
+		  }
                 }
                 free(mmm);
               }
@@ -368,12 +394,24 @@ int subsolidusmuO2(int mask,
                 }
               }
             }
-            if (silminState->bulkComp[i] < 0.0) acceptable = FALSE;
+            if (silminState->bulkComp[i] < 0.0) {
+	      acceptable = FALSE;
+#ifdef DEBUG
+              printf("...subsolidusfO2: In while loop, Failure for oxide %s.\n", bulkSystem[i].label);
+#endif
+	    }
           }
           if (acceptable == FALSE) {    /* went too far, undo */
-            silminState->oxygen += xi;
+            molesO2 += xi;
             for (i=1; i<n; i++) silminState->solidComp[phaseIndex[i]][nCoexist[i]] -= xi * dstoich[i];
             xi /= 2.0;  /* On next attempt, step half as far */
+#ifdef DEBUG
+            printf("...subsolidusfO2: In while loop, xi = %20.13g.\n", xi);
+#endif
+            if (fabs(xi) < 100.0*DBL_EPSILON) {
+	      printf("Can't compute a viable solution in subSolidusMuO2. Exiting.\n");
+              return FALSE;
+	    }
           }
         }
       } else break; /* converged */
@@ -867,8 +905,7 @@ int subsolidusmuO2(int mask,
     while (mask & FIRST || !mask) {
       double *xLiq  = (double *) malloc((size_t) nlc*sizeof(double));
       double *oxLiq = (double *) malloc((size_t) nc*sizeof(double));
-      double *g0    = (double *) malloc((size_t) nlc*sizeof(double));
-      double xi, *a, delta_g0, activity_product, tempmuO2;
+      double *g0, xi, *a, delta_g0, activity_product, tempmuO2;
       int *liqNum;
 
       nreact = 4; 
@@ -886,7 +923,8 @@ int subsolidusmuO2(int mask,
       if (fe != 2) {
         printf("Can't compute fO2 without FEO and FE2O3\n");
         *muO2 = 0.0;
-        return 0;
+        free(xLiq); free(oxLiq); free(g0); free(a); free(stoich); free(liqNum);
+        return FALSE;
       }
       conLiq(SECOND, THIRD | FOURTH, silminState->T, silminState->P, NULL, (silminState->liquidComp)[0], r, xLiq, NULL, NULL, NULL);
       for (i=0; i<nc; i++) {
@@ -922,7 +960,7 @@ int subsolidusmuO2(int mask,
         acceptable = FALSE;
         while (acceptable == FALSE) {
           acceptable = TRUE;
-          if ((silminState->oxygen -= xi) < 0.0) acceptable = FALSE;
+          if ((molesO2 -= xi) < 0.0) acceptable = FALSE;
           for (i=1;i<nreact;i++) {
             (silminState->liquidComp)[0][liqNum[i]] += xi * stoich[i];
             if ((silminState->liquidComp)[0][liqNum[i]] < 0.0) acceptable = FALSE;
@@ -930,7 +968,7 @@ int subsolidusmuO2(int mask,
               silminState->bulkComp[j] += xi *stoich[i] * (liquid[liqNum[i]].liqToOx)[j];
           }
           if (acceptable == FALSE) {    /* went too far, undo */
-            silminState->oxygen += xi;
+            molesO2 += xi;
             for (i=1; i<nreact; i++) (silminState->liquidComp)[0][liqNum[i]] -= xi * stoich[i];
             for (j=0; j<nc; j++)  /* recompute bulk composition */
               silminState->bulkComp[j] -= xi *stoich[i] * (liquid[liqNum[i]].liqToOx)[j];
@@ -947,7 +985,7 @@ int subsolidusmuO2(int mask,
 
   free_vector(m, 0, nlc); free_vector(r, 0, nlc); free_vector(activities, 0, nlc);
 
-  return 0;
+  return TRUE;
 }
 
 /* end of file SUBSOLIDUSMUO2.C */

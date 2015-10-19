@@ -83,17 +83,6 @@ static void grace_error_function(const char *msg)
 int isOrthopyroxene(double t, double p, double *r);
 int isPigeonite(double t, double p, double *r);
 
-/* FORTRAN calling conventions from C */
-#ifdef __APPLE__
-#define F2C 1
-#endif
-
-#ifndef F2C /* __APPLE__ */
-#include <g2c.h>
-#else
-#include <f2c.h>
-#endif /* __APPLE__ */
-
 #define SQUARE(x) ((x)*(x))
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 
@@ -101,34 +90,34 @@ int isPigeonite(double t, double p, double *r);
 /* PORT 3 external routines and user defined functions                                     */
 /* ======================================================================================= */
 
-extern int dn2gb_(    /* double version of n2gb routine from the PORT Library v.3          */
-  integer    *n,      /* number of observations                                            */
-  integer    *p,      /* number of parameters                                              */
-  doublereal *x,      /* input: initial guess at optimal parameters. output: best estiamte */
-  doublereal *b,      /* bounds, FORTRAN B(2,P) = {low, high, low, high, ....}             */
-  S_fp       calcr,   /* int calcr(...) : function to calculate vector of residuals        */
-  S_fp       calcj,   /* int calcj(...) : function to calculate the Jacobian matrix        */
-  integer    *iv,     /* control array                                                     */
-  integer    *liv,    /* of length 82 + 4*p                                                */
-  integer    *lv,     /* control array                                                     */
-  doublereal *v,      /* of length 105 + p*(n + 2*p + 21) + 2*n                            */
-  integer    *uiparm, /* integer array passed to calcr, calcj                              */
-  doublereal *urparm, /* double array passed to calcr, calcj                               */
-  U_fp       ufparm   /* int ufparam(...) : user function passed to calcr, calcj           */
+extern int dn2gb_(   /* double version of n2gb routine from the PORT Library v.3           */
+  int     *n,	     /* number of observations						   */
+  int     *p,	     /* number of parameters						   */
+  double  *x,	     /* input: initial guess at optimal parameters. output: best estiamte  */
+  double  *b,	     /* bounds, FORTRAN B(2,P) = {low, high, low, high, ....}		   */
+  int    (*calcr)(), /* int calcr(...) : function to calculate vector of residuals	   */
+  int    (*calcj)(), /* int calcj(...) : function to calculate the Jacobian matrix	   */
+  int     *iv,       /* control array							   */
+  int     *liv,      /* of length 82 + 4*p						   */
+  int     *lv,       /* control array							   */
+  double  *v,	     /* of length 105 + p*(n + 2*p + 21) + 2*n				   */
+  int     *uiparm,   /* integer array passed to calcr, calcj				   */
+  double  *urparm,   /* double array passed to calcr, calcj				   */
+  int    (*ufparm)() /* int ufparam(...) : user function passed to calcr, calcj 	   */
 );
   
-extern int divset_(   /* double version of ivset routine from the PORT Library v.3         */
-  integer    *kind,   /* type of optimization routine, regression with simple bounds = 1   */
-  integer    *iv,     /* control array  						   */
-  integer    *liv,    /* of length 82 + 4*p						   */
-  integer    *lv,     /* control array  						   */
-  doublereal *v       /* of length 105 + p*(n + 2*p + 21) + 2*n 			   */
+extern int divset_(  /* double version of ivset routine from the PORT Library v.3          */
+  int        *kind,  /* type of optimization routine, regression with simple bounds = 1    */
+  int        *iv,    /* control array  						           */
+  int        *liv,   /* of length 82 + 4*p						   */
+  int        *lv,    /* control array  						           */
+  double     *v      /* of length 105 + p*(n + 2*p + 21) + 2*n 			           */
 );
 
-logical stopx_(/* function called by PORT Library v.3 to test for interrupts               */
-  integer dummy) {
-  if (fopen("STOP_MELTS", "r") != NULL) return TRUE_;
-  else return FALSE_;                           /* return TRUE_ to halt dn2gb              */
+int stopx_(/* function called by PORT Library v.3 to test for interrupts                   */
+  int     dummy) {
+  if (fopen("STOP_MELTS", "r") != NULL) return TRUE;
+  else return FALSE;                            /* return TRUE_ to halt dn2gb              */
 }
 
 /*******************************************************************************************/
@@ -246,15 +235,17 @@ static void seed(int islave) {
 
 static int lastNf, currentNf;
 
+static int isNAN (double x) { return x != x; }
+
 int calcr(/* Residual routine required by dn2gb                                     	   */
-  integer    *pt_n,  /* nuumber of observations 				    	   */
-  integer    *pt_p,  /* number of parameters					    	   */
-  doublereal *x,     /* current parameter guess 				    	   */
-  integer    *pt_nf, /* invocation count for calcr; set to 0 if x is infeasible     	   */
-  doublereal *r,     /* FORTRAN: R(N), r[1:n]                 	                    	   */
-  integer    *ui,    /* passed via dn2gb					    	   */
-  doublereal *ur,    /* passed via dn2gb					    	   */
-  U_fp       uf      /* passed via dn2gb					    	   */
+  int        *pt_n,  /* nuumber of observations 				    	   */
+  int        *pt_p,  /* number of parameters					    	   */
+  double     *x,     /* current parameter guess 				    	   */
+  int        *pt_nf, /* invocation count for calcr; set to 0 if x is infeasible     	   */
+  double     *r,     /* FORTRAN: R(N), r[1:n]                 	                    	   */
+  int        *ui,    /* passed via dn2gb					    	   */
+  double     *ur,    /* passed via dn2gb					    	   */
+  int       (*uf)()  /* passed via dn2gb					    	   */
 ) {
   int n = (int) *pt_n, p = (int) *pt_p, nf = (int) *pt_nf, i, index, failure;
   double sumOfSquares = 0.0;
@@ -587,8 +578,14 @@ int calcr(/* Residual routine required by dn2gb                                 
       for (k=0; k<residualDataInput[index].nSol; k++, j++) {
         int l;
         r[j] = (residualOutput[index].residuals)[k];
-	for (l=0; l<p; l++) ur[n*p + j + n*l] = (residualOutput[index].dr)[k*p+l]; /* ur(N,P), j[1:n(p=0), 1:n(p=1), ...., (1:n)(p)] */
-        sumOfSquares   += r[j]*r[j];
+	if (isNAN(r[j])) {
+	  printf("calcr[preclb.c at line %d]--> NaN detected for r[%d] in liquid %d of %d\n", __LINE__, j, index, nLiquid);
+	  (residualOutput[index].residuals)[k] = 0.0;
+	  r[j] = 0.0;
+	} else {
+	  for (l=0; l<p; l++) ur[n*p + j + n*l] = (residualOutput[index].dr)[k*p+l]; /* ur(N,P), j[1:n(p=0), 1:n(p=1), ...., (1:n)(p)] */
+          sumOfSquares   += r[j]*r[j];
+	}
       }
     }
   
@@ -626,14 +623,14 @@ int calcr(/* Residual routine required by dn2gb                                 
 /*************************************************************************************/
 
 int calcj(/* Jacobian routine required by dn2gb                                    */
-  integer    *pt_n,  /* nuumber of observations                                    */
-  integer    *pt_p,  /* number of parameters                                       */
-  doublereal *x,     /* current parameter guess                                    */
-  integer    *pt_nf, /* invocation count for calcr; set to 0 if x is infeasible    */
-  doublereal *j,     /* FORTRAN: J(N,P), j[1:n(p=0), 1:n(p=1), ...., (1:n)(p)]     */
-  integer    *ui,    /* passed via dn2gb                                           */
-  doublereal *ur,    /* passed via dn2gb                                           */
-  U_fp       uf      /* passed via dn2gb                                           */
+  int        *pt_n,  /* nuumber of observations                                    */
+  int        *pt_p,  /* number of parameters                                       */
+  double     *x,     /* current parameter guess                                    */
+  int        *pt_nf, /* invocation count for calcr; set to 0 if x is infeasible    */
+  double     *j,     /* FORTRAN: J(N,P), j[1:n(p=0), 1:n(p=1), ...., (1:n)(p)]     */
+  int        *ui,    /* passed via dn2gb                                           */
+  double     *ur,    /* passed via dn2gb                                           */
+  int       (*uf)()  /* passed via dn2gb                                           */
  ) {
   int n = (int) *pt_n, p = (int) *pt_p, nf = (int) *pt_nf, offset, i;
   
@@ -682,7 +679,7 @@ static void mrqcofWithBounds(double x[], double y[], double sig[], int ndata, do
   
   /* Replaced call to funcs with call to calcr */
   iter++; nf = iter;
-  (void) calcr((integer *) &ndata, (integer *) &mfit, &aTemp[1], (integer *) &nf, &ymod[1], NULL, &dyda[1], ufparm);
+  (void) calcr((int     *) &ndata, (int     *) &mfit, &aTemp[1], (int     *) &nf, &ymod[1], NULL, &dyda[1], ufparm);
   if      (nf == lastNf)    offset = 0;
   else if (nf == currentNf) offset = ndata*mfit;
   else printf("mrqcofWithBounds[preclb.c at line %d]--> calcr returned nf = %d, stored values are %d and %d.\n", __LINE__, nf, lastNf, currentNf);
@@ -745,8 +742,11 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
   static char valueI[7];  /*  6 characters */
   static char valueD[21]; /* 20 characters */
   static XmString  valueCS  = NULL;
-  
-  static int mfit, graphSet=0;
+
+#ifdef GRACE_PIPE
+  static int graphSet=0;
+#endif
+  static int mfit;
   static unsigned long *key;
   static double ochisq, *atry, *beta, *da, *wSVA, **vSVA;
   static char *eSVA;
@@ -782,7 +782,7 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
   /* Original call to gaussj(covar,mfit,oneda,1); removed (oneda[j][1] = beta[j]) */
   svdcmp(covar, mfit, mfit, wSVA, vSVA);
   
-  indexx(mfit, wSVA, key);
+  if (mfit > 0) indexx(mfit, wSVA, key);
 #ifdef GRACE_PIPE
   GracePrintf("WITH G2\n"); graphSet++;
   if (graphSet > 1) GracePrintf("KILL g2.s1\n");
@@ -940,7 +940,7 @@ static void mrqminWithSVA(double x[], double y[], double sig[], int ndata, doubl
   DISPLAYI(mrqrdtADB[2], mfit) 
   DISPLAYI(mrqrdtADB[3], rank) 
   DISPLAYD(mrqrdtADB[5], wMax) 
-  DISPLAYD(mrqrdtADB[6], wSVA[key[1]])
+  if (mfit > 0) { DISPLAYD(mrqrdtADB[6], wSVA[key[1]]) }
   DISPLAYD(mrqrdtADB[7], wMin)
   
   svbksb(covar, wSVA, vSVA, mfit, mfit, beta, eSVA, da);
@@ -1002,14 +1002,15 @@ static int getDependentOfSolid(double *x, double t, double p, Boolean *lowWtFlag
   delta.g    = 0.0;
   delta.dgdt = 0.0;
  
+  Boolean lowMolFlag = False;
   for (i=0; i<nlc; i++) {
-    if( (solids[solidID].solToLiq)[i] != 0.0) {
-      Boolean lowMolFlag;
+    if( (solids[solidID+1+componentID].solToLiq)[i] != 0.0) {
       int j;
       for (j=0, lowMolFlag=False; j<nc; j++) lowMolFlag |= ((liquid[i].liqToOx)[j] != 0.0) && lowWtFlag[j];
       if (x[i] == 0.0 || lowMolFlag) return FALSE; 
     }
   }
+  printf("Flags = %d, %d, %d\n", lowMolFlag, lowWtFlag[14], lowWtFlag[15]);
 
   if (solidID < 0) return TRUE;
   
@@ -1383,7 +1384,7 @@ Boolean preclb(XtPointer client_data)
     } 
     if (oxNamesLC == NULL) oxNamesLC = (char **) malloc((size_t) nc*sizeof(char *));
     for (i=0; i<nc; i++) {
-      int len = strlen(bulkSystem[i].label);
+      size_t len = strlen(bulkSystem[i].label);
       oxNamesLC[i] = (char *) malloc((size_t) (len+1)*sizeof(char));
       for (j=0; j<len; j++) oxNamesLC[i][j] = tolower((bulkSystem[i].label)[j]);
       oxNamesLC[i][len] = '\0';
@@ -1399,8 +1400,8 @@ Boolean preclb(XtPointer client_data)
     MESSAGE(valueCS); XmStringFree(valueCS); workProcData->active = FALSE; 
     return(TRUE);
   }
-  fprintf(liqFile,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", 
-    "liq N", "Name", "Author", "Device", "Container", "Method", "T (C)", "P (GPa)", "log fO2");
+  fprintf(liqFile,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", 
+    "LEPR N", "liq N", "Name", "Author", "Device", "Container", "Method", "T (C)", "P (GPa)", "log fO2");
 
   curStep++;
   workProcData->active = TRUE; 
@@ -1428,11 +1429,11 @@ Boolean preclb(XtPointer client_data)
 	int flagFePt = FALSE;
 	int flagRe   = FALSE;
 	int LEPRnum  = 0;
-	char name[21], author[21], device[11], container[11], method[11];
+	char name[201], author[201], device[11], container[11], method[11];
 	
 	t = -9999.0; p = -9999.0; logfo2 = -9999.0;
-	for (i=0; i<21;i++) { name[i] = ' '; author[i] = ' '; }
-	name[20] = '\0'; author[20] = '\0';
+	for (i=0; i<201;i++) { name[i] = ' '; author[i] = ' '; }
+	name[200] = '\0'; author[200] = '\0';
 	for (i=0; i<11;i++) { device[i] = ' '; container[i] = ' '; method[i] = ' '; }
 	device[10] = '\0'; container[10] = '\0'; method[10] = '\0';
 
@@ -1443,11 +1444,11 @@ Boolean preclb(XtPointer client_data)
 	    if      (!strcmp((char *) level2->name, "number" )) LEPRnum = atoi((char *) content2);
 	    
 	    else if (!strcmp((char *) level2->name, "name"   )) { 
-	      (void) strncpy(name, (char *) content2, 20); 
+	      (void) strncpy(name, (char *) content2, 200); 
 	      DISPLAY(actionADB[1], (char *) content2) 
 	    }
 	    
-	    else if (!strcmp((char *) level2->name, "author"    )) (void) strncpy(author, (char *) content2, 20);
+	    else if (!strcmp((char *) level2->name, "author"    )) (void) strncpy(author, (char *) content2, 200);
 	    
 	    else if (!strcmp((char *) level2->name, "device"    )) {
 	      (void) strncpy(device,    (char *) content2, 10);
@@ -1511,8 +1512,10 @@ Boolean preclb(XtPointer client_data)
 #elif BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
               for (i=0; i<nc; i++)  lowWtFlag[i] = FALSE;
 #else
+#ifndef RHYOLITE_ADJUSTMENTS
               if (p > 50000.0) logfo2 = -9999.0; /* kill previous estimate of log fo2 from LEPR for high P experiments */
 	      if ((LEPRnum >= 150001) && (LEPRnum <= 150312)) logfo2 = -9999.0; /* recalculate the log fO2s for all "density" constraints */
+#endif
 	      
               if (logfo2 == -9999.0 && (flagPC || flagMA) && (flagC || flagPtC)) {
 	        /*
@@ -1554,12 +1557,17 @@ Boolean preclb(XtPointer client_data)
 	        double fo2air = -0.68 + ((p > 0.0) ? log(p)/log(10.0) : 0.0);
 	        if (logfo2 > fo2air) logfo2 = fo2air; /* Constrain the log fO2 to be at or below air at P */
 	      }
+#ifndef RHYOLITE_ADJUSTMENTS
               if ((logfo2 != -9999.0) && (LEPRnum < 90000)) { /* 90000 and above are ferrc-ferrous calibration experiments */
 	        conLiq(FIRST | SEVENTH, FIRST, t, p, wt, NULL, NULL, NULL, NULL, NULL, &logfo2); /* FeO(T) -> Fe2O3, FeO */
                 for (i=0; i<nc; i++)  lowWtFlag[i] = (wt[i]*bulkSystem[i].mw < 0.5);
                 lowWtFlag[3] = (wt[3]*bulkSystem[3].mw < 0.1); /* Fe2O3 */
                 lowWtFlag[4] = (wt[4]*bulkSystem[4].mw < 0.1); /* Cr2O3 */
 	      } else for (i=0; i<nc; i++)  lowWtFlag[i] = FALSE;
+#else
+              for (i=0; i<nc; i++)  lowWtFlag[i] = (wt[i]*bulkSystem[i].mw < 0.0001);
+              /* if ((wt[14] > 0.0) && (wt[15] > 0.0)) { lowWtFlag[14] = TRUE; lowWtFlag[15] = TRUE; } */
+#endif
 #endif
     
               for (i=0; i<nc; i++) zeroWtFlag[i] = (wt[i] <= 0.0); 
@@ -1567,6 +1575,7 @@ Boolean preclb(XtPointer client_data)
 	      
 #ifndef BUILD_MGO_SIO2_VERSION
 #ifndef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
+#ifndef RHYOLITE_ADJUSTMENTS
               /* Here is where experiments are excluded by LEPRnum.  Exclusion is accomplished by setting logfo2 back to -9999.0 */
 	      if ( (LEPRnum >=    37) && (LEPRnum <=    37) ) logfo2 = -9999.0; /* H2O bearing, no water in liquid*/
 	      if ( (LEPRnum >=    41) && (LEPRnum <=    41) ) logfo2 = -9999.0; /* H2O bearing, no water in liquid*/
@@ -1657,6 +1666,19 @@ Boolean preclb(XtPointer client_data)
 	      if (p == 0.0) logfo2 = -9999.0; /* Bad entry */
 #endif
 #endif
+#endif
+          /*
+          // Special test to exclude simple liquids
+          if ((wt[11]*bulkSystem[11].mw + wt[12]*bulkSystem[12].mw) < 1.0) logfo2 = -9999.0;  // wt % Na2O+K2O < 1
+          {
+            double amIalbite = (11.82 - 8.27)*(wt[0]*bulkSystem[0].mw-48.12)/(68.74 - 48.12) + 8.27 - wt[11]*bulkSystem[11].mw;
+            if ((fabs(amIalbite) <= 0.5) && (wt[7] == 0.0) && (wt[10] == 0.0))  logfo2 = -9999.0;
+          }
+          {
+            double amIkspar = (16.92 - 16.92*0.70)*(wt[0]*bulkSystem[0].mw-64.76*0.70)/(64.76 - 64.76*0.70) + 16.92*0.70 - wt[12]*bulkSystem[12].mw;
+            if ((fabs(amIkspar) <= 0.5) && (wt[7] == 0.0) && (wt[10] == 0.0))  logfo2 = -9999.0;
+          }
+          */
 
               /* Do tests on liquid composition and store valid liquid entry */
 #ifdef BUILD_MGO_SIO2_VERSION
@@ -1712,9 +1734,10 @@ Boolean preclb(XtPointer client_data)
         	}
               } else {
         	validLiquid = FALSE;
-        	printf("-->Liquid %d fails validation test.\n", nLiquid);
+        	printf("-->Liquid %d fails validation test.logfO2 = %g, test = %d\n", nLiquid, logfo2,
+		  testLiq(SIXTH, t, p, 0, 0, NULL, NULL, NULL, molesLiqCmp));
               }
-              
+                            
               /* Insert an equation for oxygen calibration if liquid is valid composition */
               if (  validLiquid
         	    && calibrateOxygen
@@ -1750,8 +1773,11 @@ Boolean preclb(XtPointer client_data)
  		}      
  	      }
 	      
-	      if (validLiquid)   fprintf(liqFile,"%d\t%s\t%s\t%s\t%s\t%s\t%g\t%g\t%g\n", 
-	        nLiquid-1, name, author, device, container, method, t-273.15, p/10000.0, logfo2);
+	      if (validLiquid) { 
+	        fprintf(liqFile,"%d\t%d\t%s\t%s\t%s\t%s\t%s\t%g\t%g\t%g\n", 
+	          LEPRnum, nLiquid-1, name, author, device, container, method, t-273.15, p/10000.0, logfo2);
+	        printf("-->Liquid %d passes all tests\n", nLiquid);
+	      }
 
 
 	      /* This is the end of all liquid processing */
@@ -1762,35 +1788,50 @@ Boolean preclb(XtPointer client_data)
 	      int bypass = FALSE;
 	      xmlNode *level3 = level2->children;
 	      
-	      if      (!strcmp(phaseNameXML, "sulfide"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "oxide"          )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "cas"            )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "nakalsi"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "hollandite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "carbonate"      )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "carbonateliquid")) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "sodalite"       )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "sillimanite"    )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "kyanite"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "staurolite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "zoisite"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "cordierite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "chevkinite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "clay"           )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "chevkinite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "epidote"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "montdorite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "phlogopite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "tisicomp"       )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "amphibole"      )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "melilite"       )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "biotite"        )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "armacolite"     )) bypass = TRUE;
-	      else if (!strcmp(phaseNameXML, "ferrobustamite" )) bypass = TRUE;
-
-	      if (!strcmp(phaseNameXML, "cpx") && (LEPRnum >= 3900) && (LEPRnum <= 3917) ) bypass = TRUE; /* eliminate Villiger cpx  */
-	      if (!strcmp(phaseNameXML, "opx") && (LEPRnum >= 3900) && (LEPRnum <= 3917) ) bypass = TRUE; /* eliminate Villiger opx  */
-	      
+	      if      (!strcmp(phaseNameXML, "sulfide"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "oxide"                  )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "cas"                    )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "nakalsi"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "hollandite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "carbonate"              )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "carbonateliquid"        )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "sodalite"               )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "sillimanite"            )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "kyanite"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "staurolite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "zoisite"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "cordierite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "chevkinite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "clay"                   )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "chevkinite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "epidote"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "montdorite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "phlogopite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "tisicomp"               )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "amphibole"              )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "melilite"               )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "armacolite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "ferrobustamite"         )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "caperovskite"           )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "stishovite"             )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "coesite"                )) bypass = TRUE;
+  	      else if (!strcmp(phaseNameXML, "perovskite"             )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "ferropericlase"         )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "density"                )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "o2"                     )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "potassium feldspar"     )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "oxide-generic"          )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "liquid"                 )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "allanite"               )) bypass = TRUE;
+#ifdef RHYOLITE_ADJUSTMENTS
+	      else if (!strcmp(phaseNameXML, "potassium tetrasilicate")) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "potassium disilicate"   )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "sodium metasilicate"    )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "sodium disilicate"      )) bypass = TRUE;
+	      else if (!strcmp(phaseNameXML, "mullite"                )) bypass = TRUE;
+#else
+	      else if (!strcmp(phaseNameXML, "biotite"                )) bypass = TRUE;
+#endif	      
 	      if (!bypass) {
 #ifdef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
                 Boolean killPhase;
@@ -1799,19 +1840,11 @@ Boolean preclb(XtPointer client_data)
 	        else if (!strcmp(phaseNameXML, "opx"))            phaseName = "orthopyroxene"; 
 	        else if (!strcmp(phaseNameXML, "plagioclase"))    phaseName = "feldspar"; 
 	        else if (!strcmp(phaseNameXML, "kspar"))          phaseName = "feldspar"; 
-	        else if (!strcmp(phaseNameXML, "ilmenite"))       phaseName = "msg oxide"; 
+	        else if (!strcmp(phaseNameXML, "ilmenite"))       phaseName = "rhm-oxide"; 
+#ifndef RHYOLITE_ADJUSTMENTS
 	        else if (!strcmp(phaseNameXML, "fluid"))          phaseName = "water"; 
-#ifndef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
-	        else if (!strcmp(phaseNameXML, "leucite"))        phaseName = "leucite ss"; 
-	        else if (!strcmp(phaseNameXML, "nepheline"))      phaseName = "nepheline ss"; 
 #endif
 	        else if (!strcmp(phaseNameXML, "titanite"))       phaseName = "sphene"; 
-  	        else if (!strcmp(phaseNameXML, "caperovskite"))   phaseName = "caperovskite-sx";
-  	        else if (!strcmp(phaseNameXML, "stishovite"))     phaseName = "stishovite-sx";
-  	        else if (!strcmp(phaseNameXML, "coesite"))        phaseName = "coesite-sx";
-  	        else if (!strcmp(phaseNameXML, "perovskite"))     phaseName = "perovskite ss";
-		else if (!strcmp(phaseNameXML, "ferropericlase")) phaseName = "wustite ss";
-		else if (!strcmp(phaseNameXML, "garnet"))         phaseName = "majorite ss";
 	        else { 
 	          phaseName = (char *) malloc((size_t) (strlen(phaseNameXML)+1)*sizeof(char)); 
 	          phaseName = strcpy(phaseName, phaseNameXML);
@@ -1858,6 +1891,21 @@ Boolean preclb(XtPointer client_data)
 	        }
 		
 		if ( (CO2index != -1) && (H2Oindex != -1) && !strcmp(phaseName, "water") && (wt[CO2index] > 0.0) ) lowWtFlag[H2Oindex] = TRUE;
+		
+		if ( (CO2index != -1) && (H2Oindex != -1) && !strcmp(solids[id].label, "fluid") ) {
+		  //if ( (wt[H2Oindex] == 0.0) || (wt[CO2index] == 0.0) ) {
+		  //  lowWtFlag[H2Oindex] = TRUE;
+		  //  lowWtFlag[CO2index] = TRUE;
+		  //}
+		  //if ( wt[H2Oindex] > 0.0 ) {
+		  //  lowWtFlag[H2Oindex] = TRUE;
+		  //  lowWtFlag[CO2index] = TRUE;
+		  //}
+		  if      (wt[CO2index] == 0.0) id += 3;  // switch to pure duan H2O
+		  else if (wt[H2Oindex] == 0.0) id += 4;  // switch to pure duan CO2
+		  wt[H2Oindex] *= 18.01528;
+		  wt[CO2index] *= 44.0095;
+		}
 
                 if ( validLiquid && ((lowPonly && (p < 100000.0)) || !lowPonly) && ((highPonly && (p > 100000.0)) || !highPonly) &&
 		                    ((oneBarOnly && (p < 2.0))    || !oneBarOnly) 
@@ -1935,6 +1983,7 @@ Boolean preclb(XtPointer client_data)
                 	/* Compute activities of endmember components/exclude dilute comp */
                 	for (j=0, useSaved=FALSE; j<solids[id].na; j++) {
                 	  if(preclbCount[id+1+j].usePhase && getDependentOfSolid(molesLiqCmp, t, p, lowWtFlag, id, j, indep, useSaved)) {
+                	    printf("... component %d accepted\n", j);
                 	    nEqn++;
                 	    pRDI->nSol++; if (pRDI->nSol > nSolCoexistMax) 
 	        			  printf("ERROR:preclb[preclb.c at line %d] nSolCoexistMax[=%d] exceeded.\n", __LINE__, nSolCoexistMax);
@@ -1956,8 +2005,10 @@ Boolean preclb(XtPointer client_data)
                    	   preclbCount[id+1+j].np++;
                    	   (void) snprintf(value, 6, "%5.5d", preclbCount[id+1+j].np);
                    	   DISPLAY(preclbCount[id+1+j].present, value)
+			           useSaved = TRUE;
+                	  } else {
+                	    printf("... component %d rejected\n", j);
                 	  }
-			  useSaved = TRUE;
                 	}
 	              
 	        	/* dependent species used as regression constraints */
@@ -2630,17 +2681,17 @@ Boolean preclb(XtPointer client_data)
   
   if (useTrustRegionMethod) {
   
-    integer n = (integer) nEqn, p = (integer) nParam;
+    int     n = (int    ) nEqn, p = (int    ) nParam;
     
     if ((n > 0) && (p > 0)) {
-      integer    kind    = 1;
-      integer    liv     = 82 + 4*p;
-      integer    lv      = 105 + p*(n + 2*p + 21) + 2*n;
-      integer    *iv     = (integer *)    malloc((size_t)     lv*sizeof(integer)); 
-      doublereal *x      = (doublereal *) malloc((size_t)      p*sizeof(doublereal));  
-      doublereal *b      = (doublereal *) malloc((size_t)    2*p*sizeof(doublereal)); 
-      doublereal *v      = (doublereal *) malloc((size_t)     lv*sizeof(doublereal)); 
-      doublereal *urparm = (doublereal *) calloc((size_t) 2*p*n, sizeof(doublereal));;
+      int        kind    = 1;
+      int        liv     = 82 + 4*p;
+      int        lv      = 105 + p*(n + 2*p + 21) + 2*n;
+      int        *iv     = (int     *)    malloc((size_t)     lv*sizeof(int    )); 
+      double     *x      = (double     *) malloc((size_t)      p*sizeof(double    ));  
+      double     *b      = (double     *) malloc((size_t)    2*p*sizeof(double    )); 
+      double     *v      = (double     *) malloc((size_t)     lv*sizeof(double    )); 
+      double     *urparm = (double     *) calloc((size_t) 2*p*n, sizeof(double    ));;
   
       for (i=0, j=0; i<(nls*(nls-1)/2 + nls + npc); i++) {
         if (modelParameters[i].activeH) {

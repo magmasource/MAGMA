@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<LEPRdatabase>
+<experiment>
+<number>12809</number>
+<name>T2790</name>
+<author>Mattey, D.P. (1991)</author>
+<lab>University of Tasmania</lab>
+<device>PC</device>
+<container>Pt</container>
+<method>FTIR</method>
+<time>2</time>
+<t>1200</t>
+<p>0.5</p>
+<fo2>HM</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>53.96</sio2>
+<tio2>0.42</tio2>
+<al2o3>16.67</al2o3>
+<mgo>8.85</mgo>
+<feo>6.03</feo>
+<cao>12.99</cao>
+<na2o>0.98</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>53.9222</sio2>
+<tio2>0.419706</tio2>
+<al2o3>16.6583</al2o3>
+<feo>6.02577</feo>
+<mgo>8.8438</mgo>
+<cao>12.9809</cao>
+<na2o>0.979313</na2o>
+<co2>0.17</co2>
+</liquid>
+<phase type="fluid">
+<co2>1</co2>
+</phase>
+</experiment>
+<experiment>
+<number>12810</number>
+<name>T3043</name>
+<author>Mattey, D.P. (1991)</author>
+<lab>University of Tasmania</lab>
+<device>PC</device>
+<container>Pt</container>
+<method>FTIR</method>
+<time>0.5</time>
+<t>1400</t>
+<p>0.5</p>
+<fo2>HM</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>53.96</sio2>
+<tio2>0.42</tio2>
+<al2o3>16.67</al2o3>
+<mgo>8.85</mgo>
+<feo>6.03</feo>
+<cao>12.99</cao>
+<na2o>0.98</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>53.933</sio2>
+<tio2>0.41979</tio2>
+<al2o3>16.6617</al2o3>
+<feo>6.02698</feo>
+<mgo>8.84557</mgo>
+<cao>12.9835</cao>
+<na2o>0.97951</na2o>
+<co2>0.15</co2>
+</liquid>
+<phase type="fluid">
+<co2>1</co2>
+</phase>
+</experiment>
+<experiment>
+<number>12811</number>
+<name>T3045</name>
+<author>Mattey, D.P. (1991)</author>
+<lab>University of Tasmania</lab>
+<device>PC</device>
+<container>Pt</container>
+<method>FTIR</method>
+<time>0.5</time>
+<t>1400</t>
+<p>1</p>
+<fo2>HM</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>53.96</sio2>
+<tio2>0.42</tio2>
+<al2o3>16.67</al2o3>
+<mgo>8.85</mgo>
+<feo>6.03</feo>
+<cao>12.99</cao>
+<na2o>0.98</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>53.771</sio2>
+<tio2>0.418529</tio2>
+<al2o3>16.6116</al2o3>
+<feo>6.00887</feo>
+<mgo>8.81899</mgo>
+<cao>12.9445</cao>
+<na2o>0.976567</na2o>
+<co2>0.45</co2>
+</liquid>
+<phase type="fluid">
+<co2>1</co2>
+</phase>
+</experiment>
+<experiment>
+<number>12812</number>
+<name>T3046/47</name>
+<author>Mattey, D.P. (1991)</author>
+<lab>University of Tasmania</lab>
+<device>PC</device>
+<container>Pt</container>
+<method>FTIR</method>
+<time>0.333333</time>
+<t>1400</t>
+<p>1</p>
+<fo2>HM</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>53.96</sio2>
+<tio2>0.42</tio2>
+<al2o3>16.67</al2o3>
+<mgo>8.85</mgo>
+<feo>6.03</feo>
+<cao>12.99</cao>
+<na2o>0.98</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>53.7385</sio2>
+<tio2>0.418276</tio2>
+<al2o3>16.6016</al2o3>
+<feo>6.00525</feo>
+<mgo>8.81368</mgo>
+<cao>12.9367</cao>
+<na2o>0.975978</na2o>
+<co2>0.51</co2>
+</liquid>
+<phase type="fluid">
+<co2>1</co2>
+</phase>
+</experiment>
+<experiment>
+<number>12813</number>
+<name>T2788</name>
+<author>Mattey, D.P. (1991)</author>
+<lab>University of Tasmania</lab>
+<device>PC</device>
+<container>Pt</container>
+<method>FTIR</method>
+<time>0.5</time>
+<t>1400</t>
+<p>2</p>
+<fo2>HM</fo2>
+<phaselist>liq+fl</phaselist>
+<bulkComp>
+<sio2>53.96</sio2>
+<tio2>0.42</tio2>
+<al2o3>16.67</al2o3>
+<mgo>8.85</mgo>
+<feo>6.03</feo>
+<cao>12.99</cao>
+<na2o>0.98</na2o>
+<dt_entered>2014-05-02 00:00:00</dt_entered>
+</bulkComp>
+<liquid>
+<sio2>53.2092</sio2>
+<tio2>0.414156</tio2>
+<al2o3>16.4381</al2o3>
+<feo>5.9461</feo>
+<mgo>8.72686</mgo>
+<cao>12.8093</cao>
+<na2o>0.966364</na2o>
+<co2>1.49</co2>
+</liquid>
+<phase type="fluid">
+<co2>1</co2>
+</phase>
+</experiment>
+</LEPRdatabase>

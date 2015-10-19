@@ -127,7 +127,7 @@ int liquidus(void)
   };
   static int curStep = 0;
   static int hasSupersaturation, tState = -1;
-  static double *ySol, *yLiq, tInterval;
+  static double tInterval;
   int i, j, k, stateChange;
 
 #ifndef BATCH_VERSION
@@ -279,15 +279,15 @@ int liquidus(void)
   /* ------------------------------------------------------------------------ */
   case CHECK_SATURATION:
 
-    if (ySol == NULL) {
-      ySol = (double *) malloc((unsigned) npc*sizeof(double));
-      yLiq = (double *) malloc((unsigned) nlc*sizeof(double));
+    if ((silminState->ySol) == NULL) {
+      (silminState->ySol) = (double *) malloc((unsigned) npc*sizeof(double));
+      (silminState->yLiq) = (double *) malloc((unsigned) nlc*sizeof(double));
     }
 
-    hasSupersaturation = evaluateSaturationState(ySol, yLiq);
+    hasSupersaturation = evaluateSaturationState((silminState->ySol), (silminState->yLiq));
 
 #ifndef BATCH_VERSION
-    updateSolidADB(ySol, yLiq);
+    updateSolidADB((silminState->ySol), (silminState->yLiq));
     workProcData->active = TRUE;
 #endif
     curStep++;

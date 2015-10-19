@@ -1388,7 +1388,8 @@ pureOrder(int mask, double t, double p,
     double dgds, sNew;
     sOld = 2.0;
     sNew = 0.5;
-    while (ABS(sNew-sOld) > 10.0*DBL_EPSILON) { 
+      int iter = 0;
+    while ((ABS(sNew-sOld) > 10.0*DBL_EPSILON) && (iter < 100)) {
       double s;
       s      = sNew;
       dgds   = DES_GDS1;
@@ -1398,6 +1399,7 @@ pureOrder(int mask, double t, double p,
       s      = MIN(s,  1.0 - DBL_EPSILON);
       s      = MAX(s, -1.0 + DBL_EPSILON);
       sNew   = s;
+        iter++;
     }
     tOld = t;
     pOld = p;
@@ -4013,46 +4015,44 @@ testOpx(int mask, double t, double p,
   }
   /* Check bounds on the independent compositional variables */
   if (mask & FIFTH) {
-    result = result && (r[0] >= 0.0)      && (r[0] <= 2.0);          /* Fe2+ */
-    result = result && (r[4] >= 0.0)      && (r[4] <= 1.0);          /* Na+  */
-    result = result && (r[1]+r[3] >= 0.0) && (r[1]+r[3] <= 2.0);     /* Al3+ */
-    result = result && (r[2]+r[3] >= 0.0) && (r[2]+r[3] <= 2.0);     /* Fe3+ */
-    result = result && (r[1]+r[2] >= 0.0) && (r[1]+r[2] <= 1.0);     /* Ti4+ */
-    result = result && (r[4]+r[5] >= 0.0) && (r[4]+r[5] <= 1.0);     /* Ca2+ */
-    result = result && 
-                (1.0-r[0]-r[3]+r[5]-0.5*(r[1]+r[2]+r[4]) >= 0.0)     /* Mg2+ */ 
-             && (1.0-r[0]-r[3]+r[5]-0.5*(r[1]+r[2]+r[4]) <= 2.0);
-    result = result && (2.0-r[1]-r[2]-r[3]+r[4]/2.0 >= 1.0)          /* Si4+ */ 
-                    && (2.0-r[1]-r[2]-r[3]+r[4]/2.0 <= 2.0);
-    result = result && (1.0-r[5] <= 1.0);                /* Na+ + Ca2+ on M2 */
-    result = result && (2.0+r[3]+r[4]/2.0 >= 2.0); /* Al3+ + Fe3+ + Si4+ tet */
-    result = result && (r[1]/2.0+r[2]/2.0+r[3]-r[4]/2.0 >= 0.0);  /*Na+,Ti4+?*/
-    result = result && (1.0-r[1]-r[2]-r[3]-r[4]/2.0 >= 0.0);    /*Na,Ti again*/
+    result = result && (r[0] >= 0.0)					&& (r[0] <= 2.0);				     /* Fe2+ */
+    result = result && (r[4] >= 0.0)					&& (r[4] <= 1.0);				     /* Na+  */
+    result = result && (r[1]+r[3] >= 0.0)				&& (r[1]+r[3] <= 2.0); 				     /* Al3+ */
+    result = result && (r[2]+r[3] >= 0.0)				&& (r[2]+r[3] <= 2.0); 				     /* Fe3+ */
+    result = result && (r[1]+r[2] >= 0.0)				&& (r[1]+r[2] <= 1.0); 				     /* Ti4+ */
+    result = result && (r[4]+r[5] >= 0.0)				&& (r[4]+r[5] <= 1.0); 				     /* Ca2+ */
+    result = result && (1.0-r[0]-r[3]+r[5]-0.5*(r[1]+r[2])-r[4] >= 0.0) && (1.0-r[0]-r[3]+r[5]-0.5*(r[1]+r[2])-r[4] <= 2.0); /* Mg2+ */ 
+    /*
+    result = result && (2.0-r[1]-r[2]-r[3]+r[4]/2.0 >= 1.0)		&& (2.0-r[1]-r[2]-r[3]+r[4]/2.0 <= 2.0);	     // Si4+ 
+    */      
+    result = result && (r[5] >= 0.0);				     /* XMgM2 + XFe2+M2 > 0             */
+    result = result && (1.0-r[1]-r[2]-r[3]-r[4]/2.0 >= 0.0);	     /* XMgM1 + XFe2+M1 - XTiM1 > 0     */
+    result = result && (r[1]/2.0+r[2]/2.0+r[3]-r[4]/2.0 >= 0.0);     /* 1 - XMgM1 - XFe2+M1 - XNaM2 > 0 */
+    result = result && (r[1]/2.0+r[2]/2.0+r[3]+r[4]/2.0 >= 0.0);     /* 1 - XMgM1 - XFe2+M1             */
+    result = result && (r[1]/2.0+r[2]/2.0+r[3]/2.0+r[4]/2.0 >= 0.0); /* 1 - XSiTet                      */
+    
   }
   /* Check bounds on moles of endmember components */
   if (mask & SIXTH) {
     for (i=0, sum=0.0; i<NA; i++) sum += m[i];
     result = result && (sum > 0.0);
     if (sum > 0.0) {
-      result = result && (m[2]/sum >= 0.0) && (m[2]/sum <= 2.0);     /* Fe2+ */
-      result = result && (m[6]/sum >= 0.0) && (m[6]/sum <= 1.0);     /* Na+  */
-      result = result && ((m[3]+m[5]+m[6])/sum >= 0.0)               /* Al3+ */
-                      && ((m[3]+m[5]+m[6])/sum <= 2.0);
-      result = result && ((m[4]+m[5])/sum >= 0.0)                    /* Fe3+ */
-                      && ((m[4]+m[5])/sum <= 2.0);
-      result = result && ((m[3]+m[4])/sum >= 0.0)                    /* Ti4+ */
-                      && ((m[3]+m[4])/sum <= 1.0);
-      result = result &&                                             /* Ca2+ */
-         ((m[0]+m[2]+m[3]+m[4]+m[5])/sum >= 0.0) &&
-         ((m[0]+m[2]+m[3]+m[4]+m[5])/sum <= 1.0);
-      result = result &&                                             /* Mg2+ */
-         ((m[0]+2.0*m[1]+(m[3]+m[4])/2.0)/sum >= 0.0) &&
-         ((m[0]+2.0*m[1]+(m[3]+m[4])/2.0)/sum <= 2.0);
-#ifdef NEVER_DEFINED  /* redundant; Si is not accounted for in mole assignments within conOpx */
-      result = result &&                                             /* Si4+ */
-         ((2.0*(m[0]+m[1]+m[2]+m[6])+m[3]+m[4]+m[5])/sum >= 1.0) &&
-         ((2.0*(m[0]+m[1]+m[2]+m[6])+m[3]+m[4]+m[5])/sum <= 2.0);
-#endif
+      /* abundance constraints */
+      result = result && (m[2]/sum >= 0.0)			      && (m[2]/sum <= 2.0);			       /* Fe2+ */
+      result = result && (m[6]/sum >= 0.0)			      && (m[6]/sum <= 1.0);			       /* Na+  */
+      result = result && ((m[3]+m[5]+m[6])/sum >= 0.0)  	      && ((m[3]+m[5]+m[6])/sum <= 2.0); 	       /* Al3+ */
+      result = result && ((m[4]+m[5])/sum >= 0.0)		      && ((m[4]+m[5])/sum <= 2.0);		       /* Fe3+ */
+      result = result && ((m[3]+m[4])/sum >= 0.0)		      && ((m[3]+m[4])/sum <= 1.0);		       /* Ti4+ */
+      result = result && ((m[0]+m[2]+m[3]+m[4]+m[5])/sum >= 0.0)      && ((m[0]+m[2]+m[3]+m[4]+m[5])/sum <= 1.0);      /* Ca2+ */
+      result = result && ((m[0]+2.0*m[1]+(m[3]+m[4])/2.0)/sum >= 0.0) && ((m[0]+2.0*m[1]+(m[3]+m[4])/2.0)/sum <= 2.0); /* Mg2+ */
+
+      /* special entropic constraints */
+      result = result && (m[1]/sum >= 0.0);					     /* XMgM2 + XFe2+M2 > 0		*/
+      result = result && ((1.0 - m[3]/sum - m[4]/sum - m[5]/sum - m[6]/sum) >= 0.0); /* XMgM1 + XFe2+M1 - XTiM1 > 0	*/
+      result = result && ((m[5]/sum + (m[3]/sum + m[4]/sum)/2.0) >= 0.0);	     /* 1 - XMgM1 - XFe2+M1 - XNaM2 > 0 */
+      result = result && ((m[5]/sum + m[6]/sum + (m[3]/sum + m[4]/sum)/2.0) >= 0.0); /* 1 - XMgM1 - XFe2+M1		*/
+      result = result && ((1.0-(sum+m[0]+m[1]+m[2]+m[6])/(2.0*sum)) >= 0.0);	     /* 1 - XSiTet			*/
+
     }
   }
 

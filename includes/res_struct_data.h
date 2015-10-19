@@ -117,12 +117,6 @@ ExtraSolids extraSolids[] = {
   /* "ferropargasite",      "NaCa2Fe4AlAl2Si6O22(OH)2", */
   /* "magnesiohastingsite", "NaCa2Mg4FeAl2Si6O22(OH)2", */
 
-  {"hornblende", "ferrohastingsite", "NaCa2Fe4FeAl2Si6O22(OH)2", 0.05, { 0.00, 0.05, 0.05} }, 
-  
-  /* "leucite",    "KAlSi2O6",       */
-  /* "analcime",   "NaAlSi2O5(OH)2", */
-  /* "na-leucite", "NaAlSi2O6",      */
-
   {"leucite ss", "K-analcime",   "KAlSi2O5(OH)2", 0.05, { 0.05, 0.05, 0.00} },
 
   /* "chromite",   "FeCr2O4", */
@@ -133,20 +127,13 @@ ExtraSolids extraSolids[] = {
   
   {"spinel", "magnesiochromite", "MgCr2O4", 0.00, { 0.05, 0.00, 0.00, 0.05, 0.00} }, 
   {"spinel", "magnesioferrite",  "MgFe2O4", 0.00, { 0.00, 0.00, 0.05, 0.05, 0.00} }, 
-  {"spinel", "qandilite",        "Mg2TiO4", 0.00, { 0.00, 0.00, 0.00, 0.10, 0.05} }, 
+  {"spinel", "qandilite",        "Mg2TiO4", 0.00, { 0.00, 0.00, 0.00, 0.10, 0.05} } 
   
   /* "geikielite",  "MgTiO3" */
   /* "hematite",    "Fe2O3"  */
   /* "ilmenite",    "FeTiO3" */
   /* "pyrophanite", "MnTiO3" */
   
-  /* "grossular ", "Ca3Al2Si3O12"  */
-  /* "pyrope ",    "Mg3Al2Si3O12"  */
-  /* "almandine",  "Fe3Al2Si3O12"  */
-  /* "majorite",   "Mg3SiMgSi3O12" */
-
-  {"majorite ss", "fe-majorite", "Fe4Si4O12", 0.00, { 0.00, 0.00, 0.05, 0.05 } }
-
 };
 int nes = (sizeof extraSolids  / sizeof(struct _extraSolids));
 
