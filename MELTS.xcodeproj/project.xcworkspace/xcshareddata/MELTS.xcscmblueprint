@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2499F363383BA3FB2EED04427654AD329B8C6D5C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "403A20DFE1208572BA7F0ACC1BF2EA73FF1A0726" : 0,
+    "AC3546806049A3C0F066B0C404513E6B6D6B36E1" : 0,
+    "2499F363383BA3FB2EED04427654AD329B8C6D5C" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "EF102BDD-A7F2-417F-A79F-805C6F8D7D8D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "403A20DFE1208572BA7F0ACC1BF2EA73FF1A0726" : "port3",
+    "AC3546806049A3C0F066B0C404513E6B6D6B36E1" : "",
+    "2499F363383BA3FB2EED04427654AD329B8C6D5C" : "xMelts"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MELTS",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MELTS.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "public.ofm-research.org:xMelts.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2499F363383BA3FB2EED04427654AD329B8C6D5C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "public.ofm-research.org:port3.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "403A20DFE1208572BA7F0ACC1BF2EA73FF1A0726"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/thermofit.ofm-research.org\/git\/ThermoFit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "AC3546806049A3C0F066B0C404513E6B6D6B36E1"
+    }
+  ]
+}

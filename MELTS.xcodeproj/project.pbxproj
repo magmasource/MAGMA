@@ -31,6 +31,10 @@
 		7715720C1AB64790001E1D21 /* libf2c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7715720B1AB64790001E1D21 /* libf2c.a */; };
 		7729C18416AB3596002A10D2 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7729C18316AB3596002A10D2 /* MELTSinput.xsd */; };
 		77424DB41A5473E800DCC674 /* ConfigurationWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77424DB21A5473E800DCC674 /* ConfigurationWindow.xib */; };
+		7762FBF91BD58FAA00464598 /* melts.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF51BD58FAA00464598 /* melts.xsd */; settings = {ASSET_TAGS = (); }; };
+		7762FBFA1BD58FAA00464598 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF61BD58FAA00464598 /* MELTSinput.xsd */; settings = {ASSET_TAGS = (); }; };
+		7762FBFB1BD58FAA00464598 /* MELTSoutput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF71BD58FAA00464598 /* MELTSoutput.xsd */; settings = {ASSET_TAGS = (); }; };
+		7762FBFC1BD58FAA00464598 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF81BD58FAA00464598 /* MELTSstatus.xsd */; settings = {ASSET_TAGS = (); }; };
 		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
 		77665363163707080004A2D0 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
@@ -544,6 +548,10 @@
 		7734D8021627A92300D67FBB /* water.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = water.c; sourceTree = "<group>"; };
 		7734D8031627A92300D67FBB /* wustite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wustite.c; sourceTree = "<group>"; };
 		77424DB21A5473E800DCC674 /* ConfigurationWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigurationWindow.xib; sourceTree = "<group>"; };
+		7762FBF51BD58FAA00464598 /* melts.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = melts.xsd; sourceTree = "<group>"; };
+		7762FBF61BD58FAA00464598 /* MELTSinput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSinput.xsd; sourceTree = "<group>"; };
+		7762FBF71BD58FAA00464598 /* MELTSoutput.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSoutput.xsd; sourceTree = "<group>"; };
+		7762FBF81BD58FAA00464598 /* MELTSstatus.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MELTSstatus.xsd; sourceTree = "<group>"; };
 		7766535A1636FF610004A2D0 /* simann.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = simann.f; sourceTree = "<group>"; };
 		77665360163706D00004A2D0 /* libgfortran.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgfortran.3.dylib; path = /usr/local/gfortran/lib/libgfortran.3.dylib; sourceTree = "<absolute>"; };
 		77665362163707080004A2D0 /* libport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libport.a; path = ../port3/libport.a; sourceTree = "<group>"; };
@@ -852,6 +860,10 @@
 				77C99B58169B6EAF00DF7464 /* MELTS WS BxApp */,
 				77C99AE2169B4FF500DF7464 /* Frameworks */,
 				77A743F5163611C50038627C /* Products */,
+				7762FBF51BD58FAA00464598 /* melts.xsd */,
+				7762FBF61BD58FAA00464598 /* MELTSinput.xsd */,
+				7762FBF71BD58FAA00464598 /* MELTSoutput.xsd */,
+				7762FBF81BD58FAA00464598 /* MELTSstatus.xsd */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1092,8 +1104,8 @@
 		77B68D431627A64800C6296F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0640;
-				LastUpgradeCheck = 0600;
+				LastTestingUpgradeCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Mark Ghiorso";
 			};
 			buildConfigurationList = 77B68D461627A64800C6296F /* Build configuration list for PBXProject "MELTS" */;
@@ -1124,7 +1136,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				77C99B43169B513600DF7464 /* MELTSoutput.xsd in Resources */,
+				7762FBF91BD58FAA00464598 /* melts.xsd in Resources */,
+				7762FBFA1BD58FAA00464598 /* MELTSinput.xsd in Resources */,
+				7762FBFB1BD58FAA00464598 /* MELTSoutput.xsd in Resources */,
 				77C99B44169B513600DF7464 /* MELTSstatus.xsd in Resources */,
+				7762FBFC1BD58FAA00464598 /* MELTSstatus.xsd in Resources */,
 				77C99AEE169B4FF500DF7464 /* InfoPlist.strings in Resources */,
 				7729C18416AB3596002A10D2 /* MELTSinput.xsd in Resources */,
 			);
@@ -1802,6 +1818,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1859,6 +1876,7 @@
 				);
 				INFOPLIST_FILE = "rMELTSframework/rMELTSframework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.markghiorso.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1879,6 +1897,7 @@
 				);
 				INFOPLIST_FILE = "rMELTSframework/rMELTSframework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.markghiorso.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1892,6 +1911,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rMELTSframework/rMELTSframework-Prefix.pch";
 				INFOPLIST_FILE = "rMELTSframeworkTests/rMELTSframeworkTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.markghiorso.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1905,6 +1925,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rMELTSframework/rMELTSframework-Prefix.pch";
 				INFOPLIST_FILE = "rMELTSframeworkTests/rMELTSframeworkTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.markghiorso.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1923,6 +1944,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MELTS WS BxApp/MELTS WS BxApp-Prefix.pch";
 				INFOPLIST_FILE = "MELTS WS BxApp/MELTS WS BxApp-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.markghiorso.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1941,6 +1963,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MELTS WS BxApp/MELTS WS BxApp-Prefix.pch";
 				INFOPLIST_FILE = "MELTS WS BxApp/MELTS WS BxApp-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.markghiorso.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
