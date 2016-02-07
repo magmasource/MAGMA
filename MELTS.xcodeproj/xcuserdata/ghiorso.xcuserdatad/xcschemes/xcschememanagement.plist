@@ -7,22 +7,22 @@
 		<key>MELTS WS BxApp - Release.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>23</integer>
+			<integer>27</integer>
 		</dict>
 		<key>MELTS WS BxApp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>22</integer>
+			<integer>26</integer>
 		</dict>
 		<key>Melts-rhyolite.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<key>batch-Melts-rhyolite.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>12</integer>
 		</dict>
 		<key>cpx-olv-rhm.xcscheme</key>
 		<dict>
@@ -32,12 +32,12 @@
 		<key>public-Melts-rhyolite.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>10</integer>
 		</dict>
 		<key>rMELTSframework.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>21</integer>
+			<integer>25</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
