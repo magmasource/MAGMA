@@ -229,7 +229,9 @@ int main()
          if (tolower(getchar()) != 'y') { getchar(); continue; }
          getchar();
 
-         for (i=n+1; solids[i].type == COMPONENT && i<npc; i++); i--;
+         for (i=n+1; solids[i].type == COMPONENT && i<npc; i++)
+	   ; 
+	 i--;
 
          NC =  i - n;   /* Number of end-member components in solid solution */
          NX = NC - 1;   /* Number of independent compositional variables     */

@@ -600,7 +600,7 @@ int getInputDataFromFile(char *fileName)
         }
         if (i == npc) {
           for (i=0; i<nc; i++) {
-            for (j=0; j < ((int)strlen(bulkSystem[j].label)); j++) label[j] = tolower((bulkSystem[i].label)[j]);
+            for (j=0; j < ((int)strlen(bulkSystem[i].label)); j++) label[j] = tolower((bulkSystem[i].label)[j]);
             label[j] = '\0';
             if (!strncmp(&line[12], label, MIN((len-12), (int) strlen(label)))) {
               if (sscanf(&line[12 + (int) strlen(label)], "%f", &temporary) == EOF) { READ_ERROR }
