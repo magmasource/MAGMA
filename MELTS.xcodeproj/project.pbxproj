@@ -13,6 +13,64 @@
 		77032B50163656D4000C83ED /* libXm.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4B163656D4000C83ED /* libXm.4.dylib */; };
 		77032B51163656D4000C83ED /* libXt.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B4C163656D4000C83ED /* libXt.6.dylib */; };
 		77032B531636576D000C83ED /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77032B521636576D000C83ED /* libxml2.2.dylib */; };
+		7706DF2D1CA310D80053FEBA /* rMELTSframeworkTestsXC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7706DF2C1CA310D80053FEBA /* rMELTSframeworkTestsXC.m */; };
+		7706DF2F1CA310D80053FEBA /* rMELTSframework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */; };
+		7706DF3C1CA314E40053FEBA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 7706DF3B1CA314E40053FEBA /* main.c */; };
+		7706DF451CA336A10053FEBA /* fluidPhase.c in Sources */ = {isa = PBXBuildFile; fileRef = 779914F819CCA32000D58ED2 /* fluidPhase.c */; };
+		7706DF461CA336A80053FEBA /* albite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7901627A92300D67FBB /* albite.c */; };
+		7706DF471CA336AC0053FEBA /* alloy-liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7911627A92300D67FBB /* alloy-liquid.c */; };
+		7706DF481CA336B10053FEBA /* alloy-solid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7921627A92300D67FBB /* alloy-solid.c */; };
+		7706DF491CA336B50053FEBA /* amphibole.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7931627A92300D67FBB /* amphibole.c */; };
+		7706DF4A1CA336BA0053FEBA /* biotite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7961627A92300D67FBB /* biotite.c */; };
+		7706DF4B1CA336C20053FEBA /* check_coexisting_liquids.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7981627A92300D67FBB /* check_coexisting_liquids.c */; };
+		7706DF4C1CA336C70053FEBA /* check_coexisting_solids.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7991627A92300D67FBB /* check_coexisting_solids.c */; };
+		7706DF4D1CA336D40053FEBA /* clinopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D79A1627A92300D67FBB /* clinopyroxene.c */; };
+		7706DF4E1CA336E30053FEBA /* cummingtonite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7A51627A92300D67FBB /* cummingtonite.c */; };
+		7706DF4F1CA336E90053FEBA /* equality_constraints.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AA1627A92300D67FBB /* equality_constraints.c */; };
+		7706DF501CA336ED0053FEBA /* est_satState_revised.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AB1627A92300D67FBB /* est_satState_revised.c */; };
+		7706DF511CA336F10053FEBA /* est_saturation_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AC1627A92300D67FBB /* est_saturation_state.c */; };
+		7706DF521CA336F70053FEBA /* evaluate_saturation.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AD1627A92300D67FBB /* evaluate_saturation.c */; };
+		7706DF531CA336FC0053FEBA /* feldspar.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7AE1627A92300D67FBB /* feldspar.c */; };
+		7706DF541CA336FF0053FEBA /* fluid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B01627A92300D67FBB /* fluid.c */; };
+		7706DF551CA337040053FEBA /* frac.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B11627A92300D67FBB /* frac.c */; };
+		7706DF561CA337080053FEBA /* garnet.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B21627A92300D67FBB /* garnet.c */; };
+		7706DF571CA3370C0053FEBA /* gibbs.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B31627A92300D67FBB /* gibbs.c */; };
+		7706DF581CA3370F0053FEBA /* gradient_hessian.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B41627A92300D67FBB /* gradient_hessian.c */; };
+		7706DF591CA337130053FEBA /* hornblende.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B71627A92300D67FBB /* hornblende.c */; };
+		7706DF5A1CA337170053FEBA /* ilmenite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7B81627A92300D67FBB /* ilmenite.c */; };
+		7706DF5B1CA3371E0053FEBA /* kalsilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7BC1627A92300D67FBB /* kalsilite.c */; };
+		7706DF5C1CA337220053FEBA /* lawson_hanson.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C11627A92300D67FBB /* lawson_hanson.c */; };
+		7706DF5D1CA337250053FEBA /* leucite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C21627A92300D67FBB /* leucite.c */; };
+		7706DF5E1CA337290053FEBA /* linear_search.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C51627A92300D67FBB /* linear_search.c */; };
+		7706DF5F1CA337320053FEBA /* liquid.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C71627A92300D67FBB /* liquid.c */; };
+		7706DF601CA337370053FEBA /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
+		7706DF611CA3373B0053FEBA /* liquid_CO2_H2O.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F9A1A9BD7CF00588361 /* liquid_CO2_H2O.c */; };
+		7706DF621CA337400053FEBA /* liquid_v34.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C81627A92300D67FBB /* liquid_v34.c */; };
+		7706DF631CA337440053FEBA /* liquidus.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7C91627A92300D67FBB /* liquidus.c */; };
+		7706DF641CA3374C0053FEBA /* majorite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CA1627A92300D67FBB /* majorite.c */; };
+		7706DF651CA337500053FEBA /* melilite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7CE1627A92300D67FBB /* melilite.c */; };
+		7706DF661CA337550053FEBA /* melts_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D01627A92300D67FBB /* melts_support.c */; };
+		7706DF671CA337580053FEBA /* melts_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D11627A92300D67FBB /* melts_threads.c */; };
+		7706DF681CA3375C0053FEBA /* mthread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D41627A92300D67FBB /* mthread.c */; };
+		7706DF691CA337600053FEBA /* nash.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D51627A92300D67FBB /* nash.c */; };
+		7706DF6A1CA337630053FEBA /* nepheline.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D61627A92300D67FBB /* nepheline.c */; };
+		7706DF6B1CA337680053FEBA /* olivine-sx.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D71627A92300D67FBB /* olivine-sx.c */; };
+		7706DF6C1CA3376C0053FEBA /* olivine.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D81627A92300D67FBB /* olivine.c */; };
+		7706DF6D1CA337700053FEBA /* ortho-oxide.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7D91627A92300D67FBB /* ortho-oxide.c */; };
+		7706DF6E1CA337740053FEBA /* orthopyroxene.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DA1627A92300D67FBB /* orthopyroxene.c */; };
+		7706DF6F1CA337780053FEBA /* perovskite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7DB1627A92300D67FBB /* perovskite.c */; };
+		7706DF731CA337870053FEBA /* read_write.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E01627A92300D67FBB /* read_write.c */; };
+		7706DF741CA3378A0053FEBA /* recipes.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E11627A92300D67FBB /* recipes.c */; };
+		7706DF751CA3378E0053FEBA /* rhombohedral.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E31627A92300D67FBB /* rhombohedral.c */; };
+		7706DF761CA337930053FEBA /* rhomsghiorso.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E41627A92300D67FBB /* rhomsghiorso.c */; };
+		7706DF771CA337960053FEBA /* ringwoodite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E51627A92300D67FBB /* ringwoodite.c */; };
+		7706DF781CA3379B0053FEBA /* silmin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E61627A92300D67FBB /* silmin.c */; };
+		7706DF791CA337AF0053FEBA /* silmin_support.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7E71627A92300D67FBB /* silmin_support.c */; };
+		7706DF7A1CA337B30053FEBA /* spinel.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EA1627A92300D67FBB /* spinel.c */; };
+		7706DF7B1CA337B80053FEBA /* subSolidusMuO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D7EB1627A92300D67FBB /* subSolidusMuO2.c */; };
+		7706DF7C1CA337C00053FEBA /* wadsleyite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8001627A92300D67FBB /* wadsleyite.c */; };
+		7706DF7D1CA337C30053FEBA /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
+		7706DF7E1CA337CB0053FEBA /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
 		770BBEFE16A2244C00B98F2D /* rMELTSframework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7712E4C21AA65F9B00F2F218 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
 		7712E4C31AA65F9C00F2F218 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
@@ -29,12 +87,9 @@
 		771572071AB1494D001E1D21 /* tolja.c in Sources */ = {isa = PBXBuildFile; fileRef = 771572001AB1494D001E1D21 /* tolja.c */; };
 		7715720A1AB14C10001E1D21 /* superfluid.c in Sources */ = {isa = PBXBuildFile; fileRef = 771572091AB14C10001E1D21 /* superfluid.c */; };
 		7715720C1AB64790001E1D21 /* libf2c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7715720B1AB64790001E1D21 /* libf2c.a */; };
-		7729C18416AB3596002A10D2 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7729C18316AB3596002A10D2 /* MELTSinput.xsd */; };
 		77424DB41A5473E800DCC674 /* ConfigurationWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77424DB21A5473E800DCC674 /* ConfigurationWindow.xib */; };
-		7762FBF91BD58FAA00464598 /* melts.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF51BD58FAA00464598 /* melts.xsd */; settings = {ASSET_TAGS = (); }; };
-		7762FBFA1BD58FAA00464598 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF61BD58FAA00464598 /* MELTSinput.xsd */; settings = {ASSET_TAGS = (); }; };
-		7762FBFB1BD58FAA00464598 /* MELTSoutput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF71BD58FAA00464598 /* MELTSoutput.xsd */; settings = {ASSET_TAGS = (); }; };
-		7762FBFC1BD58FAA00464598 /* MELTSstatus.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF81BD58FAA00464598 /* MELTSstatus.xsd */; settings = {ASSET_TAGS = (); }; };
+		7762FBF91BD58FAA00464598 /* melts.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF51BD58FAA00464598 /* melts.xsd */; };
+		7762FBFA1BD58FAA00464598 /* MELTSinput.xsd in Resources */ = {isa = PBXBuildFile; fileRef = 7762FBF61BD58FAA00464598 /* MELTSinput.xsd */; };
 		7766535E163703E10004A2D0 /* simann.f in Sources */ = {isa = PBXBuildFile; fileRef = 7766535A1636FF610004A2D0 /* simann.f */; };
 		77665361163706D00004A2D0 /* libgfortran.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665360163706D00004A2D0 /* libgfortran.3.dylib */; };
 		77665363163707080004A2D0 /* libport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77665362163707080004A2D0 /* libport.a */; };
@@ -371,6 +426,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		7706DF301CA310D80053FEBA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 77B68D431627A64800C6296F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 77C99AE0169B4FF500DF7464;
+			remoteInfo = rMELTSframework;
+		};
 		770BBEF416A1EE8A00B98F2D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 77B68D431627A64800C6296F /* Project object */;
@@ -388,6 +450,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7706DF371CA314E40053FEBA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		770BBEFC16A2228500B98F2D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -437,6 +508,11 @@
 		77032B4B163656D4000C83ED /* libXm.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXm.4.dylib; path = ../../../opt/local/lib/libXm.4.dylib; sourceTree = "<group>"; };
 		77032B4C163656D4000C83ED /* libXt.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXt.6.dylib; path = ../../../opt/local/lib/libXt.6.dylib; sourceTree = "<group>"; };
 		77032B521636576D000C83ED /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../opt/local/lib/libxml2.2.dylib; sourceTree = "<group>"; };
+		7706DF2A1CA310D80053FEBA /* rMELTSframeworkTestsXC.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rMELTSframeworkTestsXC.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7706DF2C1CA310D80053FEBA /* rMELTSframeworkTestsXC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rMELTSframeworkTestsXC.m; sourceTree = "<group>"; };
+		7706DF2E1CA310D80053FEBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7706DF391CA314E40053FEBA /* Coarsening */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Coarsening; sourceTree = BUILT_PRODUCTS_DIR; };
+		7706DF3B1CA314E40053FEBA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		771571FA1AB1494D001E1D21 /* ch4co2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ch4co2.c; path = Superfluid/ch4co2.c; sourceTree = SOURCE_ROOT; };
 		771571FB1AB1494D001E1D21 /* der.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = der.c; path = Superfluid/der.c; sourceTree = SOURCE_ROOT; };
 		771571FC1AB1494D001E1D21 /* fluid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fluid.c; path = Superfluid/fluid.c; sourceTree = SOURCE_ROOT; };
@@ -604,6 +680,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7706DF271CA310D80053FEBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7706DF2F1CA310D80053FEBA /* rMELTSframework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7706DF361CA314E40053FEBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7785CD0B163AFA68004AA393 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -675,6 +766,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7706DF2B1CA310D80053FEBA /* rMELTSframeworkTestsXC */ = {
+			isa = PBXGroup;
+			children = (
+				7706DF2C1CA310D80053FEBA /* rMELTSframeworkTestsXC.m */,
+				7706DF2E1CA310D80053FEBA /* Info.plist */,
+			);
+			path = rMELTSframeworkTestsXC;
+			sourceTree = "<group>";
+		};
+		7706DF3A1CA314E40053FEBA /* Coarsening */ = {
+			isa = PBXGroup;
+			children = (
+				7706DF3B1CA314E40053FEBA /* main.c */,
+			);
+			path = Coarsening;
+			sourceTree = "<group>";
+		};
 		771571F91AB148C3001E1D21 /* Superfluid */ = {
 			isa = PBXGroup;
 			children = (
@@ -836,6 +944,8 @@
 				77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */,
 				77C99AF8169B4FF500DF7464 /* rMELTSframeworkTests.octest */,
 				77C99B55169B6EAF00DF7464 /* MELTS WS BxApp.app */,
+				7706DF2A1CA310D80053FEBA /* rMELTSframeworkTestsXC.xctest */,
+				7706DF391CA314E40053FEBA /* Coarsening */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -858,6 +968,8 @@
 				77C99AE9169B4FF500DF7464 /* rMELTSframework */,
 				77C99AFF169B4FF500DF7464 /* rMELTSframeworkTests */,
 				77C99B58169B6EAF00DF7464 /* MELTS WS BxApp */,
+				7706DF2B1CA310D80053FEBA /* rMELTSframeworkTestsXC */,
+				7706DF3A1CA314E40053FEBA /* Coarsening */,
 				77C99AE2169B4FF500DF7464 /* Frameworks */,
 				77A743F5163611C50038627C /* Products */,
 				7762FBF51BD58FAA00464598 /* melts.xsd */,
@@ -988,6 +1100,41 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		7706DF291CA310D80053FEBA /* rMELTSframeworkTestsXC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7706DF341CA310D80053FEBA /* Build configuration list for PBXNativeTarget "rMELTSframeworkTestsXC" */;
+			buildPhases = (
+				7706DF261CA310D80053FEBA /* Sources */,
+				7706DF271CA310D80053FEBA /* Frameworks */,
+				7706DF281CA310D80053FEBA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7706DF311CA310D80053FEBA /* PBXTargetDependency */,
+			);
+			name = rMELTSframeworkTestsXC;
+			productName = rMELTSframeworkTestsXC;
+			productReference = 7706DF2A1CA310D80053FEBA /* rMELTSframeworkTestsXC.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7706DF381CA314E40053FEBA /* Coarsening */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7706DF3D1CA314E40053FEBA /* Build configuration list for PBXNativeTarget "Coarsening" */;
+			buildPhases = (
+				7706DF351CA314E40053FEBA /* Sources */,
+				7706DF361CA314E40053FEBA /* Frameworks */,
+				7706DF371CA314E40053FEBA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Coarsening;
+			productName = Coarsening;
+			productReference = 7706DF391CA314E40053FEBA /* Coarsening */;
+			productType = "com.apple.product-type.tool";
+		};
 		7785CCC0163AFA68004AA393 /* public-Melts-rhyolite */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7785CD16163AFA68004AA393 /* Build configuration list for PBXNativeTarget "public-Melts-rhyolite" */;
@@ -1104,9 +1251,17 @@
 		77B68D431627A64800C6296F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastTestingUpgradeCheck = 0730;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Mark Ghiorso";
+				TargetAttributes = {
+					7706DF291CA310D80053FEBA = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					7706DF381CA314E40053FEBA = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
 			};
 			buildConfigurationList = 77B68D461627A64800C6296F /* Build configuration list for PBXProject "MELTS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1126,11 +1281,20 @@
 				77C99AE0169B4FF500DF7464 /* rMELTSframework */,
 				77C99AF7169B4FF500DF7464 /* rMELTSframeworkTests */,
 				77C99B54169B6EAF00DF7464 /* MELTS WS BxApp */,
+				7706DF291CA310D80053FEBA /* rMELTSframeworkTestsXC */,
+				7706DF381CA314E40053FEBA /* Coarsening */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7706DF281CA310D80053FEBA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		77C99ADF169B4FF500DF7464 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1138,11 +1302,8 @@
 				77C99B43169B513600DF7464 /* MELTSoutput.xsd in Resources */,
 				7762FBF91BD58FAA00464598 /* melts.xsd in Resources */,
 				7762FBFA1BD58FAA00464598 /* MELTSinput.xsd in Resources */,
-				7762FBFB1BD58FAA00464598 /* MELTSoutput.xsd in Resources */,
 				77C99B44169B513600DF7464 /* MELTSstatus.xsd in Resources */,
-				7762FBFC1BD58FAA00464598 /* MELTSstatus.xsd in Resources */,
 				77C99AEE169B4FF500DF7464 /* InfoPlist.strings in Resources */,
-				7729C18416AB3596002A10D2 /* MELTSinput.xsd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1201,6 +1362,77 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7706DF261CA310D80053FEBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7706DF2D1CA310D80053FEBA /* rMELTSframeworkTestsXC.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7706DF351CA314E40053FEBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7706DF751CA3378E0053FEBA /* rhombohedral.c in Sources */,
+				7706DF651CA337500053FEBA /* melilite.c in Sources */,
+				7706DF6F1CA337780053FEBA /* perovskite.c in Sources */,
+				7706DF761CA337930053FEBA /* rhomsghiorso.c in Sources */,
+				7706DF5C1CA337220053FEBA /* lawson_hanson.c in Sources */,
+				7706DF731CA337870053FEBA /* read_write.c in Sources */,
+				7706DF5A1CA337170053FEBA /* ilmenite.c in Sources */,
+				7706DF661CA337550053FEBA /* melts_support.c in Sources */,
+				7706DF6E1CA337740053FEBA /* orthopyroxene.c in Sources */,
+				7706DF621CA337400053FEBA /* liquid_v34.c in Sources */,
+				7706DF541CA336FF0053FEBA /* fluid.c in Sources */,
+				7706DF781CA3379B0053FEBA /* silmin.c in Sources */,
+				7706DF4C1CA336C70053FEBA /* check_coexisting_solids.c in Sources */,
+				7706DF771CA337960053FEBA /* ringwoodite.c in Sources */,
+				7706DF691CA337600053FEBA /* nash.c in Sources */,
+				7706DF4E1CA336E30053FEBA /* cummingtonite.c in Sources */,
+				7706DF6A1CA337630053FEBA /* nepheline.c in Sources */,
+				7706DF5D1CA337250053FEBA /* leucite.c in Sources */,
+				7706DF4D1CA336D40053FEBA /* clinopyroxene.c in Sources */,
+				7706DF451CA336A10053FEBA /* fluidPhase.c in Sources */,
+				7706DF481CA336B10053FEBA /* alloy-solid.c in Sources */,
+				7706DF471CA336AC0053FEBA /* alloy-liquid.c in Sources */,
+				7706DF631CA337440053FEBA /* liquidus.c in Sources */,
+				7706DF3C1CA314E40053FEBA /* main.c in Sources */,
+				7706DF7C1CA337C00053FEBA /* wadsleyite.c in Sources */,
+				7706DF591CA337130053FEBA /* hornblende.c in Sources */,
+				7706DF581CA3370F0053FEBA /* gradient_hessian.c in Sources */,
+				7706DF6B1CA337680053FEBA /* olivine-sx.c in Sources */,
+				7706DF4A1CA336BA0053FEBA /* biotite.c in Sources */,
+				7706DF5E1CA337290053FEBA /* linear_search.c in Sources */,
+				7706DF4F1CA336E90053FEBA /* equality_constraints.c in Sources */,
+				7706DF641CA3374C0053FEBA /* majorite.c in Sources */,
+				7706DF461CA336A80053FEBA /* albite.c in Sources */,
+				7706DF7B1CA337B80053FEBA /* subSolidusMuO2.c in Sources */,
+				7706DF561CA337080053FEBA /* garnet.c in Sources */,
+				7706DF671CA337580053FEBA /* melts_threads.c in Sources */,
+				7706DF611CA3373B0053FEBA /* liquid_CO2_H2O.c in Sources */,
+				7706DF551CA337040053FEBA /* frac.c in Sources */,
+				7706DF7D1CA337C30053FEBA /* water.c in Sources */,
+				7706DF6C1CA3376C0053FEBA /* olivine.c in Sources */,
+				7706DF491CA336B50053FEBA /* amphibole.c in Sources */,
+				7706DF521CA336F70053FEBA /* evaluate_saturation.c in Sources */,
+				7706DF7E1CA337CB0053FEBA /* wustite.c in Sources */,
+				7706DF5F1CA337320053FEBA /* liquid.c in Sources */,
+				7706DF601CA337370053FEBA /* liquid_CO2.c in Sources */,
+				7706DF681CA3375C0053FEBA /* mthread.c in Sources */,
+				7706DF7A1CA337B30053FEBA /* spinel.c in Sources */,
+				7706DF571CA3370C0053FEBA /* gibbs.c in Sources */,
+				7706DF741CA3378A0053FEBA /* recipes.c in Sources */,
+				7706DF6D1CA337700053FEBA /* ortho-oxide.c in Sources */,
+				7706DF531CA336FC0053FEBA /* feldspar.c in Sources */,
+				7706DF4B1CA336C20053FEBA /* check_coexisting_liquids.c in Sources */,
+				7706DF511CA336F10053FEBA /* est_saturation_state.c in Sources */,
+				7706DF5B1CA3371E0053FEBA /* kalsilite.c in Sources */,
+				7706DF501CA336ED0053FEBA /* est_satState_revised.c in Sources */,
+				7706DF791CA337AF0053FEBA /* silmin_support.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7785CCC1163AFA68004AA393 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1525,6 +1757,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7706DF311CA310D80053FEBA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 77C99AE0169B4FF500DF7464 /* rMELTSframework */;
+			targetProxy = 7706DF301CA310D80053FEBA /* PBXContainerItemProxy */;
+		};
 		770BBEF516A1EE8A00B98F2D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 77C99AE0169B4FF500DF7464 /* rMELTSframework */;
@@ -1565,6 +1802,134 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		7706DF321CA310D80053FEBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = rMELTSframeworkTestsXC/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.markghiorso.rMELTSframeworkTestsXC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7706DF331CA310D80053FEBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = rMELTSframeworkTestsXC/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.markghiorso.rMELTSframeworkTestsXC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7706DF3E1CA314E40053FEBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_NO_GRACE_PIPE,
+					RHYOLITE_ADJUSTMENTS,
+					BATCH_VERSION,
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7706DF3F1CA314E40053FEBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_NO_GRACE_PIPE,
+					RHYOLITE_ADJUSTMENTS,
+					BATCH_VERSION,
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7785CD17163AFA68004AA393 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1972,6 +2337,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7706DF341CA310D80053FEBA /* Build configuration list for PBXNativeTarget "rMELTSframeworkTestsXC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7706DF321CA310D80053FEBA /* Debug */,
+				7706DF331CA310D80053FEBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7706DF3D1CA314E40053FEBA /* Build configuration list for PBXNativeTarget "Coarsening" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7706DF3E1CA314E40053FEBA /* Debug */,
+				7706DF3F1CA314E40053FEBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		7785CD16163AFA68004AA393 /* Build configuration list for PBXNativeTarget "public-Melts-rhyolite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

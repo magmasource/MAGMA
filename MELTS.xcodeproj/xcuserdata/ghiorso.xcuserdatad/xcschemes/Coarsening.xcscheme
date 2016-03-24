@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "77C99AE0169B4FF500DF7464"
-               BuildableName = "rMELTSframework.framework"
-               BlueprintName = "rMELTSframework"
+               BlueprintIdentifier = "7706DF381CA314E40053FEBA"
+               BuildableName = "Coarsening"
+               BlueprintName = "Coarsening"
                ReferencedContainer = "container:MELTS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,17 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "77C99AF7169B4FF500DF7464"
-               BuildableName = "rMELTSframeworkTests.octest"
-               BlueprintName = "rMELTSframeworkTests"
-               ReferencedContainer = "container:MELTS.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7706DF381CA314E40053FEBA"
+            BuildableName = "Coarsening"
+            BlueprintName = "Coarsening"
+            ReferencedContainer = "container:MELTS.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -52,15 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "77C99AE0169B4FF500DF7464"
-            BuildableName = "rMELTSframework.framework"
-            BlueprintName = "rMELTSframework"
+            BlueprintIdentifier = "7706DF381CA314E40053FEBA"
+            BuildableName = "Coarsening"
+            BlueprintName = "Coarsening"
             ReferencedContainer = "container:MELTS.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -70,6 +70,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7706DF381CA314E40053FEBA"
+            BuildableName = "Coarsening"
+            BlueprintName = "Coarsening"
+            ReferencedContainer = "container:MELTS.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
