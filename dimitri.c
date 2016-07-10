@@ -31,8 +31,8 @@ int main() {
   double gCO2, hCO2, sCO2, cpCO2, dcpdtCO2, vCO2, dvdtCO2, dvdpCO2, d2vdt2CO2, d2vdtdpCO2, d2vdp2CO2;
   
   double pRange[ 3] = { 10000.0, 25000.0, 50000.0 }; // bars
-  double tRange[ 2] = { 873.15, 1173.15 };           // K
-  double xRange[13] = { 0.001, 0.002, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5 };
+  double tRange[ 4] = { 873.15, 973.15, 1073.15, 1173.15 };           // K
+  double xRange[17] = { 0.001, 0.002, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 };
   
   int i, j, k;
   
@@ -47,7 +47,7 @@ int main() {
   for (i=0; i<3; i++) {
     p = pRange[i];
     
-    for (j=0; j<2; j++) {
+    for (j=0; j<4; j++) {
       t = tRange[j];
       
       printf("<><><> p = %f, t = %f\n", p/1000.0, t-273.15);
@@ -55,7 +55,7 @@ int main() {
       propertiesOfPureH2O(t, p, &gH2O, &hH2O, &sH2O, &cpH2O, &dcpdtH2O, &vH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O);
       propertiesOfPureCO2(t, p, &gCO2, &hCO2, &sCO2, &cpCO2, &dcpdtCO2, &vCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2);
       
-      for (k=0; k<13; k++) {
+      for (k=0; k<17; k++) {
         r[0] = xRange[k];
         
         printf("  <><> x = %f\n", r[0]);
