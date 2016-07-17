@@ -622,7 +622,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
     xmlSchemaParserCtxtPtr ctxt = NULL;
     xmlSchemaValidCtxtPtr ctxt2 = NULL;
     int ret = TRUE;
-    static int SiO2 = -1, TiO2, Al2O3, Fe2O3, Cr2O3, FeO, MnO, MgO, NiO, CoO, CaO, Na2O, K2O, P2O5, H2O;
+    static int SiO2 = -1, TiO2, Al2O3, Fe2O3, Cr2O3, FeO, MnO, MgO, NiO, CoO, CaO, Na2O, K2O, P2O5, H2O, CO2;
     
     if (SiO2 == -1) {
         int i;
@@ -642,6 +642,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
             else if (!strcmp(bulkSystem[i].label, "K2O"  )) K2O   = i;
             else if (!strcmp(bulkSystem[i].label, "P2O5" )) P2O5  = i;
             else if (!strcmp(bulkSystem[i].label, "H2O"  )) H2O   = i;
+            else if (!strcmp(bulkSystem[i].label, "CO2"  )) CO2   = i;
         }
     }
     
@@ -708,6 +709,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                     else if (!strcmp((char *) level2->name, "K2O"  )) (silminState->bulkComp)[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
                                     else if (!strcmp((char *) level2->name, "P2O5" )) (silminState->bulkComp)[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
                                     else if (!strcmp((char *) level2->name, "H2O"  )) (silminState->bulkComp)[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CO2"  )) (silminState->bulkComp)[CO2  ] = atof((char *) content2)/bulkSystem[CO2  ].mw;
                                     silminState->liquidMass += atof((char *) content2);
                                     if (content2 != NULL) xmlFree(content2);
                                 }
@@ -774,6 +776,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                     else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
                                     else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
                                     else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CO2"  )) changeBC[CO2  ] = atof((char *) content2)/bulkSystem[CO2  ].mw;
                                     silminState->liquidMass += atof((char *) content2);
                                     if (content2 != NULL) xmlFree(content2);
                                 }
@@ -814,6 +817,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                     else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
                                     else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
                                     else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CO2"  )) changeBC[CO2  ] = atof((char *) content2)/bulkSystem[CO2  ].mw;
                                     silminState->liquidMass += atof((char *) content2);
                                     if (content2 != NULL) xmlFree(content2);
                                 }
@@ -1072,6 +1076,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                             else if (!strcmp((char *) level4->name, "K2O"  )) printf("Found K2O   = %s\n", content4);
                                                             else if (!strcmp((char *) level4->name, "P2O5" )) printf("Found P2O5  = %s\n", content4);
                                                             else if (!strcmp((char *) level4->name, "H2O"  )) printf("Found H2O   = %s\n", content4);
+                                                            else if (!strcmp((char *) level4->name, "CO2"  )) printf("Found CO2   = %s\n", content4);
                                                             if (content4 != NULL) xmlFree(content4);
                                                         }
                                                         level4 = level4->next;
@@ -1127,6 +1132,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                             else if (!strcmp((char *) level4->name, "K2O"  )) { printf("Found K2O   = %s\n", content4); iOx = K2O;   }
                                                             else if (!strcmp((char *) level4->name, "P2O5" )) { printf("Found P2O5  = %s\n", content4); iOx = P2O5;  }
                                                             else if (!strcmp((char *) level4->name, "H2O"  )) { printf("Found H2O   = %s\n", content4); iOx = H2O;   }
+                                                            else if (!strcmp((char *) level4->name, "CO2"  )) { printf("Found CO2   = %s\n", content4); iOx = CO2;   }
                                                             if (content4 != NULL) xmlFree(content4);
                                                         }
                                                         level4 = level4->next;
@@ -2172,7 +2178,13 @@ int main (int argc, char *argv[])
     } else getchar();
 #else
     calculationMode = MODE__MELTS;
-    printf("---> Default calculation mode is rhyolite-MELTS (v. 1.0.2) for batch processing.");
+    printf("---> Default calculation mode is rhyolite-MELTS (v. 1.0.2) for batch processing.\n");
+//    calculationMode = MODE__MELTSandCO2;
+//    printf("---> Default calculation mode is rhyolite-MELTS (v. 1.1.0) for batch processing.\n");
+//    calculationMode = MODE__MELTSandCO2_H2O;
+//    printf("---> Default calculation mode is rhyolite-MELTS (v. 1.2.0) for batch processing.\n");
+//    calculationMode = MODE_pMELTS;
+//    printf("---> Default calculation mode is pMELTS (v 5.6.1) for batch processing.\n");
 #endif
     
     if (calculationMode == MODE_xMELTS) {

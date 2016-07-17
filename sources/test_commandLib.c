@@ -112,7 +112,7 @@ int main (int argc, char *argv[]) {
   silminState->isochoric   = FALSE; 
   silminState->T           = 1473.15;
   silminState->dspTstart   = 1473.15;
-  silminState->dspTstop    =  973.15;
+  silminState->dspTstop    = 1018.15;
   silminState->dspTinc     =    1.0; 
   silminState->P           = atof(argv[12]);  
   silminState->dspPstart   = atof(argv[12]);  		  
