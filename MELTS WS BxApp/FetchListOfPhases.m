@@ -34,7 +34,29 @@
     
     [transport setHeader:@"Content-type" value:@"text/xml"];
     
-    [transport writeData:[[rMELTSframework phaseListAsXMLDocument] XMLData]];
+    if ([[transport postVars] objectForKey:@"modelSelection"]) {
+        if (self.debug) NSLog(@"... Phase list requested for non-default calibration.");
+        NSString *modelSelection = [transport.postVars objectForKey:@"modelSelection"];
+        
+        if ([modelSelection isEqualToString:@"MELTS_v1.0.x"]) {
+            [transport writeData:[[rMELTSframework phaseListAsXMLDocument:@"MELTS_v1.0.x"] XMLData]];
+        } else if ([modelSelection isEqualToString:@"MELTS_v1.1.x"]) {
+            [transport writeData:[[rMELTSframework phaseListAsXMLDocument:@"MELTS_v1.1.x"] XMLData]];
+        } else if ([modelSelection isEqualToString:@"MELTS_v1.2.x"]) {
+            [transport writeData:[[rMELTSframework phaseListAsXMLDocument:@"MELTS_v1.2.x"] XMLData]];
+        } else if ([modelSelection isEqualToString:@"pMELTS_v5.6.1"]) {
+            [transport writeData:[[rMELTSframework phaseListAsXMLDocument:@"MELTS_v5.6.1"] XMLData]];
+        } else {
+            NSString *error = [NSString stringWithFormat:@"Invalid modelSelection quaery: the designator %@ is not valid", modelSelection];
+            [transport setHttpStatusCode:400];
+            [transport writeFormat:@"<p>MELTS WS: Error in specification of model calibration: %@</p>", error];
+            if (self.debug) NSLog(@"... ERROR. Error in specification of model calibration. Return status 400.");
+            return self;
+        }
+        if (self.debug) NSLog(@"... Phase list request successful.");
+    } else {
+        [transport writeData:[[rMELTSframework phaseListAsXMLDocument:@"MELTS_v1.0.x"] XMLData]];
+    }
     
     return self;
 }

@@ -2238,6 +2238,7 @@
 					"$(inherited)",
 					RHYOLITE_ADJUSTMENTS,
 					BATCH_VERSION,
+					FRAMEWORK_VERSION,
 				);
 				INFOPLIST_FILE = "rMELTSframework/rMELTSframework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -2259,6 +2260,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					RHYOLITE_ADJUSTMENTS,
 					BATCH_VERSION,
+					FRAMEWORK_VERSION,
 				);
 				INFOPLIST_FILE = "rMELTSframework/rMELTSframework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -2344,6 +2346,7 @@
 				7706DF331CA310D80053FEBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7706DF3D1CA314E40053FEBA /* Build configuration list for PBXNativeTarget "Coarsening" */ = {
 			isa = XCConfigurationList;
@@ -2352,6 +2355,7 @@
 				7706DF3F1CA314E40053FEBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7785CD16163AFA68004AA393 /* Build configuration list for PBXNativeTarget "public-Melts-rhyolite" */ = {
 			isa = XCConfigurationList;

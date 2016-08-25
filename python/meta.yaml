@@ -1,0 +1,19 @@
+package:
+  name: pymelts
+  version: "0.1.1"
+
+source:
+  path: .
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - python
+  run:
+    - python
+
+about:
+  home: http://gitlab.com/enki-portal/xMelts
+  license: BSD

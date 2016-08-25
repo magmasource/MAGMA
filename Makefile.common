@@ -1445,7 +1445,7 @@ Marc: marc.c \
       $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -mmacosx-version-min=10.6 $<
-	$(CC) $(LDFLAGS) -mmacosx-version-min=10.6 -o $@ marc.o $(MELTSLIB) $(LIBS)
+	$(CC) $(LDFLAGS) -mmacosx-version-min=10.6 -o $@ marc.o $(MELTSBATCHLIB) $(LIBBATCH)
 	$(RM) $(RMFLAGS) marc.o 
 	chmod 755 $@
 

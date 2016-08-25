@@ -1,5 +1,7 @@
+#ifndef FRAMEWORK_VERSION
 static const char compileDate[] = __DATE__;
 static const char compileTime[] = __TIME__;
+#endif /* FRAMEWORK_VERSION */
 const char *liquid_ver(void) { return "$Id: liquid.c,v 1.42 2009/05/14 04:24:00 ghiorso Exp $"; }
 
 /*
@@ -562,6 +564,7 @@ static void initializeLiquid(void) {
   int i, j, k, n, contentsOK;
   double **mTaylor, **vTaylor, *wTaylor, *bTaylor, *temp, *coeff; 
   char *eTaylor;
+#ifndef FRAMEWORK_VERSION
   FILE *tcFILE;
 #ifdef BUILD_MGO_SIO2_VERSION
   const char *tcFILEname = "liquid-model-ms.inp";
@@ -574,6 +577,7 @@ static void initializeLiquid(void) {
   const char *tcFILEname = "liquid-model.inp";
 #endif /* BATCH_VERSION */
 #endif /* BUILD_MGO_SIO2_VERSION */
+#endif /* FRAMEWORK_VERSION */
 
 #ifdef DEBUG
   printf("Entering function initializeLiquid...\n");
@@ -724,6 +728,7 @@ static void initializeLiquid(void) {
    * Create the liquid model Taylor expansion *
    ********************************************/
  
+#ifndef FRAMEWORK_VERSION
   if ((tcFILE = fopen(tcFILEname, "r")) != NULL) {
     char buffer[140];
     contentsOK = 1;
@@ -741,6 +746,9 @@ static void initializeLiquid(void) {
     }      
     fclose(tcFILE);
   } else contentsOK = 0;
+#else
+    contentsOK = 0;
+#endif /* FRAMEWORK_VERSION */
   
   if (!contentsOK) {
 
@@ -795,6 +803,7 @@ static void initializeLiquid(void) {
       svbksb(mTaylor, wTaylor, vTaylor, NP, NP, bTaylor, eTaylor, taylorCoeff[i]);
     }
     
+#ifndef FRAMEWORK_VERSION
     tcFILE = fopen(tcFILEname, "w");
     fprintf(tcFILE, "%s\n", compileDate);
     fprintf(tcFILE, "%s\n", compileTime);
@@ -805,6 +814,7 @@ static void initializeLiquid(void) {
     }
     
     fclose(tcFILE);
+#endif /* FRAMEWORK_VERSION */
  
     free_matrix(mTaylor,   1, NP, 1, NP);
     free_matrix(vTaylor,   1, NP, 1, NP);

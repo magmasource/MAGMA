@@ -8,7 +8,7 @@
 <body>
 <p>Test input XML</p>
 <form action="/MELTSWSBxApp/Compute" method="post" name="inputXMLForm">
-<textarea name="dataXML" cols="80" rows="10"><MELTSinput><initialize><SiO2>48.68</SiO2><TiO2>1.01</TiO2><Al2O3>17.64</Al2O3><Fe2O3>0.89</Fe2O3><Cr2O3>0.0425</Cr2O3><FeO>7.59</FeO><MnO>0.0</MnO><MgO>9.10</MgO><NiO>0.0</NiO><CoO>0.0</CoO><CaO>12.45</CaO><Na2O>2.65</Na2O><K2O>0.03</K2O><P2O5>0.08</P2O5><H2O>0.20</H2O></initialize><calculationMode>equilibrate</calculationMode><title>Input a title for the run</title><constraints><setTP><initialT>1200</initialT><initialP>1000</initialP></setTP></constraints></MELTSinput></textarea>
+<textarea name="dataXML" cols="80" rows="10"><MELTSinput><initialize><modelSelection>MELTS_v1.0.x</modelSelection><SiO2>48.68</SiO2><TiO2>1.01</TiO2><Al2O3>17.64</Al2O3><Fe2O3>0.89</Fe2O3><Cr2O3>0.0425</Cr2O3><FeO>7.59</FeO><MnO>0.0</MnO><MgO>9.10</MgO><NiO>0.0</NiO><CoO>0.0</CoO><CaO>12.45</CaO><Na2O>2.65</Na2O><K2O>0.03</K2O><P2O5>0.08</P2O5><H2O>0.20</H2O></initialize><calculationMode>equilibrate</calculationMode><title>Input a title for the run</title><constraints><setTP><initialT>1200</initialT><initialP>1000</initialP></setTP></constraints></MELTSinput></textarea>
 <br />
 <input type="checkbox" name="returnJSON" value="Yes">Return results as JSON<br>
 <input name="submit" type="submit" value="submit" />
@@ -16,7 +16,7 @@
 
 <p>Test input JSON</p>
 <form action="/MELTSWSBxApp/Compute" method="post" name="inputJSONForm">
-<textarea name="dataJSON" cols="80" rows="10">{"MELTSinput":{"initialize":{"SiO2":48.68,"TiO2":1.01,"Al2O3":17.64,"Fe2O3":0.89,"Cr2O3":0.0425,"FeO":7.59,"MnO":0,"MgO":9.1,"NiO":0,"CoO":0,"CaO":12.45,"Na2O":2.65,"K2O":0.03,"P2O5":0.08,"H2O":0.2},"calculationMode":"equilibrate","title":"Input a title for the run","constraints":{"setTP":{"initialT":1200,"initialP":1000}}}}</textarea>
+<textarea name="dataJSON" cols="80" rows="10">{"MELTSinput":{"initialize":{"modelSelection":"MELTS_v1.0.x","SiO2":48.68,"TiO2":1.01,"Al2O3":17.64,"Fe2O3":0.89,"Cr2O3":0.0425,"FeO":7.59,"MnO":0,"MgO":9.1,"NiO":0,"CoO":0,"CaO":12.45,"Na2O":2.65,"K2O":0.03,"P2O5":0.08,"H2O":0.2},"calculationMode":"equilibrate","title":"Input a title for the run","constraints":{"setTP":{"initialT":1200,"initialP":1000}}}}</textarea>
 <br />
 <input type="checkbox" name="returnJSON" value="Yes">Return results as JSON<br>
 <input name="submit" type="submit" value="submit" />

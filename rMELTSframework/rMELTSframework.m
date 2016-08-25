@@ -30,6 +30,8 @@ int quad_tol_modifier = 1;
 void (*additionalOutput) (char *filename) = NULL;
 char *addOutputFileName = NULL;
 
+extern SilminState *bestState;
+
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 #define REC 134
 
@@ -258,36 +260,6 @@ static void doBatchFractionation(void) {
 static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, kCaO, kNa2O, kK2O, kP2O5, kH2O, kCO2;
 
 +(void)initialize {
-    calculationMode = MODE__MELTS;
-    liquid = meltsLiquid;
-    solids = meltsSolids;
-    nlc = meltsNlc;
-    nls = meltsNls;
-    npc = meltsNpc;
-    
-//    calculationMode = MODE__MELTSandCO2;
-//    liquid = meltsFluidLiquid;
-//    solids = meltsFluidSolids;
-//    nlc = meltsFluidNlc;
-//    nls = meltsFluidNls;
-//    npc = meltsFluidNpc;
-    
-//    calculationMode = MODE__MELTSandCO2_H2O;
-//    liquid = meltsFluidLiquid;
-//    solids = meltsFluidSolids;
-//    nlc = meltsFluidNlc;
-//    nls = meltsFluidNls;
-//    npc = meltsFluidNpc;
-    
-//    calculationMode = MODE_pMELTS;
-//    liquid = pMeltsLiquid;
-//    solids = pMeltsSolids;
-//    nlc = pMeltsNlc;
-//    nls = pMeltsNls;
-//    npc = pMeltsNpc;
-    
-    InitComputeDataStruct();
-    
     for (int i=0; i<nc; i++) {
         if      (!strcmp(bulkSystem[i].label, "SiO2" )) kSiO2  = i;
         else if (!strcmp(bulkSystem[i].label, "TiO2" )) kTiO2  = i;
@@ -319,10 +291,14 @@ static int kSiO2, kTiO2, kAl2O3, kFe2O3, kCr2O3, kFeO, kMnO, kMgO, kNiO, kCoO, k
     return outputXMLDocument;
 }
 
-+(NSXMLDocument *)phaseListAsXMLDocument {
++(NSXMLDocument *)phaseListAsXMLDocument:(NSString *)modelSelection {
     NSXMLDocument *outputXMLDocument = [[NSXMLDocument alloc] init];
     NSXMLElement *root = [[NSXMLElement alloc] initWithName:@"MELTSWSphases"];
     
+    solids = meltsSolids;
+    if      ([modelSelection isEqualToString:@"MELTS_v1.1.x"])  solids = meltsFluidSolids;
+    else if ([modelSelection isEqualToString:@"MELTS_v1.2.x"])  solids = meltsFluidSolids;
+    else if ([modelSelection isEqualToString:@"pMELTS_v5.6.1"]) solids = pMeltsSolids;
     for (int i=0; i<npc; i++) if (solids[i].type == PHASE)
         [root addChild:[[NSXMLElement alloc] initWithName:@"Phase" stringValue:[NSString stringWithFormat:@"%s", solids[i].label]]];
     
@@ -354,7 +330,7 @@ static NodeList *getNodeListPointer(int node) {
     return (NodeList *) bsearch(&key, nodeList, (size_t) numberNodes, sizeof(struct _nodeList), compareNodes);
 }
 
--(id)init {
+-(id)init:(NSString *)modelSelection {
     self = [super init];
     
     if (numberNodes != 0) {
@@ -373,6 +349,42 @@ static NodeList *getNodeListPointer(int node) {
         (nodeList[0]).previousSilminState = NULL;
         (nodeList[0]).node = _nodeIndex;
     }
+    bestState = NULL;
+    
+    if ([modelSelection isEqualToString:@"MELTS_v1.0.x"]) {
+        calculationMode = MODE__MELTS;
+        liquid = meltsLiquid;
+        solids = meltsSolids;
+        nlc = meltsNlc;
+        nls = meltsNls;
+        npc = meltsNpc;
+    } else if ([modelSelection isEqualToString:@"MELTS_v1.1.x"]) {
+        calculationMode = MODE__MELTSandCO2;
+        liquid = meltsFluidLiquid;
+        solids = meltsFluidSolids;
+        nlc = meltsFluidNlc;
+        nls = meltsFluidNls;
+        npc = meltsFluidNpc;
+    } else if ([modelSelection isEqualToString:@"MELTS_v1.2.x"]) {
+        calculationMode = MODE__MELTSandCO2_H2O;
+        liquid = meltsFluidLiquid;
+        solids = meltsFluidSolids;
+        nlc = meltsFluidNlc;
+        nls = meltsFluidNls;
+        npc = meltsFluidNpc;
+    } else if ([modelSelection isEqualToString:@"pMELTS_v5.6.1"]) {
+        calculationMode = MODE_pMELTS;
+        liquid = pMeltsLiquid;
+        solids = pMeltsSolids;
+        nlc = pMeltsNlc;
+        nls = pMeltsNls;
+        npc = pMeltsNpc;
+    }
+    
+    // Should this always be executed?
+    // Set a class static that tests if structures have been initialized and do the call ONLY if they have not.
+    NSLog(@"Call to InitComputeDataStruct() for modelSelection = %@", modelSelection);
+    InitComputeDataStruct();
 
     return self;
 }
@@ -388,7 +400,7 @@ static NodeList *getNodeListPointer(int node) {
     for (NSXMLElement *levelOneChild in levelOneChildren) {
         if ([[levelOneChild name] isEqualToString:@"initialize"]) {
             NSUInteger i, j, np;
-            if (silminState != NULL) ; // destroy the old state - nyi
+            if (silminState != NULL) continue; // destroy the old state - nyi
             silminState = allocSilminStatePointer();
             nodePointer->silminState = silminState;
             for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
@@ -524,7 +536,7 @@ static NodeList *getNodeListPointer(int node) {
             returnParam = RETURN_WITHOUT_CALC;
             
         } else if ([[levelOneChild name] isEqualToString:@"constraints"]) {
-            NSXMLElement *levelTwoChild = [[levelOneChild children] objectAtIndex:0]; // There can be only one
+            NSXMLNode *levelTwoChild = [[levelOneChild children] objectAtIndex:0]; // There can be only one
             
             if ([[levelTwoChild name]isEqualToString:@"setTP"]) {
                 double oldInitialT = silminState->T;
@@ -725,7 +737,7 @@ static NodeList *getNodeListPointer(int node) {
                 else if ([[levelTwoChild name] isEqualToString:@"mass"       ]) silminState->dspAssimMass = [[levelTwoChild stringValue] doubleValue];
                 else if ([[levelTwoChild name] isEqualToString:@"units"      ]) NSLog(@"Not Yet Implemented, units");
                 else if ([[levelTwoChild name] isEqualToString:@"phase"      ]) {
-                    NSXMLElement *levelThreeChild = [[levelTwoChild children] objectAtIndex:0]; // there may be only one
+                    NSXMLNode *levelThreeChild = [[levelTwoChild children] objectAtIndex:0]; // there may be only one
                     if ([[levelThreeChild name] isEqualToString:@"amorphous"] || [[levelThreeChild name] isEqualToString:@"liquid"]) {
                         NSArray *levelFourChildren = [levelThreeChild children];
                         for (NSXMLElement *levelFourChild in levelFourChildren) {
@@ -823,7 +835,11 @@ static NodeList *getNodeListPointer(int node) {
     [root addChild:[[NSXMLElement alloc] initWithName:@"sessionID"  stringValue:[NSString stringWithFormat:@"%@", sessionID]]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"title"      stringValue:[NSString stringWithFormat:@"%s", silminInputData.title]]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"time"       stringValue:[NSString stringWithFormat:@"%s", cOut]]];
-    [root addChild:[[NSXMLElement alloc] initWithName:@"release"    stringValue:[NSString stringWithFormat:@"%s", "MELTS Web Services"]]];
+    NSString *releaseString = @"MELTS Web Services, MELTS v.1.0.x";
+    if      (calculationMode == MODE__MELTSandCO2)     releaseString = @"MELTS Web Services, MELTS v.1.1.x";
+    else if (calculationMode == MODE__MELTSandCO2_H2O) releaseString = @"MELTS Web Services, MELTS v.1.2.x";
+    else if (calculationMode == MODE_pMELTS)           releaseString = @"MELTS Web Services, pMELTS v.5.6.1";
+    [root addChild:[[NSXMLElement alloc] initWithName:@"release"    stringValue:releaseString]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"buildDate"  stringValue:[NSString stringWithFormat:@"%s", __DATE__]]];
     [root addChild:[[NSXMLElement alloc] initWithName:@"buildTime"  stringValue:[NSString stringWithFormat:@"%s", __TIME__]]];
     

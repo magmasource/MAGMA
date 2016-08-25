@@ -15,6 +15,8 @@ static NSString *testWetLiquidusXMLunsat = @"<?xml version=\"1.0\" encoding=\"UT
 
 static NSString *testWetLiquidusXMLsat = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?><MELTSinput><initialize><SiO2>77.8</SiO2><TiO2>0.09</TiO2><Al2O3>12.0</Al2O3><Fe2O3>0.196</Fe2O3><Cr2O3>0</Cr2O3><FeO>0.474</FeO><MgO>0.04</MgO><CaO>0.45</CaO><Na2O>3.7</Na2O><K2O>5.36</K2O><P2O5>0</P2O5><H2O>6.0</H2O></initialize><calculationMode>findWetLiquidus</calculationMode><title>LateBishopTuff</title><constraints><setTP><initialT>800</initialT><initialP>2000</initialP><finalP>2000</finalP><incP>0.00</incP><dpdt>0.00</dpdt><fo2Path>none</fo2Path></setTP></constraints><fractionationMode>fractionateNone</fractionationMode></MELTSinput>";
 
+static NSString *testEquilibrateXMLsat = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?><MELTSinput><initialize><SiO2>77.8</SiO2><TiO2>0.09</TiO2><Al2O3>12.0</Al2O3><Fe2O3>0.196</Fe2O3><Cr2O3>0</Cr2O3><FeO>0.474</FeO><MgO>0.04</MgO><CaO>0.45</CaO><Na2O>3.7</Na2O><K2O>5.36</K2O><P2O5>0</P2O5><H2O>6.0</H2O></initialize><calculationMode>equilibrate</calculationMode><title>LateBishopTuff</title><constraints><setTP><initialT>760</initialT><initialP>1750</initialP><finalP>1750</finalP><incP>0.00</incP><dpdt>0.00</dpdt><fo2Path>none</fo2Path></setTP></constraints><fractionationMode>fractionateNone</fractionationMode></MELTSinput>";
+
 @interface rMELTSframeworkTestsXC : XCTestCase
 
 @end
@@ -45,26 +47,40 @@ static NSString *testWetLiquidusXMLsat = @"<?xml version=\"1.0\" encoding=\"UTF-
 
 - (void)testLiquidusExample {
     NSXMLDocument *testDoc = [[NSXMLDocument alloc] initWithXMLString:testLiquidusXML options:NSXMLNodeOptionsNone error:nil];
-    rMELTSframework *melts = [[rMELTSframework alloc] init];
+    rMELTSframework *melts = [[rMELTSframework alloc] init:@"MELTS_v1.2.x"];
     NSUInteger calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:testDoc];
-    if ([melts performMELTScalculation:calculationMode]) NSLog(@"Sucess");
-    else NSLog(@"Failure");
+    XCTAssertTrue([melts performMELTScalculation:calculationMode]);
 }
 
 - (void)testWetLiquidusUnsatExample {
     NSXMLDocument *testDoc = [[NSXMLDocument alloc] initWithXMLString:testWetLiquidusXMLunsat options:NSXMLNodeOptionsNone error:nil];
-    rMELTSframework *melts = [[rMELTSframework alloc] init];
+    rMELTSframework *melts = [[rMELTSframework alloc] init:@"MELTS_v1.2.x"];
     NSUInteger calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:testDoc];
-    if ([melts performMELTScalculation:calculationMode]) NSLog(@"Sucess");
-    else NSLog(@"Failure");
+    XCTAssert([melts performMELTScalculation:calculationMode]);
 }
 
 - (void)testWetLiquidusSatExample {
     NSXMLDocument *testDoc = [[NSXMLDocument alloc] initWithXMLString:testWetLiquidusXMLsat options:NSXMLNodeOptionsNone error:nil];
-    rMELTSframework *melts = [[rMELTSframework alloc] init];
+    rMELTSframework *melts = [[rMELTSframework alloc] init:@"MELTS_v1.0.x"];
     NSUInteger calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:testDoc];
-    if ([melts performMELTScalculation:calculationMode]) NSLog(@"Sucess");
-    else NSLog(@"Failure");
+    XCTAssert([melts performMELTScalculation:calculationMode]);
+
+    testDoc = [[NSXMLDocument alloc] initWithXMLString:testWetLiquidusXMLsat options:NSXMLNodeOptionsNone error:nil];
+    melts = [[rMELTSframework alloc] init:@"MELTS_v1.2.x"];
+    calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:testDoc];
+    XCTAssert([melts performMELTScalculation:calculationMode]);
+}
+
+- (void)testEquilibrateExample {
+    NSXMLDocument *testDoc = [[NSXMLDocument alloc] initWithXMLString:testEquilibrateXMLsat options:NSXMLNodeOptionsNone error:nil];
+    rMELTSframework *melts = [[rMELTSframework alloc] init:@"MELTS_v1.0.x"];
+    NSUInteger calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:testDoc];
+    XCTAssert([melts performMELTScalculation:calculationMode]);
+    
+    testDoc = [[NSXMLDocument alloc] initWithXMLString:testEquilibrateXMLsat options:NSXMLNodeOptionsNone error:nil];
+    melts = [[rMELTSframework alloc] init:@"MELTS_v1.2.x"];
+    calculationMode = [melts parseAndLoadDataStructuresFromXMLDocument:testDoc];
+    XCTAssert([melts performMELTScalculation:calculationMode]);
 }
 
 @end

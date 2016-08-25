@@ -27,8 +27,9 @@
 +(NSUInteger)MELTSandCO2_H2OcalculationModeConstant;
 
 +(NSXMLDocument *)oxideListAsXMLDocument;
-+(NSXMLDocument *)phaseListAsXMLDocument;
++(NSXMLDocument *)phaseListAsXMLDocument:(NSString *)modelSelection;
 
+-(id)init:(NSString *)modelSelection;
 -(NSUInteger)parseAndLoadDataStructuresFromXMLDocument:(NSXMLDocument *) inputXMLDocument;
 -(NSXMLDocument *)writeDataStructuresToXMLDocument:(NSString *)sessionID;
 -(Boolean)performMELTScalculation:(NSUInteger)type;

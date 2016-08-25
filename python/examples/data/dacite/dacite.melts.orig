@@ -1,0 +1,21 @@
+Title: dacite
+Initial Composition: SiO2 67.4
+Initial Composition: TiO2 0.6
+Initial Composition: Al2O3 15.0
+Initial Composition: Fe2O3 0.4
+Initial Composition: Cr2O3 0.0
+Initial Composition: FeO 3.2
+Initial Composition: MnO 0.1
+Initial Composition: MgO 2.6
+Initial Composition: NiO 0.0
+Initial Composition: CaO 4.5
+Initial Composition: Na2O 4.8
+Initial Composition: K2O 1.3
+Initial Temperature: 2000.00
+Final Temperature: 300.00
+Initial Pressure: 0.03
+Final Pressure: 0.03
+Increment Temperature: 1.00
+Increment Pressure: 0.00
+dp/dt: 0.00
+log fo2 Path: FMQ

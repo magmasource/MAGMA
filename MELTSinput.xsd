@@ -56,6 +56,16 @@
 					<xs:element name="initialize" minOccurs="0" maxOccurs="1">
 						<xs:complexType>
 							<xs:sequence>
+								<xs:element name="modelSelection" minOccurs="0" maxOccurs="1">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="MELTS_v1.0.x"/>
+											<xs:enumeration value="MELTS_v1.1.x"/>
+											<xs:enumeration value="MELTS_v1.2.x"/>
+											<xs:enumeration value="pMELTS_v5.6.1"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
 								<xs:element name="SiO2" type="xs:double"/>
 								<xs:element name="TiO2" type="xs:double" minOccurs="0"/>
 								<xs:element name="Al2O3" type="xs:double"/>
@@ -309,7 +319,8 @@
 												minOccurs="0"/>
 												<xs:element name="H2O" type="xs:double"
 												minOccurs="0"/>
-													<xs:element name="CO2" type="xs:double" minOccurs="0"/>
+												<xs:element name="CO2" type="xs:double"
+												minOccurs="0"/>
 												</xs:sequence>
 												</xs:complexType>
 											</xs:element>
@@ -368,7 +379,8 @@
 												minOccurs="0"/>
 												<xs:element name="H2O" type="xs:double"
 												minOccurs="0"/>
-													<xs:element name="CO2" type="xs:double" minOccurs="0"/>
+												<xs:element name="CO2" type="xs:double"
+												minOccurs="0"/>
 												</xs:sequence>
 												</xs:complexType>
 											</xs:element>

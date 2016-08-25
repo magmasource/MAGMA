@@ -141,10 +141,17 @@
         }
     } else if (self.debug) NSLog(@"... Obtained session Id from cookie: %@", sessionId);
     
+    NSString *modelSelection = @"MELTS_v1.0.x";
     if ([[[[self inputXML] rootElement] elementsForName:@"initialize"] count] > 0) {
         if (sessionId) [[[self app] state] removeObjectForKey:sessionId];
         sessionId = nil;
         if (self.debug) NSLog(@"... Found an initialize tag and negated the session Id.");
+        NSError *err;
+        NSArray *levelTwoChildrenWithModelSelection = [[self inputXML] nodesForXPath:@".//modelSelection" error:&err];
+        if (levelTwoChildrenWithModelSelection && ([levelTwoChildrenWithModelSelection count] > 0)) {
+            modelSelection = [(NSXMLElement *)[levelTwoChildrenWithModelSelection objectAtIndex:0] stringValue];
+            if (self.debug) NSLog(@"... Found a modelSelection tag (%@) and reset the init flag.", modelSelection);
+        }
     }
     
     // Lock thread from here to ...
@@ -155,7 +162,7 @@
     if (!sessionId) {
         sessionId = [NSString stringWithFormat:@"%f.%ld", [NSDate timeIntervalSinceReferenceDate], random()];
         [transport setCookie:@"sessionid" value:sessionId];
-        melts = [[rMELTSframework alloc] init];
+        melts = [[rMELTSframework alloc] init:modelSelection];
         [[[self app] state] setObject:melts forKey:sessionId];
     } else melts = [[[self app] state] objectForKey:sessionId];
     if (self.debug) NSLog(@"... MELTS framework object retrieved/assigned to session Id: %@", sessionId);
@@ -273,6 +280,9 @@
             continueLoop = NO;
             if (self.debug) {
                 NSLog(@"... MELTS framework encountered an exception: %@.", [exception description]);
+                NSLog(@"... name: %@", [exception name]);
+                NSLog(@"... reason: %@", [exception reason]);
+                NSLog(@"... callStackSymbols: %@", [[exception callStackSymbols] description]);
                 NSLog(@"... Removing MELTS framework object for session ID: %@.", sessionId);
             }
             [[[self app] state] removeObjectForKey:sessionId];

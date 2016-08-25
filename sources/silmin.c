@@ -296,6 +296,15 @@ extern char *addOutputFileName;
 
 /*
  *=============================================================================
+ * Global variables needed in rMELTSframework to change calculation modes in
+ * webservivces
+ */
+
+extern SilminState *bestState;
+SilminState *bestState;
+
+/*
+ *=============================================================================
  * Executable code
  */
 
@@ -350,7 +359,6 @@ int silmin(void)
     int hasLiquid = ((silminState != NULL) && (silminState->liquidMass != 0.0));
     static double bestrNorm;
     static int acceptable = FALSE, bestIter, hessianType = HESSIAN_TYPE_NORMAL;
-    static SilminState *bestState;
     
 #ifndef BATCH_VERSION
     WorkProcData *workProcData = (WorkProcData *) client_data;

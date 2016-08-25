@@ -1,0 +1,14 @@
+
+    - Fix up Melt class
+        x Add viscosityfromGRD bindings to Melt class
+        x Decide on how to access phases etc
+        x Add method to perform MELTS calculation
+        x Write method to return phase endmember names
+
+    - Rewrite Reader to output a MeltCollection for the thermodynamic data
+
+    x Write method to add Melt instance to MeltCollection
+
+    - Documentation?
+        x Fix non-included function
+        - Work out how to get autodoc to see binding functions (don't want to have to write out by hand...)
