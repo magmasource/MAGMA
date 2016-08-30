@@ -8,4 +8,4 @@
 
 from melts_bindings import *
 
-__all__ = [initialize_library, is_melts_initialized, get_oxide_names, get_phase_names, get_status_string, get_phase_properties, drive_melts]
+__all__ = [get_oxide_names, get_phase_names, get_status_string, get_phase_properties, drive_melts]

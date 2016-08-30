@@ -1,5 +1,3 @@
-.. examples:
-
 Usage Examples
 **************
 

@@ -7,12 +7,6 @@
 
 #include "melts_bindings.h"
 
-extern Liquid *meltsLiquid;
-extern Solids *meltsSolids;
-extern int meltsNlc;
-extern int meltsNls;
-extern int meltsNpc;
-
 // DATA TRANSFER CODE
 /*  Prints an aribtrary PyObject instance using the str method (same as 
     print statement in Python).
@@ -22,23 +16,6 @@ void pyprint(PyObject* object) {
     if (PyErr_Occurred()) PyErr_Print();
     else { 
         printf("%s\n", str);
-    }
-}
-
-// Library initialisation
-static void initialize_library(void) 
-{
-    static int iAmInitialized = FALSE;
-    if (!iAmInitialized) {
-        printf("Initializing MELTS library\n");
-        liquid = meltsLiquid;
-        solids = meltsSolids;
-        nlc = meltsNlc;
-        nls = meltsNls;
-        npc = meltsNpc;
-
-        InitComputeDataStruct();
-        iAmInitialized = TRUE;
     }
 }
 
@@ -60,19 +37,6 @@ static void convert_composition(PyObject* composition, double* oxideValues)
     }
 }
 
-
-// PYTHON INTERFACE
-// Initialise library
-static PyObject* py_is_initialized(PyObject* self, PyObject* args) 
-{
-    Py_RETURN_FALSE;
-}
-static PyObject* py_initialize_library(PyObject* self, PyObject* args) 
-{
-    initialize_library();
-    Py_RETURN_TRUE;
-}
-
 // Getting MELTS solver status strings
 static PyObject* py_get_status_string(PyObject* self, PyObject* args)
 {
@@ -92,8 +56,6 @@ static PyObject* py_get_status_string(PyObject* self, PyObject* args)
 // Getting names from MELTS
 static PyObject* py_get_oxide_names(PyObject* self, PyObject* args) 
 {
-    // Initialise library if required
-    initialize_library();
     int i;
     
     // Allocate a list to return to Python.
@@ -111,8 +73,6 @@ static PyObject* py_get_oxide_names(PyObject* self, PyObject* args)
 }
 static PyObject* py_get_phase_names(PyObject* self, PyObject* args)
 {
-    // Initialise library if required
-    initialize_library();
     int i;
 
     // Allocate a list to return to Python. 
@@ -152,8 +112,7 @@ static PyObject* py_get_phase_properties(PyObject* self, PyObject* args)
             1-d array, properties in the order G, H, S, V, Cp, dCpdT, dVdT, \
             dVdP, d2VdT2, d2VdTdP, d2VdP2
     */
-    initialize_library();
-
+ 
     /*  Parse arguments to retrieve the phase name and properties as required
         Arguments come in from Python as phasename, temperature, pressure and 
         a composition dictionary.
@@ -190,26 +149,6 @@ static PyObject* py_get_phase_properties(PyObject* self, PyObject* args)
     Py_INCREF(resultsDict);
     return resultsDict;
 }
-static PyObject* py_get_viscosity(PyObject* self, PyObject* args) 
-{
-    /*  Get the viscosity of a melt of a given composition using the model of 
-        Giordano, Russell and Dingwell (Giordano D, Russell JK, Dingwell DB (2008) Viscosity of magmatic liquids: A model. EPSL 271, 123-134)
-        Oxide order is maintained by PyMELTS, input values in grams.
-    */
-    // Parse arguments - expects temperature, and pymelts.Composition instance
-    double temperature;
-    PyObject* compositionObject;
-    PyArg_ParseTuple(args, "dO", &temperature, &compositionObject);
-    if (PyErr_Occurred()) PyErr_Print();
-
-    // Convert composition object from a dictionary type to a list of floats.
-    double composition[nc];
-    convert_composition(compositionObject, composition);
-
-    // Pass result through to library.c/viscosityFromGRD function
-    double viscosity = viscosityFromGRD(temperature, composition);
-    return Py_BuildValue("d", viscosity);
-}
 
 // Drive MELTS simulation
 /*  TODO: need to rewrite this to make silmanState available from Python.
@@ -222,7 +161,6 @@ static PyObject* py_get_viscosity(PyObject* self, PyObject* args)
 */
 static PyObject* py_drive_melts(PyObject* self, PyObject* args) {
     // Get some information about struct sizes etc
-    initialize_library();
     char* propertyKeys[] = {"G", "H", "S", "V", "Cp", "dCpdT", "dVdT", 
         "dVdP", "d2VdT2", "d2VdTdP", "d2VdP2", "SiO2", "TiO2", "Al2O3", 
         "Fe2O3", "Cr2O3", "FeO", "MnO", "MgO", "NiO", "CoO", "CaO", "Na2O", 
@@ -307,10 +245,6 @@ static PyObject* py_drive_melts(PyObject* self, PyObject* args) {
 // Bind the Python functions to the C functions 
 static PyMethodDef melts_bindings_methods[] = 
 {
-    {"initialize_library", py_initialize_library, METH_NOARGS,
-        "Initializes the MELTS library.\n\nThis function should be called before anything else.\n\nReturns:\n\tTrue if the library has been initialized without any hiccups\n\tFalse otherwise."},
-    {"is_melts_initialized", py_is_initialized, METH_NOARGS, 
-        "Checks whether the MELTS solver has been initialized or not.\n\nReturns:\n\tTrue if the solver has been initialized and false if it hasn't."},
     {"get_oxide_names", py_get_oxide_names, METH_NOARGS,
         "Returns the oxide names for the chemical species used by MELTS.\n\nReturns a list of strings, each of which contains one oxide used\nby MELTS. These oxide names are also used to structure the datan\ndictionaries in PyMELTS, so this function can be useful for\ngenerating a list of oxide names.\n\nReturns:\n\tA list of oxide strings."},
     {"get_phase_names", py_get_phase_names, METH_NOARGS,
@@ -321,8 +255,6 @@ static PyMethodDef melts_bindings_methods[] =
         "No docstring yet - fix me!"},
     {"drive_melts", py_drive_melts, METH_VARARGS,
         "No docstring yet - fix me!"},
-    {"get_viscosity", py_get_viscosity, METH_VARARGS,
-        "Get the viscosity of a melt of a given composition.\n\nUses the model of Giordano, Russell and Dingwell (Giordano D, Russell JK, Dingwell DB (2008) Viscosity of magmatic liquids: A model. EPSL 271, 123-134) Oxide order is maintained by PyMELTS, input values in grams.\n\nArguments:\n\ttemperature - the current temperature\n\tcomposition - the composition of the fluid.\n\nReturns:\n\tthe current viscosiy as a Python float."},
     {NULL, NULL, 0, NULL}
 };
 

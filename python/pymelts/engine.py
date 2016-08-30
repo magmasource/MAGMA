@@ -29,10 +29,8 @@ class Engine(object):
         self.__dict__ = self.__shared_state
 
         # Initialize library if required
-        if not self.is_initialized():
-            melts_functions.initialize_library()
-            self.melts = {}
-            self.node_indices = [-1]
+        self.melts = {}
+        self.node_indices = [-1]
 
     def register_melt(self, melt_instance):
         """ Generates a new node number which links to the solver.
@@ -74,15 +72,9 @@ class Engine(object):
             self.oxide_names = melts_functions.get_oxide_names()
             return self.oxide_names
 
-    def is_initialized(self):
-        """ Checks whether MELTS has been initialised.
-        """
-        return melts_functions.is_melts_initialized()
-
     def clear(self):
         """ Clear all stored data and melt IDs, and reinitialize the melts 
             library.
         """
         del self.melts
         del self.node_indices
-        melts_functions.initialize_library()

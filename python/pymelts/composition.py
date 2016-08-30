@@ -90,7 +90,11 @@ class Composition(list):
                     defaults to 100[%])
         """
         cur_total = sum(self)
-        self = [total * value / cur_total for value in self]
+        for key in self.oxide_keys:
+            value = self.orderdict[key]
+            self.orderdict[key] = total * value / cur_total
+        # self = [total * value / cur_total for value in self]
+        super(Composition, self).__init__(self.orderdict.values())
 
     def pretty_print(self):
         """ Pretty printer for composition dicts

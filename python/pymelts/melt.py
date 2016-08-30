@@ -113,7 +113,7 @@ class Melt(object):
                 else:
                     self.properties[phase][key] = results[phase][key]
             self.properties[phase]['composition'] = \
-                Composition(self.properties[phase]['composition'])
+                Composition(**self.properties[phase]['composition'])
 
     def set_mode(self, modestring):
         """ Sets the mode for the calculation. 

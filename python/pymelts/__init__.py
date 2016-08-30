@@ -1,7 +1,8 @@
 #!/usr/bin/env 
 """ file:pymelts/bindings/__init__.py
     author: Jess Robertson, CSIRO Earth Sciences and Resource Engineering
-    date: Monday 15 October 2012
+    revised: Mark S. Ghiorso, OFM Research
+    date: Monday 15 October 2012/Thursday August 25, 2016
 
     description: Bindings to the MELTSdynamic library.
 """

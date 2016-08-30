@@ -26,6 +26,8 @@ MeltsStatus meltsStatus;
 
 // Some declarations from library.c which stop the implicit function warnings 
 // when compiling.
+void meltsgetoxidenames_(char oxideNames[], int *nCharInName, int *numberOxides);
+void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases, int phaseIndices[]);
 void meltsgeterrorstring_(int *status, char *errorString, int *nCharInName);
 void getMeltsPhaseProperties(char *phaseName, double *temperature, 
     double *pressure, double *bulkComposition, double *phaseProperties);
@@ -33,14 +35,15 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure,
     double *bulkComposition, double *enthalpy, double *temperature, 
     char phaseNames[], int *nCharInName, int *numberPhases, int *iterations, 
     int *status, double *phaseProperties, int phaseIndices[]);
-double viscosityFromGRD(double t, double *oxValues);
+void meltssetsystemproperty_(int *nodeIndex, char *property);
+void meltsgetphaseproperties_(char *phaseName, double *temperature, 
+         double *pressure, double *bulkComposition, double *phaseProperties);
 
 /*  Functions available in Python - note that these are static but exposed 
     during initialization of the Python extension. In the Python namespace, 
     these have the py_* prefix removed. It's here to distinguish between 
     python and C functions of the same name.
 */
-static PyObject* py_initialize_library(PyObject* self, PyObject* args);
 static PyObject* py_get_status_string(PyObject* self, PyObject* args);
 static PyObject* py_get_oxide_names(PyObject* self, PyObject* args);
 static PyObject* py_get_phase_names(PyObject* self, PyObject* args);
