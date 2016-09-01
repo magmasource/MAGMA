@@ -31,12 +31,25 @@ char *addOutputFileName = NULL;
 static int iAmInitialized = FALSE;
 
 static void initializeLibrary(void) {
-  liquid = meltsLiquid;
-  solids = meltsSolids;
-  nlc = meltsNlc;
-  nls = meltsNls;
-  npc = meltsNpc;
-
+  if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS)) {
+    liquid = meltsLiquid;
+    solids = meltsSolids;
+    nlc    = meltsNlc;
+    nls    = meltsNls;
+    npc    = meltsNpc;
+  } else if ((calculationMode == MODE__MELTSandCO2) || (calculationMode == MODE__MELTSandCO2_H2O)) {
+    liquid = meltsFluidLiquid;
+    solids = meltsFluidSolids;
+    nlc    = meltsFluidNlc;
+    nls    = meltsFluidNls;
+    npc    = meltsFluidNpc;
+  } else if (calculationMode == MODE_pMELTS) {
+    liquid = pMeltsLiquid;
+    solids = pMeltsSolids;
+    nlc    = pMeltsNlc;
+    nls    = pMeltsNls;
+    npc    = pMeltsNpc;
+  }
   InitComputeDataStruct();
   iAmInitialized = TRUE;
 }
@@ -772,8 +785,7 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
     }
   }
   else if (!strncmp(line, "log fo2 delta:", MIN(len, 14))) {
-    if (!sscanf(&line[15], "%f", &temporary) == EOF)
-      silminState->fo2Delta = (double) temporary;
+    if (!(sscanf(&line[15], "%f", &temporary) == EOF)) silminState->fo2Delta = (double) temporary;
   }
   else if (!strncmp(line, "mode: ",                                MIN(len, 6))) {
     if        (!strncmp(&line[6],  "fractionate solids",             MIN((len-6), 18))) {

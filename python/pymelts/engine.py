@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """ 
  .. module: engine.py
- .. mmoduleauthor: Jess Robertson, CSIRO Earth Science and Resource Engineering
-    date: Tuesday 16 October 2012
+ .. mmoduleauthor: Mark S. Ghiorso (original: Jess Robertson, CSIRO Earth Science and Resource Engineering)
+    date: August 31, 2016
 
     :synopsis: Implements a class to store the global details of the MELTS 
         solver. This class is generally only called internally by pymelts.Melts instances.

@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 """ file: utilities.py
-    author: Jess Robertson, CSIRO Earth Science and Resource Engineering
-    date: 
+    author: Mark S. Ghiorso (original: Jess Robertson, CSIRO Earth Science and Resource Engineering)
+    date: August 31, 2016 
 
-    description: Some utilities for plotting with Matplotlib and other bits 
-                 and bobs.
+    description: Some utilities for plotting with Matplotlib and other miscellaneous routines.
 """
 
 import numpy

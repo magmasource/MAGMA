@@ -1,6 +1,6 @@
 /*  file: melts_bindings.h
-    author: Jess Robertson, CSIRO Earth Science and Resource Engineering
-    date: Wednesday 10 October 2012
+    author: Mark S. Ghiorso (original: Jess Robertson, CSIRO Earth Science and Resource Engineering)
+    date: August 31, 2016
 
     description: Header file for Python bindings to MELTS library. These are eventually exposed in Python under the pymelts.melts_functions submodule.
 */
@@ -48,6 +48,7 @@ static PyObject* py_get_status_string(PyObject* self, PyObject* args);
 static PyObject* py_get_oxide_names(PyObject* self, PyObject* args);
 static PyObject* py_get_phase_names(PyObject* self, PyObject* args);
 static PyObject* py_get_phase_properties(PyObject* self, PyObject* args);
+static PyObject* py_set_calculation_mode(PyObject* self, PyObject* args);
 static PyObject* py_drive_melts(PyObject* self, PyObject* args);
 
 // This is the boilerplate function which generate the Python module for us

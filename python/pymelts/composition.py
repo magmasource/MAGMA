@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """ 
  .. module: composition.py
- .. moduleauthor: Jess Robertson, CSIRO Earth Science and Resource Engineering
+ .. moduleauthor: Mark S. Ghiorso (original: Jess Robertson, CSIRO Earth Science and Resource Engineering)
 
     :synposis: Composition class for MELTS solver
 """
@@ -93,7 +93,6 @@ class Composition(list):
         for key in self.oxide_keys:
             value = self.orderdict[key]
             self.orderdict[key] = total * value / cur_total
-        # self = [total * value / cur_total for value in self]
         super(Composition, self).__init__(self.orderdict.values())
 
     def pretty_print(self):

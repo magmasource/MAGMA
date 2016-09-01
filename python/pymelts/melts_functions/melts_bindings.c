@@ -1,6 +1,6 @@
 /*  file: melts_bindings.c
-    author: Jess Robertson, CSIRO Earth Science and Resource Engineering
-    date: Wednesday 10 October 2012
+    author: Mark S. Ghiorso (original: Jess Robertson, CSIRO Earth Science and Resource Engineering)
+    date: August 31, 2016
 
     description: Implementation file for Python bindings to MELTS library
 */
@@ -150,6 +150,26 @@ static PyObject* py_get_phase_properties(PyObject* self, PyObject* args)
     return resultsDict;
 }
 
+// Set calculation mode
+static PyObject* py_set_calculation_mode(PyObject* self, PyObject* args)
+{
+    /*  Sets the calculation database: 
+
+        Input:
+            calculationMode - string, one of MELTS_v1.0.2, MELTS_v1.1.x, MELTS_v1.2.x, pMELTS_v5.6.1 
+    */
+    char *calculationString;
+    PyArg_ParseTuple(args, "s", &calculationString);
+    if (PyErr_Occurred()) PyErr_Print();
+    if      (!strcmp(calculationString,  "MELTS_v1.0.2")) calculationMode = MODE__MELTS;
+    else if (!strcmp(calculationString,  "MELTS_v1.1.x")) calculationMode = MODE__MELTSandCO2;
+    else if (!strcmp(calculationString,  "MELTS_v1.2.x")) calculationMode = MODE__MELTSandCO2_H2O;
+    else if (!strcmp(calculationString, "pMELTS_v5.6.1")) calculationMode = MODE_pMELTS;
+
+    printf("calculationString %s gives mode %d", calculationString, calculationMode);
+    return PyString_FromString("CalculationString set\n");
+}
+
 // Drive MELTS simulation
 /*  TODO: need to rewrite this to make silmanState available from Python.
     
@@ -251,8 +271,10 @@ static PyMethodDef melts_bindings_methods[] =
         "Returns the phase names for the solid and liquid phases used by MELTS.\n\nReturns a list of strings, each of which contains one phase used\nby MELTS. These phase names are also used to structure the datan\ndictionaries in PyMELTS, so this function can be useful for\ngenerating a list of phase names.\n\nReturns:\n\tA list of phase strings."},
     {"get_status_string", py_get_status_string, METH_VARARGS,
         "Decode a MELTS status number\n\nTurns a status flag from melts into a nice human error string.\nAs an example:\n\n>>> from pymelts.melts_functions import *\n>>> get_status_string(0)\n'Successful run. No errors.'\n\n>>> [get_status_string(i) for i in range(100, 108)]\n['Steplength for linear search tending towards zero.',\n'Steplength for linear search tending towards maximum.',\n'Error condition detected in adding a liquid to the assemblage (1).',\n'Error condition detected in adding a liquid to the assemblage (2)',\n'Error condition detected in adding a liquid to the assemblage (3)',\n'Rank deficiency coondition detected.  Most likely a consequence of\nphase rule violation.',\n'Time limit exceeded.',\n'Unspecified internal fatal error.']\n\nArguments:\n\tflag - an integer flag returned from MELTS.\n\nReturns:\n\ta string containing the error message."},
-    {"get_phase_properties", py_get_phase_properties, METH_VARARGS,
+    {"get_phase_properties", py_get_phase_properties, METH_VARARGS, 
         "No docstring yet - fix me!"},
+    {"set_calculation_mode", py_set_calculation_mode, METH_VARARGS, 
+        "Sets the MELTS database calibration mode."},
     {"drive_melts", py_drive_melts, METH_VARARGS,
         "No docstring yet - fix me!"},
     {NULL, NULL, 0, NULL}

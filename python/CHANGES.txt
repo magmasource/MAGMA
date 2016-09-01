@@ -1,1 +1,2 @@
 v0.1, Tuesday 16 October  13:50:55 WST 2012 -- Initial release
+v1.0, August 31, 2016 - Revised Initial inclusion in MELTS git project

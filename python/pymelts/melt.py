@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """ 
  .. module: melt.py
- .. moduleauthor: Jess Robertson, CSIRO Earth Science and Resource Engineering
-    date: Monday 5 November, 2012
+ .. moduleauthor: Mark S. Ghiorso (original: Jess Robertson, CSIRO Earth Science and Resource Engineering)
+    date: August 30, 2016
 
     :synopsis: Implementations of a single MELTS calculation (Melt) and 
         classes to generate collections of these (MeltCollection)
@@ -40,6 +40,7 @@ class Melt(object):
             composition - a dictionary with the composition given as oxide weight percentages and the oxide values as keys. Optional - the default is None 
             mode - a string which specifies the calculation space. This can be one of 'ptx' (pressure-temperature-composition space), 'phx' (pressure-enthalpy-composition). Optional - the default is 'ptx'.
             solve - whether to call the MELTS solver to calculate phase equilibria on initialization. Optional - the default is False.
+            calculationString - calculation database, one of MELTS_v1.0.2, MELTS_v1.1.x, MELTS_v1.2.x, pMELTS_v5.6.1
             kwargs - optional arguments which set any attributes of the class on initialization. These can also be set by accessing these attributes directly after initialization.
     """
     # Allowed modes for the calculation
@@ -49,8 +50,21 @@ class Melt(object):
     # which are not phase properties.
     nonphase_keys = ['system', 'system variables', 'status']
 
-    def __init__(self, composition=None, mode='ptx', solve=False, **kwargs):
+    def __init__(self, composition=None, mode='ptx', solve=False, calculationString='MELTS_v1.0.2', **kwargs):
         super(Melt, self).__init__()
+
+        # Choose database for MELTS calculations
+        if calculationString == 'MELTS_v1.0.2':
+            melts_functions.set_calculation_mode('MELTS_v1.0.2')
+        elif calculationString == 'MELTS_v1.1.x':
+            melts_functions.set_calculation_mode('MELTS_v1.1.x')
+        elif calculationString == 'MELTS_v1.2.x':
+            melts_functions.set_calculation_mode('MELTS_v1.2.x')
+        elif calculationString == 'pMELTS_v5.6.1':
+            melts_functions.set_calculation_mode('pMELTS_v5.6.1')
+        else:
+            err = "calculationString is not one of MELTS_v1.0.2, MELTS_v1.1.x, MELTS_v1.2.x, pMELTS_v5.6.1"
+            raise ValueError(err)
 
         # Set up link to MELTS engine
         self.engine = Engine()
@@ -70,6 +84,7 @@ class Melt(object):
         self.enthalpy = None
         self.__dict__.update(kwargs)
         self.set_mode(mode)
+        self.calculationDatabase = calculationString
 
         # Solve if required
         if solve:
@@ -137,28 +152,6 @@ class Melt(object):
             raise ValueError("Phase {0} is not one of {1}".format(
                 phase, self.engine.get_phase_names()))
         return self.properties[phase]
-
-    def viscosity(self, temperature=None):
-        """ Returns the viscosity of the liquid, using the GRD model.
-
-            Uses the model of Giordano, Russell and Dingwell (Giordano D, Russell JK, Dingwell DB (2008) Viscosity of magmatic liquids: A model. EPSL 271, 123-134). Oxide order is maintained by PyMELTS, input values in grams.
-    
-            Arguments:
-                temperature - the current temperature (optional - if not specified will just use the temperature in self['temperature'])
-    
-            Returns:
-                the current viscosity
-        """
-        if temperature is not None:
-            return melts_functions.get_viscosity(temperature,
-                self.composition)
-        elif self.temperature is not None: 
-            return melts_functions.get_viscosity(self.temperature, 
-                self.composition)
-        else:
-            raise AttributeError('The temperature has to be specified to '
-                + 'calculate viscosity')
-
 
 class MeltCollection(list):
 

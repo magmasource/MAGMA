@@ -1,52 +1,54 @@
-### Introduction to PyMELTS
+# PyMELTS - MELTS Python Package
 
-author: Jess Robertson, CSIRO Earth Science and Resource Engineering
+This is a simple wrapper to the dynamic MELTS library for calculating phase equilibria in Python using rhyolite-MELTS (1.0.2, 1.1.x, 1.2.x) and pMELTS (5.6.1). This is version 1.0 of PyMELTS, which is built upon the standard C MELTS engine.  Later versions of this package will be built iusing teh objective-C code base  
 
-email: jesse.robertson with CSIRO's domain (google it)
+## Package Structure
 
-date: Monday 15 October 2012
+The primary bindings to the MELTS function library are stored in pymelts.melts_function namespace. Most of then have docstrings, so you should be able to type `help(pymelts.melts_functions)` in a Python interpreter to find out more information about each function. Most of these functions are simply wrappers which expose information from MELTS C data structures to Python.
 
-This is a simple wrapper to the dynamic MELTS library for calculating phase equilibria in Python using MELTS. Things are pretty bare-bones at the moment - hopefully this will change as we decide how we want to use this library.
+Probably the easiest way to understand what is available in the package is to build it and then run some of the examples contained in the three Jupyter (iPython) notebooks included with the source code. 
 
-Structure
----------
+## Building and installing PyMELTS
 
-The basic bindings to libMELTS are stored in pymelts.melts_function namespace. Most of then have docstrings, so you should be able to do `help(pymelts.melts_functions)` in a Python interpreter to find out more information about each function. Most of these functions are simply wrappers which expose information from MELTS to Python, to make it easier to write most of your code in Python with occasional calls to MELTS when you actually want something solved.
+To build this package you must first build the dynamic melts library target of the main C package using the Makefile located in the directory above the python directory:
 
-The plan (as of version 0.1) is to have a couple of simple classes in the base pymelts, one to represent the state of a calculation, and one to represent the MELTS solver itself, so that users will only have to instantiated instances of these classes to use the library.
+    make Melts-dynamic
 
-Probably the easiest way to get a feel for the behavior of the library is to have a look at the use cases supplied in this documentation. 
+which will create the dynamic library named libMELTSdynamic.so in that location.
 
-Building and installing PyMELTS
--------------------------------
+After building the library move down into the python directory
 
-To build this you need to have first installed the dynamic melts library (libMELTSdynamic.so) and have it available on your path somewhere so that the linker can find it. For example, I have libMELTSdynamic sitting in /usr/local/lib, and my path is:
+    cd ./python
 
-    jrobertson@barracuda >: echo $PATH
-    /usr/local/texlive/2012/bin/x86_64-linux:/usr/local/texlive/2012/bin/x86_64-linux:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+There are two ways to build the library.  The preferred method can be used if the Anaconda Python environment is installed. At the terminal prompt type:
 
-so gcc can find libMELTSdynamic.so.
+    conda build .
+    conda install --use-local pymelts
 
-Then all you should need to do is enter the python directory, and execute
+In the Anaconda environment, if you ever need to uninstall the PyMELTS package (perhaps prior to installing a never version of the package), then type this command at the terminal prompt:
 
-    jrobertson@barracuda >: ./setup.py build && sudo ./setup.py install
+    conda uninstall pymelts
 
-which should build and install the Python bindings for your system.
+Alternately, the package can be installed into a generic python environment with the commands:
 
-Building documentation
-----------------------
+    ./setup.py build
+    sudo ./setup.py install
 
-If you want to build the documentation for PyMELTS then you will need to have a version of `sphinx <http://sphinx.pocoo.org/>`_ installed -- you can check by doing::
+## Building PyMELTS package documentation
 
-  python -c 'import sphinx'
+If you want to build the documentation for PyMELTS then you will need to have a version of `sphinx <http://sphinx.pocoo.org/>`_ installed.  The Anaconda Python environment already has sphinx and its dependencies installed. 
 
-If that fails grab the latest version of and install it with::
+You can check on the avaiability of sphinx in a generic Python environment by typing in a terminal window:
 
-  > sudo easy_install -U Sphinx
+    python -c 'import sphinx'
 
-Now you are ready to build a template for your docs, using
-sphinx-quickstart::
+If that command fails, then install the latest  with the commands:
 
-  > cd docs && make html
+    sudo easy_install -U Sphinx
 
-(or latexpdf if you want a latex version - type `make` to see all the options). The documentation will be dumped under build/<format>. For HTML, if you point a browser to `build/html/index.html`, you should see a basic sphinx site with the documentation for PyMELTS.
+To build the documentation, move down into the docs directory and execute the html target of the sphinx Makefile:
+
+    cd docs
+    make html
+
+(or `make latexpdf` if you want a latex version - type `make` to see all the options). The documentation will be assembled into teh directory build/<format>. For HTML, if you point a browser to `build/html/index.html`, you should view documentation for PyMELTS.

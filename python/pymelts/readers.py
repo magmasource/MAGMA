@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """ file: readers.py
-    author: Jess Robertson, CSIRO Earth Science and Resource Engineering
-    date: Wednesday 17 October 2012
+    author: Mark S. Ghiorso (original: Jess Robertson, CSIRO Earth Science and Resource Engineering)
+    date: August 31, 2016
 
     description: Some functions to read in a MELTS output folder and make it 
         available to Python. The functions here are designed for a MELTS run 
@@ -212,8 +212,10 @@ class Reader(object):
         self.system_data = self.read_output_file()
 
         # Read in solid phase data
+        self.phase_data = defaultdict(list)
+        self.endmembers = defaultdict(list)
         for phasename, phasefile in zip(self.phases, self.files['phases']):
-            self.data[phasename] = self.read_phase_file(
+            self.phase_data[phasename] = self.read_phase_file(
                     phasefile,
                     translation={
                         'temperature': 'T (C)',
@@ -227,7 +229,7 @@ class Reader(object):
             self.endmembers[phasename] = self.phase_data['endmembers']
 
         # Read in liquid phase data
-        self.data['liquid'] = \
+        self.phase_data['liquid'] = \
             self.read_phase_file(
                 self.files['liquid'],
                 translation={
