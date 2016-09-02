@@ -1,0 +1,94 @@
+# ==================================================================
+# Makefile for build of the MELTS package on MacOS (MacOS X - 10.11)
+# ==================================================================
+
+MAKEFILE	= Makefile.MacOS
+
+# Compilation options
+# ===================
+
+PROTO   = XTFUNCPROTO
+VLIST   = _NO_DRAWINGA_VLIST_PARENT
+ENTRYC  = _NO_WHITE_TEXTW
+ACEPLT  =     GRACE_PIPE
+
+# Environment variable defaults
+# =============================
+
+MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
+MELTS_DATA_DIR         = .
+MELTS_DATA_SUFFIX      = *.xml
+MELTS_HARDWARE_VERSION = 4.0 GHz Quad Core Intel i7 
+MELTS_INPUT_DIR        = .
+MELTS_INPUT_SUFFIX     = *.melts
+MELTS_MOTIF_VERSION    = 3.0
+MELTS_OS_VERSION       = Mac OS X - 10.11.6
+MELTS_OUTPUT_FILE      = melts.out
+MELTS_WWW_BROWSER      = 
+MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
+MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
+MELTS_X_VERSION        = X11R6/OpenMotif3
+MELTS_RELEASE_DATE     = March 2015
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Mac OS X - 10.11.6, clang 3.0, 64 bit)
+
+# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
+# ======================================================================================
+
+INCC   = /usr/local/include
+INCXM  = /usr/local/include
+INCX   = /usr/X11R6/include
+INCF2C = .
+INCXML = /usr/include/libxml2
+
+# Compiler choice and flags - Do not delete the $(BATCH) macro
+# ============================================================
+
+AR       = ar
+ARFLAGS  = rv
+DYFLAGS	 = xv
+CC       = clang
+FC       = gfortran
+CFLAGS   = -ansi -c -O3 $(BATCH) -mmacosx-version-min=10.11 \
+           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+FFLAGS   = -O3
+RANLIB   = ranlib
+RANLIBFG = -s
+RM       = rm
+RMFLAGS  = -f
+MPICC      = mpicc
+MPICCFLAGS = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
+MPILDFLAGS = -L/usr/lib -lmpi
+
+# Loader flags (default is shared, add -non_shared)
+# =================================================
+
+LDFLAGS = -v 
+#-Wl,-no_compact_unwind
+# the above will suppress
+#ld: warning: could not create compact unwind for _write_float: stack subq instruction is too different from dwarf stack size
+SONAME	= dylib
+ifneq ($(DYNAMIC),)
+override DYNAMIC = -dynamiclib
+endif
+
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
+# ==============================================================================
+
+LIBS    = -L/usr/local/lib -lMrm -lXm -lgrace_np -L/opt/X11/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu port3/libport.a
+PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libgrace_np.a /usr/local/lib/libjpeg.a \
+          -L/usr/X11R6/lib -lXft -lXt -lXp -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXRender -lXau -lXdmcp -lpng -lX11-xcb -lxcb -lfreetype -lfontconfig \
+          -L/usr/lib -lexpat -lz -lbz2 -lcharset -liconv \
+          port3/libport.a /usr/local/Cellar/gcc/6.1.0/lib/gcc/6/libgfortran.a /usr/local/Cellar/gcc/6.1.0/lib/gcc/6/libquadmath.a \
+          /usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a
+LIBF2C = 
+LIBXML = -L/usr/lib -lxml2
+LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
+
+# Set environment variable for backwards deployment to Mac OS X 10.11
+# ===================================================================
+export MACOSX_DEPLOYMENT_TARGET := 10.11
+
+include Makefile.common
+
+# end of Makefile
+# ===============

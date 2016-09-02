@@ -681,7 +681,8 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             int i, j, np;
                             printf("Found initialize: %s\n", content1);
                             
-                            if (silminState != NULL) ; /*destroy the old state - nyi */
+                            if (silminState != NULL) 
+                                ; /*destroy the old state - nyi */
                             silminState = allocSilminStatePointer();
                             for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
                             (silminState->incSolids)[npc] = TRUE;
