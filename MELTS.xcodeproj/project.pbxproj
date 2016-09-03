@@ -72,6 +72,14 @@
 		7706DF7D1CA337C30053FEBA /* water.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8021627A92300D67FBB /* water.c */; };
 		7706DF7E1CA337CB0053FEBA /* wustite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7734D8031627A92300D67FBB /* wustite.c */; };
 		770BBEFE16A2244C00B98F2D /* rMELTSframework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77C99AE1169B4FF500DF7464 /* rMELTSframework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		77101D231D7A56D900EC7AE4 /* XCODE-README.md in Sources */ = {isa = PBXBuildFile; fileRef = 77101D221D7A56D900EC7AE4 /* XCODE-README.md */; };
+		77101D241D7A56D900EC7AE4 /* XCODE-README.md in Sources */ = {isa = PBXBuildFile; fileRef = 77101D221D7A56D900EC7AE4 /* XCODE-README.md */; };
+		77101D251D7A56D900EC7AE4 /* XCODE-README.md in Sources */ = {isa = PBXBuildFile; fileRef = 77101D221D7A56D900EC7AE4 /* XCODE-README.md */; };
+		77101D261D7A56D900EC7AE4 /* XCODE-README.md in Sources */ = {isa = PBXBuildFile; fileRef = 77101D221D7A56D900EC7AE4 /* XCODE-README.md */; };
+		77101D271D7A56D900EC7AE4 /* XCODE-README.md in Sources */ = {isa = PBXBuildFile; fileRef = 77101D221D7A56D900EC7AE4 /* XCODE-README.md */; };
+		77101D281D7A56D900EC7AE4 /* XCODE-README.md in Sources */ = {isa = PBXBuildFile; fileRef = 77101D221D7A56D900EC7AE4 /* XCODE-README.md */; };
+		77101D291D7A56D900EC7AE4 /* XCODE-README.md in Sources */ = {isa = PBXBuildFile; fileRef = 77101D221D7A56D900EC7AE4 /* XCODE-README.md */; };
+		77101D2A1D7A56D900EC7AE4 /* XCODE-README.md in Sources */ = {isa = PBXBuildFile; fileRef = 77101D221D7A56D900EC7AE4 /* XCODE-README.md */; };
 		7712E4C21AA65F9B00F2F218 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
 		7712E4C31AA65F9C00F2F218 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
 		7712E4C41AA65F9D00F2F218 /* liquid_CO2.c in Sources */ = {isa = PBXBuildFile; fileRef = 77F62F981A9BCD3D00588361 /* liquid_CO2.c */; };
@@ -513,6 +521,7 @@
 		7706DF2E1CA310D80053FEBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7706DF391CA314E40053FEBA /* Coarsening */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Coarsening; sourceTree = BUILT_PRODUCTS_DIR; };
 		7706DF3B1CA314E40053FEBA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		77101D221D7A56D900EC7AE4 /* XCODE-README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "XCODE-README.md"; sourceTree = "<group>"; };
 		771571FA1AB1494D001E1D21 /* ch4co2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ch4co2.c; path = Superfluid/ch4co2.c; sourceTree = SOURCE_ROOT; };
 		771571FB1AB1494D001E1D21 /* der.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = der.c; path = Superfluid/der.c; sourceTree = SOURCE_ROOT; };
 		771571FC1AB1494D001E1D21 /* fluid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fluid.c; path = Superfluid/fluid.c; sourceTree = SOURCE_ROOT; };
@@ -960,6 +969,7 @@
 		77B68D411627A64800C6296F = {
 			isa = PBXGroup;
 			children = (
+				77101D221D7A56D900EC7AE4 /* XCODE-README.md */,
 				77A98CBE16A60896003ABD24 /* Bombaxtic.framework */,
 				77665364163707DE0004A2D0 /* Libraries */,
 				7734D78F1627A92300D67FBB /* sources */,
@@ -1366,6 +1376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77101D291D7A56D900EC7AE4 /* XCODE-README.md in Sources */,
 				7706DF2D1CA310D80053FEBA /* rMELTSframeworkTestsXC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1400,6 +1411,7 @@
 				7706DF3C1CA314E40053FEBA /* main.c in Sources */,
 				7706DF7C1CA337C00053FEBA /* wadsleyite.c in Sources */,
 				7706DF591CA337130053FEBA /* hornblende.c in Sources */,
+				77101D2A1D7A56D900EC7AE4 /* XCODE-README.md in Sources */,
 				7706DF581CA3370F0053FEBA /* gradient_hessian.c in Sources */,
 				7706DF6B1CA337680053FEBA /* olivine-sx.c in Sources */,
 				7706DF4A1CA336BA0053FEBA /* biotite.c in Sources */,
@@ -1512,6 +1524,7 @@
 				7785CD07163AFA68004AA393 /* liquid_v34.c in Sources */,
 				7785CD08163AFA68004AA393 /* liquidus.c in Sources */,
 				7785CD09163AFA68004AA393 /* majorite.c in Sources */,
+				77101D241D7A56D900EC7AE4 /* XCODE-README.md in Sources */,
 				7785CD0A163AFA68004AA393 /* melilite.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1546,6 +1559,7 @@
 				7785CD3B163AFE38004AA393 /* albite.c in Sources */,
 				7785CD3C163AFE38004AA393 /* alloy-liquid.c in Sources */,
 				7785CD3D163AFE38004AA393 /* alloy-solid.c in Sources */,
+				77101D251D7A56D900EC7AE4 /* XCODE-README.md in Sources */,
 				7785CD3E163AFE38004AA393 /* amphibole.c in Sources */,
 				7785CD3F163AFE38004AA393 /* biotite.c in Sources */,
 				7785CD41163AFE38004AA393 /* check_coexisting_liquids.c in Sources */,
@@ -1665,6 +1679,7 @@
 				77A74423163619AA0038627C /* liquid_v34.c in Sources */,
 				77A74424163619AA0038627C /* liquidus.c in Sources */,
 				771572051AB1494D001E1D21 /* shi.c in Sources */,
+				77101D231D7A56D900EC7AE4 /* XCODE-README.md in Sources */,
 				77A74425163619AA0038627C /* majorite.c in Sources */,
 				77A74426163619AA0038627C /* melilite.c in Sources */,
 			);
@@ -1700,6 +1715,7 @@
 				77C99B24169B511000DF7464 /* lawson_hanson.c in Sources */,
 				77C99B25169B511000DF7464 /* leucite.c in Sources */,
 				77C99B26169B511000DF7464 /* linear_search.c in Sources */,
+				77101D261D7A56D900EC7AE4 /* XCODE-README.md in Sources */,
 				77C99B27169B511000DF7464 /* liquid.c in Sources */,
 				77C99B28169B511000DF7464 /* liquid_v34.c in Sources */,
 				77C99B29169B511000DF7464 /* liquidus.c in Sources */,
@@ -1737,6 +1753,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77101D271D7A56D900EC7AE4 /* XCODE-README.md in Sources */,
 				77C99B07169B4FF500DF7464 /* rMELTSframeworkTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1750,6 +1767,7 @@
 				77E4B2CD169BA94300B27D84 /* BaseProcessor.m in Sources */,
 				7777113D16A7177000042848 /* FetchDocumentation.m in Sources */,
 				77C0376916BF29D400F4BB81 /* FetchListOfOxides.m in Sources */,
+				77101D281D7A56D900EC7AE4 /* XCODE-README.md in Sources */,
 				77C0376C16BF2DB200F4BB81 /* FetchListOfPhases.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
