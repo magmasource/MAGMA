@@ -87,6 +87,7 @@ The file `Makefile.ubuntu` is a master makefile that includes a *common* makefil
     ln -s ./Makefile.MacOS Makefile
     ```
 *NOTE: Typing the command* `make` *within the MELTS directory with no argument produces a list of possible build targets:*  
+
 ```
 make 
 /Applications/Xcode.app/Contents/Developer/usr/bin/make -s usage
@@ -135,6 +136,7 @@ You can build standalone versions of MELTS in which you interact with the execut
     make Melts-rhyolite-public
     ```
 If no errors, a new file appears in the directory named `Melts-rhyolite-public`.   This is an executable image that you can run by typing this command:  
+
 ```
 ./Melts-rhyolite-public
 ```
@@ -147,10 +149,12 @@ On startup, you can choose the database calibration of MELTS desired. You can mo
     make Melts-batch
     ```
 If no errors, a new file appears in the directory named `Melts-batch`.   This is an executable image that you can run by typing this command:  
+
 ```
 ./Melts-batch
 ```
 The command generates the following output detailing usage:  
+
 ```
 Usage:
   Melts-batch input.melts
@@ -163,12 +167,14 @@ Usage:
 - First usage takes a standard MELTS input file as input on the command line and processes it using MELTS version 1.0.2, placing output files in the current directory.  
 - Second usage processes a MELTS input file formatted using the standard MELTS input XML schema (contained in schema definition file `MELTSinput.xsd`) and processes it using the MELTS/pMELTS version specified in that file, placing output files in the current directory.
 - Third usage places the executable in listening mode.  The program waits for a file to be placed in the specified `inputDir`, processes that file, and places output into the `outputDir`, moving the input file in the `inputProcessedDir` if one is specified.  This usage is appropriate if some other program (like Excel) is used to generate input files and waits until output is produced for subsequent processes.  Input files must conform to the XML schema noted in the second usage, and output files are generated according to XML output schema specified in [MELTSoutput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSoutput.xsd) and [MELTSstatus.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSstatus.xsd). Detailed documentation files on all of the XML schema may be found in [the Wiki](https://gitlab.com/ENKI-portal/xMELTS/wikis/home).  These schema are also utilized in client-server communication involving the MELTS web services (see below).  A typical command for this usage scenario may look like this:  
+- 
     ```
     ./Melts-batch ./inputXML ./outputXML ./processedXML
     ```
     where the various directories must exist prior to starting the batch process.
 ### Building command-line auxillary and testing programs ###  
 You can build command-line executables for testing various aspects of the MELTS software library by executing this command:  
+
 ```
 make Test_*
 ```
@@ -177,6 +183,7 @@ where * refers to one of the targets listed above.  In particular, the make targ
 The somewhat mysteriously named make targets **Kevin**,  **KevinSolid**, **Marc**, and **cpx-olv-rhm** create executables for standalone command-line geothermometers and oxybarometers.  Consult the source code in the subdirectory `./source` for more information.  
 ### Building statically and dynamically linked libraries that encapsulate the MELTS CT engine
 This command builds a runtime statically linked library of phase properties and MELTS engine functions:  
+
 ```
 make MELTS-dynamic
 ```
