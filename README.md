@@ -16,7 +16,8 @@ This README focuses on the following build targets:
 - Standalone rhyolite-MELTS (v 1.0.2, 1.1.x, 1.2.x)  and pMELTS (v 5.6.1)
 - Command-line auxillary and testing programs
 - Static and dynamic libraries encapsulating the MELTS CT engine
-- Python package encapsulating the MELTS CT engine (OS agnostic)
+
+:point_right: To build the Python package that encapsulates the MELTS CT engine (OS agnostic) and to access associated Python notebooks and examples, refer to the [README file in the python subdirectory](https://gitlab.com/ENKI-portal/xMELTS/blob/master/python/README.md).
 
 :point_right: For MacOS build targets configured with Xcode, simply open the project file, `MELTS.xcodeproj`, in Xcode and follow the instructions [Building Xcode targets in the MELTS project ](https://gitlab.com/ENKI-portal/xMELTS/blob/master/XCODE-README.md)(XCODE-README.md).
 
@@ -196,6 +197,3 @@ The build process creates a static library named `libMELTSdynamic.a` and two sta
 - **`Test_commandLib`** - Is built from the source `./source/test_commandLib.c` and demonstrates how to  perform MELTS calculations by calling the static library functions from a **C code** front end. `Test_commandLib` also demonstrates how to specify MELTS input using command line arguments[.](http://mdp.tylingsoft.com/)
 - **`Test_dynamicLib`** - Is built from the source `./source/test_dynamicLib.f` and demonstrates how to perform MELTS calculations by calling the static library functions from a **FORTRAN code** front end.  
  
-:point_right: **Building the Python package that encapsulates the MELTS CT engine (operating system agnostic)**  
-
-For building the Python package and accessing associated Python notebooks and examples, refer to the [README file in the python subdirectory](https://gitlab.com/ENKI-portal/xMELTS/blob/master/python/README.md).
