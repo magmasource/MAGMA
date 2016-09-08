@@ -78,11 +78,13 @@ You can build many of the build targets for MELTS and its auxillary and testing 
 
 The file `Makefile.ubuntu` is a master makefile that includes a *common* makefile, `Makefile.common`, and is intended for use on Ubuntu systems and as a template for other Linux operating systems.  The script in `Makefile.common` is appropriate for use on both Linux and MacOS.  
 
-- (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.common` file as appropriate for your system configuration, and in a terminal window generate a soft link with this command:  
+- (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.common` file as appropriate for your system configuration, and in a terminal window generate a soft link with this command: 
+
     ```
     ln -s ./Makefile.ubuntu Makefile
     ```
 - (MacOS) If building targets in the MELTS software package on MacOS, edit the file `Makefile.MacOS` as appropriate for your system configuration, and in a terminal window generate a soft link with this command:  
+
     ```
     ln -s ./Makefile.MacOS Makefile
     ```
@@ -173,7 +175,7 @@ Usage:
     ```
     ./Melts-batch ./inputXML ./outputXML ./processedXML
     ```
-    where the various directories must exist prior to starting the batch process.
+    where the various directories must exist prior to starting the batch process.  
 ### Building command-line auxillary and testing programs ###
 You can build command-line executables for testing various aspects of the MELTS software library by executing this command:  
 
