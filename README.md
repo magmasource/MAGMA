@@ -77,9 +77,9 @@ done: \
 
 You can build many of the build targets for MELTS and its auxillary and testing programs on MacOS using the Xcode Integrated Development Environment (IDE). However, most executables—particularly the standalone versions of MELTS—must be built using traditional UNIX makefile-based build procedures. 
 
-The file `Makefile.ubuntu` is a master makefile that includes a *common* makefile, `Makefile.common`, and is intended for use on Ubuntu systems and as a template for other Linux operating systems.  The script in `Makefile.common` is appropriate for use on both Linux and MacOS.  
+The file `Makefile.ubuntu` and `Makefile.MacOS` are master makefiles that each include a *common* makefile, `Makefile.common`. The script in `Makefile.common` is appropriate for use on both Linux and MacOS.  
 
-- (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.common` file as appropriate for your system configuration, and in a terminal window generate a soft link with this command: 
+- (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.ubuntu` file as appropriate for your system configuration, and in a terminal window generate a soft link with this command: 
 
     ```
     ln -s ./Makefile.ubuntu Makefile
@@ -139,7 +139,7 @@ You can build standalone versions of MELTS in which you interact with the execut
     ```
     make Melts-rhyolite-public
     ```
-If no errors, a new file appears in the directory named `Melts-rhyolite-public`.   This is an executable image that you can run by typing this command: 
+A new file appears in the directory named `Melts-rhyolite-public`.   This is an executable image that you can run by typing this command: 
 
 ```
 ./Melts-rhyolite-public
@@ -153,7 +153,7 @@ On startup, you can choose the database calibration of MELTS desired. You can mo
     ```
     make Melts-batch
     ```
-If no errors, a new file appears in the directory named `Melts-batch`.   This is an executable image that you can run by typing this command:  
+A new file appears in the directory named `Melts-batch`.   This is an executable image that you can run by typing this command:  
 
 ```
 ./Melts-batch
@@ -170,7 +170,7 @@ Usage:
 ```
  The three usage scenarios are as follows:  
 - First usage takes a standard MELTS input file as input on the command line and processes it using MELTS version 1.0.2, placing output files in the current directory.  
-- Second usage processes a MELTS input file formatted using the standard MELTS input XML schema (contained in schema definition file `MELTSinput.xsd`) and processes it using the MELTS/pMELTS version specified in that file, placing output files in the current directory.
+- Second usage processes a MELTS input file formatted using the standard MELTS input XML schema (contained in schema definition file [MELTSinput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSinput.xsd)) and processes it using the MELTS/pMELTS version specified in that file, placing output files in the current directory.
 - Third usage places the executable in listening mode.  The program waits for a file to be placed in the specified `inputDir`, processes that file, and places output into the `outputDir`, moving the input file in the `inputProcessedDir` if one is specified.  This usage is appropriate if some other program (like Excel) is used to generate input files and waits until output is produced for subsequent processes.  Input files must conform to the XML schema noted in the second usage, and output files are generated according to XML output schema specified in [MELTSoutput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSoutput.xsd) and [MELTSstatus.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSstatus.xsd). Detailed documentation files on all of the XML schema may be found in [the Wiki](https://gitlab.com/ENKI-portal/xMELTS/wikis/home).  These schema are also utilized in client-server communication involving the MELTS web services (see below).  A typical command for this usage scenario may look like this:
 
     ```

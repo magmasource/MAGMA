@@ -10,7 +10,7 @@ With the Xcode MELTS project, you can build the following targets:
 + **Coarsening** Generates a specialized version of MELTS for use in the analysis of surface energy affects related to cryustal size on thermodynamic stability of mineral phases
 + **cpx-olv-rhm** Generates a clinopyroxene + olivine + rhombohedral oxide geothermometer
 
-The **MELTS WS BxApp** targets require a framework called Bombastic, which is built as part of the Bombax server infrastructure. To build the server and the framework, you can download an Xcode project from GitLab by cloning the Bombax-Git repository within the ENKI-portal repository collection. Refer to the [documentation in the Bombax/docs folder](https://gitlab.com/ENKI-portal/Bombax-Git/blob/master/Bombax/doc/dev-guide/Bombax%20Developers%20Guide.pdf) to learn more about Bombax, its interaction with an NGINX server, and how objective-C web service apps are configured and loaded into the Bombax web service monitor app.
+The **MELTS WS BxApp** targets require a framework called Bombastic, which is built as part of the Bombax server infrastructure. To build the server and the framework, you can download an Xcode project from GitLab by cloning the [Bombax-Git repository](https://gitlab.com/ENKI-portal/Bombax-Git) within the ENKI-portal repository collection. Refer to the [documentation in the Bombax/docs folder](https://gitlab.com/ENKI-portal/Bombax-Git/blob/master/Bombax/doc/dev-guide/Bombax%20Developers%20Guide.pdf) to learn more about Bombax, its interaction with an NGINX server, and how objective-C web service apps are configured and loaded into the Bombax web service monitor app.
 ## Run the MELTS web services on your server
 Follow these instructions to configure Bombax to run the MELTS web service and to interact with an NGINX server.
 
@@ -23,4 +23,4 @@ Follow these instructions to configure Bombax to run the MELTS web service and t
 1. Interact with the web service in the browser at [http://localport:10288/](http://localport:10288/).
 
 
-If you want to install the app into a standalone Bombax web service monitor interacting with a public NGINX server, build it in release mode, and drag the app into the setup pane of the monitor.  It self-configures. Then click **Apply** to start the MELTS web service in Bombax, and listen on port 8080 in a browser pointing at the public address of your NGINX server.4You may need to stop and restart the server and/or the Bombax app to establish a clean connection to NGINX.
+If you want to install the app into a standalone Bombax web service monitor interacting with a public NGINX server, build it in release mode, and drag the app into the setup pane of the monitor.  It self-configures. Then click **Apply** to start the MELTS web service in Bombax, and listen on port 8080 in a browser pointing at the public address of your NGINX server. You may need to stop and restart the server and/or the Bombax app to establish a clean connection to NGINX.
