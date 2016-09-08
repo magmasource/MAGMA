@@ -69,7 +69,7 @@ FFLAGS = -O3
     $(F77) -c $(FFLAGS) $*.f
 done: \
 ```
-4. Close the file, and run the `make` command to build the PORT3 library.  
+4 Close the file, and run the `make` command to build the PORT3 library.  
 
 
 ### Makefile configuration ###
@@ -175,7 +175,8 @@ Usage:
     ```
     ./Melts-batch ./inputXML ./outputXML ./processedXML
     ```
-    where the various directories must exist prior to starting the batch process.  
+    where the various directories must exist prior to starting the batch process.
+
 ### Building command-line auxillary and testing programs ###
 You can build command-line executables for testing various aspects of the MELTS software library by executing this command:  
 
