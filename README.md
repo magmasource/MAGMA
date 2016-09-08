@@ -21,7 +21,7 @@ This README focuses on the following build targets:
 :point_right: For MacOS build targets configured with Xcode, simply open the project file, `MELTS.xcodeproj`, in Xcode and follow the instructions [Building Xcode targets in the MELTS project ](https://gitlab.com/ENKI-portal/xMELTS/blob/master/XCODE-README.md)(XCODE-README.md).
 
 
-### Cloning the repository and populating the submodules ###  
+### Cloning the repository and populating the submodules ###
 The default **master** branch of the respository tracks the stable public releases of MELTS software. The **develop** branch tracks the latest development code and may contain unpublished features.  You can fork either branch when you clone the repository. Make sure to follow *GitFlow* protocols and to fork feature and extension branches only from the **develop** branch.
 
 When you clone the repository, the **master** branch is tracked by default. If you use a git client, such as [Tower](https://www.git-tower.com/), the client also populates the port3 submodules (i.e., subrepositories) required to perform the build procedures.
@@ -42,7 +42,7 @@ git checkout develop
 ```
 
 
-### Prerequisites ###  
+### Prerequisites ###
 To build the standalone (GUI) version of MELTS on MacOS or Linux, you need the following additional system and software resources:
 
 - PORT3 software library, available as a [submodule in the xMELTS git repository](https://gitlab.com/ENKI-portal/port3)
@@ -72,7 +72,7 @@ done: \
 4. Close the file, and run the `make` command to build the PORT3 library.  
 
 
-### Makefile configuration ###  
+### Makefile configuration ###
 
 You can build many of the build targets for MELTS and its auxillary and testing programs on MacOS using the Xcode Integrated Development Environment (IDE). However, most executables—particularly the standalone versions of MELTS—must be built using traditional UNIX makefile-based build procedures. 
 
@@ -127,24 +127,26 @@ Usage: Melts Melts-MS Melts-SACNK
 ```
 *Some of these targets are no longer active or are used only rarely to develop specialied applications.  The more relevant targets are discussed below.*  
 
-### Building standalone rhyolite-MELTS (v 1.0.2, 1.1.x, 1.2.x)  and pMELTS (5.6.1)  ###  
+### Building standalone rhyolite-MELTS (v 1.0.2, 1.1.x, 1.2.x)  and pMELTS (5.6.1)  ###
 You can build standalone versions of MELTS in which you interact with the executable using a graphical user interface (GUI) or in which the executable runs in batch mode, processing standard tagged XML files as input and generating structured XML output files.  
-#### Standalone MELTS - GUI ###  
+#### Standalone MELTS - GUI ###
 1. Ensure that the PORT3 library and `X11` and `openMotif` are installed.
-1. In a terminal window, migrate to the repository directory, and type this command:  
+1. In a terminal window, migrate to the repository directory, and type this command:
+
     ```
     make Melts-rhyolite-public
     ```
-If no errors, a new file appears in the directory named `Melts-rhyolite-public`.   This is an executable image that you can run by typing this command:  
+If no errors, a new file appears in the directory named `Melts-rhyolite-public`.   This is an executable image that you can run by typing this command: 
 
 ```
 ./Melts-rhyolite-public
 ```
 On startup, you can choose the database calibration of MELTS desired. You can move the executable image to any location in the system.  
 
-#### Standalone MELTS - batch execution, read-write XML files ####  
+#### Standalone MELTS - batch execution, read-write XML files ####
 1. Ensure that the PORT3 library is installed.  
-2. In a terminal window, migrate to the repository directory, and type this command:  
+2. In a terminal window, migrate to the repository directory, and type this command:
+
     ```
     make Melts-batch
     ```
@@ -166,13 +168,13 @@ Usage:
  The three usage scenarios are as follows:  
 - First usage takes a standard MELTS input file as input on the command line and processes it using MELTS version 1.0.2, placing output files in the current directory.  
 - Second usage processes a MELTS input file formatted using the standard MELTS input XML schema (contained in schema definition file `MELTSinput.xsd`) and processes it using the MELTS/pMELTS version specified in that file, placing output files in the current directory.
-- Third usage places the executable in listening mode.  The program waits for a file to be placed in the specified `inputDir`, processes that file, and places output into the `outputDir`, moving the input file in the `inputProcessedDir` if one is specified.  This usage is appropriate if some other program (like Excel) is used to generate input files and waits until output is produced for subsequent processes.  Input files must conform to the XML schema noted in the second usage, and output files are generated according to XML output schema specified in [MELTSoutput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSoutput.xsd) and [MELTSstatus.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSstatus.xsd). Detailed documentation files on all of the XML schema may be found in [the Wiki](https://gitlab.com/ENKI-portal/xMELTS/wikis/home).  These schema are also utilized in client-server communication involving the MELTS web services (see below).  A typical command for this usage scenario may look like this:  
-- 
+- Third usage places the executable in listening mode.  The program waits for a file to be placed in the specified `inputDir`, processes that file, and places output into the `outputDir`, moving the input file in the `inputProcessedDir` if one is specified.  This usage is appropriate if some other program (like Excel) is used to generate input files and waits until output is produced for subsequent processes.  Input files must conform to the XML schema noted in the second usage, and output files are generated according to XML output schema specified in [MELTSoutput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSoutput.xsd) and [MELTSstatus.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSstatus.xsd). Detailed documentation files on all of the XML schema may be found in [the Wiki](https://gitlab.com/ENKI-portal/xMELTS/wikis/home).  These schema are also utilized in client-server communication involving the MELTS web services (see below).  A typical command for this usage scenario may look like this:
+
     ```
     ./Melts-batch ./inputXML ./outputXML ./processedXML
     ```
     where the various directories must exist prior to starting the batch process.
-### Building command-line auxillary and testing programs ###  
+### Building command-line auxillary and testing programs ###
 You can build command-line executables for testing various aspects of the MELTS software library by executing this command:  
 
 ```
