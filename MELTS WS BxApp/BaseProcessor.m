@@ -91,9 +91,9 @@
         if (self.debug) NSLog(@"... Data parsed. XML Document is valid.");
         
     } else {
-        [transport setHttpStatusCode:415];
+        [transport setHttpStatusCode:200];
         [transport write:@"<p>MELTS WS: Unrecognizable or unspecified input.</p>"];
-        if (self.debug) NSLog(@"... ERROR. Unrecognizable or unspecified input. Return status 415.");
+        if (self.debug) NSLog(@"... ERROR. Unrecognizable or unspecified input. Return status 200.");
         return self;
     }
     
