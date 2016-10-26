@@ -881,11 +881,12 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
     double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2;  
     
     if (j < 0) { /* liquid */
-      double *m, *r, mTot;
+      double *m, *r, mTot, *mu;
       int k;
       m = (double *) calloc((size_t) nlc,    sizeof(double));
       r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
+      mu = (double *) calloc((size_t) nlc, sizeof(double));
       
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
 
@@ -895,10 +896,11 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       vmixLiq (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, 
         *temperature, *pressure, r, &V, NULL, NULL, &dVdT, &dVdP, &d2VdT2, &d2VdTdP, &d2VdP2, NULL, NULL, NULL);
       cpmixLiq(FIRST | SECOND, *temperature, *pressure, r, &Cp, &dCpdT, NULL);
+      actLiq(SECOND, *temperature, *pressure, r, NULL, mu, NULL, NULL);
 
       for (i=0, mTot=0.0; i<nlc; i++) {
         mTot +=  m[i];
-	gibbs(*temperature, *pressure, phaseName, &liquid[i].ref, &liquid[i].liq, &liquid[i].fus, &liquid[i].cur);
+	      gibbs(*temperature, *pressure, phaseName, &liquid[i].ref, &liquid[i].liq, &liquid[i].fus, &liquid[i].cur);
       }
 	
       G       *= mTot; 
@@ -925,10 +927,12 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
         d2VdT2  += m[i]*(liquid[i].cur).d2vdt2;
         d2VdTdP += m[i]*(liquid[i].cur).d2vdtdp;
         d2VdP2  += m[i]*(liquid[i].cur).d2vdp2;
+        phaseProperties[11+i] = mu[i] +  (liquid[i].cur).g;
       }
       
       free(m);
       free(r);
+      free(mu);
 
     } else if (solids[j].na == 1) {
       double mass = 0.0, factor = 1.0;
@@ -949,20 +953,22 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       d2VdP2  = factor*(solids[j].cur).d2vdp2;
 
     } else {
-      double e[106], *m, *r, mTot; 
+      double e[106], *m, *r, mTot, *mu; 
       int k;
       for (i=0; i<106; i++) e[i] = 0.0;
       for (i=0; i<nc; i++) {
         double mOx = bulkComposition[i]/bulkSystem[i].mw;
-	for (k=0; k<106; k++) e[k] += mOx*(bulkSystem[i].oxToElm)[k];
+	      for (k=0; k<106; k++) e[k] += mOx*(bulkSystem[i].oxToElm)[k];
       }
       m = (double *) malloc ((size_t) solids[j].na*sizeof(double));
       r = (double *) malloc ((size_t) solids[j].nr*sizeof(double));
       (*solids[j].convert)(FIRST, SECOND, *temperature, *pressure, e, m, NULL, NULL, NULL, NULL, NULL, NULL);
       (*solids[j].convert)(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
+      mu = (double *) malloc ((size_t) solids[j].na*sizeof(double));
+
       for (i=0, mTot=0.0; i<solids[j].na; i++) {
         mTot += m[i];
-	gibbs(*temperature, *pressure, phaseName, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
+	      gibbs(*temperature, *pressure, phaseName, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
       }
       
       (*solids[j].gmix) (FIRST, *temperature, *pressure, r, &G, NULL, NULL, NULL);
@@ -971,6 +977,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       (*solids[j].vmix) (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, 
          *temperature, *pressure, r, &V, NULL, NULL, &dVdT, &dVdP, &d2VdT2, &d2VdTdP, &d2VdP2, NULL, NULL);
       (*solids[j].cpmix)(FIRST | SECOND, *temperature, *pressure, r, &Cp, &dCpdT, NULL);
+      (*solids[j].activity)(SECOND, *temperature, *pressure, r, NULL, mu, NULL);
 
       G       *= mTot;     
       H       *= mTot; 
@@ -996,10 +1003,12 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
         d2VdT2  += m[i]*(solids[j+1+i].cur).d2vdt2;
         d2VdTdP += m[i]*(solids[j+1+i].cur).d2vdtdp;
         d2VdP2  += m[i]*(solids[j+1+i].cur).d2vdp2;
+        phaseProperties[11+i] = mu[i] + (solids[j+1+i].cur).g;
       }
       
       free(m);
       free(r);
+      free(mu);
 
     }
 
