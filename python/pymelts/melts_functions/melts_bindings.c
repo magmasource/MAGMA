@@ -94,7 +94,100 @@ static PyObject* py_get_phase_names(PyObject* self, PyObject* args)
     Py_INCREF(phaseList); // Python expects a new reference on return
     return phaseList;
 }
+static PyObject* py_get_phase_component_number(PyObject* self, PyObject* args)
+{
+    // Parse arguments
+    char* phaseName;
+    int i;
+    PyArg_ParseTuple(args, "s", &phaseName);
+    if (PyErr_Occurred()) PyErr_Print();
+    if (!strcmp("liquid", phaseName)) return Py_BuildValue("i", nc);
+    for (i=0; i<npc; i++) if ((solids[i].type == PHASE) && !strcmp(solids[i].label, phaseName))
+        return Py_BuildValue("i", solids[i].na);
+    return Py_BuildValue("i", 1);
+}
+static PyObject* py_get_phase_component_names(PyObject* self, PyObject* args)
+{
+    // Parse arguments
+    char* phaseName;
+    int i, j;
+    PyArg_ParseTuple(args, "s", &phaseName);
+    if (PyErr_Occurred()) PyErr_Print();
 
+    // Allocate a list to return to Python. 
+    PyObject* componentList = PyList_New(0);
+
+    if (!strcmp("liquid", phaseName)) {
+        for (j=0; j<nc; j++) {
+            PyObject* componentString = PyString_FromString(liquid[j].label);
+            if (PyErr_Occurred()) PyErr_Print();
+            PyList_Append(componentList, componentString);
+            if (PyErr_Occurred()) PyErr_Print();
+            Py_DECREF(componentString); // Release reference to object on heap
+        }
+    }
+    for (i=0; i<npc; i++) if ((solids[i].type == PHASE) && !strcmp(solids[i].label, phaseName)) {
+        if (solids[i].na > 1) {
+            for (j=0; j<solids[i].na; j++) {
+                PyObject* componentString = PyString_FromString(solids[i+1+j].label);
+                if (PyErr_Occurred()) PyErr_Print();
+                PyList_Append(componentList, componentString);
+                if (PyErr_Occurred()) PyErr_Print();
+                Py_DECREF(componentString);
+            }
+        } else {
+            PyObject* componentString = PyString_FromString("none");
+            if (PyErr_Occurred()) PyErr_Print();
+            PyList_Append(componentList, componentString);
+            if (PyErr_Occurred()) PyErr_Print();
+            Py_DECREF(componentString); 
+        }
+    }
+
+    Py_INCREF(componentList);
+    return componentList;
+}
+static PyObject* py_get_phase_component_formulas(PyObject* self, PyObject* args)
+{
+    // Parse arguments
+    char* phaseName;
+    int i, j;
+    PyArg_ParseTuple(args, "s", &phaseName);
+    if (PyErr_Occurred()) PyErr_Print();
+
+    // Allocate a list to return to Python. 
+    PyObject* componentList = PyList_New(0);
+
+    if (!strcmp("liquid", phaseName)) {
+        for (j=0; j<nc; j++) {
+            PyObject* componentString = PyString_FromString(liquid[j].label);
+            if (PyErr_Occurred()) PyErr_Print();
+            PyList_Append(componentList, componentString);
+            if (PyErr_Occurred()) PyErr_Print();
+            Py_DECREF(componentString); // Release reference to object on heap
+        }
+    }
+    for (i=0; i<npc; i++) if ((solids[i].type == PHASE) && !strcmp(solids[i].label, phaseName)) {
+        if (solids[i].na > 1) {
+            for (j=0; j<solids[i].na; j++) {
+                PyObject* componentString = PyString_FromString(solids[i+1+j].formula);
+                if (PyErr_Occurred()) PyErr_Print();
+                PyList_Append(componentList, componentString);
+                if (PyErr_Occurred()) PyErr_Print();
+                Py_DECREF(componentString);
+            }
+        } else {
+            PyObject* componentString = PyString_FromString(solids[i].formula);
+            if (PyErr_Occurred()) PyErr_Print();
+            PyList_Append(componentList, componentString);
+            if (PyErr_Occurred()) PyErr_Print();
+            Py_DECREF(componentString); 
+        }
+    }
+
+    Py_INCREF(componentList);
+    return componentList;
+}
 // Get phase data
 static PyObject* py_get_phase_properties(PyObject* self, PyObject* args) 
 {
@@ -129,9 +222,9 @@ static PyObject* py_get_phase_properties(PyObject* self, PyObject* args)
     double composition[nc];
     convert_composition(compositionObject, composition);
 
-    // Pass result through to MELTS
+    // Pass result through to MELTS - maximum number of components of any phase is nc
     int numberProperties = 11;
-    double phaseProperties[numberProperties];
+    double phaseProperties[numberProperties+nc];
     getMeltsPhaseProperties(phaseName, &temperature, &pressure, composition, phaseProperties);
 
     // Build dictionary to pass back to Python
@@ -145,6 +238,25 @@ static PyObject* py_get_phase_properties(PyObject* self, PyObject* args)
             PyString_FromString(phasePropertyKeys[i]),
             PyFloat_FromDouble(phaseProperties[i]));
         if (PyErr_Occurred()) PyErr_Print();
+    }
+    if (!strcmp("liquid", phaseName)) {
+        for (i=0; i<nc; i++) {
+            PyDict_SetItem(resultsDict, 
+                PyString_FromString(liquid[i].label),
+                PyFloat_FromDouble(phaseProperties[11+i]));
+        }
+    } else {
+        for (i=0; i<npc; i++) if ((solids[i].type == PHASE) && !strcmp(solids[i].label, phaseName)) {
+            if (solids[i].na > 1) {
+                int j;
+                for (j=0; j<solids[i].na; j++) {
+                    PyDict_SetItem(resultsDict,
+                        PyString_FromString(solids[i+1+j].label),
+                        PyFloat_FromDouble(phaseProperties[11+j]));
+                }
+            }
+            break;
+        }
     }
     Py_INCREF(resultsDict);
     return resultsDict;
@@ -269,6 +381,12 @@ static PyMethodDef melts_bindings_methods[] =
         "Returns the oxide names for the chemical species used by MELTS.\n\nReturns a list of strings, each of which contains one oxide used\nby MELTS. These oxide names are also used to structure the datan\ndictionaries in PyMELTS, so this function can be useful for\ngenerating a list of oxide names.\n\nReturns:\n\tA list of oxide strings."},
     {"get_phase_names", py_get_phase_names, METH_NOARGS,
         "Returns the phase names for the solid and liquid phases used by MELTS.\n\nReturns a list of strings, each of which contains one phase used\nby MELTS. These phase names are also used to structure the datan\ndictionaries in PyMELTS, so this function can be useful for\ngenerating a list of phase names.\n\nReturns:\n\tA list of phase strings."},
+    {"get_phase_component_number", py_get_phase_component_number, METH_VARARGS,
+        "No docstring yet - fix me!"},
+    {"get_phase_component_names", py_get_phase_component_names, METH_VARARGS,
+        "No docstring yet - fix me!"},
+    {"get_phase_component_formulas", py_get_phase_component_formulas, METH_VARARGS,
+        "No docstring yet - fix me!"},
     {"get_status_string", py_get_status_string, METH_VARARGS,
         "Decode a MELTS status number\n\nTurns a status flag from melts into a nice human error string.\nAs an example:\n\n>>> from pymelts.melts_functions import *\n>>> get_status_string(0)\n'Successful run. No errors.'\n\n>>> [get_status_string(i) for i in range(100, 108)]\n['Steplength for linear search tending towards zero.',\n'Steplength for linear search tending towards maximum.',\n'Error condition detected in adding a liquid to the assemblage (1).',\n'Error condition detected in adding a liquid to the assemblage (2)',\n'Error condition detected in adding a liquid to the assemblage (3)',\n'Rank deficiency coondition detected.  Most likely a consequence of\nphase rule violation.',\n'Time limit exceeded.',\n'Unspecified internal fatal error.']\n\nArguments:\n\tflag - an integer flag returned from MELTS.\n\nReturns:\n\ta string containing the error message."},
     {"get_phase_properties", py_get_phase_properties, METH_VARARGS, 

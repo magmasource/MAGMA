@@ -12,8 +12,9 @@ import utilities
 from composition import Composition
 from engine import Engine
 from melt import Melt, MeltCollection
+from phase import Phase
 
-base_classes = [Composition, Engine, Melt, MeltCollection]
+base_classes = [Composition, Engine, Melt, MeltCollection, Phase]
 __all__ = base_classes + [melts_functions, readers]
 
 # Reassign the base classes to the base namespace

@@ -47,6 +47,9 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 static PyObject* py_get_status_string(PyObject* self, PyObject* args);
 static PyObject* py_get_oxide_names(PyObject* self, PyObject* args);
 static PyObject* py_get_phase_names(PyObject* self, PyObject* args);
+static PyObject* py_get_phase_component_number(PyObject* self, PyObject* args);
+static PyObject* py_get_phase_component_names(PyObject* self, PyObject* args);
+static PyObject* py_get_phase_component_formulas(PyObject* self, PyObject* args);
 static PyObject* py_get_phase_properties(PyObject* self, PyObject* args);
 static PyObject* py_set_calculation_mode(PyObject* self, PyObject* args);
 static PyObject* py_drive_melts(PyObject* self, PyObject* args);

@@ -50,17 +50,11 @@ AR       = ar
 ARFLAGS  = rv
 # 'ar xv' extracts object files from the static library, avoiding recompilation
 DYFLAGS	 = xv
-CC       = gcc
+CC       = clang
 FC       = gfortran
 # cannot use -ansi with -D__USE_ISOC99 (Mac has a BSD flag so doesn't need -D__USE_ISOC99)
-CFLAGS   = -D__USE_ISOC99 -c -fno-common -g -O3 -falign-loops=16 -ftree-vectorize -mfpmath=sse -Wall $(BATCH) \
+CFLAGS   = -c -O3 $(BATCH) \
            -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
-
-# For Mac -dynamiclib is a wrapper for libtool so we do not need the position indepdent code flag
-# For Linux need to make 'realclean Melts-dynamic DYNAMIC=true' as archiving seems to loose the PIC property
-ifneq ($(DYNAMIC),)
-CFLAGS	 += -fPIC
-endif
 
 FFLAGS   = -O3
 RANLIB   = ranlib
