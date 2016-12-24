@@ -1,5 +1,5 @@
 # ==================================================================
-# Makefile for build of the MELTS package on MacOS (MacOS X - 10.11)
+# Makefile for build of the MELTS package on MacOS (MacOS X - 10.12)
 # ==================================================================
 
 MAKEFILE	= Makefile.MacOS
@@ -22,7 +22,7 @@ MELTS_HARDWARE_VERSION = 4.0 GHz Quad Core Intel i7
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 3.0
-MELTS_OS_VERSION       = Mac OS X - 10.11.6
+MELTS_OS_VERSION       = Mac OS X - 10.12.1
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
@@ -36,7 +36,7 @@ MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Mac 
 
 INCC   = /usr/local/include
 INCXM  = /usr/local/include
-INCX   = /usr/X11R6/include
+INCX   = /usr/X11/include
 INCF2C = .
 INCXML = /usr/include/libxml2
 
@@ -48,7 +48,7 @@ ARFLAGS  = rv
 DYFLAGS	 = xv
 CC       = clang
 FC       = gfortran
-CFLAGS   = -ansi -c -O3 $(BATCH) -mmacosx-version-min=10.11 \
+CFLAGS   = -ansi -c -O3 $(BATCH) -mmacosx-version-min=10.12 \
            -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS   = -O3
 RANLIB   = ranlib
@@ -76,7 +76,8 @@ endif
 
 LIBS    = -L/usr/local/lib -lMrm -lXm -lgrace_np -L/opt/X11/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu port3/libport.a
 PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libgrace_np.a /usr/local/lib/libjpeg.a \
-          -L/usr/X11R6/lib -lXft -lXt -lXp -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXRender -lXau -lXdmcp -lpng -lX11-xcb -lxcb -lfreetype -lfontconfig \
+          -L/opt/X11/lib -lXft -lXt -lXp -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXRender -lXau -lXdmcp -lpng -lX11-xcb \
+          -lxcb -lfreetype -lfontconfig \
           -L/usr/lib -lexpat -lz -lbz2 -lcharset -liconv \
           port3/libport.a /usr/local/Cellar/gcc/6.1.0/lib/gcc/6/libgfortran.a /usr/local/Cellar/gcc/6.1.0/lib/gcc/6/libquadmath.a \
           /usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a
@@ -84,9 +85,9 @@ LIBF2C =
 LIBXML = -L/usr/lib -lxml2
 LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
 
-# Set environment variable for backwards deployment to Mac OS X 10.11
+# Set environment variable for backwards deployment to Mac OS X 10.12
 # ===================================================================
-export MACOSX_DEPLOYMENT_TARGET := 10.11
+export MACOSX_DEPLOYMENT_TARGET := 10.12
 
 include Makefile.common
 

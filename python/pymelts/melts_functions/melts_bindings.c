@@ -293,12 +293,12 @@ static PyObject* py_set_calculation_mode(PyObject* self, PyObject* args)
 */
 static PyObject* py_drive_melts(PyObject* self, PyObject* args) {
     // Get some information about struct sizes etc
-    char* propertyKeys[] = {"G", "H", "S", "V", "Cp", "dCpdT", "dVdT", 
-        "dVdP", "d2VdT2", "d2VdTdP", "d2VdP2", "SiO2", "TiO2", "Al2O3", 
-        "Fe2O3", "Cr2O3", "FeO", "MnO", "MgO", "NiO", "CoO", "CaO", "Na2O", 
-        "K2O", "P2O5", "H2O", "CO2", "SO3", "Cl2O-1", "F2O-1", "FeO1_3", 
-        "volume fraction", "density", "viscosity"};
-    const int numberProperties = nc + 14;
+    char* propertyKeysStart[] = {"G", "H", "S", "V", "Cp", "dCpdT", "dVdT", 
+				 "dVdP", "d2VdT2", "d2VdTdP", "d2VdP2"};
+    char* propertyKeysEnd[] ={ "volume fraction", "density", "viscosity"};
+    const int numberPropertiesStart = 11;
+    const int numberPropertiesEnd = 3;
+    const int numberProperties = numberPropertiesStart + nc + numberPropertiesEnd;
 
     // Parse arguments from Python side
     int nodeIndex, modeIndex;
@@ -327,11 +327,28 @@ static PyObject* py_drive_melts(PyObject* self, PyObject* args) {
     for (phaseIndex=0; phaseIndex < numberPhases; phaseIndex++) {
         PyObject* phaseDict = PyDict_New();
         char* phase = &phaseNames[phaseIndex * nCharInName];
-        for (propIndex = 0; propIndex < numberProperties; ++propIndex) {
+	// Assign Energy properties
+        for (propIndex = 0; propIndex < numberPropertiesStart; ++propIndex) {
             PyDict_SetItem(phaseDict, 
-                PyString_FromString(propertyKeys[propIndex]),
+                PyString_FromString(propertyKeysStart[propIndex]),
                 PyFloat_FromDouble(
                     propertyArray[numberProperties * phaseIndex + propIndex]));
+            if (PyErr_Occurred()) PyErr_Print();
+        }
+	//Assign Oxide Compositions using bulkSystem labels (for consistency with get_oxide_names)
+	for (propIndex = 0; propIndex < nc; ++propIndex) {
+            PyDict_SetItem(phaseDict, 
+                PyString_FromString(bulkSystem[propIndex].label),
+                PyFloat_FromDouble(
+                    propertyArray[numberProperties * phaseIndex +  numberPropertiesStart + propIndex]));
+            if (PyErr_Occurred()) PyErr_Print();
+        }
+	// assign final properties F,\rho and viscosity
+	for (propIndex = 0; propIndex < numberPropertiesEnd; ++propIndex) {
+            PyDict_SetItem(phaseDict, 
+                PyString_FromString(propertyKeysEnd[propIndex]),
+                PyFloat_FromDouble(
+                    propertyArray[numberProperties * phaseIndex + numberPropertiesStart + nc + propIndex]));
             if (PyErr_Occurred()) PyErr_Print();
         }
             
