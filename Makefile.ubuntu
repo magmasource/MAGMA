@@ -46,25 +46,33 @@ INCXML = /usr/include/libxml2
 # Compiler choice and flags - Do not delete the $(BATCH) macro
 # ============================================================
 
-AR       = ar
-ARFLAGS  = rv
-# 'ar xv' extracts object files from the static library, avoiding recompilation
-DYFLAGS	 = xv
-CC       = clang
-FC       = gfortran
-# cannot use -ansi with -D__USE_ISOC99 (Mac has a BSD flag so doesn't need -D__USE_ISOC99)
-CFLAGS   = -c -O3 $(BATCH) \
-           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
-
-FFLAGS   = -O3
-RANLIB   = ranlib
-# For Mac need 'ranlib -s'; For Linux need 'ar -s' or just 'ranlib'
-RANLIBFG = 
-RM       = rm
-RMFLAGS  = -f
-MPICC      = mpicc
-MPICCFLAGS = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
-MPILDFLAGS = -L/usr/lib -lmpi
+AR            = ar
+ARFLAGS       = rv
+DYFLAGS	      = xv
+CC            = clang
+FC            = gfortran
+CFLAGS        = -c -O3 $(BATCH) \
+                -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+FFLAGS        = -O3
+RANLIB        = ranlib
+RANLIBFG      = 
+RM            = rm
+RMFLAGS       = -f
+MPICC         = mpicc
+MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
+MPILDFLAGS    = -L/usr/lib -lmpi
+CP            = cp 
+CPFLAGS       = -R
+MKDIR         = mkdir
+TAR           = tar 
+TARFLAGS      = czvf
+CHECKSUM      = openssl
+CHECKSUMFLAGS = sha256
+SCP           = scp
+USER          = administrator
+HOST          = repository.ofm-research.org
+LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
+PYMELTSVER    = 0.1.1
 
 # Loader flags (default is shared, add -non_shared)
 # =================================================
