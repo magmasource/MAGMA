@@ -1,0 +1,36 @@
+{% set name = "pymelts" %}
+{% set version = "0.1.1" %}
+{% set checksum = "c31da5b4c2ed8cc9fdfc891b937431bebde05f2cc80ddf0dfe8f61aaacb910f5" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://repository.ofm-research.org/packages/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ checksum }}
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - toolchain
+  run:
+    - python
+
+test:
+  commands:
+    - echo "Tests completed"
+
+about:
+  home: http://gitlab.com/enki-portal/xMelts
+  license: BSD
+  summary: 'MELTS package python bindings and extension library'
+
+extra:
+  recipe-maintainers:
+    - msghiorso
