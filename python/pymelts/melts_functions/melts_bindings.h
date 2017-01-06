@@ -22,7 +22,7 @@
 #include "status.h"
 
 // Relevant state variables
-MeltsStatus meltsStatus;
+extern MeltsStatus meltsStatus;
 
 // Some declarations from library.c which stop the implicit function warnings 
 // when compiling.
