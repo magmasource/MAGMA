@@ -2,7 +2,7 @@
 
 PyMELTS is a Python package for calculating phase equilibria using rhyolite-MELTS (1.0.2, 1.1.x, 1.2.x) and pMELTS (5.6.1). This 1.0 version of PyMELTS is built upon the standard C MELTS engine.  Later versions of this package will be built using the Objective-C code base.
 
-## Contents ## 
+## Contents 
 [Package structure](#package-structure)  
 [Installing PyMELTS pre-compiled packages](#installing-pymelts-pre-compiled-packages)  
 [Building and installing PyMELTS](#building-and-installing-pymelts)  
