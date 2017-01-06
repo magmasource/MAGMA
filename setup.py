@@ -9,7 +9,10 @@
 from distutils.core import setup, Extension, Command
 
 import os
-os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.7'
+# FIXME: unclear what setting the MACOSX_DEPLOYMENT_TARGET does
+#        when set to 10.7  build breaks on 10.11
+#        simply commenting this out for now
+#os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.7'
 
 from sys import version
 if version < '2.2.3':
