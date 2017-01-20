@@ -1468,6 +1468,7 @@ pymelts:
 	$(CP) meta.yaml ./pymelts-$(PYMELTSVER)
 	$(CP) setup.cfg ./pymelts-$(PYMELTSVER)
 	$(CP) setup.py ./pymelts-$(PYMELTSVER)
+	$(CP) LICENSE.txt ./pymelts-$(PYMELTSVER)
 	$(MKDIR) pymelts-$(PYMELTSVER)/includes
 	$(CP) includes/lawson_hanson.h pymelts-$(PYMELTSVER)/includes
 	$(CP) includes/liq_struct_data.h pymelts-$(PYMELTSVER)/includes
