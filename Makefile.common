@@ -38,7 +38,7 @@ LIBMELTSDYNAMIC = -L$(CURDIR) -lMELTSdynamic
 
 %.$(SONAME): %.a
 	$(AR) $(DYFLAGS) $<
-	$(CC) $(LDFLAGS) $(DYNAMIC) -o $@ *.o $(LIBBATCH)
+	$(LD) $(LDFLAGS) $(DYNAMIC) -o $@ *.o $(LIBBATCH)
 	$(RM) $(RMFLAGS) *.o
 
 endif
@@ -675,7 +675,7 @@ Analyze-fusion: analyze-fusion.c gibbs.c \
                 $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ analyze-fusion.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ analyze-fusion.o gibbs.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) analyze-fusion.o gibbs.o
 	chmod 755 $@
 
@@ -684,7 +684,7 @@ Analyze-fusion-MS: analyze-fusion.c gibbs.c liquid-MS.o melts_support-MS.o \
                    $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ analyze-fusion.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ analyze-fusion.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) analyze-fusion.o gibbs.o
 	chmod 755 $@
 
@@ -693,7 +693,7 @@ Analyze-water: analyze-water.c gibbs.c \
                $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ analyze-water.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ analyze-water.o gibbs.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) analyze-water.o gibbs.o
 	chmod 755 $@
 
@@ -702,7 +702,7 @@ Analyze-water-MS: analyze-water.c gibbs.c silmin.h liquid-MS.o melts_support-MS.
                   $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ analyze-water.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ analyze-water.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) analyze-water.o gibbs.o
 	chmod 755 $@
 
@@ -711,7 +711,7 @@ Entropy_reg: entropy_reg.c gibbs.c \
              $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ entropy_reg.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ entropy_reg.o gibbs.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) entropy_reg.o gibbs.o
 	chmod 755 $@
 
@@ -720,13 +720,13 @@ Entropy_reg-MS: entropy_reg.c gibbs.c liquid-MS.o melts_support-MS.o \
                 $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ entropy_reg.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ entropy_reg.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) entropy_reg.o gibbs.o
 	chmod 755 $@
 
 LinAndPelton: linAndPelton.c
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ linAndPelton.o $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ linAndPelton.o $(LIBS)
 	$(RM) $(RMFLAGS) linAndPelton.o
 	chmod 755 $@
 
@@ -735,7 +735,7 @@ Make-liquid-model: make-liquid-model.c \
                    $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ make-liquid-model.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ make-liquid-model.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) make-liquid-model.o
 	chmod 755 $@
 
@@ -744,7 +744,7 @@ Make_species_map: make_species_map.c \
                   $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ make_species_map.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ make_species_map.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) make_species_map.o
 	chmod 755 $@
 
@@ -811,7 +811,7 @@ Melts-MS: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturat
 	$(CC) $(CFLAGS) sources/gibbs.c
 	$(CC) $(CFLAGS) sources/evaluate_saturation.c
 	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-MS.o melts_support-MS.o simann.o \
+	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-MS.o melts_support-MS.o simann.o \
 	       gibbs.o evaluate_saturation.o check_coexisting_solids.o$(MELTSLIB) $(LIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
@@ -846,7 +846,7 @@ Melts-SACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_satu
 	$(CC) $(CFLAGS) sources/gibbs.c
 	$(CC) $(CFLAGS) sources/evaluate_saturation.c
 	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-SACNK.o melts_support-SACNK.o simann.o \
+	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-SACNK.o melts_support-SACNK.o simann.o \
 	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSLIB) $(LIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
@@ -878,13 +878,13 @@ Melts-mpi: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_satura
 	$(CC) $(CFLAGS) sources/gibbs.c
 	$(CC) $(CFLAGS) sources/evaluate_saturation.c
 	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(CC) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	$(LD) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
 	      $(MELTSLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
 	chmod 755 Melts-master
 	$(MAKE) Melts-batch
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
 	$(CC) $(CFLAGS) $(MPICCFLAGS) sources/preclb_slave.c
-	$(CC) $(LDFLAGS) -o Melts-slave preclb_slave.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	$(LD) $(LDFLAGS) -o Melts-slave preclb_slave.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
 	      $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 Melts-slave
@@ -919,13 +919,13 @@ Melts-mSACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_sat
 	$(CC) $(CFLAGS) sources/gibbs.c
 	$(CC) $(CFLAGS) sources/evaluate_saturation.c
 	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(CC) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o liquid-SACNK.o melts_support-SACNK.o \
+	$(LD) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o liquid-SACNK.o melts_support-SACNK.o \
 	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
 	chmod 755 Melts-master
 	$(MAKE) Melts-batch
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
 	$(CC) $(CFLAGS) $(MPICCFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb_slave.c
-	$(CC) $(LDFLAGS) -o Melts-slave preclb_slave.o liquid-SACNK.o melts_support-SACNK.o simann.o \
+	$(LD) $(LDFLAGS) -o Melts-slave preclb_slave.o liquid-SACNK.o melts_support-SACNK.o simann.o \
 	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 Melts-slave
@@ -949,7 +949,7 @@ Melts-batchPrivate: interface.c gibbs.c \
 	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
 	$(CC) $(CFLAGS) sources/interface.c
 	$(CC) $(CFLAGS) sources/gibbs.c
-	$(CC) $(LDFLAGS) -o Melts-batch interface.o gibbs.o $(MELTSBATCHLIB) $(LIBBATCH)
+	$(LD) $(LDFLAGS) -o Melts-batch interface.o gibbs.o $(MELTSBATCHLIB) $(LIBBATCH)
 	$(RM) $(RMFLAGS) interface.o gibbs.o
 	chmod 755 Melts-batch
 
@@ -976,7 +976,7 @@ Melts-dynamicPrivate: test_dynamicLib.f gibbs.c $(MELTSDYNAMICLIB) $(MELTSDYLIB)
 Melts-commandPrivate: test_commandLib.c gibbs.c $(MELTSCOMMANDLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSCOMMANDLIB)
 	$(CC) $(CFLAGS) sources/test_commandLib.c
-	$(CC) $(LDFLAGS) -o Test_commandLib test_commandLib.o $(LIBMELTSCOMMAND) $(LIBBATCH)
+	$(LD) $(LDFLAGS) -o Test_commandLib test_commandLib.o $(LIBMELTSCOMMAND) $(LIBBATCH)
 	$(RM) $(RMFLAGS) test_commandLib.o
 	chmod 755 Test_commandLib
 
@@ -1008,7 +1008,7 @@ Melts-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_sat
 	$(CC) $(CFLAGS) sources/gibbs.c
 	$(CC) $(CFLAGS) sources/evaluate_saturation.c
 	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
 	      $(MELTSLIB) $(PUBLIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
@@ -1040,7 +1040,7 @@ Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_s
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/evaluate_saturation.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/check_coexisting_solids.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
 	      $(MELTSLIB) $(PUBLIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
@@ -1072,7 +1072,7 @@ Melts-rhyolite-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c eva
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/evaluate_saturation.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/check_coexisting_solids.c
-	$(CC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
 	      $(MELTSLIB) $(PUBLIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
 	chmod 755 $@
@@ -1082,7 +1082,7 @@ Test_a-x_relations: test_a-x_relations.c \
                     $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB) 
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_a-x_relations.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_a-x_relations.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_a-x_relations.o
 	chmod 755 $@
 
@@ -1091,7 +1091,7 @@ Test_a-x_relations-MS: test_a-x_relations.c liquid-MS.o melts_support-MS.o \
                        $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB) 
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_a-x_relations.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_a-x_relations.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_a-x_relations.o
 	chmod 755 $@
 
@@ -1101,7 +1101,7 @@ Test_a-x_relations-SACNK: test_a-x_relations.c liquid-SACNK.o melts_support-SACN
                           $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB) 
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_a-x_relations.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_a-x_relations.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_a-x_relations.o
 	chmod 755 $@
 
@@ -1114,7 +1114,7 @@ Test_CCO_buffer: Superfluid/ch4co2.c Superfluid/der.c Superfluid/driver.c Superf
 	$(CC) $(CFLAGS) -I/sw/include Superfluid/h2o.c
 	$(CC) $(CFLAGS) -I/sw/include Superfluid/shi.c
 	$(CC) $(CFLAGS) -I/sw/include Superfluid/tolja.c
-	$(CC) $(LDFLAGS) -o $@ ch4co2.o der.o driver.o fluid.o h2o.o shi.o tolja.o /sw/lib/libf2c.a $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ ch4co2.o der.o driver.o fluid.o h2o.o shi.o tolja.o /sw/lib/libf2c.a $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) ch4co2.o der.o driver.o fluid.o h2o.o shi.o tolja.o
 	chmod 755 $@
 
@@ -1127,7 +1127,7 @@ Test_CCOH_buffer: Superfluid/ch4co2.c Superfluid/der.c Superfluid/driver2.c Supe
 	$(CC) $(CFLAGS) -I/sw/include Superfluid/h2o.c
 	$(CC) $(CFLAGS) -I/sw/include Superfluid/shi.c
 	$(CC) $(CFLAGS) -I/sw/include Superfluid/tolja.c
-	$(CC) $(LDFLAGS) -o $@ ch4co2.o der.o driver2.o fluid.o h2o.o shi.o tolja.o /sw/lib/libf2c.a $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ ch4co2.o der.o driver2.o fluid.o h2o.o shi.o tolja.o /sw/lib/libf2c.a $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) ch4co2.o der.o driver2.o fluid.o h2o.o shi.o tolja.o
 	chmod 755 $@
 
@@ -1136,7 +1136,7 @@ Test_database: test_database.c \
                $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_database.o $(MELTSLIB) $(LIBS) $(LIBXML)
+	$(LD) $(LDFLAGS) -o $@ test_database.o $(MELTSLIB) $(LIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) test_database.o
 	chmod 755 $@
 
@@ -1145,7 +1145,7 @@ Test_database-MS: test_database.c liquid-MS.o melts_support-MS.o \
                   $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_database.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS) $(LIBXML)
+	$(LD) $(LDFLAGS) -o $@ test_database.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) test_database.o
 	chmod 755 $@
 
@@ -1154,7 +1154,7 @@ Test_database-SACNK: test_database.c liquid-SACNK.o melts_support-SACNK.o \
                      $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_database.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS) $(LIBXML)
+	$(LD) $(LDFLAGS) -o $@ test_database.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) test_database.o
 	chmod 755 $@
 
@@ -1167,7 +1167,7 @@ Test_entropy: test_entropy.c \
               $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_entropy.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_entropy.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_entropy.o
 	chmod 755 $@
 
@@ -1176,7 +1176,7 @@ Test_entropy-MS: test_entropy.c liquid-MS.o melts_support-MS.o \
                  $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_entropy.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_entropy.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_entropy.o
 	chmod 755 $@
 
@@ -1186,14 +1186,14 @@ Test_entropy-SACNK: test_entropy.c liquid-SACNK.o melts_support-SACNK.o \
                     $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_entropy.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_entropy.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_entropy.o
 	chmod 755 $@
 
 Test_fluid: fluid.c water.c
 	$(CC) $(CFLAGS) -DDEBUG sources/fluid.c
 	$(CC) $(CFLAGS) -DDEBUG sources/water.c
-	$(CC) $(LDFLAGS) -o $@ fluid.o water.o $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ fluid.o water.o $(LIBS)
 	$(RM) $(RMFLAGS) fluid.o water.o
 	chmod 755 $@
 
@@ -1202,7 +1202,7 @@ Test_fo2: test_fo2.c \
           $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_fo2.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_fo2.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_fo2.o
 	chmod 755 $@
 
@@ -1212,7 +1212,7 @@ Test_gibbs: test_gibbs.c gibbs.c \
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
 	$(CC) $(CFLAGS) sources/gibbs.c
-	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
 	chmod 755 $@
 
@@ -1221,7 +1221,7 @@ Test_gibbs-MS: test_gibbs.c gibbs.c liquid-MS.o melts_support-MS.o \
                $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
 	chmod 755 $@
 
@@ -1231,7 +1231,7 @@ Test_gibbs-SACNK: test_gibbs.c gibbs.c liquid-SACNK.o melts_support-SACNK.o \
                   $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_gibbs.o gibbs.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_gibbs.o gibbs.o
 	chmod 755 $@
 
@@ -1241,7 +1241,7 @@ Test_water: test_water.c gibbs.c \
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
 	$(CC) $(CFLAGS) sources/gibbs.c
-	$(CC) $(LDFLAGS) -o $@ test_water.o gibbs.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_water.o gibbs.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_water.o gibbs.o
 	chmod 755 $@
 
@@ -1250,7 +1250,7 @@ Test_liquid: test_liquid.c \
              $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_liquid.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_liquid.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_liquid.o
 	chmod 755 $@
 
@@ -1259,14 +1259,14 @@ Convert_liquid: convert-liquid.c \
              $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -fwritable-strings $<
-	$(CC) $(LDFLAGS) -o $@ convert-liquid.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ convert-liquid.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) convert-liquid.o
 	chmod 755 $@
 
 TajTest: TajTest.c silmin.h recipes.h liq_struct_data.h param_struct_data.h sol_struct_data.h $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -fwritable-strings $<
-	$(CC) $(LDFLAGS) -o $@ TajTest.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ TajTest.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) TajTest.o
 	chmod 755 $@
 
@@ -1275,7 +1275,7 @@ Test_liquid-MS: test_liquid.c liquid-MS.o melts_support-MS.o \
                 $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_liquid.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_liquid.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_liquid.o
 	chmod 755 $@
 
@@ -1285,7 +1285,7 @@ Test_liquid-SACNK: test_liquid.c liquid-SACNK.o melts_support-SACNK.o \
                    $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_liquid.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_liquid.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_liquid.o
 	chmod 755 $@
 
@@ -1294,7 +1294,7 @@ Test_eos: test_eos.c \
           $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_eos.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_eos.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_eos.o
 	chmod 755 $@
 
@@ -1303,7 +1303,7 @@ Test_eos-MS: test_eos.c liquid-MS.o melts_support-MS.o \
              $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_eos.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_eos.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_eos.o
 	chmod 755 $@
 
@@ -1313,13 +1313,13 @@ Test_eos-SACNK: test_eos.c liquid-SACNK.o melts_support-SACNK.o \
                 $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_eos.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_eos.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_eos.o
 	chmod 755 $@
 
 Test_fluidRegression: test_fluidRegression.c 
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_fluidRegression.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_fluidRegression.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_fluidRegression.o
 	chmod 755 $@
 
@@ -1336,7 +1336,7 @@ Test_speciation: test_speciation.c \
                  $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
-	$(CC) $(LDFLAGS) -o $@ test_speciation.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_speciation.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_speciation.o
 	chmod 755 $@
 
@@ -1345,7 +1345,7 @@ Test_speciation-MS: test_speciation.c liquid-MS.o melts_support-MS.o \
                     $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_speciation.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_speciation.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_speciation.o
 	chmod 755 $@
 
@@ -1355,7 +1355,7 @@ Test_speciation-SACNK: test_speciation.c liquid-SACNK.o melts_support-SACNK.o \
                        $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_speciation.o liquid-SACNK.o melts_support-MS.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_speciation.o liquid-SACNK.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_speciation.o
 	chmod 755 $@
 
@@ -1365,7 +1365,7 @@ Test_SACNK: test_SACNK.c liquid-SACNK.o melts_support-SACNK.o \
             $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_SACNK.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_SACNK.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_SACNK.o
 	chmod 755 $@
 
@@ -1375,7 +1375,7 @@ Test_SAK: test_SAK.c liquid-SACNK.o melts_support-SACNK.o \
           $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
-	$(CC) $(LDFLAGS) -o $@ test_SAK.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ test_SAK.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) test_SAK.o
 	chmod 755 $@
 
@@ -1412,7 +1412,7 @@ Test_sulfide_liquid: SulfLiq/testsulfliq.c SulfLiq/sulfideLiquid.cc
 	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svdSolve.cc
 	$(CC) $(CFLAGS) -IIncludes SulfLiq/testsulfliq.c
 	$(CC) $(CFLAGS) -IIncludes sources/recipes.c
-	$(CC) $(LDFLAGS) -o $@ testsulfliq.o Chem.o CuLiq.o FeLiq.o ModifiedCholesky.o NiLiq.o NumUtil.o \
+	$(LD) $(LDFLAGS) -o $@ testsulfliq.o Chem.o CuLiq.o FeLiq.o ModifiedCholesky.o NiLiq.o NumUtil.o \
           O2Gas.o Phase.o PhaseExceptions.o S2Gas.o SLiq.o ShomateIdealGas.o ShomatePhase.o \
           ShomateVinetPhase.o Solution.o SpecSolNID.o SpecSolution.o SulfLiq.o VinetEOS.o eigensystem.o \
           svDcmp.o svdInv.o svdSolve.o ModifiedNR.o CholeskySolve.o sulfideLiquid.o recipes.o -lstdc++
@@ -1428,7 +1428,7 @@ Kevin: kevin.c kevin_slave.cc \
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) sources/kevin.c
 	$(CC) $(CFLAGS) -I../CVSROOT/phases sources/kevin_slave.cc
-	$(CC) $(LDFLAGS) -o $@ kevin.o kevin_slave.o ../CVSROOT/phases/libphases.a ../CVSROOT/cmath/libcmath.a $(MELTSLIB) $(PUBLIBS) -lstdc++
+	$(LD) $(LDFLAGS) -o $@ kevin.o kevin_slave.o ../CVSROOT/phases/libphases.a ../CVSROOT/cmath/libcmath.a $(MELTSLIB) $(PUBLIBS) -lstdc++
 	$(RM) $(RMFLAGS) kevin.o kevin_slave.o
 	chmod 755 $@
 
@@ -1445,7 +1445,7 @@ Marc: marc.c \
       $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -mmacosx-version-min=10.6 $<
-	$(CC) $(LDFLAGS) -mmacosx-version-min=10.6 -o $@ marc.o $(MELTSLIB) $(LIBS)
+	$(LD) $(LDFLAGS) -mmacosx-version-min=10.6 -o $@ marc.o $(MELTSLIB) $(LIBS)
 	$(RM) $(RMFLAGS) marc.o 
 	chmod 755 $@
 
@@ -1453,7 +1453,7 @@ cpx-olv-rhm: cpx-olv-rhm.c gibbs.c liq_struct_data.h mthread.h param_struct_data
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS sources/cpx-olv-rhm.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
-	$(CC) $(LDFLAGS) -o $@ cpx-olv-rhm.o gibbs.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
+	$(LD) $(LDFLAGS) -o $@ cpx-olv-rhm.o gibbs.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) cpx-olv-rhm.o gibbs.o
 	chmod 755 $@
 

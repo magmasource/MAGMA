@@ -49,6 +49,7 @@ ARFLAGS  = rv
 # 'ar xv' extracts object files from the static library, avoiding recompilation
 DYFLAGS	 = xv
 CC       = clang
+LD       = clang
 FC       = gfortran
 CFLAGS   = -ansi -c -O3 $(BATCH) \
            -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__

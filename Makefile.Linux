@@ -1,0 +1,117 @@
+# =================================================================================
+# Makefile for build of the xMELTS package on Linux (Ubuntu - 14.04)
+#   $Id: Makefile.ubuntu,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
+# =================================================================================
+
+MAKEFILE = Makefile.ubuntu
+ARCH    := $(shell uname -m)
+
+# Compilation options
+# ===================
+
+PROTO   = XTFUNCPROTO
+VLIST   = _NO_DRAWINGA_VLIST_PARENT
+ENTRYC  = _NO_WHITE_TEXTW
+ACEPLT  = UBUNTU
+#ACEPLT  =     GRACE_PIPE
+
+# Environment variable defaults
+# =============================
+
+MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
+MELTS_DATA_DIR         = .
+MELTS_DATA_SUFFIX      = *.xml
+MELTS_HARDWARE_VERSION = 3.00 GHz Intel Xeon Quad Core
+MELTS_INPUT_DIR        = .
+MELTS_INPUT_SUFFIX     = *.melts
+MELTS_MOTIF_VERSION    = 2.3.4
+MELTS_OS_VERSION       = Ubuntu - 16.04
+MELTS_OUTPUT_FILE      = melts.out
+MELTS_WWW_BROWSER      = 
+MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
+MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
+MELTS_X_VERSION        = X.Org / OSF Motif 2.3
+MELTS_RELEASE_DATE     = August 2013
+ifeq ($(ARCH), x86_64)
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2 (rhyolite) (Ubuntu - 16.04, clang 3.8.0, 64 bit)
+else
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2 (rhyolite) (Ubuntu - 16.04, clang 3.8.0, 32 bit)
+endif
+
+# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
+# ======================================================================================
+
+INCC   = /usr/include
+INCXM  = /usr/include
+INCX   = /usr/include
+INCF2C = .
+INCXML = /usr/include/libxml2
+
+# Compiler choice and flags - Do not delete the $(BATCH) macro
+# ============================================================
+
+AR       = ar
+ARFLAGS  = rvU
+# 'ar xv' extracts object files from the static library, avoiding recompilation
+DYFLAGS	 = xv
+CC       = clang
+LD       = g++
+FC       = gfortran
+
+# May reduce backwards compatibility: -D__USE_ISOC99
+# May increase backwards compatability: -D_FORTIFY_SOURCE=0 -fno-stack-protector
+
+CFLAGS   = -D_GNU_SOURCE -c -O3 -Wall $(BATCH) \
+           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+
+# For Mac -dynamiclib is a wrapper for libtool so we do not need the position indepdent code flag
+# For Linux need to make 'realclean Melts-dynamic DYNAMIC=true' as archiving seems to loose the PIC property
+ifneq ($(DYNAMIC),)
+CFLAGS	 += -fPIC
+endif
+
+FFLAGS   = -O3
+RANLIB   = ranlib
+# For Mac need 'ranlib -s'; For Linux need 'ar -s' or just 'ranlib'
+RANLIBFG = 
+RM       = rm
+RMFLAGS  = -f
+MPICC      = mpicc
+MPICCFLAGS = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
+MPILDFLAGS = -L/usr/lib -lmpi
+
+# Loader flags (default is shared, add -non_shared)
+# =================================================
+
+LDFLAGS = 
+SONAME = so
+ifneq ($(DYNAMIC),)
+override DYNAMIC = -shared
+endif
+
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
+# ========================================================================================================
+
+ifeq ($(ARCH), x86_64)
+ROOTDIR := x86_64-linux-gnu
+else
+ROOTDIR := i386-linux-gnu
+endif
+
+LIBS    = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXp -lXext -lXpm -lX11 ../port3/libport.a -lm
+PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
+	 -L/usr/lib/$(ROOTDIR)/ -lXft /usr/lib/$(ROOTDIR)/libXmu.a -lXt -lXext -lX11 -lfontconfig \
+	  /usr/lib/$(ROOTDIR)/libjpeg.a \
+	 ../port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libgfortran.a -lquadmath
+
+LIBF2C =
+LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/x86_64-linux-gnu/libicuio.a \
+       	 /usr/lib/x86_64-linux-gnu/libicuuc.a /usr/lib/x86_64-linux-gnu/libicudata.a \
+	 /usr/lib/$(ROOTDIR)/liblzma.a \
+        -L/usr/lib/$(ROOTDIR)/ -lpng12 -lz -lpthread -ldl -lm
+LIBBATCH = -L/usr/lib -lxml2 -lz -lm
+
+include Makefile.common
+
+# end of Makefile
+# ===============
