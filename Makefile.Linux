@@ -1,5 +1,5 @@
 # =================================================================================
-# Makefile for build of the xMELTS package on Linux (Ubuntu - 14.04)
+# Makefile for build of the xMELTS package on Linux (Ubuntu - 16.04)
 #   $Id: Makefile.ubuntu,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
 # =================================================================================
 
@@ -12,8 +12,7 @@ ARCH    := $(shell uname -m)
 PROTO   = XTFUNCPROTO
 VLIST   = _NO_DRAWINGA_VLIST_PARENT
 ENTRYC  = _NO_WHITE_TEXTW
-ACEPLT  = UBUNTU
-#ACEPLT  =     GRACE_PIPE
+ACEPLT  = _NO_GRACE_PIPE
 
 # Environment variable defaults
 # =============================
@@ -55,7 +54,10 @@ ARFLAGS  = rvU
 # 'ar xv' extracts object files from the static library, avoiding recompilation
 DYFLAGS	 = xv
 CC       = clang
-LD       = g++
+LD       = clang
+ifneq ($(STATIC),)
+override LD = g++
+endif
 FC       = gfortran
 
 # May reduce backwards compatibility: -D__USE_ISOC99
@@ -98,17 +100,23 @@ else
 ROOTDIR := i386-linux-gnu
 endif
 
-LIBS    = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXp -lXext -lXpm -lX11 ../port3/libport.a -lm
-PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
+LIBS    = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 ../port3/libport.a -lgfortran
+PUBLIBS = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 ../port3/libport.a -lgfortran
+ifneq ($(STATIC),)
+override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
 	 -L/usr/lib/$(ROOTDIR)/ -lXft /usr/lib/$(ROOTDIR)/libXmu.a -lXt -lXext -lX11 -lfontconfig \
 	  /usr/lib/$(ROOTDIR)/libjpeg.a \
 	 ../port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libgfortran.a -lquadmath
+endif
 
 LIBF2C =
-LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/x86_64-linux-gnu/libicuio.a \
-       	 /usr/lib/x86_64-linux-gnu/libicuuc.a /usr/lib/x86_64-linux-gnu/libicudata.a \
+LIBXML = -L/usr/lib -lxml2 -lm
+ifneq ($(STATIC),)
+override LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
+       	 /usr/lib/$(ROOTDIR)/libicuuc.a /usr/lib/$(ROOTDIR)/libicudata.a \
 	 /usr/lib/$(ROOTDIR)/liblzma.a \
         -L/usr/lib/$(ROOTDIR)/ -lpng12 -lz -lpthread -ldl -lm
+endif
 LIBBATCH = -L/usr/lib -lxml2 -lz -lm
 
 include Makefile.common
