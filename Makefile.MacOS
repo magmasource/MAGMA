@@ -47,6 +47,7 @@ AR            = ar
 ARFLAGS       = rv
 DYFLAGS	      = xv
 CC            = clang
+LD            = clang
 FC            = gfortran
 CFLAGS        = -ansi -c -O3 $(BATCH) -mmacosx-version-min=10.12 \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
