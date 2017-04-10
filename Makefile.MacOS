@@ -1,12 +1,8 @@
-# =================================================================================
-# Makefile for build of the xMELTS package on Linux (Ubuntu - 14.04)
-#   $Id: Makefile.ubuntu,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
-# Equivalent to makefile used for 64/32-bit executables on melts.ofm-research.org
-# The Ubuntu executables are backwards compatible with Ubuntu 12.10+ and Fedora
-# =================================================================================
+# ==================================================================
+# Makefile for build of the MELTS package on MacOS (MacOS X - 10.12)
+# ==================================================================
 
-MAKEFILE = Makefile.ubuntu
-ARCH    := $(shell uname -m)
+MAKEFILE	= Makefile.MacOS
 
 # Compilation options
 # ===================
@@ -14,7 +10,7 @@ ARCH    := $(shell uname -m)
 PROTO   = XTFUNCPROTO
 VLIST   = _NO_DRAWINGA_VLIST_PARENT
 ENTRYC  = _NO_WHITE_TEXTW
-ACEPLT  = _NO_GRACE_PIPE
+ACEPLT  =     GRACE_PIPE
 
 # Environment variable defaults
 # =============================
@@ -22,29 +18,25 @@ ACEPLT  = _NO_GRACE_PIPE
 MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
 MELTS_DATA_DIR         = .
 MELTS_DATA_SUFFIX      = *.xml
-MELTS_HARDWARE_VERSION = 2.66 GHz Intel Core 2 Duo 
+MELTS_HARDWARE_VERSION = 4.0 GHz Quad Core Intel i7 
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
-MELTS_MOTIF_VERSION    = 2.3.4
-MELTS_OS_VERSION       = Ubuntu - 14.04
+MELTS_MOTIF_VERSION    = 3.0
+MELTS_OS_VERSION       = Mac OS X - 10.12.1
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
-MELTS_X_VERSION        = X.Org / OSF Motif 2.3
+MELTS_X_VERSION        = X11R6/OpenMotif3
 MELTS_RELEASE_DATE     = March 2015
-ifeq ($(ARCH), x86_64)
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Ubuntu - 14.04, gcc 4.4, 64 bit)
-else
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Ubuntu - 14.04, gcc 4.4, 32 bit)
-endif
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Mac OS X - 10.11.6, clang 3.0, 64 bit)
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
 
-INCC   = /usr/include
-INCXM  = /usr/include
-INCX   = /usr/include
+INCC   = /usr/local/include
+INCXM  = /usr/local/include
+INCX   = /usr/X11/include
 INCF2C = .
 INCXML = /usr/include/libxml2
 
@@ -56,14 +48,14 @@ ARFLAGS       = rv
 DYFLAGS	      = xv
 CC            = clang
 LD            = clang
-FC            = gfortran-4.4
-CFLAGS        = -D_GNU_SOURCE -c -O3 $(BATCH) \
+FC            = gfortran
+CFLAGS        = -ansi -c -O3 $(BATCH) -mmacosx-version-min=10.12 \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib
-RANLIBFG      = 
+RANLIBFG      = -s
 RM            = rm
-RMFLAGS       = -f
+RMFLAGS       = -rf
 MPICC         = mpicc
 MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
 MPILDFLAGS    = -L/usr/lib -lmpi
@@ -80,38 +72,35 @@ HOST          = repository.ofm-research.org
 LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
 PYMELTSVER    = 0.1.1
 
-ifneq ($(DYNAMIC),)
-CFLAGS   += -fPIC
-endif
-
 # Loader flags (default is shared, add -non_shared)
 # =================================================
 
-LDFLAGS = 
-SONAME = so
+LDFLAGS = -v 
+#-Wl,-no_compact_unwind
+# the above will suppress
+#ld: warning: could not create compact unwind for _write_float: stack subq instruction is too different from dwarf stack size
+SONAME	= dylib
 ifneq ($(DYNAMIC),)
-override DYNAMIC = -shared
+override DYNAMIC = -dynamiclib
 endif
 
 # Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
 # ==============================================================================
 
-ifeq ($(ARCH), x86_64)
-ROOTDIR := x86_64-linux-gnu
-else
-ROOTDIR := i386-linux-gnu
-endif
-
-LIBS    = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXp -lXext -lXpm -lX11 port3/libport.a
-PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
-	 -L/usr/lib/$(ROOTDIR)/ -lXft /usr/lib/$(ROOTDIR)/libXmu.a -lXt -lXext -lX11 -lfontconfig \
-	  /usr/lib/$(ROOTDIR)/libjpeg.a \
-	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/4.4/libgfortran.a
-
+LIBS    = -L/usr/local/lib -lMrm -lXm -lgrace_np -L/opt/X11/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu port3/libport.a
+PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libgrace_np.a /usr/local/lib/libjpeg.a \
+          -L/opt/X11/lib -lXft -lXt -lXp -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXRender -lXau -lXdmcp -lpng -lX11-xcb \
+          -lxcb -lfreetype -lfontconfig \
+          -L/usr/lib -lexpat -lz -lbz2 -lcharset -liconv \
+          port3/libport.a /usr/local/Cellar/gcc/6.1.0/lib/gcc/6/libgfortran.a /usr/local/Cellar/gcc/6.1.0/lib/gcc/6/libquadmath.a \
+          /usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a
 LIBF2C = 
-LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/liblzma.a \
-        -L/usr/lib/$(ROOTDIR)/ -lpng12 -lz -lpthread -lm
-LIBBATCH = -L/usr/lib -lxml2 -lz -lm
+LIBXML = -L/usr/lib -lxml2
+LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
+
+# Set environment variable for backwards deployment to Mac OS X 10.12
+# ===================================================================
+export MACOSX_DEPLOYMENT_TARGET := 10.12
 
 include Makefile.common
 

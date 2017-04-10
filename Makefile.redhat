@@ -1,7 +1,8 @@
-
 # =================================================================================
-# Makefile for build of the xMELTS package on Linux (RHEL - 6.6)
+# Makefile for build of the xMELTS package on Linux (RHEL - 6.7)
 #   $Id: Makefile.redhat,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
+# Equivalent to makefile used for 64/32-bit executables on melts.ofm-research.org
+# The RHEL executables are backwards compatible with RHEL 6+ and Ubuntu (pre-12.10)
 # =================================================================================
 
 MAKEFILE = Makefile.redhat
@@ -13,8 +14,7 @@ ARCH    := $(shell uname -m)
 PROTO   = XTFUNCPROTO
 VLIST   = _NO_DRAWINGA_VLIST_PARENT
 ENTRYC  = _NO_WHITE_TEXTW
-ACEPLT  = UBUNTU
-#ACEPLT  =     GRACE_PIPE
+ACEPLT  = _NO_GRACE_PIPE
 
 # Environment variable defaults
 # =============================
@@ -26,20 +26,18 @@ MELTS_HARDWARE_VERSION = 2.66 GHz Intel Core 2 Duo
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 2.3.3
-MELTS_OS_VERSION       = RHEL - 6.6
+MELTS_OS_VERSION       = RHEL - 6.7
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
 MELTS_X_VERSION        = X.Org / OSF Motif 2.3
-MELTS_RELEASE_DATE     = October 2010
+MELTS_RELEASE_DATE     = March 2015
 ifeq ($(ARCH), x86_64)
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2 (rhyolite) (RHEL - 6.6, gcc 4.4, 64 bit)
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (RHEL - 6.7, gcc 4.4, 64 bit)
 else
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2 (rhyolite) (RHEL - 6.6, gcc 4.4, 32 bit)
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (RHEL - 6.7, gcc 4.4, 32 bit)
 endif
-
-
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
@@ -53,43 +51,50 @@ INCXML = /usr/include/libxml2
 # Compiler choice and flags - Do not delete the $(BATCH) macro
 # ============================================================
 
-AR       = ar
-ARFLAGS  = rv
-# 'ar xv' extracts object files from the static library, avoiding recompilation
-DYFLAGS	 = xv
-CC       = gcc
-FC       = gfortran
-# cannot use -ansi with -D__USE_ISOC99 (Mac has a BSD flag so doesn't need -D__USE_ISOC99)
-CFLAGS   = -D__USE_ISOC99 -c -fno-common -g -O3 -falign-loops=16 -ftree-vectorize -mfpmath=sse -Wall $(BATCH) \
-           -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__ \
+AR            = ar
+ARFLAGS       = rv
+DYFLAGS	      = xv
+CC            = gcc
+LD            = gcc
+FC            = gfortran
+CFLAGS        = -D__USE_ISOC99 -c -O3 $(BATCH) \
+                -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+FFLAGS        = -O3
+RANLIB        = ranlib
+RANLIBFG      = 
+RM            = rm
+RMFLAGS       = -f
+MPICC         = mpicc
+MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
+MPILDFLAGS    = -L/usr/lib -lmpi
+CP            = cp 
+CPFLAGS       = -R
+MKDIR         = mkdir
+TAR           = tar 
+TARFLAGS      = czvf
+CHECKSUM      = openssl
+CHECKSUMFLAGS = sha256
+SCP           = scp
+USER          = administrator
+HOST          = repository.ofm-research.org
+LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
+PYMELTSVER    = 0.1.1
 
-# For Mac -dynamiclib is a wrapper for libtool so we do not need the position independent code flag
-# For Linux need to make 'realclean Melts-dynamic DYNAMIC=true' as archiving seems to loose the PIC property
 ifneq ($(DYNAMIC),)
-CFLAGS	 += -fPIC
+CFLAGS   += -fPIC
 endif
-
-FFLAGS   = -O3
-RANLIB   = ranlib
-# For Mac need 'ranlib -s'; For Linux need 'ar -s' or just 'ranlib'
-RANLIBFG = 
-RM       = rm
-RMFLAGS  = -f
-MPICC      = mpicc
-MPICCFLAGS = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
-MPILDFLAGS = -L/usr/lib -lmpi
 
 # Loader flags (default is shared, add -non_shared)
 # =================================================
 
-LDFLAGS =
+LDFLAGS = 
 SONAME = so
 ifneq ($(DYNAMIC),)
 override DYNAMIC = -shared
 endif
 
 # Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
-# ========================================================================================================
+# ==============================================================================
 
 ifeq ($(ARCH), x86_64)
 ROOTDIR := lib64
@@ -97,11 +102,11 @@ else
 ROOTDIR := lib
 endif
 
-LIBS    = -L/usr/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXp -lXext -lXpm -lX11 ../port3/libport.a -lm
+LIBS    = -L/usr/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXp -lXext -lXpm -lX11 port3/libport.a -lm
 PUBLIBS = /usr/$(ROOTDIR)/libXm.a \
 	 -L/usr/$(ROOTDIR)/ -lXft -lXmu -lXt -lXp -lXext -lX11 -lfontconfig \
 	 /usr/$(ROOTDIR)/libjpeg.a \
-	../port3/libport.a /usr/lib/gcc/$(ARCH)-redhat-linux/4.4.4/libgfortran.a
+	port3/libport.a /usr/lib/gcc/$(ARCH)-redhat-linux/4.4.4/libgfortran.a
 
 LIBF2C = 
 LIBXML = /usr/$(ROOTDIR)/libxml2.a -L/usr/$(ROOTDIR) -lpng12 -lm
