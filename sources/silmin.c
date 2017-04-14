@@ -1910,7 +1910,7 @@ int silmin(void)
                 tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
             } else if ((silminState->dspHstop == 0.0) &&
-                       (fabs(silminState->dspTstart - silminState->dspTstop) >=  (silminState->dspTinc != 0.0 ? silminState->dspTinc : 0.001)) &&
+                       (fabs(silminState->dspPstart - silminState->dspPstop) >=  (silminState->dspPinc != 0.0 ? silminState->dspPinc : 0.001)) &&
                        (silminState->isenthalpic && (silminState->refEnthalpy != 0.0))) {
                 stateChange = TRUE;
                 silminState->refEnthalpy += silminState->dspHinc;
@@ -1919,6 +1919,20 @@ int silmin(void)
                 workProcData->mode = TRUE;
                 tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
+		/* Could get into loop if dH/dP = 0.0 (e.g. isenthalpic degassing) or for isenthalpic assimilation once all material assimilated */
+		/* (fabs(silminState->dspTstart - silminState->dspTstop) >=  (silminState->dspTinc != 0.0 ? silminState->dspTinc : 0.001)) */
+            } else if ((silminState->dspHstop == 0.0) && (silminState->dspHinc != 0.0) &&
+                       (silminState->isenthalpic && (silminState->refEnthalpy != 0.0))) {
+	      int changeH = (silminState->dspHinc < 0.0) ? (silminState->dspTstart - silminState->dspTstop < 0.0) : (silminState->dspTstart - silminState->dspTstop > 0.0);
+	      if (changeH) {
+                stateChange = TRUE;
+                silminState->refEnthalpy += silminState->dspHinc;
+                correctTforChangeInEnthalpy();
+#ifndef BATCH_VERSION
+                workProcData->mode = TRUE;
+                tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
+#endif
+	      }
                 /* Changing S ? */
             } else if ((fabs(silminState->dspSstop) > 0.0) && 
                        (fabs(silminState->dspSstop - silminState->refEntropy) >= (silminState->dspSinc != 0.0 ? fabs(silminState->dspSinc) : 0.001)) &&
@@ -1931,7 +1945,7 @@ int silmin(void)
                 tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
             } else if ((silminState->dspSstop == 0.0) &&
-                       (fabs(silminState->dspTstart - silminState->dspTstop) >=  (silminState->dspTinc != 0.0 ? silminState->dspTinc : 0.001)) &&
+                       (fabs(silminState->dspPstart - silminState->dspPstop) >=  (silminState->dspPinc != 0.0 ? silminState->dspPinc : 0.001)) &&
                        (silminState->isentropic  && (silminState->refEntropy  != 0.0))) {
                 stateChange = TRUE;
                 silminState->refEntropy += silminState->dspSinc;
@@ -1940,6 +1954,19 @@ int silmin(void)
                 workProcData->mode = TRUE;
                 tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
+		/* (fabs(silminState->dspTstart - silminState->dspTstop) >=  (silminState->dspTinc != 0.0 ? silminState->dspTinc : 0.001)) */
+            } else if ((silminState->dspSstop == 0.0) && (silminState->dspSinc != 0.0) &&
+                       (silminState->isentropic  && (silminState->refEntropy  != 0.0))) {
+	      int changeS = (silminState->dspSinc > 0.0) ? (silminState->dspTstart - silminState->dspTstop < 0.0) : (silminState->dspTstart - silminState->dspTstop > 0.0);
+	      if (changeS) {
+                stateChange = TRUE;
+                silminState->refEntropy += silminState->dspSinc;
+                correctTforChangeInEntropy();
+#ifndef BATCH_VERSION
+                workProcData->mode = TRUE;
+                tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
+#endif
+	      }
             }
             /* Changing P ? */
             if (fabs(silminState->dspPstart - silminState->dspPstop) >=  (silminState->dspPinc != 0.0 ? silminState->dspPinc : 0.001)
@@ -1949,10 +1976,16 @@ int silmin(void)
                 workProcData->mode = TRUE;
                 if (silminState->dspPstart - silminState->dspPstop < 0.0) tpValues[TP_PADB_INDEX_P_INITIAL].value += silminState->dspPinc;
                 else                                                      tpValues[TP_PADB_INDEX_P_INITIAL].value -= silminState->dspPinc;
+#else
+                if (silminState->dspPstart - silminState->dspPstop < 0.0) {
+                    silminState->P += silminState->dspPinc; silminState->dspPstart += silminState->dspPinc;
+                } else {
+                    silminState->P -= silminState->dspPinc; silminState->dspPstart -= silminState->dspPinc;
+                }
 #endif
                 /* Changing V ? */
             } else if ((fabs(silminState->dspVstop) > 0.0) &&
-                       (fabs(silminState->dspVstop - silminState->refVolume) >= (silminState->dspVinc != 0.0 ? silminState->dspVinc : 0.0001)) &&
+                       (fabs(silminState->dspVstop - silminState->refVolume) >= (silminState->dspVinc != 0.0 ? fabs(silminState->dspVinc) : 0.0001)) &&
                        (silminState->isochoric && (silminState->refVolume != 0.0))) {
                 stateChange = TRUE;
                 silminState->refVolume += silminState->dspVinc;
@@ -1972,6 +2005,19 @@ int silmin(void)
                 workProcData->mode = TRUE;
                 tpValues[TP_PADB_INDEX_P_INITIAL].value = silminState->P;
 #endif
+		/* (fabs(silminState->dspPstart - silminState->dspPstop) >=  (silminState->dspPinc != 0.0 ? silminState->dspPinc : 0.001) */
+            } else if ((silminState->dspVstop == 0.0) && (silminState->dspVinc != 0.0) &&
+                       (silminState->isochoric && (silminState->refVolume != 0.0))) {
+	      int changeV = (silminState->dspVinc < 0.0) ? (silminState->dspPstart - silminState->dspPstop < 0.0) : (silminState->dspPstart - silminState->dspPstop > 0.0);
+	      if (changeV) {
+                stateChange = TRUE;
+                silminState->refVolume += silminState->dspVinc;
+                correctPforChangeInVolume();
+#ifndef BATCH_VERSION
+                workProcData->mode = TRUE;
+                tpValues[TP_PADB_INDEX_P_INITIAL].value = silminState->P;
+#endif
+	      }
             }
             /* Assimilation ? - add assimilant to the first liquid, if a liquid is present */
             if (silminState->assimilate && silminState->assimMass < silminState->dspAssimMass) {
