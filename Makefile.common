@@ -122,7 +122,7 @@ realclean:
 	$(RM) $(RMFLAGS) Test_a-x_relations-SACNK
 	$(RM) $(RMFLAGS) Test_CCO_buffer
 	$(RM) $(RMFLAGS) Test_CCOH_buffer
-	$(RM) $(RMFLAGS) test_commandLib
+	$(RM) $(RMFLAGS) Test_commandLib
 	$(RM) $(RMFLAGS) Test_database
 	$(RM) $(RMFLAGS) Test_database-MS
 	$(RM) $(RMFLAGS) Test_database-SACNK
