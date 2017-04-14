@@ -204,7 +204,7 @@ static SilminState *previousSilminState;
 #endif
 
 #ifdef RHYOLITE_ADJUSTMENTS
-#define RELEASE "rhyolite-MELTS (1.0.1) pMELTS (5.6.1) - (" __DATE__ " - " __TIME__ ")"
+#define RELEASE "rhyolite-MELTS (1.0.2, 1.1.0, 1.2.0) pMELTS (5.6.1) - (" __DATE__ " - " __TIME__ ")"
 #else
 #define RELEASE "()(p)(x)Melts (MELTS V5.6.0) - (" __DATE__ " - " __TIME__ ")"
 #endif
@@ -385,6 +385,9 @@ static int batchInputDataFromFile(char *fileName)
     
     /* -> Set default values */
     
+    sum = 0.0;
+    for (i=0; i<nc; i++) oxideWt[i] = 0.0;
+
     for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
     (silminState->incSolids)[npc] = TRUE;
     
@@ -403,7 +406,7 @@ static int batchInputDataFromFile(char *fileName)
             /* -> initial composition record */
         } else if (!strncmp(line, "initial composition: ",   MIN(len,21))) {
             for (i=0; i<nc; i++) {
-                for (j=0; j < ((int)strlen(bulkSystem[j].label)); j++) label[j] = tolower((bulkSystem[i].label)[j]);
+                for (j=0; j < ((int)strlen(bulkSystem[i].label)); j++) label[j] = tolower((bulkSystem[i].label)[j]);
                 label[j] = '\0';
                 if (!strncmp(&line[21], label, MIN((len-21), (int) strlen(label)))) {
                     if (sscanf(&line[21 + (int) strlen(label)], "%f", &temporary) == EOF) { return FALSE; }
@@ -568,7 +571,7 @@ static int batchInputDataFromFile(char *fileName)
                 }
                 if (i == npc) {
                     for (i=0; i<nc; i++) {
-                        for (j=0; j < ((int)strlen(bulkSystem[j].label)); j++) label[j] = tolower((bulkSystem[i].label)[j]);
+                        for (j=0; j < ((int)strlen(bulkSystem[i].label)); j++) label[j] = tolower((bulkSystem[i].label)[j]);
                         label[j] = '\0';
                         if (!strncmp(&line[12], label, MIN((len-12), (int) strlen(label)))) {
                             if (sscanf(&line[12 + (int) strlen(label)], "%f", &temporary) == EOF) { return FALSE; }
@@ -1409,13 +1412,14 @@ static void putOutputDataToXmlFile(char *outputFile) {
         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.20g", silminState->fracMass-previousSilminState->fracMass);
         
         if (silminState->fractionateSol || silminState->fractionateFlu) {
+            int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
             for (j=0; j<npc; j++) {
                 int ns;
                 
-                if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
-                if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
-                if ( silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
-                if (!silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
+                if ( haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
+                if ( haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
+                if (!haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
+                if (!haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
                 
                 for (ns=0; ns<(silminState->nFracCoexist)[j]; ns++) {
                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
@@ -1605,13 +1609,14 @@ static void putOutputDataToXmlFile(char *outputFile) {
         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%.20g", previousSilminState->fracMass);
         
         if (previousSilminState->fractionateSol || previousSilminState->fractionateFlu) {
+            int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
             for (j=0; j<npc; j++) {
                 int ns;
                 
-                if ( previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
-                if (!previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
-                if ( previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
-                if (!previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
+                if ( haveWater &&  previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
+                if ( haveWater && !previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
+                if (!haveWater &&  previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
+                if (!haveWater && !previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
                 
                 for (ns=0; ns<(previousSilminState->nFracCoexist)[j]; ns++) {
                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;

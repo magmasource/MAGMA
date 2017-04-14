@@ -683,7 +683,7 @@ void InitComputeDataStruct(void)
        if(temp != NULL) free(temp);
      } /* end of loop over all species */
      
-     /*
+#ifndef RHYOLITE_ADJUSTMENTS
      printf("---> Correct the std state liquid properties and zero the modelParameters? (y or n): ");
      if (tolower(getchar()) == 'y') {
        getchar();
@@ -697,7 +697,7 @@ void InitComputeDataStruct(void)
          modelParameters[nls*(nls-1)/2+i].volume   = 0.0;
        }
      } else getchar();
-     */
+#endif
      
      for (i=0; i<npc; i++) {
        solids[i].ref.h += modelParameters[nls*(nls-1)/2+nls+i].enthalpy;

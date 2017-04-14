@@ -1547,7 +1547,7 @@ static void create_status_adb()
   XmStringFree(csString); XmStringFree(subString1);
 
   XmFontListFree(fontlist2);
-  XtFree(charset);
+  /*  XtFree(charset); */
 
   {
   long longTag = (long) k_tag_logfo2_value;
@@ -1685,6 +1685,9 @@ static void create_status_adb()
     NULL);
   XtAddCallback(logfo2_scale, XmNvalueChangedCallback, logfo2_callback, NULL);
   XmStringFree(csString);
+
+  /* was earlier */
+  XtFree(charset);
 
   frame[1] = XtVaCreateManagedWidget("Frame", xmFrameWidgetClass, form[0],
     XmNtopAttachment,    XmATTACH_POSITION, XmNtopPosition,    6*SPACER,

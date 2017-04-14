@@ -192,7 +192,7 @@ const char *gibbs_ver(void) { return "$Id: gibbs.c,v 1.11 2008/10/15 00:40:06 gh
 #define CONSTANT_P_O2
 
 #ifdef RHYOLITE_ADJUSTMENTS
-#define QUARTZ_ADJUSTMENT -1291.0
+#define QUARTZ_ADJUSTMENT ((calculationMode != MODE_pMELTS) ? -1291.0 : 0.0)
 #else
 #define QUARTZ_ADJUSTMENT 0.0
 #endif
@@ -486,7 +486,7 @@ static void intEOSsolid(ThermoRef *phase, double t, double p, double *g,
         iter = 0;
         do {
             fn = x*x*(p/10000.0) - 3.0*K*(1.0-x)*exp(eta*(1.0-x)) - x*x*alpha*K*(t-tr);
-            dfn = 2.0*x*(p/10000.0) + 3.0*K*(1.0+eta*(1.0-x))*exp(eta*(1.0-x)) - 2.0*alpha*K*(t-tr);
+            dfn = 2.0*x*(p/10000.0) + 3.0*K*(1.0+eta*(1.0-x))*exp(eta*(1.0-x)) - 2.0*x*alpha*K*(t-tr);
             x = x - fn/dfn;
             iter++;
         } while ((iter < 500) && (fn*fn > DBL_EPSILON));
@@ -504,7 +504,7 @@ static void intEOSsolid(ThermoRef *phase, double t, double p, double *g,
         iter = 0;
         do {
             fn = x0*x0*(pr/10000.0) - 3.0*K*(1.0-x0)*exp(eta*(1.0-x0)) - x0*x0*alpha*K*(t-tr);
-            dfn = 2.0*x0*(pr/10000.0) + 3.0*K*(1.0+eta*(1.0-x0))*exp(eta*(1.0-x0)) - 2.0*alpha*K*(t-tr);
+            dfn = 2.0*x0*(pr/10000.0) + 3.0*K*(1.0+eta*(1.0-x0))*exp(eta*(1.0-x0)) - 2.0*x0*alpha*K*(t-tr);
             x0 = x0 - fn/dfn;
             iter++;
         } while ((iter < 500) && (fn*fn > DBL_EPSILON));

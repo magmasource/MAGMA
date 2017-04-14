@@ -68,6 +68,10 @@ MELTS Source Code: RCS
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
 #include "recipes.h" /* Numerical recipes routines                */
 
+#ifdef DEBUG
+#undef DEBUG
+#endif
+
 #define SQUARE(x)  ((x)*(x))
 #define CUBE(x)    ((x)*(x)*(x))
 #define QUARTIC(x) ((x)*(x)*(x)*(x))
@@ -285,7 +289,7 @@ testKal(int mask, double t, double p,
   double *r,       /* array of indepependent compos variables, check bounds   */
   double *m)       /* array of moles of endmember components, check bounds    */
 {
-  const char *phase = "nepheline.c";
+  const char *phase = "kalsilite.c";
   const char *NAMES[NA]    = { "na-nepheline", "k-nepheline", "vc-nepheline", "ca-nepheline" }; 
   const char *FORMULAS[NA] = { "Na4Al4Si4O16", "K4Al4Si4O16", "Na3Al3Si5O16", "CaNa2Al4Si4O16" }; 
   int result = TRUE, i;
@@ -337,48 +341,68 @@ testKal(int mask, double t, double p,
     result = result && (sum >= 0.0);
     if (sum > 0.0) {
       pResult = (m[0] >= -3.0*m[2]/4.0-m[3]/2.0-DBL_EPSILON) && (m[0] <= sum+DBL_EPSILON);
+#ifdef DEBUG
       if (!pResult) printf("Bound check m[0] : %g <= %g <= %g\n", -3.0*m[2]/4.0-m[3]/2.0, m[0], sum);
+#endif
       result = result && pResult;
 
       pResult = (m[1] >= 0.0) && (m[1] <= sum-m[2]/4.0-m[3]/2.0+DBL_EPSILON);
+#ifdef DEBUG
       if (!pResult) printf("Bound check m[1] : %g <= %g <= %g\n", 0.0, m[1], sum-m[2]/4.0-m[3]/2.0);
+#endif
       result = result && pResult;
 
       pResult = (m[2] >= 0.0) && (m[2] <= sum+DBL_EPSILON);
+#ifdef DEBUG
       if (!pResult) printf("Bound check m[2] : %g <= %g <= %g\n", 0.0, m[2], sum);
+#endif
       result = result && pResult;
 
       pResult = (m[3] >= 0.0) && (m[3] <= sum+DBL_EPSILON);
+#ifdef DEBUG
       if (!pResult) printf("Bound check m[3] : %g <= %g <= %g\n", 0.0, m[3], sum);
+#endif
       result = result && pResult;
 
       pResult = (4.0*m[1] >= 0.0) && (4.0*m[1] <= 4.0*sum+sqrt(DBL_EPSILON));       /* tot K  */
+#ifdef DEBUG
       if (!pResult) printf("Bound check tot K : %g <= %g <= %g\n", 0.0, 4.0*m[1], 4.0*sum);
+#endif
       result = result && pResult;
 
       pResult = (4.0*m[0]+3.0*m[2]+2.0*m[3] >= 0.0)                                 /* tot Na */
              && (4.0*m[0]+3.0*m[2]+2.0*m[3] <= 4.0*sum+sqrt(DBL_EPSILON));
+#ifdef DEBUG
       if (!pResult) printf("Bound check tot Na: %g <= %g <= %g\n", 0.0, 4.0*m[0]+3.0*m[2]+2.0*m[3], 4.0*sum);
+#endif
       result = result && pResult;
 
       pResult = (m[3] >= 0.0) && (m[3] <= sum+sqrt(DBL_EPSILON));                   /* tot Ca */
+#ifdef DEBUG
       if (!pResult) printf("Bound check tot Ca: %g <= %g <= %g\n", 0.0, m[3], sum);
+#endif
       result = result && pResult;
 
       pResult = (m[2]+m[3] >= 0.0) && (m[2]+m[3] <= sum+sqrt(DBL_EPSILON));         /* tot Vc */
+#ifdef DEBUG
       if (!pResult) printf("Bound check tot Vc: %g <= %g <= %g\n", 0.0, m[2]+m[3], sum);
+#endif
       result = result && pResult;
 
       pResult = (4.0*m[0]+4.0*m[1]+3.0*m[2]+4.0*m[3] >= 3.0*sum-sqrt(DBL_EPSILON))  /* tot Al */
              && (4.0*m[0]+4.0*m[1]+3.0*m[2]+4.0*m[3] <= 5.0*sum+sqrt(DBL_EPSILON));
+#ifdef DEBUG
       if (!pResult) printf("Bound check tot Al: %g <= %g <= %g\n", 3.0*sum, 
         4.0*m[0]+4.0*m[1]+3.0*m[2]+4.0*m[3], 5.0*sum);
+#endif
       result = result && pResult;
 
       pResult = (4.0*m[0]+4.0*m[1]+5.0*m[2]+4.0*m[3] >= 3.0*sum-sqrt(DBL_EPSILON))  /* tot Si */
              && (4.0*m[0]+4.0*m[1]+5.0*m[2]+4.0*m[3] <= 5.0*sum+sqrt(DBL_EPSILON));
+#ifdef DEBUG
       if (!pResult) printf("Bound check tot Si: %g <= %g <= %g\n", 3.0*sum, 
         4.0*m[0]+4.0*m[1]+5.0*m[2]+4.0*m[3], 5.0*sum);
+#endif
       result = result && pResult;
     }
   }
