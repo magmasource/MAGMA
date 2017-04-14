@@ -594,7 +594,11 @@ MELTS Source Code: RCS
 #define SX7   (S7) - (S1) + (pS1) + 0.25*(S027)
 
 #define SS1   -0.5*(S55)
+#ifndef RHYOLITE_ADJUSTMENTS
 #define SS2   ((calculationMode == MODE_xMELTS) ? 0.25*(S027) : 0.0)
+#else
+#define SS2   0.0
+#endif
 
 #define SX2X2 0.0
 #define SX2X3 2.0*(S23)

@@ -730,6 +730,8 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
   float temporary;
   char line[REC];
 
+  if (!iAmInitialized) initializeLibrary();
+
   if (numberNodes != 0) {
     NodeList key, *res;
     key.node = *nodeIndex;
@@ -771,9 +773,8 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
       silminState->fo2Path = FO2_HM;
     }
   }
-  else if (!strncmp(line, "log fo2 delta:", MIN(len, 14))) {
-    if (!sscanf(&line[15], "%f", &temporary) == EOF)
-      silminState->fo2Delta = (double) temporary;
+  else if (!strncmp(line, "log fo2 delta: ", MIN(len, 14))) {
+    if (!(sscanf(&line[15], "%f", &temporary) == EOF)) silminState->fo2Delta = (double) temporary;
   }
   else if (!strncmp(line, "mode: ",                                MIN(len, 6))) {
     if        (!strncmp(&line[6],  "fractionate solids",             MIN((len-6), 18))) {
@@ -782,12 +783,6 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
       silminState->fractionateLiq = TRUE;
     } else if (!strncmp(&line[6],  "fractionate fluids",             MIN((len-6), 18))) {
       silminState->fractionateFlu = TRUE;
-    } else if (!strncmp(&line[6],  "batch solids",             MIN((len-6), 12))) {
-      silminState->fractionateSol = FALSE; 
-    } else if (!strncmp(&line[6],  "batch liquids",            MIN((len-6), 13))) {
-      silminState->fractionateLiq = FALSE;
-    } else if (!strncmp(&line[6],  "batch fluids",             MIN((len-6), 12))) {
-      silminState->fractionateFlu = FALSE;
     }
   }
 
@@ -874,7 +869,14 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       m = (double *) calloc((size_t) nlc,    sizeof(double));
       r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
-      
+
+      if (silminState->fo2Path != FO2_NONE) {
+	silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
+	conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
+	for (i=0; i<nc; i++) for (j=0, bulkComposition[i] = 0.0; j<nlc; j++) 
+			       bulkComposition[i] += m[j]*(liquid[j].liqToOx)[i]*bulkSystem[i].mw;
+      }
+
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
 
       gmixLiq (FIRST, *temperature, *pressure, r, &G, NULL, NULL);

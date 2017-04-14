@@ -485,7 +485,7 @@ static int computeSolnWithinSolvus(            /* Returns SUCCESS or FAILURE */
     (*solids[solidID].display)(FIRST, t, p, bVec, &formula);
     printf("  Formula: %s\n", formula);
     free(formula);
-  } for (i=0;i<nlc;i++) printf("%s %f\n", liquid[i].label, bVec[i]);
+  } else for (i=0;i<nlc;i++) printf("%s %f\n", liquid[i].label, bVec[i]);
 #endif
 
   /* Obtain the Hessian of G */

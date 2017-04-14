@@ -527,8 +527,8 @@ SilminState *copySilminStateStructure(SilminState *pOld, SilminState *pNew)
         free((pNew->liquidComp)[i]);
         free((pNew->liquidDelta)[i]);
       }
-      pNew->liquidComp  = (double **) realloc(pNew->liquidComp,  (size_t) (pNew->nLiquidCoexist)*sizeof(double *));
-      pNew->liquidDelta = (double **) realloc(pNew->liquidDelta, (size_t) (pNew->nLiquidCoexist)*sizeof(double *));
+      pNew->liquidComp  = (double **) realloc(pNew->liquidComp,  (size_t) (pOld->nLiquidCoexist)*sizeof(double *));
+      pNew->liquidDelta = (double **) realloc(pNew->liquidDelta, (size_t) (pOld->nLiquidCoexist)*sizeof(double *));
       if (pNew->nLiquidCoexist < pOld->nLiquidCoexist) for (i=pNew->nLiquidCoexist; i<pOld->nLiquidCoexist; i++) {
         pNew->liquidComp[i]  = (double *) calloc((size_t) nlc, sizeof(double));
         pNew->liquidDelta[i] = (double *) calloc((size_t) nlc, sizeof(double));

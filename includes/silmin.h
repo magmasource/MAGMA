@@ -653,9 +653,9 @@ typedef struct _silminState {
   int     *cylSolids;     /* current solid phases suppressed due to cycling  */
   ThermoData solidTD;     /* current thermodynamic properties of the solids  */
 
-  double  dspTstart;      /* displayed initial temperature (C)               */
-  double  dspTstop;       /* displayed final temperature (C)                 */
-  double  dspTinc;        /* displayed temperature increment (C)             */
+  double  dspTstart;      /* displayed initial temperature (K)               */
+  double  dspTstop;       /* displayed final temperature (K)                 */
+  double  dspTinc;        /* displayed temperature increment (K)             */
   double  dspHstop;       /* displayed final enthalpy (J)                    */
   double  dspHinc;        /* displayed enthalpy increment (J)                */
   double  dspSstop;       /* displayed final entropy (J/K)                   */

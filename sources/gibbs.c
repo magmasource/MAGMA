@@ -192,7 +192,7 @@ const char *gibbs_ver(void) { return "$Id: gibbs.c,v 1.11 2008/10/15 00:40:06 gh
 #define CONSTANT_P_O2
 
 #ifdef RHYOLITE_ADJUSTMENTS
-#define QUARTZ_ADJUSTMENT -1291.0
+#define QUARTZ_ADJUSTMENT ((calculationMode != MODE_pMELTS) ? -1291.0 : 0.0)
 #else
 #define QUARTZ_ADJUSTMENT 0.0
 #endif

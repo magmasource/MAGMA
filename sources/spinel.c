@@ -2767,7 +2767,11 @@ conSpn(int inpMask, int outMask, double t, double p,
            (fe2 + e[Mn] + e[Mg] + e[Co] + e[Ni])/(fe2 + e[Mg] + e[Mn]);
 
     m[0] = e[Cr]*fOct/2.0;                               /* Moles of FeCr2O4             */
+#ifndef RHYOLITE_ADJUSTMENTS
+    m[1] = (fe2*fTet+e[Mn]*fTet)*proj-e[Cr]*fOct/2.0-fe3/2.0-2.0*e[Ti]*fOct;
+#else
     m[1] = (fe2*fTet+e[Mn]*fTet-e[Cr]*fOct/2.0-fe3/2.0-2.0*e[Ti]*fOct)*proj;
+#endif
                                                          /* Moles of FeAl2O4 and MnAl2O4 */
     m[2] = fe3/2.0;                                      /* Moles of Fe3O4               */
     m[3] = e[Mg]*proj*fTet;                              /* Moles of MgAl2O4             */

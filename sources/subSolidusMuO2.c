@@ -142,12 +142,6 @@ MELTS Source Code: RCS
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 #define SQUARE(x) ((x)*(x))
 
-static double integer_power(double y, int x) {
-  if (x > 0) return (y * integer_power(y, x-1));
-  else if (x < 0) return (integer_power(y, x+1) / y);
-  else return 1.0;
-}
-
 int subsolidusmuO2(int mask,
   double *muO2, /* muO2      = mu*O2                 BINARY MASK: 0000000001 */
   double *dm,   /* dm[i]     = d mu*O2/dm[i]         BINARY MASK: 0000000010 */
@@ -160,7 +154,7 @@ int subsolidusmuO2(int mask,
   double *d2tp, /* d2tp      = d mu*O2/dtdp          BINARY MASK: 0100000000 */
   double *d2p2) /* d2p2      = d mu*O2/dp2           BINARY MASK: 1000000000 */
 {
-  int i, j, k, l, nreact, *stoich, fe, acceptable, ns, z, y;
+  int i, j, k, l, fe, acceptable, ns, z, y;
   int *oxide, *phaseIndex, *nCoexist, mm, n;
   static int *oldPhaseIndex, *oldNCoexist, oldMm, oldN;
   double *m , *r, *activities;
@@ -902,86 +896,8 @@ int subsolidusmuO2(int mask,
 
     free_vector(dstoich, 1, n); free(oxide); free(phaseIndex); free(nCoexist);
 
-  } else {  /* if liquid is present use it */
-    while (mask & FIRST || !mask) {
-      double *xLiq  = (double *) malloc((size_t) nlc*sizeof(double));
-      double *oxLiq = (double *) malloc((size_t) nc*sizeof(double));
-      double *g0, xi, *a, delta_g0, activity_product, tempmuO2;
-      int *liqNum;
-
-      nreact = 4; 
-      g0     = (double *) malloc((size_t) nreact*sizeof(double));
-      a      = (double *) malloc((size_t) nreact*sizeof(double));
-      stoich = (int *)    malloc((size_t) nreact*sizeof(int));
-      liqNum = (int *)    malloc((size_t) nreact*sizeof(int));
-
-      gibbs(silminState->T, silminState->P, "o2", &(oxygen.ref), NULL, NULL, &(oxygen.cur));
-      g0[0] = oxygen.cur.g;
-      stoich[0] = -1;
-
-      for (i=0, fe=0; i<nc; i++) if (bulkSystem[i].type == FEO || bulkSystem[i].type == FE2O3) fe++;
-      for (i=0; i<nlc; i++) gibbs(silminState->T, silminState->P, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
-      if (fe != 2) {
-        printf("Can't compute fO2 without FEO and FE2O3\n");
-        *muO2 = 0.0;
-        free(xLiq); free(oxLiq); free(g0); free(a); free(stoich); free(liqNum);
-        return FALSE;
-      }
-      conLiq(SECOND, THIRD | FOURTH, silminState->T, silminState->P, NULL, (silminState->liquidComp)[0], r, xLiq, NULL, NULL, NULL);
-      for (i=0; i<nc; i++) {
-        for (j=0, oxLiq[i]=0.0; j<nlc; j++) oxLiq[i] += xLiq[j]*liquid[j].liqToOx[i];
-      }
-
-      actLiq(FIRST, silminState->T, silminState->P, r, activities, NULL, NULL, NULL);
-      for (i=0;i<nlc;i++) {
-        if (!strcmp(liquid[i].label,"SiO2")) {
-          a[1] = activities[i];
-          g0[1] = liquid[i].cur.g;
-          stoich[1] = 2; liqNum[1] = i;
-        } else if (!strcmp(liquid[i].label,"Fe2O3")) {
-          a[2] = activities[i];
-          g0[2] = liquid[i].cur.g;
-          stoich[2] = 2; liqNum[2] = i;
-        } else if (!strcmp(liquid[i].label,"Fe2SiO4")) {
-          a[3] = activities[i];
-          g0[3] = liquid[i].cur.g;
-          stoich[3] = -2; liqNum[3] = i;
-        }
-      }
- 
-      for (i=1, activity_product=1.0; i<nreact; i++) activity_product *= integer_power(a[i],stoich[i]);
-      for (i=0, delta_g0=0.0; i<nreact; i++) delta_g0 += stoich[i]*g0[i];
-
-      tempmuO2 = delta_g0 + R*silminState->T * log(activity_product);
-      if (mask & FIRST) {  /* just return *muO2 */
-        *muO2 = tempmuO2;
-        break;
-      } else if (fabs(xi = (tempmuO2 - *muO2)) >= DBL_EPSILON) {
-        /* run the buffer reaction towards desired fO2 as far as legal */
-        acceptable = FALSE;
-        while (acceptable == FALSE) {
-          acceptable = TRUE;
-          if ((molesO2 -= xi) < 0.0) acceptable = FALSE;
-          for (i=1;i<nreact;i++) {
-            (silminState->liquidComp)[0][liqNum[i]] += xi * stoich[i];
-            if ((silminState->liquidComp)[0][liqNum[i]] < 0.0) acceptable = FALSE;
-            for (j=0; j<nc; j++)  /* recompute bulk composition */
-              silminState->bulkComp[j] += xi *stoich[i] * (liquid[liqNum[i]].liqToOx)[j];
-          }
-          if (acceptable == FALSE) {    /* went too far, undo */
-            molesO2 += xi;
-            for (i=1; i<nreact; i++) (silminState->liquidComp)[0][liqNum[i]] -= xi * stoich[i];
-            for (j=0; j<nc; j++)  /* recompute bulk composition */
-              silminState->bulkComp[j] -= xi *stoich[i] * (liquid[liqNum[i]].liqToOx)[j];
-            xi /= 2.0;  /* On next attempt, step half as far */
-          }
-        }
-      } else break; /* converged */
-      free(a); free(g0); free(stoich); free(xLiq); free(oxLiq); free(liqNum);
-    }
-    /* Pass other liquid jobs on to muO2Liq */
-    if (mask & (SECOND | THIRD | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH | NINTH | TENTH))
-      muO2Liq(mask, silminState->T, silminState->P, (silminState->liquidComp)[0], muO2, dm, dt, dp, d2m, d2mt, d2mp, d2t2, d2tp, d2p2);
+  } else {  /* if liquid is present use it (should never get here) */
+    muO2Liq(mask, silminState->T, silminState->P, (silminState->liquidComp)[0], muO2, dm, dt, dp, d2m, d2mt, d2mp, d2t2, d2tp, d2p2);
   }
 
   free_vector(m, 0, nlc); free_vector(r, 0, nlc); free_vector(activities, 0, nlc);
