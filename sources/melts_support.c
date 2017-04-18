@@ -725,12 +725,11 @@ void InitComputeDataStruct(void)
 
 double formulaToMwStoich(char *formula, double *stoich)
 {
-    size_t len;
-   int i, j;
+   int i, j, len;
    char c, *sym, *num, *temp;
    double mw = 0.0, mult = 1.0;
 
-   if((len = strlen(formula)) == 0) return 0.0;
+   if((len = (int) strlen(formula)) == 0) return 0.0;
 
    sym  = (char *) malloc((unsigned)       3*sizeof(char));
    temp = (char *) malloc((unsigned) (len+2)*sizeof(char));
