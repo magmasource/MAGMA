@@ -502,9 +502,13 @@ void InitComputeDataStruct(void)
      for (i=0;  i<nc;  i++) if (!strcmp(bulkSystem[i].label, "Al2O3")) { indexAl2O3     = i; break; }
 #ifndef BUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION
      for (i=nc; i<nls; i++) if (!strcmp(liquid[i].label, "Fe2SiO4.6")) { indexFe2SiO4_6 = i; break; }
-     if (indexFe2SiO4_6 == -1) printf("ERROR in InitComputeDataStruct. Cannot find species Fe2SiO4.6\n");
+#ifndef RHYOLITE_ADJUSTMENTS
+     if (indexFe2SiO4_6 == -1) printf("ERROR in InitComputeDataStruct. Cannot find species Fe2SiO4.6\n"); exit(0); 
 #endif
-     if (indexAl2O3 == -1)     printf("ERROR in InitComputeDataStruct. Cannot find component Al2O3\n");
+#endif
+#ifndef RHYOLITE_ADJUSTMENTS
+     if (indexAl2O3 == -1)     printf("ERROR in InitComputeDataStruct. Cannot find component Al2O3\n"); exit(0); 
+#endif
 #endif
      
      for (i=0; i<nc; i++) {

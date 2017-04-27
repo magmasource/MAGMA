@@ -1989,7 +1989,11 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
       if (fabs(s[i]) < tolerance) s[i] = 0.0; 
     }
     
-    if(!rANDsTOx (r, s)) fprintf(stderr, "Simplex method suceeded but failed to find feasible solution in initialGuessOrdering.\n");
+      if(!rANDsTOx (r, s)) {
+#ifdef DEBUG
+          fprintf(stderr, "Simplex method suceeded but failed to find feasible solution in initialGuessOrdering.\n");
+#endif
+      }
     
     for (i=NS; i<NT; i++) s[i] = 1.0/(((double) NY)+1.0);
     

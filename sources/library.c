@@ -884,7 +884,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
       mu = (double *) calloc((size_t) nlc, sizeof(double));
 
-      if (silminState->fo2Path != FO2_NONE) {
+      if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
 	silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
 	conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
 	for (i=0; i<nc; i++) for (j=0, bulkComposition[i] = 0.0; j<nlc; j++) 
