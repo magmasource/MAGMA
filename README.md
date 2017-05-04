@@ -77,12 +77,12 @@ done: \
 
 You can build many of the build targets for MELTS and its auxillary and testing programs on MacOS using the Xcode Integrated Development Environment (IDE). However, most executables—particularly the standalone versions of MELTS—must be built using traditional UNIX makefile-based build procedures. 
 
-The file `Makefile.ubuntu` and `Makefile.MacOS` are master makefiles that each include a *common* makefile, `Makefile.common`. The script in `Makefile.common` is appropriate for use on both Linux and MacOS.  
+The file `Makefile.Linux` and `Makefile.MacOS` are master makefiles that each include a *common* makefile, `Makefile.common`. The script in `Makefile.common` is appropriate for use on both Linux and MacOS.  
 
-- (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.ubuntu` file as appropriate for your system configuration, and in a terminal window generate a soft link with this command: 
+- (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.Linux` file as appropriate for your system configuration (see Makefile.ubuntu and Makefile.redhat for comparison). In a terminal window generate a soft link with this command: 
 
     ```
-    ln -s ./Makefile.ubuntu Makefile
+    ln -s ./Makefile.Linux Makefile
     ```
 - (MacOS) If building targets in the MELTS software package on MacOS, edit the file `Makefile.MacOS` as appropriate for your system configuration, and in a terminal window generate a soft link with this command:  
 
