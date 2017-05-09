@@ -78,11 +78,11 @@ program test
 !
 ! meltsprocess
 !   integer node [ input ]
-!   integer mode [ input, 0 = continuing run, 1 = initial run or update run ]
+!   integer mode [ input, 2 = isenthalpic continuing run, 1 = initial run or update run ]
 !   double precision pressure
 !   double precision bulk(19) [ input composition of the system ]
-!   double precision enthalpy [ return if mode == 1, input if mode == 0]
-!   double precision temperature [ return if mode == 0, input if mode == 1 ]
+!   double precision enthalpy [ return if mode == 1, input if mode == 2]
+!   double precision temperature [ return if mode == 2, input if mode == 1 ]
 !   character*n phasenames(20) [ pre-allocated memory, must be large enough to hold names of all stable phases in system ]
 !   integer n
 !   integer numphases [ return ]
@@ -139,7 +139,7 @@ program test
   do k=1,1000    
     print *, "Before second call to meltsprocess..."
     node = 1;
-    mode = 0;
+    mode = 2;
     enthalpy = enthalpy - 1.0
 !
 ! example of a continuation call, enthalpy/pressure specified
