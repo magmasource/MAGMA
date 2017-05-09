@@ -302,9 +302,9 @@ static PyObject* py_drive_melts(PyObject* self, PyObject* args) {
 
     // Parse arguments from Python side
     int nodeIndex, modeIndex;
-    double pressure, temperature, enthalpy, composition[nc];
+    double pressure, temperature, reference, composition[nc];
     PyObject* compositionObject;
-    PyArg_ParseTuple(args, "iidddO", &nodeIndex, &modeIndex, &pressure, &temperature, &enthalpy, &compositionObject);
+    PyArg_ParseTuple(args, "iidddO", &nodeIndex, &modeIndex, &pressure, &temperature, &reference, &compositionObject);
     if (PyErr_Occurred()) PyErr_Print();
     convert_composition(compositionObject, composition);
     if (PyErr_Occurred()) PyErr_Print();
@@ -319,7 +319,7 @@ static PyObject* py_drive_melts(PyObject* self, PyObject* args) {
 
     // Pass through to library
     meltsprocess_(&nodeIndex, &modeIndex, &pressure, composition,
-        &enthalpy, &temperature, phaseNames, &nCharInName, &numberPhases,
+        &reference, &temperature, phaseNames, &nCharInName, &numberPhases,
         &iterations, &status, propertyArray, phaseIndices);
 
     // Wrap results in a dictionary
@@ -366,7 +366,11 @@ static PyObject* py_drive_melts(PyObject* self, PyObject* args) {
     PyDict_SetItem(systemDict, 
         PyString_FromString("temperature"), PyFloat_FromDouble(temperature));
     PyDict_SetItem(systemDict, 
-        PyString_FromString("enthalpy"), PyFloat_FromDouble(enthalpy));
+	PyString_FromString("enthalpy"), PyFloat_FromDouble((modeIndex < 3) ? reference : 0.0));
+    PyDict_SetItem(systemDict, 
+	PyString_FromString("entropy"), PyFloat_FromDouble((modeIndex == 3) ? reference : 0.0));
+    PyDict_SetItem(systemDict, 
+        PyString_FromString("volume"), PyFloat_FromDouble((modeIndex == 4) ? reference : 0.0));
     PyDict_SetItem(systemDict, 
         PyString_FromString("composition"), compositionObject);
     Py_INCREF(resultsDict);

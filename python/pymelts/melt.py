@@ -38,18 +38,19 @@ class Melt(object):
 
         Arguments:
             composition - a dictionary with the composition given as oxide weight percentages and the oxide values as keys. Optional - the default is None 
-            mode - a string which specifies the calculation space. This can be one of 'ptx' (pressure-temperature-composition space), 'phx' (pressure-enthalpy-composition). Optional - the default is 'ptx'.
+            mode - a string which specifies the calculation space. This can be one of 'ptx' (pressure-temperature-composition space), 'phx' (pressure-enthalpy-composition), 
+            'psx' (pressure-entropy-composition), 'vtx' (volume-temperature-composition) or 'liquidus' (find liquidus fuction). Optional - the default is 'ptx'.
             solve - whether to call the MELTS solver to calculate phase equilibria on initialization. Optional - the default is False.
             calculationString - calculation database, one of MELTS_v1.0.2, MELTS_v1.1.x, MELTS_v1.2.x, pMELTS_v5.6.1
             kwargs - optional arguments which set any attributes of the class on initialization. These can also be set by accessing these attributes directly after initialization.
     """
     # Allowed modes for the calculation
-    mode_keys = ['ptx', 'phx']
-
+    mode_keys = ['liquidus', 'ptx', 'phx', 'psx', 'vtx']
+    
     # This is the list of keys in the results dictionary from the bindings 
     # which are not phase properties.
     nonphase_keys = ['system', 'system variables', 'status']
-
+            
     def __init__(self, composition=None, mode='ptx', solve=False, calculationString='MELTS_v1.0.2', **kwargs):
         super(Melt, self).__init__()
 
@@ -82,6 +83,8 @@ class Melt(object):
         self.pressure = None
         self.temperature = None
         self.enthalpy = None
+        self.entropy = None
+        self.volume = None
         self.__dict__.update(kwargs)
         self.set_mode(mode)
         self.calculationDatabase = calculationString
@@ -92,31 +95,40 @@ class Melt(object):
 
     def __repr__(self):
         """ Pretty printing so that things make sense.
+         ARE THESE UNITS REALLY CORRECT??
         """
-        output_string = ("\nMelt parameters: p = {0.pressure} kPa, " 
-            + "T = {0.temperature} deg C, H = {0.enthalpy} J"
-            + "\nBulk composition:\n{0.composition}"
-            + "\nPhases present:\n{0.phases}")
+        output_string = ("\nMelt parameters: P = {0.pressure} kPa, " 
+                         + "T = {0.temperature} deg C, "
+                         + self.enthalpy and "H = {0.enthalpy} J"
+                         + self.entropy and "S = {0.entropy} J/K"
+                         + self.volume and "V = {0.volume} cc"
+                         + "\nBulk composition:\n{0.composition}"
+                         + "\nPhases present:\n{0.phases}")
         return output_string.format(self)
 
     def solve(self):
         """ Solve using MELTS.
         """
         # Convert NoneTypes to zeros
+        pressure = self.pressure or 0
         temperature = self.temperature or 0
-        enthalpy = self.enthalpy or 0
 
+        # For backwards compatibility make sure enthalpy = 0 for 'find liquidus'        
+        reference = self.get_ref(self.mode_index)
+        
         # Pass arguments through to the drive_melts C function
         results = melts_functions.drive_melts(self.node_index, 
-            self.mode_index, self.pressure, temperature, enthalpy, 
+            self.mode_index, pressure, temperature, reference, 
             self.composition)
         # import pdb; pdb.set_trace()
         self.status = results['status']
         self.phases = [k for k in results.keys() if k != self.nonphase_keys]
         self.pressure = results['system variables']['pressure']
         self.temperature = results['system variables']['temperature']
-        self.enthalpy = results['system variables']['enthalpy']
-
+        self.enthalpy = results['system variables']['enthalpy'] or None
+        self.entropy = results['system variables']['entropy'] or None
+        self.volume = results['system variables']['volume'] or None
+        
         # For each phase we need to cut out the oxide values and stick them 
         # back into a Composition instance
         oxide_names = self.engine.get_oxide_names()
@@ -134,16 +146,46 @@ class Melt(object):
         """ Sets the mode for the calculation. 
 
             Arguments:
-                modestring - a string which specifies the calculation space. This can be one of 'ptx' (pressure-temperature-composition space), 'phx' (pressure-enthalpy-composition).
+                modestring - a string which specifies the calculation space. This can be one of 'ptx' (pressure-temperature-composition space),
+                'phx' (pressure-enthalpy-composition), 'psx' (pressure-entropy-composition), 'vtx' (volume-temperature-composition) or 'liquidus' (find liquidus fuction).
+
         """
-        if modestring == 'ptx':
+        if modestring == 'liquidus':
+            self.mode_index = 0
+        elif modestring == 'ptx':
             self.mode_index = 1
         elif modestring == 'phx':
-            self.mode_index = 0
+            self.mode_index = 2
+        elif modestring == 'psx':
+            self.mode_index = 3
+        elif modestring == 'vtx':
+            self.mode_index = 4
         else:
             err = "Mode {0} is not one of {1}"
             raise ValueError(err.format(modestring, self.mode_keys))
  
+    def get_ref(self, modeindex):
+        """ Sets the mode for the calculation. 
+
+            Arguments:
+                modestring - a string which specifies the calculation space. This can be one of 'ptx' (pressure-temperature-composition space),
+                'phx' (pressure-enthalpy-composition), 'psx' (pressure-entropy-composition), 'vtx' (volume-temperature-composition) or 'liquidus' (find liquidus fuction).
+
+        """
+        if modeindex == 0:
+            ref_value = 0
+        elif modeindex == 1:
+            ref_value = 0
+        elif modeindex == 2:
+            ref_value = self.enthalpy or 0
+        elif modeindex == 3:
+            ref_value = self.entropy or 0
+        elif modeindex == 4:
+            ref_value = self.volume or 0
+        else:
+            ref_value = 0
+        return ref_value
+        
     def get_properties(self, phase):
         """ Returns the properties of the given phase.
         """     
