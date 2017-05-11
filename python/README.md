@@ -65,6 +65,20 @@ You can use this preferred method if the Anaconda Python environment is installe
     conda build .
     conda install --use-local pymelts
 
+If Anaconda is installed and if the root environment is based upon Python 3.x then you must create a new environment based on Python 2.7, and modify the build command to ensure that it is used:
+
+    conda create -n python27 python=2.7 
+    conda build --python=2.7 .
+
+To activate the Python 2.7 environment before running PyMELTS, execute the following:
+
+    source activate python27
+
+If you want to switch back to the original Python 3.x environment, execute either one of these commands:
+
+    source deactivate python27
+    source activate root
+
 If you ever need to uninstall the PyMELTS package (perhaps prior to installing a newer version of the package), then type this command at the terminal prompt:
 
     conda uninstall pymelts
