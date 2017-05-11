@@ -68,7 +68,7 @@ You can use this preferred method if the Anaconda Python environment is installe
 If Anaconda is installed and if the root environment is based upon Python 3.x then you must create a new environment based on Python 2.7, and modify the build command to ensure that it is used:
 
     conda create -n python27 python=2.7 
-    conda build --python2.7 .
+    conda build --python=2.7 .
 
 To activate the Python 2.7 environment before running PyMELTS, execute the following:
 
