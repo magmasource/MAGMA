@@ -49,7 +49,9 @@ class Melt(object):
     
     # This is the list of keys in the results dictionary from the bindings 
     # which are not phase properties.
-    nonphase_keys = ['system', 'system variables', 'status']
+    # This used to include 'system' and a bug in setting phases meant
+    # nonphase_keys was ignored
+    nonphase_keys = ['system variables', 'status']
             
     def __init__(self, composition=None, mode='ptx', solve=False, calculationString='MELTS_v1.0.2', **kwargs):
         super(Melt, self).__init__()
@@ -95,13 +97,12 @@ class Melt(object):
 
     def __repr__(self):
         """ Pretty printing so that things make sense.
-         ARE THESE UNITS REALLY CORRECT??
         """
-        output_string = ("\nMelt parameters: P = {0.pressure} kPa, " 
-                         + "T = {0.temperature} deg C, "
-                         + self.enthalpy and "H = {0.enthalpy} J"
-                         + self.entropy and "S = {0.entropy} J/K"
-                         + self.volume and "V = {0.volume} cc"
+        output_string = ("\nMelt parameters: P = {0.pressure} bars, " 
+                         + "T = {0.temperature} K, "
+                         + (self.enthalpy and "H = {0.enthalpy} J" or "")
+                         + (self.entropy and "S = {0.entropy} J/K" or "")
+                         + (self.volume and "V = {0.volume} cc" or "")
                          + "\nBulk composition:\n{0.composition}"
                          + "\nPhases present:\n{0.phases}")
         return output_string.format(self)
@@ -122,7 +123,7 @@ class Melt(object):
             self.composition)
         # import pdb; pdb.set_trace()
         self.status = results['status']
-        self.phases = [k for k in results.keys() if k != self.nonphase_keys]
+        self.phases = [k for k in results.keys() if k not in self.nonphase_keys]
         self.pressure = results['system variables']['pressure']
         self.temperature = results['system variables']['temperature']
         self.enthalpy = results['system variables']['enthalpy'] or None
@@ -207,10 +208,12 @@ class MeltCollection(list):
 
         Arguments:
             composition - a pymelts.Composition instance specifying the composition for all the melts
-            **variables - a dictionary of variables to vary. Each member of the variables dict should contain a minimum value, maximum value and the step sizea. These are expanded into an array of values using numpy.arange.
+            \*\*variables - a dictionary of variables to vary. Each member of the variables dict should contain a minimum value, maximum value and the step sizea. These are expanded into an array of values using numpy.arange.
     """
 
     def __init__(self, composition, **variables):
+
+
         # Initialise data sequences
         super(MeltCollection, self).__init__([])
         self.variables = {}
@@ -223,7 +226,7 @@ class MeltCollection(list):
                     self.variables[key] = [values[0]]
                 else:
                     minv, maxv, stepv = values
-                    numbersteps = int((minv - maxv) / float(stepv))
+                    numbersteps = int((minv - maxv) / float(stepv)) + 1
                     self.variables[key] = numpy.linspace(minv, maxv, 
                         numbersteps)
             else:

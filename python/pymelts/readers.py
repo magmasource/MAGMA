@@ -173,22 +173,24 @@ class Reader(object):
         self.folder = melts_folder
         filelist = os.listdir(self.folder)
 
-        # Check whether the supplied folder is actually a MELTS output folder -
-        # there will always be a melts-liquid.tbl file in the folder.
-        files_in_folder = os.listdir(melts_folder)
-        if fnmatch.filter(files_in_folder, 'melts-liquid.tbl') is []:
-            raise IOError(('I couldn\'t find {1} in {0}. Is {0} really a MELTS'
-                + ' output folder?').format(melts_folder, 'melts-liquid.tbl'))
-
         # Check for a previous pickled version of the folder, if it's there 
         # then load it - will be called folder.pkl
         picklename = os.path.basename(self.folder) + '.pkl'
         picklepath = os.path.join(self.folder, picklename)
-        if picklename in filelist:
-            with open(picklepath, 'rb') as pfile:
-                self.__dict__ = pickle.load(pfile)
-                return # We can short out the parsing step now
+        #if force is False and picklename in filelist:
+        #    with open(picklepath, 'rb') as pfile:
+        #        self.__dict__ = pickle.load(pfile)
+        #        return # We can short out the parsing step now
 
+        # Check whether the supplied folder is actually a MELTS output folder -
+        # there will always be a melts-liquid.tbl file in the folder.
+        # Changed order as it's possible the individual files may be cleaned
+        # out once the .pkl file has been written
+        files_in_folder = os.listdir(melts_folder)
+        if fnmatch.filter(files_in_folder, 'melts-liquid.tbl') is []:
+            raise IOError(('I couldn\'t find {1} in {0}. Is {0} really a MELTS'
+                + ' output folder?').format(melts_folder, 'melts-liquid.tbl'))
+            
         # Seperate files out from folder
         self.files = defaultdict(list)
         for fname in filelist:

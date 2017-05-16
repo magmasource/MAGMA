@@ -278,7 +278,7 @@ static PyObject* py_set_calculation_mode(PyObject* self, PyObject* args)
     else if (!strcmp(calculationString,  "MELTS_v1.2.x")) calculationMode = MODE__MELTSandCO2_H2O;
     else if (!strcmp(calculationString, "pMELTS_v5.6.1")) calculationMode = MODE_pMELTS;
 
-    printf("calculationString %s gives mode %d", calculationString, calculationMode);
+    printf("calculationString %s gives mode %d\n", calculationString, calculationMode);
     return PyString_FromString("CalculationString set\n");
 }
 
@@ -316,12 +316,12 @@ static PyObject* py_drive_melts(PyObject* self, PyObject* args) {
     int phaseIndices[numberPhases];
     double propertyArray[numberProperties * numberPhases];
     char phaseNames[numberPhases * nCharInName];
-
+    
     // Pass through to library
     meltsprocess_(&nodeIndex, &modeIndex, &pressure, composition,
         &reference, &temperature, phaseNames, &nCharInName, &numberPhases,
         &iterations, &status, propertyArray, phaseIndices);
-
+    
     // Wrap results in a dictionary
     PyObject* resultsDict = PyDict_New();
     for (phaseIndex=0; phaseIndex < numberPhases; phaseIndex++) {

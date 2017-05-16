@@ -17,6 +17,7 @@ core
 *.dat
 *.melts
 *.agr
+*.pkl
 XML_IN/
 XML_OUT/
 XML_PROCESSED/
@@ -102,3 +103,7 @@ Melts-batch-v1.1.0
 /Lydia-driver
 /pymelts-0.1.1.tar.gz
 /pymelts-0.1.1
+!/python/docs/Makefile
+!/python/examples/data/*/melts.out
+!/python/examples/data/*/*.melts
+!/python/examples/data/*/*.tbl

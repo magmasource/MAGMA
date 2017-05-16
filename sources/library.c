@@ -443,6 +443,18 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     case GENERIC_INTERNAL_ERROR:
       *status = 107;
       break;
+    case LIQUIDUS_SUCCESS:
+      *status = 500;
+      break;
+    case LIQUIDUS_MAX_T:
+      *status = 501;
+      break;
+    case LIQUIDUS_MIN_T:
+      *status = 502;
+      break;
+    case LIQUIDUS_TIME:
+      *status = 503;
+      break;
     default:
       *status = 1000;
       break;
@@ -706,7 +718,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
       
     *temperature = silminState->T;
     *pressure    = silminState->P;
-    
+
   } /* end output block */
 }
 
@@ -752,6 +764,18 @@ void meltsgeterrorstring_(int *status, char *errorString, int *nCharInName) {
       break;
     case 107:
       strncpy(errorString, "Unspecified internal fatal error.", nCh);
+      break;
+    case 500:
+      strncpy(errorString, "Successfully found liquidus.  No errors detected.", nCh);
+      break;
+    case 501:
+      strncpy(errorString, "Liquidus not found.  Maximum temperature reached.", nCh);
+      break;
+    case 502:
+      strncpy(errorString, "Liquidus not found.  Minimum temperature reached.", nCh);
+      break;
+    case 503:
+      strncpy(errorString, "Liquidus not found.  Time limit exceeded.", nCh);
       break;
     case 1000:
       strncpy(errorString, "Undefined error condition.", nCh);
