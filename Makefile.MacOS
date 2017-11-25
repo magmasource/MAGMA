@@ -10,7 +10,10 @@ MAKEFILE	= Makefile.MacOS
 PROTO   = XTFUNCPROTO
 VLIST   = _NO_DRAWINGA_VLIST_PARENT
 ENTRYC  = _NO_WHITE_TEXTW
-ACEPLT  =     GRACE_PIPE
+
+# To compile without grace (per instructions on GitLab)
+#ACEPLT  =     GRACE_PIPE
+ACEPLT  = _NO_GRACE_PIPE
 
 # Environment variable defaults
 # =============================
@@ -49,7 +52,7 @@ DYFLAGS	      = xv
 CC            = clang
 LD            = clang
 FC            = gfortran
-CFLAGS        = -ansi -c -O3 $(BATCH) -mmacosx-version-min=10.12 \
+CFLAGS        = -ansi -c -O3 $(BATCH) -mmacosx-version-min=10.13 \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib
@@ -92,19 +95,24 @@ endif
 # ==============================================================================
 
 LIBS    = -L/usr/local/lib -lMrm -lXm -lgrace_np -L/opt/X11/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu port3/libport.a
-PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libgrace_np.a /usr/local/lib/libjpeg.a \
+
+# To compile without grace (per instructions on GitLab)
+#PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libgrace_np.a /usr/local/lib/libjpeg.a \
+
+PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libjpeg.a \
           -L/opt/X11/lib -lXft -lXt -lXp -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXRender -lXau -lXdmcp -lpng -lX11-xcb \
           -lxcb -lfreetype -lfontconfig \
           -L/usr/lib -lexpat -lz -lbz2 -lcharset -liconv \
-          port3/libport.a /usr/local/Cellar/gcc/6.1.0/lib/gcc/6/libgfortran.a /usr/local/Cellar/gcc/6.1.0/lib/gcc/6/libquadmath.a \
-          /usr/local/gfortran/lib/gcc/x86_64-apple-darwin11/4.6.2/libgcc.a
+          port3/libport.a /usr/local/Cellar/gcc/7.2.0/lib/gcc/7/libgfortran.a /usr/local/Cellar/gcc/7.2.0/lib/gcc/7/libquadmath.a \
+          /usr/local/Cellar/gcc/7.2.0/lib/gcc/7/gcc/x86_64-apple-darwin17.0.0/7.2.0/libgcc.a
+
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
 LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
 
-# Set environment variable for backwards deployment to Mac OS X 10.12
+# Set environment variable for backwards deployment to Mac OS X 10.13
 # ===================================================================
-export MACOSX_DEPLOYMENT_TARGET := 10.12
+export MACOSX_DEPLOYMENT_TARGET := 10.13
 
 include Makefile.common
 
