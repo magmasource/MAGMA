@@ -110,7 +110,7 @@ LIBS    = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libpor
 PUBLIBS = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
 ifneq ($(STATIC),)
 override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
-	 -L/usr/lib/$(ROOTDIR)/ -lXft /usr/lib/$(ROOTDIR)/libXmu.a -lXt -lXext -lX11 -lfontconfig \
+	 -L/usr/lib/$(ROOTDIR)/ /usr/lib/$(ROOTDIR)/libXft.a /usr/lib/$(ROOTDIR)/libXmu.a -lXt -lXext -lX11 -lfontconfig \
 	  /usr/lib/$(ROOTDIR)/libjpeg.a \
 	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libgfortran.a -lquadmath
 endif
