@@ -1006,7 +1006,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       actLiq(SECOND, *temperature, *pressure, r, NULL, mu, NULL, NULL);
 
       for (i=0, mTot=0.0; i<nlc; i++) {
-        gibbs(*temperature, *pressure, phaseName, &liquid[i].ref, &liquid[i].liq, &liquid[i].fus, &liquid[i].cur);
+        gibbs(*temperature, *pressure, (char *) liquid[i].label, &liquid[i].ref, &liquid[i].liq, &liquid[i].fus, &liquid[i].cur);
       }
 
       G       *= mTot; 
@@ -1074,7 +1074,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 
       for (i=0, mTot=0.0; i<solids[j].na; i++) {
         mTot += m[i];
-	gibbs(*temperature, *pressure, phaseName, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
+	gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
       }
       
       (*solids[j].gmix) (FIRST, *temperature, *pressure, r, &G, NULL, NULL, NULL);
