@@ -18,6 +18,7 @@ core
 *.melts
 *.agr
 *.pkl
+build/
 XML_IN/
 XML_OUT/
 XML_PROCESSED/

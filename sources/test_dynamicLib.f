@@ -14,8 +14,12 @@ program test
   character*20 phasenames(20)
   character*100 errorString
   integer node, mode, iterations, status
-  double precision pressure, temperature, enthalpy, bulk(19), properties(33,10)
+  double precision pressure, temperature, enthalpy, bulk(19), properties(33,20)
 !
+! storage for meltsgetendmemberproperties
+!  
+  double precision endprops(3, 20)        
+!     
 ! local storage
 !
   integer i, j, k
@@ -136,7 +140,8 @@ program test
   call meltsgeterrorstring(status, errorString, 100)
   print *, "... Error string: ", errorString
   
-  do k=1,1000    
+!     do k=1,1000
+  do k=1,1
     print *, "Before second call to meltsprocess..."
     node = 1;
     mode = 2;
@@ -204,4 +209,30 @@ program test
   print *, "...... d2vdtdp = ", properties(10, 1)
   print *, "...... d2vdp2  = ", properties(11, 1)
 
+  print *, "Before call to meltsgetendmemberproperties..."
+
+!   double precision pressure
+!   double precision bulk(19) [ input, composition of phase in oxides ]
+!   double precision temperature
+!   character*n phasenames(20) [ pre-allocated memory, must be large enough to hold names of all endmembers in phase ]
+!   integer numphases [ return number of end members, plus one for solution phases]
+!   double precision properties (3, 20) [ pre-allocated memory, column dimension must be large enough to hol
+!                                                      all endmembers in phase, plus one ]
+
+!     
+    call meltsgetendmemberproperties('liquid'//char(0), temperature, pressure, bulk, &
+      phasenames, 20, numphases, endprops)
+    print *, "numendmembers = ", numphases-1
+      print *, "... phase: ", phasenames(1)
+      print *, "...... g (molar) = ", endprops( 3, 1)
+      print *, "...... g0        = ", endprops( 2, 1)
+      print *, "...... gmix      = ", endprops( 3, 1)-endprops( 2, 1)
+
+    do i=2,numphases
+      print *, "... endmembers: ", phasenames(i)
+      print *, "...... X         = ", endprops( 1, i)
+      print *, "...... mu0       = ", endprops( 2, i)
+      print *, "...... mu        = ", endprops( 3, i)
+    end do
+      
 end program test
