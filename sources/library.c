@@ -297,10 +297,10 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
       int i;
       silminState = res->silminState;
       for(i=0; i<nc; i++) {
-	if((silminState->bulkComp)[i] != 0.0) {
+        if((silminState->bulkComp)[i] != 0.0) {
           update = TRUE;
-	  break;
-	}
+          break;
+        }
       }
     } 
   } else {
@@ -324,7 +324,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
       for (j=0; j<nc; j++) {
         (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
         silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
-      }    
+      }
     }
   } else {
     int i, j;
@@ -823,7 +823,7 @@ void driveMeltsProcess(int *nodeIndex, int *mode, double *pressure, double *bulk
 /* ================================================================================== */
 
 void meltssetsystemproperty_(int *nodeIndex, char *property) {
-  int i, len;
+  int i, j, len;
   float temporary;
   char line[REC];
 
@@ -853,47 +853,55 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
 
   len = strlen(property); for (i=0; i<MIN(len, REC); i++) line[i] = tolower(property[i]);
 
+  /* -> log fo2 path record */
   if (!strncmp(line, "log fo2 path: ",          MIN(len,14))) {
-    if        (!strncmp(&line[14], "none", MIN((len-14), 4))) {
-      silminState->fo2Path = FO2_NONE;
-    }  else if (!strncmp(&line[14], "fmq", MIN((len-14), 3))) {
-      silminState->fo2Path = FO2_QFM;
-    }  else if (!strncmp(&line[14], "qfm", MIN((len-14), 3))) {
-      silminState->fo2Path = FO2_QFM;
-    }  else if (!strncmp(&line[14], "coh", MIN((len-14), 3))) {
-      silminState->fo2Path = FO2_COH;
-    } else if (!strncmp(&line[14], "nno",  MIN((len-14), 3))) {
-      silminState->fo2Path =  FO2_NNO;
-    } else if (!strncmp(&line[14], "iw",   MIN((len-14), 2))) {
-      silminState->fo2Path = FO2_IW; 
-    } else if (!strncmp(&line[14], "hm",   MIN((len-14), 2))) {
-      silminState->fo2Path = FO2_HM;
-    }
-  }
-  else if (!strncmp(line, "log fo2 delta: ", MIN(len, 15))) {
-    if (!(sscanf(&line[15], "%f", &temporary) == EOF)) silminState->fo2Delta = (double) temporary;
-  }
-  else if (!strncmp(line, "mode: ",                                MIN(len, 6))) {
-    if        (!strncmp(&line[6],  "fractionate solids",             MIN((len-6), 18))) {
-      silminState->fractionateSol = TRUE; 
-    } else if (!strncmp(&line[6],  "fractionate liquids",            MIN((len-6), 19))) {
-      silminState->fractionateLiq = TRUE;
-    } else if (!strncmp(&line[6],  "fractionate fluids",             MIN((len-6), 18))) {
-      silminState->fractionateFlu = TRUE;
-    }
-  }
-  else if (!strncmp(line, "suppress: ",              MIN(len,10))) {
-    for (i=0; i<npc; i++) {
+    if      (!strncmp(&line[14], "none",  MIN((len-14), 4))) silminState->fo2Path  = FO2_NONE;
+    else if (!strncmp(&line[14], "fmq",   MIN((len-14), 3))) silminState->fo2Path  = FO2_QFM;
+    else if (!strncmp(&line[14], "coh",   MIN((len-14), 3))) silminState->fo2Path  = FO2_COH;
+    else if (!strncmp(&line[14], "nno",   MIN((len-14), 3))) silminState->fo2Path  = FO2_NNO;
+    else if (!strncmp(&line[14], "iw",    MIN((len-14), 2))) silminState->fo2Path  = FO2_IW;
+    else if (!strncmp(&line[14], "hm",    MIN((len-14), 2))) silminState->fo2Path  = FO2_HM;
+    else if (!strncmp(&line[14], "+3fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P3;
+    else if (!strncmp(&line[14], "+2fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P2;
+    else if (!strncmp(&line[14], "+1fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P1;
+    else if (!strncmp(&line[14], "-1fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M1;
+    else if (!strncmp(&line[14], "-2fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M2;
+    else if (!strncmp(&line[14], "-3fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M3;
+    else if (!strncmp(&line[14], "-4fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M4;
+    else if (!strncmp(&line[14], "-5fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M5;
+    else if (!strncmp(&line[14], "-6fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M6;
+    else if (!strncmp(&line[14], "-7fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M7;
+    else if (!strncmp(&line[14], "-8fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M8;
+    else if (!strncmp(&line[14], "-9fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_M9;
+    else if (!strncmp(&line[14], "+0.5fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P0_5;
+    else if (!strncmp(&line[14], "+1.5fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P1_5;
+
+    /* -> suppress a solid phase record */
+  } else if (!strncmp(line, "suppress: ",              MIN(len,10))) {
+    for (i=0, j=0; i<npc; i++) {
       if (solids[i].type == PHASE) {
 	int phaseStrLen = (int) strlen(solids[i].label); 
 	if (((len-10-phaseStrLen-1)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
 	  if ( solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) {
-	    silminState->incSolids[i] = FALSE;
+	    silminState->incSolids[j] = FALSE;
 	  }
 	  break;
-	} 
+	}
+	j++;
       }
     }
+
+    /* -> mode record */
+  } else if (!strncmp(line, "mode: ",                   MIN(len, 6))) {
+    /* Multiple liquids are not allowed here, and constraints are added separately */
+    if      (!strncmp(&line[6],  "fractionate solids",  MIN((len-6), 18))) silminState->fractionateSol = TRUE;
+    else if (!strncmp(&line[6],  "fractionate liquids", MIN((len-6), 19))) silminState->fractionateLiq = TRUE;
+    else if (!strncmp(&line[6],  "fractionate fluids",  MIN((len-6), 18))) silminState->fractionateFlu = TRUE;
+  } else if (!strncmp(line, "mode off: ",                   MIN(len, 10))) {
+    /* Was previously 'mode: batch'... */
+    if      (!strncmp(&line[6],  "fractionate solids",  MIN((len-6), 18))) silminState->fractionateSol = FALSE;
+    else if (!strncmp(&line[6],  "fractionate liquids", MIN((len-6), 19))) silminState->fractionateLiq = FALSE;
+    else if (!strncmp(&line[6],  "fractionate fluids",  MIN((len-6), 18))) silminState->fractionateFlu = FALSE;
   }
 }
 
@@ -934,10 +942,11 @@ static int comparePhases(const void *aPt, const void *bPt) {
   return strcmp(a->name, b->name);
 }
 
+static int np;
+static PhaseList key;
+
 void meltsgetphaseproperties_(char *phaseName, double *temperature, 
          double *pressure, double *bulkComposition, double *phaseProperties) {
-  static int np;
-  static PhaseList key;
   PhaseList *res;
 
   if (!iAmInitialized) initializeLibrary();
@@ -997,7 +1006,6 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       actLiq(SECOND, *temperature, *pressure, r, NULL, mu, NULL, NULL);
 
       for (i=0, mTot=0.0; i<nlc; i++) {
-        mTot +=  m[i];
         gibbs(*temperature, *pressure, phaseName, &liquid[i].ref, &liquid[i].liq, &liquid[i].fus, &liquid[i].cur);
       }
 
@@ -1129,11 +1137,16 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 /* Input and Output (as above)                                                        */
 /* ================================================================================== */
 
-void getMeltsPhaseProperties (char *phaseName, double *temperature, 
-                 double *pressure, double *bulkComposition, double *phaseProperties) {
+void getMeltsPhaseProperties(char *phaseName, double *temperature, 
+                 double *pressure, double *bulkComposition, double *phasePtr) {
 
+  int i;
+  double phaseProperties[nlc+11]; /* don't return mu for Matlab version */
+  
   meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
 
+  for (i=0; i<11; i++) phasePtr[i] = phaseProperties[i];
+  
 }
 
 /* ================================================================================== */
@@ -1157,8 +1170,6 @@ void getMeltsPhaseProperties (char *phaseName, double *temperature,
 void meltsgetendmemberproperties_(char *phaseName, double *temperature, 
          double *pressure, double *bulkComposition, char endMemberNames[], 
 	 int *nCharInName, int *numberEndMembers, double *endMemberProperties) {
-  static int np;
-  static PhaseList key;
   PhaseList *res;
   int nCh = *nCharInName;
 
@@ -1193,6 +1204,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
   else { 
     int i, j = res->index;
     int columnLength = 3; /* X, mu0, mu */
+    double G0, G;
     
     if (j < 0) { /* liquid */
       double *m, *r, mTot;
@@ -1213,22 +1225,33 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
 
+      gmixLiq (FIRST, *temperature, *pressure, r, &G, NULL, NULL);
       actLiq(SECOND, *temperature, *pressure, r, NULL, muLiq, NULL, NULL);
 
-      for (i=0; i<nlc; i++) {
-  	gibbs(*temperature, *pressure, phaseName, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
+      for (i=0, mTot=0.0; i<nlc; i++) {
+        mTot +=  m[i];
+  	gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
 	muLiq[i] += (liquid[i].cur).g;
       }   
 
-      for (i=0; i<nlc; i++) {
-	endMemberProperties[i*columnLength+ 0] = m[i];
-	endMemberProperties[i*columnLength+ 1] = (liquid[i].cur).g;
-	endMemberProperties[i*columnLength+ 2] = muLiq[i];
-        strncpy(endMemberNames+i*sizeof(char)*nCh,liquid[i].label, nCh);
+      for (i=0, G0=0.0; i<nlc; i++) {
+	m[i]    /= mTot; 
+        G0      += m[i]*(liquid[i].cur).g;
+	G       += m[i]*(liquid[i].cur).g;
       }
-      for (i=0, mTot=0.0; i<(*numberEndMembers); i++) mTot += endMemberProperties[i*columnLength];
-      for (i=0; i<(*numberEndMembers); i++) endMemberProperties[i*columnLength] /= mTot;
-      (*numberEndMembers) = nlc;
+      
+      endMemberProperties[ 0] = 1.0;
+      endMemberProperties[ 1] = G0;
+      endMemberProperties[ 2] = G;
+      strncpy(endMemberNames,"liquid", nCh);
+      
+      for (i=0; i<nlc; i++) {
+	endMemberProperties[(i+1)*columnLength+ 0] = m[i];
+	endMemberProperties[(i+1)*columnLength+ 1] = (m[i] != 0.0) ? (liquid[i].cur).g : 0.0;
+	endMemberProperties[(i+1)*columnLength+ 2] = (m[i] != 0.0) ? muLiq[i] : 0.0;
+        strncpy(endMemberNames+(i+1)*sizeof(char)*nCh,liquid[i].label, nCh);
+      }
+      (*numberEndMembers) = nlc+1;
       
       free(m);
       free(r);
@@ -1262,23 +1285,31 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 
       (*solids[j].activity)(FIRST | SECOND, *temperature, *pressure, r, actSol, muSol, NULL);
 
-      for (i=0; i<solids[j].na; i++) {
-	gibbs(*temperature, *pressure, phaseName, &solids[j+1+i].ref, NULL, NULL, &(solids[j+1+i].cur));
+      for (i=0, mTot=0.0; i<solids[j].na; i++) {
+        mTot +=  m[i];
+	gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &(solids[j+1+i].cur));
 	muSol[i] += (solids[j+1+i].cur).g;
 	muSol[i] -= (actSol[i] > 0.0) ? R*(*temperature)*log(actSol[i]) : 0.0; /* true mu0 */
       }
+
+      for (i=0, G0=0.0; i<nlc; i++) {
+	m[i]    /= mTot;
+	G0      += m[i]*muSol[i];
+        G       += m[i]*(solids[j+1+i].cur).g;
+      }
+      
+      endMemberProperties[ 0] = 1.0;
+      endMemberProperties[ 1] = G0;
+      endMemberProperties[ 2] = G;
+      strncpy(endMemberNames,solids[j].label, nCh);
       
       for (i=0; i<solids[j].na; i++) {
-	endMemberProperties[i*columnLength+ 0] = m[i];
-	endMemberProperties[i*columnLength+ 1] = muSol[i];
-	endMemberProperties[i*columnLength+ 2] =
-	  (actSol[i] > 0.0) ?  muSol[i] + R*(*temperature)*log(actSol[i]) :  muSol[i];
-        strncpy(endMemberNames+i*sizeof(char)*nCh,solids[j+1+i].label, nCh);
+	endMemberProperties[(i+1)*columnLength+ 0] = m[i];
+	endMemberProperties[(i+1)*columnLength+ 1] = muSol[i];
+	endMemberProperties[(i+1)*columnLength+ 2] = (actSol[i] > 0.0) ?  muSol[i] + R*(*temperature)*log(actSol[i]) : 0.0;
+        strncpy(endMemberNames+(i+1)*sizeof(char)*nCh,solids[j+1+i].label, nCh);
       }
-      (*numberEndMembers) = solids[j].na;
-
-      for (i=0, mTot=0.0; i<(*numberEndMembers); i++) mTot += endMemberProperties[i*columnLength];
-      for (i=0; i<(*numberEndMembers); i++) if (mTot != 0.0) endMemberProperties[i*columnLength] /= mTot;
+      (*numberEndMembers) = solids[j].na+1;
       
       free(m);
       free(r);
@@ -1308,7 +1339,142 @@ void getMeltsEndMemberProperties(char *phaseName, double *temperature,
   char endMemberNames[nCh*np];
   double endMemberProperties[3*np];
 
+  meltsgetendmemberproperties_(phaseName, temperature, pressure, bulkComposition,
+			       endMemberNames, nCharInName, numberEndMembers, endMemberProperties);
+
   for (i=0; i<*numberEndMembers; i++) strncpy(endMemberPtr[i], &endMemberNames[nCh*i], nCh);
   for (i=0; i<*numberEndMembers; i++) for (j=0; j<3; j++) propertiesPtr[i][j] = endMemberProperties[3*i + j];
 
 }
+
+/* ================================================================================== */
+/* Retrieves properties of solid and liquid phases in oxide components                */
+/* Input:                                                                             */
+/*   phaseName           - string as returned from meltsGetPhaseNames                 */
+/*   temperature         - Temperature in Kelvins of the node                         */
+/*   pressure            - Pressure in bars of the node                               */
+/*   bulkComposition     - Bulk composition of the phase in grams of oxides           */ 
+/*   nCharInName         - number of characters dimensioned for each name             */
+/*                         i.e. in FORTRAN : CHARACTER*20, where nCharInName is 20    */
+/* Output:                                                                            */
+/*   oxideNames          - array of phase names for columns of oxideProperties        */
+/*                         memory must be allocated for this array by the calling     */
+/*                         program, e.g. CHARACTER*20 oxideNames(20)                  */
+/*   numberOxides        - number of entries in oxideNames and columns in             */
+/*                         oxideProperties                                            */
+/*   oxideProperties - 1-d array, properties in the order X, mu0, mu                  */
+/* ================================================================================== */
+
+void meltsgetoxideproperties_(char *phaseName, double *temperature, 
+         double *pressure, double *bulkComposition, char oxideNames[], 
+	 int *nCharInName, int *numberOxides, double *oxideProperties) {
+  PhaseList *res;
+  int nCh = *nCharInName;
+
+  if (!iAmInitialized) initializeLibrary();
+
+  if (phaseList == NULL) {
+    int i, maxLength = 7;
+    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) np++;
+    phaseList = (PhaseList *) malloc((size_t) np*sizeof(struct _phaseList));
+    
+    phaseList[0].index = -1;
+    phaseList[0].name = (char *) malloc ((size_t) 7*sizeof(char));
+    strcpy(phaseList[0].name, "liquid");
+    
+    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) {
+      int length = strlen(solids[i].label)+1;
+      maxLength = (maxLength < length) ? length : maxLength;
+      phaseList[np].index = i;
+      phaseList[np].name = (char *) malloc((size_t) length*sizeof(char));
+      strcpy(phaseList[np].name, solids[i].label);
+      np++;
+    }
+    
+    qsort(phaseList, (size_t) np, sizeof(struct _phaseList), comparePhases);
+    key.name = (char *) malloc((size_t) maxLength);
+  }
+
+  strcpy(key.name, phaseName);
+  res = phaseList;
+  
+  if (res == NULL) { oxideProperties = NULL; return; }
+  else { 
+    int i, j = res->index;
+    int columnLength = 2; /* X, mu */
+    
+    if (j < 0) { /* liquid */
+      double *m, *r, mTot;
+      double *muLiq;
+      int k;
+
+      m = (double *) calloc((size_t) nlc,    sizeof(double));
+      r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
+      muLiq = (double *) malloc((size_t) nlc*sizeof(double));
+      for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
+      
+      if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
+	silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
+	conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
+	for (i=0; i<nc; i++) for (j=0, bulkComposition[i] = 0.0; j<nlc; j++) 
+			       bulkComposition[i] += m[j]*(liquid[j].liqToOx)[i]*bulkSystem[i].mw;
+      }
+
+      conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
+
+      actLiq(SECOND, *temperature, *pressure, r, NULL, muLiq, NULL, NULL);
+
+      for (i=0; i<nlc; i++) {
+  	gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
+	muLiq[i] += (liquid[i].cur).g;
+      }   
+
+      for (k=0; k<columnLength*nc; k++) oxideProperties[k] = 0.0;
+      for (i=0; i<nlc; i++) for (k=0; k<nc; k++) oxideProperties[k*columnLength+ 0] += (liquid[i].liqToOx)[k] * m[i];
+      for (k=0; k<nc; k++) for (i=0; i<nlc; i++) oxideProperties[k*columnLength+ 1] += (bulkSystem[k].oxToLiq)[i] * muLiq[i];
+      
+      for (k=0, mTot=0.0; k<nc; k++) mTot += oxideProperties[k*columnLength];      
+      for (k=0; k<nc; k++) if (mTot != 0.0) oxideProperties[k*columnLength] /= mTot;
+
+      for (k=0; k<nc; k++) strncpy(oxideNames+k*sizeof(char)*nCh,bulkSystem[k].label, nCh);
+      (*numberOxides) = nc;
+      
+      free(m);
+      free(r);
+      free(muLiq);
+
+    }
+    /* else if (solids[j].na == 1) {*/ /* never used */
+    /* else { */
+    /* should not be used except for Lattice strain model, and is probably not correct even for that... */
+    /* } */
+    
+  }
+}
+
+/* ================================================================================== */
+/* Input and Output (as above except):                                                */
+/*   phaseName        - string as returned from meltsGetPhaseNames, can also use      */
+/*                      'garnet' or 'pyroxene', with 'clino / ortho / super' optional */
+/*   oxidePtr         - array of blank strings, assumed all to be of the same length  */
+/*   numberOxides     - input lt or equal to amount of allocated storage, output a/a  */
+/*   propertiesPtr    - this is double[][3], instead of double*, and rows and columns */
+/*                      are switched when calling from C rather than Fortran          */
+/* ================================================================================== */
+
+void getMeltsOxideProperties(char *phaseName, double *temperature, 
+                 double *pressure, double *bulkComposition,
+                 char *oxidePtr[], int *nCharInName, int *numberOxides, 
+		 double propertiesPtr[][2]) {
+  int i, j, nCh = *nCharInName, np = *numberOxides;
+  char oxideNames[nCh*np];
+  double oxideProperties[2*np];
+
+  meltsgetoxideproperties_(phaseName, temperature, pressure, bulkComposition,
+                 oxideNames, nCharInName, numberOxides, oxideProperties);
+
+  for (i=0; i<*numberOxides; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
+  for (i=0; i<*numberOxides; i++) for (j=0; j<2; j++) propertiesPtr[i][j] = oxideProperties[2*i + j];
+
+}
+
