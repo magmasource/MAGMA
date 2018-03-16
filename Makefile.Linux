@@ -85,7 +85,7 @@ LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
 PYMELTSVER    = 0.1.1
 
 ifneq ($(DYNAMIC),)
-CFLAGS   += -fPIC
+CFLAGS   += -fPIC -DTESTDYNAMICLIB
 endif
 
 # Loader flags (default is shared, add -non_shared)

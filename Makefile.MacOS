@@ -72,6 +72,10 @@ HOST          = repository.ofm-research.org
 LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
 PYMELTSVER    = 0.1.1
 
+ifneq ($(DYNAMIC),)
+CFLAGS   += -DTESTDYNAMICLIB
+endif
+
 # Loader flags (default is shared, add -non_shared)
 # =================================================
 
