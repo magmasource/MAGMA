@@ -6,6 +6,11 @@
 #include <dirent.h>
 #include <unistd.h>
 
+#ifdef TESTDYNAMICLIB
+#include <signal.h>
+#include <setjmp.h>
+#endif
+
 #include "silmin.h"
 
 #include "status.h"
@@ -15,6 +20,11 @@ MeltsStatus meltsStatus;
 #include "sol_struct_data.h"
 
 #define REC   134
+
+#ifdef TESTDYNAMICLIB
+static void newErrorHandler(int sig);  /* new error handler function */
+static jmp_buf env;
+#endif
 
 int calculationMode = MODE__MELTS;
 int quad_tol_modifier = 1;
@@ -31,6 +41,7 @@ char *addOutputFileName = NULL;
 static int iAmInitialized = FALSE;
 
 static void initializeLibrary(void) {
+
   if ((calculationMode == MODE__MELTS) || (calculationMode == MODE_xMELTS)) {
     liquid = meltsLiquid;
     solids = meltsSolids;
@@ -99,11 +110,25 @@ void meltsgetoxidenames_(char oxideNames[], int *nCharInName, int *numberOxides)
 /*   numberOxides - input lt or equal to amount of allocated storage, output as above */
 /* ================================================================================== */
 
-void getMeltsOxideNames(char *oxidePtr[], int *nCharInName, int *numberOxides) {
-  int i, nCh = *nCharInName, nox = *numberOxides;
+void getMeltsOxideNames(int *failure, char *oxidePtr[], int *nCharInName, int *numberOxides) {
+int i, nCh = *nCharInName, nox = *numberOxides;
   char oxideNames[nCh*nox];
-  meltsgetoxidenames_(oxideNames, nCharInName, numberOxides);
-  for (i=0; i<*numberOxides; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
+
+#ifdef TESTDYNAMICLIB
+  if (setjmp(env) == 0) {
+    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
+    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
+    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+#endif
+    meltsgetoxidenames_(oxideNames, nCharInName, numberOxides);
+    for (i=0; i<*numberOxides; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
+    *failure = FALSE;
+#ifdef TESTDYNAMICLIB
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    raise(SIGINT);
+  }
+#endif
 }
 
 /* ================================================================================== */
@@ -139,11 +164,25 @@ void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases,
 /*   numberPhases - input lt or equal to amount of allocated storage, output as above */
 /* ================================================================================== */
 
-void getMeltsPhaseNames(char *phasePtr[], int *nCharInName, int *numberPhases, int phaseIndices[]) {
+void getMeltsPhaseNames(int *failure, char *phasePtr[], int *nCharInName, int *numberPhases, int phaseIndices[]) {
   int i, nCh = *nCharInName, np = *numberPhases;
   char phaseNames[nCh*np];
-  meltsgetphasenames_(phaseNames, nCharInName, numberPhases, phaseIndices);
-  for (i=0; i<*numberPhases; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
+
+#ifdef TESTDYNAMICLIB
+  if (setjmp(env) == 0) {
+    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
+    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
+    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+#endif
+    meltsgetphasenames_(phaseNames, nCharInName, numberPhases, phaseIndices);
+    for (i=0; i<*numberPhases; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
+    *failure = FALSE;
+#ifdef TESTDYNAMICLIB
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    raise(SIGINT);
+  }
+#endif
 }
 
 /* ================================================================================== */
@@ -795,21 +834,33 @@ void meltsgeterrorstring_(int *status, char *errorString, int *nCharInName) {
 /*                   are switched when calling from C rather than Fortran              */
 /* =================================================================================== */
 
-void driveMeltsProcess(int *nodeIndex, int *mode, double *pressure, double *bulkComposition,
+void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkComposition,
                double *enthalpy, double *temperature,
                char *phasePtr[], int *nCharInName, int *numberPhases, int *iterations, 
                char *errorString, int *nCharInString, double propertiesPtr[][nc+14], int phaseIndices[]) {
-  int i, j, nCh = *nCharInName, np = *numberPhases, status;
+  int i, j, nCh = *nCharInName, np = *numberPhases, status, nodeIndex = 1;
   char phaseNames[nCh*np];
   double phaseProperties[(nc+14)*np];
 
-  meltsprocess_(nodeIndex, mode, pressure, bulkComposition, enthalpy, temperature,
-        phaseNames, nCharInName, numberPhases, iterations, &status, phaseProperties, phaseIndices);
-  for (i=0; i<*numberPhases; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
-  for (i=0; i<*numberPhases; i++) for (j=0; j<nc+14; j++) propertiesPtr[i][j] = phaseProperties[(nc+14)*i + j];
+#ifdef TESTDYNAMICLIB
+  if (setjmp(env) == 0) {
+    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
+    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
+    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+#endif
+    meltsprocess_(&nodeIndex, mode, pressure, bulkComposition, enthalpy, temperature,
+		  phaseNames, nCharInName, numberPhases, iterations, &status, phaseProperties, phaseIndices);
+    for (i=0; i<*numberPhases; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
+    for (i=0; i<*numberPhases; i++) for (j=0; j<nc+14; j++) propertiesPtr[i][j] = phaseProperties[(nc+14)*i + j];
 
-  meltsgeterrorstring_(&status, errorString, nCharInString);
-
+    meltsgeterrorstring_(&status, errorString, nCharInString);
+    *failure = FALSE;
+#ifdef TESTDYNAMICLIB
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    raise(SIGINT);
+  }
+#endif
 }
 
 /* ================================================================================== */
@@ -911,11 +962,23 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
 /*   numberStrings   - number of strings                                              */
 /* ================================================================================== */
 
-void setMeltsSystemProperties(int *nodeIndex, char *properties[], int *numberStrings) {
-  int i;
+void setMeltsSystemProperties(int *failure, char *properties[], int *numberStrings) {
+  int i, nodeIndex = 1;
 
-  for (i=0; i<*numberStrings; i++) meltssetsystemproperty_(nodeIndex, properties[i]);
-
+#ifdef TESTDYNAMICLIB
+  if (setjmp(env) == 0) {
+    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
+    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
+    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+#endif
+    for (i=0; i<*numberStrings; i++) meltssetsystemproperty_(&nodeIndex, properties[i]);
+    *failure = FALSE;
+#ifdef TESTDYNAMICLIB
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    raise(SIGINT);
+  }
+#endif
 }
 
 /* ================================================================================== */
@@ -1137,16 +1200,27 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 /* Input and Output (as above)                                                        */
 /* ================================================================================== */
 
-void getMeltsPhaseProperties(char *phaseName, double *temperature, 
+void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature, 
                  double *pressure, double *bulkComposition, double *phasePtr) {
 
   int i;
   double phaseProperties[nlc+11]; /* don't return mu for Matlab version */
-  
-  meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
 
-  for (i=0; i<11; i++) phasePtr[i] = phaseProperties[i];
-  
+#ifdef TESTDYNAMICLIB
+  if (setjmp(env) == 0) {
+    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
+    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
+    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+#endif  
+    meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
+    for (i=0; i<11; i++) phasePtr[i] = phaseProperties[i];
+    *failure = FALSE;
+#ifdef TESTDYNAMICLIB
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    raise(SIGINT);
+  }
+#endif  
 }
 
 /* ================================================================================== */
@@ -1331,7 +1405,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 /*                      are switched when calling from C rather than Fortran          */
 /* ================================================================================== */
 
-void getMeltsEndMemberProperties(char *phaseName, double *temperature, 
+void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperature, 
                  double *pressure, double *bulkComposition,
                  char *endMemberPtr[], int *nCharInName, int *numberEndMembers, 
 		 double propertiesPtr[][3]) {
@@ -1339,12 +1413,24 @@ void getMeltsEndMemberProperties(char *phaseName, double *temperature,
   char endMemberNames[nCh*np];
   double endMemberProperties[3*np];
 
-  meltsgetendmemberproperties_(phaseName, temperature, pressure, bulkComposition,
+#ifdef TESTDYNAMICLIB
+  if (setjmp(env) == 0) {
+    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
+    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
+    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+#endif
+    meltsgetendmemberproperties_(phaseName, temperature, pressure, bulkComposition,
 			       endMemberNames, nCharInName, numberEndMembers, endMemberProperties);
 
   for (i=0; i<*numberEndMembers; i++) strncpy(endMemberPtr[i], &endMemberNames[nCh*i], nCh);
   for (i=0; i<*numberEndMembers; i++) for (j=0; j<3; j++) propertiesPtr[i][j] = endMemberProperties[3*i + j];
-
+  *failure = FALSE;
+#ifdef TESTDYNAMICLIB
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    raise(SIGINT);
+  }
+#endif  
 }
 
 /* ================================================================================== */
@@ -1462,7 +1548,7 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
 /*                      are switched when calling from C rather than Fortran          */
 /* ================================================================================== */
 
-void getMeltsOxideProperties(char *phaseName, double *temperature, 
+void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature, 
                  double *pressure, double *bulkComposition,
                  char *oxidePtr[], int *nCharInName, int *numberOxides, 
 		 double propertiesPtr[][2]) {
@@ -1470,11 +1556,124 @@ void getMeltsOxideProperties(char *phaseName, double *temperature,
   char oxideNames[nCh*np];
   double oxideProperties[2*np];
 
+#ifdef TESTDYNAMICLIB
+  if (setjmp(env) == 0) {
+    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
+    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
+    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+#endif  
   meltsgetoxideproperties_(phaseName, temperature, pressure, bulkComposition,
                  oxideNames, nCharInName, numberOxides, oxideProperties);
 
   for (i=0; i<*numberOxides; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
   for (i=0; i<*numberOxides; i++) for (j=0; j<2; j++) propertiesPtr[i][j] = oxideProperties[2*i + j];
-
+  *failure = FALSE;
+#ifdef TESTDYNAMICLIB
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    raise(SIGINT);
+  }
+#endif  
 }
 
+static void newErrorHandler(int sig)
+{
+  switch(sig)
+  {
+    case SIGABRT:
+      fputs("Caught SIGABRT: usually caused by an abort() or assert()\n", stderr);
+      break;
+    case SIGFPE:
+      fputs("Caught SIGFPE: arithmetic exception, such as divide by zero\n", stderr);
+      break;
+    default:
+      fputs("Caught SIGILL: illegal instruction\n", stderr);
+      break;
+  }
+  /*_Exit(1);*/
+  longjmp(env, sig);
+}
+
+/*
+
+#include <windows.h>
+#include <stdio.h>
+LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo)
+{
+  switch(ExceptionInfo->ExceptionRecord->ExceptionCode)
+  {
+    case EXCEPTION_ACCESS_VIOLATION:
+      fputs("Error: EXCEPTION_ACCESS_VIOLATION\n", stderr);
+      break;
+    case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+      fputs("Error: EXCEPTION_ARRAY_BOUNDS_EXCEEDED\n", stderr);
+      break;
+    case EXCEPTION_BREAKPOINT:
+      fputs("Error: EXCEPTION_BREAKPOINT\n", stderr);
+      break;
+    case EXCEPTION_DATATYPE_MISALIGNMENT:
+      fputs("Error: EXCEPTION_DATATYPE_MISALIGNMENT\n", stderr);
+      break;
+    case EXCEPTION_FLT_DENORMAL_OPERAND:
+      fputs("Error: EXCEPTION_FLT_DENORMAL_OPERAND\n", stderr);
+      break;
+    case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+      fputs("Error: EXCEPTION_FLT_DIVIDE_BY_ZERO\n", stderr);
+      break;
+    case EXCEPTION_FLT_INEXACT_RESULT:
+      fputs("Error: EXCEPTION_FLT_INEXACT_RESULT\n", stderr);
+      break;
+    case EXCEPTION_FLT_INVALID_OPERATION:
+      fputs("Error: EXCEPTION_FLT_INVALID_OPERATION\n", stderr);
+      break;
+    case EXCEPTION_FLT_OVERFLOW:
+      fputs("Error: EXCEPTION_FLT_OVERFLOW\n", stderr);
+      break;
+    case EXCEPTION_FLT_STACK_CHECK:
+      fputs("Error: EXCEPTION_FLT_STACK_CHECK\n", stderr);
+      break;
+    case EXCEPTION_FLT_UNDERFLOW:
+      fputs("Error: EXCEPTION_FLT_UNDERFLOW\n", stderr);
+      break;
+    case EXCEPTION_ILLEGAL_INSTRUCTION:
+      fputs("Error: EXCEPTION_ILLEGAL_INSTRUCTION\n", stderr);
+      break;
+    case EXCEPTION_IN_PAGE_ERROR:
+      fputs("Error: EXCEPTION_IN_PAGE_ERROR\n", stderr);
+      break;
+    case EXCEPTION_INT_DIVIDE_BY_ZERO:
+      fputs("Error: EXCEPTION_INT_DIVIDE_BY_ZERO\n", stderr);
+      break;
+    case EXCEPTION_INT_OVERFLOW:
+      fputs("Error: EXCEPTION_INT_OVERFLOW\n", stderr);
+      break;
+    case EXCEPTION_INVALID_DISPOSITION:
+      fputs("Error: EXCEPTION_INVALID_DISPOSITION\n", stderr);
+      break;
+    case EXCEPTION_NONCONTINUABLE_EXCEPTION:
+      fputs("Error: EXCEPTION_NONCONTINUABLE_EXCEPTION\n", stderr);
+      break;
+    case EXCEPTION_PRIV_INSTRUCTION:
+      fputs("Error: EXCEPTION_PRIV_INSTRUCTION\n", stderr);
+      break;
+    case EXCEPTION_SINGLE_STEP:
+      fputs("Error: EXCEPTION_SINGLE_STEP\n", stderr);
+      break;
+    case EXCEPTION_STACK_OVERFLOW:
+      fputs("Error: EXCEPTION_STACK_OVERFLOW\n", stderr);
+      break;
+    default:
+      fputs("Error: Unrecognized Exception\n", stderr);
+      break;
+  }
+  fflush(stderr);
+
+  return EXCEPTION_EXECUTE_HANDLER;
+}
+ 
+void set_signal_handler()
+{
+  SetUnhandledExceptionFilter(windows_exception_handler);
+}
+
+*/
