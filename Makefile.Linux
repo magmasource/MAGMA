@@ -58,7 +58,7 @@ DYFLAGS	      = xv
 CC            = clang
 LD            = clang
 ifneq ($(STATIC),)
-override LD = g++
+override LD   = g++
 endif
 FC            = gfortran
 CFLAGS        = -c -O3 $(BATCH) \

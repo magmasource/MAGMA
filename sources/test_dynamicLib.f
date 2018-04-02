@@ -55,8 +55,8 @@ program test
   print *, "numphases = ", numphases
   
   print *, "Before first call to meltsprocess..."
-  node = 1;
-  mode = 1;
+  node = 1
+  mode = 1
   pressure = 1000.0
   temperature = 1400.0
   enthalpy = 0.0
@@ -140,11 +140,10 @@ program test
   call meltsgeterrorstring(status, errorString, 100)
   print *, "... Error string: ", errorString
   
-!     do k=1,1000
-  do k=1,1
-    print *, "Before second call to meltsprocess..."
-    node = 1;
-    mode = 2;
+  do k=1,1000
+    print *, "Before second call to meltsprocess... for iteration ", k
+    node = 1
+    mode = 2
     enthalpy = enthalpy - 1.0
 !
 ! example of a continuation call, enthalpy/pressure specified

@@ -21,6 +21,10 @@ const char *liquid_CO2_ver(void) { return "$Id: liquid_CO2.c,v 1.42 2009/05/14 0
 #undef DEBUG
 #endif
 
+/*#ifdef TESTDYNAMICLIB
+#undef TESTDYNAMICLIB
+#endif*/
+
 #define USE_KRESS_CARMICHAEL_FO2
 
 #include "silmin.h"
