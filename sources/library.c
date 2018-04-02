@@ -112,8 +112,8 @@ void meltsgetoxidenames_(char oxideNames[], int *nCharInName, int *numberOxides)
 /*   numberOxides - input lt or equal to amount of allocated storage, output as above */
 /* ================================================================================== */
 
-void getMeltsOxideNames(int *failure, char *oxidePtr[], int *nCharInName, int *numberOxides) {
-int i, nCh = *nCharInName, nox = *numberOxides;
+void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *numberOxides) {
+  int i, nCh = *nCharInName, nox = *numberOxides;
   char oxideNames[nCh*nox];
 
 #ifdef TESTDYNAMICLIB
@@ -122,8 +122,13 @@ int i, nCh = *nCharInName, nox = *numberOxides;
     if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
     if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
 #endif
+    for (i=0; i<nCh*nox; i++) oxidePtr[i] = '\0';
     meltsgetoxidenames_(oxideNames, nCharInName, numberOxides);
-    for (i=0; i<*numberOxides; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
+    nox = *numberOxides;
+    for (i=0; i<nCh*nox; i++) {
+      if (oxideNames[i] == '\0') oxidePtr[i] = ' ';
+      else oxidePtr[i] = oxideNames[i];
+    }
     *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
@@ -166,7 +171,7 @@ void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases,
 /*   numberPhases - input lt or equal to amount of allocated storage, output as above */
 /* ================================================================================== */
 
-void getMeltsPhaseNames(int *failure, char *phasePtr[], int *nCharInName, int *numberPhases, int phaseIndices[]) {
+void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *numberPhases, int phaseIndices[]) {
   int i, nCh = *nCharInName, np = *numberPhases;
   char phaseNames[nCh*np];
   
@@ -176,8 +181,13 @@ void getMeltsPhaseNames(int *failure, char *phasePtr[], int *nCharInName, int *n
     if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
     if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
 #endif
+    for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
     meltsgetphasenames_(phaseNames, nCharInName, numberPhases, phaseIndices);
-    for (i=0; i<*numberPhases; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
+    np = *numberPhases;
+    for (i=0; i<nCh*np; i++) {
+      if (phaseNames[i] == '\0') phasePtr[i] = ' ';
+      else phasePtr[i] = phaseNames[i];
+    }
     *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
@@ -1245,7 +1255,7 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
                  double *pressure, double *bulkComposition, double *phasePtr) {
 
   int i;
-  double phaseProperties[nlc+11]; /* don't return mu for Matlab version */
+  double phaseProperties[nlc+11]; /* don't return mu for Matlab version (put composition instead) */
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
@@ -1378,7 +1388,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       endMemberProperties[ 0] = 1.0;
       endMemberProperties[ 1] = (solids[j].cur).g;
       endMemberProperties[ 2] = (solids[j].cur).g;
-      strncpy(endMemberNames,solids[j].label, nCh);
+      strncpy(endMemberNames,solids[j].formula, nCh);
       (*numberEndMembers) = 1;
 
     } else {
@@ -1398,6 +1408,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       (*solids[j].convert)(FIRST, SECOND, *temperature, *pressure, e, m, NULL, NULL, NULL, NULL, NULL, NULL);
       (*solids[j].convert)(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
 
+      (*solids[j].gmix) (FIRST, *temperature, *pressure, r, &G, NULL, NULL, NULL);
       (*solids[j].activity)(FIRST | SECOND, *temperature, *pressure, r, actSol, muSol, NULL);
 
       for (i=0, mTot=0.0; i<solids[j].na; i++) {
@@ -1422,7 +1433,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 	endMemberProperties[(i+1)*columnLength+ 0] = m[i];
 	endMemberProperties[(i+1)*columnLength+ 1] = muSol[i];
 	endMemberProperties[(i+1)*columnLength+ 2] = (actSol[i] > 0.0) ?  muSol[i] + R*(*temperature)*log(actSol[i]) : 0.0;
-        strncpy(endMemberNames+(i+1)*sizeof(char)*nCh,solids[j+1+i].label, nCh);
+        strncpy(endMemberNames+(i+1)*sizeof(char)*nCh,solids[j+1+i].formula, nCh);
       }
       (*numberEndMembers) = solids[j].na+1;
       
@@ -1448,7 +1459,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 
 void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperature, 
                  double *pressure, double *bulkComposition,
-                 char *endMemberPtr[], int *nCharInName, int *numberEndMembers, 
+				 char *endMemberPtr, int *nCharInName, int *numberEndMembers, 
 		 double propertiesPtr[][3]) {
   int i, j, nCh = *nCharInName, np = *numberEndMembers;
   char endMemberNames[nCh*np];
@@ -1460,12 +1471,16 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
     if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
     if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
 #endif
+    for (i=0; i<nCh*np; i++) endMemberPtr[i] = '\0';
     meltsgetendmemberproperties_(phaseName, temperature, pressure, bulkComposition,
-			       endMemberNames, nCharInName, numberEndMembers, endMemberProperties);
-
-  for (i=0; i<*numberEndMembers; i++) strncpy(endMemberPtr[i], &endMemberNames[nCh*i], nCh);
-  for (i=0; i<*numberEndMembers; i++) for (j=0; j<3; j++) propertiesPtr[i][j] = endMemberProperties[3*i + j];
-  *failure = FALSE;
+				 endMemberNames, nCharInName, numberEndMembers, endMemberProperties);
+    np = *numberEndMembers;
+    for (i=0; i<nCh*np; i++) {
+      if (endMemberNames[i] == '\0') endMemberPtr[i] = ' ';
+      else endMemberPtr[i] = endMemberNames[i];
+    }
+    for (i=0; i<np; i++) for (j=0; j<3; j++) propertiesPtr[i][j] = endMemberProperties[3*i + j];
+    *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
