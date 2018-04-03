@@ -1407,7 +1407,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 	muSol[i] -= (actSol[i] > 0.0) ? R*(*temperature)*log(actSol[i]) : 0.0; /* true mu0 */
       }
 
-      for (i=0, G0=0.0; i<nlc; i++) {
+      for (i=0, G0=0.0; i<solids[j].na; i++) {
 	m[i]    /= mTot;
 	G0      += m[i]*muSol[i];
         G       += m[i]*(solids[j+1+i].cur).g;
