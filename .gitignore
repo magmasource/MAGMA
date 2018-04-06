@@ -6,6 +6,7 @@ core
 *.a
 *.dylib
 *.so
+*.dll
 *.o
 *.tbl
 *.out

@@ -253,6 +253,12 @@ MELTS Source Code: RCS
  *==============================================================================
  * Numerical constants
  */
+#ifdef MINGW
+#ifndef DBL_EPSILON
+#define DBL_EPSILON __DBL_EPSILON__
+#endif
+#endif
+
 #define TAU   DBL_EPSILON /* machine precision               */ 
 #define BIG   DBL_MAX     /* maximum double precision number */
 #ifndef TRUE

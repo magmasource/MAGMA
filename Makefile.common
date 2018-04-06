@@ -94,7 +94,7 @@ clean:
 
 realclean:
 	$(RM) $(RMFLAGS) core *.out *.tbl  *.preclb *.log *.plt *.res *.zip
-	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.inp
+	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.dll *.inp
 	$(RM) $(RMFLAGS) Analyze-fusion
 	$(RM) $(RMFLAGS) Analyze-fusion-MS
 	$(RM) $(RMFLAGS) Analyze-water
