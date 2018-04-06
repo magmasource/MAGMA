@@ -883,7 +883,7 @@ void meltsgeterrorstring_(int *status, char *errorString, int *nCharInName) {
 
 void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkComposition,
                double *enthalpy, double *temperature,
-               char *phasePtr[], int *nCharInName, int *numberPhases, int *output, 
+               char *phasePtr, int *nCharInName, int *numberPhases, int *output, 
                char *errorString, int *nCharInString, double propertiesPtr[][nc+14], int phaseIndices[]) {
   int i, j, nCh = *nCharInName, np = *numberPhases, status, nodeIndex = 1, iterations = 0;
   char phaseNames[nCh*np];
@@ -899,9 +899,14 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
     if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
     if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
 #endif
+    for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
     meltsprocess_(&nodeIndex, mode, pressure, bulkComposition, enthalpy, temperature,
 		  phaseNames, nCharInName, numberPhases, &iterations, &status, phaseProperties, phaseIndices);
-    for (i=0; i<*numberPhases; i++) strncpy(phasePtr[i], &phaseNames[nCh*i], nCh);
+    np = *numberPhases;
+    for (i=0; i<nCh*np; i++) {
+      if (phaseNames[i] == '\0') phasePtr[i] = ' ';
+      else phasePtr[i] = phaseNames[i];
+    }
     for (i=0; i<*numberPhases; i++) for (j=0; j<nc+14; j++) propertiesPtr[i][j] = phaseProperties[(nc+14)*i + j];
 
     meltsgeterrorstring_(&status, errorString, nCharInString);
@@ -1252,10 +1257,9 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 /* ================================================================================== */
 
 void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature, 
-                 double *pressure, double *bulkComposition, double *phasePtr) {
+                 double *pressure, double *bulkComposition, double *phaseProperties) {
 
-  int i;
-  double phaseProperties[nlc+11]; /* don't return mu for Matlab version (put composition instead) */
+  int i; /* don't return mu for Matlab version (put composition instead) */
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
@@ -1264,7 +1268,7 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
     if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
 #endif  
     meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
-    for (i=0; i<11; i++) phasePtr[i] = phaseProperties[i];
+    for (i=0; i<nc; i++) phaseProperties[i+11] = bulkComposition[i];
     *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
