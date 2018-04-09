@@ -7,8 +7,17 @@
 #include <unistd.h>
 
 #ifdef TESTDYNAMICLIB
+
 #include <signal.h>
 #include <setjmp.h>
+
+#ifdef MINGW
+#include <windows.h>
+#define setjmp(jmp_buf env)            _builtin_setjmp(env)
+#define longjmp(jmp_buf env, int val)  _builtin_longjmp(env, val)
+#endif
+void set_signal_handler();
+
 #endif
 
 #include "silmin.h"
@@ -118,9 +127,7 @@ void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *num
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
-    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
-    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
-    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+    set_signal_handler();
 #endif
     for (i=0; i<nCh*nox; i++) oxidePtr[i] = '\0';
     meltsgetoxidenames_(oxideNames, nCharInName, numberOxides);
@@ -177,9 +184,7 @@ void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *num
   
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
-    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
-    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
-    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+    set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
     meltsgetphasenames_(phaseNames, nCharInName, numberPhases, phaseIndices);
@@ -895,9 +900,7 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
-    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
-    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
-    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+    set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
     meltsprocess_(&nodeIndex, mode, pressure, bulkComposition, enthalpy, temperature,
@@ -1023,9 +1026,7 @@ void setMeltsSystemProperties(int *failure, char *properties[], int *numberStrin
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
-    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
-    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
-    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+    set_signal_handler();
 #endif
     for (i=0; i<*numberStrings; i++) meltssetsystemproperty_(&nodeIndex, properties[i]);
     *failure = FALSE;
@@ -1263,9 +1264,7 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
-    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
-    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
-    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+    set_signal_handler();
 #endif  
     meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
     for (i=0; i<nc; i++) phaseProperties[i+11] = bulkComposition[i];
@@ -1471,9 +1470,7 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
-    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
-    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
-    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+    set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) endMemberPtr[i] = '\0';
     meltsgetendmemberproperties_(phaseName, temperature, pressure, bulkComposition,
@@ -1610,24 +1607,26 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
 
 void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature, 
                  double *pressure, double *bulkComposition,
-                 char *oxidePtr[], int *nCharInName, int *numberOxides, 
+                 char *oxidePtr, int *nCharInName, int *numberOxides, 
 		 double propertiesPtr[][2]) {
-  int i, j, nCh = *nCharInName, np = *numberOxides;
-  char oxideNames[nCh*np];
-  double oxideProperties[2*np];
+  int i, j, nCh = *nCharInName, nox = *numberOxides;
+  char oxideNames[nCh*nox];
+  double oxideProperties[2*nox];
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
-    if (signal(SIGABRT, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
-    if (signal(SIGFPE, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
-    if (signal(SIGILL, &newErrorHandler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+    set_signal_handler();
 #endif  
-  meltsgetoxideproperties_(phaseName, temperature, pressure, bulkComposition,
+    for (i=0; i<nCh*nox; i++) oxidePtr[i] = '\0';
+    meltsgetoxideproperties_(phaseName, temperature, pressure, bulkComposition,
                  oxideNames, nCharInName, numberOxides, oxideProperties);
-
-  for (i=0; i<*numberOxides; i++) strncpy(oxidePtr[i], &oxideNames[nCh*i], nCh);
-  for (i=0; i<*numberOxides; i++) for (j=0; j<2; j++) propertiesPtr[i][j] = oxideProperties[2*i + j];
-  *failure = FALSE;
+    nox = *numberOxides;
+    for (i=0; i<nCh*nox; i++) {
+      if (oxideNames[i] == '\0') oxidePtr[i] = ' ';
+      else oxidePtr[i] = oxideNames[i];
+    }
+    for (i=0; i<*numberOxides; i++) for (j=0; j<2; j++) propertiesPtr[i][j] = oxideProperties[2*i + j];
+    *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
@@ -1855,37 +1854,10 @@ static void doBatchFractionation(void) {
 }
 
 #ifdef TESTDYNAMICLIB
-static void newErrorHandler(int sig)
-{
-  switch(sig)
-  {
-    case SIGABRT:
-      fputs("Caught SIGABRT: usually caused by an abort() or assert()\n", stderr);
-      break;
-    case SIGFPE:
-      fputs("Caught SIGFPE: arithmetic exception, such as divide by zero\n", stderr);
-      break;
-    default:
-      fputs("Caught SIGILL: illegal instruction\n", stderr);
-      break;
-  }
-  // Replace with machine-specific
-#ifdef TESTDYNAMICLIB
-  longjmp(env, 0);
-#else
-  _Exit(1);
-#endif
-}
-#endif
 
-/*
-
-#include <windows.h>
-#include <stdio.h>
-LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo)
-{
-  switch(ExceptionInfo->ExceptionRecord->ExceptionCode)
-  {
+#ifdef MINGW
+LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo) {
+  switch(ExceptionInfo->ExceptionRecord->ExceptionCode) {
     case EXCEPTION_ACCESS_VIOLATION:
       fputs("Error: EXCEPTION_ACCESS_VIOLATION\n", stderr);
       break;
@@ -1951,13 +1923,54 @@ LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo)
       break;
   }
   fflush(stderr);
-
+  
+  longjmp(env, 0);
+  
   return EXCEPTION_EXECUTE_HANDLER;
 }
  
-void set_signal_handler()
-{
-  SetUnhandledExceptionFilter(windows_exception_handler);
+#else
+
+static void almost_c99_signal_handler(int sig) {
+  switch(sig) {
+  case SIGABRT:
+    fputs("Caught SIGABRT: usually caused by an abort() or assert()\n", stderr);
+    break;
+  case SIGFPE:
+    fputs("Caught SIGFPE: arithmetic exception, such as divide by zero\n", stderr);
+    break;
+  case SIGILL:
+    fputs("Caught SIGILL: illegal instruction\n", stderr);
+    break;
+      /*
+	case SIGINT:
+	fputs("Caught SIGINT: interactive attention signal, probably a ctrl+c\n", stderr);
+	break; 
+      */
+  case SIGSEGV:
+    fputs("Caught SIGSEGV: segfault\n", stderr);
+    break;
+  default:
+    fputs("Caught SIGTERM: a termination request was sent to the program\n", stderr);
+    break;
+  }
+  /* was: _Exit(1); */
+  longjmp(env, 0);
 }
 
-*/
+#endif
+
+void set_signal_handler()
+{
+#ifdef MINGW  
+  SetUnhandledExceptionFilter(windows_exception_handler);
+#else
+  if (signal(SIGABRT, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
+  if (signal(SIGFPE, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
+  if (signal(SIGILL, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
+  if (signal(SIGSEGV, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGSEGV handler.\n");
+  if (signal(SIGTERM, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGTERM handler.\n");
+#endif
+}
+
+#endif
