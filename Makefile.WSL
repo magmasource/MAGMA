@@ -82,7 +82,7 @@ LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
 PYMELTSVER    = 0.1.1
 
 ifneq ($(DYNAMIC),)
-CFLAGS   += -fPIC -DTESTDYNAMICLIB -DMINGW
+CFLAGS   += -DTESTDYNAMICLIB -DMINGW
 endif
 
 # Loader flags (default is shared, add -non_shared)
@@ -115,9 +115,13 @@ override LIBXML = /usr/$(ROOTDIR)/lib/libxml2.a /usr/$(ROOTDIR)/lib/libicuio.a \
         -L/usr/$(ROOTDIR)/lib/ -lpng12 -lz -lpthread -ldl -lm
 endif
 #LIBBATCH = -L/usr/$(ROOTDIR)/lib -lxml2 -lz -lm
-LIBBATCH = -L/usr/$(ROOTDIR)/lib -lws2_32 -luuid -lm
+LIBBATCH = -L/usr/$(ROOTDIR)/lib -lws2_32 -luuid -lm -lmingw32 
 
 include Makefile.common
 
 # end of Makefile
 # ===============
+
+# To build test test_meltsLib in pHMELTS4
+# x86_64-w64-mingw32-gcc -c -g3 test_meltsLib.c -DTESTLIQUIDPROPS
+# x86_64-w64-mingw32-g++ -o test_meltsLib test_meltsLib.o -L. -lMELTSdynamic

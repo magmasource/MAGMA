@@ -1,3 +1,4 @@
+
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
@@ -13,9 +14,11 @@
 
 #ifdef MINGW
 #include <windows.h>
-#define setjmp(jmp_buf env)            _builtin_setjmp(env)
-#define longjmp(jmp_buf env, int val)  _builtin_longjmp(env, val)
 #endif
+/*
+#define setjmp(env)        __builtin_setjmp(env)
+#define longjmp(env, val)  __builtin_longjmp(env, val)
+*/
 void set_signal_handler();
 
 #endif
