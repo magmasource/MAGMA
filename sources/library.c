@@ -14,14 +14,22 @@
 
 #ifdef MINGW
 #include <windows.h>
+#include <fcntl.h>
+#include <io.h>
+#include <conio.h>
+#define MAX_CONSOLE_LINES 5000
 #endif
+
+#endif
+
 /*
+#include <iostream>
+#include <fstream>
+
 #define setjmp(env)        __builtin_setjmp(env)
 #define longjmp(env, val)  __builtin_longjmp(env, val)
 */
-void set_signal_handler();
 
-#endif
 
 #include "silmin.h"
 
@@ -34,9 +42,10 @@ MeltsStatus meltsStatus;
 #define REC   134
 
 #ifdef TESTDYNAMICLIB
-static void newErrorHandler(int sig);  /* new error handler function */
+static void set_signal_handler();
 static jmp_buf env;
 #endif
+
 static void doBatchFractionation(void);
 
 int calculationMode = MODE__MELTS;
@@ -88,6 +97,38 @@ static void initializeLibrary(void) {
 /* Set calculation mode if not already initialized                                    */
 /* ================================================================================== */
 
+void addConsole(void) {
+#ifdef MINGW
+  int hConHandle;
+  long lStdHandle;
+  CONSOLE_SCREEN_BUFFER_INFO coninfo;
+  FILE *fp;
+  
+  AllocConsole();
+  GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &coninfo);
+  coninfo.dwSize.Y = MAX_CONSOLE_LINES;
+  SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
+  // redirect unbuffered STDOUT to the console
+  lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+  hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+  fp = _fdopen( hConHandle, "w" );
+  *stdout = *fp;
+  setvbuf( stdout, NULL, _IONBF, 0 );
+  // redirect unbuffered STDERR to the console
+  lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+  hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+  fp = _fdopen( hConHandle, "w" );
+  *stderr = *fp;
+  setvbuf( stderr, NULL, _IONBF, 0 );
+#endif
+}
+
+void closeConsole(void) {
+#ifdef MINGW
+  FreeConsole();
+#endif
+}
+
 int setCalculationMode(int mode) {
   if (!iAmInitialized) {
     calculationMode = mode;
@@ -126,7 +167,7 @@ void meltsgetoxidenames_(char oxideNames[], int *nCharInName, int *numberOxides)
 
 void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *numberOxides) {
   int i, nCh = *nCharInName, nox = *numberOxides;
-  char oxideNames[nCh*nox];
+  char *oxideNames = (char *) malloc(sizeof(char)*nCh*nox);
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
@@ -139,6 +180,7 @@ void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *num
       if (oxideNames[i] == '\0') oxidePtr[i] = ' ';
       else oxidePtr[i] = oxideNames[i];
     }
+    free(oxideNames);
     *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
@@ -183,7 +225,7 @@ void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases,
 
 void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *numberPhases, int phaseIndices[]) {
   int i, nCh = *nCharInName, np = *numberPhases;
-  char phaseNames[nCh*np];
+  char *phaseNames = (char *) malloc((size_t) nCh*np*sizeof(char));
   
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
@@ -196,6 +238,7 @@ void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *num
       if (phaseNames[i] == '\0') phasePtr[i] = ' ';
       else phasePtr[i] = phaseNames[i];
     }
+    free(phaseNames);
     *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
@@ -892,10 +935,9 @@ void meltsgeterrorstring_(int *status, char *errorString, int *nCharInName) {
 void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkComposition,
                double *enthalpy, double *temperature,
                char *phasePtr, int *nCharInName, int *numberPhases, int *output, 
-               char *errorString, int *nCharInString, double propertiesPtr[][nc+14], int phaseIndices[]) {
+               char *errorString, int *nCharInString, double *phaseProperties, int phaseIndices[]) {
   int i, j, nCh = *nCharInName, np = *numberPhases, status, nodeIndex = 1, iterations = 0;
-  char phaseNames[nCh*np];
-  double phaseProperties[(nc+14)*np];
+  char *phaseNames = (char *) malloc((size_t) nCh*np);
 
 #ifdef TESTDYNAMICLIB
   iterations = *output;
@@ -913,9 +955,9 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
       if (phaseNames[i] == '\0') phasePtr[i] = ' ';
       else phasePtr[i] = phaseNames[i];
     }
-    for (i=0; i<*numberPhases; i++) for (j=0; j<nc+14; j++) propertiesPtr[i][j] = phaseProperties[(nc+14)*i + j];
 
     meltsgeterrorstring_(&status, errorString, nCharInString);
+    free(phaseNames);
     *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
@@ -1466,10 +1508,9 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperature, 
                  double *pressure, double *bulkComposition,
 				 char *endMemberPtr, int *nCharInName, int *numberEndMembers, 
-		 double propertiesPtr[][3]) {
+         double *endMemberProperties) {
   int i, j, nCh = *nCharInName, np = *numberEndMembers;
-  char endMemberNames[nCh*np];
-  double endMemberProperties[3*np];
+  char *endMemberNames = (char *) malloc((size_t) nCh*np*sizeof(char));
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
@@ -1483,7 +1524,7 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
       if (endMemberNames[i] == '\0') endMemberPtr[i] = ' ';
       else endMemberPtr[i] = endMemberNames[i];
     }
-    for (i=0; i<np; i++) for (j=0; j<3; j++) propertiesPtr[i][j] = endMemberProperties[3*i + j];
+    free(endMemberNames);
     *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {
@@ -1613,8 +1654,8 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
                  char *oxidePtr, int *nCharInName, int *numberOxides, 
 		 double propertiesPtr[][2]) {
   int i, j, nCh = *nCharInName, nox = *numberOxides;
-  char oxideNames[nCh*nox];
-  double oxideProperties[2*nox];
+  char *oxideNames = (char *) malloc((size_t) nCh*nox*sizeof(char));
+  double *oxideProperties = (double *) malloc((size_t) 2*nox*sizeof(double));
 
 #ifdef TESTDYNAMICLIB
   if (setjmp(env) == 0) {
@@ -1629,6 +1670,7 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
       else oxidePtr[i] = oxideNames[i];
     }
     for (i=0; i<*numberOxides; i++) for (j=0; j<2; j++) propertiesPtr[i][j] = oxideProperties[2*i + j];
+    free(oxideNames); free(oxideProperties);
     *failure = FALSE;
 #ifdef TESTDYNAMICLIB
   } else {

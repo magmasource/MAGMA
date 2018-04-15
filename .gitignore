@@ -110,3 +110,6 @@ Melts-batch-v1.1.0
 !/python/examples/data/*/melts.out
 !/python/examples/data/*/*.melts
 !/python/examples/data/*/*.tbl
+.vscode
+!.vscode/c_cpp_properites.json
+!.vscode/launch.json

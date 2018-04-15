@@ -58,23 +58,45 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/include",
-                "${workspaceFolder}"
+                "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/lib/gcc/x86_64-w64-mingw32/5.3.0/include",
+                "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/lib/gcc/x86_64-w64-mingw32/5.3.0/include-fixed",
+                "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include",
+                "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include/c++",
+                "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32",
+                "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include/c++/backward",
+                "${workspaceFolder}",
+                "${workspaceFolder}/includes"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "__GNUC__=5",
+                "__cdecl=__attribute__((__cdecl__))",
+                "MINGW",
+                "__DBL_EPSILON__=2.2204460492503131e-16",
+                "BATCH_VERSION",
+                "RHYOLITE_ADJUSTMENTS",
+                "TESTDYNAMICLIB"
             ],
-            "intelliSenseMode": "msvc-x64",
+            "intelliSenseMode": "clang-x64",
+            "C_Cpp.intelliSenseEngine": "Tag Parser",
             "browse": {
                 "path": [
-                    "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/include/*",
-                    "${workspaceFolder}"
+                    "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/lib/gcc/x86_64-w64-mingw32/5.3.0/include",
+                    "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/lib/gcc/x86_64-w64-mingw32/5.3.0/include-fixed",
+                    "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include",
+                    "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include/c++",
+                    "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32",
+                    "C:/ProgramData/MATLAB/SupportPackages/R2017b/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include/c++/backward",
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/includes"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": ""
-            }
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+            },
+            "cStandard": "c11",
+            "cppStandard": "c++17"
         }
     ],
     "version": 3
