@@ -7,30 +7,6 @@
 #include <dirent.h>
 #include <unistd.h>
 
-#ifdef TESTDYNAMICLIB
-
-#include <signal.h>
-#include <setjmp.h>
-
-#ifdef MINGW
-#include <windows.h>
-#include <fcntl.h>
-#include <io.h>
-#include <conio.h>
-#define MAX_CONSOLE_LINES 5000
-#endif
-
-#endif
-
-/*
-#include <iostream>
-#include <fstream>
-
-#define setjmp(env)        __builtin_setjmp(env)
-#define longjmp(env, val)  __builtin_longjmp(env, val)
-*/
-
-
 #include "silmin.h"
 
 #include "status.h"
@@ -41,9 +17,29 @@ MeltsStatus meltsStatus;
 
 #define REC   134
 
-#ifdef TESTDYNAMICLIB
-static void set_signal_handler();
+/* For SEH this is used to indicate whether the calculation failed.
+  For SJLJ it is used to indicate whether a console in attached in Windows. */
+int doInterrupt = FALSE;
+
+#ifdef MINGW
+#include <fcntl.h>
+#include <io.h>
+#include <conio.h>
+#define MAX_CONSOLE_LINES 5000
+BOOL WINAPI windows_console_handler(DWORD dwType);
+void raise_sigabrt(DWORD dwType);
+#define RAISE_SIGINT (doInterrupt) ? (void) raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION) : raise(SIGINT)
+#else
+#define RAISE_SIGINT raise(SIGINT)
+#endif
+
+#ifdef USESJLJ
+#include <signal.h>
+#include <setjmp.h>
+static void setErrorHandler(void);
 static jmp_buf env;
+#elif defined(USESEH)
+static void set_signal_handler(void);
 #endif
 
 static void doBatchFractionation(void);
@@ -100,7 +96,7 @@ static void initializeLibrary(void) {
 void addConsole(void) {
 #ifdef MINGW
   int hConHandle;
-  long lStdHandle;
+  intptr_t lStdHandle;
   CONSOLE_SCREEN_BUFFER_INFO coninfo;
   FILE *fp;
   
@@ -109,24 +105,35 @@ void addConsole(void) {
   coninfo.dwSize.Y = MAX_CONSOLE_LINES;
   SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
   // redirect unbuffered STDOUT to the console
-  lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+  lStdHandle = (intptr_t) GetStdHandle(STD_OUTPUT_HANDLE);
   hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
   fp = _fdopen( hConHandle, "w" );
   *stdout = *fp;
   setvbuf( stdout, NULL, _IONBF, 0 );
   // redirect unbuffered STDERR to the console
-  lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+  lStdHandle = (intptr_t) GetStdHandle(STD_ERROR_HANDLE);
   hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
   fp = _fdopen( hConHandle, "w" );
   *stderr = *fp;
   setvbuf( stderr, NULL, _IONBF, 0 );
+
+  if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE) windows_console_handler, TRUE)) 
+    fprintf(stderr, "...Error in installing Console Handler.\n");
+  doInterrupt = TRUE;
+
 #endif
 }
 
 void closeConsole(void) {
 #ifdef MINGW
   FreeConsole();
+  doInterrupt = FALSE;
 #endif
+}
+
+int getCalculationMode(void) {
+  if (!iAmInitialized) initializeLibrary();
+  return calculationMode;
 }
 
 int setCalculationMode(int mode) {
@@ -169,8 +176,11 @@ void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *num
   int i, nCh = *nCharInName, nox = *numberOxides;
   char *oxideNames = (char *) malloc(sizeof(char)*nCh*nox);
 
-#ifdef TESTDYNAMICLIB
+#ifdef USESJLJ
   if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
     set_signal_handler();
 #endif
     for (i=0; i<nCh*nox; i++) oxidePtr[i] = '\0';
@@ -182,10 +192,12 @@ void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *num
     }
     free(oxideNames);
     *failure = FALSE;
-#ifdef TESTDYNAMICLIB
+#ifdef USESEH
+    *failure = doInterrupt;
+#elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    raise(SIGINT);
+    RAISE_SIGINT;
   }
 #endif
 }
@@ -227,8 +239,11 @@ void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *num
   int i, nCh = *nCharInName, np = *numberPhases;
   char *phaseNames = (char *) malloc((size_t) nCh*np*sizeof(char));
   
-#ifdef TESTDYNAMICLIB
+#ifdef USESJLJ
   if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
     set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
@@ -240,10 +255,12 @@ void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *num
     }
     free(phaseNames);
     *failure = FALSE;
-#ifdef TESTDYNAMICLIB
+#ifdef USESEH
+    *failure = doInterrupt;
+#elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    raise(SIGINT);
+    RAISE_SIGINT;
   }
 #endif
 }
@@ -943,8 +960,11 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
   iterations = *output;
 #endif
 
-#ifdef TESTDYNAMICLIB
+#ifdef USESJLJ
   if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
     set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
@@ -959,10 +979,12 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
     meltsgeterrorstring_(&status, errorString, nCharInString);
     free(phaseNames);
     *failure = FALSE;
-#ifdef TESTDYNAMICLIB
+#ifdef USESEH
+    *failure = doInterrupt;    
+#elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    raise(SIGINT);
+    RAISE_SIGINT;
   }
 #endif
 }
@@ -1069,16 +1091,21 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
 void setMeltsSystemProperties(int *failure, char *properties[], int *numberStrings) {
   int i, nodeIndex = 1;
 
-#ifdef TESTDYNAMICLIB
+#ifdef USESJLJ
   if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
     set_signal_handler();
 #endif
     for (i=0; i<*numberStrings; i++) meltssetsystemproperty_(&nodeIndex, properties[i]);
     *failure = FALSE;
-#ifdef TESTDYNAMICLIB
+#ifdef USESEH
+    *failure = doInterrupt;
+#elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    raise(SIGINT);
+    RAISE_SIGINT;
   }
 #endif
 }
@@ -1155,9 +1182,9 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       mu = (double *) calloc((size_t) nlc, sizeof(double));
 
       if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
-	silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
-	conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
-	for (i=0; i<nc; i++) for (j=0, bulkComposition[i] = 0.0; j<nlc; j++) 
+        silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
+        conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
+        for (i=0; i<nc; i++) for (j=0, bulkComposition[i] = 0.0; j<nlc; j++) 
 			       bulkComposition[i] += m[j]*(liquid[j].liqToOx)[i]*bulkSystem[i].mw;
       }
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
@@ -1239,7 +1266,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 
       for (i=0, mTot=0.0; i<solids[j].na; i++) {
         mTot += m[i];
-	gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
+      	gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
       }
       
       (*solids[j].gmix) (FIRST, *temperature, *pressure, r, &G, NULL, NULL, NULL);
@@ -1307,17 +1334,23 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
 
   int i; /* don't return mu for Matlab version (put composition instead) */
 
-#ifdef TESTDYNAMICLIB
+/* make sure it's the post fractionation bulk composition? */
+#ifdef USESJLJ
   if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
     set_signal_handler();
 #endif  
     meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
     for (i=0; i<nc; i++) phaseProperties[i+11] = bulkComposition[i];
     *failure = FALSE;
-#ifdef TESTDYNAMICLIB
+#ifdef USESEH
+    *failure = doInterrupt;
+#elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    raise(SIGINT);
+    RAISE_SIGINT;
   }
 #endif  
 }
@@ -1446,7 +1479,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       for (i=0; i<106; i++) e[i] = 0.0;
       for (i=0; i<nc; i++) {
         double mOx = bulkComposition[i]/bulkSystem[i].mw;
-	for (k=0; k<106; k++) e[k] += mOx*(bulkSystem[i].oxToElm)[k];
+      	for (k=0; k<106; k++) e[k] += mOx*(bulkSystem[i].oxToElm)[k];
       }
       m = (double *) calloc ((size_t) solids[j].na, sizeof(double));
       r = (double *) malloc ((size_t) solids[j].nr*sizeof(double));
@@ -1461,9 +1494,9 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 
       for (i=0, mTot=0.0; i<solids[j].na; i++) {
         mTot +=  m[i];
-	gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &(solids[j+1+i].cur));
-	muSol[i] += (solids[j+1+i].cur).g;
-	muSol[i] -= (actSol[i] > 0.0) ? R*(*temperature)*log(actSol[i]) : 0.0; /* true mu0 */
+        gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &(solids[j+1+i].cur));
+        muSol[i] += (solids[j+1+i].cur).g;
+        muSol[i] -= (actSol[i] > 0.0) ? R*(*temperature)*log(actSol[i]) : 0.0; /* true mu0 */
       }
 
       for (i=0, G0=0.0; i<solids[j].na; i++) {
@@ -1478,9 +1511,9 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       strncpy(endMemberNames,solids[j].label, nCh);
       
       for (i=0; i<solids[j].na; i++) {
-	endMemberProperties[(i+1)*columnLength+ 0] = m[i];
-	endMemberProperties[(i+1)*columnLength+ 1] = muSol[i];
-	endMemberProperties[(i+1)*columnLength+ 2] = (actSol[i] > 0.0) ?  muSol[i] + R*(*temperature)*log(actSol[i]) : 0.0;
+        endMemberProperties[(i+1)*columnLength+ 0] = m[i];
+        endMemberProperties[(i+1)*columnLength+ 1] = muSol[i];
+        endMemberProperties[(i+1)*columnLength+ 2] = (actSol[i] > 0.0) ?  muSol[i] + R*(*temperature)*log(actSol[i]) : 0.0;
         strncpy(endMemberNames+(i+1)*sizeof(char)*nCh,solids[j+1+i].formula, nCh);
       }
       (*numberEndMembers) = solids[j].na+1;
@@ -1512,8 +1545,13 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
   int i, j, nCh = *nCharInName, np = *numberEndMembers;
   char *endMemberNames = (char *) malloc((size_t) nCh*np*sizeof(char));
 
-#ifdef TESTDYNAMICLIB
+/* put actual MELTS composition in */
+
+#ifdef USESJLJ
   if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
     set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) endMemberPtr[i] = '\0';
@@ -1526,10 +1564,12 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
     }
     free(endMemberNames);
     *failure = FALSE;
-#ifdef TESTDYNAMICLIB
+#ifdef USESEH
+    *failure = doInterrupt;
+#elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    raise(SIGINT);
+    RAISE_SIGINT;
   }
 #endif  
 }
@@ -1657,8 +1697,11 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
   char *oxideNames = (char *) malloc((size_t) nCh*nox*sizeof(char));
   double *oxideProperties = (double *) malloc((size_t) 2*nox*sizeof(double));
 
-#ifdef TESTDYNAMICLIB
+#ifdef USESJLJ
   if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined (USESEH)
+    doInterrupt = FALSE;
     set_signal_handler();
 #endif  
     for (i=0; i<nCh*nox; i++) oxidePtr[i] = '\0';
@@ -1672,10 +1715,12 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
     for (i=0; i<*numberOxides; i++) for (j=0; j<2; j++) propertiesPtr[i][j] = oxideProperties[2*i + j];
     free(oxideNames); free(oxideProperties);
     *failure = FALSE;
-#ifdef TESTDYNAMICLIB
+#ifdef USESEH
+    *failure = doInterrupt;
+#elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    raise(SIGINT);
+    RAISE_SIGINT;
   }
 #endif  
 }
@@ -1898,9 +1943,34 @@ static void doBatchFractionation(void) {
     }
 }
 
-#ifdef TESTDYNAMICLIB
-
-#ifdef MINGW
+#ifdef USESJLJ
+static void almost_c99_signal_handler(int sig) {
+  switch(sig) {
+  case SIGABRT:
+    fputs("Caught SIGABRT: usually caused by an abort() or assert()\n", stderr);
+    break;
+  case SIGFPE:
+    fputs("Caught SIGFPE: arithmetic exception, such as divide by zero\n", stderr);
+    break;
+  case SIGILL:
+    fputs("Caught SIGILL: illegal instruction\n", stderr);
+    break;
+      /*
+	case SIGINT:
+	fputs("Caught SIGINT: interactive attention signal, probably a ctrl+c\n", stderr);
+	break; 
+	case SIGSEGV:
+	fputs("Caught SIGSEGV: segfault\n", stderr);
+	break;
+      */
+  default:
+    fputs("Caught SIGTERM: a termination request was sent to the program\n", stderr);
+    break;
+  }
+  /* was: _Exit(1); */
+  longjmp(env, 0);
+}
+#elif defined (USESEH)
 LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo) {
   switch(ExceptionInfo->ExceptionRecord->ExceptionCode) {
     case EXCEPTION_ACCESS_VIOLATION:
@@ -1924,7 +1994,7 @@ LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo) {
     case EXCEPTION_FLT_INEXACT_RESULT:
       fputs("Error: EXCEPTION_FLT_INEXACT_RESULT\n", stderr);
       break;
-    case EXCEPTION_FLT_INVALID_OPERATION:
+    case EXCEPTION_FLT_INVALID_OPERATION: 
       fputs("Error: EXCEPTION_FLT_INVALID_OPERATION\n", stderr);
       break;
     case EXCEPTION_FLT_OVERFLOW:
@@ -1968,54 +2038,62 @@ LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo) {
       break;
   }
   fflush(stderr);
-  
-  longjmp(env, 0);
-  
+    
   return EXCEPTION_EXECUTE_HANDLER;
-}
- 
-#else
-
-static void almost_c99_signal_handler(int sig) {
-  switch(sig) {
-  case SIGABRT:
-    fputs("Caught SIGABRT: usually caused by an abort() or assert()\n", stderr);
-    break;
-  case SIGFPE:
-    fputs("Caught SIGFPE: arithmetic exception, such as divide by zero\n", stderr);
-    break;
-  case SIGILL:
-    fputs("Caught SIGILL: illegal instruction\n", stderr);
-    break;
-      /*
-	case SIGINT:
-	fputs("Caught SIGINT: interactive attention signal, probably a ctrl+c\n", stderr);
-	break; 
-      */
-  case SIGSEGV:
-    fputs("Caught SIGSEGV: segfault\n", stderr);
-    break;
-  default:
-    fputs("Caught SIGTERM: a termination request was sent to the program\n", stderr);
-    break;
-  }
-  /* was: _Exit(1); */
-  longjmp(env, 0);
-}
-
+} 
 #endif
 
-void set_signal_handler()
-{
-#ifdef MINGW  
-  SetUnhandledExceptionFilter(windows_exception_handler);
-#else
+#ifdef MINGW
+BOOL WINAPI windows_console_handler(DWORD dwType) {
+  switch(dwType) {
+    case CTRL_C_EVENT:
+      fputs("Warning: CTRL_C_EVENT\n", stderr);
+      break;
+    case CTRL_BREAK_EVENT:
+      fputs("Warning: CTRL_BREAK_EVENT\n", stderr);
+      break;
+    case CTRL_CLOSE_EVENT:
+      fputs("Warning: CTRL_CLOSE_EVENT\n", stderr);
+      break;
+    default:
+      fputs("Warning: Unrecognized Event\n", stderr);
+      break;
+  }
+  fflush(stderr);
+  return FALSE;
+} 
+
+void raise_sigabrt(DWORD dwType) {
+    HWND consoleWnd = GetConsoleWindow();
+    DWORD dwProcessId;
+    GetWindowThreadProcessId(consoleWnd, &dwProcessId);
+    if (GetCurrentProcessId()==dwProcessId) {
+      switch(dwType) {
+      case EXCEPTION_FLT_INVALID_OPERATION: 
+        fputs("Error: EXCEPTION_FLT_INVALID_OPERATION\n", stderr);
+        break;
+      default:
+        fputs("Error: Unrecognized Exception\n", stderr);
+        break;
+      }
+      GenerateConsoleCtrlEvent(CTRL_C_EVENT, 1);
+    }
+    else
+      RaiseException(dwType, 0, 0, NULL);
+}
+#endif
+
+#ifdef USESJLJ
+void setErrorHandler(void) {
   if (signal(SIGABRT, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
   if (signal(SIGFPE, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
   if (signal(SIGILL, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
-  if (signal(SIGSEGV, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGSEGV handler.\n");
+  /*if (signal(SIGSEGV, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGSEGV handler.\n");*/
   if (signal(SIGTERM, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGTERM handler.\n");
-#endif
 }
-
+#elif defined(USESEH)
+void set_signal_handler(void) {
+  if (!SetUnhandledExceptionFilter(windows_exception_handler))  
+    fprintf(stderr, "...Error in installing Exception Handler.\n");
+}
 #endif

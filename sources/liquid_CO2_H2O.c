@@ -26,7 +26,13 @@ const char *liquid_CO2_H2O_ver(void) { return "$Id: liquid_CO2_H2O.c,v 1.42 2009
 #include "silmin.h"
 #include "recipes.h"
 #include "mthread.h"
+#ifdef USESEH
+#include <windows.h>
+void raise_sigabrt(DWORD dwType);
+extern int doInterrupt;
+#else
 #include <signal.h>
+#endif
 
 #include "param_struct_data_CO2_H2O.h"
 
@@ -2138,7 +2144,12 @@ order(int mask, double t, double p, double r[NR],
       for (i=0;  i<NR; i++) printf("   %20.20s %13.6g %13.6g\n",         liquid[i+1].label,  xSpecies[i+1],  r[i]);
       for (i=0;  i<NS; i++) printf("   %20.20s %13.6g %13.13s %13.6g\n", liquid[i+NA].label, xSpecies[i+NA], "", sNew[i]);
       for (i=NS; i<NT; i++) printf("   %20.20s %13.13s %13.13s %13.6g\n", "order CN[*]", "", "", sNew[i]);
+#ifdef USESEH
+      doInterrupt = TRUE;
+      raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION);
+#else
       (void) raise(SIGABRT);
+#endif
     }
 
     loop = TRUE;

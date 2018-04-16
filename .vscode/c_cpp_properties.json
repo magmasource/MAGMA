@@ -4,21 +4,26 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}",
-                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1",
+                "${workspaceFolder}/includes",
+                "/Library/Developer/CommandLineTools/usr/include/c++/v1",
                 "/usr/local/include",
-                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include",
-                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+                "/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include",
+                "/Library/Developer/CommandLineTools/usr/include",
                 "/usr/include"
             ],
-            "defines": [],
+            "defines": [
+                "BATCH_VERSION",
+                "RHYOLITE_ADJUSTMENTS",
+                "TESTDYNAMICLIB"                
+            ],
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
                     "${workspaceFolder}",
-                    "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1",
+                    "/Library/Developer/CommandLineTools/usr/include/c++/v1",
                     "/usr/local/include",
-                    "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include",
-                    "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+                    "/Library/Developer/CommandLineTools/usr/lib/clang/9.1.0/include",
+                    "/Library/Developer/CommandLineTools/usr/include",
                     "/usr/include"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
@@ -40,7 +45,11 @@
                 "${workspaceFolder}",
                 "${workspaceFolder}/includes"
             ],
-            "defines": [],
+            "defines": [
+                "BATCH_VERSION",
+                "RHYOLITE_ADJUSTMENTS",
+                "TESTDYNAMICLIB"
+            ],
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
@@ -73,8 +82,10 @@
                 "_UNICODE",
                 "__GNUC__=5",
                 "__cdecl=__attribute__((__cdecl__))",
+                "DWORD",
                 "MINGW",
                 "__DBL_EPSILON__=2.2204460492503131e-16",
+                "__SEH__",
                 "BATCH_VERSION",
                 "RHYOLITE_ADJUSTMENTS",
                 "TESTDYNAMICLIB"
@@ -97,7 +108,53 @@
             },
             "cStandard": "c11",
             "cppStandard": "c++17"
+        },
+        {
+            "name": "Win64",
+            "includePath": [
+                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/5.3.0/include",
+                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/5.3.0/include-fixed",
+                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include",
+                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++",
+                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32",
+                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/backward",
+                "${workspaceFolder}",
+                "${workspaceFolder}/includes"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "__GNUC__=5",
+                "__cdecl=__attribute__((__cdecl__))",
+                "DWORD",
+                "MINGW",
+                "__DBL_EPSILON__=2.2204460492503131e-16",
+                "__USING_SJLJ_EXCEPTIONS__",
+                "BATCH_VERSION",
+                "RHYOLITE_ADJUSTMENTS",
+                "TESTDYNAMICLIB"
+            ],
+            "intelliSenseMode": "clang-x64",
+            "C_Cpp.intelliSenseEngine": "Tag Parser",
+            "browse": {
+                "path": [
+                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/5.3.0/include",
+                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/5.3.0/include-fixed",
+                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include",
+                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++",
+                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32",
+                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/backward",
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/includes"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "cStandard": "c11",
+            "cppStandard": "c++17"
         }
+
     ],
     "version": 3
 }

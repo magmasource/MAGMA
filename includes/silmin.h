@@ -247,7 +247,23 @@ MELTS Source Code: RCS
 #include <string.h>
 #include <time.h>
 
+#ifdef MINGW
+#include <windows.h>
+#endif
+
 #include "mthread.h"
+
+/*
+ *==============================================================================
+ * Error handling
+ */
+#ifdef TESTDYNAMICLIB
+#if defined(MINGW) &&  !defined(__USING_SJLJ_EXCEPTIONS__)
+#define USESEH 1
+#else
+#define USESJLJ 1
+#endif
+#endif
 
 /*
  *==============================================================================
