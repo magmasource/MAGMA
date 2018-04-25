@@ -15,6 +15,7 @@ MeltsStatus meltsStatus;
 #include "liq_struct_data.h"
 #include "sol_struct_data.h"
 
+#define XOR(a,b) ((a) ? !(b) : (b))
 #define REC   134
 
 /* For SEH this is used to indicate whether the calculation failed.
@@ -978,9 +979,9 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
 
     meltsgeterrorstring_(&status, errorString, nCharInString);
     free(phaseNames);
-    *failure = FALSE;
+    if (XOR(status && (status == 500), *mode)) *failure = FALSE;
 #ifdef USESEH
-    *failure = doInterrupt;    
+    *failure = (*failure) ? (*failure) : doInterrupt;  
 #elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
@@ -1184,8 +1185,6 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
         silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
         conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
-        for (i=0; i<nc; i++) for (j=0, bulkComposition[i] = 0.0; j<nlc; j++) 
-			       bulkComposition[i] += m[j]*(liquid[j].liqToOx)[i]*bulkSystem[i].mw;
       }
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
 
@@ -1225,9 +1224,18 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
         d2VdT2  += m[i]*(liquid[i].cur).d2vdt2;
         d2VdTdP += m[i]*(liquid[i].cur).d2vdtdp;
         d2VdP2  += m[i]*(liquid[i].cur).d2vdp2;
+#ifndef TESTDYNAMICLIB
         phaseProperties[11+i] = mu[i] +  (liquid[i].cur).g;
+#endif
       }
-      
+
+#ifdef TESTDYNAMICLIB
+      for (i=0; i<nc; i++) {
+        phaseProperties[11+i] = 0.0;
+        for (j=0; j<nlc; j++) phaseProperties[11+i] += (liquid[j].liqToOx)[i]*m[j]*bulkSystem[i].mw;
+      }
+#endif
+
       free(m);
       free(r);
       free(mu);
@@ -1249,6 +1257,12 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       d2VdT2  = factor*(solids[j].cur).d2vdt2;
       d2VdTdP = factor*(solids[j].cur).d2vdtdp;
       d2VdP2  = factor*(solids[j].cur).d2vdp2;
+
+#ifdef TESTDYNAMICLIB
+      for (i=0; i<nc; i++) {
+        phaseProperties[11+i] = (solids[j].solToOx)[i]*bulkSystem[i].mw*factor;
+      }      
+#endif
 
     } else {
       double e[106], *m, *r, mTot, *mu; 
@@ -1301,9 +1315,18 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
         d2VdT2  += m[i]*(solids[j+1+i].cur).d2vdt2;
         d2VdTdP += m[i]*(solids[j+1+i].cur).d2vdtdp;
         d2VdP2  += m[i]*(solids[j+1+i].cur).d2vdp2;
+#ifndef TESTDYNAMICLIB
         phaseProperties[11+i] = mu[i] + (solids[j+1+i].cur).g;
+#endif
       }
-      
+
+#ifdef TESTDYNAMICLIB
+      for (i=0; i<nc; i++) {
+        phaseProperties[11+i]=0.0;
+        for (k=0; k<solids[j].na; k++) phaseProperties[11+i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
+      }
+#endif
+
       free(m);
       free(r);
       free(mu);
@@ -1331,10 +1354,9 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 
 void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature, 
                  double *pressure, double *bulkComposition, double *phaseProperties) {
+  int i; /* don't return mu for Matlab version (put actual MELTS composition instead) */
+  double *propertiesPtr = phaseProperties;
 
-  int i; /* don't return mu for Matlab version (put composition instead) */
-
-/* make sure it's the post fractionation bulk composition? */
 #ifdef USESJLJ
   if (setjmp(env) == 0) {
     setErrorHandler();
@@ -1343,10 +1365,10 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
     set_signal_handler();
 #endif  
     meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
-    for (i=0; i<nc; i++) phaseProperties[i+11] = bulkComposition[i];
-    *failure = FALSE;
+    if (phaseProperties != NULL) *failure = FALSE;
+    else phaseProperties = propertiesPtr;
 #ifdef USESEH
-    *failure = doInterrupt;
+    *failure = (*failure) ? (*failure) : doInterrupt;
 #elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
@@ -1423,10 +1445,8 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
 
       if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
-	silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
-	conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
-	for (i=0; i<nc; i++) for (j=0, bulkComposition[i] = 0.0; j<nlc; j++) 
-			       bulkComposition[i] += m[j]*(liquid[j].liqToOx)[i]*bulkSystem[i].mw;
+      	silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
+	      conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
       }
 
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
@@ -1436,14 +1456,14 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 
       for (i=0, mTot=0.0; i<nlc; i++) {
         mTot +=  m[i];
-  	gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
-	muLiq[i] += (liquid[i].cur).g;
+  	    gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
+	      muLiq[i] += (liquid[i].cur).g;
       }   
 
       for (i=0, G0=0.0; i<nlc; i++) {
-	m[i]    /= mTot; 
+      	m[i]    /= mTot; 
         G0      += m[i]*(liquid[i].cur).g;
-	G       += m[i]*(liquid[i].cur).g;
+  	    G       += m[i]*(liquid[i].cur).g;
       }
       
       endMemberProperties[ 0] = 1.0;
@@ -1452,9 +1472,9 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       strncpy(endMemberNames,"liquid", nCh);
       
       for (i=0; i<nlc; i++) {
-	endMemberProperties[(i+1)*columnLength+ 0] = m[i];
-	endMemberProperties[(i+1)*columnLength+ 1] = (m[i] != 0.0) ? (liquid[i].cur).g : 0.0;
-	endMemberProperties[(i+1)*columnLength+ 2] = (m[i] != 0.0) ? muLiq[i] : 0.0;
+      	endMemberProperties[(i+1)*columnLength+ 0] = m[i];
+        endMemberProperties[(i+1)*columnLength+ 1] = (m[i] != 0.0) ? (liquid[i].cur).g : 0.0;
+        endMemberProperties[(i+1)*columnLength+ 2] = (m[i] != 0.0) ? muLiq[i] : 0.0;
         strncpy(endMemberNames+(i+1)*sizeof(char)*nCh,liquid[i].label, nCh);
       }
       (*numberEndMembers) = nlc+1;
@@ -1500,8 +1520,8 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       }
 
       for (i=0, G0=0.0; i<solids[j].na; i++) {
-	m[i]    /= mTot;
-	G0      += m[i]*muSol[i];
+	      m[i]    /= mTot;
+	      G0      += m[i]*muSol[i];
         G       += m[i]*(solids[j+1+i].cur).g;
       }
       
@@ -1539,13 +1559,12 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 /* ================================================================================== */
 
 void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperature, 
-                 double *pressure, double *bulkComposition,
-				 char *endMemberPtr, int *nCharInName, int *numberEndMembers, 
-         double *endMemberProperties) {
+          double *pressure, double *bulkComposition,
+				  char *endMemberPtr, int *nCharInName, int *numberEndMembers, 
+          double *endMemberProperties) {
   int i, j, nCh = *nCharInName, np = *numberEndMembers;
   char *endMemberNames = (char *) malloc((size_t) nCh*np*sizeof(char));
-
-/* put actual MELTS composition in */
+  double *propertiesPtr = endMemberProperties;
 
 #ifdef USESJLJ
   if (setjmp(env) == 0) {
@@ -1563,9 +1582,10 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
       else endMemberPtr[i] = endMemberNames[i];
     }
     free(endMemberNames);
-    *failure = FALSE;
+    if (endMemberProperties != NULL) *failure = FALSE;
+    else endMemberProperties = propertiesPtr;
 #ifdef USESEH
-    *failure = doInterrupt;
+    *failure = (*failure) ? (*failure) : doInterrupt;
 #elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
@@ -1623,7 +1643,7 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
   }
 
   strcpy(key.name, phaseName);
-  res = phaseList;
+  res = bsearch(&key, phaseList, (size_t) np, sizeof(struct _phaseList), comparePhases);
   
   if (res == NULL) { oxideProperties = NULL; return; }
   else { 
@@ -1641,10 +1661,8 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
       
       if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
-	silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
-	conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
-	for (i=0; i<nc; i++) for (j=0, bulkComposition[i] = 0.0; j<nlc; j++) 
-			       bulkComposition[i] += m[j]*(liquid[j].liqToOx)[i]*bulkSystem[i].mw;
+        silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
+        conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
       }
 
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
@@ -1652,8 +1670,8 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
       actLiq(SECOND, *temperature, *pressure, r, NULL, muLiq, NULL, NULL);
 
       for (i=0; i<nlc; i++) {
-  	gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
-	muLiq[i] += (liquid[i].cur).g;
+        gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
+        muLiq[i] += (liquid[i].cur).g;
       }   
 
       for (k=0; k<columnLength*nc; k++) oxideProperties[k] = 0.0;
@@ -1661,8 +1679,11 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) oxideProperties[k*columnLength+ 1] += (bulkSystem[k].oxToLiq)[i] * muLiq[i];
       
       for (k=0, mTot=0.0; k<nc; k++) mTot += oxideProperties[k*columnLength];      
-      for (k=0; k<nc; k++) if (mTot != 0.0) oxideProperties[k*columnLength] /= mTot;
-
+      for (k=0; k<nc; k++) {
+	if (oxideProperties[k*columnLength +0] == 0.0) oxideProperties[k*columnLength +1] = 0.0;
+	else if (mTot != 0.0) oxideProperties[k*columnLength +0] /= mTot;
+      }
+	  
       for (k=0; k<nc; k++) strncpy(oxideNames+k*sizeof(char)*nCh,bulkSystem[k].label, nCh);
       (*numberOxides) = nc;
       
@@ -1690,12 +1711,12 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
 /* ================================================================================== */
 
 void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature, 
-                 double *pressure, double *bulkComposition,
-                 char *oxidePtr, int *nCharInName, int *numberOxides, 
-		 double propertiesPtr[][2]) {
+          double *pressure, double *bulkComposition,
+          char *oxidePtr, int *nCharInName, int *numberOxides, 
+          double *oxideProperties) {
   int i, j, nCh = *nCharInName, nox = *numberOxides;
   char *oxideNames = (char *) malloc((size_t) nCh*nox*sizeof(char));
-  double *oxideProperties = (double *) malloc((size_t) 2*nox*sizeof(double));
+  double *propertiesPtr = oxideProperties;
 
 #ifdef USESJLJ
   if (setjmp(env) == 0) {
@@ -1711,12 +1732,12 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
     for (i=0; i<nCh*nox; i++) {
       if (oxideNames[i] == '\0') oxidePtr[i] = ' ';
       else oxidePtr[i] = oxideNames[i];
-    }
-    for (i=0; i<*numberOxides; i++) for (j=0; j<2; j++) propertiesPtr[i][j] = oxideProperties[2*i + j];
-    free(oxideNames); free(oxideProperties);
-    *failure = FALSE;
+    }    
+    free(oxideNames);
+    if (oxideProperties != NULL) *failure = FALSE;
+    else oxideProperties = propertiesPtr;
 #ifdef USESEH
-    *failure = doInterrupt;
+    *failure = (*failure) ? (*failure) : doInterrupt;
 #elif defined(USESJLJ)
   } else {
     fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
@@ -2068,6 +2089,7 @@ void raise_sigabrt(DWORD dwType) {
     DWORD dwProcessId;
     GetWindowThreadProcessId(consoleWnd, &dwProcessId);
     if (GetCurrentProcessId()==dwProcessId) {
+#ifndef USESJLJ
       switch(dwType) {
       case EXCEPTION_FLT_INVALID_OPERATION: 
         fputs("Error: EXCEPTION_FLT_INVALID_OPERATION\n", stderr);
@@ -2076,6 +2098,7 @@ void raise_sigabrt(DWORD dwType) {
         fputs("Error: Unrecognized Exception\n", stderr);
         break;
       }
+#endif
       GenerateConsoleCtrlEvent(CTRL_C_EVENT, 1);
     }
     else
