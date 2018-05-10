@@ -143,6 +143,18 @@ int setCalculationMode(int mode) {
     initializeLibrary();
     return TRUE;
   } else {
+    if (silminState != NULL) {
+      int i, np;
+      for (i=0; i<npc; i++) if (solids[i].type == PHASE) (silminState->incSolids)[np] = TRUE;
+      (silminState->incSolids)[npc] = TRUE;
+      silminState->nLiquidCoexist  = 1;
+      silminState->fo2Path  = FO2_NONE;
+      silminState->fo2Delta = 0.0;
+
+      silminState->fractionateFlu = FALSE;  /* Could be set */
+      silminState->fractionateSol = FALSE; 
+      silminState->fractionateLiq = FALSE;      
+    }
     return FALSE;
   }
 }
@@ -316,7 +328,6 @@ void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *num
 /*   phaseIndices    - array of unique indices for phases loaded into phaseNames      */
 /*                     or phaseProperties columns                                     */ 
 /* ================================================================================== */
-
 
 typedef struct _nodeList {
   int node;
@@ -1058,14 +1069,14 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
   } else if (!strncmp(line, "suppress: ",              MIN(len,10))) {
     for (i=0, j=0; i<npc; i++) {
       if (solids[i].type == PHASE) {
-	int phaseStrLen = (int) strlen(solids[i].label); 
-	if (((len-10-phaseStrLen-1)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
-	  if ( solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) {
-	    silminState->incSolids[j] = FALSE;
-	  }
-	  break;
-	}
-	j++;
+      	int phaseStrLen = (int) strlen(solids[i].label); 
+	      if (((len-10-phaseStrLen-1)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
+	        if ( solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) {
+	          silminState->incSolids[j] = FALSE;
+    	    }
+	        break;
+      	}
+	      j++;
       }
     }
 
@@ -1077,9 +1088,9 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
     else if (!strncmp(&line[6],  "fractionate fluids",  MIN((len-6), 18))) silminState->fractionateFlu = TRUE;
   } else if (!strncmp(line, "mode off: ",                   MIN(len, 10))) {
     /* Was previously 'mode: batch'... */
-    if      (!strncmp(&line[6],  "fractionate solids",  MIN((len-6), 18))) silminState->fractionateSol = FALSE;
-    else if (!strncmp(&line[6],  "fractionate liquids", MIN((len-6), 19))) silminState->fractionateLiq = FALSE;
-    else if (!strncmp(&line[6],  "fractionate fluids",  MIN((len-6), 18))) silminState->fractionateFlu = FALSE;
+    if      (!strncmp(&line[10],  "fractionate solids",  MIN((len-10), 18))) silminState->fractionateSol = FALSE;
+    else if (!strncmp(&line[10],  "fractionate liquids", MIN((len-10), 19))) silminState->fractionateLiq = FALSE;
+    else if (!strncmp(&line[10],  "fractionate fluids",  MIN((len-10), 18))) silminState->fractionateFlu = FALSE;
   }
 }
 
@@ -2066,6 +2077,7 @@ LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo) {
 
 #ifdef MINGW
 BOOL WINAPI windows_console_handler(DWORD dwType) {
+  int msgboxID = 0;
   switch(dwType) {
     case CTRL_C_EVENT:
       fputs("Warning: CTRL_C_EVENT\n", stderr);
@@ -2075,6 +2087,11 @@ BOOL WINAPI windows_console_handler(DWORD dwType) {
       break;
     case CTRL_CLOSE_EVENT:
       fputs("Warning: CTRL_CLOSE_EVENT\n", stderr);
+      fputs("[To just close the console in future runs, type 'MELTSdynamic' instead.]\n", stderr);
+      fputs("Closing MELTS for MATLAB! This cannot be undone without restarting MATLAB.\n", stderr);
+      fputs("Please save your work and click 'X' again to exit the program.", stderr);
+      fflush(stderr);
+      ExitThread(0);
       break;
     default:
       fputs("Warning: Unrecognized Event\n", stderr);

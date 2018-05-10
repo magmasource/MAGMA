@@ -14,7 +14,7 @@
             "defines": [
                 "BATCH_VERSION",
                 "RHYOLITE_ADJUSTMENTS",
-                "TESTDYNAMICLIB"                
+                "TESTDYNAMICLIB"
             ],
             "intelliSenseMode": "clang-x64",
             "browse": {
@@ -107,7 +107,8 @@
                 "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
             },
             "cStandard": "c11",
-            "cppStandard": "c++17"
+            "cppStandard": "c++17",
+            "compilerPath": "/usr/bin/clang"
         },
         {
             "name": "Win64",
@@ -152,9 +153,9 @@
                 "databaseFilename": ""
             },
             "cStandard": "c11",
-            "cppStandard": "c++17"
+            "cppStandard": "c++17",
+            "compilerPath": "/usr/bin/clang"
         }
-
     ],
-    "version": 3
+    "version": 4
 }
