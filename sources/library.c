@@ -1,4 +1,3 @@
-
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
@@ -145,7 +144,7 @@ int setCalculationMode(int mode) {
   } else {
     if (silminState != NULL) {
       int i, np;
-      for (i=0; i<npc; i++) if (solids[i].type == PHASE) (silminState->incSolids)[np] = TRUE;
+      for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) (silminState->incSolids)[np] = TRUE;
       (silminState->incSolids)[npc] = TRUE;
       silminState->nLiquidCoexist  = 1;
       silminState->fo2Path  = FO2_NONE;
@@ -176,7 +175,6 @@ void meltsgetoxidenames_(char oxideNames[], int *nCharInName, int *numberOxides)
   if (!iAmInitialized) initializeLibrary();
   for (i=0; i<nc; i++) strncpy(oxideNames + i*sizeof(char)*nCh, bulkSystem[i].label, nCh);
   *numberOxides = nc;
-
 }        
 
 /* ================================================================================== */
@@ -841,7 +839,7 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     }
     phaseProperties[11+nc  ] = 1.0;
     phaseProperties[11+nc+1] = ((vLiq+totalV) != 0.0) ? 100.0*temp/(vLiq+totalV) : 0.0;
-    phaseProperties[11+nc+2] = 0.0;    
+    phaseProperties[11+nc+2] = 0.0;
 
     if ((vLiq+totalV) != 0.0) for (i=1; i<=(*numberPhases); i++) phaseProperties[i*columnLength+11+nc] /= 10.0*(vLiq+totalV);
 
@@ -1076,7 +1074,7 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
     	    }
 	        break;
       	}
-	      j++;
+      j++;
       }
     }
 
@@ -1208,6 +1206,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       actLiq(SECOND, *temperature, *pressure, r, NULL, mu, NULL, NULL);
 
       for (i=0, mTot=0.0; i<nlc; i++) {
+        mTot +=  m[i];
         gibbs(*temperature, *pressure, (char *) liquid[i].label, &liquid[i].ref, &liquid[i].liq, &liquid[i].fus, &liquid[i].cur);
       }
 
@@ -1291,7 +1290,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 
       for (i=0, mTot=0.0; i<solids[j].na; i++) {
         mTot += m[i];
-      	gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
+        gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
       }
       
       (*solids[j].gmix) (FIRST, *temperature, *pressure, r, &G, NULL, NULL, NULL);
@@ -1467,14 +1466,14 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 
       for (i=0, mTot=0.0; i<nlc; i++) {
         mTot +=  m[i];
-  	    gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
-	      muLiq[i] += (liquid[i].cur).g;
+        gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
+        muLiq[i] += (liquid[i].cur).g;
       }   
 
       for (i=0, G0=0.0; i<nlc; i++) {
       	m[i]    /= mTot; 
         G0      += m[i]*(liquid[i].cur).g;
-  	    G       += m[i]*(liquid[i].cur).g;
+        G       += m[i]*(liquid[i].cur).g;
       }
       
       endMemberProperties[ 0] = 1.0;
@@ -1531,8 +1530,8 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       }
 
       for (i=0, G0=0.0; i<solids[j].na; i++) {
-	      m[i]    /= mTot;
-	      G0      += m[i]*muSol[i];
+        m[i]    /= mTot;
+        G0      += m[i]*muSol[i];
         G       += m[i]*(solids[j+1+i].cur).g;
       }
       
@@ -1691,10 +1690,10 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
       
       for (k=0, mTot=0.0; k<nc; k++) mTot += oxideProperties[k*columnLength];      
       for (k=0; k<nc; k++) {
-	if (oxideProperties[k*columnLength +0] == 0.0) oxideProperties[k*columnLength +1] = 0.0;
-	else if (mTot != 0.0) oxideProperties[k*columnLength +0] /= mTot;
+        if (oxideProperties[k*columnLength +0] == 0.0) oxideProperties[k*columnLength +1] = 0.0;
+        else if (mTot != 0.0) oxideProperties[k*columnLength +0] /= mTot;
       }
-	  
+
       for (k=0; k<nc; k++) strncpy(oxideNames+k*sizeof(char)*nCh,bulkSystem[k].label, nCh);
       (*numberOxides) = nc;
       

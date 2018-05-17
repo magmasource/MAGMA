@@ -58,7 +58,7 @@ DYFLAGS	      = xv
 CC            = x86_64-w64-mingw32-gcc
 LD            = x86_64-w64-mingw32-g++
 FC            = x86_64-w64-mingw32-gfortran
-CFLAGS        = -c -O3 $(BATCH) \
+CFLAGS        = -c -O3 $(BATCH) -D_USE_ISOC99 -D_ISOC99_SOURCE \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib
@@ -114,8 +114,7 @@ override LIBXML = /usr/$(ROOTDIR)/lib/libxml2.a /usr/$(ROOTDIR)/lib/libicuio.a \
 	 /usr/$(ROOTDIR)/lib/liblzma.a \
         -L/usr/$(ROOTDIR)/lib/ -lpng12 -lz -lpthread -ldl -lm
 endif
-#LIBBATCH = -L/usr/$(ROOTDIR)/lib -lxml2 -lz -lm
-LIBBATCH = -L/usr/$(ROOTDIR)/lib -lws2_32 -luuid -lm -lmingw32 
+LIBBATCH = -L/usr/$(ROOTDIR)/lib -lxml2 -lz -lws2_32 -luuid -lm -lmingw32 
 
 include Makefile.common
 
