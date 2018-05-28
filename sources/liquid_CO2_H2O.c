@@ -2224,11 +2224,11 @@ order(int mask, double t, double p, double r[NR],
         for (j=0; j<NT; j++) s[j] = sOld[j] + lambda*deltaS[j];
 /*      if (lambda < DBL_EPSILON) { */
         if (lambda < DBL_MIN) {
-	  cycle = FALSE;
-	  s[0] = (double) iter;
-	  iter = MAX_ITER - 1;
+          cycle = FALSE;
+          s[0] = (double) iter;
+          iter = MAX_ITER - 1;
           fprintf(stderr, "\n*****lambda -> zero in ORDER. Terminating search loop.\n");
-	}
+        }
       } 
 #ifdef DEBUG
       printf("steplength correction:  = %20.13g\n", lambda);
@@ -2256,7 +2256,7 @@ order(int mask, double t, double p, double r[NR],
         /* convergedInOrder = FALSE; */
         fprintf(stderr, "ERROR in LIQUID.C (function ORDER). Failed to converge!\n");
         if (iter >= MAX_ITER) fprintf(stderr, " Iteration limit (%4d) exceeded.\n", iter);
-	fprintf(stderr, "   T (C) = %8.2f, P (GPa) = %10.4f\n", t-273.15, p/10000.0);
+        fprintf(stderr, "   T (C) = %8.2f, P (GPa) = %10.4f\n", t-273.15, p/10000.0);
         fprintf(stderr, "   %20.20s %13.13s %13.13s %13.13s %13.13s %13.13s %13.13s\n", "Species", "Mole frac", "r", "s", "dgds", "deltaS", "eosIntDGDS");
         fprintf(stderr, "   %20.20s %13.6g\n", liquid[0].label, xSpecies[0]);
         for (i=0;  i<NR; i++) fprintf(stderr, "   %20.20s %13.6g %13.6g\n",		 liquid[i+1].label,  xSpecies[i+1],  r[i]);
@@ -2264,9 +2264,9 @@ order(int mask, double t, double p, double r[NR],
         for (i=NS; i<NT; i++) fprintf(stderr, "   %20.20s %13.13s %13.13s %13.6g %13.6g %13.6g\n", "order CN[*]", "", "", sOld[i], dgds[i], sNew[i]-sOld[i]);
         fprintf(stderr, " sNorm             = %20.13g\n", sNorm);      
         fprintf(stderr, " dgdsNorm          = %20.13g\n", dgdsNORM);      
-	fprintf(stderr, " 10*DBL_EPSILON    = %20.13g\n", 10.0*DBL_EPSILON);
-	fprintf(stderr, " DBL_EPSILON^(2/3) = %20.13g\n", pow(DBL_EPSILON, 2.0/3.0));
-	fprintf(stderr, " DBL_EPSILON^(1/2) = %20.13g\n", sqrt(DBL_EPSILON));
+        fprintf(stderr, " 10*DBL_EPSILON    = %20.13g\n", 10.0*DBL_EPSILON);
+        fprintf(stderr, " DBL_EPSILON^(2/3) = %20.13g\n", pow(DBL_EPSILON, 2.0/3.0));
+        fprintf(stderr, " DBL_EPSILON^(1/2) = %20.13g\n", sqrt(DBL_EPSILON));
         fprintf(stderr, " eosIntegralBranch = %s\n", (eosIntegralBranch == GMAPeosBRANCH) ? "GMAP" : "LMAP");
       } else if (sNorm > pow(DBL_EPSILON, 2.0/3.0)) {
         fprintf(stderr, "WARNING in LIQUID.C (function ORDER). sNorm = %g, dgdsNorm = %g [eps = %g, sqrt(eps) = %g]\n", sNorm, dgdsNORM, DBL_EPSILON, sqrt(DBL_EPSILON));
@@ -3025,7 +3025,7 @@ dispLiq_CO2_H2O(int mask, double t, double p, double *x,
       if (oxVal[i] != 0.0) {
         double w = 100.0*oxVal[i]/oxSum;
         int nn = snprintf(&string[n], 13, " %s %.2f", bulkSystem[i].label, w);
-	n += (nn < 13) ? nn : 12;
+        n += (nn < 13) ? nn : 12;
       }
 
     *formula = string;
@@ -3053,6 +3053,13 @@ actLiq_CO2_H2O(int mask, double t, double p, double *x,
   MTHREAD_MUTEX_LOCK(&global_data_mutex);
   order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+#ifdef TESTDYNAMICLIB
+  if (!mask) {
+    for (i=0; i<NT; i++) a[i] = s[i];
+    return;
+  }
+#endif
 
   for(i=0; i<NA; i++) for (j=0; j<NR; j++) fr[i][j] = rsEndmembers[i][j] - r[j];
 

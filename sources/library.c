@@ -277,6 +277,134 @@ void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *num
 }
 
 /* ================================================================================== */
+/* Returns end-member formulae and order for output properties vector                 */
+/* Input:                                                                             */
+/*   phaseName       - string as returned from meltsGetPhaseNames                     */
+/*   nCharInName     - number of characters dimensioned for each name                 */
+/*                     i.e. in FORTRAN : CHARACTER*20, where nCharInName is then 20   */
+/* Output:                                                                            */
+/*   endMemberNames   - array of end-member formulae, ordered as in MELTS             */
+/*                      memory must be allocated by calling FORTRAN program, i.e.     */
+/*                      CHARACTER*20 phaseNames(25)                                   */
+/*   numberEndMembers - number of unique end members for phase                        */
+/* ================================================================================== */
+
+typedef struct _phaseList {
+  int index;
+  char *name;
+} PhaseList;
+static PhaseList *phaseList;
+
+static int comparePhases(const void *aPt, const void *bPt) {
+  PhaseList *a = (PhaseList *) aPt;
+  PhaseList *b = (PhaseList *) bPt;
+  return strcmp(a->name, b->name);
+}
+
+static int np;
+static PhaseList key;
+
+static void initializePhaseList (void) {
+  int i, maxLength = 7;
+  for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) np++;
+  phaseList = (PhaseList *) malloc((size_t) np*sizeof(struct _phaseList));
+    
+  phaseList[0].index = -1;
+  phaseList[0].name = (char *) malloc ((size_t) 7*sizeof(char));
+  strcpy(phaseList[0].name, "liquid");
+  
+  for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) {
+    int length = strlen(solids[i].label)+1;
+    maxLength = (maxLength < length) ? length : maxLength;
+    phaseList[np].index = i;
+    phaseList[np].name = (char *) malloc((size_t) length*sizeof(char));
+    strcpy(phaseList[np].name, solids[i].label);
+    np++;
+    }
+    
+  qsort(phaseList, (size_t) np, sizeof(struct _phaseList), comparePhases);
+  key.name = (char *) malloc((size_t) maxLength);
+}
+
+void meltsgetformulalist_(char *phaseName, char endMemberNames[], int *nCharInName, int *numberEndMembers) {
+  int nCh = *nCharInName;
+  PhaseList *res;
+
+  if (!iAmInitialized) initializeLibrary();
+
+  if (phaseList == NULL) {
+    initializePhaseList();
+  }
+
+  strcpy(key.name, phaseName);
+  res = bsearch(&key, phaseList, (size_t) np, sizeof(struct _phaseList), comparePhases);
+
+  if (res == NULL) { numberEndMembers = 0; return; }
+  else { 
+    int i, j = res->index;
+    if (j < 0) { /* liquid */
+#ifdef TESTDYNAMICLIB
+      for (i=0; i<nls; i++) {
+	strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);
+      }
+      (*numberEndMembers) = nls;
+#else
+      for (i=0; i<nls; i++) {      
+        strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);
+      }
+      (*numberEndMembers) = nls;
+#endif
+    } else if (solids[j].na == 1) {
+      strncpy(endMemberNames, solids[j].formula, nCh); 
+      (*numberEndMembers) = 1;
+    }
+    else {
+      for (i=0; i<solids[j].na; i++) {
+        strncpy(endMemberNames + i*sizeof(char)*nCh,solids[j+1+i].formula, nCh);
+      }
+      (*numberEndMembers) = solids[j].na;
+    }
+  }
+
+}        
+
+/* ================================================================================== */
+/* Input and Output (as above except):                                                */
+/*   phasePtr     - array of blank strings, assumed all to be of the same length      */
+/*   numberPhases - input lt or equal to amount of allocated storage, output as above */
+/* ================================================================================== */
+
+void getMeltsFormulaList(int *failure, char *phaseName, char *formulaPtr, int *nCharInName, int *numberEndMembers) {
+  int i, nCh = *nCharInName, np = *numberEndMembers;
+  char *endMemberNames = (char *) malloc((size_t) nCh*np*sizeof(char));
+  
+#ifdef USESJLJ
+  if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
+    set_signal_handler();
+#endif
+    for (i=0; i<nCh*np; i++) formulaPtr[i] = '\0';    
+    meltsgetformulalist_(phaseName, endMemberNames, nCharInName, numberEndMembers);
+    np = *numberEndMembers;
+    for (i=0; i<nCh*np; i++) {
+      if (endMemberNames[i] == '\0') formulaPtr[i] = ' ';
+      else formulaPtr[i] = endMemberNames[i];
+    }
+    free(endMemberNames);
+    if (np > 0) *failure = FALSE;
+#ifdef USESEH
+    *failure = (*failure) ? (*failure) : doInterrupt;  
+#elif defined(USESJLJ)
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    RAISE_SIGINT;
+  }
+#endif
+}
+
+/* ================================================================================== */
 /* MELTS processing call                                                              */
 /* Input:                                                                             */
 /*   nodeIndex       - Index number of node (must be unique). First time a given node */
@@ -1098,8 +1226,9 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
 /*   numberStrings   - number of strings                                              */
 /* ================================================================================== */
 
-void setMeltsSystemProperties(int *failure, char *properties[], int *numberStrings) {
-  int i, nodeIndex = 1;
+void setMeltsSystemProperties(int *failure, char *strings, int *nCharInString, int *numberStrings) {
+  int i, j, nodeIndex = 1, nCh = *nCharInString, np = *numberStrings;
+  char *properties = (char *) malloc((size_t) nCh);
 
 #ifdef USESJLJ
   if (setjmp(env) == 0) {
@@ -1108,7 +1237,18 @@ void setMeltsSystemProperties(int *failure, char *properties[], int *numberStrin
     doInterrupt = FALSE;
     set_signal_handler();
 #endif
-    for (i=0; i<*numberStrings; i++) meltssetsystemproperty_(&nodeIndex, properties[i]);
+    for (i=0; i<np; i++) {
+      properties[0] = strings[i*nCh];
+      for (j=1; j<nCh; j++) {
+        if ((strings[i*nCh+j] == ' ') && (strings[i*nCh+j-1] == ' ')) {
+          properties[j-1] = '\0';
+          break;
+        }
+        else properties[j] = strings[i*nCh+j];
+      }    
+      meltssetsystemproperty_(&nodeIndex, properties);
+    }
+    free(properties);
     *failure = FALSE;
 #ifdef USESEH
     *failure = doInterrupt;
@@ -1132,21 +1272,6 @@ void setMeltsSystemProperties(int *failure, char *properties[], int *numberStrin
 /*                     G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2     */
 /* ================================================================================== */
 
-typedef struct _phaseList {
-  int index;
-  char *name;
-} PhaseList;
-static PhaseList *phaseList;
-
-static int comparePhases(const void *aPt, const void *bPt) {
-  PhaseList *a = (PhaseList *) aPt;
-  PhaseList *b = (PhaseList *) bPt;
-  return strcmp(a->name, b->name);
-}
-
-static int np;
-static PhaseList key;
-
 void meltsgetphaseproperties_(char *phaseName, double *temperature, 
          double *pressure, double *bulkComposition, double *phaseProperties) {
   PhaseList *res;
@@ -1154,25 +1279,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
   if (!iAmInitialized) initializeLibrary();
   
   if (phaseList == NULL) {
-    int i, maxLength = 7;
-    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) np++;
-    phaseList = (PhaseList *) malloc((size_t) np*sizeof(struct _phaseList));
-    
-    phaseList[0].index = -1;
-    phaseList[0].name = (char *) malloc ((size_t) 7*sizeof(char));
-    strcpy(phaseList[0].name, "liquid");
-    
-    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) {
-      int length = strlen(solids[i].label)+1;
-      maxLength = (maxLength < length) ? length : maxLength;
-      phaseList[np].index = i;
-      phaseList[np].name = (char *) malloc((size_t) length*sizeof(char));
-      strcpy(phaseList[np].name, solids[i].label);
-      np++;
-    }
-    
-    qsort(phaseList, (size_t) np, sizeof(struct _phaseList), comparePhases);
-    key.name = (char *) malloc((size_t) maxLength);
+    initializePhaseList();
   }
 
   strcpy(key.name, phaseName);
@@ -1397,7 +1504,7 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
 /*   nCharInName         - number of characters dimensioned for each name             */
 /*                         i.e. in FORTRAN : CHARACTER*20, where nCharInName is 20    */
 /* Output:                                                                            */
-/*   endMemberNames      - array of phase names for columns of endMemberProperties    */
+/*   endMemberNames      - array of formulae for columns of endMemberProperties       */
 /*                         memory must be allocated for this array by the calling     */
 /*                         program, e.g. CHARACTER*20 endMemberNames(20)              */
 /*   numberEndMembers    - number of entries in endMemberNames and columns in         */
@@ -1414,25 +1521,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
   if (!iAmInitialized) initializeLibrary();
 
   if (phaseList == NULL) {
-    int i, maxLength = 7;
-    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) np++;
-    phaseList = (PhaseList *) malloc((size_t) np*sizeof(struct _phaseList));
-    
-    phaseList[0].index = -1;
-    phaseList[0].name = (char *) malloc ((size_t) 7*sizeof(char));
-    strcpy(phaseList[0].name, "liquid");
-    
-    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) {
-      int length = strlen(solids[i].label)+1;
-      maxLength = (maxLength < length) ? length : maxLength;
-      phaseList[np].index = i;
-      phaseList[np].name = (char *) malloc((size_t) length*sizeof(char));
-      strcpy(phaseList[np].name, solids[i].label);
-      np++;
-    }
-    
-    qsort(phaseList, (size_t) np, sizeof(struct _phaseList), comparePhases);
-    key.name = (char *) malloc((size_t) maxLength);
+    initializePhaseList();
   }
 
   strcpy(key.name, phaseName);
@@ -1449,9 +1538,9 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       double *muLiq;
       int k;
 
-      m = (double *) calloc((size_t) nlc,    sizeof(double));
+      m = (double *) calloc((size_t) nls,    sizeof(double));
       r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
-      muLiq = (double *) calloc((size_t) nlc, sizeof(double));
+      muLiq = (double *) calloc((size_t) nls, sizeof(double));
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
 
       if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
@@ -1460,34 +1549,52 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       }
 
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
-
-      gmixLiq (FIRST, *temperature, *pressure, r, &G, NULL, NULL);
       actLiq(SECOND, *temperature, *pressure, r, NULL, muLiq, NULL, NULL);
 
-      for (i=0, mTot=0.0; i<nlc; i++) {
+      for (i=0, mTot = 0.0; i<nlc; i++) {
         mTot +=  m[i];
         gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
         muLiq[i] += (liquid[i].cur).g;
-      }   
+      }
 
-      for (i=0, G0=0.0; i<nlc; i++) {
-      	m[i]    /= mTot; 
-        G0      += m[i]*(liquid[i].cur).g;
-        G       += m[i]*(liquid[i].cur).g;
+#ifdef TESTDYNAMICLIB
+      if ((calculationMode == MODE__MELTSandCO2) || (calculationMode == MODE__MELTSandCO2_H2O)) {
+        static int nSiO2 = -1, nCaSiO3 = -1, nCO2 = -1;
+    
+        if ( (nSiO2 == -1) || (nCaSiO3 == -1) || (nCO2 == -1) ) {
+            int i;
+            for (i=0; i<nlc; i++) if (strcmp(liquid[i].label, "SiO2")   == 0) { nSiO2   = i; break; }
+            for (i=0; i<nlc; i++) if (strcmp(liquid[i].label, "CaSiO3") == 0) { nCaSiO3 = i; break; }
+            for (i=0; i<nlc; i++) if (strcmp(liquid[i].label, "CO2")    == 0) { nCO2    = i; break; }
+            if ( (nSiO2 == -1) || (nCaSiO3 == -1) || (nCO2 == -1)) {
+                printf("FATAL ERROR in library.c. Request for CaCO3 properties when nSiO2 = %d, nCaSiO3 = %d and nCO2 = %d.\n", nSiO2, nCaSiO3, nCO2);
+                endMemberProperties = NULL; return;
+            }
+        }
+
+        gibbs(*temperature, *pressure, (char *) liquid[nlc].label, &(liquid[nlc].ref), &(liquid[nlc].liq), &(liquid[nlc].fus), &(liquid[nlc].cur));
+
+        /* reaction: CaSiO3 + CO2 - SiO2 = CaCO3 */
+        muLiq[nlc] = muLiq[nCaSiO3] + muLiq[nCO2] - muLiq[nSiO2];
+
+        actLiq(NULL, *temperature, *pressure, r, &m[nlc], muLiq, NULL, NULL);
+        m[nlc] *= mTot; m[nSiO2] += m[nlc];
+        m[nCaSiO3] -= m[nlc]; m[nCO2] -= m[nlc];
+
       }
-      
-      endMemberProperties[ 0] = 1.0;
-      endMemberProperties[ 1] = G0;
-      endMemberProperties[ 2] = G;
-      strncpy(endMemberNames,"liquid", nCh);
-      
+      (*numberEndMembers) = nls;
+
+      for (i=0; i<nls; i++) {
+#else
+      (*numberEndMembers) = nlc;
+
       for (i=0; i<nlc; i++) {
-      	endMemberProperties[(i+1)*columnLength+ 0] = m[i];
-        endMemberProperties[(i+1)*columnLength+ 1] = (m[i] != 0.0) ? (liquid[i].cur).g : 0.0;
-        endMemberProperties[(i+1)*columnLength+ 2] = (m[i] != 0.0) ? muLiq[i] : 0.0;
-        strncpy(endMemberNames+(i+1)*sizeof(char)*nCh,liquid[i].label, nCh);
+#endif
+      	endMemberProperties[i*columnLength+ 0] = (mTot != 0.0) ? m[i]/mTot : 0.0;
+        endMemberProperties[i*columnLength+ 1] = (m[i] != 0.0) ? (liquid[i].cur).g : 0.0;
+        endMemberProperties[i*columnLength+ 2] = (m[i] != 0.0) ? muLiq[i] : 0.0;
+        strncpy(endMemberNames+i*sizeof(char)*nCh,liquid[i].label, nCh);
       }
-      (*numberEndMembers) = nlc+1;
       
       free(m);
       free(r);
@@ -1519,34 +1626,21 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       (*solids[j].convert)(FIRST, SECOND, *temperature, *pressure, e, m, NULL, NULL, NULL, NULL, NULL, NULL);
       (*solids[j].convert)(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
 
-      (*solids[j].gmix) (FIRST, *temperature, *pressure, r, &G, NULL, NULL, NULL);
-      (*solids[j].activity)(FIRST | SECOND, *temperature, *pressure, r, actSol, muSol, NULL);
+      (*solids[j].activity)(SECOND, *temperature, *pressure, r, NULL, muSol, NULL);
 
       for (i=0, mTot=0.0; i<solids[j].na; i++) {
         mTot +=  m[i];
         gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &(solids[j+1+i].cur));
         muSol[i] += (solids[j+1+i].cur).g;
-        muSol[i] -= (actSol[i] > 0.0) ? R*(*temperature)*log(actSol[i]) : 0.0; /* true mu0 */
       }
 
-      for (i=0, G0=0.0; i<solids[j].na; i++) {
-        m[i]    /= mTot;
-        G0      += m[i]*muSol[i];
-        G       += m[i]*(solids[j+1+i].cur).g;
-      }
-      
-      endMemberProperties[ 0] = 1.0;
-      endMemberProperties[ 1] = G0;
-      endMemberProperties[ 2] = G;
-      strncpy(endMemberNames,solids[j].label, nCh);
-      
       for (i=0; i<solids[j].na; i++) {
-        endMemberProperties[(i+1)*columnLength+ 0] = m[i];
-        endMemberProperties[(i+1)*columnLength+ 1] = muSol[i];
-        endMemberProperties[(i+1)*columnLength+ 2] = (actSol[i] > 0.0) ?  muSol[i] + R*(*temperature)*log(actSol[i]) : 0.0;
-        strncpy(endMemberNames+(i+1)*sizeof(char)*nCh,solids[j+1+i].formula, nCh);
+        endMemberProperties[i*columnLength+ 0] = (mTot != 0.0) ? m[i]/mTot : 0.0;
+        endMemberProperties[i*columnLength+ 1] = (m[i] != 0.0) ? (solids[j+1+i].cur).g : 0.0;
+        endMemberProperties[i*columnLength+ 2] = (m[i] != 0.0) ?  muSol[i] : 0.0;
+        strncpy(endMemberNames+i*sizeof(char)*nCh,solids[j+1+i].formula, nCh);
       }
-      (*numberEndMembers) = solids[j].na+1;
+      (*numberEndMembers) = solids[j].na;
       
       free(m);
       free(r);
@@ -1631,25 +1725,7 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
   if (!iAmInitialized) initializeLibrary();
 
   if (phaseList == NULL) {
-    int i, maxLength = 7;
-    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) np++;
-    phaseList = (PhaseList *) malloc((size_t) np*sizeof(struct _phaseList));
-    
-    phaseList[0].index = -1;
-    phaseList[0].name = (char *) malloc ((size_t) 7*sizeof(char));
-    strcpy(phaseList[0].name, "liquid");
-    
-    for (i=0, np=1; i<npc; i++) if (solids[i].type == PHASE) {
-      int length = strlen(solids[i].label)+1;
-      maxLength = (maxLength < length) ? length : maxLength;
-      phaseList[np].index = i;
-      phaseList[np].name = (char *) malloc((size_t) length*sizeof(char));
-      strcpy(phaseList[np].name, solids[i].label);
-      np++;
-    }
-    
-    qsort(phaseList, (size_t) np, sizeof(struct _phaseList), comparePhases);
-    key.name = (char *) malloc((size_t) maxLength);
+    initializePhaseList();
   }
 
   strcpy(key.name, phaseName);
@@ -1676,7 +1752,6 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
       }
 
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
-
       actLiq(SECOND, *temperature, *pressure, r, NULL, muLiq, NULL, NULL);
 
       for (i=0; i<nlc; i++) {

@@ -3054,6 +3054,13 @@ actLiq_CO2(int mask, double t, double p, double *x,
   order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
+#ifdef TESTDYNAMICLIB
+  if (!mask) {
+    for (i=0; i<NT; i++) a[i] = s[i];
+    return;
+  }
+#endif
+
   for(i=0; i<NA; i++) for (j=0; j<NR; j++) fr[i][j] = rsEndmembers[i][j] - r[j];
 
   g = fillG(r, s, t, p);  
