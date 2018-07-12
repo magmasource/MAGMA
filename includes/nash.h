@@ -61,6 +61,12 @@ MELTS Source Code: RCS
 **--
 */
 
+#ifdef MINGW
+#ifndef DBL_EPSILON
+#define DBL_EPSILON __DBL_EPSILON__
+#endif
+#endif
+
 #define MIN1D_SUCCESS          0
 #define MIN1D_BAD_INITIAL      1
 #define MIN1D_ITERS_EXCEEDED   2

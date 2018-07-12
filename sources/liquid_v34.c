@@ -39,6 +39,13 @@ MELTS Source Code: RCS
 */
 
 #include "silmin.h"  /* Structure definitions for SILMIN package */
+#ifdef USESEH
+#include <windows.h>
+void raise_sigabrt(DWORD dwType);
+extern int doInterrupt;
+#else
+#include <signal.h>
+#endif
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
@@ -408,6 +415,11 @@ actLiq_v34(int mask, double t, double p, double *r,
       mu[i] = - gex;
       for (j=0;   j<i;  j++) mu[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
       for (j=i+1; j<NA; j++) mu[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
+#ifdef USESEH
+      if (x[i] < 0.0) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
+#else
+      if (x[i] < 0.0) (void) raise(SIGABRT);
+#endif
       mu[i] = (x[i] != 0.0) ? mu[i] + R*t*log(x[i]) : 0.0;
       if (i != NA-1)           mu[i]    += R*t*log(1.0-x[NA-1]);
       else if (x[NA-1] != 0.0) mu[NA-1] += R*t*log(x[NA-1]);
@@ -486,6 +498,11 @@ gmixLiq_v34(int mask, double t, double p, double *r,
     for (*gmix = 0.0, i=0; i<NA; i++) {
       for (j=i+1; j<NA; j++) *gmix += x[i]*x[j]*(WH(i,j) - t*WS(i,j)
                                     + (p-1.0)*WV(i,j));
+#ifdef USESEH
+      if (x[i] < 0.0) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
+#else
+      if (x[i] < 0.0) (void) raise(SIGABRT);
+#endif
       *gmix += (x[i] != 0.0) ? R*t*x[i]*log(x[i]) : 0.0;
     }
     *gmix += (x[NA-1] != 0.0) ? 
@@ -494,6 +511,11 @@ gmixLiq_v34(int mask, double t, double p, double *r,
   
   if(mask & SECOND) {
     for (i=0; i<NR; i++) {
+#ifdef USESEH
+      if ((x[0] < 0.0) || (r[i] < 0.0)) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
+#else
+      if ((x[0] < 0.0) || (r[i] < 0.0)) (void) raise(SIGABRT);
+#endif
       dr[i] = (r[i] != 0.0) ? R*t*(log(r[i]) - log(x[0])) : 0.0;
       dr[i] += x[0]*(WH(0,i+1)-t*WS(0,i+1)+(p-1.0)*WV(0,i+1));
       for (j=0; j<NR; j++) 
@@ -561,6 +583,11 @@ smixLiq_v34(int mask, double t, double p, double *r,
   if (mask & FIRST) {
     for (*smix = 0.0, i=0; i<NA; i++) {
       for (j=i+1; j<NA; j++) *smix += x[i]*x[j]*WS(i,j);
+#ifdef USESEH
+      if (x[i] < 0.0) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
+#else
+      if (x[i] < 0.0) (void) raise(SIGABRT);
+#endif
       *smix += (x[i] != 0.0) ? - R*x[i]*log(x[i]) : 0.0;
     }
     *smix += (x[NA-1] != 0.0) ? 
@@ -569,6 +596,11 @@ smixLiq_v34(int mask, double t, double p, double *r,
   
   if(mask & SECOND) {
     for (i=0; i<NR; i++) {
+#ifdef USESEH
+      if ((x[0] < 0.0) || (r[i] < 0.0)) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
+#else
+      if ((x[0] < 0.0) || (r[i] < 0.0)) (void) raise(SIGABRT);
+#endif
       dr[i] = (r[i] != 0.0) ? R*(log(x[0]) - log(r[i])) : 0.0;
       dr[i] += x[0]*WS(0,i+1);
       for (j=0; j<NR; j++)

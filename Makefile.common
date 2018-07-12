@@ -94,7 +94,7 @@ clean:
 
 realclean:
 	$(RM) $(RMFLAGS) core *.out *.tbl  *.preclb *.log *.plt *.res *.zip
-	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.inp
+	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.dll *.inp
 	$(RM) $(RMFLAGS) Analyze-fusion
 	$(RM) $(RMFLAGS) Analyze-fusion-MS
 	$(RM) $(RMFLAGS) Analyze-water
@@ -971,7 +971,7 @@ Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_d
 
 Melts-dynamicPrivate: test_dynamicLib.f gibbs.c $(MELTSDYNAMICLIB) $(MELTSDYLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSDYNAMICLIB)
-	gfortran -o Test_dynamicLib -ffree-form sources/test_dynamicLib.f $(LIBMELTSDYNAMIC) $(LIBBATCH)
+	$(FC) -o Test_dynamicLib -ffree-form sources/test_dynamicLib.f $(LIBMELTSDYNAMIC) $(LIBBATCH)
 	$(RM) $(RMFLAGS) test_dynamicLib.o
 	chmod 755 Test_dynamicLib
 

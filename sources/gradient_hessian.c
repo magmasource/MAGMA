@@ -868,7 +868,7 @@ int getProjGradientAndHessian(int conRows, int conCols, double ***eMatrixPt,
           }
 
           if (hasLiquid) {                                           /* V-fO2 fix new */
-	    for (nl=0, k=0; nl<<silminState->nLiquidCoexist; nl++) { /* V-fO2 fix new */
+	    for (nl=0, k=0; nl<silminState->nLiquidCoexist; nl++) { /* V-fO2 fix new */
 	      for (j=0; j<nlc; j++) {                                /* V-fO2 fix new */
 	        if ((silminState->liquidComp)[nl][j] != 0.0) {       /* V-fO2 fix new */
 		  eMatrix[colRow][k] *= (oxygen.solToOx)[i];         /* V-fO2 fix new */
@@ -1104,7 +1104,7 @@ int getProjGradientAndHessian(int conRows, int conCols, double ***eMatrixPt,
 		
                 if (hasLiquid) {                                          /* V-fO2 fix new */
 		  int ii = 0;                                             /* V-fO2 fix new */
-	          for (nl=0; nl<<silminState->nLiquidCoexist; nl++) {     /* V-fO2 fix new */
+	          for (nl=0; nl<silminState->nLiquidCoexist; nl++) {     /* V-fO2 fix new */
 	            for (k=0; k<nlc; k++) {                               /* V-fO2 fix new */
 	              if ((silminState->liquidComp)[nl][k] != 0.0) {      /* V-fO2 fix new */
 		        eMatrix[colRow+m][ii] *= (oxygen.solToOx)[i+1+j]; /* V-fO2 fix new */

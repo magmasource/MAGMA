@@ -26,7 +26,13 @@ const char *liquid_CO2_H2O_ver(void) { return "$Id: liquid_CO2_H2O.c,v 1.42 2009
 #include "silmin.h"
 #include "recipes.h"
 #include "mthread.h"
+#ifdef USESEH
+#include <windows.h>
+void raise_sigabrt(DWORD dwType);
+extern int doInterrupt;
+#else
 #include <signal.h>
+#endif
 
 #include "param_struct_data_CO2_H2O.h"
 
@@ -1798,6 +1804,9 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
   int i;
   static double *sCorr;
   double factor = 1.0;
+#ifdef TESTDYNAMICLIB
+  double rSum, s0;
+#endif
   
   if (NT == 0) return;
   
@@ -1856,6 +1865,15 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
   }
 #endif
 
+#ifdef TESTDYNAMICLIB  
+  /* A tweak for alkali-rich liquids where SiO2 tends to have negative mole fraction 
+    in the initial guess. Used for dynamically loaded library to help avoid doAbort. */
+  for (i=0, rSum=0.0; i<NR; i++) rSum += r[i];
+  /*coeff = 1.0;
+    xSpecies[ 0] = 1.0 - rSum*coeff;*/                   /* SiO2  */
+  if (rSum > 1.0) s[0] = rSum - 1.0 + sqrt(DBL_EPSILON);
+#endif
+  
   if (!rANDsTOx (r, s)) {
     static const int indexCon[] = { 0, 10, 14 };
                                   /* [ 0] SiO2 [10] CaO [14] CO2 */
@@ -2010,6 +2028,29 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
   } /* end block on simplex method */
 
   for (i=0; i<NS; i++) {
+#ifdef TESTDYNAMICLIB
+    s0 = MAX(rSum - 1.0, 0.0);
+    sCorr[i] = s0; s[i] = sCorr[i] + sqrt(DBL_EPSILON);
+    if (!rANDsTOx (r, s)) s[i] = sCorr[i];
+    else {
+      sCorr[i] = 0.5; s[i] = 1.0;
+      while (sCorr[i] > sqrt(DBL_EPSILON)) {
+        if(!rANDsTOx (r, s)) s[i] -= sCorr[i]; else s[i] += sCorr[i];
+	sCorr[i] /= 2.0;
+      }
+    }
+    sCorr[i] = (s[i] + s0)/2.0;
+    s[i]     = 0.0;
+  }
+
+  for (i=0; i<NS; i++) s[i] = sCorr[i];
+  for (i=0; i<NS; i++) sCorr[i] -= s0;
+  while (factor > sqrt(DBL_EPSILON) && !rANDsTOx (r, s)) {
+    factor /= 2.0;
+    for (i=0; i<NS; i++) s[i] = s0 + sCorr[i]*factor;
+  }  
+
+#else
     sCorr[i] = 0.0; s[i] = sqrt(DBL_EPSILON);
     if (!rANDsTOx (r, s)) s[i] = 0.0;
     else {
@@ -2029,6 +2070,7 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
     for (i=0; i<NS; i++) s[i] = sCorr[i]*factor;
   }
   
+#endif
   for (i=NS; i<NT; i++) s[i] = 1.0/(((double) NY)+1.0);
 
 #ifdef DEBUG
@@ -2102,7 +2144,12 @@ order(int mask, double t, double p, double r[NR],
       for (i=0;  i<NR; i++) printf("   %20.20s %13.6g %13.6g\n",         liquid[i+1].label,  xSpecies[i+1],  r[i]);
       for (i=0;  i<NS; i++) printf("   %20.20s %13.6g %13.13s %13.6g\n", liquid[i+NA].label, xSpecies[i+NA], "", sNew[i]);
       for (i=NS; i<NT; i++) printf("   %20.20s %13.13s %13.13s %13.6g\n", "order CN[*]", "", "", sNew[i]);
+#ifdef USESEH
+      doInterrupt = TRUE;
+      raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION);
+#else
       (void) raise(SIGABRT);
+#endif
     }
 
     loop = TRUE;
@@ -2177,11 +2224,11 @@ order(int mask, double t, double p, double r[NR],
         for (j=0; j<NT; j++) s[j] = sOld[j] + lambda*deltaS[j];
 /*      if (lambda < DBL_EPSILON) { */
         if (lambda < DBL_MIN) {
-	  cycle = FALSE;
-	  s[0] = (double) iter;
-	  iter = MAX_ITER - 1;
+          cycle = FALSE;
+          s[0] = (double) iter;
+          iter = MAX_ITER - 1;
           fprintf(stderr, "\n*****lambda -> zero in ORDER. Terminating search loop.\n");
-	}
+        }
       } 
 #ifdef DEBUG
       printf("steplength correction:  = %20.13g\n", lambda);
@@ -2209,7 +2256,7 @@ order(int mask, double t, double p, double r[NR],
         /* convergedInOrder = FALSE; */
         fprintf(stderr, "ERROR in LIQUID.C (function ORDER). Failed to converge!\n");
         if (iter >= MAX_ITER) fprintf(stderr, " Iteration limit (%4d) exceeded.\n", iter);
-	fprintf(stderr, "   T (C) = %8.2f, P (GPa) = %10.4f\n", t-273.15, p/10000.0);
+        fprintf(stderr, "   T (C) = %8.2f, P (GPa) = %10.4f\n", t-273.15, p/10000.0);
         fprintf(stderr, "   %20.20s %13.13s %13.13s %13.13s %13.13s %13.13s %13.13s\n", "Species", "Mole frac", "r", "s", "dgds", "deltaS", "eosIntDGDS");
         fprintf(stderr, "   %20.20s %13.6g\n", liquid[0].label, xSpecies[0]);
         for (i=0;  i<NR; i++) fprintf(stderr, "   %20.20s %13.6g %13.6g\n",		 liquid[i+1].label,  xSpecies[i+1],  r[i]);
@@ -2217,9 +2264,9 @@ order(int mask, double t, double p, double r[NR],
         for (i=NS; i<NT; i++) fprintf(stderr, "   %20.20s %13.13s %13.13s %13.6g %13.6g %13.6g\n", "order CN[*]", "", "", sOld[i], dgds[i], sNew[i]-sOld[i]);
         fprintf(stderr, " sNorm             = %20.13g\n", sNorm);      
         fprintf(stderr, " dgdsNorm          = %20.13g\n", dgdsNORM);      
-	fprintf(stderr, " 10*DBL_EPSILON    = %20.13g\n", 10.0*DBL_EPSILON);
-	fprintf(stderr, " DBL_EPSILON^(2/3) = %20.13g\n", pow(DBL_EPSILON, 2.0/3.0));
-	fprintf(stderr, " DBL_EPSILON^(1/2) = %20.13g\n", sqrt(DBL_EPSILON));
+        fprintf(stderr, " 10*DBL_EPSILON    = %20.13g\n", 10.0*DBL_EPSILON);
+        fprintf(stderr, " DBL_EPSILON^(2/3) = %20.13g\n", pow(DBL_EPSILON, 2.0/3.0));
+        fprintf(stderr, " DBL_EPSILON^(1/2) = %20.13g\n", sqrt(DBL_EPSILON));
         fprintf(stderr, " eosIntegralBranch = %s\n", (eosIntegralBranch == GMAPeosBRANCH) ? "GMAP" : "LMAP");
       } else if (sNorm > pow(DBL_EPSILON, 2.0/3.0)) {
         fprintf(stderr, "WARNING in LIQUID.C (function ORDER). sNorm = %g, dgdsNorm = %g [eps = %g, sqrt(eps) = %g]\n", sNorm, dgdsNORM, DBL_EPSILON, sqrt(DBL_EPSILON));
@@ -2978,7 +3025,7 @@ dispLiq_CO2_H2O(int mask, double t, double p, double *x,
       if (oxVal[i] != 0.0) {
         double w = 100.0*oxVal[i]/oxSum;
         int nn = snprintf(&string[n], 13, " %s %.2f", bulkSystem[i].label, w);
-	n += (nn < 13) ? nn : 12;
+        n += (nn < 13) ? nn : 12;
       }
 
     *formula = string;
@@ -3006,6 +3053,13 @@ actLiq_CO2_H2O(int mask, double t, double p, double *x,
   MTHREAD_MUTEX_LOCK(&global_data_mutex);
   order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+#ifdef TESTDYNAMICLIB
+  if (!mask) {
+    for (i=0; i<NT; i++) a[i] = s[i];
+    return;
+  }
+#endif
 
   for(i=0; i<NA; i++) for (j=0; j<NR; j++) fr[i][j] = rsEndmembers[i][j] - r[j];
 

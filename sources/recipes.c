@@ -910,7 +910,11 @@ void nrerror(char error_text[])
   fprintf(stderr,"%s\n",error_text);
   fprintf(stderr,"...now exiting to system...\n");
   /* exit(1); */
+#ifdef USESEH
+  raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION);
+#else
   (void) raise(SIGABRT);
+#endif
   return;
 }
 

@@ -246,10 +246,10 @@ int subsolidusmuO2(int mask,
         char *valid;
         w = vector(1, n);
         v = matrix(1, n, 1, n);
-        valid = (char *) malloc((size_t) n*sizeof(char));
+        valid = (char *) malloc((size_t) (mm+1)*sizeof(char));
         for (i=1;i<=mm;i++) {
           stMatrix[i][1] *= 10.0;
-          valid[i] = True;
+          valid[i] = TRUE;
           for (j=2;j<=n;j++) stMatrix[i][j] *= silminState->solidComp[phaseIndex[j]][nCoexist[j]];
         }
         svdcmp(stMatrix, mm, n, w, v);

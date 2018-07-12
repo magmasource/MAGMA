@@ -919,6 +919,7 @@ order(int mask, double t, double p, double r[NR],
     pOld = p;
     for (i=0; i<NR; i++) rOld[i] = r[i];
 
+#ifdef DEBUG
     for (i=0; i<NS; i++) {
       if (!skipCheck && ABS(dgds[i]) > sqrt(DBL_EPSILON) 
           && (ABS(          xk *dgds[i]) > sqrt(DBL_EPSILON) &&
@@ -937,6 +938,7 @@ order(int mask, double t, double p, double r[NR],
         break;
       }
     }
+#endif
 
     setTOld(tOld);
     setPOld(pOld);

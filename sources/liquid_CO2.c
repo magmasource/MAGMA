@@ -26,7 +26,13 @@ const char *liquid_CO2_ver(void) { return "$Id: liquid_CO2.c,v 1.42 2009/05/14 0
 #include "silmin.h"
 #include "recipes.h"
 #include "mthread.h"
+#ifdef USESEH
+#include <windows.h>
+void raise_sigabrt(DWORD dwType);
+extern int doInterrupt;
+#else
 #include <signal.h>
+#endif
 
 #include "param_struct_data_CO2.h"
 
@@ -1798,6 +1804,9 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
   int i;
   static double *sCorr;
   double factor = 1.0;
+#ifdef TESTDYNAMICLIB
+  double rSum, s0;
+#endif
   
   if (NT == 0) return;
   
@@ -1856,6 +1865,15 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
   }
 #endif
 
+#ifdef TESTDYNAMICLIB  
+  /* A tweak for alkali-rich liquids where SiO2 tends to have negative mole fraction 
+    in the initial guess. Used for dynamically loaded library to help avoid doAbort. */
+  for (i=0, rSum=0.0; i<NR; i++) rSum += r[i];
+  /*coeff = 1.0;
+    xSpecies[ 0] = 1.0 - rSum*coeff;*/                   /* SiO2  */
+  if (rSum > 1.0) s[0] = rSum - 1.0 + sqrt(DBL_EPSILON);
+#endif
+  
   if (!rANDsTOx (r, s)) {
     static const int indexCon[] = { 0, 10, 14 };
                                   /* [ 0] SiO2 [10] CaO [14] CO2 */
@@ -2010,6 +2028,29 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
   } /* end block on simplex method */
 
   for (i=0; i<NS; i++) {
+#ifdef TESTDYNAMICLIB
+    s0 = MAX(rSum - 1.0, 0.0);
+    sCorr[i] = s0; s[i] = sCorr[i] + sqrt(DBL_EPSILON);
+    if (!rANDsTOx (r, s)) s[i] = sCorr[i];
+    else {
+      sCorr[i] = 0.5; s[i] = 1.0;
+      while (sCorr[i] > sqrt(DBL_EPSILON)) {
+        if(!rANDsTOx (r, s)) s[i] -= sCorr[i]; else s[i] += sCorr[i];
+	sCorr[i] /= 2.0;
+      }
+    }
+    sCorr[i] = (s[i] + s0)/2.0;
+    s[i]     = 0.0;
+  }
+
+  for (i=0; i<NS; i++) s[i] = sCorr[i];
+  for (i=0; i<NS; i++) sCorr[i] -= s0;
+  while (factor > sqrt(DBL_EPSILON) && !rANDsTOx (r, s)) {
+    factor /= 2.0;
+    for (i=0; i<NS; i++) s[i] = s0 + sCorr[i]*factor;
+  }  
+
+#else
     sCorr[i] = 0.0; s[i] = sqrt(DBL_EPSILON);
     if (!rANDsTOx (r, s)) s[i] = 0.0;
     else {
@@ -2022,13 +2063,14 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
     sCorr[i] = s[i]/2.0;
     s[i]     = 0.0;
   }
-  
+
   for (i=0; i<NS; i++) s[i] = sCorr[i];
   while (factor > sqrt(DBL_EPSILON) && !rANDsTOx (r, s)) {
     factor /= 2.0;
     for (i=0; i<NS; i++) s[i] = sCorr[i]*factor;
   }
   
+#endif
   for (i=NS; i<NT; i++) s[i] = 1.0/(((double) NY)+1.0);
 
 #ifdef DEBUG
@@ -2102,7 +2144,12 @@ order(int mask, double t, double p, double r[NR],
       for (i=0;  i<NR; i++) printf("   %20.20s %13.6g %13.6g\n",         liquid[i+1].label,  xSpecies[i+1],  r[i]);
       for (i=0;  i<NS; i++) printf("   %20.20s %13.6g %13.13s %13.6g\n", liquid[i+NA].label, xSpecies[i+NA], "", sNew[i]);
       for (i=NS; i<NT; i++) printf("   %20.20s %13.13s %13.13s %13.6g\n", "order CN[*]", "", "", sNew[i]);
+#ifdef USESEH
+      doInterrupt = TRUE;
+      (void) raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION);
+#else
       (void) raise(SIGABRT);
+#endif
     }
 
     loop = TRUE;
@@ -3006,6 +3053,13 @@ actLiq_CO2(int mask, double t, double p, double *x,
   MTHREAD_MUTEX_LOCK(&global_data_mutex);
   order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+#ifdef TESTDYNAMICLIB
+  if (!mask) {
+    for (i=0; i<NT; i++) a[i] = s[i];
+    return;
+  }
+#endif
 
   for(i=0; i<NA; i++) for (j=0; j<NR; j++) fr[i][j] = rsEndmembers[i][j] - r[j];
 
