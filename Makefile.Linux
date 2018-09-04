@@ -87,6 +87,9 @@ PYMELTSVER    = 0.1.1
 ifneq ($(DYNAMIC),)
 CFLAGS   += -fPIC -DTESTDYNAMICLIB
 endif
+ifneq ($(STATIC),)
+CFLAGS   += -fPIC
+endif
 
 # Loader flags (default is shared, add -non_shared)
 # =================================================
@@ -112,7 +115,8 @@ ifneq ($(STATIC),)
 # Not sure that it is possible to build the static version anymore.
 # Will still be able to run a dynamically linked version in the VM and WSL.
 override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
-	 -L/usr/lib/$(ROOTDIR)/ /usr/lib/$(ROOTDIR)/libXft.a /usr/lib/$(ROOTDIR)/libXmu.a -lXt -lXext -lX11 -lfontconfig \
+	 -L/usr/lib/$(ROOTDIR)/ -lXft -lXmu -lXt -lXext -lX11 \
+	 -lfreetype -lfontconfig \
 	  /usr/lib/$(ROOTDIR)/libjpeg.a \
 	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libgfortran.a -lquadmath
 endif
