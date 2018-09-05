@@ -1378,7 +1378,8 @@ void setMeltsSystemProperties(int *failure, char *strings, int *nCharInString, i
       properties[0] = strings[i*nCh];
       for (j=1; j<nCh; j++) {
         if ((strings[i*nCh+j] == ' ') && (strings[i*nCh+j-1] == ' ')) {
-          properties[j-1] = '\0';
+          /* Leave one space on end, where \n would be */
+          properties[j] = '\0';
           break;
         }
         else properties[j] = strings[i*nCh+j];
