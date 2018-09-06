@@ -2991,6 +2991,15 @@ actSpn(int mask, double t, double p, double *x,
   dgdr[2] = DGDR2;
   dgdr[3] = DGDR3;
 
+#ifdef TESTDYNAMICLIB
+  if (!mask && a != NULL) {
+    for(i=0; i<NA; i++) {
+       for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
+       a[i] = exp(a[i]/(R*t));
+    }
+  }
+#endif
+
   if (mask & FIRST) {
     double a0[NA];
 

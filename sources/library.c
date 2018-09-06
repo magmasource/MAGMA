@@ -1680,17 +1680,18 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
   if (res == NULL) { endMemberProperties = NULL; return; }
   else { 
     int i, j = res->index;
-    int columnLength = 3; /* X, mu0, mu */
+    int columnLength = 4; /* X, act, mu0, mu */
     double G0, G;
     
     if (j < 0) { /* liquid */
       double *m, *r, mTot;
-      double *muLiq;
+      double *aLiq, *muLiq;
       int k;
 
       m = (double *) calloc((size_t) nls,    sizeof(double));
       r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
       muLiq = (double *) calloc((size_t) nls, sizeof(double));
+      aLiq = (double *) calloc((size_t) nls, sizeof(double));
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
 
       if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
@@ -1699,7 +1700,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       }
 
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
-      actLiq(SECOND, *temperature, *pressure, r, NULL, muLiq, NULL, NULL);
+      actLiq(FIRST | SECOND, *temperature, *pressure, r, aLiq, muLiq, NULL, NULL);
 
       for (i=0, mTot = 0.0; i<nlc; i++) {
         mTot +=  m[i];
@@ -1726,8 +1727,9 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 
         /* reaction: CaSiO3 + CO2 - SiO2 = CaCO3 */
         muLiq[nlc] = muLiq[nCaSiO3] + muLiq[nCO2] - muLiq[nSiO2];
+        aLiq[nlc] = exp((muLiq[nlc]-liquid[nlc].cur.g)/(*temperature*R));
 
-        actLiq(0, *temperature, *pressure, r, &m[nlc], muLiq, NULL, NULL);
+        actLiq(0, *temperature, *pressure, r, &m[nlc], NULL, NULL, NULL);
         m[nlc] *= mTot; m[nSiO2] += m[nlc];
         m[nCaSiO3] -= m[nlc]; m[nCO2] -= m[nlc];
 
@@ -1741,27 +1743,30 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       for (i=0; i<nlc; i++) {
 #endif
       	endMemberProperties[i*columnLength+ 0] = (mTot != 0.0) ? m[i]/mTot : 0.0;
-        endMemberProperties[i*columnLength+ 1] = (m[i] != 0.0) ? (liquid[i].cur).g : 0.0;
-        endMemberProperties[i*columnLength+ 2] = (m[i] != 0.0) ? muLiq[i] : 0.0;
+        endMemberProperties[i*columnLength+ 1] = (m[i] != 0.0) ? aLiq[i] : 0.0;
+        endMemberProperties[i*columnLength+ 2] = (m[i] != 0.0) ? (liquid[i].cur).g : 0.0;
+        endMemberProperties[i*columnLength+ 3] = (m[i] != 0.0) ? muLiq[i] : 0.0;
         strncpy(endMemberNames+i*sizeof(char)*nCh,liquid[i].label, nCh);
       }
       
       free(m);
       free(r);
       free(muLiq);
+      free(aLiq);
 
     } else if (solids[j].na == 1) {
       gibbs(*temperature, *pressure, phaseName, &solids[j].ref, NULL, NULL, &(solids[j].cur));
 
       endMemberProperties[ 0] = 1.0;
-      endMemberProperties[ 1] = (solids[j].cur).g;
+      endMemberProperties[ 1] = 1.0;
       endMemberProperties[ 2] = (solids[j].cur).g;
+      endMemberProperties[ 3] = (solids[j].cur).g;
       strncpy(endMemberNames,solids[j].formula, nCh);
       (*numberEndMembers) = 1;
 
     } else {
       double e[106], *m, *r, mTot; 
-      double *actSol, *muSol;
+      double *aSol, *muSol;
       int k;
       for (i=0; i<106; i++) e[i] = 0.0;
       for (i=0; i<nc; i++) {
@@ -1771,11 +1776,11 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       m = (double *) calloc ((size_t) solids[j].na, sizeof(double));
       r = (double *) malloc ((size_t) solids[j].nr*sizeof(double));
       muSol = (double *) calloc((size_t) solids[j].na, sizeof(double));
-      actSol = (double *) calloc((size_t) solids[j].na, sizeof(double));
+      aSol = (double *) calloc((size_t) solids[j].na, sizeof(double));
 
       (*solids[j].convert)(FIRST, SECOND, *temperature, *pressure, e, m, NULL, NULL, NULL, NULL, NULL, NULL);
       (*solids[j].convert)(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
-
+      (*solids[j].activity)(0, *temperature, *pressure, r, aSol, NULL, NULL);
       (*solids[j].activity)(SECOND, *temperature, *pressure, r, NULL, muSol, NULL);
 
       for (i=0, mTot=0.0; i<solids[j].na; i++) {
@@ -1786,8 +1791,9 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
 
       for (i=0; i<solids[j].na; i++) {
         endMemberProperties[i*columnLength+ 0] = (mTot != 0.0) ? m[i]/mTot : 0.0;
-        endMemberProperties[i*columnLength+ 1] = (m[i] != 0.0) ? (solids[j+1+i].cur).g : 0.0;
-        endMemberProperties[i*columnLength+ 2] = (m[i] != 0.0) ?  muSol[i] : 0.0;
+        endMemberProperties[i*columnLength+ 1] = (m[i] != 0.0) ? aSol[i] : 0.0;
+        endMemberProperties[i*columnLength+ 2] = (m[i] != 0.0) ? (solids[j+1+i].cur).g : 0.0;
+        endMemberProperties[i*columnLength+ 3] = (m[i] != 0.0) ? muSol[i] : 0.0;
         strncpy(endMemberNames+i*sizeof(char)*nCh,solids[j+1+i].formula, nCh);
       }
       (*numberEndMembers) = solids[j].na;
@@ -1795,7 +1801,7 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       free(m);
       free(r);
       free(muSol);
-      free(actSol);
+      free(aSol);
       
     }
     
@@ -1884,7 +1890,7 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
   if (res == NULL) { oxideProperties = NULL; return; }
   else { 
     int i, j = res->index;
-    int columnLength = 3; /* X, mu0, mu */
+    int columnLength = 4; /* X, act, mu0, mu */
     
     if (j < 0) { /* liquid */
       double *m, *r, mTot;
@@ -1911,21 +1917,23 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
 
       for (k=0; k<columnLength*nc; k++) oxideProperties[k] = 0.0;
       for (i=0; i<nlc; i++) for (k=0; k<nc; k++) oxideProperties[k*columnLength+ 0] += (liquid[i].liqToOx)[k] * m[i];
-      for (k=0; k<nc; k++) if (oxideProperties[k*columnLength +0] != 0.0) {
-        int len = strlen(bulkSystem[k].label);
-        for (i=0; i<nlc; i++) {
-          if (!strncmp(bulkSystem[k].label, liquid[i].label, MIN(len, strlen(liquid[i].label)))) {
-            oxideProperties[k*columnLength+ 1] = (liquid[i].cur).g; 
-            break;
-          }
-        }
-      }
-      for (k=0; k<nc; k++) for (i=0; i<nlc; i++) oxideProperties[k*columnLength+ 2] += (bulkSystem[k].oxToLiq)[i] * muLiq[i];
+      for (k=0; k<nc; k++) for (i=0; i<nlc; i++) oxideProperties[k*columnLength+ 3] += (bulkSystem[k].oxToLiq)[i] * muLiq[i];
+      for (k=0, mTot=0.0; k<nc; k++) mTot += oxideProperties[k*columnLength +0];
 
-      for (k=0, mTot=0.0; k<nc; k++) mTot += oxideProperties[k*columnLength];      
       for (k=0; k<nc; k++) {
-        if (oxideProperties[k*columnLength +0] == 0.0) oxideProperties[k*columnLength +2] = 0.0;
-        else if (mTot != 0.0) oxideProperties[k*columnLength +0] /= mTot;
+        if (oxideProperties[k*columnLength +0] != 0.0) {
+          int len = strlen(bulkSystem[k].label);
+          for (i=0; i<nlc; i++) {
+            if (!strncmp(bulkSystem[k].label, liquid[i].label, MIN(len, strlen(liquid[i].label)))) {
+              muLiq[k] = oxideProperties[k*columnLength +3] - (liquid[i].cur).g;
+              oxideProperties[k*columnLength+ 1] = exp(muLiq[k]/(*temperature*R));
+              oxideProperties[k*columnLength+ 2] = (liquid[i].cur).g;
+              break;
+            }
+          }
+          if (mTot != 0.0) oxideProperties[k*columnLength +0] /= mTot;
+        }
+        else oxideProperties[k*columnLength +3] = 0.0;
       }
 
       for (k=0; k<nc; k++) strncpy(oxideNames+k*sizeof(char)*nCh,bulkSystem[k].label, nCh);

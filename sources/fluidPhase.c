@@ -2477,6 +2477,13 @@ actFlu(int mask, double t, double p, double *r,
   duanH2O((p <= 2000.0) ? 1 : 0, t, p, &vH2O, &zH2O, &phiH2O, &dvdtH2O, &dvdpH2O, &d2vdt2H2O, &d2vdtdpH2O, &d2vdp2H2O, &dlnphidtH2O, &dlnphidpH2O, &d2lnphidt2H2O, &d2lnphidtdpH2O, &d2lnphidp2H2O);
   duanCO2((p <= 2000.0) ? 1 : 0, t, p, &vCO2, &zCO2, &phiCO2, &dvdtCO2, &dvdpCO2, &d2vdt2CO2, &d2vdtdpCO2, &d2vdp2CO2, &dlnphidtCO2, &dlnphidpCO2, &d2lnphidt2CO2, &d2lnphidtdpCO2, &d2lnphidp2CO2);
 
+#ifdef TESTDYNAMICLIB
+  if (!mask && a != NULL) {
+    a[H2O] = (phiH2O != 0.0) ? x[H2O]*phi[H2O]/phiH2O : 0.0;
+    a[CO2] = (phiCO2 != 0.0) ? x[CO2]*phi[CO2]/phiCO2 : 0.0;
+  }
+#endif
+
   if (mask & FIRST) {
     a[H2O] = (phiH2O != 0.0) ? x[H2O]*phi[H2O]/phiH2O : 0.0;
     a[CO2] = (phiCO2 != 0.0) ? x[CO2]*phi[CO2]/phiCO2 : 0.0; 

@@ -554,6 +554,15 @@ actGrn(int mask, double t, double p, double *x,
   dgdr[0] = DGDR0;
   dgdr[1] = DGDR1;
 
+#ifdef TESTDYNAMICLIB
+  if (!mask && a != NULL) {
+    for(i=0; i<NA; i++) {
+       for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
+       a[i] = exp(a[i]/(R*t));
+    }
+  }
+#endif
+
   if (mask & FIRST) {
     for(i=0; i<NA; i++) {
        for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];

@@ -3055,7 +3055,7 @@ actLiq_CO2(int mask, double t, double p, double *x,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 #ifdef TESTDYNAMICLIB
-  if (!mask) {
+  if (!mask && a != NULL) {
     for (i=0; i<NT; i++) a[i] = s[i];
     return;
   }
