@@ -118,7 +118,7 @@ override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
 	 -L/usr/lib/$(ROOTDIR)/ -lXft -lXmu -lXt -lXext -lX11 \
 	 -lfreetype -lfontconfig \
 	  /usr/lib/$(ROOTDIR)/libjpeg.a \
-	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libgfortran.a -lquadmath
+	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libgfortran.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libquadmath.a
 endif
 
 LIBF2C = 

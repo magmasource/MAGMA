@@ -103,7 +103,7 @@ ifneq ($(STATIC),)
 override PUBLIBS = /usr/$(ROOTDIR)/lib/libXm.a \
 	 -L/usr/$(ROOTDIR)/lib/ /usr/$(ROOTDIR)/lib/libXft.a /usr/$(ROOTDIR)/lib/libXmu.a -lXt -lXext -lX11 -lfontconfig \
 	  /usr/$(ROOTDIR)/lib/libjpeg.a \
-	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libgfortran.a -lquadmath
+	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libgfortran.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libquadmath.a
 endif
 
 LIBF2C = 
