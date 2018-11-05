@@ -353,10 +353,10 @@ void meltsgetformulalist_(char *phaseName, char endMemberNames[], int *nCharInNa
       }
       (*numberEndMembers) = nls;
 #else
-      for (i=0; i<nls; i++) {      
+      for (i=0; i<nlc; i++) {
         strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);
       }
-      (*numberEndMembers) = nls;
+      (*numberEndMembers) = nlc;
 #endif
     } else if (solids[j].na == 1) {
       strncpy(endMemberNames, solids[j].formula, nCh); 
@@ -1228,7 +1228,7 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
                double *enthalpy, double *temperature,
                char *phasePtr, int *nCharInName, int *numberPhases, int *output, 
                char *errorString, int *nCharInString, double *phaseProperties, int phaseIndices[]) {
-  int i, j, nCh = *nCharInName, np = *numberPhases, status, nodeIndex = 1, iterations = 0;
+  int i, nCh = *nCharInName, np = *numberPhases, status, nodeIndex = 1, iterations = 0;
   char *phaseNames = (char *) malloc((size_t) nCh*np);
 
 #ifdef TESTDYNAMICLIB
@@ -1822,7 +1822,7 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
           double *pressure, double *bulkComposition,
 				  char *endMemberPtr, int *nCharInName, int *numberEndMembers, 
           double *endMemberProperties) {
-  int i, j, nCh = *nCharInName, np = *numberEndMembers;
+  int i, nCh = *nCharInName, np = *numberEndMembers;
   char *endMemberNames = (char *) malloc((size_t) nCh*np*sizeof(char));
   double *propertiesPtr = endMemberProperties;
 
