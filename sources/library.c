@@ -850,6 +850,9 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
     case LIQUIDUS_TIME:
       *status = 503;
       break;
+    case LIQUIDUS_MULTIPLE:
+      *status = 504;
+      break;
     default:
       *status = 1000;
       break;
@@ -1206,6 +1209,9 @@ void meltsgeterrorstring_(int *status, char *errorString, int *nCharInName) {
     case 503:
       strncpy(errorString, "Liquidus not found.  Time limit exceeded.", nCh);
       break;
+    case 504:
+      strncpy(errorString, "Liquidus not found.  Solids / multiple liquids present.", nCh);
+      break;
     case 1000:
       strncpy(errorString, "Undefined error condition.", nCh);
       break;
@@ -1333,7 +1339,7 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
     for (i=0, j=0; i<npc; i++) {
       if (solids[i].type == PHASE) {
       	int phaseStrLen = (int) strlen(solids[i].label); 
-        if (((len-10-phaseStrLen-1)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
+        if (((len-10-phaseStrLen)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
 	        if ( solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) {
 	          silminState->incSolids[j] = FALSE;
     	    }
@@ -1378,8 +1384,8 @@ void setMeltsSystemProperties(int *failure, char *strings, int *nCharInString, i
       properties[0] = strings[i*nCh];
       for (j=1; j<nCh; j++) {
         if ((strings[i*nCh+j] == ' ') && (strings[i*nCh+j-1] == ' ')) {
-          /* Leave one space on end, where \n would be */
-          properties[j] = '\0';
+          /* Leave no spaces on end */
+          properties[j-1] = '\0';
           break;
         }
         else properties[j] = strings[i*nCh+j];
@@ -1621,7 +1627,7 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
 
 void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature, 
                  double *pressure, double *bulkComposition, double *phaseProperties) {
-  int i; /* don't return mu for Matlab version (put actual MELTS composition instead) */
+  /* don't return mu for Matlab version (put actual MELTS composition instead) */
   double *propertiesPtr = phaseProperties;
 
 #ifdef USESJLJ
@@ -1681,7 +1687,6 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
   else { 
     int i, j = res->index;
     int columnLength = 4; /* X, act, mu0, mu */
-    double G0, G;
     
     if (j < 0) { /* liquid */
       double *m, *r, mTot;
@@ -1966,7 +1971,7 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
           double *pressure, double *bulkComposition,
           char *oxidePtr, int *nCharInName, int *numberOxides, 
           double *oxideProperties) {
-  int i, j, nCh = *nCharInName, nox = *numberOxides;
+  int i, nCh = *nCharInName, nox = *numberOxides;
   char *oxideNames = (char *) malloc((size_t) nCh*nox*sizeof(char));
   double *propertiesPtr = oxideProperties;
 

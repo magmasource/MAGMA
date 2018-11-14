@@ -535,7 +535,7 @@ int getInputDataFromFile(char *fileName)
       for (i=0, j=0; i<npc; i++) {
         if (solids[i].type == PHASE) {
 	  int phaseStrLen = (int) strlen(solids[i].label); 
-          if (((len-10-phaseStrLen-1)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
+          if (((len-10-phaseStrLen)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
             if ( solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) {
               XmToggleButtonGadgetSetState(includedSolids[j].name, False, False);
             }
