@@ -5934,7 +5934,7 @@ Solids pMeltsSolids[] = {
             EOS_BERMAN, {{-2.515E-6, 0.0, 20.824E-6, 0.0}}
         }
     },
-    {"nepheline ss", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+    {"nepheline", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
         0.0, 0.0,
         {                /* ThermoRef structure                                   */
             0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */
@@ -6000,7 +6000,7 @@ Solids pMeltsSolids[] = {
             EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
         }
     },
-    {"kalsilite ss", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+    {"kalsilite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
         0.0, 0.0,
         {                /* ThermoRef structure                                   */
             0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */
@@ -6063,7 +6063,7 @@ Solids pMeltsSolids[] = {
             EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
         }
     },
-    {"leucite ss", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
+    {"leucite", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL,
         0.0, 0.0,
         {                /* ThermoRef structure                                   */
             0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */
@@ -6222,7 +6222,7 @@ Solids pMeltsSolids[] = {
             EOS_BERMAN, {{0.0, 0.0, 0.0, 0.0}}
         }
     },
-    {"rhm oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+    {"rhm-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
         0.0, 0.0,
         {                /* ThermoRef structure                                   */
             0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 
@@ -6285,7 +6285,7 @@ Solids pMeltsSolids[] = {
             EOS_BERMAN, {{-0.584E-6, 1.230E-12, 27.248E-6, 29.968E-10}}
         }
     },
-    {"ortho oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
+    {"ortho-oxide", PHASE, "", INCLUDE_IN_CALIBRATION, INCLUDE_IN_STD_SET, NULL, NULL, 
         0.0, 0.0,
         {                /* ThermoRef structure                                   */
             0.0, 0.0, 0.0,                    /* Dummy entries to ThermoRef structure */ 

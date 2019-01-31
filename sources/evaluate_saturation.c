@@ -401,7 +401,7 @@ int evaluateSaturationState(double *rSol, double *rLiq)
 		rSol[i+6] = (!strcmp(solids[i].label, "clinopyroxene")) ? 0.5 : 0.5;
 	      }
 #endif /* DO_PYROXENE_COMPROMISE */
-            } else if (!strcmp(solids[i].label, "nepheline ss")) {
+            } else if (!strcmp(solids[i].label, "nepheline")) {
               int tempZeroX[4];
               for (k=0; k<solids[i].na; k++) tempZeroX[k] = zeroX[k];
               /* muSol[2] = 0.0; tempZeroX[2] = TRUE; */ /* vc-nepheline */
@@ -415,7 +415,7 @@ int evaluateSaturationState(double *rSol, double *rLiq)
                 /* if (tempZeroX[3] && !zeroX[3]) rSol[i+3] = 0.0001; */
               } else for (k=0; k<=solids[i].na; k++) rSol[i+k] = 0.0;
 
-            } else if (!strcmp(solids[i].label, "kalsilite ss")) {
+            } else if (!strcmp(solids[i].label, "kalsilite")) {
               int tempZeroX[4];
               for (k=0; k<solids[i].na; k++) tempZeroX[k] = zeroX[k];
               /* muSol[2] = 0.0; tempZeroX[2] = TRUE; */ /* vc-nepheline */
