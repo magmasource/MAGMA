@@ -231,11 +231,13 @@ void meltsgetphasenames_(char phaseNames[], int *nCharInName, int *numberPhases,
   if (!iAmInitialized) initializeLibrary();
   
 #ifdef TESTDYNAMICLIB  
-  strncpy(phaseNames + np*sizeof(char)*nCh, "bulk", nCh); phaseIndices[np] = 1; np++; 
+  strncpy(phaseNames + np*sizeof(char)*nCh, "bulk", nCh);   phaseIndices[np] = -10; np++; 
+  strncpy(phaseNames + np*sizeof(char)*nCh, "liquid", nCh); phaseIndices[np] = 0; np++;
 #else
   strncpy(phaseNames + np*sizeof(char)*nCh, "system", nCh); phaseIndices[np] = 1; np++; 
-#endif 
   strncpy(phaseNames + np*sizeof(char)*nCh, "liquid", nCh); phaseIndices[np] = 2; np++;
+#endif 
+
   for (i=0; i<npc; i++) if (solids[i].type == PHASE) { 
       strncpy(phaseNames + np*sizeof(char)*nCh, solids[i].label, nCh); 
       phaseIndices[np] = 10*i + 10;
@@ -800,11 +802,14 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
   
 #ifdef TESTDYNAMICLIB
   strncpy(phaseNames, "bulk", nCh);
+  *numberPhases = 1;
+  phaseIndices[0] = -10;
 #else
   strncpy(phaseNames, "system", nCh);
-#endif
   *numberPhases = 1;
   phaseIndices[0] = 1;
+
+#endif
   *iterations = -1;
   
   switch (meltsStatus.status) {
@@ -876,9 +881,15 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
       int nl;
       double gramTot=0.0, mTot = 0.0;
       strncpy(phaseNames + sizeof(char)*nCh, "liquid", nCh);
+#ifdef TESTDYNAMICLIB
+      /* multiple liquids not actually allowed yet... */
+      *numberPhases = silminState->nLiquidCoexist + 1;
+      phaseIndices[1] = 0; // set within nl loop
+#else
       *numberPhases = 2;
-      phaseIndices[1] = 2;
-      
+      phaseIndices[1] = 2;      
+#endif
+
       for (i=0; i<nc; i++) oxVal[i]=0.0;
     
       for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
@@ -1281,7 +1292,7 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
 /* ================================================================================== */
 
 void meltssetsystemproperty_(int *nodeIndex, char *property) {
-  int i, j, len;
+  int i, len;
   float temporary;
   char line[REC];
 
@@ -1336,30 +1347,41 @@ void meltssetsystemproperty_(int *nodeIndex, char *property) {
 
     /* -> suppress a solid phase record */
   } else if (!strncmp(line, "suppress: ",              MIN(len,10))) {
-    for (i=0, j=0; i<npc; i++) {
-      if (solids[i].type == PHASE) {
-      	int phaseStrLen = (int) strlen(solids[i].label); 
-        if (((len-10-phaseStrLen)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
-	        if ( solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) {
-	          silminState->incSolids[j] = FALSE;
-    	    }
-	        break;
-      	}
-      j++;
+    if (!strncmp(&line[10], "none", MIN(len-10, 4))) {
+      int np;
+      for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+      (silminState->incSolids)[npc] = TRUE;
+    }
+    else if (!strncmp(&line[10], "liquid", MIN(len-10, 6))) {
+      (silminState->incSolids)[npc] = FALSE;
+    }
+    else {
+      int j;
+      for (i=0, j=0; i<npc; i++) {
+        if (solids[i].type == PHASE) {
+          int phaseStrLen = (int) strlen(solids[i].label); 
+          if (((len-10-phaseStrLen)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
+            if ( solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) {
+              silminState->incSolids[j] = FALSE;
+            }
+            break;
+          }
+        j++;
+        }
       }
     }
 
     /* -> mode record */
   } else if (!strncmp(line, "mode: ",                   MIN(len, 6))) {
-    /* Multiple liquids are not allowed here, and constraints are added separately */
+    /* Multiple liquids are not allowed here yet, and constraints are added separately */
     if      (!strncmp(&line[6],  "fractionate solids",  MIN((len-6), 18))) silminState->fractionateSol = TRUE;
     else if (!strncmp(&line[6],  "fractionate liquids", MIN((len-6), 19))) silminState->fractionateLiq = TRUE;
     else if (!strncmp(&line[6],  "fractionate fluids",  MIN((len-6), 18))) silminState->fractionateFlu = TRUE;
-  } else if (!strncmp(line, "mode off: ",                   MIN(len, 10))) {
     /* Was previously 'mode: batch'... */
-    if      (!strncmp(&line[10],  "fractionate solids",  MIN((len-10), 18))) silminState->fractionateSol = FALSE;
-    else if (!strncmp(&line[10],  "fractionate liquids", MIN((len-10), 19))) silminState->fractionateLiq = FALSE;
-    else if (!strncmp(&line[10],  "fractionate fluids",  MIN((len-10), 18))) silminState->fractionateFlu = FALSE;
+    else if (!strncmp(&line[10],  "fractionate none",  MIN((len-10), 18))) {
+      silminState->fractionateSol = FALSE; silminState->fractionateLiq = FALSE; silminState->fractionateFlu = FALSE;
+    }
+    /*else if (!strncmp(&line[6],  "multiple liquids",    MIN((len-6), 16))) silminState->multipleLiqs   = TRUE;*/
   }
 }
 
@@ -1537,7 +1559,44 @@ void meltsgetphaseproperties_(char *phaseName, double *temperature,
       }
       m = (double *) malloc ((size_t) solids[j].na*sizeof(double));
       r = (double *) malloc ((size_t) solids[j].nr*sizeof(double));
-      (*solids[j].convert)(FIRST, SECOND, *temperature, *pressure, e, m, NULL, NULL, NULL, NULL, NULL, NULL);
+
+      if (!strncmp(solids[j].label,"clinopyroxene", MIN((int) strlen(solids[j].label), 13)) || 
+        !strncmp(solids[j].label,"orthopyroxene", MIN((int) strlen(solids[j].label), 13))) {
+        // use input Fe2O3 for Opx/Cpx as entered (see marc.c)
+        double sumcat, sumchg, fe2, fe3;
+        static const int Na = 11;
+        static const int Mg = 12;
+        static const int Al = 13;
+        static const int Si = 14;
+        static const int Ca = 20;
+        static const int Ti = 22;
+        static const int Cr = 24;
+        static const int Mn = 25;
+        static const int Fe = 26;
+
+        /* Sum the cations and correct the analysis for silica deficiency */
+        sumcat  = e[Na] +     e[Mg] +     e[Al] +     e[Si] +     e[Ca] +     e[Ti] +     e[Cr] +     e[Mn] + e[Fe];
+        sumchg  = e[Na] + 2.0*e[Mg] + 3.0*e[Al] + 4.0*e[Si] + 2.0*e[Ca] + 4.0*e[Ti] + 3.0*e[Cr] + 2.0*e[Mn];
+
+        /* Compute the ferric/ferrous ratio */
+        fe3 = 3.0*sumcat - sumchg - 2.0*e[Fe];
+        fe2 = e[Fe] - fe3;
+        if (fe3 < 0.0) { fe3 = 0.0; fe2 = e[Fe]; }
+        if (fe2 < 0.0) { fe2 = 0.0; fe3 = e[Fe]; }
+          
+        /* Assign moles of endmembers */
+        m[0] = -fe3/2.0 - fe2 - e[Mn] - e[Al]/2.0 - e[Cr]/2.0 + e[Ca] + e[Na]/2.0 - e[Ti];
+        m[1] =  fe3/4.0 + fe2/2.0 + e[Mn]/2.0 + e[Al]/4.0 + e[Cr]/4.0 - e[Ca]/2.0 + e[Mg]/2.0 - e[Na]/4.0;
+        m[2] =  fe2 + e[Mn];
+        m[3] = -fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 + e[Ti];
+        m[4] =  fe3/2.0 - e[Al]/2.0 - e[Cr]/2.0 + e[Na]/2.0 + e[Ti];
+        m[5] =  fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 - e[Ti];
+        m[6] =  e[Na];
+      }
+      else {
+        (*solids[j].convert)(FIRST, SECOND, *temperature, *pressure, e, m, NULL, NULL, NULL, NULL, NULL, NULL);
+      }
+
       (*solids[j].convert)(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
       mu = (double *) malloc ((size_t) solids[j].na*sizeof(double));
 
@@ -1783,7 +1842,43 @@ void meltsgetendmemberproperties_(char *phaseName, double *temperature,
       muSol = (double *) calloc((size_t) solids[j].na, sizeof(double));
       aSol = (double *) calloc((size_t) solids[j].na, sizeof(double));
 
-      (*solids[j].convert)(FIRST, SECOND, *temperature, *pressure, e, m, NULL, NULL, NULL, NULL, NULL, NULL);
+      if (!strncmp(solids[j].label,"clinopyroxene", MIN((int) strlen(solids[j].label), 13)) || 
+        !strncmp(solids[j].label,"orthopyroxene", MIN((int) strlen(solids[j].label), 13))) {
+        // use input Fe2O3 for Opx/Cpx as entered (see marc.c)
+        double sumcat, sumchg, fe2, fe3;
+        static const int Na = 11;
+        static const int Mg = 12;
+        static const int Al = 13;
+        static const int Si = 14;
+        static const int Ca = 20;
+        static const int Ti = 22;
+        static const int Cr = 24;
+        static const int Mn = 25;
+        static const int Fe = 26;
+
+        /* Sum the cations and correct the analysis for silica deficiency */
+        sumcat  = e[Na] +     e[Mg] +     e[Al] +     e[Si] +     e[Ca] +     e[Ti] +     e[Cr] +     e[Mn] + e[Fe];
+        sumchg  = e[Na] + 2.0*e[Mg] + 3.0*e[Al] + 4.0*e[Si] + 2.0*e[Ca] + 4.0*e[Ti] + 3.0*e[Cr] + 2.0*e[Mn];
+
+        /* Compute the ferric/ferrous ratio */
+        fe3 = 3.0*sumcat - sumchg - 2.0*e[Fe];
+        fe2 = e[Fe] - fe3;
+        if (fe3 < 0.0) { fe3 = 0.0; fe2 = e[Fe]; }
+        if (fe2 < 0.0) { fe2 = 0.0; fe3 = e[Fe]; }
+          
+        /* Assign moles of endmembers */
+        m[0] = -fe3/2.0 - fe2 - e[Mn] - e[Al]/2.0 - e[Cr]/2.0 + e[Ca] + e[Na]/2.0 - e[Ti];
+        m[1] =  fe3/4.0 + fe2/2.0 + e[Mn]/2.0 + e[Al]/4.0 + e[Cr]/4.0 - e[Ca]/2.0 + e[Mg]/2.0 - e[Na]/4.0;
+        m[2] =  fe2 + e[Mn];
+        m[3] = -fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 + e[Ti];
+        m[4] =  fe3/2.0 - e[Al]/2.0 - e[Cr]/2.0 + e[Na]/2.0 + e[Ti];
+        m[5] =  fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 - e[Ti];
+        m[6] =  e[Na];
+      }
+      else {
+        (*solids[j].convert)(FIRST, SECOND, *temperature, *pressure, e, m, NULL, NULL, NULL, NULL, NULL, NULL);
+      }
+
       (*solids[j].convert)(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
       (*solids[j].activity)(0, *temperature, *pressure, r, aSol, NULL, NULL);
       (*solids[j].activity)(SECOND, *temperature, *pressure, r, NULL, muSol, NULL);
@@ -2001,6 +2096,103 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
     RAISE_SIGINT;
   }
 #endif  
+}
+
+/* ================================================================================== */
+/* ================================================================================== */
+
+void meltssaturationstate_(double *pressure, double *bulkComposition, double *temperature, 
+        char phaseNames[], int *nCharInName, int *numberPhases, double *phaseProperties, int phaseIndices[]) {
+
+  int i, j, np=0, nCh = *nCharInName, columnLength = nlc+1;
+  double *m = (double *) calloc((size_t) nlc,    sizeof(double));
+  if (!iAmInitialized) initializeLibrary();
+
+  if ((silminState->ySol) == NULL) {
+    (silminState->ySol) = (double *) malloc((size_t) npc*sizeof(double));
+    (silminState->yLiq) = (double *) malloc((size_t) nlc*sizeof(double));
+  }
+  evaluateSaturationState((silminState->ySol), (silminState->yLiq));
+
+#ifdef TESTDYNAMICLIB  
+  strncpy(phaseNames + np*sizeof(char)*nCh, "bulk", nCh);   phaseIndices[np] = -10; np++; 
+  strncpy(phaseNames + np*sizeof(char)*nCh, "liquid", nCh); phaseIndices[np] = 0; np++;
+#else
+  strncpy(phaseNames + np*sizeof(char)*nCh, "system", nCh); phaseIndices[np] = 1; np++; 
+  strncpy(phaseNames + np*sizeof(char)*nCh, "liquid", nCh); phaseIndices[np] = 2; np++;
+#endif 
+  *numberPhases = 2;
+
+  phaseProperties[0] = -100000.0; // system
+  for (i=0; i<nlc; i++) phaseProperties[0*columnLength+ i+1] = 0.0;
+
+  for (i=0; i<nlc; i++) phaseProperties[1*columnLength+ i+1] = 0.0;
+  if (silminState->liquidMass != 0.0) {
+    phaseProperties[1*columnLength+ 0] = 0.0;     /* Affinity should be zero */
+  }
+  else {
+    phaseProperties[1*columnLength+ 0] = (silminState->yLiq[nlc-1] == 0.0) ? -100000.0 : silminState->yLiq[nlc-1];
+    for (i=0; i<nlc; i++) phaseProperties[1*columnLength+ i+1] = 0.0;
+    if (silminState->yLiq[nlc-1] != 0.0) {
+      conLiq(THIRD, FOURTH, *temperature, *pressure, NULL, NULL, silminState->yLiq, m, NULL, NULL, NULL);
+      for (i=0; i<nlc; i++) phaseProperties[1*columnLength+ i+1] = m[i];
+    }
+  }
+
+  for (j=0; j<npc; j++) if (solids[j].type == PHASE) { 
+      strncpy(phaseNames + np*sizeof(char)*nCh, solids[j].label, nCh); 
+      phaseIndices[np] = 10*j + 10;
+
+      for (i=0; i<nlc; i++) phaseProperties[(*numberPhases)*columnLength+ i+1] = 0.0;
+      if (silminState->nSolidCoexist[j] != 0) {
+        phaseProperties[(*numberPhases)*columnLength+ 0] = 0.0;    /* Affinity should be zero */
+      }
+      else {
+        phaseProperties[(*numberPhases)*columnLength+ 0] = (silminState->ySol[j] == 0.0) ? -100000.0 : silminState->ySol[j];
+        if (solids[j].na > 1 && (silminState->ySol[j] != 0.0)) {
+          (*solids[j].convert)(THIRD, FOURTH, *temperature, *pressure, NULL, NULL, &silminState->ySol[j+1], m, NULL, NULL, NULL, NULL);
+          for (i=0; i<solids[j].na; i++) phaseProperties[(*numberPhases)*columnLength+ i+1] = m[i];
+        }
+      }
+      (*numberPhases)++; np++;
+  }
+  free(m);
+
+}
+
+/* ================================================================================== */
+/* ================================================================================== */
+
+void getMeltsSaturationState(int *failure, double *pressure, double *bulkComposition, double *temperature, 
+        char *phasePtr, int *nCharInName, int *numberPhases, double *phaseProperties, int phaseIndices[]) {
+  int i, nCh = *nCharInName, np = *numberPhases;
+  char *phaseNames = (char *) malloc((size_t) nCh*np*sizeof(char));
+  
+#ifdef USESJLJ
+  if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
+    set_signal_handler();
+#endif
+    for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
+    meltssaturationstate_(pressure, bulkComposition, temperature, phaseNames, nCharInName, 
+      numberPhases, phaseProperties, phaseIndices);
+    np = *numberPhases;
+    for (i=0; i<nCh*np; i++) {
+      if (phaseNames[i] == '\0') phasePtr[i] = ' ';
+      else phasePtr[i] = phaseNames[i];
+    }
+    free(phaseNames);
+    *failure = FALSE;
+#ifdef USESEH
+    *failure = doInterrupt;
+#elif defined(USESJLJ)
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    RAISE_SIGINT;
+  }
+#endif
 }
 
 /* ================================================================================== */

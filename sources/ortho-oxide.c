@@ -1474,7 +1474,7 @@ order(int mask, double t, double p, double r[NR],
   
   /* look-up or compute the current ordering state */
   if ( (t != tOld)       || (p != pOld) || 
-       (r[0] != rOld[0]) || (r[1] != rOld[1]) || (r[2] != rOld[2]) ) {
+       (r[0] != rOld[0]) || (r[1] != rOld[1]) ) {
     double dgds[NS], sNew[NS];
     
     for (i=0; i<NS; i++) sOld[i] = 2.0;
