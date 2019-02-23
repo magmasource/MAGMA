@@ -490,31 +490,6 @@ static double viscosityFromGRD(double t, double *oxValues) {
 }
 
 /* ================================================================================== */
-/* Input and Output (as above)                                                        */
-/* ================================================================================== */
-
-void getMeltsViscosityFromGRD(int *failure, double *temperature, double *bulkComposition, double *viscosity) {
-
-#ifdef USESJLJ
-  if (setjmp(env) == 0) {
-    setErrorHandler();
-#elif defined(USESEH)
-    doInterrupt = FALSE;
-    set_signal_handler();
-#endif  
-    (*viscosity) = viscosityFromGRD(*temperature, bulkComposition);
-    *failure = FALSE;
-#ifdef USESEH
-    *failure = doInterrupt;
-#elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
-  }
-#endif  
-}
-
-/* ================================================================================== */
 /* Model (as in MELTS GUI): Shaw (1972) AJS November 1972 vol. 272 no. 9 870-893      */
 /* Viscosities of Magmatic Silicate Liquids: An Empirical Method of Prediction        */
 /* ================================================================================== */
@@ -571,7 +546,7 @@ static double viscosityFromShaw(double t, double *oxValues) {
 /* Input and Output (as above)                                                        */
 /* ================================================================================== */
 
-void getMeltsViscosityFromShaw(int *failure, double *temperature, double *bulkComposition, double *viscosity) {
+void getMeltsViscosity(int *failure, char *model, double *temperature, double *bulkComposition, double *viscosity) {
 
 #ifdef USESJLJ
   if (setjmp(env) == 0) {
@@ -580,7 +555,10 @@ void getMeltsViscosityFromShaw(int *failure, double *temperature, double *bulkCo
     doInterrupt = FALSE;
     set_signal_handler();
 #endif  
-    (*viscosity) = viscosityFromShaw(*temperature, bulkComposition);
+    if (!strncmp(model, 'GRD', MAX(strlen(model), 3)))
+      (*viscosity) = viscosityFromGRD(*temperature, bulkComposition);
+    else
+      (*viscosity) = viscosityFromShaw(*temperature, bulkComposition);
     if (*viscosity != 0.0) *failure = FALSE;
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;
@@ -963,7 +941,8 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
 #else
       phaseProperties[columnLength+11+nc  ] = (mTot != 0.0) ? gramTot/mTot : 0.0;
       phaseProperties[columnLength+11+nc+1] = (vLiq != 0.0) ? 100.0*gramTot/vLiq : 0.0;
-      phaseProperties[columnLength+11+nc+2] = gramTot;
+      //phaseProperties[columnLength+11+nc+2] = gramTot;
+      phaseProperties[columnLength+11+nc+2] = viscosityFromShaw(silminState->T, oxVal);
 #endif
     } /* end liquid block */
 
@@ -1115,7 +1094,8 @@ void meltsprocess_(int *nodeIndex, int *mode, double *pressure, double *bulkComp
 #else
     phaseProperties[11+nc  ] = (totalMoles != 0.0) ? totalGrams/totalMoles : 0.0;
     phaseProperties[11+nc+1] = ((vLiq+totalV) != 0.0) ? 100.0*totalGrams/(vLiq+totalV) : 0.0;
-    phaseProperties[11+nc+2] = totalGrams;
+    //phaseProperties[11+nc+2] = totalGrams;
+    phaseProperties[11+nc+2] = silminState->fo2;
 #endif
 
 #ifndef TESTDYNAMICLIB
