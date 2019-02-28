@@ -1688,6 +1688,223 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
   }
 #endif  
 }
+/* ================================================================================== */
+/* Retrieves properties of solid and liquid phases using mole fractions of endmembers */
+/* Input:                                                                             */
+/*   phaseName       - string as returned from meltsGetPhaseNames                     */
+/*   temperature     - Temperature in Kelvins of the node                             */
+/*   pressure        - Pressure in bars of the node                                   */
+/*   bulkComposition - Bulk composition of the phase in mole fractions (or moles)     */ 
+/* Output:                                                                            */
+/*   phaseProperties - 1-d array, properties in the order                             */
+/*                     G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2     */
+/* ================================================================================== */
+
+void meltsgetmolarproperties_(char *phaseName, double *temperature, 
+         double *pressure, double *bulkComposition, double *phaseProperties) {
+  PhaseList *res;
+
+  if (!iAmInitialized) initializeLibrary();
+  
+  if (phaseList == NULL) {
+    initializePhaseList();
+  }
+
+  strcpy(key.name, phaseName);
+  res = bsearch(&key, phaseList, (size_t) np, sizeof(struct _phaseList), comparePhases);
+  
+  if (res == NULL) { phaseProperties = NULL; return; }
+  else { 
+    int i, j = res->index;
+    double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2, totalGrams, totalMoles;
+    
+    if (j < 0) { /* liquid */
+      double *m, *r, mTot, *mu;
+      int k;
+      m = (double *) calloc((size_t) nlc,    sizeof(double));
+      r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
+      for (i=0; i<nlc; i++) m[i] = bulkComposition[i];
+      mu = (double *) calloc((size_t) nlc, sizeof(double));
+
+      if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
+        silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
+        conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
+      }
+      conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
+
+      gmixLiq (FIRST, *temperature, *pressure, r, &G, NULL, NULL);
+      hmixLiq (FIRST, *temperature, *pressure, r, &H, NULL);
+      smixLiq (FIRST, *temperature, *pressure, r, &S, NULL, NULL, NULL);
+      vmixLiq (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, 
+        *temperature, *pressure, r, &V, NULL, NULL, &dVdT, &dVdP, &d2VdT2, &d2VdTdP, &d2VdP2, NULL, NULL, NULL);
+      cpmixLiq(FIRST | SECOND, *temperature, *pressure, r, &Cp, &dCpdT, NULL);
+      actLiq(SECOND, *temperature, *pressure, r, NULL, mu, NULL, NULL);
+
+      for (i=0, mTot=0.0; i<nlc; i++) {
+        mTot +=  m[i];
+        gibbs(*temperature, *pressure, (char *) liquid[i].label, &liquid[i].ref, &liquid[i].liq, &liquid[i].fus, &liquid[i].cur);
+      }
+
+      for (i=0; i<nlc; i++) {
+        G       += m[i]*(liquid[i].cur).g/mTot;
+        H       += m[i]*(liquid[i].cur).h/mTot;
+        S       += m[i]*(liquid[i].cur).s/mTot;
+        V       += m[i]*(liquid[i].cur).v/mTot;
+        Cp      += m[i]*(liquid[i].cur).cp/mTot;
+        dCpdT   += m[i]*(liquid[i].cur).dcpdt/mTot;
+        dVdT    += m[i]*(liquid[i].cur).dvdt/mTot;
+        dVdP    += m[i]*(liquid[i].cur).dvdp/mTot;
+        d2VdT2  += m[i]*(liquid[i].cur).d2vdt2/mTot;
+        d2VdTdP += m[i]*(liquid[i].cur).d2vdtdp/mTot;
+        d2VdP2  += m[i]*(liquid[i].cur).d2vdp2/mTot;
+#ifndef TESTDYNAMICLIB
+        phaseProperties[11+i] = mu[i] +  (liquid[i].cur).g;
+#endif
+      }
+
+#ifdef TESTDYNAMICLIB
+      for (i=0, totalGrams = 0.0; i<nc; i++) {
+        phaseProperties[11+i] = 0.0;
+        for (j=0; j<nlc; j++) phaseProperties[11+i] += (liquid[j].liqToOx)[i]*m[j]*bulkSystem[i].mw/mTot;
+        totalGrams += phaseProperties[11+i];
+      }
+#endif
+
+      free(m);
+      free(r);
+      free(mu);
+
+    } else if (solids[j].na == 1) {
+      gibbs(*temperature, *pressure, phaseName, &solids[j].ref, NULL, NULL, &solids[j].cur);
+      
+      G       = (solids[j].cur).g;
+      H       = (solids[j].cur).h;
+      S       = (solids[j].cur).s;
+      V       = (solids[j].cur).v;
+      Cp      = (solids[j].cur).cp;
+      dCpdT   = (solids[j].cur).dcpdt;
+      dVdT    = (solids[j].cur).dvdt;
+      dVdP    = (solids[j].cur).dvdp;
+      d2VdT2  = (solids[j].cur).d2vdt2;
+      d2VdTdP = (solids[j].cur).d2vdtdp;
+      d2VdP2  = (solids[j].cur).d2vdp2;
+
+#ifdef TESTDYNAMICLIB
+      for (i=0, totalGrams = 0.0; i<nc; i++) {
+        phaseProperties[11+i] = (solids[j].solToOx)[i]*bulkSystem[i].mw;
+        totalGrams += phaseProperties[11+i];
+      }
+#endif
+
+    } else {
+      double e[106], *m, *r, mTot, *mu; 
+      int k;
+      for (i=0; i<106; i++) e[i] = 0.0;
+      for (i=0; i<nc; i++) {
+        double mOx = bulkComposition[i]/bulkSystem[i].mw;
+        for (k=0; k<106; k++) e[k] += mOx*(bulkSystem[i].oxToElm)[k];
+      }
+      m = (double *) malloc ((size_t) solids[j].na*sizeof(double));
+      r = (double *) malloc ((size_t) solids[j].nr*sizeof(double));
+
+      for (i=0; i<solids[j].na; i++) m[i] = bulkComposition[i];
+
+      (*solids[j].convert)(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL, NULL);
+      mu = (double *) malloc ((size_t) solids[j].na*sizeof(double));
+
+      for (i=0, mTot=0.0; i<solids[j].na; i++) {
+        mTot += m[i];
+        gibbs(*temperature, *pressure, (char *) solids[j+1+i].label, &solids[j+1+i].ref, NULL, NULL, &solids[j+1+i].cur);
+      }
+      
+      (*solids[j].gmix) (FIRST, *temperature, *pressure, r, &G, NULL, NULL, NULL);
+      (*solids[j].hmix) (FIRST, *temperature, *pressure, r, &H);
+      (*solids[j].smix) (FIRST, *temperature, *pressure, r, &S, NULL, NULL);
+      (*solids[j].vmix) (FIRST | FOURTH | FIFTH | SIXTH | SEVENTH | EIGHTH, 
+         *temperature, *pressure, r, &V, NULL, NULL, &dVdT, &dVdP, &d2VdT2, &d2VdTdP, &d2VdP2, NULL, NULL);
+      (*solids[j].cpmix)(FIRST | SECOND, *temperature, *pressure, r, &Cp, &dCpdT, NULL);
+      (*solids[j].activity)(SECOND, *temperature, *pressure, r, NULL, mu, NULL);
+ 
+      for (i=0; i<solids[j].na; i++) {
+        G       += m[i]*(solids[j+1+i].cur).g/mTot;
+        H       += m[i]*(solids[j+1+i].cur).h/mTot;
+        S       += m[i]*(solids[j+1+i].cur).s/mTot;
+        V       += m[i]*(solids[j+1+i].cur).v/mTot;
+        Cp      += m[i]*(solids[j+1+i].cur).cp/mTot;
+        dCpdT   += m[i]*(solids[j+1+i].cur).dcpdt/mTot;
+        dVdT    += m[i]*(solids[j+1+i].cur).dvdt/mTot;
+        dVdP    += m[i]*(solids[j+1+i].cur).dvdp/mTot;
+        d2VdT2  += m[i]*(solids[j+1+i].cur).d2vdt2/mTot;
+        d2VdTdP += m[i]*(solids[j+1+i].cur).d2vdtdp/mTot;
+        d2VdP2  += m[i]*(solids[j+1+i].cur).d2vdp2/mTot;
+#ifndef TESTDYNAMICLIB
+        phaseProperties[11+i] = mu[i] + (solids[j+1+i].cur).g;
+#endif
+      }
+
+#ifdef TESTDYNAMICLIB
+      for (i=0, totalGrams = 0.0; i<nc; i++) {
+        phaseProperties[11+i]=0.0;
+        for (k=0; k<solids[j].na; k++) phaseProperties[11+i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw/mTot;
+        totalGrams += phaseProperties[11+i];
+      }
+#endif
+
+      free(m);
+      free(r);
+      free(mu);
+
+    }
+
+    phaseProperties[ 0] = G;
+    phaseProperties[ 1] = H;
+    phaseProperties[ 2] = S;
+    phaseProperties[ 3] = V*10.0;
+    phaseProperties[ 4] = Cp;
+    phaseProperties[ 5] = dCpdT;
+    phaseProperties[ 6] = dVdT*10.0;
+    phaseProperties[ 7] = dVdP*10.0;
+    phaseProperties[ 8] = d2VdT2*10.0;
+    phaseProperties[ 9] = d2VdTdP*10.0;
+    phaseProperties[10] = d2VdP2*10.0;
+
+#ifdef TESTDYNAMICLIB
+    phaseProperties[11+nc  ] = totalGrams;
+    phaseProperties[11+nc+1] = (V != 0.0) ? 100.0*totalGrams/V : 0.0;
+    phaseProperties[11+nc+2] = totalGrams;
+#endif
+
+  }
+}
+
+/* ================================================================================== */
+/* Input and Output (as above)                                                        */
+/* ================================================================================== */
+
+void getMeltsMolarProperties(int *failure, char *phaseName, double *temperature, 
+                 double *pressure, double *bulkComposition, double *phaseProperties) {
+  /* don't return mu for Matlab version (put actual MELTS composition instead) */
+  double *propertiesPtr = phaseProperties;
+
+#ifdef USESJLJ
+  if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
+    set_signal_handler();
+#endif  
+    meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
+    if (phaseProperties != NULL) *failure = FALSE;
+    else phaseProperties = propertiesPtr;
+#ifdef USESEH
+    *failure = (*failure) ? (*failure) : doInterrupt;
+#elif defined(USESJLJ)
+  } else {
+    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
+    RAISE_SIGINT;
+  }
+#endif  
+}
 
 /* ================================================================================== */
 /* Retrieves properties of solid and liquid phase end members                         */
