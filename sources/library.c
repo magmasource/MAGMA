@@ -555,7 +555,7 @@ void getMeltsViscosity(int *failure, char *model, double *temperature, double *b
     doInterrupt = FALSE;
     set_signal_handler();
 #endif  
-    if (!strncmp(model, 'GRD', MAX(strlen(model), 3)))
+    if (!strncmp(model, "GRD", MAX(strlen(model), 3)))
       (*viscosity) = viscosityFromGRD(*temperature, bulkComposition);
     else
       (*viscosity) = viscosityFromShaw(*temperature, bulkComposition);
@@ -1797,13 +1797,8 @@ void meltsgetmolarproperties_(char *phaseName, double *temperature,
 #endif
 
     } else {
-      double e[106], *m, *r, mTot, *mu; 
+      double *m, *r, mTot, *mu; 
       int k;
-      for (i=0; i<106; i++) e[i] = 0.0;
-      for (i=0; i<nc; i++) {
-        double mOx = bulkComposition[i]/bulkSystem[i].mw;
-        for (k=0; k<106; k++) e[k] += mOx*(bulkSystem[i].oxToElm)[k];
-      }
       m = (double *) malloc ((size_t) solids[j].na*sizeof(double));
       r = (double *) malloc ((size_t) solids[j].nr*sizeof(double));
 
@@ -1893,7 +1888,7 @@ void getMeltsMolarProperties(int *failure, char *phaseName, double *temperature,
     doInterrupt = FALSE;
     set_signal_handler();
 #endif  
-    meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
+    meltsgetmolarproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
     if (phaseProperties != NULL) *failure = FALSE;
     else phaseProperties = propertiesPtr;
 #ifdef USESEH
