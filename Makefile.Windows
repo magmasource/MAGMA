@@ -1,0 +1,127 @@
+# =================================================================================
+# Makefile for build of the xMELTS package on Linux (Ubuntu - 16.04)
+#   $Id: Makefile.Linux,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
+# Generic Linux makefile (will dynamically link with Motif file by default)
+# For static linking of the GUI use: 'make Melts-rhyolite-public STATIC=true' 
+# See Makefile.ubuntu and Makefile.redhat for backwards compatibility
+# =================================================================================
+
+MAKEFILE = 
+ROOTDIR := 
+
+# Compilation options
+# ===================
+
+PROTO   = XTFUNCPROTO
+VLIST   = _NO_DRAWINGA_VLIST_PARENT
+ENTRYC  = _NO_WHITE_TEXTW
+ACEPLT  = _NO_GRACE_PIPE
+
+# Environment variable defaults
+# =============================
+
+MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
+MELTS_DATA_DIR         = .
+MELTS_DATA_SUFFIX      = *.xml
+MELTS_HARDWARE_VERSION = 3.00 GHz Intel Xeon Quad Core
+MELTS_INPUT_DIR        = .
+MELTS_INPUT_SUFFIX     = *.melts
+MELTS_MOTIF_VERSION    = 2.3.4
+MELTS_OS_VERSION       = Ubuntu - 16.04
+MELTS_OUTPUT_FILE      = melts.out
+MELTS_WWW_BROWSER      = 
+MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
+MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
+MELTS_X_VERSION        = X.Org / OSF Motif 2.3
+MELTS_RELEASE_DATE     = March 2015
+ifeq ($(ARCH), x86_64)
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Ubuntu - 16.04, clang 3.8.0, 64 bit)
+else
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Ubuntu - 16.04, clang 3.8.0, 32 bit)
+endif
+
+# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
+# ======================================================================================
+
+INCC   = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/x86_64-w64-mingw32/include
+INCXM  = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/x86_64-w64-mingw32/include
+INCX   = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/x86_64-w64-mingw32/include
+INCF2C = .
+INCXML = /usr/$(ROOTDIR)/include/libxml2
+
+# Compiler choice and flags - Do not delete the $(BATCH) macro
+# ============================================================
+
+AR            = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/ar.exe
+ARFLAGS       = rvU
+DYFLAGS	      = xv
+CC            = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/gcc.exe
+LD            = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/g++.exe
+FC            = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/gfortran.exe
+CFLAGS        = -c -O3 $(BATCH) -D_USE_ISOC99 -D_ISOC99_SOURCE \
+                -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+FFLAGS        = -O3
+RANLIB        = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/ranlib.exe
+RANLIBFG      = 
+RM            = rm
+RMFLAGS       = -f
+MPICC         = mpicc
+MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
+MPILDFLAGS    = -L/usr/lib -lmpi
+CP            = cp 
+CPFLAGS       = -R
+MKDIR         = mkdir
+TAR           = tar 
+TARFLAGS      = czvf
+CHECKSUM      = openssl
+CHECKSUMFLAGS = sha256
+SCP           = scp
+USER          = administrator
+HOST          = repository.ofm-research.org
+LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
+PYMELTSVER    = 0.1.1
+
+ifneq ($(DYNAMIC),)
+CFLAGS   += -DTESTDYNAMICLIB -DMINGW -DUSESJLJ
+endif
+
+# Loader flags (default is shared, add -non_shared)
+# =================================================
+
+LDFLAGS = 
+SONAME = dll
+ifneq ($(DYNAMIC),)
+override DYNAMIC = -shared
+endif
+
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
+# ==============================================================================
+
+LIBS    = -L/usr/$(ROOTDIR)/lib/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
+PUBLIBS = -L/usr/$(ROOTDIR)/lib/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
+ifneq ($(STATIC),)
+override PUBLIBS = /usr/$(ROOTDIR)/lib/libXm.a \
+	 -L/usr/$(ROOTDIR)/lib/ /usr/$(ROOTDIR)/lib/libXft.a /usr/$(ROOTDIR)/lib/libXmu.a -lXt -lXext -lX11 -lfontconfig \
+	  /usr/$(ROOTDIR)/lib/libjpeg.a \
+	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libgfortran.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libquadmath.a
+endif
+
+LIBF2C = 
+LIBXML = -L/usr/lib -lxml2 -lm
+ifneq ($(STATIC),)
+override LIBXML = /usr/$(ROOTDIR)/lib/libxml2.a /usr/$(ROOTDIR)/lib/libicuio.a \
+       	 /usr/$(ROOTDIR)/lib/libicuuc.a /usr/$(ROOTDIR)/lib/libicudata.a \
+	 /usr/$(ROOTDIR)/lib/liblzma.a \
+        -L/usr/$(ROOTDIR)/lib/ -lpng12 -lz -lpthread -ldl -lm
+endif
+#LIBBATCH = -L/usr/$(ROOTDIR)/lib -lxml2 -lz -lws2_32 -luuid -lm -lmingw32
+LIBBATCH = -L/mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/x86_64-w64-mingw32/lib32 -lz -lws2_32 -luuid -lm -lmingw32 
+
+include Makefile.common
+
+# end of Makefile
+# ===============
+
+# To build test test_meltsLib in pHMELTS4
+# x86_64-w64-mingw32-gcc -c -g3 test_meltsLib.c -DTESTLIQUIDPROPS
+# x86_64-w64-mingw32-g++ -o test_meltsLib test_meltsLib.o -L. -lMELTSdynamic
