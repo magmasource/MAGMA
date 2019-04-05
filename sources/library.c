@@ -17,8 +17,7 @@ MeltsStatus meltsStatus;
 #define XOR(a,b) ((a) ? !(b) : (b))
 #define REC   134
 
-/* For SEH this is used to indicate whether the calculation failed.
-  For SJLJ it is used to indicate whether a console in attached in Windows. */
+/* For SEH this is used to indicate whether the calculation failed. */
 int doInterrupt = FALSE;
 
 #ifdef MINGW
@@ -28,9 +27,6 @@ int doInterrupt = FALSE;
 #define MAX_CONSOLE_LINES 5000
 BOOL WINAPI windows_console_handler(DWORD dwType);
 void raise_sigabrt(DWORD dwType);
-#define RAISE_SIGINT (doInterrupt) ? (void) raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION) : raise(SIGINT)
-#else
-#define RAISE_SIGINT raise(SIGINT)
 #endif
 
 #ifdef USESJLJ
@@ -119,7 +115,6 @@ void addConsole(void) {
 
   if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE) windows_console_handler, TRUE)) 
     fprintf(stderr, "...Error in installing Console Handler.\n");
-  doInterrupt = TRUE;
 
 #endif
 }
@@ -127,7 +122,6 @@ void addConsole(void) {
 void closeConsole(void) {
 #ifdef MINGW
   FreeConsole();
-  doInterrupt = FALSE;
 #endif
 }
 
@@ -206,9 +200,6 @@ void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *num
 #ifdef USESEH
     *failure = doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif
 }
@@ -275,9 +266,6 @@ void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *num
 #ifdef USESEH
     *failure = doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif
 }
@@ -403,9 +391,6 @@ void getMeltsFormulaList(int *failure, char *phaseName, char *formulaPtr, int *n
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;  
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif
 }
@@ -563,9 +548,6 @@ void getMeltsViscosity(int *failure, char *model, double *temperature, double *b
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif  
 }
@@ -1254,9 +1236,6 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;  
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif
 }
@@ -1399,9 +1378,6 @@ void setMeltsSystemProperties(int *failure, char *strings, int *nCharInString, i
 #ifdef USESEH
     *failure = doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif
 }
@@ -1682,9 +1658,6 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif  
 }
@@ -1894,9 +1867,6 @@ void getMeltsMolarProperties(int *failure, char *phaseName, double *temperature,
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif  
 }
@@ -2139,9 +2109,6 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif  
 }
@@ -2283,9 +2250,6 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif  
 }
@@ -2380,9 +2344,6 @@ void getMeltsSaturationState(int *failure, double *pressure, double *bulkComposi
 #ifdef USESEH
     *failure = doInterrupt;
 #elif defined(USESJLJ)
-  } else {
-    fputs("Raising SIGINT: interactive attention signal (like a ctrl+c)\n", stderr);
-    RAISE_SIGINT;
   }
 #endif
 }
@@ -2732,8 +2693,12 @@ BOOL WINAPI windows_console_handler(DWORD dwType) {
 } 
 
 void raise_sigabrt(DWORD dwType) {
-    HWND consoleWnd = GetConsoleWindow();
+    HWND consoleWnd;
     DWORD dwProcessId;
+    if ((consoleWnd = GetConsoleWindow()) == NULL) {
+      addConsole();
+      consoleWnd = GetConsoleWindow();
+    }
     GetWindowThreadProcessId(consoleWnd, &dwProcessId);
     if (GetCurrentProcessId()==dwProcessId) {
 #ifndef USESJLJ
