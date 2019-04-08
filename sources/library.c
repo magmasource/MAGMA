@@ -26,7 +26,6 @@ int doInterrupt = FALSE;
 #include <conio.h>
 #define MAX_CONSOLE_LINES 5000
 BOOL WINAPI windows_console_handler(DWORD dwType);
-void raise_sigabrt(DWORD dwType);
 #endif
 
 #ifdef USESJLJ
@@ -35,7 +34,7 @@ void raise_sigabrt(DWORD dwType);
 static void setErrorHandler(void);
 static jmp_buf env;
 #elif defined(USESEH)
-static void set_signal_handler(void);
+void raise_sigabrt(DWORD dwType);
 #endif
 
 static void doBatchFractionation(void);
@@ -121,7 +120,8 @@ void addConsole(void) {
 
 void closeConsole(void) {
 #ifdef MINGW
-  FreeConsole();
+    HWND consoleWnd;
+    if ((consoleWnd = GetConsoleWindow()) != NULL) FreeConsole();
 #endif
 }
 
@@ -186,7 +186,6 @@ void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *num
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif
     for (i=0; i<nCh*nox; i++) oxidePtr[i] = '\0';
     meltsgetoxidenames_(oxideNames, nCharInName, numberOxides);
@@ -252,7 +251,6 @@ void getMeltsPhaseNames(int *failure, char *phasePtr, int *nCharInName, int *num
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
     meltsgetphasenames_(phaseNames, nCharInName, numberPhases, phaseIndices);
@@ -377,7 +375,6 @@ void getMeltsFormulaList(int *failure, char *phaseName, char *formulaPtr, int *n
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) formulaPtr[i] = '\0';    
     meltsgetformulalist_(phaseName, endMemberNames, nCharInName, numberEndMembers);
@@ -538,7 +535,6 @@ void getMeltsViscosity(int *failure, char *model, double *temperature, double *b
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif  
     if (!strncmp(model, "GRD", MAX(strlen(model), 3)))
       (*viscosity) = viscosityFromGRD(*temperature, bulkComposition);
@@ -1219,7 +1215,6 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
     meltsprocess_(&nodeIndex, mode, pressure, bulkComposition, enthalpy, temperature,
@@ -1359,7 +1354,6 @@ void setMeltsSystemProperties(int *failure, char *strings, int *nCharInString, i
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif
     for (i=0; i<np; i++) {
       properties[0] = strings[i*nCh];
@@ -1650,7 +1644,6 @@ void getMeltsPhaseProperties(int *failure, char *phaseName, double *temperature,
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif  
     meltsgetphaseproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
     if (phaseProperties != NULL) *failure = FALSE;
@@ -1859,7 +1852,6 @@ void getMeltsMolarProperties(int *failure, char *phaseName, double *temperature,
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif  
     meltsgetmolarproperties_(phaseName, temperature, pressure, bulkComposition, phaseProperties);
     if (phaseProperties != NULL) *failure = FALSE;
@@ -2093,7 +2085,6 @@ void getMeltsEndMemberProperties(int *failure, char *phaseName, double *temperat
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) endMemberPtr[i] = '\0';
     meltsgetendmemberproperties_(phaseName, temperature, pressure, bulkComposition,
@@ -2234,7 +2225,6 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
     setErrorHandler();
 #elif defined (USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif  
     for (i=0; i<nCh*nox; i++) oxidePtr[i] = '\0';
     meltsgetoxideproperties_(phaseName, temperature, pressure, bulkComposition,
@@ -2329,7 +2319,6 @@ void getMeltsSaturationState(int *failure, double *pressure, double *bulkComposi
     setErrorHandler();
 #elif defined(USESEH)
     doInterrupt = FALSE;
-    set_signal_handler();
 #endif
     for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
     meltssaturationstate_(pressure, bulkComposition, temperature, phaseNames, nCharInName, 
@@ -2566,6 +2555,49 @@ static void doBatchFractionation(void) {
     }
 }
 
+#ifdef MINGW
+BOOL WINAPI windows_console_handler(DWORD dwType) {
+  int msgboxID = 0;
+  switch(dwType) {
+    case CTRL_C_EVENT:
+      fputs("Warning: CTRL_C_EVENT\n", stderr);
+      break;
+    case CTRL_BREAK_EVENT:
+      fputs("Warning: CTRL_BREAK_EVENT\n", stderr);
+      break;
+    case CTRL_CLOSE_EVENT:
+      fputs("Warning: CTRL_CLOSE_EVENT\n", stderr);
+      fputs("[To just close the console in future runs, type 'MELTSdynamic' instead.]\n", stderr);
+      fputs("Closing MELTS for MATLAB! This cannot be undone without restarting MATLAB.\n", stderr);
+      fputs("Please save your work and click 'X' again to exit the program.", stderr);
+      fflush(stderr);
+      ExitThread(0);
+      break;
+    default:
+      fputs("Warning: Unrecognized Event\n", stderr);
+      break;
+  }
+  fflush(stderr);
+  return FALSE;
+}
+#endif
+
+#ifdef USESEH
+void raise_sigabrt(DWORD dwType) {
+    HWND consoleWnd;
+    DWORD dwProcessId;
+    if ((consoleWnd = GetConsoleWindow()) == NULL) {
+      addConsole();
+      consoleWnd = GetConsoleWindow();
+    }
+    GetWindowThreadProcessId(consoleWnd, &dwProcessId);
+    if (GetCurrentProcessId()==dwProcessId)
+      GenerateConsoleCtrlEvent(CTRL_C_EVENT, 1);
+    else
+      RaiseException(dwType, 0, 0, NULL);
+}
+#endif
+
 #ifdef USESJLJ
 static void almost_c99_signal_handler(int sig) {
   switch(sig) {
@@ -2593,142 +2625,12 @@ static void almost_c99_signal_handler(int sig) {
   /* was: _Exit(1); */
   longjmp(env, 0);
 }
-#elif defined (USESEH)
-LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo) {
-  switch(ExceptionInfo->ExceptionRecord->ExceptionCode) {
-    case EXCEPTION_ACCESS_VIOLATION:
-      fputs("Error: EXCEPTION_ACCESS_VIOLATION\n", stderr);
-      break;
-    case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-      fputs("Error: EXCEPTION_ARRAY_BOUNDS_EXCEEDED\n", stderr);
-      break;
-    case EXCEPTION_BREAKPOINT:
-      fputs("Error: EXCEPTION_BREAKPOINT\n", stderr);
-      break;
-    case EXCEPTION_DATATYPE_MISALIGNMENT:
-      fputs("Error: EXCEPTION_DATATYPE_MISALIGNMENT\n", stderr);
-      break;
-    case EXCEPTION_FLT_DENORMAL_OPERAND:
-      fputs("Error: EXCEPTION_FLT_DENORMAL_OPERAND\n", stderr);
-      break;
-    case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-      fputs("Error: EXCEPTION_FLT_DIVIDE_BY_ZERO\n", stderr);
-      break;
-    case EXCEPTION_FLT_INEXACT_RESULT:
-      fputs("Error: EXCEPTION_FLT_INEXACT_RESULT\n", stderr);
-      break;
-    case EXCEPTION_FLT_INVALID_OPERATION: 
-      fputs("Error: EXCEPTION_FLT_INVALID_OPERATION\n", stderr);
-      break;
-    case EXCEPTION_FLT_OVERFLOW:
-      fputs("Error: EXCEPTION_FLT_OVERFLOW\n", stderr);
-      break;
-    case EXCEPTION_FLT_STACK_CHECK:
-      fputs("Error: EXCEPTION_FLT_STACK_CHECK\n", stderr);
-      break;
-    case EXCEPTION_FLT_UNDERFLOW:
-      fputs("Error: EXCEPTION_FLT_UNDERFLOW\n", stderr);
-      break;
-    case EXCEPTION_ILLEGAL_INSTRUCTION:
-      fputs("Error: EXCEPTION_ILLEGAL_INSTRUCTION\n", stderr);
-      break;
-    case EXCEPTION_IN_PAGE_ERROR:
-      fputs("Error: EXCEPTION_IN_PAGE_ERROR\n", stderr);
-      break;
-    case EXCEPTION_INT_DIVIDE_BY_ZERO:
-      fputs("Error: EXCEPTION_INT_DIVIDE_BY_ZERO\n", stderr);
-      break;
-    case EXCEPTION_INT_OVERFLOW:
-      fputs("Error: EXCEPTION_INT_OVERFLOW\n", stderr);
-      break;
-    case EXCEPTION_INVALID_DISPOSITION:
-      fputs("Error: EXCEPTION_INVALID_DISPOSITION\n", stderr);
-      break;
-    case EXCEPTION_NONCONTINUABLE_EXCEPTION:
-      fputs("Error: EXCEPTION_NONCONTINUABLE_EXCEPTION\n", stderr);
-      break;
-    case EXCEPTION_PRIV_INSTRUCTION:
-      fputs("Error: EXCEPTION_PRIV_INSTRUCTION\n", stderr);
-      break;
-    case EXCEPTION_SINGLE_STEP:
-      fputs("Error: EXCEPTION_SINGLE_STEP\n", stderr);
-      break;
-    case EXCEPTION_STACK_OVERFLOW:
-      fputs("Error: EXCEPTION_STACK_OVERFLOW\n", stderr);
-      break;
-    default:
-      fputs("Error: Unrecognized Exception\n", stderr);
-      break;
-  }
-  fflush(stderr);
-    
-  return EXCEPTION_EXECUTE_HANDLER;
-} 
-#endif
 
-#ifdef MINGW
-BOOL WINAPI windows_console_handler(DWORD dwType) {
-  int msgboxID = 0;
-  switch(dwType) {
-    case CTRL_C_EVENT:
-      fputs("Warning: CTRL_C_EVENT\n", stderr);
-      break;
-    case CTRL_BREAK_EVENT:
-      fputs("Warning: CTRL_BREAK_EVENT\n", stderr);
-      break;
-    case CTRL_CLOSE_EVENT:
-      fputs("Warning: CTRL_CLOSE_EVENT\n", stderr);
-      fputs("[To just close the console in future runs, type 'MELTSdynamic' instead.]\n", stderr);
-      fputs("Closing MELTS for MATLAB! This cannot be undone without restarting MATLAB.\n", stderr);
-      fputs("Please save your work and click 'X' again to exit the program.", stderr);
-      fflush(stderr);
-      ExitThread(0);
-      break;
-    default:
-      fputs("Warning: Unrecognized Event\n", stderr);
-      break;
-  }
-  fflush(stderr);
-  return FALSE;
-} 
-
-void raise_sigabrt(DWORD dwType) {
-    HWND consoleWnd;
-    DWORD dwProcessId;
-    if ((consoleWnd = GetConsoleWindow()) == NULL) {
-      addConsole();
-      consoleWnd = GetConsoleWindow();
-    }
-    GetWindowThreadProcessId(consoleWnd, &dwProcessId);
-    if (GetCurrentProcessId()==dwProcessId) {
-#ifndef USESJLJ
-      switch(dwType) {
-      case EXCEPTION_FLT_INVALID_OPERATION: 
-        fputs("Error: EXCEPTION_FLT_INVALID_OPERATION\n", stderr);
-        break;
-      default:
-        fputs("Error: Unrecognized Exception\n", stderr);
-        break;
-      }
-#endif
-      GenerateConsoleCtrlEvent(CTRL_C_EVENT, 1);
-    }
-    else
-      RaiseException(dwType, 0, 0, NULL);
-}
-#endif
-
-#ifdef USESJLJ
 void setErrorHandler(void) {
   if (signal(SIGABRT, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGABRT handler.\n");
   if (signal(SIGFPE, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGFPE handler.\n");
   if (signal(SIGILL, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGILL handler.\n");
   /*if (signal(SIGSEGV, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGSEGV handler.\n");*/
   if (signal(SIGTERM, &almost_c99_signal_handler) == SIG_ERR) fprintf(stderr, "...Error in installing SIGTERM handler.\n");
-}
-#elif defined(USESEH)
-void set_signal_handler(void) {
-  if (!SetUnhandledExceptionFilter(windows_exception_handler))  
-    fprintf(stderr, "...Error in installing Exception Handler.\n");
 }
 #endif
