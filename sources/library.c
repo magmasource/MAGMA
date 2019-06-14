@@ -337,7 +337,7 @@ void meltsgetformulalist_(char *phaseName, char endMemberNames[], int *nCharInNa
     if (j < 0) { /* liquid */
 #ifdef TESTDYNAMICLIB
       for (i=0; i<nls; i++) {
-	strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);
+	      strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);
       }
       (*numberEndMembers) = nls;
 #else
@@ -2247,12 +2247,122 @@ void getMeltsOxideProperties(int *failure, char *phaseName, double *temperature,
 /* ================================================================================== */
 /* ================================================================================== */
 
-void meltssaturationstate_(double *pressure, double *bulkComposition, double *temperature, 
+void meltssaturationstate_(int *nodeIndex, double *pressure, double *bulkComposition, double *temperature, 
         char phaseNames[], int *nCharInName, int *numberPhases, double *phaseProperties, int phaseIndices[]) {
-
-  int i, j, np=0, nCh = *nCharInName, columnLength = nlc+1;
+  int update = FALSE;
+  int i, j, k, np=0, nCh = *nCharInName, columnLength = nlc+1;
   double *m = (double *) calloc((size_t) nlc,    sizeof(double));
   if (!iAmInitialized) initializeLibrary();
+
+  if (numberNodes != 0) {
+    NodeList key, *res;
+    key.node = *nodeIndex;
+    res = bsearch(&key, nodeList, (size_t) numberNodes, sizeof(struct _nodeList), compareNodes);
+    if (res == NULL) {
+      numberNodes++;
+      nodeList = (NodeList *) realloc(nodeList, (size_t) numberNodes*sizeof(struct _nodeList));
+      (nodeList[numberNodes-1]).silminState = createSilminState();
+      (nodeList[numberNodes-1]).node = *nodeIndex;
+      silminState = (nodeList[numberNodes-1]).silminState;
+      qsort(nodeList, (size_t) numberNodes, sizeof(struct _nodeList), compareNodes);
+    } else { 
+      int i;
+      silminState = res->silminState;
+      for(i=0; i<nc; i++) {
+        if((silminState->bulkComp)[i] != 0.0) {
+          update = TRUE;
+          break;
+        }
+      }
+    } 
+  } else {
+    numberNodes = 1;
+    nodeList = (NodeList *) realloc(nodeList, sizeof(struct _nodeList));
+    (nodeList[0]).silminState = createSilminState();
+    (nodeList[0]).node = *nodeIndex;
+    silminState = (nodeList[0]).silminState;
+  }
+  
+  if (update) {
+    int i, j;
+    static double *changeBC = NULL;
+    if (changeBC == NULL) changeBC = (double *) malloc((size_t) nc*sizeof(double));
+    for (i=0; i<nc; i++) {
+      changeBC[i] = bulkComposition[i]/bulkSystem[i].mw - (silminState->bulkComp)[i];
+      silminState->liquidMass += bulkComposition[i] - (silminState->bulkComp)[i]*bulkSystem[i].mw;
+    }
+    for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
+    for (i=0; i<nlc; i++) {
+      for (j=0; j<nc; j++) {
+        (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
+        silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+      }
+    }
+    for (i=0; i<nc; i++) {
+      if (((silminState->bulkComp)[i] != 0.0) && (bulkSystem[i].type != FE2O3)) {
+        if ((silminState->bulkComp)[i] <  MASSOUT)
+          update = FALSE;
+        else for (j=0; j<nlc; j++)
+          if ((liquid[j].liqToOx[i] != 0.0) && (silminState->liquidComp[0][j] <= 0.0))
+            update = FALSE;
+      }
+    }
+  }
+  if (!update) {
+    int i, j;
+    for (i=0, silminState->liquidMass=0.0; i<nc; i++) {
+      (silminState->bulkComp)[i] = bulkComposition[i]/bulkSystem[i].mw;
+      silminState->liquidMass += bulkComposition[i];
+    }
+    for (i=0; i<nlc; i++) {
+      for ((silminState->liquidComp)[0][i]=0.0, silminState->oxygen=0.0, j=0; j<nc; j++) {
+        (silminState->liquidComp)[0][i] += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i];
+        silminState->oxygen += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+      }
+    }
+  }
+
+  silminState->T           = *temperature;
+  silminState->P           = *pressure;  
+  
+  /* -> Calculate liquid end-member properties                                  */
+  for (i=0; i<nlc; i++) gibbs(silminState->T, silminState->P, (char *) liquid[i].label, &(liquid[i].ref),
+                          &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
+
+  /* -> Calculate solid  end-member properties                                  */
+  for (i=0, j=0; i<npc; i++) {
+    if (solids[i].type == PHASE) {
+      if ((silminState->incSolids)[j]) {
+        if(solids[i].na == 1) gibbs(silminState->T, silminState->P, (char *) solids[i].label, &(solids[i].ref), NULL, NULL, &(solids[i].cur));
+        else {
+          for (k=0; k<solids[i].na; k++) {
+            gibbs(silminState->T, silminState->P, (char *) solids[i+1+k].label, &(solids[i+1+k].ref), NULL, NULL, &(solids[i+1+k].cur));
+          }
+          i += solids[i].na;
+        }
+      }
+      j++;
+    }
+  }
+
+  /* -> Calculate O2 end-member properties if path is buffered                  */          
+           
+  /* -> Redistribute Fe2O3 and FeO in liquid phase to establish buffer at this T and P */
+  if (silminState->fo2Path != FO2_NONE) {
+    double *moles = (double *) malloc((unsigned) nc*sizeof(double));
+    gibbs(silminState->T, silminState->P, "o2", &(oxygen.ref), NULL, NULL, &(oxygen.cur));
+    silminState->fo2 = getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
+    for (i=0; i<nc; i++) {
+      for (j=0, moles[i]=0.0; j<nlc; j++) moles[i] += (silminState->liquidComp)[0][j]*(liquid[j].liqToOx)[i];
+      (silminState->bulkComp)[i] -= moles[i];
+    }
+    conLiq(FIRST | SEVENTH, FIRST, silminState->T, silminState->P, moles, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
+    for (i=0; i<nc; i++) (silminState->bulkComp)[i] += moles[i];  
+    for (i=0; i<nlc; i++) for (j=0, (silminState->liquidComp)[0][i]=0.0; j<nc; j++)
+          (silminState->liquidComp)[0][i] += moles[j]*(bulkSystem[j].oxToLiq)[i];
+    free(moles);
+
+  }
 
   if ((silminState->ySol) == NULL) {
     (silminState->ySol) = (double *) malloc((size_t) npc*sizeof(double));
@@ -2311,7 +2421,7 @@ void meltssaturationstate_(double *pressure, double *bulkComposition, double *te
 
 void getMeltsSaturationState(int *failure, double *pressure, double *bulkComposition, double *temperature, 
         char *phasePtr, int *nCharInName, int *numberPhases, double *phaseProperties, int phaseIndices[]) {
-  int i, nCh = *nCharInName, np = *numberPhases;
+  int i, nodeIndex = 1, nCh = *nCharInName, np = *numberPhases;
   char *phaseNames = (char *) malloc((size_t) nCh*np*sizeof(char));
   
 #ifdef USESJLJ
@@ -2321,7 +2431,7 @@ void getMeltsSaturationState(int *failure, double *pressure, double *bulkComposi
     doInterrupt = FALSE;
 #endif
     for (i=0; i<nCh*np; i++) phasePtr[i] = '\0';    
-    meltssaturationstate_(pressure, bulkComposition, temperature, phaseNames, nCharInName, 
+    meltssaturationstate_(&nodeIndex, pressure, bulkComposition, temperature, phaseNames, nCharInName, 
       numberPhases, phaseProperties, phaseIndices);
     np = *numberPhases;
     for (i=0; i<nCh*np; i++) {
