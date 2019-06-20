@@ -6,12 +6,11 @@
                 "${workspaceFolder}",
                 "${workspaceFolder}/includes",
                 "/Library/Developer/CommandLineTools/usr/include/c++/v1",
-                "/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include",
+                "/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include",
                 "/Library/Developer/CommandLineTools/usr/include",
                 "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include",
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks (framework directory)",
-                "/usr/local/include",
-                "/usr/include"
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks",
+                "/usr/local/include"
             ],
             "defines": [
                 "BATCH_VERSION",
@@ -24,12 +23,11 @@
                     "${workspaceFolder}",
                     "${workspaceFolder}/includes",
                     "/Library/Developer/CommandLineTools/usr/include/c++/v1",
-                    "/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include",
+                    "/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include",
                     "/Library/Developer/CommandLineTools/usr/include",
                     "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include",
-                    "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks (framework directory)",
-                    "/usr/local/include",
-                    "/usr/include"
+                    "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks",
+                    "/usr/local/include"
                     ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
@@ -95,7 +93,7 @@
                 "RHYOLITE_ADJUSTMENTS",
                 "TESTDYNAMICLIB"
             ],
-            "intelliSenseMode": "clang-x64",
+            "intelliSenseMode": "msvc-x64",
             "C_Cpp.intelliSenseEngine": "Tag Parser",
             "browse": {
                 "path": [
@@ -141,7 +139,7 @@
                 "RHYOLITE_ADJUSTMENTS",
                 "TESTDYNAMICLIB"
             ],
-            "intelliSenseMode": "clang-x64",
+            "intelliSenseMode": "msvc-x64",
             "C_Cpp.intelliSenseEngine": "Tag Parser",
             "browse": {
                 "path": [

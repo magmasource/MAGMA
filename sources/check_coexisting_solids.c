@@ -249,6 +249,7 @@ int checkForCoexistingSolids(  /* returns a MODE flag for success or failure */
     printf("Check for coexisting solids is blocked for phase %s which already has %d entries.\n", solids[Index].label, (silminState->nSolidCoexist)[Index]);
 #endif
     } else if (!strcmp(solids[Index].label, "clinopyroxene") && ((silminState->nSolidCoexist)[Index] >= 3)) {
+    //} else if (!strcmp(solids[Index].label, "clinopyroxene") && ((silminState->nSolidCoexist)[Index] >= 1)) {
 #ifdef DEBUG
     printf("Check for coexisting solids is blocked for phase %s which already has %d entries.\n", solids[Index].label, (silminState->nSolidCoexist)[Index]);
 #endif
