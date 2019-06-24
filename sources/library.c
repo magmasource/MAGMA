@@ -204,6 +204,44 @@ void getMeltsOxideNames(int *failure, char *oxidePtr, int *nCharInName, int *num
 }
 
 /* ================================================================================== */
+/* Returns oxide mw and order for bulk composition vector                             */
+/* Input:                                                                             */
+/* Output:                                                                            */
+/*   oxideWeights - array of oxide molecular weights, ordered as in MELTS             */
+/*                  memory must be allocated by calling FORTRAN program               */
+/*   numberOxides - number of oxides in the system                                    */
+/* ================================================================================== */
+
+void meltsgetoxideweights_(double *oxideWeights, int *numberOxides) {
+  int i;
+  if (!iAmInitialized) initializeLibrary();
+  for (i=0; i<nc; i++) oxideWeights[i] = bulkSystem[i].mw;
+  *numberOxides = nc;
+}        
+
+/* ================================================================================== */
+/* Input and Output (as above except):                                                */
+/*   numberOxides - input lt or equal to amount of allocated storage, output as above */
+/* ================================================================================== */
+
+void getMeltsOxideWeights(int *failure, double *oxideWeights, int *numberOxides) {
+
+#ifdef USESJLJ
+  if (setjmp(env) == 0) {
+    setErrorHandler();
+#elif defined(USESEH)
+    doInterrupt = FALSE;
+#endif
+    meltsgetoxideweights_(oxideWeights, numberOxides);
+    *failure = FALSE;
+#ifdef USESEH
+    *failure = doInterrupt;
+#elif defined(USESJLJ)
+  }
+#endif
+}
+
+/* ================================================================================== */
 /* Returns phase names and order for output properties vector                         */
 /* Input:                                                                             */
 /*   nCharInName  - number of characters dimensioned for each name                    */
@@ -318,7 +356,7 @@ static void initializePhaseList (void) {
   key.name = (char *) malloc((size_t) maxLength);
 }
 
-void meltsgetformulalist_(char *phaseName, char endMemberNames[], int *nCharInName, int *numberEndMembers) {
+void meltsgetweightsandformulas_(char *phaseName, double *endMemberWeights, char endMemberNames[], int *nCharInName, int *numberEndMembers) {
   int nCh = *nCharInName;
   PhaseList *res;
 
@@ -337,21 +375,27 @@ void meltsgetformulalist_(char *phaseName, char endMemberNames[], int *nCharInNa
     if (j < 0) { /* liquid */
 #ifdef TESTDYNAMICLIB
       for (i=0; i<nls; i++) {
-	      strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);
+        for(j=0, endMemberWeights[i] = 0.0; j<nc; j++)
+          endMemberWeights[i] += (bulkSystem[j].oxToLiq)[i]*bulkSystem[j].mw;
+        strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);
       }
       (*numberEndMembers) = nls;
 #else
       for (i=0; i<nlc; i++) {
-        strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);
+        for(j=0, endMemberWeights[i] = 0.0; j<nc; j++)
+          endMemberWeights[i] += (bulkSystem[j].oxToLiq)[i]*bulkSystem[j].mw;
+        strncpy(endMemberNames + i*sizeof(char)*nCh,liquid[i].label, nCh);0
       }
       (*numberEndMembers) = nlc;
 #endif
     } else if (solids[j].na == 1) {
+      endMemberWeights[0] = solids[j].mw;
       strncpy(endMemberNames, solids[j].formula, nCh); 
       (*numberEndMembers) = 1;
     }
     else {
       for (i=0; i<solids[j].na; i++) {
+        endMemberWeights[i] = solids[j+1+i].mw;
         strncpy(endMemberNames + i*sizeof(char)*nCh,solids[j+1+i].formula, nCh);
       }
       (*numberEndMembers) = solids[j].na;
@@ -366,7 +410,7 @@ void meltsgetformulalist_(char *phaseName, char endMemberNames[], int *nCharInNa
 /*   numberPhases - input lt or equal to amount of allocated storage, output as above */
 /* ================================================================================== */
 
-void getMeltsFormulaList(int *failure, char *phaseName, char *formulaPtr, int *nCharInName, int *numberEndMembers) {
+void getMeltsWeightsAndFormulas(int *failure, char *phaseName, double *endMemberWeights, char *formulaPtr, int *nCharInName, int *numberEndMembers) {
   int i, nCh = *nCharInName, np = *numberEndMembers;
   char *endMemberNames = (char *) malloc((size_t) nCh*np*sizeof(char));
   
@@ -377,7 +421,7 @@ void getMeltsFormulaList(int *failure, char *phaseName, char *formulaPtr, int *n
     doInterrupt = FALSE;
 #endif
     for (i=0; i<nCh*np; i++) formulaPtr[i] = '\0';    
-    meltsgetformulalist_(phaseName, endMemberNames, nCharInName, numberEndMembers);
+    meltsgetweightsandformulas_(phaseName, endMemberWeights, endMemberNames, nCharInName, numberEndMembers);
     np = *numberEndMembers;
     for (i=0; i<nCh*np; i++) {
       if (endMemberNames[i] == '\0') formulaPtr[i] = ' ';
@@ -1247,7 +1291,6 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
 
 void meltssetsystemproperty_(int *nodeIndex, char *property) {
   int i, len;
-  float temporary;
   char line[REC];
 
   if (!iAmInitialized) initializeLibrary();
@@ -1682,11 +1725,11 @@ void meltsgetmolarproperties_(char *phaseName, double *temperature,
   if (res == NULL) { phaseProperties = NULL; return; }
   else { 
     int i, j = res->index;
-    double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2, totalGrams, totalMoles;
+    double G, H, S, V, Cp, dCpdT, dVdT, dVdP, d2VdT2, d2VdTdP, d2VdP2, totalGrams;
     
     if (j < 0) { /* liquid */
       double *m, *r, mTot, *mu;
-      int k;
+
       m = (double *) calloc((size_t) nlc,    sizeof(double));
       r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
       for (i=0; i<nlc; i++) m[i] = bulkComposition[i];
