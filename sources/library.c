@@ -1271,7 +1271,8 @@ void driveMeltsProcess(int *failure, int *mode, double *pressure, double *bulkCo
 
     meltsgeterrorstring_(&status, errorString, nCharInString);
     free(phaseNames);
-    if (XOR(status && (status == 500), *mode)) *failure = FALSE;
+    if (!(*mode) && (status == 500)) *failure = FALSE; /* Find Liquidus */
+    else if ((*mode) && !status) *failure = FALSE; /* Everything else */
 #ifdef USESEH
     *failure = (*failure) ? (*failure) : doInterrupt;  
 #elif defined(USESJLJ)
