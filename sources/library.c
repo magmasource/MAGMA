@@ -2184,6 +2184,7 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
   else { 
     int i, j = res->index;
     int columnLength = 4; /* X, act, mu0, mu */
+    double totalMoles;
     
     if (j < 0) { /* liquid */
       double *m, *r, mTot;
@@ -2194,7 +2195,7 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
       r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
       muLiq = (double *) malloc((size_t) nlc*sizeof(double));
       for (k=0; k<nc; k++) for (i=0; i<nlc; i++) m[i] += (bulkSystem[k].oxToLiq)[i]*bulkComposition[k]/bulkSystem[k].mw;
-      
+
       if ((silminState != NULL) && (silminState->fo2Path != FO2_NONE)) {
         silminState->fo2 = getlog10fo2(*temperature, *pressure, silminState->fo2Path);
         conLiq(FIRST | SEVENTH, FIRST, *temperature, *pressure, m, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
@@ -2203,7 +2204,8 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
       conLiq(SECOND, THIRD, *temperature, *pressure, NULL, m, r, NULL, NULL, NULL, NULL);
       actLiq(SECOND, *temperature, *pressure, r, NULL, muLiq, NULL, NULL);
 
-      for (i=0; i<nlc; i++) {
+      for (i=0, totalMoles = 0.0; i<nlc; i++) {
+        totalMoles += m[i];
         gibbs(*temperature, *pressure, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
         muLiq[i] += (liquid[i].cur).g;
       }   
@@ -2225,6 +2227,7 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
             }
           }
           if (mTot != 0.0) oxideProperties[k*columnLength +0] /= mTot;
+          oxideProperties[k*columnLength +3] *= mTot/totalMoles;
         }
         else oxideProperties[k*columnLength +3] = 0.0;
       }
