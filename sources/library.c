@@ -2212,8 +2212,10 @@ void meltsgetoxideproperties_(char *phaseName, double *temperature,
       }   
 
       for (k=0; k<columnLength*nc; k++) oxideProperties[k] = 0.0;
-      for (i=0; i<nlc; i++) for (k=0; k<nc; k++) oxideProperties[k*columnLength+ 0] += (liquid[i].liqToOx)[k] * m[i];
-      for (k=0; k<nc; k++) for (i=0; i<nlc; i++) oxideProperties[k*columnLength+ 3] += (bulkSystem[k].oxToLiq)[i] * muLiq[i];
+      for (i=0; i<nlc; i++) for (k=0; k<nc; k++) if (m[i] != 0.0)
+        oxideProperties[k*columnLength+ 0] += (liquid[i].liqToOx)[k] * m[i];
+      for (k=0; k<nc; k++) for (i=0; i<nlc; i++) if (m[i] != 0.0)
+        oxideProperties[k*columnLength+ 3] += (bulkSystem[k].oxToLiq)[i] * muLiq[i];
       for (k=0, mTot=0.0; k<nc; k++) mTot += oxideProperties[k*columnLength +0];
 
       for (k=0; k<nc; k++) {
