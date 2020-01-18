@@ -140,10 +140,14 @@ const char *interface_ver(void) { return "$Id: interface.c,v 1.13 2009/05/14 04:
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#ifdef MINGW
+#include <windows.h>
+#else
 #ifndef SYSV
 #include <sys/wait.h>
 #else
 #define SIGCHLD SIGCLD
+#endif
 #endif
 
 #ifndef BATCH_VERSION
@@ -159,11 +163,11 @@ const char *interface_ver(void) { return "$Id: interface.c,v 1.13 2009/05/14 04:
 #include <sys/types.h>
 #include <dirent.h>
 #include <unistd.h>
-#ifndef __MSDOS__
-#define DIR_DELIM "/"
-#else
+//#ifndef __MSDOS__
+//#define DIR_DELIM "/"
+//#else
 #define DIR_DELIM "\\"
-#endif
+//#endif
 #endif
 
 /*
@@ -2186,14 +2190,19 @@ int main (int argc, char *argv[])
         }
     } else getchar();
 #else
+#ifdef V102
     calculationMode = MODE__MELTS;
     printf("---> Default calculation mode is rhyolite-MELTS (v. 1.0.2) for batch processing.\n");
-//    calculationMode = MODE__MELTSandCO2;
-//    printf("---> Default calculation mode is rhyolite-MELTS (v. 1.1.0) for batch processing.\n");
-//    calculationMode = MODE__MELTSandCO2_H2O;
-//    printf("---> Default calculation mode is rhyolite-MELTS (v. 1.2.0) for batch processing.\n");
-//    calculationMode = MODE_pMELTS;
-//    printf("---> Default calculation mode is pMELTS (v 5.6.1) for batch processing.\n");
+#elif defined(V110)
+    calculationMode = MODE__MELTSandCO2;
+    printf("---> Default calculation mode is rhyolite-MELTS (v. 1.1.0) for batch processing.\n");
+#elif defined(V120)
+    calculationMode = MODE__MELTSandCO2_H2O;
+    printf("---> Default calculation mode is rhyolite-MELTS (v. 1.2.0) for batch processing.\n");
+#else
+    calculationMode = MODE_pMELTS;
+    printf("---> Default calculation mode is pMELTS (v 5.6.1) for batch processing.\n");
+#endif
 #endif
     
     if (calculationMode == MODE_xMELTS) {
@@ -2598,7 +2607,12 @@ int main (int argc, char *argv[])
                 (void) closedir(inputDir);
                 
                 /* no files in input directory - wait and look again */
+#ifdef MINGW
+                Sleep(delay);
+#else
                 sleep(delay);
+#endif
+
             }
             
         }
