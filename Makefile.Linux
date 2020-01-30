@@ -61,7 +61,7 @@ ifneq ($(STATIC),)
 override LD   = g++
 endif
 FC            = gfortran
-CFLAGS        = -c -O3 -D_USE_ISOC99 -D_ISOC99_SOURCE $(BATCH) \
+CFLAGS        = -c -O3 -D_USE_ISOC99 -D_ISOC99_SOURCE $(BATCH) $(VERSION) \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib

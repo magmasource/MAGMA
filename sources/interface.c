@@ -163,11 +163,11 @@ const char *interface_ver(void) { return "$Id: interface.c,v 1.13 2009/05/14 04:
 #include <sys/types.h>
 #include <dirent.h>
 #include <unistd.h>
-//#ifndef __MSDOS__
-//#define DIR_DELIM "/"
-//#else
+#ifdef MINGW
 #define DIR_DELIM "\\"
-//#endif
+#else
+#define DIR_DELIM "/"
+#endif
 #endif
 
 /*

@@ -58,7 +58,7 @@ DYFLAGS	      = xv
 CC            = x86_64-w64-mingw32-gcc
 LD            = x86_64-w64-mingw32-g++
 FC            = x86_64-w64-mingw32-gfortran
-CFLAGS        = -c -O3 $(BATCH) -D_USE_ISOC99 -D_ISOC99_SOURCE -DMINGW -DV110 \
+CFLAGS        = -c -O3 $(BATCH) -D_USE_ISOC99 -D_ISOC99_SOURCE -DMINGW $(VERSION) \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib

@@ -58,7 +58,7 @@ DYFLAGS	      = xv
 CC            = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/gcc.exe
 LD            = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/g++.exe
 FC            = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/gfortran.exe
-CFLAGS        = -c -O3 $(BATCH) -D_USE_ISOC99 -D_ISOC99_SOURCE \
+CFLAGS        = -c -O3 $(BATCH) -D_USE_ISOC99 -D_ISOC99_SOURCE $(VERSION) \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = /mnt/c/mingw-w64/x86_64-6.3.0-posix-sjlj-rt_v5-rev2/mingw64/bin/ranlib.exe
