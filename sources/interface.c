@@ -140,6 +140,7 @@ const char *interface_ver(void) { return "$Id: interface.c,v 1.13 2009/05/14 04:
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <errno.h>
 #ifdef MINGW
 #include <windows.h>
 #else
@@ -527,7 +528,7 @@ static int batchInputDataFromFile(char *fileName)
                 }
             }
             if (i == npc) { return FALSE; }
-            
+
             /* -> mode record */
         } else if (!strncmp(line, "mode: ",                   MIN(len, 6))) {
             if      (!strncmp(&line[6],  "fractionate solids",  MIN((len-6), 18))) silminState->fractionateSol = TRUE;
@@ -702,23 +703,37 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
-                                    if      (!strcmp((char *) level2->name, "SiO2" )) (silminState->bulkComp)[SiO2 ] = atof((char *) content2)/bulkSystem[SiO2 ].mw;
-                                    else if (!strcmp((char *) level2->name, "TiO2" )) (silminState->bulkComp)[TiO2 ] = atof((char *) content2)/bulkSystem[TiO2 ].mw;
-                                    else if (!strcmp((char *) level2->name, "Al2O3")) (silminState->bulkComp)[Al2O3] = atof((char *) content2)/bulkSystem[Al2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "Fe2O3")) (silminState->bulkComp)[Fe2O3] = atof((char *) content2)/bulkSystem[Fe2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "Cr2O3")) (silminState->bulkComp)[Cr2O3] = atof((char *) content2)/bulkSystem[Cr2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "FeO"  )) (silminState->bulkComp)[FeO  ] = atof((char *) content2)/bulkSystem[FeO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "MnO"  )) (silminState->bulkComp)[MnO  ] = atof((char *) content2)/bulkSystem[MnO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "MgO"  )) (silminState->bulkComp)[MgO  ] = atof((char *) content2)/bulkSystem[MgO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "NiO"  )) (silminState->bulkComp)[NiO  ] = atof((char *) content2)/bulkSystem[NiO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CoO"  )) (silminState->bulkComp)[CoO  ] = atof((char *) content2)/bulkSystem[CoO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CaO"  )) (silminState->bulkComp)[CaO  ] = atof((char *) content2)/bulkSystem[CaO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "Na2O" )) (silminState->bulkComp)[Na2O ] = atof((char *) content2)/bulkSystem[Na2O ].mw;
-                                    else if (!strcmp((char *) level2->name, "K2O"  )) (silminState->bulkComp)[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
-                                    else if (!strcmp((char *) level2->name, "P2O5" )) (silminState->bulkComp)[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
-                                    else if (!strcmp((char *) level2->name, "H2O"  )) (silminState->bulkComp)[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CO2"  )) (silminState->bulkComp)[CO2  ] = atof((char *) content2)/bulkSystem[CO2  ].mw;
-                                    silminState->liquidMass += atof((char *) content2);
+                                    char *pEnd = NULL;
+                                    errno = 0;
+                                    if      (!strcmp((char *) level2->name, "SiO2" )) (silminState->bulkComp)[SiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[SiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "TiO2" )) (silminState->bulkComp)[TiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[TiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "Al2O3")) (silminState->bulkComp)[Al2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Al2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Fe2O3")) (silminState->bulkComp)[Fe2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Fe2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Cr2O3")) (silminState->bulkComp)[Cr2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Cr2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "FeO"  )) (silminState->bulkComp)[FeO  ] = strtod((char *) content2, &pEnd)/bulkSystem[FeO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MnO"  )) (silminState->bulkComp)[MnO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MnO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MgO"  )) (silminState->bulkComp)[MgO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MgO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "NiO"  )) (silminState->bulkComp)[NiO  ] = strtod((char *) content2, &pEnd)/bulkSystem[NiO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CoO"  )) (silminState->bulkComp)[CoO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CoO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CaO"  )) (silminState->bulkComp)[CaO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CaO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "Na2O" )) (silminState->bulkComp)[Na2O ] = strtod((char *) content2, &pEnd)/bulkSystem[Na2O ].mw;
+                                    else if (!strcmp((char *) level2->name, "K2O"  )) (silminState->bulkComp)[K2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[K2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "P2O5" )) (silminState->bulkComp)[P2O5 ] = strtod((char *) content2, &pEnd)/bulkSystem[P2O5 ].mw;
+                                    else if (!strcmp((char *) level2->name, "H2O"  )) (silminState->bulkComp)[H2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[H2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CO2"  )) (silminState->bulkComp)[CO2  ] = strtod((char *) content2, &pEnd)/bulkSystem[CO2  ].mw;
+                                    if (pEnd == (char *) content2) {
+                                        printf("Invalid number format: %s.\n", (char *) content2);
+                                        ret = FALSE;
+                                    }
+                                    else if (errno == ERANGE) {
+                                        double val = strtod((char *) content2, &pEnd);
+                                        printf("Invalid number(?): %s.\n", (char *) content2);
+                                        if (val > 1.0) ret = FALSE; /* overflow */
+                                        else errno = 0; /* underflow */
+                                    }
+                                    else {
+                                        silminState->liquidMass += strtod((char *) content2, &pEnd);
+                                    }
                                     if (content2 != NULL) xmlFree(content2);
                                 }
                                 level2 = level2->next;
@@ -769,23 +784,37 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
-                                    if      (!strcmp((char *) level2->name, "SiO2" )) changeBC[SiO2 ] = atof((char *) content2)/bulkSystem[SiO2 ].mw;
-                                    else if (!strcmp((char *) level2->name, "TiO2" )) changeBC[TiO2 ] = atof((char *) content2)/bulkSystem[TiO2 ].mw;
-                                    else if (!strcmp((char *) level2->name, "Al2O3")) changeBC[Al2O3] = atof((char *) content2)/bulkSystem[Al2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "Fe2O3")) changeBC[Fe2O3] = atof((char *) content2)/bulkSystem[Fe2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "Cr2O3")) changeBC[Cr2O3] = atof((char *) content2)/bulkSystem[Cr2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "FeO"  )) changeBC[FeO  ] = atof((char *) content2)/bulkSystem[FeO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "MnO"  )) changeBC[MnO  ] = atof((char *) content2)/bulkSystem[MnO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "MgO"  )) changeBC[MgO  ] = atof((char *) content2)/bulkSystem[MgO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "NiO"  )) changeBC[NiO  ] = atof((char *) content2)/bulkSystem[NiO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CoO"  )) changeBC[CoO  ] = atof((char *) content2)/bulkSystem[CoO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CaO"  )) changeBC[CaO  ] = atof((char *) content2)/bulkSystem[CaO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "Na2O" )) changeBC[Na2O ] = atof((char *) content2)/bulkSystem[Na2O ].mw;
-                                    else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
-                                    else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
-                                    else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CO2"  )) changeBC[CO2  ] = atof((char *) content2)/bulkSystem[CO2  ].mw;
-                                    silminState->liquidMass += atof((char *) content2);
+                                    char *pEnd = NULL;
+                                    errno = 0;
+                                    if      (!strcmp((char *) level2->name, "SiO2" )) changeBC[SiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[SiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "TiO2" )) changeBC[TiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[TiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "Al2O3")) changeBC[Al2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Al2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Fe2O3")) changeBC[Fe2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Fe2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Cr2O3")) changeBC[Cr2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Cr2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "FeO"  )) changeBC[FeO  ] = strtod((char *) content2, &pEnd)/bulkSystem[FeO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MnO"  )) changeBC[MnO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MnO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MgO"  )) changeBC[MgO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MgO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "NiO"  )) changeBC[NiO  ] = strtod((char *) content2, &pEnd)/bulkSystem[NiO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CoO"  )) changeBC[CoO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CoO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CaO"  )) changeBC[CaO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CaO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "Na2O" )) changeBC[Na2O ] = strtod((char *) content2, &pEnd)/bulkSystem[Na2O ].mw;
+                                    else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[K2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = strtod((char *) content2, &pEnd)/bulkSystem[P2O5 ].mw;
+                                    else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[H2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CO2"  )) changeBC[CO2  ] = strtod((char *) content2, &pEnd)/bulkSystem[CO2  ].mw;
+                                    if (pEnd == (char *) content2) {
+                                        printf("Invalid number format: %s.\n", (char *) content2);
+                                        ret = FALSE;
+                                    }
+                                    else if (errno == ERANGE) {
+                                        double val = strtod((char *) content2, &pEnd);
+                                        printf("Invalid number(?): %s.\n", (char *) content2);
+                                        if (val > 1.0) ret = FALSE; /* overflow */
+                                        else errno = 0; /* underflow */
+                                    }
+                                    else {
+                                        silminState->liquidMass += strtod((char *) content2, &pEnd);
+                                    }
                                     if (content2 != NULL) xmlFree(content2);
                                 }
                                 level2 = level2->next;
@@ -810,23 +839,37 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
-                                    if      (!strcmp((char *) level2->name, "SiO2" )) changeBC[SiO2 ] = atof((char *) content2)/bulkSystem[SiO2 ].mw;
-                                    else if (!strcmp((char *) level2->name, "TiO2" )) changeBC[TiO2 ] = atof((char *) content2)/bulkSystem[TiO2 ].mw;
-                                    else if (!strcmp((char *) level2->name, "Al2O3")) changeBC[Al2O3] = atof((char *) content2)/bulkSystem[Al2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "Fe2O3")) changeBC[Fe2O3] = atof((char *) content2)/bulkSystem[Fe2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "Cr2O3")) changeBC[Cr2O3] = atof((char *) content2)/bulkSystem[Cr2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "FeO"  )) changeBC[FeO  ] = atof((char *) content2)/bulkSystem[FeO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "MnO"  )) changeBC[MnO  ] = atof((char *) content2)/bulkSystem[MnO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "MgO"  )) changeBC[MgO  ] = atof((char *) content2)/bulkSystem[MgO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "NiO"  )) changeBC[NiO  ] = atof((char *) content2)/bulkSystem[NiO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CoO"  )) changeBC[CoO  ] = atof((char *) content2)/bulkSystem[CoO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CaO"  )) changeBC[CaO  ] = atof((char *) content2)/bulkSystem[CaO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "Na2O" )) changeBC[Na2O ] = atof((char *) content2)/bulkSystem[Na2O ].mw;
-                                    else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = atof((char *) content2)/bulkSystem[K2O  ].mw;
-                                    else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = atof((char *) content2)/bulkSystem[P2O5 ].mw;
-                                    else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = atof((char *) content2)/bulkSystem[H2O  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CO2"  )) changeBC[CO2  ] = atof((char *) content2)/bulkSystem[CO2  ].mw;
-                                    silminState->liquidMass += atof((char *) content2);
+                                    char *pEnd = NULL;
+                                    errno = 0;
+                                    if      (!strcmp((char *) level2->name, "SiO2" )) changeBC[SiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[SiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "TiO2" )) changeBC[TiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[TiO2 ].mw;
+                                    else if (!strcmp((char *) level2->name, "Al2O3")) changeBC[Al2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Al2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Fe2O3")) changeBC[Fe2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Fe2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "Cr2O3")) changeBC[Cr2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Cr2O3].mw;
+                                    else if (!strcmp((char *) level2->name, "FeO"  )) changeBC[FeO  ] = strtod((char *) content2, &pEnd)/bulkSystem[FeO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MnO"  )) changeBC[MnO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MnO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "MgO"  )) changeBC[MgO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MgO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "NiO"  )) changeBC[NiO  ] = strtod((char *) content2, &pEnd)/bulkSystem[NiO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CoO"  )) changeBC[CoO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CoO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CaO"  )) changeBC[CaO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CaO  ].mw;
+                                    else if (!strcmp((char *) level2->name, "Na2O" )) changeBC[Na2O ] = strtod((char *) content2, &pEnd)/bulkSystem[Na2O ].mw;
+                                    else if (!strcmp((char *) level2->name, "K2O"  )) changeBC[K2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[K2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "P2O5" )) changeBC[P2O5 ] = strtod((char *) content2, &pEnd)/bulkSystem[P2O5 ].mw;
+                                    else if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[H2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CO2"  )) changeBC[CO2  ] = strtod((char *) content2, &pEnd)/bulkSystem[CO2  ].mw;
+                                    if (pEnd == (char *) content2) {
+                                        printf("Invalid number format: %s.\n", (char *) content2);
+                                        ret = FALSE;
+                                    }
+                                    else if (errno == ERANGE) {
+                                        double val = strtod((char *) content2, &pEnd);
+                                        printf("Invalid number(?): %s.\n", (char *) content2);
+                                        if (val > 1.0) ret = FALSE; /* overflow */
+                                        else errno = 0; /* underflow */
+                                    }
+                                    else {
+                                        silminState->liquidMass += strtod((char *) content2, &pEnd);
+                                    }
                                     if (content2 != NULL) xmlFree(content2);
                                 }
                                 level2 = level2->next;
@@ -855,19 +898,21 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                         while (level3 != NULL) {
                                             if (level3->type == XML_ELEMENT_NODE) {
                                                 xmlChar *content3 = xmlNodeGetContent(level3);
+                                                char *pEnd = NULL;
+                                                errno = 0;
                                                 if      (!strcmp((char *) level3->name, "initialT" )) {
-                                                    silminState->T         = atof((char *) content3) + 273.15;
-                                                    silminState->dspTstart = atof((char *) content3) + 273.15;
+                                                    silminState->T         = strtod((char *) content3, &pEnd) + 273.15;
+                                                    silminState->dspTstart = strtod((char *) content3, &pEnd) + 273.15;
                                                 }
-                                                else if (!strcmp((char *) level3->name, "finalT"   )) silminState->dspTstop = atof((char *) content3) + 273.15;
-                                                else if (!strcmp((char *) level3->name, "incT"     )) silminState->dspTinc  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "finalT"   )) silminState->dspTstop = strtod((char *) content3, &pEnd) + 273.15;
+                                                else if (!strcmp((char *) level3->name, "incT"     )) silminState->dspTinc  = strtod((char *) content3, &pEnd);
                                                 else if (!strcmp((char *) level3->name, "initialP" )) {
-                                                    silminState->P         = atof((char *) content3);
-                                                    silminState->dspPstart = atof((char *) content3);
+                                                    silminState->P         = strtod((char *) content3, &pEnd);
+                                                    silminState->dspPstart = strtod((char *) content3, &pEnd);
                                                 }
-                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "dpdt"     )) silminState->dspDPDt  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "dpdt"     )) silminState->dspDPDt  = strtod((char *) content3, &pEnd);
                                                 else if (!strcmp((char *) level3->name, "fo2Path"  )) {
                                                     if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
                                                     else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
@@ -876,7 +921,17 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                     else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
                                                     else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
                                                 }
-                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = strtod((char *) content3, &pEnd);
+                                                if (pEnd == (char *) content3) {
+                                                    printf("Invalid number format: %s.\n", (char *) content3);
+                                                    ret = FALSE;
+                                                }
+                                                else if (errno == ERANGE) {
+                                                    double val = strtod((char *) content3, &pEnd);
+                                                    printf("Invalid number(?): %s.\n", (char *) content3);
+                                                    if (val > 1.0) ret = FALSE; /* overflow */
+                                                    else errno = 0; /* underflow */
+                                                }                                    
                                                 if (content3 != NULL) xmlFree(content3);
                                             }
                                             level3 = level3->next;
@@ -913,16 +968,18 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                         while (level3 != NULL) {
                                             if (level3->type == XML_ELEMENT_NODE) {
                                                 xmlChar *content3 = xmlNodeGetContent(level3);
+                                                char *pEnd = NULL;
+                                                errno = 0;
                                                 if      (!strcmp((char *) level3->name, "initialT" )) {
-                                                    silminState->T         = atof((char *) content3) + 273.15;
-                                                    silminState->dspTstart = atof((char *) content3) + 273.15;
+                                                    silminState->T         = strtod((char *) content3, &pEnd) + 273.15;
+                                                    silminState->dspTstart = strtod((char *) content3, &pEnd) + 273.15;
                                                 }
-                                                else if (!strcmp((char *) level3->name, "finalT"   )) silminState->dspTstop  = atof((char *) content3) + 273.15;
-                                                else if (!strcmp((char *) level3->name, "incT"     )) silminState->dspTinc   = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "initialV" )) silminState->refVolume = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "finalV"   )) silminState->dspVstop  = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "incV"     )) silminState->dspVinc  = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "dvdt"     )) silminState->dspDVDt  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "finalT"   )) silminState->dspTstop  = strtod((char *) content3, &pEnd) + 273.15;
+                                                else if (!strcmp((char *) level3->name, "incT"     )) silminState->dspTinc   = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "initialV" )) silminState->refVolume = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "finalV"   )) silminState->dspVstop  = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "incV"     )) silminState->dspVinc  = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "dvdt"     )) silminState->dspDVDt  = strtod((char *) content3, &pEnd);
                                                 else if (!strcmp((char *) level3->name, "fo2Path"  )) {
                                                     if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
                                                     else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
@@ -931,7 +988,17 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                     else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
                                                     else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
                                                 }
-                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = strtod((char *) content3, &pEnd);
+                                                if (pEnd == (char *) content3) {
+                                                    printf("Invalid number format: %s.\n", (char *) content3);
+                                                    ret = FALSE;
+                                                }
+                                                else if (errno == ERANGE) {
+                                                    double val = strtod((char *) content3, &pEnd);
+                                                    printf("Invalid number(?): %s.\n", (char *) content3);
+                                                    if (val > 1.0) ret = FALSE; /* overflow */
+                                                    else errno = 0; /* underflow */
+                                                }
                                                 if (content3 != NULL) xmlFree(content3);
                                             }
                                             level3 = level3->next;
@@ -946,16 +1013,18 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                         while (level3 != NULL) {
                                             if (level3->type == XML_ELEMENT_NODE) {
                                                 xmlChar *content3 = xmlNodeGetContent(level3);
-                                                if      (!strcmp((char *) level3->name, "initialH" )) silminState->refEnthalpy = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "finalH"   )) silminState->dspHstop    = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "incH"     )) silminState->dspHinc     = atof((char *) content3);
+                                                char *pEnd = NULL;
+                                                errno = 0;
+                                                if      (!strcmp((char *) level3->name, "initialH" )) silminState->refEnthalpy = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "finalH"   )) silminState->dspHstop    = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "incH"     )) silminState->dspHinc     = strtod((char *) content3, &pEnd);
                                                 else if (!strcmp((char *) level3->name, "initialP" )) {
-                                                    silminState->P         = atof((char *) content3);
-                                                    silminState->dspPstart = atof((char *) content3);
+                                                    silminState->P         = strtod((char *) content3, &pEnd);
+                                                    silminState->dspPstart = strtod((char *) content3, &pEnd);
                                                 }
-                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "dpdh"     )) silminState->dspDPDH  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "dpdh"     )) silminState->dspDPDH  = strtod((char *) content3, &pEnd);
                                                 else if (!strcmp((char *) level3->name, "fo2Path"  )) {
                                                     if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
                                                     else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
@@ -964,7 +1033,17 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                     else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
                                                     else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
                                                 }
-                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = strtod((char *) content3, &pEnd);
+                                                if (pEnd == (char *) content3) {
+                                                    printf("Invalid number format: %s.\n", (char *) content3);
+                                                    ret = FALSE;
+                                                }
+                                                else if (errno == ERANGE) {
+                                                    double val = strtod((char *) content3, &pEnd);
+                                                    printf("Invalid number(?): %s.\n", (char *) content3);
+                                                    if (val > 1.0) ret = FALSE; /* overflow */
+                                                    else errno = 0; /* underflow */
+                                                }
                                                 if (content3 != NULL) xmlFree(content3);
                                             }
                                             level3 = level3->next;
@@ -979,16 +1058,18 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                         while (level3 != NULL) {
                                             if (level3->type == XML_ELEMENT_NODE) {
                                                 xmlChar *content3 = xmlNodeGetContent(level3);
-                                                if      (!strcmp((char *) level3->name, "initialS" )) silminState->refEntropy = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "finalS"   )) silminState->dspSstop   = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "incS"     )) silminState->dspSinc    = atof((char *) content3);
+                                                char *pEnd = NULL;
+                                                errno  = 0;
+                                                if      (!strcmp((char *) level3->name, "initialS" )) silminState->refEntropy = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "finalS"   )) silminState->dspSstop   = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "incS"     )) silminState->dspSinc    = strtod((char *) content3, &pEnd);
                                                 else if (!strcmp((char *) level3->name, "initialP" )) {
-                                                    silminState->P         = atof((char *) content3);
-                                                    silminState->dspPstart = atof((char *) content3);
+                                                    silminState->P         = strtod((char *) content3, &pEnd);
+                                                    silminState->dspPstart = strtod((char *) content3, &pEnd);
                                                 }
-                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = atof((char *) content3);
-                                                else if (!strcmp((char *) level3->name, "dpds"     )) silminState->dspDPDS  = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "finalP"   )) silminState->dspPstop = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "incP"     )) silminState->dspPinc  = strtod((char *) content3, &pEnd);
+                                                else if (!strcmp((char *) level3->name, "dpds"     )) silminState->dspDPDS  = strtod((char *) content3, &pEnd);
                                                 else if (!strcmp((char *) level3->name, "fo2Path"  )) {
                                                     if      (!strcmp((char *) content3, "none")) silminState->fo2Path  = FO2_NONE;
                                                     else if (!strcmp((char *) content3, "fmq" )) silminState->fo2Path  = FO2_QFM;
@@ -997,7 +1078,17 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                     else if (!strcmp((char *) content3, "iw"  )) silminState->fo2Path  = FO2_IW;
                                                     else if (!strcmp((char *) content3, "hm"  )) silminState->fo2Path  = FO2_HM;
                                                 }
-                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = atof((char *) content3);
+                                                else if (!strcmp((char *) level3->name, "fo2Offset")) silminState->fo2Delta = strtod((char *) content3, &pEnd);
+                                                if (pEnd == (char *) content3) {
+                                                    printf("Invalid number format: %s.\n", (char *) content3);
+                                                    ret = FALSE;
+                                                }
+                                                else if (errno == ERANGE) {
+                                                    double val = strtod((char *) content3, &pEnd);
+                                                    printf("Invalid number(?): %s.\n", (char *) content3);
+                                                    if (val > 1.0) ret = FALSE; /* overflow */
+                                                    else errno = 0; /* underflow */
+                                                }
                                                 if (content3 != NULL) xmlFree(content3);
                                             }
                                             level3 = level3->next;
@@ -1049,12 +1140,14 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
+                                    char *pEnd = NULL;
+                                    errno = 0;
                                     if (!strcmp((char *) level2->name, "temperature" )) {
-                                        printf("Found temperature = %s\n", content2); silminState->dspAssimT = atof((char *) content2);
+                                        printf("Found temperature = %s\n", content2); silminState->dspAssimT = strtod((char *) content2, &pEnd);
                                     } else if (!strcmp((char *) level2->name, "increments"  )) {
                                         printf("Found increments  = %s\n", content2); silminState->dspAssimInc = atoi((char *) content2);
                                     } else if (!strcmp((char *) level2->name, "mass"        )) {
-                                        printf("Found mass        = %s\n", content2); silminState->dspAssimMass = atof((char *) content2);
+                                        printf("Found mass        = %s\n", content2); silminState->dspAssimMass = strtod((char *) content2, &pEnd);
                                     } else if (!strcmp((char *) level2->name, "units"       )) {
                                         printf("Found units       = %s\n", content2);
                                     } else if (!strcmp((char *) level2->name, "phase"       )) {
@@ -1149,6 +1242,16 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                             }
                                             level3 = level3->next;
                                         }
+                                    }
+                                    if (pEnd == (char *) content2) {
+                                        printf("Invalid number format: %s.\n", (char *) content2);
+                                        ret = FALSE;
+                                    }
+                                    else if (errno == ERANGE) {
+                                        double val = strtod((char *) content2, &pEnd);
+                                        printf("Invalid number(?): %s.\n", (char *) content2);
+                                        if (val > 1.0) ret = FALSE; /* overflow */
+                                        else errno = 0; /* underflow */
                                     }
                                     if (content2 != NULL) xmlFree(content2);
                                 }
