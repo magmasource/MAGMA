@@ -114,3 +114,4 @@ Melts-batch-v1.1.0
 .vscode
 !.vscode/c_cpp_properites.json
 !.vscode/launch.json
+!/MCS-Melts-batch/*
