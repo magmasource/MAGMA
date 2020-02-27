@@ -25,7 +25,7 @@ MELTS_HARDWARE_VERSION = 4.0 GHz Quad Core Intel i7
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 3.0
-MELTS_OS_VERSION       = Mac OS X - 10.14.1
+MELTS_OS_VERSION       = Mac OS X - 10.14.6
 MELTS_OUTPUT_FILE      = melts.out
 MELTS_WWW_BROWSER      = 
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
@@ -103,8 +103,8 @@ PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libjpeg.
           -L/opt/X11/lib -lXft -lXt -lXp -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXRender -lXau -lXdmcp -lpng -lX11-xcb \
           -lxcb -lfreetype -lfontconfig \
           -L/usr/lib -lexpat -lz -lbz2 -lcharset -liconv \
-          port3/libport.a /usr/local/Cellar/gcc/8.1.0/lib/gcc/8/libgfortran.a /usr/local/Cellar/gcc/8.1.0/lib/gcc/8/libquadmath.a \
-          /usr/local/Cellar/gcc/8.1.0/lib/gcc/8/gcc/x86_64-apple-darwin17.5.0/8.1.0/libgcc.a
+          port3/libport.a /usr/local/opt/gcc/lib/gcc/9/libgfortran.a /usr/local/opt/gcc/lib/gcc/9/libquadmath.a \
+          /usr/local/opt/gcc/lib/gcc/9/gcc/x86_64-apple-darwin15/9.2.0/libgcc.a
 
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
