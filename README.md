@@ -153,7 +153,20 @@ On startup, you can choose the database calibration of MELTS desired. You can mo
     ```
     make Melts-batch
     ```
-A new file appears in the directory named `Melts-batch`.   This is an executable image that you can run by typing this command:  
+    A new file appears in the directory named `Melts-batch`.   On the alphaMELTS branch this `Melts-batch`
+    will be for the pMELTS model (on the master/develop branches it will be rhyolite-MELTS 1.0.2). You may want to rename the file, e.g: 
+
+    ```
+    mv Melts-batch Melts-batch-pMELTS-v5.6.1
+    ```
+3. On the alphaMELTS branch you can build rhyolite-MELTS versions 1.0.2, 1.1.0, and 1.2.0, respectively, using:
+
+    ```
+    make Melts-batch -DV102
+    make Melts-batch -DV110
+    make Melts-batch -DV120
+    ```
+The `Melts-batch` file is an executable image that you can run by typing this command:  
 
 ```
 ./Melts-batch
@@ -165,8 +178,7 @@ Usage:
   Melts-batch input.melts
   Melts-batch input.xml
   Melts-batch inputDir outputDir [inputProcessedDir]
-              Directories are stipulated relative to current directory
-              with no trailing delimiter.
+              Directories are stipulated relative to current directory with no trailing delimiter.
 ```
  The three usage scenarios are as follows:  
 - First usage takes a standard MELTS input file as input on the command line and processes it using MELTS version 1.0.2, placing output files in the current directory.  
