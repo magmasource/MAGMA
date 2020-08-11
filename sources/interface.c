@@ -2045,6 +2045,7 @@ static void doBatchFractionation(void) {
 	    if (!haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "fluid")) continue;
 	    if (!haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "fluid")) continue;
             for (ns=0; ns<(silminState->nSolidCoexist)[i]; ns++) {
+                if ((silminState->solidComp)[i][ns] < MASSIN) continue;
                 if (solids[i].na == 1) {
                     (silminState->fracSComp)[i][ns] += (silminState->solidComp)[i][ns]-MASSIN;
                     if (silminState->fo2Path != FO2_NONE) silminState->oxygen -= (oxygen.solToOx)[i]*((silminState->solidComp)[i][ns]-MASSIN);
@@ -2145,7 +2146,8 @@ static void doBatchFractionation(void) {
         for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
             double refMoles, totalMoles;
             for (i=0, refMoles=0.0; i<nlc; i++) refMoles += (silminState->liquidComp)[nl][i];
-            
+            if (refMoles < MASSIN) continue;
+
             for (i=0, totalMoles=0.0; i<nlc; i++) {
                 if (((silminState->liquidComp)[nl][i] != 0.0) && (refMoles != 0.0)) {
                     double mw;
