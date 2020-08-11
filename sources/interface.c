@@ -883,6 +883,58 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                 }
                             ret = RETURN_WITHOUT_CALC;
                             
+                        } else if (!strcmp((char *) level1->name, "changeFluid")) {
+                            xmlNode *level2 = level1->children;
+                            int i, j;
+                            int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
+                            static double *changeBC = NULL;
+                            
+                            printf("Found changeFluid\n");
+                            if (changeBC == NULL) changeBC = (double *) calloc((size_t) nc, sizeof(double));
+                            else for (i=0; i<nc; i++) changeBC[i] = 0.0;
+                            
+                            while (level2 != NULL) {
+                                if (level2->type == XML_ELEMENT_NODE) {
+                                    xmlChar *content2 = xmlNodeGetContent(level2);
+                                    char *pEnd = NULL;
+                                    errno = 0;
+                                         if (!strcmp((char *) level2->name, "H2O"  )) changeBC[H2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[H2O  ].mw;
+                                    else if (!strcmp((char *) level2->name, "CO2"  )) changeBC[CO2  ] = strtod((char *) content2, &pEnd)/bulkSystem[CO2  ].mw;
+                                    if (pEnd == (char *) content2) {
+                                        printf("Invalid number format: %s.\n", (char *) content2);
+                                        ret = FALSE;
+                                    }
+                                    else if (errno == ERANGE) {
+                                        double val = strtod((char *) content2, &pEnd);
+                                        printf("Invalid number(?): %s.\n", (char *) content2);
+                                        if (val > 1.0) ret = FALSE; /* overflow */
+                                        else errno = 0; /* underflow */
+                                    }
+                                    else {
+                                        silminState->solidMass += strtod((char *) content2, &pEnd);
+                                    }
+                                    if (content2 != NULL) xmlFree(content2);
+                                }
+                                level2 = level2->next;
+                            }
+                            
+                            for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
+                            for (i=0; i<npc; i++) {
+                                if (!strcmp((char *) solids[i].label, "fluid")) {
+                                    silminState->solidComp[i][0] += changeBC[H2O] + changeBC[CO2];
+                                    for (j=0; j<solids[i].na; j++) {
+                                             if (!strcmp((char *) solids[i+j+1].formula, "H2O"  )) silminState->solidComp[i+j+1][0] += changeBC[H2O];
+                                        else if (!strcmp((char *) solids[i+j+1].formula, "CO2"  )) silminState->solidComp[i+j+1][0] += changeBC[CO2];
+                                    }
+                                }
+                                else if (haveWater && !strcmp((char *) solids[i].label, "water")) silminState->solidComp[i][0] += changeBC[H2O];
+                            }
+                            for (i=0; i<nlc; i++)
+                                for (j=0; j<nc; j++) {
+                                    silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
+                                }
+                            ret = RETURN_WITHOUT_CALC;
+                            
                         } else if (!strcmp((char *) level1->name, "constraints")) {
                             xmlNode *level2 = level1->children;
                             printf("Found constraints\n");
