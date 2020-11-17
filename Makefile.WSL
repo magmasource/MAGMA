@@ -116,7 +116,7 @@ ifneq ($(STATIC),)
 override LIBXML = /usr/$(ROOTDIR)/lib/libxml2.a /usr/$(ROOTDIR)/lib/libz.a \
        	/usr/$(ROOTDIR)/lib/libicuuc.a /usr/$(ROOTDIR)/lib/libicudata.a \
 		/usr/$(ROOTDIR)/lib/liblzma.a /usr/$(ROOTDIR)/lib/libz.a /usr/$(ROOTDIR)/lib/libwinpthread.a \
-        -L/usr/$(ROOTDIR)/lib/ -lpng12 -ldl -lm
+        -L/usr/$(ROOTDIR)/lib/ -lpng -ldl -lm
 endif
 
 LIBBATCH = -L/usr/$(ROOTDIR)/lib -lxml2 -lz -lws2_32 -luuid -lm -lmingw32 
