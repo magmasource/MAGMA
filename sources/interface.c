@@ -2545,10 +2545,12 @@ int main (int argc, char *argv[])
                 printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
                 exit(0);
             }
-            
+
+/*            
             while(!liquidus());
             printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
             (void) putOutputDataToFile(NULL);
+*/
             
             while(!silmin());
             
