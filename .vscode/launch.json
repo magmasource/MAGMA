@@ -26,8 +26,9 @@
         {
             "name": "Mac (lldb) Launch",
             "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/Test_dynamicLib",
+            "request": "attach",
+            "processId": "29342",
+            "program": "${workspaceFolder}/Melts-batch",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
