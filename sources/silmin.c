@@ -1485,6 +1485,7 @@ int silmin(void)
             /* check if liquid is trying to disappear - if the liquid mass is this low, there will only be one liquid */
             if (hasLiquid) {
                 if (silminState->liquidMass < MASSOUT) {
+                    int success;
                     double *deltaBulkComp = (double *) calloc((size_t) nc,sizeof(double));
 #ifndef BATCH_VERSION
                     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Dropping liquid from the assemblage.\n");
@@ -1502,7 +1503,7 @@ int silmin(void)
                         for (k=0; k<nc; k++) deltaBulkComp[k] -= (liquid[i].liqToOx)[k]*(silminState->liquidComp)[0][i];
                         silminState->liquidComp[0][i] = 0.0;
                     }
-                    addOrDropLiquid(deltaBulkComp);
+                    success = addOrDropLiquid(deltaBulkComp);
                     iterQuad = 0; bestrNorm = 1.0; acceptable = FALSE;
                     free(deltaBulkComp);
                 }

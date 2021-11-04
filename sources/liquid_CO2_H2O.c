@@ -2977,10 +2977,14 @@ testLiq_CO2_H2O(int mask, double t, double p,
     double rTemp[NR], s[NT], sum;
     for (i=0, sum=0.0; i<NA; i++) sum += m[i];
     for (i=0; i<NR; i++) rTemp[i] = (sum != 0.0) ? m[i+1]/sum : 0.0;
-    MTHREAD_MUTEX_LOCK(&global_data_mutex);
-    initialGuessOrdering(rTemp, s);    
-    result = rANDsTOx (rTemp, s);
-    MTHREAD_MUTEX_UNLOCK(&global_data_mutex);
+    if (sum > 0.0) {
+      MTHREAD_MUTEX_LOCK(&global_data_mutex);
+      initialGuessOrdering(rTemp, s);
+      result = rANDsTOx (rTemp, s);
+      MTHREAD_MUTEX_UNLOCK(&global_data_mutex);
+    } else {
+      result = FALSE;
+    }
   }
   /* Check if ordering state calculation has converged */
   if (mask & SEVENTH) { /* This call is NOT thread safe, but it should never be called from a threaded app */

@@ -2546,6 +2546,9 @@ int main (int argc, char *argv[])
                 exit(0);
             }
 
+            getchar();
+            getchar();
+
 /*            
             while(!liquidus());
             printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
