@@ -104,11 +104,11 @@ PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libjpeg.
           -lxcb -lfreetype -lfontconfig \
           -L/usr/lib -lexpat -lz -lbz2 -lcharset -liconv \
           port3/libport.a /usr/local/opt/gcc/lib/gcc/9/libgfortran.a /usr/local/opt/gcc/lib/gcc/9/libquadmath.a \
-          /usr/local/opt/gcc/lib/gcc/9/gcc/x86_64-apple-darwin15/9.2.0/libgcc.a
+          /usr/local/opt/gcc/lib/gcc/9/gcc/x86_64-apple-darwin18/9.2.0/libgcc.a
 
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
-LIBBATCH = -L/usr/lib -lxml2 -lz -liconv
+LIBBATCH = /usr/local/opt/libxml2/lib/libxml2.a  -lz -liconv
 
 # Set environment variable for backwards deployment to Mac OS X 10.15
 # ===================================================================
