@@ -103,8 +103,8 @@ PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libjpeg.
           -L/opt/X11/lib -lXft -lXt -lXp -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXRender -lXau -lXdmcp -lpng -lX11-xcb \
           -lxcb -lfreetype -lfontconfig \
           -L/usr/lib -lexpat -lz -lbz2 -lcharset -liconv \
-          port3/libport.a /usr/local/opt/gcc/lib/gcc/9/libgfortran.a /usr/local/opt/gcc/lib/gcc/9/libquadmath.a \
-          /usr/local/opt/gcc/lib/gcc/9/gcc/x86_64-apple-darwin18/9.2.0/libgcc.a
+          port3/libport.a /usr/local/opt/gcc/lib/gcc/11/libgfortran.a /usr/local/opt/gcc/lib/gcc/11/libquadmath.a \
+	  /usr/local/opt/gcc/lib/gcc/11/gcc/x86_64-apple-darwin19/11.2.0/libgcc.a
 
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2

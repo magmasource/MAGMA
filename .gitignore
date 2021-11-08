@@ -17,6 +17,7 @@ core
 *.res
 *.inp
 *.zip
+!rhyolite-MELTS/*.zip
 *.dat
 *.melts
 *.agr
