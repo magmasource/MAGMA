@@ -39,6 +39,14 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+						<xs:element name="changeFluid" minOccurs="0" maxOccurs="1">
+							<xs:complexType>
+						    	<xs:sequence>
+									<xs:element name="H2O" type="xs:double" minOccurs="0"/>
+									<xs:element name="CO2" type="xs:double" minOccurs="0"/>
+						    	</xs:sequence>
+							</xs:complexType>
+						</xs:element>
 						<xs:element name="fractionateOnly" minOccurs="1" maxOccurs="2">
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
@@ -149,8 +157,7 @@
 												</xs:restriction>
 												</xs:simpleType>
 											</xs:element>
-											<xs:element name="fo2Offset" type="xs:double"
-												minOccurs="0"/>
+											<xs:element name="fo2Offset" type="xs:double" minOccurs="0"/>
 										</xs:sequence>
 									</xs:complexType>
 								</xs:element>
@@ -161,8 +168,7 @@
 											<xs:element name="initialT" type="xs:double"/>
 											<xs:element name="finalT" type="xs:double" minOccurs="0"/>
 											<xs:element name="incT" type="xs:double" minOccurs="0"/>
-											<xs:element name="initialV" type="xs:double"
-												minOccurs="0"/>
+											<xs:element name="initialV" type="xs:double" minOccurs="0"/>
 											<xs:element name="finalV" type="xs:double"/>
 											<xs:element name="incV" type="xs:double"/>
 											<xs:element name="dvdt" type="xs:double" minOccurs="0"/>
@@ -178,8 +184,7 @@
 												</xs:restriction>
 												</xs:simpleType>
 											</xs:element>
-											<xs:element name="fo2Offset" type="xs:double"
-												minOccurs="0"/>
+											<xs:element name="fo2Offset" type="xs:double" minOccurs="0"/>
 										</xs:sequence>
 									</xs:complexType>
 								</xs:element>
@@ -187,8 +192,7 @@
 								<xs:element name="setHP">
 									<xs:complexType>
 										<xs:sequence>
-											<xs:element name="initialH" type="xs:double"
-												minOccurs="0"/>
+											<xs:element name="initialH" type="xs:double" minOccurs="0"/>
 											<xs:element name="finalH" type="xs:double"/>
 											<xs:element name="incH" type="xs:double"/>
 											<xs:element name="initialP" type="xs:double"/>
@@ -207,8 +211,7 @@
 												</xs:restriction>
 												</xs:simpleType>
 											</xs:element>
-											<xs:element name="fo2Offset" type="xs:double"
-												minOccurs="0"/>
+											<xs:element name="fo2Offset" type="xs:double" minOccurs="0"/>
 										</xs:sequence>
 									</xs:complexType>
 								</xs:element>
@@ -216,8 +219,7 @@
 								<xs:element name="setSP">
 									<xs:complexType>
 										<xs:sequence>
-											<xs:element name="initialS" type="xs:double"
-												minOccurs="0"/>
+											<xs:element name="initialS" type="xs:double" minOccurs="0"/>
 											<xs:element name="finalS" type="xs:double"/>
 											<xs:element name="incS" type="xs:double"/>
 											<xs:element name="initialP" type="xs:double"/>
@@ -236,8 +238,7 @@
 												</xs:restriction>
 												</xs:simpleType>
 											</xs:element>
-											<xs:element name="fo2Offset" type="xs:double"
-												minOccurs="0"/>
+											<xs:element name="fo2Offset" type="xs:double" minOccurs="0"/>
 										</xs:sequence>
 									</xs:complexType>
 								</xs:element>
@@ -246,8 +247,7 @@
 						</xs:complexType>
 					</xs:element>
 
-					<xs:element name="suppressPhase" type="xs:string" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="suppressPhase" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 
 					<xs:element name="fractionationMode" minOccurs="0" maxOccurs="2">
 						<xs:simpleType>
@@ -260,16 +260,13 @@
 						</xs:simpleType>
 					</xs:element>
 
-					<xs:element name="multLiquids" type="xs:boolean" minOccurs="0" maxOccurs="1"
-						default="false"/>
+					<xs:element name="multLiquids" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false"/>
 
 					<xs:element name="assimilant" minOccurs="0" maxOccurs="1">
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="temperature" type="xs:double" minOccurs="1"
-									maxOccurs="1"/>
-								<xs:element name="increments" type="xs:integer" minOccurs="1"
-									maxOccurs="1"/>
+								<xs:element name="temperature" type="xs:double" minOccurs="1" maxOccurs="1"/>
+								<xs:element name="increments" type="xs:integer" minOccurs="1" maxOccurs="1"/>
 								<xs:element name="mass" type="xs:double" minOccurs="1" maxOccurs="1"/>
 
 								<xs:element name="units" minOccurs="0" maxOccurs="1">
@@ -289,38 +286,22 @@
 												<xs:complexType>
 												<xs:sequence>
 												<xs:element name="massFraction" type="xs:double"/>
-												<xs:element name="SiO2" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="TiO2" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="Al2O3" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="Fe2O3" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="Cr2O3" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="FeO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="MnO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="MgO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="NiO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="CoO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="CaO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="Na2O" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="K2O" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="P2O5" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="H2O" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="CO2" type="xs:double"
-												minOccurs="0"/>
+												<xs:element name="SiO2" type="xs:double" minOccurs="0"/>
+												<xs:element name="TiO2" type="xs:double" minOccurs="0"/>
+												<xs:element name="Al2O3" type="xs:double" minOccurs="0"/>
+												<xs:element name="Fe2O3" type="xs:double" minOccurs="0"/>
+												<xs:element name="Cr2O3" type="xs:double" minOccurs="0"/>
+												<xs:element name="FeO" type="xs:double" minOccurs="0"/>
+												<xs:element name="MnO" type="xs:double" minOccurs="0"/>
+												<xs:element name="MgO" type="xs:double" minOccurs="0"/>
+												<xs:element name="NiO" type="xs:double" minOccurs="0"/>
+												<xs:element name="CoO" type="xs:double" minOccurs="0"/>
+												<xs:element name="CaO" type="xs:double" minOccurs="0"/>
+												<xs:element name="Na2O" type="xs:double" minOccurs="0"/>
+												<xs:element name="K2O" type="xs:double" minOccurs="0"/>
+												<xs:element name="P2O5" type="xs:double" minOccurs="0"/>
+												<xs:element name="H2O" type="xs:double" minOccurs="0"/>
+												<xs:element name="CO2" type="xs:double" minOccurs="0"/>
 												</xs:sequence>
 												</xs:complexType>
 											</xs:element>
@@ -328,12 +309,9 @@
 											<xs:element name="solid">
 												<xs:complexType>
 												<xs:sequence>
-												<xs:element name="label" type="xs:string"
-												minOccurs="1" maxOccurs="1"/>
-												<xs:element name="massFraction" type="xs:double"
-												minOccurs="1" maxOccurs="1"/>
-												<xs:element name="component" minOccurs="0"
-												maxOccurs="unbounded">
+												<xs:element name="label" type="xs:string" minOccurs="1" maxOccurs="1"/>
+												<xs:element name="massFraction" type="xs:double" minOccurs="1" maxOccurs="1"/>
+												<xs:element name="component" minOccurs="0" maxOccurs="unbounded">
 												<xs:complexType>
 												<xs:sequence>
 												<xs:element name="label" type="xs:string"/>
@@ -349,38 +327,22 @@
 												<xs:complexType>
 												<xs:sequence>
 												<xs:element name="massFraction" type="xs:double"/>
-												<xs:element name="SiO2" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="TiO2" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="Al2O3" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="Fe2O3" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="Cr2O3" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="FeO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="MnO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="MgO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="NiO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="CoO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="CaO" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="Na2O" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="K2O" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="P2O5" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="H2O" type="xs:double"
-												minOccurs="0"/>
-												<xs:element name="CO2" type="xs:double"
-												minOccurs="0"/>
+												<xs:element name="SiO2" type="xs:double" minOccurs="0"/>
+												<xs:element name="TiO2" type="xs:double" minOccurs="0"/>
+												<xs:element name="Al2O3" type="xs:double" minOccurs="0"/>
+												<xs:element name="Fe2O3" type="xs:double" minOccurs="0"/>
+												<xs:element name="Cr2O3" type="xs:double" minOccurs="0"/>
+												<xs:element name="FeO" type="xs:double" minOccurs="0"/>
+												<xs:element name="MnO" type="xs:double" minOccurs="0"/>
+												<xs:element name="MgO" type="xs:double" minOccurs="0"/>
+												<xs:element name="NiO" type="xs:double" minOccurs="0"/>
+												<xs:element name="CoO" type="xs:double" minOccurs="0"/>
+												<xs:element name="CaO" type="xs:double" minOccurs="0"/>
+												<xs:element name="Na2O" type="xs:double" minOccurs="0"/>
+												<xs:element name="K2O" type="xs:double" minOccurs="0"/>
+												<xs:element name="P2O5" type="xs:double" minOccurs="0"/>
+												<xs:element name="H2O" type="xs:double" minOccurs="0"/>
+												<xs:element name="CO2" type="xs:double" minOccurs="0"/>
 												</xs:sequence>
 												</xs:complexType>
 											</xs:element>
