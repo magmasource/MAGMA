@@ -1022,18 +1022,6 @@ int putOutputDataToFile(char *fileName)
       fprintf(output, "\n");
 
 #ifdef MAKE_TABLES
-#ifdef BATCH_VERSION
-  if (silminState->fractionateLiq) {
-    double factor = MAX((moles - MASSIN), 0.0);
-    if (moles > 0.0) factor /= moles;
-    oxSum        *= factor;
-    gibbsEnergy  *= factor;
-    enthalpy     *= factor;
-    entropy      *= factor;
-    volume       *= factor;
-    heatCapacity *= factor;
-  }
-#endif
   fprintf(tableLiq, "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
   fprintf(tableLiq, ",%.13e,%.4f", oxSum, (volume == 0.0) ? 0.0 : oxSum/(10.0*volume));
   for (i=0; i<nc; i++) fprintf(tableLiq, ",%.4f", oxVal[i]*100.0);
@@ -1101,24 +1089,6 @@ int putOutputDataToFile(char *fileName)
         fprintf(tableSol[j], "\n");
       }
 
-#ifdef BATCH_VERSION
-      if ((silminState->fractionateSol || silminState->fractionateFlu) && hasLiquid) {
-        int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
-        if (!(( haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "water"))
-          ||  ( haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "water"))
-          ||  (!haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "fluid"))
-          ||  (!haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "fluid")))) {
-            double factor = MAX(((silminState->solidComp)[j][ns] - MASSIN), 0.0);
-            if ((silminState->solidComp)[j][ns] > 0.0) factor /= (silminState->solidComp)[j][ns];
-            mass         *= factor;
-            gibbsEnergy  *= factor;
-            enthalpy     *= factor;
-            entropy      *= factor;
-            volume       *= factor;
-            heatCapacity *= factor;
-          }
-      }
-#endif
       fprintf(tableSol[j], "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
       fprintf(tableSol[j], ",%.4f,%.4f", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
       
@@ -1210,24 +1180,6 @@ int putOutputDataToFile(char *fileName)
         for (i=0; i<solids[j].na; i++) fprintf(tableSol[j], ",%13.13s", solids[j+1+i].label);
         fprintf(tableSol[j], "\n");
       }
-#ifdef BATCH_VERSION
-      if ((silminState->fractionateSol || silminState->fractionateFlu) && hasLiquid) {
-        int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
-        if (!(( haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "water"))
-           || ( haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "water"))
-           || (!haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[i].label, "fluid"))
-           || (!haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[i].label, "fluid")))) {
-            double factor = MAX(((silminState->solidComp)[j][ns] - MASSIN), 0.0);
-            if ((silminState->solidComp)[j][ns] > 0.0) factor /= (silminState->solidComp)[j][ns];
-            mass         *= factor;
-            gibbsEnergy  *= factor;
-            enthalpy     *= factor;
-            entropy      *= factor;
-            volume       *= factor;
-            heatCapacity *= factor;
-        }
-      }
-#endif
       fprintf(tableSol[j], "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
       fprintf(tableSol[j], ",%.4f,%.4f", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
 
