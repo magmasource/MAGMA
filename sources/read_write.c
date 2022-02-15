@@ -884,9 +884,10 @@ int putOutputDataToFile(char *fileName)
          entropy,      totalEntropy, 
          volume,       totalVolume,
          heatCapacity, totalHeatCapacity,
-	 dVolumeDt,    totaldVolumeDt,
-	 dVolumeDp,    totaldVolumeDp,
-         oxSum;
+      	 dVolumeDt,    totaldVolumeDt,
+      	 dVolumeDp,    totaldVolumeDp,
+         oxSum, 
+         fo2Delta;
   int i, j, nl, ns;
   int hasLiquid = (silminState->liquidMass != 0.0);
 #ifndef BATCH_VERSION
@@ -946,13 +947,19 @@ int putOutputDataToFile(char *fileName)
 #endif
   fprintf(output, "T = %.2f (C)  P = %.3f (kbars)  log(10) f O2 = %.2f  ",
     silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
+
+  fo2Delta = silminState->fo2Delta;
+  silminState->fo2Delta = 0;
+
   fprintf(output, "delta HM = %.2f  NNO = %.2f  QFM = %.2f  COH = %.2f  IW = %.2f\n\n",
     silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_HM), 
     silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_NNO), 
     silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_QFM),
     silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH), 
     silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_IW));
-  
+
+  silminState->fo2Delta = fo2Delta;
+
   fprintf(output, "Constraint Flags: ");
   
   if      (silminState->fo2Path == FO2_HM)     fprintf(output, "fO2 path = HM  ");
@@ -1494,6 +1501,8 @@ int putSequenceDataToXmlFile(int active) {
     static double *m, *r, *oxVal;
     int i, j;
 
+    double fo2Delta;
+
     if (m == NULL)         m = (double *) malloc((size_t)      nc*sizeof(double));
     if (r == NULL)         r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
     if (oxVal == NULL) oxVal = (double *) malloc((size_t)      nc*sizeof(double));
@@ -1548,16 +1557,18 @@ int putSequenceDataToXmlFile(int active) {
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "release",   "%s", RELEASE);
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "buildDate", "%s", __DATE__);
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "buildTime", "%s", __TIME__);
-    
+
     rc = sprintf(temporary, "%23.16e", silminState->T-273.15); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature", "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->P);        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "pressure",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "log_fO2",     "%s", temporary);
+
+    fo2Delta = silminState->fo2Delta; silminState->fo2Delta = 0;    
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_HM));  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaHM",     "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_NNO)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaNNO",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_QFM)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaFMQ",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaCOH",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_IW));  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaIW",     "%s", temporary);
-    
+    silminState->fo2Delta = fo2Delta;
     
     if (silminState->liquidMass != 0.0) {
         int nl;
