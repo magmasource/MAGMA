@@ -850,6 +850,7 @@ void        updateUserGraphGW(void);
 
 int liquidus(void);
 int putOutputDataToFile(char *);
+int putSequenceDataToXmlFile(int);
 int silmin(void);
 
 #define ASSIM_PADB_INDEX_MASS        0  /* + npc + nc */

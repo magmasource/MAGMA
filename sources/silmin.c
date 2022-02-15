@@ -305,6 +305,16 @@ SilminState *bestState;
 
 /*
  *=============================================================================
+ * Global variables needed in Magma Chamber Simulator / standalone Melts-batch
+ * to mimic webservices output
+ */
+#ifdef BATCH_VERSION
+extern SilminState *previousSilminState;
+SilminState *previousSilminState;
+#endif
+
+/*
+ *=============================================================================
  * Executable code
  */
 
@@ -1610,6 +1620,8 @@ int silmin(void)
             
 #ifndef BATCH_VERSION
             updateUserGraphGW();
+#else
+    if (strstr(silminInputData.name, ".xml")   != NULL) putSequenceDataToXmlFile(TRUE);
 #endif
             
 #ifndef DO_NOT_PRODUCE_OUTPUT_FILES
@@ -2101,6 +2113,7 @@ int silmin(void)
             workProcData->active = stateChange;
 #else
             meltsStatus.status = SILMIN_SUCCESS;
+            if (strstr(silminInputData.name, ".xml")   != NULL) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 #endif
             
             curStep = 0;
@@ -2110,6 +2123,7 @@ int silmin(void)
     
 #ifdef BATCH_VERSION
     meltsStatus.status = SILMIN_SUCCESS;
+    if (strstr(silminInputData.name, ".xml")   != NULL) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 #endif
     return TRUE;
 }

@@ -205,7 +205,7 @@ void (*additionalOutput) (char *filename) = NULL;
 char *addOutputFileName = NULL;
 
 #ifdef BATCH_VERSION
-static SilminState *previousSilminState;
+extern SilminState *previousSilminState;
 #endif
 
 #ifdef RHYOLITE_ADJUSTMENTS
@@ -381,7 +381,11 @@ static int batchInputDataFromFile(char *fileName)
     }
     
     /* -> Initial global and static storage */
-    
+
+    if (silminInputData.name != NULL) free(silminInputData.name);
+    silminInputData.name = (char *) malloc((size_t) (strlen(fileName)+1)*sizeof(char));
+    (void) strcpy(silminInputData.name, fileName);
+
     if (label == NULL) {
         for (i=0, len=0; i<nc; i++) len = MAX(len, (int) strlen(bulkSystem[i].label));
         label = (char *) malloc((unsigned) (len+1)*sizeof(char));
@@ -616,6 +620,51 @@ static int batchInputDataFromFile(char *fileName)
     return TRUE;
 }
 
+static void SelectComputeDataStruct(void) {
+
+   if (calculationMode == MODE_xMELTS) {
+        printf("---> Calculation mode is xMELTS (experimental v 2.0.0).\n");
+    } else if ((calculationMode == MODE__MELTS) ||
+               (calculationMode == MODE__MELTSandCO2) ||
+               (calculationMode == MODE__MELTSandCO2_H2O) ){
+#ifdef RHYOLITE_ADJUSTMENTS
+                                                           printf("---> ************************************************************\n");
+        if      (calculationMode == MODE__MELTS)           printf("---> Calculation mode is rhyolite-MELTS (public release v 1.0.2).\n");
+        else if (calculationMode == MODE__MELTSandCO2)     printf("---> Calculation mode is rhyolite-MELTS (public release v 1.1.0).\n");
+        else if (calculationMode == MODE__MELTSandCO2_H2O) printf("---> Calculation mode is rhyolite-MELTS (public release v 1.2.0).\n");
+                                                           printf("---> ************************************************************\n");
+#else
+        printf("---> ***************************************************\n");
+        printf("---> Calculation mode is MELTS (public release v 5.6.1).\n");
+        printf("---> ***************************************************\n");
+#endif
+        if (calculationMode == MODE__MELTS) {
+            liquid = meltsLiquid;
+            solids = meltsSolids;
+            nlc = meltsNlc;
+            nls = meltsNls;
+            npc = meltsNpc;
+        } else if ((calculationMode == MODE__MELTSandCO2) || (calculationMode == MODE__MELTSandCO2_H2O)) {
+            liquid = meltsFluidLiquid;
+            solids = meltsFluidSolids;
+            nlc = meltsFluidNlc;
+            nls = meltsFluidNls;
+            npc = meltsFluidNpc;
+        }
+        
+    } else if (calculationMode == MODE_pMELTS) {
+        printf("---> ****************************************************\n");
+        printf("---> Calculation mode is pMELTS (public release v 5.6.1).\n");
+        printf("---> ****************************************************\n");
+        liquid = pMeltsLiquid;
+        solids = pMeltsSolids;
+        nlc = pMeltsNlc;
+        nls = pMeltsNls;
+        npc = pMeltsNpc;
+    }
+    
+}
+
 /* returns RUN_LIQUIDUS_CALC    or           */
 /*         RUN_EQUILIBRATE_CALC if succesful */
 /*         FALSE                if not       */
@@ -625,34 +674,14 @@ static int batchInputDataFromFile(char *fileName)
 #define RETURN_WITHOUT_CALC     4
 #define RETURN_DO_FRACTIONATION 5
 
+#define RETURN_FINALIZED        6
+
 static int batchInputDataFromXmlFile(char *fileName) {
     xmlSchemaPtr schema = NULL;
     xmlSchemaParserCtxtPtr ctxt = NULL;
     xmlSchemaValidCtxtPtr ctxt2 = NULL;
     int ret = TRUE;
     static int SiO2 = -1, TiO2, Al2O3, Fe2O3, Cr2O3, FeO, MnO, MgO, NiO, CoO, CaO, Na2O, K2O, P2O5, H2O, CO2;
-    
-    if (SiO2 == -1) {
-        int i;
-        for (i=0; i<nc; i++) {
-            if      (!strcmp(bulkSystem[i].label, "SiO2" )) SiO2  = i;
-            else if (!strcmp(bulkSystem[i].label, "TiO2" )) TiO2  = i;
-            else if (!strcmp(bulkSystem[i].label, "Al2O3")) Al2O3 = i;
-            else if (!strcmp(bulkSystem[i].label, "Fe2O3")) Fe2O3 = i;
-            else if (!strcmp(bulkSystem[i].label, "Cr2O3")) Cr2O3 = i;
-            else if (!strcmp(bulkSystem[i].label, "FeO"  )) FeO   = i;
-            else if (!strcmp(bulkSystem[i].label, "MnO"  )) MnO   = i;
-            else if (!strcmp(bulkSystem[i].label, "MgO"  )) MgO   = i;
-            else if (!strcmp(bulkSystem[i].label, "NiO"  )) NiO   = i;
-            else if (!strcmp(bulkSystem[i].label, "CoO"  )) CoO   = i;
-            else if (!strcmp(bulkSystem[i].label, "CaO"  )) CaO   = i;
-            else if (!strcmp(bulkSystem[i].label, "Na2O" )) Na2O  = i;
-            else if (!strcmp(bulkSystem[i].label, "K2O"  )) K2O   = i;
-            else if (!strcmp(bulkSystem[i].label, "P2O5" )) P2O5  = i;
-            else if (!strcmp(bulkSystem[i].label, "H2O"  )) H2O   = i;
-            else if (!strcmp(bulkSystem[i].label, "CO2"  )) CO2   = i;
-        }
-    }
     
     if (silminInputData.name != NULL) free(silminInputData.name);
     silminInputData.name = (char *) malloc((size_t) (strlen(fileName)+1)*sizeof(char));
@@ -688,51 +717,88 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             xmlNode *level2 = level1->children;
                             int i, j, np;
                             printf("Found initialize: %s\n", content1);
-                            
+
                             if (silminState != NULL) 
                                 ; /*destroy the old state - nyi */
-                            silminState = allocSilminStatePointer();
-                            for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-                            (silminState->incSolids)[npc] = TRUE;
-                            silminState->nLiquidCoexist  = 1;
-                            silminState->fo2Path  = FO2_NONE;
-                            silminState->T = 0.0;
-                            silminState->P = 0.0;
-                            
+                            if (silminState == NULL) { // add test to avoid memory leak
+                                silminState = allocSilminStatePointer();
+                                for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+                                (silminState->incSolids)[npc] = TRUE;
+                                silminState->nLiquidCoexist  = 1;
+                                silminState->fo2Path  = FO2_NONE;
+                                silminState->T = 0.0;
+                                silminState->P = 0.0;
+                            }
+
                             for (i=0, silminState->liquidMass=0.0; i<nc; i++) (silminState->bulkComp)[i] = 0.0;
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
                                     char *pEnd = NULL;
                                     errno = 0;
-                                    if      (!strcmp((char *) level2->name, "SiO2" )) (silminState->bulkComp)[SiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[SiO2 ].mw;
-                                    else if (!strcmp((char *) level2->name, "TiO2" )) (silminState->bulkComp)[TiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[TiO2 ].mw;
-                                    else if (!strcmp((char *) level2->name, "Al2O3")) (silminState->bulkComp)[Al2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Al2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "Fe2O3")) (silminState->bulkComp)[Fe2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Fe2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "Cr2O3")) (silminState->bulkComp)[Cr2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Cr2O3].mw;
-                                    else if (!strcmp((char *) level2->name, "FeO"  )) (silminState->bulkComp)[FeO  ] = strtod((char *) content2, &pEnd)/bulkSystem[FeO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "MnO"  )) (silminState->bulkComp)[MnO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MnO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "MgO"  )) (silminState->bulkComp)[MgO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MgO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "NiO"  )) (silminState->bulkComp)[NiO  ] = strtod((char *) content2, &pEnd)/bulkSystem[NiO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CoO"  )) (silminState->bulkComp)[CoO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CoO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CaO"  )) (silminState->bulkComp)[CaO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CaO  ].mw;
-                                    else if (!strcmp((char *) level2->name, "Na2O" )) (silminState->bulkComp)[Na2O ] = strtod((char *) content2, &pEnd)/bulkSystem[Na2O ].mw;
-                                    else if (!strcmp((char *) level2->name, "K2O"  )) (silminState->bulkComp)[K2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[K2O  ].mw;
-                                    else if (!strcmp((char *) level2->name, "P2O5" )) (silminState->bulkComp)[P2O5 ] = strtod((char *) content2, &pEnd)/bulkSystem[P2O5 ].mw;
-                                    else if (!strcmp((char *) level2->name, "H2O"  )) (silminState->bulkComp)[H2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[H2O  ].mw;
-                                    else if (!strcmp((char *) level2->name, "CO2"  )) (silminState->bulkComp)[CO2  ] = strtod((char *) content2, &pEnd)/bulkSystem[CO2  ].mw;
-                                    if (pEnd == (char *) content2) {
-                                        printf("Invalid number format: %s.\n", (char *) content2);
-                                        ret = FALSE;
+   
+                                    if (!strcmp((char *) level2->name, "modelSelection")) {
+                                        printf("Found modelSelection: %s\n", content2);
+                                             if (!strcmp((char *) content2, "MELTS_v1.0.x")) calculationMode = MODE__MELTS;
+                                        else if (!strcmp((char *) content2, "MELTS_v1.1.x")) calculationMode = MODE__MELTSandCO2;
+                                        else if (!strcmp((char *) content2, "MELTS_v1.2.x")) calculationMode = MODE__MELTSandCO2_H2O;
+                                        else if (!strcmp((char *) content2, "pMELTS_v5.6.1")) calculationMode = MODE_pMELTS;
                                     }
-                                    else if (errno == ERANGE) {
-                                        double val = strtod((char *) content2, &pEnd);
-                                        printf("Invalid number(?): %s.\n", (char *) content2);
-                                        if (val > 1.0) ret = FALSE; /* overflow */
-                                        else errno = 0; /* underflow */
+                                    if (SiO2 == -1) {
+                                        printf("---> Initializing data structures using selected calculation mode...\n");
+                                        SelectComputeDataStruct();
+                                        InitComputeDataStruct();
+                                        int i;
+                                        for (i=0; i<nc; i++) {
+                                            if      (!strcmp(bulkSystem[i].label, "SiO2" )) SiO2  = i;
+                                            else if (!strcmp(bulkSystem[i].label, "TiO2" )) TiO2  = i;
+                                            else if (!strcmp(bulkSystem[i].label, "Al2O3")) Al2O3 = i;
+                                            else if (!strcmp(bulkSystem[i].label, "Fe2O3")) Fe2O3 = i;
+                                            else if (!strcmp(bulkSystem[i].label, "Cr2O3")) Cr2O3 = i;
+                                            else if (!strcmp(bulkSystem[i].label, "FeO"  )) FeO   = i;
+                                            else if (!strcmp(bulkSystem[i].label, "MnO"  )) MnO   = i;
+                                            else if (!strcmp(bulkSystem[i].label, "MgO"  )) MgO   = i;
+                                            else if (!strcmp(bulkSystem[i].label, "NiO"  )) NiO   = i;
+                                            else if (!strcmp(bulkSystem[i].label, "CoO"  )) CoO   = i;
+                                            else if (!strcmp(bulkSystem[i].label, "CaO"  )) CaO   = i;
+                                            else if (!strcmp(bulkSystem[i].label, "Na2O" )) Na2O  = i;
+                                            else if (!strcmp(bulkSystem[i].label, "K2O"  )) K2O   = i;
+                                            else if (!strcmp(bulkSystem[i].label, "P2O5" )) P2O5  = i;
+                                            else if (!strcmp(bulkSystem[i].label, "H2O"  )) H2O   = i;
+                                            else if (!strcmp(bulkSystem[i].label, "CO2"  )) CO2   = i;
+                                        }
                                     }
-                                    else {
-                                        silminState->liquidMass += strtod((char *) content2, &pEnd);
+
+                                    if (strcmp((char *) level2->name, "modelSelection")) {
+                                            if (!strcmp((char *) level2->name, "SiO2" )) (silminState->bulkComp)[SiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[SiO2 ].mw;
+                                        else if (!strcmp((char *) level2->name, "TiO2" )) (silminState->bulkComp)[TiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[TiO2 ].mw;
+                                        else if (!strcmp((char *) level2->name, "Al2O3")) (silminState->bulkComp)[Al2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Al2O3].mw;
+                                        else if (!strcmp((char *) level2->name, "Fe2O3")) (silminState->bulkComp)[Fe2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Fe2O3].mw;
+                                        else if (!strcmp((char *) level2->name, "Cr2O3")) (silminState->bulkComp)[Cr2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Cr2O3].mw;
+                                        else if (!strcmp((char *) level2->name, "FeO"  )) (silminState->bulkComp)[FeO  ] = strtod((char *) content2, &pEnd)/bulkSystem[FeO  ].mw;
+                                        else if (!strcmp((char *) level2->name, "MnO"  )) (silminState->bulkComp)[MnO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MnO  ].mw;
+                                        else if (!strcmp((char *) level2->name, "MgO"  )) (silminState->bulkComp)[MgO  ] = strtod((char *) content2, &pEnd)/bulkSystem[MgO  ].mw;
+                                        else if (!strcmp((char *) level2->name, "NiO"  )) (silminState->bulkComp)[NiO  ] = strtod((char *) content2, &pEnd)/bulkSystem[NiO  ].mw;
+                                        else if (!strcmp((char *) level2->name, "CoO"  )) (silminState->bulkComp)[CoO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CoO  ].mw;
+                                        else if (!strcmp((char *) level2->name, "CaO"  )) (silminState->bulkComp)[CaO  ] = strtod((char *) content2, &pEnd)/bulkSystem[CaO  ].mw;
+                                        else if (!strcmp((char *) level2->name, "Na2O" )) (silminState->bulkComp)[Na2O ] = strtod((char *) content2, &pEnd)/bulkSystem[Na2O ].mw;
+                                        else if (!strcmp((char *) level2->name, "K2O"  )) (silminState->bulkComp)[K2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[K2O  ].mw;
+                                        else if (!strcmp((char *) level2->name, "P2O5" )) (silminState->bulkComp)[P2O5 ] = strtod((char *) content2, &pEnd)/bulkSystem[P2O5 ].mw;
+                                        else if (!strcmp((char *) level2->name, "H2O"  )) (silminState->bulkComp)[H2O  ] = strtod((char *) content2, &pEnd)/bulkSystem[H2O  ].mw;
+                                        else if (!strcmp((char *) level2->name, "CO2"  )) (silminState->bulkComp)[CO2  ] = strtod((char *) content2, &pEnd)/bulkSystem[CO2  ].mw;
+                                        if (pEnd == (char *) content2) {
+                                            printf("Invalid number format: %s.\n", (char *) content2);
+                                            ret = FALSE;
+                                        }
+                                        else if (errno == ERANGE) {
+                                            double val = strtod((char *) content2, &pEnd);
+                                            printf("Invalid number(?): %s.\n", (char *) content2);
+                                            if (val > 1.0) ret = FALSE; /* overflow */
+                                            else errno = 0; /* underflow */
+                                        }
+                                        else {
+                                            silminState->liquidMass += strtod((char *) content2, &pEnd);
+                                        }
                                     }
                                     if (content2 != NULL) xmlFree(content2);
                                 }
@@ -750,6 +816,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             printf("Found calculationMode: %s\n", content1);
                             if      (!strcmp((char *) content1, "findLiquidus")) ret = RUN_LIQUIDUS_CALC;
                             else if (!strcmp((char *) content1, "equilibrate" )) ret = RUN_EQUILIBRATE_CALC;
+                            // fineWetLiquidus
                             
                         } else if (!strcmp((char *) level1->name, "title")) {
                             printf("Found title: %s\n", content1);
@@ -1309,8 +1376,16 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                 }
                                 level2 = level2->next;
                             }
+                        } else if (!strcmp((char *) level1->name, "finalize")) {
+                            /* Currently this element has no content */
+                            /*
+                            xmlNode *level2 = level1->children;
+                            int i, j, np;
+                            printf("Found finalize: %s\n", content1);
+                            */
+                            printf("Found finalize\n");
+                            if ((ret == FALSE) || (ret == TRUE)) ret = RETURN_FINALIZED;
                         }
-                        
                         if (content1 != NULL) xmlFree(content1);
                     }
                     level1 = level1->next;
@@ -2365,7 +2440,9 @@ int main (int argc, char *argv[])
     printf("---> Default calculation mode is pMELTS (v 5.6.1) for batch processing.\n");
 #endif
 #endif
-    
+
+#ifndef BATCH_VERSION
+
     if (calculationMode == MODE_xMELTS) {
         printf("---> Calculation mode is xMELTS (experimental v 2.0.0).\n");
     } else if ((calculationMode == MODE__MELTS) ||
@@ -2409,7 +2486,14 @@ int main (int argc, char *argv[])
     
     printf("---> Initializing data structures using selected calculation mode...\n");
     InitComputeDataStruct();
-    
+# else
+    /* Move initialization later for BATCH_VERSION so models can be selected via XML */
+    /* Select largest values for nlc, nls, and npc so can allocate silminState safely */
+    nlc = MAX(meltsNlc, MAX(meltsFluidNlc, pMeltsNlc));
+    nls = MAX(meltsNls, MAX(meltsFluidNls, pMeltsNls));
+    nlc = MAX(meltsNpc, MAX(meltsFluidNpc, pMeltsNpc));
+#endif
+
 #ifndef BATCH_VERSION
     printf("---> Building interface...\n");
     /*
@@ -2535,10 +2619,14 @@ int main (int argc, char *argv[])
             printf("              Directories are stipulated relative to current directory\n");
             printf("              with no trailing delimiter.\n");
             exit(0);
-            
+
         } else if (strstr(argv[1], ".melts") != NULL) {
             int i, j, k, l;
-            
+
+            printf("---> Initializing data structures using selected calculation mode...\n");
+            SelectComputeDataStruct();
+            InitComputeDataStruct();
+
             if (silminState == NULL) silminState = allocSilminStatePointer();
             
             if(!batchInputDataFromFile(argv[1])) {
@@ -2546,17 +2634,38 @@ int main (int argc, char *argv[])
                 exit(0);
             }
 
-            getchar();
-            getchar();
+            if (argc > 2) {
+                printf("Press any key to continue.\n");
+                getchar();
+                getchar();
+            }
 
-/*            
-            while(!liquidus());
-            printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
-            (void) putOutputDataToFile(NULL);
-*/
-            
-            while(!silmin());
-            
+            if ((argc == 2) || !strncmp(argv[2], "liquidus", 8)) {
+                int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu, 
+                    fractionateLiq = silminState->fractionateLiq;
+                silminState->fractionateSol = FALSE;
+                silminState->fractionateFlu = FALSE;
+                silminState->fractionateLiq = FALSE;
+
+                while(!liquidus());
+                printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
+                (void) putOutputDataToFile(NULL);
+
+                silminState->fractionateSol = fractionateSol;
+                silminState->fractionateFlu = fractionateFlu; 
+                silminState->fractionateLiq = fractionateLiq;
+            }
+            if ((argc == 2) || !strncmp(argv[2], "equilibrate", 8)) {
+                if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
+                    silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
+                    silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
+                }
+                if (silminState->fractionateLiq && silminState->fracLComp == (double *) NULL) {
+                    silminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
+                }
+                while(!silmin());
+            }
+
             for (i=0; i<npc; i++) if (solids[i].type == PHASE) {
                 if ((silminState->nSolidCoexist)[i] > 0) {
                     for (j=0; j<(silminState->nSolidCoexist)[i]; j++) {
@@ -2626,7 +2735,7 @@ int main (int argc, char *argv[])
             outputFile = (char *) malloc((size_t) (len+9)*sizeof(char));
             (void) strncpy(outputFile, silminInputData.name, len);
             (void) strcpy(&outputFile[len], "-out.xml");
-            
+
             if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
             
             if        (ret == FALSE) {
@@ -2639,7 +2748,9 @@ int main (int argc, char *argv[])
             } else if (ret == RUN_EQUILIBRATE_CALC) {
                 while(!silmin());
                 putOutputDataToXmlFile(outputFile);
+                putSequenceDataToXmlFile(FALSE); /* finalize and close file */
             } else if (ret == RETURN_WITHOUT_CALC) {
+                /* can be used to test changeLiquid (calling with changeFluid with likely cause seg fault) */
                 putOutputDataToXmlFile(outputFile);
             }
             
@@ -2753,6 +2864,8 @@ int main (int argc, char *argv[])
                             meltsStatus.status = SILMIN_SUCCESS;
                             putOutputDataToXmlFile(oFileName);
                             putStatusDataToXmlFile(sFileName);
+                        } else if (ret == RETURN_FINALIZED) {
+                            putSequenceDataToXmlFile(FALSE); /* finalize and close file */                            
                         }
                         
                         if (fileOpenAttempts > 2) { ret = TRUE; fileOpenAttempts = 0; }

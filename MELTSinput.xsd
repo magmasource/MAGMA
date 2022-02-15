@@ -356,6 +356,9 @@
 						</xs:complexType>
 					</xs:element>
 
+					<xs:element name="finalize" minOccurs="0" maxOccurs="1">
+					</xs:element>
+
 				</xs:sequence>
 			</xs:choice>
 		</xs:complexType>

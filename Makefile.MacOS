@@ -52,7 +52,7 @@ DYFLAGS	      = xv
 CC            = clang
 LD            = clang
 FC            = gfortran
-CFLAGS        = -ansi -c -O3 $(BATCH) $(VERSION) -mmacosx-version-min=10.15 \
+CFLAGS        = -ansi -c -g3 $(BATCH) $(VERSION) -mmacosx-version-min=11.0 \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib
@@ -112,7 +112,7 @@ LIBBATCH = /usr/local/opt/libxml2/lib/libxml2.a  -lz -liconv
 
 # Set environment variable for backwards deployment to Mac OS X 10.15
 # ===================================================================
-export MACOSX_DEPLOYMENT_TARGET := 10.15
+export MACOSX_DEPLOYMENT_TARGET := 11.0
 
 include Makefile.common
 
