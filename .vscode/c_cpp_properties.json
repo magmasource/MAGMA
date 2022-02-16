@@ -115,12 +115,12 @@
         {
             "name": "Win64",
             "includePath": [
-                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/5.3.0/include",
-                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/5.3.0/include-fixed",
-                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include",
-                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++",
-                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32",
-                "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/backward",
+                "C:/msys64/mingw64/include",
+                "C:/msys64/mingw64/include/c++",
+                "C:/msys64/mingw64/include/clang",
+                "C:/msys64/mingw64/include/clang-c",
+                "C:/msys64/mingw64/include/libxml2",
+                "C:/msys64/mingw64/x86_64-w64-mingw32/include",
                 "${workspaceFolder}",
                 "${workspaceFolder}/includes"
             ],
@@ -138,15 +138,15 @@
                 "RHYOLITE_ADJUSTMENTS",
                 "TESTDYNAMICLIB"
             ],
-            "intelliSenseMode": "msvc-x64",
+            "intelliSenseMode": "linux-gcc-x64",
             "browse": {
                 "path": [
-                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/5.3.0/include",
-                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/5.3.0/include-fixed",
-                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include",
-                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++",
-                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32",
-                    "C:/mingw-w64/x86_64-5.3.0-posix-sjlj-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/backward",
+                    "C:/msys64/mingw64/include",
+                    "C:/msys64/mingw64/include/c++",
+                    "C:/msys64/mingw64/include/clang",
+                    "C:/msys64/mingw64/include/clang-c",
+                    "C:/msys64/mingw64/include/libxml2",
+                    "C:/msys64/mingw64/x86_64-w64-mingw32/include",
                     "${workspaceFolder}",
                     "${workspaceFolder}/includes"
                 ],
@@ -155,7 +155,7 @@
             },
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "compilerPath": "/usr/bin/clang"
+            "compilerPath": "C:/msys64/mingw64/bin/clang"
         }
     ],
     "version": 4

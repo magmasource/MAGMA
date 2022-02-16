@@ -6,7 +6,7 @@
 # See Makefile.ubuntu and Makefile.redhat for backwards compatibility
 # =================================================================================
 
-MAKEFILE = Makefile.MSYS2
+MAKEFILE = Makefile.Windows
 ARCH    := $(shell uname -m)
 
 # Compilation options

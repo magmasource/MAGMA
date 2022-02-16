@@ -1537,7 +1537,6 @@ int putSequenceDataToXmlFile(int active) {
       (void) strncpy(sequenceFile, silminInputData.name, len);
       (void) strcpy(&sequenceFile[len], "-sequence.xml");
 
-      printf("Sequence file name is %s\n", sequenceFile);
       writer = xmlNewTextWriterFilename(sequenceFile, 0);
       rc = xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
       rc = xmlTextWriterStartElement(writer, BAD_CAST "MELTSsequence");
