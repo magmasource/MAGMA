@@ -39,7 +39,7 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
-						<xs:element name="changeFluid" minOccurs="0" maxOccurs="1">
+						<xs:element name="changeFluid" minOccurs="1" maxOccurs="1">
 							<xs:complexType>
 						    	<xs:sequence>
 									<xs:element name="H2O" type="xs:double" minOccurs="0"/>
@@ -55,6 +55,8 @@
 									<xs:enumeration value="fractionateLiquids"/>
 								</xs:restriction>
 							</xs:simpleType>
+						</xs:element>
+						<xs:element name="finalize" minOccurs="1" maxOccurs="1">
 						</xs:element>
 					</xs:choice>
 				</xs:sequence>
@@ -354,9 +356,6 @@
 
 							</xs:sequence>
 						</xs:complexType>
-					</xs:element>
-
-					<xs:element name="finalize" minOccurs="0" maxOccurs="1">
 					</xs:element>
 
 				</xs:sequence>

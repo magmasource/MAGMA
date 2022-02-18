@@ -1384,7 +1384,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             printf("Found finalize: %s\n", content1);
                             */
                             printf("Found finalize\n");
-                            if ((ret == FALSE) || (ret == TRUE)) ret = RETURN_FINALIZED;
+                            ret = RETURN_FINALIZED;
                         }
                         if (content1 != NULL) xmlFree(content1);
                     }
