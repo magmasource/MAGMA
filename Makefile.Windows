@@ -104,32 +104,38 @@ endif
 # ==============================================================================
 
 ifeq ($(ARCH), x86_64)
-ROOTDIR := x86_64-linux-gnu
+ROOTDIR := mingw64
 else
-ROOTDIR := i386-linux-gnu
+ROOTDIR := mingw32
 endif
 
-LIBS    = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
-PUBLIBS = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
+# Not sure that it is possible to build the static version of Melts-batch in MSYS2.
+# Will still be able to run a dynamically linked version e.g. in R.
+
+LIBS    = -L/$(ROOTDIR)/lib/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
+PUBLIBS = -L/$(ROOTDIR)/lib/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
 ifneq ($(STATIC),)
-# Not sure that it is possible to build the static version anymore.
-# Will still be able to run a dynamically linked version in the VM and WSL.
-override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
-	 -L/usr/lib/$(ROOTDIR)/ -lXft -lXmu -lXt -lXext -lX11 \
+override PUBLIBS = /$(ROOTDIR)/lib/libXm.a \
+	 -L/$(ROOTDIR)/lib/ -lXft -lXmu -lXt -lXext -lX11 \
 	 -lfreetype -lfontconfig \
-	  /usr/lib/$(ROOTDIR)/libjpeg.a \
+	  /$(ROOTDIR)/lib/libjpeg.a \
 	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libgfortran.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libquadmath.a
 endif
 
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2 -lm
 ifneq ($(STATIC),)
-override LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
-       	 /usr/lib/$(ROOTDIR)/libicuuc.a /usr/lib/$(ROOTDIR)/libicudata.a \
-	 /usr/lib/$(ROOTDIR)/liblzma.a \
-        -L/usr/lib/$(ROOTDIR)/ -lpng -lz -lpthread -ldl -lm
+override LIBXML = /$(ROOTDIR)/lib/libxml2.a /$(ROOTDIR)/lib/libicuio.a \
+       	 /$(ROOTDIR)/lib/libicuuc.a /$(ROOTDIR)/lib/libicudata.a \
+	 /$(ROOTDIR)/lib/liblzma.a \
+        -L/$(ROOTDIR)/lib/ -lpng -lz -lpthread -ldl -lm
 endif
-LIBBATCH = -L/usr/lib -lxml2 -lz -lm
+
+LIBBATCH = -L/$(ROOTDIR)/lib -lxml2 -lz -lm
+ifneq ($(STATIC),)
+override LIBBATCH = /$(ROOTDIR)/lib/libxml2.a /$(ROOTDIR)/lib/libz.a \
+       	 /$(ROOTDIR)/lib/liblzma.a /$(ROOTDIR)/lib/libiconv.a -lm
+endif
 
 include Makefile.common
 
