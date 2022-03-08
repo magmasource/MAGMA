@@ -9,7 +9,7 @@ For additional documentation, visit the [MELTS website](http://melts.ofm-researc
 
 
 
-## Building the software (MacOS or Linux) ##
+## Building the software (MacOS or Linux; some targets on Windows) ##
 
 This README focuses on the following build targets:
 
@@ -17,13 +17,15 @@ This README focuses on the following build targets:
 - Command-line auxillary and testing programs
 - Static and dynamic libraries encapsulating the MELTS CT engine
 
-:point_right: To build the Python package that encapsulates the MELTS CT engine (OS agnostic) and to access associated Python notebooks and examples, refer to the [README file in the python subdirectory](https://gitlab.com/ENKI-portal/xMELTS/blob/master/python/README.md).
+~~:point_right: To build the Python package that encapsulates the MELTS CT engine (OS agnostic) and to access associated Python notebooks and examples, refer to the [README file in the python subdirectory](https://gitlab.com/ENKI-portal/xMELTS/blob/master/python/README.md).~~
 
 :point_right: For MacOS build targets configured with Xcode, simply open the project file, `MELTS.xcodeproj`, in Xcode and follow the instructions [Building Xcode targets in the MELTS project ](https://gitlab.com/ENKI-portal/xMELTS/blob/master/XCODE-README.md)(XCODE-README.md).
 
 
 ### Cloning the repository and populating the submodules ###
 The default **master** branch of the respository tracks the stable public releases of MELTS software. The **develop** branch tracks the latest development code and may contain unpublished features.  You can fork either branch when you clone the repository. Make sure to follow *GitFlow* protocols and to fork feature and extension branches only from the **develop** branch.
+
+The **MAGMA** branch is maintained by Paula Antoshechkina and includes edits made for the [MAGMA@Caltech](magmasource.caltech.edu) effort (including early work on [MELTS for MATLAB](https://ui.adsabs.harvard.edu/abs/2018AGUFMED44B..23A%2F/abstract)) and for the [Magma Chamber Simulator](https://mcs.geol.ucsb.edu/)([MCS](https://mcs.geol.ucsb.edu/)). Melts-batch executables for MacOS, Windows and Linux, like those used by the MCS, can be found in the MCS-Melts-batch and Linux-Melts-batch directories. 
 
 When you clone the repository, the **master** branch is tracked by default. If you use a git client, such as [Tower](https://www.git-tower.com/), the client also populates the port3 submodules (i.e., subrepositories) required to perform the build procedures.
 
@@ -41,16 +43,24 @@ Also, you can subsequently check out the **develop** branch, making it the HEAD 
 ```
 git checkout develop
 ```
-
+Replace 'develop' with 'MAGMA' if you want to build the MAGMA/MCS version of the executables.
 
 ### Prerequisites ###
-To build the standalone (GUI) version of MELTS on MacOS or Linux, you need the following additional system and software resources:
+To build the standalone (GUI) version of MELTS on MacOS or Linux (including the Windows Subsystem for Linux), you need the following additional system and software resources:
 
 - PORT3 software library, available as a [submodule in the xMELTS git repository](https://gitlab.com/ENKI-portal/port3)
 - An X11 installation that includes the package `openmotif`
 - A C compiler (preferably clang, but [GCC](https://www.amazon.com/gp/product/B00SWS1KWO/ref=ox_sc_act_title_1?ie=UTF8&psc=1&smid=AAZG7FJ20LXBR) suffices), as well as a FORTRAN compiler for the `port3` package
 
-**Install the build prerequisites:**
+To build the command line (Melts-batch) version of MELTS on MacOS, Linux or native Windows, you need only the C compiler. You should not need a FORTRAN compiler.
+
+- (Windows) Install [MSYS2](https://www.msys2.org/), either directly, or by installing the [Rtools](https://cran.r-project.org/bin/windows/Rtools/rtools40.html) package.
+    - Open the MSYS2 MSYS terminal. Type the commands `pacman -Su`, then `pacman -S --needed base-devel mingw-w64_x86-toolchain`
+    - Optionally install clang with the command `pacman -S mingw-w64_x86-clang`.
+    - You will need MSYS2 / Rtools on the machine used to run Melts-batch so that required runtime libraries can be installed.
+
+
+**Install the standalone (GUI) build prerequisites:**
 
 1. Ensure that a C compiler and a FORTRAN compiler are available on your system.  
 1. Install `X11` and `openmotif`. 
@@ -72,12 +82,20 @@ done: \
 ```
 4 Close the file, and run the `make` command to build the PORT3 library.  
 
+**Install the command line (Melts-batch) build requisites:**
+
+1. Ensure that a C compiler is available on your system.  
+1. Install `libxml2`, if it is not already installed.
+    - (Linux) Install the `libxml2` and `libxml2-dev` (or equivalent) packages into the standard locations.
+    - (MacOS) Install the [Homebrew package manager](http://brew.sh). In a terminal window, type the command `brew install libxml2`. On Intel Macs this places the XML library and depcendecies into subdirectories of `/usr/local`.
+    - (Windows) Open the MSYS2 MSYS terminal (a.k.a Rtools BASH). Type the command `pacman -S libxml2`.
+
 
 ### Makefile configuration ###
 
 You can build many of the build targets for MELTS and its auxillary and testing programs on MacOS using the Xcode Integrated Development Environment (IDE). However, most executables—particularly the standalone versions of MELTS—must be built using traditional UNIX makefile-based build procedures. 
 
-The file `Makefile.Linux` and `Makefile.MacOS` are master makefiles that each include a *common* makefile, `Makefile.common`. The script in `Makefile.common` is appropriate for use on both Linux and MacOS.  
+The file `Makefile.Linux`, `Makefile.MacOS`, and `Makefile.Windows` are master makefiles that each include a *common* makefile, `Makefile.common`. The script in `Makefile.common` is appropriate for use on both Linux and MacOS, and Windows with MSYS2.
 
 - (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.Linux` file as appropriate for your system configuration (see Makefile.ubuntu and Makefile.redhat for comparison). In a terminal window generate a soft link with this command: 
 
@@ -88,6 +106,11 @@ The file `Makefile.Linux` and `Makefile.MacOS` are master makefiles that each in
 
     ```
     ln -s ./Makefile.MacOS Makefile
+    ```
+- (Windows) If building targets in the MELTS software package on Windows / MSYS2, edit the file `Makefile.Windows` as appropriate for your system configuration, and in a terminal window generate a soft link with this command:  
+
+    ```
+    ln -s ./Makefile.Windows Makefile
     ```
 *NOTE: Typing the command* `make` *within the MELTS directory with no argument produces a list of possible build targets:*  
 
@@ -147,19 +170,19 @@ A new file appears in the directory named `Melts-rhyolite-public`.   This is an 
 On startup, you can choose the database calibration of MELTS desired. You can move the executable image to any location in the system.  
 
 #### Standalone MELTS - batch execution, read-write XML files ####
-1. Ensure that the PORT3 library is installed.  
+1. You should be able to build Melts-batch without the PORT3 library installed.
 2. In a terminal window, migrate to the repository directory, and type this command:
 
     ```
     make Melts-batch
     ```
-    A new file appears in the directory named `Melts-batch`.   On the alphaMELTS branch this `Melts-batch`
-    will be for the pMELTS model (on the master/develop branches it will be rhyolite-MELTS 1.0.2). You may want to rename the file, e.g: 
+    A new file appears in the directory named `Melts-batch` (or `Melts-batch.exe`).   On the MAGMA branch this `Melts-batch`
+    will be for the pMELTS model by default (on the master/develop branches it will be rhyolite-MELTS 1.0.2 by default; the prebuilt executables in MCS-Melts-batch and Linux-Melts-batch are also rhyolite-MELTS 1.0.2. unless otherwise labeled). You may want to rename the file, e.g: 
 
     ```
     mv Melts-batch Melts-batch-pMELTS-v5.6.1
     ```
-3. On the alphaMELTS branch you can build rhyolite-MELTS versions 1.0.2, 1.1.0, and 1.2.0, respectively, using:
+3. On the MAGMA branch you can build default rhyolite-MELTS versions 1.0.2, 1.1.0, and 1.2.0, respectively, using:
 
     ```
     make Melts-batch -DV102
@@ -181,14 +204,18 @@ Usage:
               Directories are stipulated relative to current directory with no trailing delimiter.
 ```
  The three usage scenarios are as follows:  
-- First usage takes a standard MELTS input file as input on the command line and processes it using MELTS version 1.0.2, placing output files in the current directory.  
-- Second usage processes a MELTS input file formatted using the standard MELTS input XML schema (contained in schema definition file [MELTSinput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSinput.xsd)) and processes it using the MELTS/pMELTS version specified in that file, placing output files in the current directory.
-- Third usage places the executable in listening mode.  The program waits for a file to be placed in the specified `inputDir`, processes that file, and places output into the `outputDir`, moving the input file in the `inputProcessedDir` if one is specified.  This usage is appropriate if some other program (like Excel) is used to generate input files and waits until output is produced for subsequent processes.  Input files must conform to the XML schema noted in the second usage, and output files are generated according to XML output schema specified in [MELTSoutput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSoutput.xsd) and [MELTSstatus.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/master/MELTSstatus.xsd). Detailed documentation files on all of the XML schema may be found in [the Wiki](https://gitlab.com/ENKI-portal/xMELTS/wikis/home).  These schema are also utilized in client-server communication involving the MELTS web services (see below).  A typical command for this usage scenario may look like this:
+- First usage takes a standard MELTS input file as input on the command line and processes it using MELTS version 1.0.2, placing output files in the current directory.
+- Second usage processes a MELTS input file formatted using the standard MELTS input XML schema (contained in schema definition file [MELTSinput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/MAGMA/MELTSinput.xsd)) and processes it using the MELTS/pMELTS version specified in that file, placing output files in the current directory.
+    - The output file ending `*-out.xml` will contain output for the last step in the calculation sequence. On the MAGMA branch another file is produced ending `*-sequence.xml` which contains output for all steps, similar to the MELTS web services output (see below).
+    - Note that changing MELTS/pMELTS model from the compiled default using the XML input file only works on the MAGMA branch.
+- Third usage places the executable in listening mode.  The program waits for a file to be placed in the specified `inputDir`, processes that file, and places output into the `outputDir`, moving the input file in the `inputProcessedDir` if one is specified.  This usage is appropriate if some other program (like Excel) is used to generate input files and waits until output is produced for subsequent processes. A typical command for this usage scenario may look like this:
 
     ```
     ./Melts-batch ./inputXML ./outputXML ./processedXML
     ```
     where the various directories must exist prior to starting the batch process.
+
+Input files for the second and third usage must conform to the XML schema noted in the second usage ([MELTSinput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/MAGMA/MELTSinput.xsd)), and output files are generated according to XML output schema specified in [MELTSoutput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/MAGMA/MELTSoutput.xsd) and [MELTSstatus.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/MAGMA/MELTSstatus.xsd).  These schema are also utilized in client-server communication involving the MELTS web services (see below).  Detailed documentation files on all of the XML schema may be found in [the MELTS Web Services page](https://melts.ofm-research.org/web-services.html).  The main difference between the MAGMA branch version of the MELTS input XML schema and the web services one is the introduction of a `<finalize />` tag that is used to complete and close the `*-seqence.xml` output file.
 
 ### Building command-line auxillary and testing programs ###
 You can build command-line executables for testing various aspects of the MELTS software library by executing this command:  
