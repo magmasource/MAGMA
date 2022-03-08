@@ -2814,7 +2814,7 @@ int main (int argc, char *argv[])
                             silminState->fo2Path  = FO2_NONE;
                         }
                         silminState->assimilate = FALSE;
-                        
+
                         iFileName = (char *) malloc((size_t) (lenIdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
                         oFileName = (char *) malloc((size_t) (lenOdir + 1 + strlen(dp->d_name) + 5)*sizeof(char));
                         pFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
@@ -2840,7 +2840,10 @@ int main (int argc, char *argv[])
                         
                         ret = batchInputDataFromXmlFile(iFileName);
                         if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
-                        
+
+                        /* Rename file so -sequence.xml file is written in same location as .tbl files */
+                        (void) strcpy(silminInputData.name, dp->d_name);
+
                         if        (ret == FALSE) {
                             fileOpenAttempts++;
                             printf("Error(s) detected on reading input file %s. Exiting.\n", iFileName);
@@ -2848,27 +2851,31 @@ int main (int argc, char *argv[])
                             fileOpenAttempts = 0;
                             meltsStatus.status = GENERIC_INTERNAL_ERROR;
                             while(!liquidus());
+                            (void) strcpy(silminInputData.name, iFileName);
                             putOutputDataToXmlFile(oFileName);
                             putStatusDataToXmlFile(sFileName);
                         } else if (ret == RUN_EQUILIBRATE_CALC) {
                             fileOpenAttempts = 0;
                             meltsStatus.status = GENERIC_INTERNAL_ERROR;
                             while(!silmin());
+                            (void) strcpy(silminInputData.name, iFileName);
                             putOutputDataToXmlFile(oFileName);
                             putStatusDataToXmlFile(sFileName);
                         } else if (ret == RETURN_WITHOUT_CALC) {
                             fileOpenAttempts = 0;
                             meltsStatus.status = SILMIN_SUCCESS;
+                            (void) strcpy(silminInputData.name, iFileName);
                             putOutputDataToXmlFile(oFileName);
                             putStatusDataToXmlFile(sFileName);
                         } else if (ret == RETURN_DO_FRACTIONATION) {
                             doBatchFractionation();
                             fileOpenAttempts = 0;
                             meltsStatus.status = SILMIN_SUCCESS;
+                            (void) strcpy(silminInputData.name, iFileName);
                             putOutputDataToXmlFile(oFileName);
                             putStatusDataToXmlFile(sFileName);
                         } else if (ret == RETURN_FINALIZED) {
-                            putSequenceDataToXmlFile(FALSE); /* finalize and close file */                            
+                            putSequenceDataToXmlFile(FALSE); /* finalize and close file */
                         }
                         
                         if (fileOpenAttempts > 2) { ret = TRUE; fileOpenAttempts = 0; }

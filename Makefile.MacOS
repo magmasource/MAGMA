@@ -52,7 +52,7 @@ DYFLAGS	      = xv
 CC            = clang
 LD            = clang
 FC            = gfortran
-CFLAGS        = -ansi -c -g3 $(BATCH) $(VERSION) -mmacosx-version-min=11.0 \
+CFLAGS        = -ansi -c -O3 $(BATCH) $(VERSION) -mmacosx-version-min=11.0 \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib

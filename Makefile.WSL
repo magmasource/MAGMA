@@ -129,7 +129,3 @@ include Makefile.common
 
 # end of Makefile
 # ===============
-
-# To build test test_meltsLib in pHMELTS4
-# x86_64-w64-mingw32-gcc -c -g3 test_meltsLib.c -DTESTLIQUIDPROPS
-# x86_64-w64-mingw32-g++ -o test_meltsLib test_meltsLib.o -L. -lMELTSdynamic
