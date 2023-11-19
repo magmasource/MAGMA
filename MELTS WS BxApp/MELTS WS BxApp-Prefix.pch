@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'MELTS WS BxApp' target in the 'MELTS WS BxApp' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

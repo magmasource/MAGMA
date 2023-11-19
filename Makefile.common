@@ -83,8 +83,6 @@ usage:
 	echo "       Kevin KevinSolid"
 	echo "       Marc"
 	echo "       cpx-olv-rhm"
-	echo "       pymelts python melts compressed tar ball creator"
-	echo "       pymelts-install python melts compressed tar ball installer"
 
 strip:
 	strip Melts
@@ -1384,45 +1382,6 @@ Test_SAK: test_SAK.c liquid-SACNK.o melts_support-SACNK.o \
 Test_simann: test_simann.c simann.o
 	$(CC) -o $@ -I$(INCF2C) $< simann.o $(LIBF2C) -lm -lc
 	chmod 755 $@
-	
-Test_sulfide_liquid: SulfLiq/testsulfliq.c SulfLiq/sulfideLiquid.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Chem.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/CholeskySolve.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/CuLiq.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/FeLiq.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ModifiedCholesky.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ModifiedNR.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/NiLiq.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/NumUtil.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/O2Gas.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Phase.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/PhaseExceptions.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/S2Gas.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SLiq.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomateIdealGas.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomatePhase.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/ShomateVinetPhase.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/Solution.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SpecSolNID.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SpecSolution.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/SulfLiq.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/VinetEOS.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/eigensystem.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/sulfideLiquid.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svDcmp.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svdInv.cc
-	$(CC) $(CFLAGS) -Wno-deprecated-writable-strings -ISulfLiq SulfLiq/svdSolve.cc
-	$(CC) $(CFLAGS) -IIncludes SulfLiq/testsulfliq.c
-	$(CC) $(CFLAGS) -IIncludes sources/recipes.c
-	$(LD) $(LDFLAGS) -o $@ testsulfliq.o Chem.o CuLiq.o FeLiq.o ModifiedCholesky.o NiLiq.o NumUtil.o \
-          O2Gas.o Phase.o PhaseExceptions.o S2Gas.o SLiq.o ShomateIdealGas.o ShomatePhase.o \
-          ShomateVinetPhase.o Solution.o SpecSolNID.o SpecSolution.o SulfLiq.o VinetEOS.o eigensystem.o \
-          svDcmp.o svdInv.o svdSolve.o ModifiedNR.o CholeskySolve.o sulfideLiquid.o recipes.o -lstdc++
-	$(RM) $(RMFLAGS) testsulfliq.o Chem.o CuLiq.o FeLiq.o ModifiedCholesky.o NiLiq.o NumUtil.o \
-          O2Gas.o Phase.o PhaseExceptions.o S2Gas.o SLiq.o ShomateIdealGas.o ShomatePhase.o \
-          ShomateVinetPhase.o Solution.o SpecSolNID.o SpecSolution.o SulfLiq.o VinetEOS.o eigensystem.o \
-          svDcmp.o svdInv.o svdSolve.o ModifiedNR.o CholeskySolve.o sulfideLiquid.o recipes.o
-	chmod 755 $@
 
 Kevin: kevin.c kevin_slave.cc \
        silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
@@ -1458,97 +1417,6 @@ cpx-olv-rhm: cpx-olv-rhm.c gibbs.c liq_struct_data.h mthread.h param_struct_data
 	$(LD) $(LDFLAGS) -o $@ cpx-olv-rhm.o gibbs.o $(MELTSLIB) $(PUBLIBS) $(LIBXML)
 	$(RM) $(RMFLAGS) cpx-olv-rhm.o gibbs.o
 	chmod 755 $@
-
-pymelts:
-	$(RM) $(RMFLAGS) pymelts-$(PYMELTSVER).tar.gz
-	$(RM) $(RMFLAGS) pymelts-$(PYMELTSVER)
-	$(MKDIR) pymelts-$(PYMELTSVER)
-	$(CP) bld.bat ./pymelts-$(PYMELTSVER)
-	$(CP) build.sh ./pymelts-$(PYMELTSVER)
-	$(CP) meta.yaml ./pymelts-$(PYMELTSVER)
-	$(CP) setup.cfg ./pymelts-$(PYMELTSVER)
-	$(CP) setup.py ./pymelts-$(PYMELTSVER)
-	$(CP) LICENSE.txt ./pymelts-$(PYMELTSVER)
-	$(MKDIR) pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/lawson_hanson.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/liq_struct_data.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/liquid-model.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/mthread.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/nash.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/nepheline.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/param_struct_data.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/param_struct_data_CO2.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/param_struct_data_CO2_H2O.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/param_struct_data_v34.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/recipes.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/silmin.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/sol_struct_data.h pymelts-$(PYMELTSVER)/includes
-	$(CP) includes/status.h pymelts-$(PYMELTSVER)/includes
-	$(MKDIR) pymelts-$(PYMELTSVER)/python
-	$(CP) $(CPFLAGS) python/* pymelts-$(PYMELTSVER)/python/
-	$(MKDIR) pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/library.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/albite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/alloy-liquid.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/alloy-solid.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/amphibole.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/biotite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/biotiteTaj.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/check_coexisting_liquids.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/check_coexisting_solids.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/clinopyroxene.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/cummingtonite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/equality_constraints.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/est_saturation_state.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/est_satState_revised.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/evaluate_saturation.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/feldspar.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/fluid.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/fluidPhase.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/frac.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/garnet.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/gibbs.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/gradient_hessian.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/hornblende.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/ilmenite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/lawson_hanson.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/leucite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/linear_search.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/liquid.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/liquid_v34.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/liquid_CO2.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/liquid_CO2_H2O.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/liquidus.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/majorite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/melilite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/melts_support.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/melts_threads.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/mthread.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/nash.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/nepheline.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/kalsilite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/olivine.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/olivine-sx.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/orthopyroxene.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/ortho-oxide.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/perovskite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/read_write.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/recipes.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/rhombohedral.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/ringwoodite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/silmin.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/silmin_support.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/spinel.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/subSolidusMuO2.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/wadsleyite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/water.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/wustite.c pymelts-$(PYMELTSVER)/sources
-	$(CP) sources/rhomsghiorso.c pymelts-$(PYMELTSVER)/sources
-	$(TAR) $(TARFLAGS) pymelts-$(PYMELTSVER).tar.gz ./pymelts-$(PYMELTSVER)
-
-pymelts-install:
-	$(CHECKSUM) $(CHECKSUMFLAGS) pymelts-$(PYMELTSVER).tar.gz
-	$(SCP) pymelts-$(PYMELTSVER).tar.gz $(USER)@$(HOST):$(LOCATION)/pymelts-$(PYMELTSVER).tar.gz
 
 # end of Makefile
 # ===============

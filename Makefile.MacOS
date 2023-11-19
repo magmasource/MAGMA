@@ -108,7 +108,8 @@ PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libjpeg.
 
 LIBF2C = 
 LIBXML = -L/usr/lib -lxml2
-LIBBATCH = /usr/local/opt/libxml2/lib/libxml2.a  -lz -liconv
+#LIBBATCH = /usr/local/opt/libxml2/lib/libxml2.a  -lz -liconv
+LIBBATCH = -lxml2 -lz -liconv
 
 # Set environment variable for backwards deployment to Mac OS X 10.15
 # ===================================================================

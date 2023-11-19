@@ -99,18 +99,18 @@ MELTS Source Code: RCS
 **  for options ZERO and FIRST only.  All others are referred to muO2Liq. If
 **  liquid is absent, uses subsolidus assemblage.  For subsolidus calculations,
 **  checks that FeO and Fe2O3 are present and then finds a balanced
-**  stoichiometric redox reaction by SVD of the (usually) underconstrained 
+**  stoichiometric redox reaction by SVD of the (usually) underconstrained
 **  system
 **
 **	/			\ / \   /  \
 **	|1 0 0...		| |s|   |-1| <- O2
 **	|0			| |t|   | 2| <- FE2O3
 **	|0	**SolToOx	| |o| = |-4| <- FEO
-**	|.			| |i|   | 0|  
+**	|.			| |i|   | 0|
 **	|.			| |c|   | 0| <- all others zero
 **	\			/ \ /   \  /
 **
-**  where the matrix has an extra row and column for O2 as a component and as a 
+**  where the matrix has an extra row and column for O2 as a component and as a
 **  phase, and otherwise includes rows and columns for each oxide and each solid
 **  component actually present in the assemblage (with repetition for coexisting
 **  solids).  Any solution to this system is a suitably balanced redox reaction,
@@ -132,7 +132,7 @@ MELTS Source Code: RCS
 #define True '\001'
 #endif
 
-#include "recipes.h"                
+#include "recipes.h"
 #include "silmin.h"
 
 #ifdef DEBUG
@@ -150,7 +150,7 @@ int subsolidusmuO2(int mask,
   double **d2m, /* d2m[i][j] = d mu*O2/dm[i][j]      BINARY MASK: 0000010000 */
   double *d2mt, /* d2mt[i]   = d mu*O2/dm[i]dt       BINARY MASK: 0000100000 */
   double *d2mp, /* d2mp[i]   = d mu*O2/dm[i]dp       BINARY MASK: 0001000000 */
-  double *d2t2, /* d2t2      = d mu*O2/dt2           BINARY MASK: 0010000000 */ 
+  double *d2t2, /* d2t2      = d mu*O2/dt2           BINARY MASK: 0010000000 */
   double *d2tp, /* d2tp      = d mu*O2/dtdp          BINARY MASK: 0100000000 */
   double *d2p2) /* d2p2      = d mu*O2/dp2           BINARY MASK: 1000000000 */
 {
@@ -166,8 +166,8 @@ int subsolidusmuO2(int mask,
   m = vector(0, nlc);
   r = vector(0, nlc);
   activities = vector(0, nlc);
-  
-  if (silminState->liquidMass != 0.0) for (ns=0; ns<silminState->nLiquidCoexist; ns++) for (i=0; i<nlc; i++) 
+
+  if (silminState->liquidMass != 0.0) for (ns=0; ns<silminState->nLiquidCoexist; ns++) for (i=0; i<nlc; i++)
     molesO2 += (oxygen.liqToOx)[i]*(silminState->liquidComp)[ns][i];
   for (i=0; i<npc; i++) for (ns=0; ns<(silminState->nSolidCoexist)[i]; ns++) {
     if (solids[i].na == 1) molesO2 += (silminState->solidComp)[i][ns]*(oxygen.solToOx)[i];
@@ -178,8 +178,8 @@ int subsolidusmuO2(int mask,
   if (silminState->liquidMass == 0.0) {
     for (n=1, i=0; i<npc; i++) n += silminState->nSolidCoexist[i]*solids[i].na;
     if (n == 1) {
-      free_vector(m, 0, nlc); 
-      free_vector(r, 0, nlc); 
+      free_vector(m, 0, nlc);
+      free_vector(r, 0, nlc);
       free_vector(activities, 0, nlc);
       *muO2 = 0.0;
       return TRUE;
@@ -354,7 +354,7 @@ int subsolidusmuO2(int mask,
             printf("...subsolidusfO2: In while loop, Failure for oxygen.\n");
 #endif
 	  }
-          for (i=2; i<n; i++) silminState->solidComp[phaseIndex[i]][nCoexist[i]] += xi * dstoich[i];
+          for (i=2; i<=n; i++) silminState->solidComp[phaseIndex[i]][nCoexist[i]] += xi * dstoich[i];
           for (i=0; i<npc; i++) { /* recompute phase abundance, check phases */
             if (solids[i].type == PHASE) {
               if (solids[i].na == 1) {
@@ -383,7 +383,7 @@ int subsolidusmuO2(int mask,
           for (i=0; i<nc; i++) { /* recompute bulk composition */
             for ((silminState->bulkComp)[i] = 0.0,j=0; j<npc; j++) {
               for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
-                if (solids[j].na == 1) (silminState->bulkComp)[i] += (silminState->solidComp)[j][ns]*(solids[j].solToOx)[i]; 
+                if (solids[j].na == 1) (silminState->bulkComp)[i] += (silminState->solidComp)[j][ns]*(solids[j].solToOx)[i];
                 else {
                   for (k=0; k<solids[j].na; k++) (silminState->bulkComp)[i] += (silminState->solidComp)[j+1+k][ns]*(solids[j+1+k].solToOx)[i];
                 }
@@ -398,7 +398,7 @@ int subsolidusmuO2(int mask,
           }
           if (acceptable == FALSE) {    /* went too far, undo */
             molesO2 += xi;
-            for (i=1; i<n; i++) silminState->solidComp[phaseIndex[i]][nCoexist[i]] -= xi * dstoich[i];
+            for (i=1; i<=n; i++) silminState->solidComp[phaseIndex[i]][nCoexist[i]] -= xi * dstoich[i];
             xi /= 2.0;  /* On next attempt, step half as far */
 #ifdef DEBUG
             printf("...subsolidusfO2: In while loop, xi = %20.13g.\n", xi);
@@ -437,7 +437,7 @@ int subsolidusmuO2(int mask,
           (*solids[j].convert)(SECOND, THIRD | FIFTH, silminState->T, silminState->P, NULL, m, r, NULL, drdm, NULL, NULL, NULL);
           (*solids[j].activity)(FIRST | THIRD, silminState->T, silminState->P, r, activities, NULL, dadr);
 	  for (y=0,z=0; y<solids[j].na; y++) {
-	    if (phaseIndex[i+z] == j+1+y && nCoexist[i+z] == nCoexist[i]) { 
+	    if (phaseIndex[i+z] == j+1+y && nCoexist[i+z] == nCoexist[i]) {
               a[i+z] = activities[y];
               for (k=2; k<=n; k++) { /* dadm[i][j] is zero if i,j are from different phases */
                 if (solids[phaseIndex[k]].type == PHASE) dadm[i+z][k] = 0.0;
@@ -641,7 +641,7 @@ int subsolidusmuO2(int mask,
       for (i=1; i<=n; i++) free_matrix(d3gmixdm3[i], 1, n, 1, n);
       free(d3gmixdm3);
     }
- 
+
     if (mask & SIXTH) {
       double **d2smixdm2 = matrix(1, n, 1, n);
 
@@ -666,7 +666,7 @@ int subsolidusmuO2(int mask,
           (*solids[j].smix)(SECOND | THIRD, silminState->T, silminState->P, r, NULL, dsmixdr, d2smixdr2);
 	  for (y=0,z=0; y<solids[j].na; y++) {
 	    if (phaseIndex[i+z] == j+1+y && nCoexist[i+z] == nCoexist[i]) {
-              /* intensive dr to extensive dm conversion; 
+              /* intensive dr to extensive dm conversion;
                  d2smixdm2[i][k] is zero if k or i are from other phases */
               for (k=2; k<=n; k++) {
                 if (solids[phaseIndex[k]].type == PHASE) d2smixdm2[i+z][k] = 0.0;
@@ -700,7 +700,7 @@ int subsolidusmuO2(int mask,
     }
 
     if (mask & SEVENTH) {
-      double **d2vmixdm2 = matrix(1, n, 1, n); 
+      double **d2vmixdm2 = matrix(1, n, 1, n);
 
       for (i=2; i<=n; i++) { /* now obtain d2vmixdm2 for each reactant */
         if (solids[phaseIndex[i]].type == PHASE) {

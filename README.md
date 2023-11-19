@@ -19,7 +19,7 @@ This README focuses on the following build targets:
 
 ~~:point_right: To build the Python package that encapsulates the MELTS CT engine (OS agnostic) and to access associated Python notebooks and examples, refer to the [README file in the python subdirectory](https://gitlab.com/ENKI-portal/xMELTS/blob/master/python/README.md).~~
 
-:point_right: For MacOS build targets configured with Xcode, simply open the project file, `MELTS.xcodeproj`, in Xcode and follow the instructions [Building Xcode targets in the MELTS project ](https://gitlab.com/ENKI-portal/xMELTS/blob/master/XCODE-README.md)(XCODE-README.md).
+~~:point_right: For MacOS build targets configured with Xcode, simply open the project file, `MELTS.xcodeproj`, in Xcode and follow the instructions [Building Xcode targets in the MELTS project ](https://gitlab.com/ENKI-portal/xMELTS/blob/master/XCODE-README.md)(XCODE-README.md).~~
 
 
 ### Cloning the repository and populating the submodules ###
@@ -87,7 +87,7 @@ done: \
 1. Ensure that a C compiler is available on your system.  
 1. Install `libxml2`, if it is not already installed.
     - (Linux) Install the `libxml2` and `libxml2-dev` (or equivalent) packages into the standard locations.
-    - (MacOS) Install the [Homebrew package manager](http://brew.sh). In a terminal window, type the command `brew install libxml2`. On Intel Macs this places the XML library and depcendecies into subdirectories of `/usr/local`.
+    - (MacOS) Install the [Homebrew package manager](http://brew.sh). In a terminal window, type the command `brew install libxml2`. On Intel Macs this places the XML library and dependecies into subdirectories of `/usr/local`. You will need libxml2 on the machine used to run Melts-batch.
     - (Windows) Open the MSYS2 MSYS terminal (a.k.a Rtools BASH). Type the command `pacman -S libxml2`.
 
 

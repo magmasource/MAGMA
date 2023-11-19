@@ -1,6 +1,0 @@
-build/
-*/build/
-*.pyc
-examples/*.pdf
-MANIFEST
-*.sublime-workspace

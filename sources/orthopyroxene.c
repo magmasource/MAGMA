@@ -3562,7 +3562,7 @@ order(int mask, double t, double p, double r[NR],
     pOld = p;
     for (i=0; i<NR; i++) rOld[i] = r[i];
 
-    if (fabs(totFe3) < sqrt(DBL_EPSILON) || fabs(totFe3) < sqrt(DBL_EPSILON))
+    if (fabs(totFe3) < sqrt(DBL_EPSILON) || fabs(totAl) < sqrt(DBL_EPSILON))
       dgds[0] = 0.0;
     if (fabs(totFe2) < sqrt(DBL_EPSILON) || fabs(totMg)  < sqrt(DBL_EPSILON))
       dgds[1] = 0.0;

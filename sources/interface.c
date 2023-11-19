@@ -227,7 +227,7 @@ static void
 getCommandLineAndEnvironment (int argc, char *argv[])
 {
     char *environVar;
-    
+
     /***************************************************************************
      Load Default Values of Environment, Version and Command Option Variables
      **************************************************************************/
@@ -262,7 +262,7 @@ getCommandLineAndEnvironment (int argc, char *argv[])
     meltsEnviron.RELEASE_VERSION = (char *) malloc ((unsigned) (strlen (MELTS_RELEASE_VERSION) + 1) * sizeof (char));
     strcpy (meltsEnviron.RELEASE_VERSION, MELTS_RELEASE_VERSION);
     meltsEnviron.DEBUG = FALSE;
-    
+
     /****************************************************************************
      Read and process command line options
      ***************************************************************************/
@@ -298,7 +298,7 @@ getCommandLineAndEnvironment (int argc, char *argv[])
             printf ("   ->Try retyping command as: melts -usage\n");
         }
     }
-    
+
     /****************************************************************************
      Read and process environment variables
      ***************************************************************************/
@@ -350,7 +350,7 @@ getCommandLineAndEnvironment (int argc, char *argv[])
         strcpy (meltsEnviron.WWW_MANUAL, environVar);
         printf ("Overwritten default value for MELTS_WWW_MANUAL: %s\n", meltsEnviron.WWW_MANUAL);
     }
-    
+
     return;
 }
 #else /* BATCH_VERSION */
@@ -367,19 +367,19 @@ static int batchInputDataFromFile(char *fileName)
     static FILE *input = NULL;
     static char line[REC];
     static double *oxideWt;
-    
+
     size_t len;
     int i, j, np, ns;
     float temporary;
     double sum;
-    
+
     /* -> Check validity of file name */
-    
+
     if ((input = fopen (fileName, "r")) == NULL) {
         printf("Error in SILMIN file input procedure. Cannot open file: %s\n", fileName);
         return FALSE;
     }
-    
+
     /* -> Initial global and static storage */
 
     if (silminInputData.name != NULL) free(silminInputData.name);
@@ -391,27 +391,27 @@ static int batchInputDataFromFile(char *fileName)
         label = (char *) malloc((unsigned) (len+1)*sizeof(char));
     }
     if (oxideWt == NULL) oxideWt = (double *) malloc((unsigned) nc*sizeof(double));
-    
+
     /* -> Set default values */
-    
+
     sum = 0.0;
     for (i=0; i<nc; i++) oxideWt[i] = 0.0;
 
     for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
     (silminState->incSolids)[npc] = TRUE;
-    
+
     silminState->nLiquidCoexist  = 1;
     silminState->fo2Path  = FO2_NONE;
-    
+
     /* -> Read input data file */
-    
+
     for (;;) {
         /* -> title record */
         if (fgets(line, REC, input) == NULL) break;
         len = strlen(line); for (i=0; i<len; i++) line[i] = tolower(line[i]);
-        
+
         if        (!strncmp(line, "title: ",                 MIN(len, 7))) {
-            
+
             /* -> initial composition record */
         } else if (!strncmp(line, "initial composition: ",   MIN(len,21))) {
             for (i=0; i<nc; i++) {
@@ -425,74 +425,74 @@ static int batchInputDataFromFile(char *fileName)
                 }
             }
             if (i == nc) { return FALSE; }
-            
+
             /* -> initial temperature record */
         } else if (!strncmp(line, "initial temperature: ",   MIN(len,21))) {
             if (sscanf(&line[21], "%f", &temporary) == EOF) { return FALSE; }
             silminState->T         = (double) temporary + 273.15;
             silminState->dspTstart = (double) temporary + 273.15;
-            
+
             /* -> final temperature record */
         } else if (!strncmp(line, "final temperature: ",     MIN(len,19))) {
             if (sscanf(&line[19], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspTstop = (double) temporary + 273.15;
-            
+
             /* -> increment temperature record */
         } else if (!strncmp(line, "increment temperature: ", MIN(len,23))) {
             if (sscanf(&line[23], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspTinc = (double) temporary;
-            
+
             /* -> initial pressure record */
         } else if (!strncmp(line, "initial pressure: ",      MIN(len,18))) {
             if (sscanf(&line[18], "%f", &temporary) == EOF) { return FALSE; }
             silminState->P         = (double) temporary;
             silminState->dspPstart = (double) temporary;
-            
+
             /* -> final pressure record */
         } else if (!strncmp(line, "final pressure: ",        MIN(len,16))) {
             if (sscanf(&line[16], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspPstop = (double) temporary;
-            
+
             /* -> increment pressure record */
         } else if (!strncmp(line, "increment pressure: ",    MIN(len,20))) {
             if (sscanf(&line[20], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspPinc = (double) temporary;
-            
+
             /* -> dp/dt record */
         } else if (!strncmp(line, "dp/dt: ",                 MIN(len, 7))) {
             if (sscanf(&line[7], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspDPDt = (double) temporary;
-            
+
             /* -> increment enthalpy record */
         } else if (!strncmp(line, "increment enthalpy: ", MIN(len,20))) {
             if (sscanf(&line[20], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspHinc = (double) temporary;
-            
+
             /* -> increment entropy record */
         } else if (!strncmp(line, "increment entropy: ", MIN(len,19))) {
             if (sscanf(&line[19], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspSinc = (double) temporary;
-            
+
             /* -> increment volume record */
         } else if (!strncmp(line, "increment volume: ", MIN(len,18))) {
             if (sscanf(&line[18], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspVinc = (double) temporary;
-            
+
             /* -> dp/dH record */
         } else if (!strncmp(line, "dp/dh: ",                 MIN(len, 7))) {
             if (sscanf(&line[7], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspDPDH = (double) temporary;
-            
+
             /* -> dp/dS record */
         } else if (!strncmp(line, "dp/ds: ",                 MIN(len, 7))) {
             if (sscanf(&line[7], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspDPDS = (double) temporary;
-            
+
             /* -> dt/dV record */
         } else if (!strncmp(line, "dt/dv: ",                 MIN(len, 7))) {
             if (sscanf(&line[7], "%f", &temporary) == EOF) { return FALSE; }
             silminState->dspDVDt = (temporary != 0.0) ? (double) 1.0/temporary : 0.0;
-            
+
             /* -> log fo2 path record */
         } else if (!strncmp(line, "log fo2 path: ",          MIN(len,14))) {
             if      (!strncmp(&line[14], "none",  MIN((len-14), 4))) silminState->fo2Path  = FO2_NONE;
@@ -516,7 +516,7 @@ static int batchInputDataFromFile(char *fileName)
             else if (!strncmp(&line[14], "+0.5fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P0_5;
             else if (!strncmp(&line[14], "+1.5fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P1_5;
             else { return FALSE; }
-            
+
             /* -> suppress a solid phase record */
         } else if (!strncmp(line, "suppress: ",              MIN(len,10))) {
             for (i=0, j=0; i<npc; i++) {
@@ -543,14 +543,14 @@ static int batchInputDataFromFile(char *fileName)
             else if (!strncmp(&line[6],  "isentropic",	  MIN((len-6), 10))) silminState->isentropic	 = TRUE;
             else if (!strncmp(&line[6],  "isochoric", 	  MIN((len-6),  9))) silminState->isochoric	 = TRUE;
             else { return FALSE; }
-            
+
             /* -> assimilate a solid phase record */
         } else if (!strncmp(line, "assimilant: ",            MIN(len,12))) {
-            
+
             silminState->assimilate = TRUE;
             if (silminState->nDspAssimComp == NULL) silminState->nDspAssimComp = (int *)     calloc((unsigned) (npc+nc), sizeof(int));
             if (silminState->dspAssimComp  == NULL) silminState->dspAssimComp  = (double **) calloc((unsigned) (npc+nc), sizeof(double *));
-            
+
             if        (!strncmp(&line[12],  "units ",       MIN((len-12),  6))) {
                 if      (!strncmp(&line[18],  "vol %", MIN((len-18), 5))) silminState->dspAssimUnits = ASSIM_PADB_UNITS_VOLUME;
                 else if (!strncmp(&line[18],  "wt %",  MIN((len-18), 4))) silminState->dspAssimUnits = ASSIM_PADB_UNITS_WEIGHT;
@@ -594,28 +594,28 @@ static int batchInputDataFromFile(char *fileName)
                     if (i == nc) { return FALSE; }
                 }
             }
-            
+
             /* -> illegal record */
         } else {
             return FALSE;
         }
     }
-    
+
     /* -> Close and discard file and return */
-    
+
     fclose(input);
-    
+
     for (i=0, silminState->liquidMass=0.0; i<nc; i++) {
         silminState->liquidMass    += oxideWt[i];
         (silminState->bulkComp)[i]  = oxideWt[i]/bulkSystem[i].mw;
     }
-    
+
     for (i=0; i<nlc; i++)
         for ((silminState->liquidComp)[0][i]=0.0, silminState->oxygen=0.0, j=0; j<nc; j++) {
             (silminState->liquidComp)[0][i] += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i];
             silminState->oxygen += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
         }
-    
+
     printf("Input file read. Waiting for command or user input.\n");
     return TRUE;
 }
@@ -651,7 +651,7 @@ static void SelectComputeDataStruct(void) {
             nls = meltsFluidNls;
             npc = meltsFluidNpc;
         }
-        
+
     } else if (calculationMode == MODE_pMELTS) {
         printf("---> ****************************************************\n");
         printf("---> Calculation mode is pMELTS (public release v 5.6.1).\n");
@@ -662,7 +662,7 @@ static void SelectComputeDataStruct(void) {
         nls = pMeltsNls;
         npc = pMeltsNpc;
     }
-    
+
 }
 
 /* returns RUN_LIQUIDUS_CALC    or           */
@@ -682,23 +682,23 @@ static int batchInputDataFromXmlFile(char *fileName) {
     xmlSchemaValidCtxtPtr ctxt2 = NULL;
     int ret = TRUE;
     static int SiO2 = -1, TiO2, Al2O3, Fe2O3, Cr2O3, FeO, MnO, MgO, NiO, CoO, CaO, Na2O, K2O, P2O5, H2O, CO2;
-    
+
     if (silminInputData.name != NULL) free(silminInputData.name);
     silminInputData.name = (char *) malloc((size_t) (strlen(fileName)+1)*sizeof(char));
     (void) strcpy(silminInputData.name, fileName);
-    
+
     ctxt = xmlSchemaNewParserCtxt("MELTSinput.xsd");
     xmlSchemaSetParserErrors(ctxt,(xmlSchemaValidityErrorFunc) fprintf, (xmlSchemaValidityWarningFunc) fprintf, stderr);
-    
+
     schema = xmlSchemaParse(ctxt);
     xmlSchemaFreeParserCtxt(ctxt);
-    
+
     if (schema != NULL) {
         xmlDocPtr doc = NULL;
-        
+
         ctxt2 = xmlSchemaNewValidCtxt(schema);
         xmlSchemaSetValidErrors(ctxt2,(xmlSchemaValidityErrorFunc) fprintf,(xmlSchemaValidityWarningFunc) fprintf, stderr);
-        
+
         doc = xmlReadFile(fileName, NULL, 0);
         if (doc) {
             if (xmlSchemaValidateDoc(ctxt2, doc)) {
@@ -708,17 +708,17 @@ static int batchInputDataFromXmlFile(char *fileName) {
                 xmlNode *root_element = xmlDocGetRootElement(doc);
                 xmlNode *level1 = root_element->children;
                 printf("File %s has been validated against schema MELTSinput.xsd.\n", fileName);
-                
+
                 while (level1 != NULL) {
                     if (level1->type == XML_ELEMENT_NODE) {
                         xmlChar *content1 = xmlNodeGetContent(level1);
-                        
+
                         if        (!strcmp((char *) level1->name, "initialize")) {
                             xmlNode *level2 = level1->children;
                             int i, j, np;
                             printf("Found initialize: %s\n", content1);
 
-                            if (silminState != NULL) 
+                            if (silminState != NULL)
                                 ; /*destroy the old state - nyi */
                             if (silminState == NULL) { // add test to avoid memory leak
                                 silminState = allocSilminStatePointer();
@@ -736,7 +736,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
                                     char *pEnd = NULL;
                                     errno = 0;
-   
+
                                     if (!strcmp((char *) level2->name, "modelSelection")) {
                                         printf("Found modelSelection: %s\n", content2);
                                              if (!strcmp((char *) content2, "MELTS_v1.0.x")) calculationMode = MODE__MELTS;
@@ -809,27 +809,27 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                     (silminState->liquidComp)[0][i] += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i];
                                     silminState->oxygen += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
                                 }
-                            
-                            
-                            
+
+
+
                         } else if (!strcmp((char *) level1->name, "calculationMode")) {
                             printf("Found calculationMode: %s\n", content1);
                             if      (!strcmp((char *) content1, "findLiquidus")) ret = RUN_LIQUIDUS_CALC;
                             else if (!strcmp((char *) content1, "equilibrate" )) ret = RUN_EQUILIBRATE_CALC;
                             // fineWetLiquidus
-                            
+
                         } else if (!strcmp((char *) level1->name, "title")) {
                             printf("Found title: %s\n", content1);
                             if (silminInputData.title != NULL) free(silminInputData.title);
                             silminInputData.title = (char *) malloc((size_t) (strlen((char *) content1)+1)*sizeof(char));
                             (void) strcpy(silminInputData.title, (char *) content1);
-                            
+
                         } else if (!strcmp((char *) level1->name, "fractionateOnly")) {
                             printf("Found fractionateOnly: %s\n", content1);
                             if      (!strcmp((char *) content1, "fractionateSolids"  )) {                                      silminState->fractionateSol =  TRUE;                                      }
                             else if (!strcmp((char *) content1, "fractionateFluids"  )) { silminState->fractionateFlu =  TRUE;                                                                           }
                             else if (!strcmp((char *) content1, "fractionateLiquids" )) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq =  TRUE; }
-                            
+
                             if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
                                 silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
                                 silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
@@ -838,16 +838,16 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                 silminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
                             }
                             ret = RETURN_DO_FRACTIONATION;
-                            
+
                         } else if (!strcmp((char *) level1->name, "changeBulk")) {
                             xmlNode *level2 = level1->children;
                             int i, j;
                             static double *changeBC = NULL;
-                            
+
                             printf("Found changeBulk\n");
                             if (changeBC == NULL) changeBC = (double *) calloc((size_t) nc, sizeof(double));
                             else for (i=0; i<nc; i++) changeBC[i] = 0.0;
-                            
+
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
@@ -886,23 +886,23 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                 }
                                 level2 = level2->next;
                             }
-                            
+
                             for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
                             for (i=0; i<nlc; i++)
                                 for (j=0; j<nc; j++) {
                                     (silminState->liquidComp)[0][i] += changeBC[j]*(bulkSystem[j].oxToLiq)[i];
                                     silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
                                 }
-                            
+
                         } else if (!strcmp((char *) level1->name, "changeLiquid")) {
                             xmlNode *level2 = level1->children;
                             int i, j;
                             static double *changeBC = NULL;
-                            
+
                             printf("Found changeLiquid\n");
                             if (changeBC == NULL) changeBC = (double *) calloc((size_t) nc, sizeof(double));
                             else for (i=0; i<nc; i++) changeBC[i] = 0.0;
-                            
+
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
@@ -941,7 +941,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                 }
                                 level2 = level2->next;
                             }
-                            
+
                             for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
                             for (i=0; i<nlc; i++)
                                 for (j=0; j<nc; j++) {
@@ -949,17 +949,17 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                     silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
                                 }
                             ret = RETURN_WITHOUT_CALC;
-                            
+
                         } else if (!strcmp((char *) level1->name, "changeFluid")) {
                             xmlNode *level2 = level1->children;
                             int i, j;
                             int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
                             static double *changeBC = NULL;
-                            
+
                             printf("Found changeFluid\n");
                             if (changeBC == NULL) changeBC = (double *) calloc((size_t) nc, sizeof(double));
                             else for (i=0; i<nc; i++) changeBC[i] = 0.0;
-                            
+
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
@@ -984,7 +984,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                 }
                                 level2 = level2->next;
                             }
-                            
+
                             for (i=0; i<nc; i++) (silminState->bulkComp)[i] += changeBC[i];
                             for (i=0; i<npc; i++) {
                                 if (!strcmp((char *) solids[i].label, "fluid")) {
@@ -1001,7 +1001,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                     silminState->oxygen += changeBC[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
                                 }
                             ret = RETURN_WITHOUT_CALC;
-                            
+
                         } else if (!strcmp((char *) level1->name, "constraints")) {
                             xmlNode *level2 = level1->children;
                             printf("Found constraints\n");
@@ -1050,7 +1050,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                     printf("Invalid number(?): %s.\n", (char *) content3);
                                                     if (val > 1.0) ret = FALSE; /* overflow */
                                                     else errno = 0; /* underflow */
-                                                }                                    
+                                                }
                                                 if (content3 != NULL) xmlFree(content3);
                                             }
                                             level3 = level3->next;
@@ -1077,7 +1077,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                 printf("... reset initial T to input value minus T increment.\n");
                                             }
                                         }
-                                        
+
                                     } else if (!strcmp((char *) level2->name, "setTV")) {
                                         xmlNode *level3 = level2->children;
                                         printf("Found setTV\n");
@@ -1122,7 +1122,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                             }
                                             level3 = level3->next;
                                         }
-                                        
+
                                     } else if (!strcmp((char *) level2->name, "setHP")) {
                                         xmlNode *level3 = level2->children;
                                         printf("Found setHP\n");
@@ -1167,7 +1167,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                             }
                                             level3 = level3->next;
                                         }
-                                        
+
                                     } else if (!strcmp((char *) level2->name, "setSP")) {
                                         xmlNode *level3 = level2->children;
                                         printf("Found setSP\n");
@@ -1213,11 +1213,11 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                             level3 = level3->next;
                                         }
                                     }
-                                    
+
                                 }
                                 level2 = level2->next;
                             }
-                            
+
                         } else if (!strcmp((char *) level1->name, "suppressPhase")) {
                             int i, j;
                             printf("Found suppressPhase: %s\n", content1);
@@ -1228,14 +1228,14 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                 }
                                 j++;
                             }
-                            
+
                         } else if (!strcmp((char *) level1->name, "fractionationMode")) {
                             printf("Found fractionationMode: %s\n", content1);
                             if      (!strcmp((char *) content1, "fractionateSolids"  )) {                                      silminState->fractionateSol =  TRUE;                                      }
                             else if (!strcmp((char *) content1, "fractionateFluids"  )) { silminState->fractionateFlu =  TRUE;                                                                           }
                             else if (!strcmp((char *) content1, "fractionateLiquids" )) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq =  TRUE; }
                             else if (!strcmp((char *) content1, "fractionateNone"    )) { silminState->fractionateFlu = FALSE; silminState->fractionateSol = FALSE; silminState->fractionateLiq = FALSE; }
-                            
+
                             if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
                                 silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
                                 silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
@@ -1243,11 +1243,11 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             if (silminState->fractionateLiq && silminState->fracLComp == (double *) NULL) {
                                 silminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
                             }
-                            
+
                         } else if (!strcmp((char *) level1->name, "multLiquids")) {
                             printf("Found multLiquids: %s\n", content1);
                             if (!strcmp((char *) content1, "true")) silminState->multipleLiqs = TRUE;
-                            
+
                         } else if (!strcmp((char *) level1->name, "assimilant")) {
                             xmlNode *level2 = level1->children;
                             printf("Found assimilant\n");
@@ -1255,7 +1255,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             silminState->dspAssimUnits = ASSIM_PADB_UNITS_WEIGHT;
                             if (silminState->nDspAssimComp == NULL) silminState->nDspAssimComp = (int *)     calloc((unsigned) (npc+nc), sizeof(int));
                             if (silminState->dspAssimComp  == NULL) silminState->dspAssimComp  = (double **) calloc((unsigned) (npc+nc), sizeof(double *));
-                            
+
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
@@ -1301,7 +1301,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                         }
                                                         level4 = level4->next;
                                                     }
-                                                    
+
                                                 } else if (!strcmp((char *) level3->name, "solid"     )) {
                                                     xmlNode *level4 = level3->children;
                                                     printf("Found solid\n");
@@ -1327,8 +1327,8 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                                         }
                                                         level4 = level4->next;
                                                     }
-                                                    
-                                                    
+
+
                                                 } else if (!strcmp((char *) level3->name, "liquid"    )) {
                                                     xmlNode *level4 = level3->children;
                                                     printf("Found liquid\n");
@@ -1390,24 +1390,24 @@ static int batchInputDataFromXmlFile(char *fileName) {
                     }
                     level1 = level1->next;
                 }
-                
+
             }
             xmlFreeDoc(doc);
         } else {
             printf("File %s cannot be opened.\n", fileName);
             ret = FALSE;
         }
-        
+
         if (ctxt2 != NULL) xmlSchemaFreeValidCtxt(ctxt2);
     } else {
         printf("No schema file found! (MELTSinput.xsd does not exist).\n");
         ret = FALSE;
     }
-    
+
     if (schema != NULL) xmlSchemaFree(schema);
     xmlSchemaCleanupTypes();
     xmlCleanupParser();
-    
+
     return ret;
 }
 
@@ -1422,23 +1422,23 @@ static void putOutputDataToXmlFile(char *outputFile) {
     static double *m, *r, *oxVal;
     int i, j;
     double fo2Delta;
-    
+
     if (m == NULL)         m = (double *) malloc((size_t)      nc*sizeof(double));
     if (r == NULL)         r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
     if (oxVal == NULL) oxVal = (double *) malloc((size_t)      nc*sizeof(double));
-    
+
     printf("Output file name is %s\n", outputFile);
-    
+
     (void) time(&tp);
     cOut = ctime(&tp);
     len = strlen(cOut);
     cOut[len-1] = '\0';
-    
+
     writer = xmlNewTextWriterFilename(outputFile, 0);
     rc = xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
-    
+
     rc = xmlTextWriterStartElement(writer, BAD_CAST "MELTSoutput");
-    
+
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "inputFile", "%s", silminInputData.name);
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "outputFile","%s", outputFile);
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "title",     "%s", silminInputData.title);
@@ -1446,7 +1446,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "release",   "%s", RELEASE);
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "buildDate", "%s", __DATE__);
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "buildTime", "%s", __TIME__);
-    
+
     rc = sprintf(temporary, "%23.16e", silminState->T-273.15); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature", "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->P);        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "pressure",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "log_fO2",     "%s", temporary);
@@ -1458,32 +1458,32 @@ static void putOutputDataToXmlFile(char *outputFile) {
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaCOH",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_IW));  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaIW",     "%s", temporary);
     silminState->fo2Delta = fo2Delta;
-    
+
     if (silminState->liquidMass != 0.0) {
         int nl;
-        
+
         for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
             double moles, oxSum;
             double gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
 
             rc = xmlTextWriterStartElement(writer, BAD_CAST "liquid");
-            
+
             conLiq(SECOND, THIRD, silminState->T, silminState->P, NULL, silminState->liquidComp[nl], r, NULL, NULL, NULL, NULL);
-            
+
             gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
             hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy,	  NULL);
             smixLiq (FIRST, silminState->T, silminState->P, r, &entropy,	  NULL, NULL, NULL);
             vmixLiq (FIRST, silminState->T, silminState->P, r, &volume,	  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
             cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
             visLiq  (FIRST, silminState->T, silminState->P, r, &viscosity);
-            
+
             for (i=0, moles=0.0; i<nlc; i++) moles +=  (silminState->liquidComp)[nl][i];
             gibbsEnergy  *= moles;
             enthalpy     *= moles;
             entropy      *= moles;
             volume	     *= moles;
             heatCapacity *= moles;
-            
+
             for (i=0; i<nlc; i++) {
                 gibbsEnergy  += (silminState->liquidComp)[nl][i]*(liquid[i].cur).g;
                 enthalpy     += (silminState->liquidComp)[nl][i]*(liquid[i].cur).h;
@@ -1491,14 +1491,14 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 volume       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).v;
                 heatCapacity += (silminState->liquidComp)[nl][i]*(liquid[i].cur).cp;
             }
-            
+
             for (i=0, oxSum=0.0; i<nc; i++) {
                 for (j=0, oxVal[i]=0.0; j<nlc; j++) oxVal[i] += (liquid[j].liqToOx)[i]*(silminState->liquidComp)[nl][j];
                 oxVal[i] *= bulkSystem[i].mw;
                 oxSum	   += oxVal[i];
             }
             if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
-            
+
             gLiq += gibbsEnergy; hLiq += enthalpy; sLiq += entropy; vLiq += volume; cpLiq += heatCapacity; mLiq += oxSum;
 
             rc = sprintf(temporary, "%23.16e", oxSum);        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",            "%s", temporary);
@@ -1516,15 +1516,15 @@ static void putOutputDataToXmlFile(char *outputFile) {
             rc = xmlTextWriterEndElement(writer);
         }
     }
-    
+
     for (j=0, totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0,
          totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0; j<npc; j++) {
         int ns;
         for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
             double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
-            
+
             rc = xmlTextWriterStartElement(writer, BAD_CAST "solid");
-            
+
             if (solids[j].na == 1) {
                 mass  	     = (silminState->solidComp)[j][ns]*solids[j].mw;
                 gibbsEnergy	     = (silminState->solidComp)[j][ns]*(solids[j].cur).g;
@@ -1538,7 +1538,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 totalEntropy      += (silminState->solidComp)[j][ns]*(solids[j].cur).s;
                 totalVolume	    += (silminState->solidComp)[j][ns]*(solids[j].cur).v;
                 totalHeatCapacity += (silminState->solidComp)[j][ns]*(solids[j].cur).cp;
-                
+
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",            "%s",   solids[j].label);
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",         "%s",   solids[j].formula);
                 rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", 	   "%s", temporary);
@@ -1548,21 +1548,21 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-                
+
                 for (i=0, oxSum=0.0; i<nc; i++) {
                     oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
                     oxSum    += oxVal[i];
                 }
                 if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
                 for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
-                    rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary); 
+                    rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
                 }
                 rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j].label);
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
                 rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary);
                 rc = xmlTextWriterEndElement(writer);
-                
+
             } else {
                 char *formula;
                 for (i=0, mass=0.0; i<solids[j].na; i++) {
@@ -1594,7 +1594,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 totalEntropy      += entropy;
                 totalVolume	    += volume;
                 totalHeatCapacity += heatCapacity;
-                
+
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",            "%s",   solids[j].label);
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",         "%s",   formula); free(formula);
                 rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", 	   "%s", temporary);
@@ -1604,7 +1604,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy", 	     "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-                
+
                 for (i=0, oxSum=0.0; i<nc; i++) {
                     int k;
                     for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
@@ -1623,11 +1623,11 @@ static void putOutputDataToXmlFile(char *outputFile) {
                     rc = xmlTextWriterEndElement(writer);
                 }
             }
-            
+
             rc = xmlTextWriterEndElement(writer);
         }
     }
-    
+
     if (totalMass != 0.0) {
         rc = xmlTextWriterStartElement(writer, BAD_CAST "totalSolids");
         rc = sprintf(temporary, "%23.16e", totalMass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		      "%s", temporary);
@@ -1639,34 +1639,34 @@ static void putOutputDataToXmlFile(char *outputFile) {
         rc = sprintf(temporary, "%23.16e", totalHeatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	  "%s", temporary);
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     if (silminState->isenthalpic && (silminState->refEnthalpy == 0.0)) silminState->refEnthalpy = hLiq+totalEnthalpy;
     if (silminState->isentropic  && (silminState->refEntropy  == 0.0)) silminState->refEntropy  = sLiq+totalEntropy;
     if (silminState->isochoric   && (silminState->refVolume   == 0.0)) silminState->refVolume   = vLiq+totalVolume;
-    
+
     if (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) {
         rc = xmlTextWriterStartElement(writer, BAD_CAST "fractionate");
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "type", BAD_CAST "current");
         rc = sprintf(temporary, "%23.16e", silminState->fracMass-previousSilminState->fracMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
-        
+
         if (silminState->fractionateSol || silminState->fractionateFlu) {
             int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
             for (j=0; j<npc; j++) {
                 int ns;
-                
+
                 if ( haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
                 if ( haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
                 if (!haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
                 if (!haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
-                
+
                 for (ns=0; ns<(silminState->nFracCoexist)[j]; ns++) {
                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
                     double tmpMoles = ((previousSilminState->nFracCoexist)[j] <= ns) ? (silminState->fracSComp)[j][ns]
                     : (silminState->fracSComp)[j][ns] - (previousSilminState->fracSComp)[j][ns];
                     if (fabs(tmpMoles) < 10.0*DBL_EPSILON) continue;
-                    
+
                     rc = xmlTextWriterStartElement(writer, BAD_CAST "solid");
-                    
+
                     if (solids[j].na == 1) {
                         mass		   = tmpMoles*solids[j].mw;
                         gibbsEnergy	   = tmpMoles*(solids[j].cur).g;
@@ -1680,7 +1680,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         totalEntropy	  += tmpMoles*(solids[j].cur).s;
                         totalVolume	  += tmpMoles*(solids[j].cur).v;
                         totalHeatCapacity += tmpMoles*(solids[j].cur).cp;
-                        
+
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   solids[j].formula);
                         rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%s", temporary);
@@ -1690,7 +1690,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%s", temporary);
-                        
+
                         for (i=0, oxSum=0.0; i<nc; i++) {
                             oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
                             oxSum    += oxVal[i];
@@ -1704,7 +1704,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
                         rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary);
                         rc = xmlTextWriterEndElement(writer);
-                        
+
                     } else {
                         char *formula;
                         for (i=0, mass=0.0; i<solids[j].na; i++) {
@@ -1738,7 +1738,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         totalEntropy	  += entropy;
                         totalVolume	  += volume;
                         totalHeatCapacity += heatCapacity;
-                        
+
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   formula); free(formula);
                         rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		     "%s", temporary);
@@ -1748,7 +1748,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%s", temporary);
-                        
+
                         for (i=0, oxSum=0.0; i<nc; i++) {
                             int k;
                             for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
@@ -1766,16 +1766,16 @@ static void putOutputDataToXmlFile(char *outputFile) {
                             rc = xmlTextWriterEndElement(writer);
                         }
                     }
-                    
+
                     rc = xmlTextWriterEndElement(writer);
                 }
             }
         }
-        
+
         if (silminState->fractionateLiq) {
             double oxSum, mass, moles, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
             char *formula;
-            
+
             for (i=0, mass=0.0, moles=0.0; i<nlc; i++) {
                 double mw;
                 double tmpMoles = (previousSilminState->fractionateLiq) ?
@@ -1785,10 +1785,10 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 moles += m[i];
                 mass  += tmpMoles*mw;
             }
-            
+
             if (mass > 0.0) {
                 rc = xmlTextWriterStartElement(writer, BAD_CAST "liquid");
-                
+
                 conLiq  (SECOND, THIRD, silminState->T, silminState->P, NULL, m, r, NULL, NULL, NULL, NULL);
                 dispLiq (FIRST, silminState->T, silminState->P, r, &formula);
                 gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
@@ -1814,14 +1814,14 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 totalEntropy      += entropy;
                 totalVolume       += volume;
                 totalHeatCapacity += heatCapacity;
-                
+
                 for (i=0, oxSum=0.0; i<nc; i++) {
                     for (j=0, oxVal[i]=0.0; j<nlc; j++) oxVal[i] += (liquid[j].liqToOx)[i]*m[j];
                     oxVal[i] *= bulkSystem[i].mw;
                     oxSum    += oxVal[i];
                 }
                 if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
-                
+
                 rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", (volume == 0.0) ? 0.0 : mass/(10.0*volume)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density", "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", gibbsEnergy);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%s", temporary);
@@ -1829,38 +1829,38 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-                
+
                 for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
                     rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
                 }
                 rc = xmlTextWriterEndElement(writer);
             }
         }
-        
+
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     if ( (previousSilminState->fractionateSol || previousSilminState->fractionateFlu || previousSilminState->fractionateLiq)
         && (previousSilminState->fracMass > 0) ) {
         rc = xmlTextWriterStartElement(writer, BAD_CAST "fractionate");
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "type", BAD_CAST "previous");
         rc = sprintf(temporary, "%23.16e", previousSilminState->fracMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
-        
+
         if (previousSilminState->fractionateSol || previousSilminState->fractionateFlu) {
             int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
             for (j=0; j<npc; j++) {
                 int ns;
-                
+
                 if ( haveWater &&  previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
                 if ( haveWater && !previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
                 if (!haveWater &&  previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
                 if (!haveWater && !previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
-                
+
                 for (ns=0; ns<(previousSilminState->nFracCoexist)[j]; ns++) {
                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
-                    
+
                     rc = xmlTextWriterStartElement(writer, BAD_CAST "solid");
-                    
+
                     if (solids[j].na == 1) {
                         mass		   = (previousSilminState->fracSComp)[j][ns]*solids[j].mw;
                         gibbsEnergy	   = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).g;
@@ -1874,7 +1874,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         totalEntropy	  += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).s;
                         totalVolume	  += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).v;
                         totalHeatCapacity += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).cp;
-                        
+
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   solids[j].formula);
                         rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%s", temporary);
@@ -1884,7 +1884,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%s", temporary);
-                        
+
                         for (i=0, oxSum=0.0; i<nc; i++) {
                             oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
                             oxSum    += oxVal[i];
@@ -1898,7 +1898,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
                         rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary);
                         rc = xmlTextWriterEndElement(writer);
-                        
+
                     } else {
                         char *formula;
                         for (i=0, mass=0.0; i<solids[j].na; i++) {
@@ -1930,7 +1930,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         totalEntropy	  += entropy;
                         totalVolume	  += volume;
                         totalHeatCapacity += heatCapacity;
-                        
+
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   formula); free(formula);
                         rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%s", temporary);
@@ -1940,7 +1940,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
                         rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%s", temporary);
-                        
+
                         for (i=0, oxSum=0.0; i<nc; i++) {
                             int k;
                             for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
@@ -1958,16 +1958,16 @@ static void putOutputDataToXmlFile(char *outputFile) {
                             rc = xmlTextWriterEndElement(writer);
                         }
                     }
-                    
+
                     rc = xmlTextWriterEndElement(writer);
                 }
             }
         }
-        
+
         if (previousSilminState->fractionateLiq) {
             double oxSum, mass, moles, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
             char *formula;
-            
+
             for (i=0, mass=0.0, moles=0.0; i<nlc; i++) {
                 double mw;
                 for (j=0, mw = 0.0; j<nc; j++) mw += (liquid[i].liqToOx)[j]*bulkSystem[j].mw;
@@ -1975,10 +1975,10 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 moles += m[i];
                 mass  += (previousSilminState->fracLComp)[i]*mw;
             }
-            
+
             if (mass > 0.0) {
                 rc = xmlTextWriterStartElement(writer, BAD_CAST "liquid");
-                
+
                 conLiq  (SECOND, THIRD, silminState->T, silminState->P, NULL, m, r, NULL, NULL, NULL, NULL);
                 dispLiq (FIRST, silminState->T, silminState->P, r, &formula);
                 gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
@@ -2004,14 +2004,14 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 totalEntropy      += entropy;
                 totalVolume       += volume;
                 totalHeatCapacity += heatCapacity;
-                
+
                 for (i=0, oxSum=0.0; i<nc; i++) {
                     for (j=0, oxVal[i]=0.0; j<nlc; j++) oxVal[i] += (liquid[j].liqToOx)[i]*(previousSilminState->fracLComp)[j];
                     oxVal[i] *= bulkSystem[i].mw;
                     oxSum    += oxVal[i];
                 }
                 if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
-                
+
                 rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",           "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", (volume == 0.0) ? 0.0 : mass/(10.0*volume)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density", "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", gibbsEnergy);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%s", temporary);
@@ -2019,22 +2019,22 @@ static void putOutputDataToXmlFile(char *outputFile) {
                 rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-                
+
                 for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
                     rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
                 }
                 rc = xmlTextWriterEndElement(writer);
             }
         }
-        
+
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     rc = xmlTextWriterStartElement(writer, BAD_CAST "system");
     rc = sprintf(temporary, "%23.16e", mLiq+totalMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
     rc = sprintf(temporary, "%23.16e", (vLiq+totalVolume == 0.0) ? 0.0 : (mLiq+totalMass)/(10.0*(vLiq+totalVolume)));
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density", "%s", temporary);
-                                         
+
     if (vLiq > totalVolume) {
         rc = sprintf(temporary, "%23.16e", viscosity - 2.0*log10(1.0-2.0*totalVolume/(totalVolume+vLiq)));
         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "viscosity", "%s", temporary);
@@ -2045,7 +2045,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
     rc = sprintf(temporary, "%23.16e", (vLiq+totalVolume)*10.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	        "%s", temporary);
     rc = sprintf(temporary, "%23.16e", cpLiq+totalHeatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
     rc = xmlTextWriterEndElement(writer);
-    
+
     if (silminState->fo2Path != FO2_NONE) {
         double mO2 = -silminState->oxygen;
         int nl, ns;
@@ -2062,49 +2062,49 @@ static void putOutputDataToXmlFile(char *outputFile) {
         rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).g);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%s", temporary);
         rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).h);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",        "%s", temporary);
         rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).s);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
-        rc = sprintf(temporary, "%23.16e", mO2*10.0*(oxygen.cur).v); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	        "%s", temporary); 
-        rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).cp);     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary); 
+        rc = sprintf(temporary, "%23.16e", mO2*10.0*(oxygen.cur).v); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	        "%s", temporary);
+        rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).cp);     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     if (silminState->assimilate) {
         int ns;
         rc = xmlTextWriterStartElement(writer, BAD_CAST "assimilant");
-        rc = sprintf(temporary, "%23.16e", silminState->assimMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	    "%s", temporary);       
-        rc = sprintf(temporary, "%23.16e", silminState->assimT); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature", "%s", temporary); 
-        
+        rc = sprintf(temporary, "%23.16e", silminState->assimMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	    "%s", temporary);
+        rc = sprintf(temporary, "%23.16e", silminState->assimT); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature", "%s", temporary);
+
         for (j=0; j<npc; j++) if (solids[j].type == PHASE)
             for (ns=0; ns<(silminState->nAssimComp)[j]; ns++) {
                 rc = xmlTextWriterStartElement(writer, BAD_CAST "solid");
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name", "%s", solids[j].label);
                 if (solids[j].na == 1) {
                     double mass = (silminState->assimComp)[j][ns]*solids[j].mw*silminState->assimMass/silminState->dspAssimMass;
-                    rc = sprintf(temporary, "%23.16e", mass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary); 
+                    rc = sprintf(temporary, "%23.16e", mass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
                     rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
                     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j].label);
-                    rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary); 
+                    rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary);
                     rc = xmlTextWriterEndElement(writer);
-                    
+
                 } else {
                     double mass = 0.0;
                     for (i=0; i<solids[j].na; i++) mass += (silminState->assimComp)[j+1+i][ns]*solids[j+1+i].mw;
                     mass *= silminState->assimMass/silminState->dspAssimMass;
-                    rc = sprintf(temporary, "%23.16e", mass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary); 
-                    
+                    rc = sprintf(temporary, "%23.16e", mass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
+
                     for (i=0; i<solids[j].na; i++) {
                         rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",    "%s", solids[j+1+i].label);
-                        rc = sprintf(temporary, "%23.16e", (silminState->assimComp)[j+1+i][ns]/(silminState->assimComp)[j][ns]);                        
+                        rc = sprintf(temporary, "%23.16e", (silminState->assimComp)[j+1+i][ns]/(silminState->assimComp)[j][ns]);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "molFrac", "%s", temporary);
                         rc = xmlTextWriterEndElement(writer);
                     }
-                    
+
                 }
                 rc = xmlTextWriterEndElement(writer);
             }
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     rc = xmlTextWriterEndDocument(writer);
     xmlFreeTextWriter(writer);
     free (temporary);
@@ -2130,9 +2130,9 @@ static void putStatusDataToXmlFile(char *statusFile) {
         "Error: Maximum time limit exceeded in Silmin",            /* SILMIN_TIME		 */
         "Error: Internal",                                         /* GENERIC_INTERNAL_ERROR */
     };
-    
+
     printf("Output file name is %s\n", statusFile);
-    
+
     writer = xmlNewTextWriterFilename(statusFile, 0);
     rc = xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "MELTSstatus", "%s", m[meltsStatus.status]);
@@ -2143,10 +2143,10 @@ static void putStatusDataToXmlFile(char *statusFile) {
 static void doBatchFractionation(void) {
     int i, j, k, ns, nl;
     int hasLiquid = ((silminState != NULL) && (silminState->liquidMass != 0.0));
-    
+
     /* Solid Phase Fractionation */
     if ((silminState->fractionateSol || silminState->fractionateFlu) && !hasLiquid) fprintf(stderr, "...Cannot do solid/fluid fractionation without a liquid phase.\n");
-    
+
     if ((silminState->fractionateSol || silminState->fractionateFlu) && hasLiquid) {
         double *m = (double *) malloc((size_t) nlc*sizeof(double));
         double *r = (double *) malloc((size_t) nlc*sizeof(double));
@@ -2181,7 +2181,7 @@ static void doBatchFractionation(void) {
                     if (silminState->fo2Path != FO2_NONE) silminState->oxygen -= (oxygen.solToOx)[i]*((silminState->solidComp)[i][ns]-MASSIN);
                     silminState->fracMass += ((silminState->solidComp)[i][ns]-MASSIN)*solids[i].mw;
                     for (j=0; j<nc; j++) (silminState->bulkComp)[j] -= (solids[i].solToOx)[j]*((silminState->solidComp)[i][ns]-MASSIN);
-                    
+
                     /* Subtract off H, S or V if appropriate                          */
                     if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0))
                         silminState->refEnthalpy -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).h;
@@ -2189,7 +2189,7 @@ static void doBatchFractionation(void) {
                         silminState->refEntropy -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).s;
                     if (silminState->isochoric && (silminState->refVolume != 0.0))
                         silminState->refVolume -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).v;
-                    
+
                     (silminState->solidComp)[i][ns] = MASSIN;
                 } else {
                     double moleF, totalMoles=0.0;
@@ -2203,14 +2203,14 @@ static void doBatchFractionation(void) {
                         silminState->fracMass += m[j]*solids[i+1+j].mw;
                         for (k=0; k<nc; k++) (silminState->bulkComp)[k] -= (solids[i+1+j].solToOx)[k]*m[j];
                         (silminState->solidComp)[i+1+j][ns] = MASSIN*moleF;
-                        
+
                         /* Subtract off H, S or V if appropriate                        */
                         if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) silminState->refEnthalpy -= m[j]*(solids[i+1+j].cur).h;
                         if (silminState->isentropic && (silminState->refEntropy != 0.0))   silminState->refEntropy  -= m[j]*(solids[i+1+j].cur).s;
                         if (silminState->isochoric && (silminState->refVolume != 0.0))     silminState->refVolume   -= m[j]*(solids[i+1+j].cur).v;
                     }
                     (silminState->solidComp)[i][ns] = MASSIN;
-                    
+
                     /* Subtract off H, S or V if appropriate                          */
                     if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) {
                         double enthalpy;
@@ -2230,11 +2230,11 @@ static void doBatchFractionation(void) {
                         (*solids[i].vmix)(FIRST, silminState->T, silminState->P, r, &volume, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
                         silminState->refVolume   -= totalMoles*volume;
                     }
-                    
+
                 }
             }
         }
-        
+
         for (i=0; i<nc; i++) {
             if ((silminState->bulkComp)[i] != 0.0 && (silminState->bulkComp)[i] <  MASSOUT && bulkSystem[i].type != FE2O3) {
                 fprintf(stderr, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
@@ -2266,10 +2266,10 @@ static void doBatchFractionation(void) {
         free(m);
         free(r);
     }
-    
+
     /* Liquid Phase Fractionation */
     if (silminState->fractionateLiq && !hasLiquid) fprintf(stderr, "...Cannot do liquid fractionation without a liquid phase.\n");
-    
+
     if (silminState->fractionateLiq && hasLiquid) {
         double *m = (double *) malloc((size_t) nlc*sizeof(double));
         double *r = (double *) malloc((size_t) nlc*sizeof(double));
@@ -2282,7 +2282,7 @@ static void doBatchFractionation(void) {
                 if (((silminState->liquidComp)[nl][i] != 0.0) && (refMoles != 0.0)) {
                     double mw;
                     double moleF = (silminState->liquidComp)[nl][i]/refMoles;
-                    
+
                     for (j=0, mw = 0.0; j<nc; j++) mw += (liquid[i].liqToOx)[j]*bulkSystem[j].mw;
                     m[i] = (silminState->liquidComp)[nl][i] - MASSIN*moleF;
                     totalMoles += m[i];
@@ -2291,14 +2291,14 @@ static void doBatchFractionation(void) {
                     silminState->fracMass += m[i]*mw;
                     for (j=0; j<nc; j++) (silminState->bulkComp)[j] -= (liquid[i].liqToOx)[j]*m[i];
                     (silminState->liquidComp)[nl][i] = MASSIN*moleF;
-                    
+
                     /* Subtract off H, S or V if appropriate			    */
                     if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) silminState->refEnthalpy -= m[i]*(liquid[i].cur).h;
                     if (silminState->isentropic  && (silminState->refEntropy  != 0.0)) silminState->refEntropy  -= m[i]*(liquid[i].cur).s;
                     if (silminState->isochoric   && (silminState->refVolume   != 0.0)) silminState->refVolume	-= m[i]*(liquid[i].cur).v;
                 } else m[i] = 0.0;
             }
-            
+
             /* Subtract off H, S or V if appropriate			  */
             if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) {
                 double enthalpy;
@@ -2318,9 +2318,9 @@ static void doBatchFractionation(void) {
                 vmixLiq(FIRST, silminState->T, silminState->P, r, &volume, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
                 silminState->refVolume   -= totalMoles*volume;
             }
-            
+
         }
-        
+
         for (i=0; i<nc; i++) {
             if ((silminState->bulkComp)[i] != 0.0 && (silminState->bulkComp)[i] <  MASSOUT && bulkSystem[i].type != FE2O3) {
                 fprintf(stderr, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
@@ -2366,16 +2366,16 @@ int main (int argc, char *argv[])
     XtAppContext app;
     Pixmap icon_pixmap;
 #endif
-    
+
     printf("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
     printf("%s\n", RELEASE);
     printf("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
-    
+
 #ifndef BATCH_VERSION
     printf("---> Reading environment variables...\n");
     getCommandLineAndEnvironment (argc, argv);
 #endif
-    
+
     printf("<><> There are three releases of rhyolite-MELTS and a version of pMELTS included in this package:\n");
     printf("     (*) rhyolite-MELTS v. 1.0.2 (original version, with corrections) - old H2O model, no mixed fluids.\n");
     printf("     (*) rhyolite-MELTS v, 1.1.0 (mixed fluid version that perserves the ternary minimum) - old H2O model.\n");
@@ -2475,7 +2475,7 @@ int main (int argc, char *argv[])
             nls = meltsFluidNls;
             npc = meltsFluidNpc;
         }
-        
+
     } else if (calculationMode == MODE_pMELTS) {
         printf("---> ****************************************************\n");
         printf("---> Calculation mode is pMELTS (public release v 5.6.1).\n");
@@ -2486,7 +2486,7 @@ int main (int argc, char *argv[])
         nls = pMeltsNls;
         npc = pMeltsNpc;
     }
-    
+
     printf("---> Initializing data structures using selected calculation mode...\n");
     InitComputeDataStruct();
 # else
@@ -2509,7 +2509,7 @@ int main (int argc, char *argv[])
 #if XtSpecificationRelease >= 5
     XtSetLanguageProc (NULL, NULL, NULL);
 #endif
-    
+
     /*
      *=============================================================================
      * (1) Create the topLevel shell widget
@@ -2537,12 +2537,12 @@ int main (int argc, char *argv[])
         XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "pMELTS (code release 5.6.1)", XmNiconName, "pMelts", NULL);
     else if (calculationMode == MODE_xMELTS)
         XtVaSetValues (topLevel, XmNiconPixmap, icon_pixmap, XmNtitle, "xMELTS (code release 2.0.0)", XmNiconName, "xMelts", NULL);
-    
+
     printf("---> ...Call to initialize_colors ()...\n");
     initialize_colors ();
     printf("---> ...Call to initialize_strings ()...\n");
     initialize_strings ();
-    
+
     /*
      *=============================================================================
      *  (1) Create a Main Window Widget to hold everything
@@ -2552,7 +2552,7 @@ int main (int argc, char *argv[])
                                     XmNwidth,  MAIN_WINDOW_WIDTH,
                                     XmNheight, MAIN_WINDOW_HEIGHT,
                                     NULL);
-    
+
     /*
      *============================================================================
      * Create menu bar and all its sub-menus. This menu bar applies to all the
@@ -2561,7 +2561,7 @@ int main (int argc, char *argv[])
     printf("---> ...Create menu bar...\n");
     create_menu_bar ();
     if (calculationMode != MODE_xMELTS) XtSetSensitive(mode_entry, FALSE);
-    
+
     /*
      *=============================================================================
      * Create the work window portion of the main window
@@ -2577,14 +2577,14 @@ int main (int argc, char *argv[])
     printf("---> ...Create work window...\n");
     silmin_adb = XmCreateForm (main_window, "silmin_adb", NULL, 0);
     XtVaSetValues (main_window, XmNworkWindow, silmin_adb, NULL);
-    
+
     printf("---> ...Call to create_managed ()...\n");
     create_managed ();		/* of silmin_adb */
     printf("---> ...Call to create_unmanaged ()...\n");
     create_unmanaged ();		/* children of the main window widget        */
     /* These are the caution box, file selection */
     /*   message and help widgets.               */
-    
+
     /*
      * Now manage the silmin_adb widget and its parent (main_window).
      */
@@ -2592,26 +2592,26 @@ int main (int argc, char *argv[])
     XtManageChild (silmin_adb);
     printf("---> ...Manage parent...\n");
     XtManageChild (main_window);
-    
+
     /*
      *=============================================================================
      * Realize the Shell widget (and hence all its children)
      */
     printf("---> ...Realize parent...\n");
     XtRealizeWidget (topLevel);
-    
+
     /*
      *=============================================================================
      * Get events
      */
-    
+
     printf("---> Ready for user input...\n");
 #if defined(DEBUG)
     debugMainLoop (app);
 #else
     XtAppMainLoop (app);
 #endif
-    
+
 #else /* BATCH_VERSION */
     {
         if (argc == 1) {
@@ -2631,7 +2631,7 @@ int main (int argc, char *argv[])
             InitComputeDataStruct();
 
             if (silminState == NULL) silminState = allocSilminStatePointer();
-            
+
             if(!batchInputDataFromFile(argv[1])) {
                 printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
                 exit(0);
@@ -2644,7 +2644,7 @@ int main (int argc, char *argv[])
             }
 
             if ((argc == 2) || !strncmp(argv[2], "liquidus", 8)) {
-                int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu, 
+                int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu,
                     fractionateLiq = silminState->fractionateLiq;
                 silminState->fractionateSol = FALSE;
                 silminState->fractionateFlu = FALSE;
@@ -2655,7 +2655,7 @@ int main (int argc, char *argv[])
                 (void) putOutputDataToFile(NULL);
 
                 silminState->fractionateSol = fractionateSol;
-                silminState->fractionateFlu = fractionateFlu; 
+                silminState->fractionateFlu = fractionateFlu;
                 silminState->fractionateLiq = fractionateLiq;
             }
             if ((argc == 2) || !strncmp(argv[2], "equilibrate", 8)) {
@@ -2673,29 +2673,29 @@ int main (int argc, char *argv[])
                 if ((silminState->nSolidCoexist)[i] > 0) {
                     for (j=0; j<(silminState->nSolidCoexist)[i]; j++) {
                         double phaseMoles, phaseGrams;
-                        
+
                         if (solids[i].na == 1) {
                             phaseMoles   = (silminState->solidComp)[i][j];
                             for (l=0, phaseGrams=0.0; l<nc; l++) {
                                 phaseGrams += phaseMoles*(solids[i].solToOx)[l]*bulkSystem[l].mw;
                             }
-                            
+
                             printf("Got phase %s with moles %f and grams %f\n", solids[i].label, phaseMoles, phaseGrams);
-                            
+
                         } else {
                             char *formula;
                             double *r      = (double *) malloc((size_t) solids[i].nr *sizeof(double));
                             double *phaseX = (double *) malloc((size_t) solids[i].na *sizeof(double));
-                            
+
                             for (k=0, phaseGrams=0.0, phaseMoles=0.0; k<solids[i].na; k++) {
                                 phaseX[k]   = (silminState->solidComp)[i+1+k][j];
                                 phaseMoles += (silminState->solidComp)[i+1+k][j];
                                 for (l=0; l<nc; l++) phaseGrams += phaseX[k]*(solids[i+1+k].solToOx)[l]*bulkSystem[l].mw;
                             }
-                            
+
                             (*solids[i].convert)(SECOND, THIRD, silminState->T, silminState->P, NULL, phaseX, r, NULL, NULL, NULL, NULL, NULL);
                             (*solids[i].display)(FIRST, silminState->T, silminState->P, r, &formula);
-                            
+
                             printf("Got phase %s with moles %f and grams %f and formula %s\n", solids[i].label, phaseMoles, phaseGrams, formula);
                             free(r);
                             free(phaseX);
@@ -2704,26 +2704,26 @@ int main (int argc, char *argv[])
                     }
                 }
             }
-            
+
             {
                 double phaseMoles, phaseGrams;
                 int nl;
-                
+
                 for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
                     for (k=0, phaseMoles=0.0, phaseGrams=0.0; k<nlc; k++) {
                         phaseMoles += (silminState->liquidComp)[nl][k];
                         for (l=0; l<nc; l++) phaseGrams += (silminState->liquidComp)[nl][k]*(liquid[k].liqToOx)[l]*bulkSystem[l].mw;
                     }
-                    
+
                     printf("Got phase %s with moles %f and grams %f\n", "liquid", phaseMoles, phaseGrams);
                 }
             }
-            
+
         } else if (strstr(argv[1], ".xml")   != NULL) {
             size_t len;
             int ret;
             char *outputFile;
-            
+
             if (silminState == NULL) {
                 int i, np;
                 silminState = allocSilminStatePointer();
@@ -2733,14 +2733,14 @@ int main (int argc, char *argv[])
                 silminState->fo2Path  = FO2_NONE;
             }
             ret = batchInputDataFromXmlFile(argv[1]);
-            
+
             len = strlen(silminInputData.name) - 4;
             outputFile = (char *) malloc((size_t) (len+9)*sizeof(char));
             (void) strncpy(outputFile, silminInputData.name, len);
             (void) strcpy(&outputFile[len], "-out.xml");
 
             if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
-            
+
             if        (ret == FALSE) {
                 printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
                 exit(0);
@@ -2756,14 +2756,93 @@ int main (int argc, char *argv[])
                 /* can be used to test changeLiquid (calling with changeFluid with likely cause seg fault) */
                 putOutputDataToXmlFile(outputFile);
             }
-            
+
             free(outputFile);
-            
+
+        } else if (strstr(argv[1], ".txt")) { /* debugging option to process list of files */
+            static FILE *input = NULL;
+
+            if ((input = fopen (argv[1], "r")) == NULL) {
+                printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
+                exit(0);
+            }
+
+            for (;;) {
+                size_t len;
+                int ret;
+                char *iFileName, *oFileName, *sFileName;
+
+                if (silminState == NULL) {
+                    int i, np;
+                    silminState = allocSilminStatePointer();
+                    for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+                    (silminState->incSolids)[npc] = TRUE;
+                    silminState->nLiquidCoexist  = 1;
+                    silminState->fo2Path  = FO2_NONE;
+                }
+                silminState->assimilate = FALSE;
+
+                iFileName = (char *) malloc((size_t) REC*sizeof(char));
+
+                if (fgets(iFileName, REC, input) == NULL) break;
+                ret = batchInputDataFromXmlFile(iFileName);
+
+                len = strlen(silminInputData.name) - 4;
+                oFileName = (char *) malloc((size_t) (len+9)*sizeof(char));
+                (void) strncpy(oFileName, silminInputData.name, len);
+                (void) strcpy(&oFileName[len], "-out.xml");
+
+                sFileName = (char *) malloc((size_t) (len+12)*sizeof(char));
+                (void) strncpy(sFileName, silminInputData.name, len);
+                (void) strcpy(&sFileName[len], "-status.xml");
+
+                if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+
+                if        (ret == FALSE) {
+                    printf("Error(s) detected on reading input file %s. Exiting.\n", iFileName);
+                    exit(0);
+                } else if (ret == RUN_LIQUIDUS_CALC) {
+                    meltsStatus.status = GENERIC_INTERNAL_ERROR;
+                    while(!liquidus());
+                    (void) strcpy(silminInputData.name, iFileName);
+                    putOutputDataToXmlFile(oFileName);
+                    putStatusDataToXmlFile(sFileName);
+                } else if (ret == RUN_EQUILIBRATE_CALC) {
+                    meltsStatus.status = GENERIC_INTERNAL_ERROR;
+                    while(!silmin());
+                    (void) strcpy(silminInputData.name, iFileName);
+                    putOutputDataToXmlFile(oFileName);
+                    putStatusDataToXmlFile(sFileName);
+                } else if (ret == RETURN_WITHOUT_CALC) {
+                    meltsStatus.status = SILMIN_SUCCESS;
+                    (void) strcpy(silminInputData.name, iFileName);
+                    putOutputDataToXmlFile(oFileName);
+                    putStatusDataToXmlFile(sFileName);
+                } else if (ret == RETURN_DO_FRACTIONATION) {
+                    doBatchFractionation();
+                    meltsStatus.status = SILMIN_SUCCESS;
+                    (void) strcpy(silminInputData.name, iFileName);
+                    putOutputDataToXmlFile(oFileName);
+                    putStatusDataToXmlFile(sFileName);
+                } else if (ret == RETURN_FINALIZED) {
+                    putSequenceDataToXmlFile(FALSE); /* finalize and close file */
+                }
+
+                free (iFileName);
+                free (oFileName);
+                free (sFileName);
+
+            }
+
+            /* -> Close and discard file and return */
+
+            fclose(input);
+
         } else { /* fall into listener mode */
             DIR *inputDir, *outputDir, *processedDir;
             size_t lenIdir, lenOdir, lenPdir;
             int fileOpenAttempts = 0;
-            
+
             if (argc < 3) {
                 printf("Usage:\n");
                 printf("  Melts-batch input.melts\n");
@@ -2777,34 +2856,34 @@ int main (int argc, char *argv[])
             printf("               input directory  %s\n", argv[1]);
             printf("               output directory %s\n", argv[2]);
             printf("  and input processed directory %s\n", (argc > 3) ? argv[3] : argv[2]);
-            
+
             inputDir = opendir(argv[1]);
             if(inputDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", argv[1]); exit(0); }
             else (void) closedir(inputDir);
-            
+
             outputDir = opendir(argv[2]);
             if(outputDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", argv[2]); exit(0); }
             else (void) closedir(outputDir);
-            
+
             processedDir = opendir((argc > 3) ? argv[3] : argv[2]);
             if(processedDir == NULL) { printf("Cannot open directory %s.  Exiting ...\n", (argc > 3) ? argv[3] : argv[2]); exit(0); }
             else (void) closedir(processedDir);
-            
+
             lenIdir = strlen(argv[1]);
             lenOdir = strlen(argv[2]);
             lenPdir = strlen((argc > 3) ? argv[3] : argv[2]);
-            
+
             for (;;) {
                 unsigned int delay = 1;
                 struct dirent *dp;
-                
+
                 inputDir = opendir(argv[1]);
-                
+
                 while ((dp = readdir(inputDir)) != NULL) {
                     if (strstr(dp->d_name, ".xml")   != NULL) { /* found a file to process */
                         int ret;
                         char *iFileName, *oFileName, *pFileName, *sFileName;
-                        
+
                         if (silminState == NULL) {
                             int i, np;
                             silminState = allocSilminStatePointer();
@@ -2819,25 +2898,25 @@ int main (int argc, char *argv[])
                         oFileName = (char *) malloc((size_t) (lenOdir + 1 + strlen(dp->d_name) + 5)*sizeof(char));
                         pFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
                         sFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 8)*sizeof(char));
-                        
+
                         (void) strcpy(iFileName, argv[1]);
                         (void) strcat(iFileName, DIR_DELIM);
                         (void) strcat(iFileName, dp->d_name);
-                        
+
                         (void) strcpy(oFileName, argv[2]);
                         (void) strcat(oFileName, DIR_DELIM);
                         (void) strncat(oFileName, dp->d_name, strlen(dp->d_name)-4);
                         (void) strcat(oFileName, "-out.xml");
-                        
+
                         (void) strcpy(pFileName, (argc > 3) ? argv[3] : argv[2]);
                         (void) strcat(pFileName, DIR_DELIM);
                         (void) strcat(pFileName, dp->d_name);
-                        
+
                         (void) strcpy(sFileName, argv[2]);
                         (void) strcat(sFileName, DIR_DELIM);
                         (void) strncat(sFileName, dp->d_name, strlen(dp->d_name)-4);
                         (void) strcat(sFileName, "-status.xml");
-                        
+
                         ret = batchInputDataFromXmlFile(iFileName);
                         if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
@@ -2877,24 +2956,24 @@ int main (int argc, char *argv[])
                         } else if (ret == RETURN_FINALIZED) {
                             putSequenceDataToXmlFile(FALSE); /* finalize and close file */
                         }
-                        
+
                         if (fileOpenAttempts > 2) { ret = TRUE; fileOpenAttempts = 0; }
-                        
+
                         if (ret) {
-                            if (rename(iFileName, pFileName)) 
+                            if (rename(iFileName, pFileName))
                                 printf("Error(s) detected on renaming file %s to %s\n", iFileName, pFileName);
                         }
-                        
-                        free (iFileName);	    
-                        free (oFileName);	    
-                        free (pFileName);	    
-                        free (sFileName);	    
+
+                        free (iFileName);
+                        free (oFileName);
+                        free (pFileName);
+                        free (sFileName);
                         break; /* exit the while loop */
                     }
                 }
-                
+
                 (void) closedir(inputDir);
-                
+
                 /* no files in input directory - wait and look again */
 #ifdef MINGW
                 Sleep(delay);
@@ -2903,12 +2982,12 @@ int main (int argc, char *argv[])
 #endif
 
             }
-            
+
         }
-        
+
     }
 #endif /* BATCH_VERSION */
-    
+
     exit(0);
 }
 
