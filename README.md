@@ -122,13 +122,12 @@ Usage: Melts Melts-MS Melts-SACNK
     ```
     make Melts-batch
     ```
-    A new file appears in the directory named `Melts-batch` (or `Melts-batch.exe`).   On the MAGMA branch this `Melts-batch`
-    will be for the pMELTS model by default (on the master/develop branches it will be rhyolite-MELTS 1.0.2 by default; the prebuilt executables in MCS-Melts-batch and Linux-Melts-batch are also rhyolite-MELTS 1.0.2. unless otherwise labeled). You may want to rename the file, e.g: 
+    A new file appears in the directory named `Melts-batch` (or `Melts-batch.exe`).   Here (and on the MAGMA branch of **[xMELTS](https://gitlab.com/ENKI-portal/xMELTS)**) this `Melts-batch` will be for the pMELTS model by default (on the master/develop branches it will be rhyolite-MELTS 1.0.2 by default; the prebuilt executables in MCS-Melts-batch and Linux-Melts-batch are also rhyolite-MELTS 1.0.2. unless otherwise labeled). You may want to rename the file, e.g: 
 
     ```
     mv Melts-batch Melts-batch-pMELTS-v5.6.1
     ```
-3. On the MAGMA branch you can build default rhyolite-MELTS versions 1.0.2, 1.1.0, and 1.2.0, respectively, using:
+3. You can build default rhyolite-MELTS versions 1.0.2, 1.1.0, and 1.2.0, respectively, using:
 
     ```
     make Melts-batch -DV102
