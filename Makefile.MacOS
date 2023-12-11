@@ -41,7 +41,8 @@ INCC   = /usr/local/include
 INCXM  = /usr/local/include
 INCX   = /usr/X11/include
 INCF2C = .
-INCXML = /usr/local/opt/libxml2/include/libxml2
+#INCXML = /usr/local/opt/libxml2/include/libxml2
+INCXML = /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
 
 # Compiler choice and flags - Do not delete the $(BATCH) macro
 # ============================================================

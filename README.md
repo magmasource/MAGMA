@@ -4,10 +4,17 @@
 
 This repository is a fork of the **MAGMA** branch of Mark Ghiorso's **[xMELTS](https://gitlab.com/ENKI-portal/xMELTS)** repository on GitLab. It is maintained by Paula Antoshechkina and includes edits made for the [MAGMA@Caltech](magmasource.caltech.edu) effort (including early work on [MELTS for MATLAB](https://ui.adsabs.harvard.edu/abs/2018AGUFMED44B..23A%2F/abstract)) and for the [Magma Chamber Simulator](https://mcs.geol.ucsb.edu/) ([MCS](https://mcs.geol.ucsb.edu/)). Melts-batch executables for MacOS, Windows and Linux, like those used by the MCS, can be found in the MCS-Melts-batch and Linux-Melts-batch directories.
 
-In this repository the original standalone rhyolite-MELTS (v 1.0.2, 1.1.x, 1.2.x) and pMELTS (v 5.6.1) graphical user interface (GUI) is replaced by Einari Suikkanen's easyMelts software, which has the same capabilities - plus working plots - in a modern and easy-to-use package. 
+In this repository the original standalone rhyolite-MELTS (v 1.0.2, 1.1.x, 1.2.x) and pMELTS (v 5.6.1) graphical user interface (GUI) is replaced by Einari Suikkanen's easyMelts software, which has the same capabilities - plus working plots - in a modern and easy-to-use package.
 
 For additional documentation on the original GUI, visit the [MELTS website](http://melts.ofm-research.org/index.html). There you can find preconfigured executables for MacOS and Ubuntu platforms (though your mileage may vary, especially with the Linux ones).
 
+## Downloading and running the software (MacOS, Linux or Windows) ##
+
+easyMelts will be posted here soon, but in the meantime it can be downloaded from the [MAGMA Source GitList server](https://magmasource.caltech.edu/gitlist/easyMelts.git/). No installation is requied (though it helps to put the easyMelts executable somewhere in your path). For instructions on how to run the software see the README.
+
+Melts-batch will also be formally released, with version numbers, soon. In the meantime, it should be possible to run the binaries in the MCS-Melts-batch and Linux-Melts-batch folders as-is. Download the Melts-batch.zip file or Melts-batch.exe.zip file and make sure to expand it.
+
+From the next release, it is possible that you will need to install the Xcode tools so that the library that parses the XMl files (libxml2) is available. If you have Xcode installed, and it is up to date, this should work. If you do not have Xcode you do not need to install it, and you probably don't want to as it is huge(~10 GB)! Instead install just the Command Line Tools, which are < 1 GB. If you have Homebrew, then the Command Line Tools should already be installed. Otherwise see [Install Xcode Command Line Tools](https://mac.install.guide/commandlinetools/4.html).
 
 ## Building the software (MacOS, Linux or Windows) ##
 
@@ -32,17 +39,17 @@ When you clone the repository, the **main** branch is tracked by default. Unlike
 To build the command line (Melts-batch) version of MELTS on MacOS, Linux or native Windows, you need only the C compiler. You should not need a FORTRAN compiler.
 
 - A C compiler (preferably clang, but [GCC](https://www.amazon.com/gp/product/B00SWS1KWO/ref=ox_sc_act_title_1?ie=UTF8&psc=1&smid=AAZG7FJ20LXBR) suffices)
-  
+
 - (Windows) Install [MSYS2](https://www.msys2.org/), either directly, or by installing the [Rtools](https://cran.r-project.org/bin/windows/Rtools/rtools40.html) package.
     - Open the MSYS2 MSYS terminal. Type the commands `pacman -Su`, then `pacman -S --needed base-devel mingw-w64_x86-toolchain`
     - Optionally install clang with the command `pacman -S mingw-w64_x86-clang`.
     - You will need MSYS2 / Rtools on the machine used to run Melts-batch so that required runtime libraries can be installed.
-      
+
 
 
 **Install the command line (Melts-batch) build requisites:**
 
-1. Ensure that a C compiler is available on your system.  
+1. Ensure that a C compiler is available on your system.
 1. Install `libxml2`, if it is not already installed.
     - (Linux) Install the `libxml2` and `libxml2-dev` (or equivalent) packages into the standard locations.
     - (MacOS) Install the [Homebrew package manager](http://brew.sh). In a terminal window, type the command `brew install libxml2`. On Intel Macs this places the XML library and dependecies into subdirectories of `/usr/local`. You will need libxml2 on the machine used to run Melts-batch.
@@ -51,11 +58,11 @@ To build the command line (Melts-batch) version of MELTS on MacOS, Linux or nati
 
 ### Makefile configuration ###
 
-You can build many of the build targets for MELTS and its auxillary and testing programs on MacOS using the Xcode Integrated Development Environment (IDE) (see the **[xMELTS](https://gitlab.com/ENKI-portal/xMELTS)** READMEs). However, the executables and libraries described here must be built using traditional UNIX makefile-based build procedures. 
+You can build many of the build targets for MELTS and its auxillary and testing programs on MacOS using the Xcode Integrated Development Environment (IDE) (see the **[xMELTS](https://gitlab.com/ENKI-portal/xMELTS)** READMEs). However, the executables and libraries described here must be built using traditional UNIX makefile-based build procedures.
 
 The file `Makefile.Linux`, `Makefile.MacOS`, and `Makefile.Windows` are master makefiles that each include a *common* makefile, `Makefile.common`. The script in `Makefile.common` is appropriate for use on both Linux and MacOS, and Windows with MSYS2.
 
-- (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.Linux` file as appropriate for your system configuration (see Makefile.ubuntu and Makefile.redhat for comparison). In a terminal window generate a soft link with this command: 
+- (Linux) If building targets in the MELTS software package on Linux, edit the `Makefile.Linux` file as appropriate for your system configuration (see Makefile.ubuntu and Makefile.redhat for comparison). In a terminal window generate a soft link with this command:
 
     ```
     ln -s ./Makefile.Linux Makefile
@@ -63,20 +70,20 @@ The file `Makefile.Linux`, `Makefile.MacOS`, and `Makefile.Windows` are master m
 
   There is also a debug Makefile for Linux `Makefile.debug`. You can invoke this rather than the standard Linux Makefile by replacing `make` with `make -f Makefile.debug` im the following secions.
 
-- (MacOS) If building targets in the MELTS software package on MacOS, edit the file `Makefile.MacOS` as appropriate for your system configuration, and in a terminal window generate a soft link with this command:  
+- (MacOS) If building targets in the MELTS software package on MacOS, edit the file `Makefile.MacOS` as appropriate for your system configuration, and in a terminal window generate a soft link with this command:
 
     ```
     ln -s ./Makefile.MacOS Makefile
     ```
-- (Windows) If building targets in the MELTS software package on Windows / MSYS2, edit the file `Makefile.Windows` as appropriate for your system configuration, and in a terminal window generate a soft link with this command:  
+- (Windows) If building targets in the MELTS software package on Windows / MSYS2, edit the file `Makefile.Windows` as appropriate for your system configuration, and in a terminal window generate a soft link with this command:
 
     ```
     ln -s ./Makefile.Windows Makefile
     ```
-*NOTE: Typing the command* `make` *within the MELTS directory with no argument produces a list of possible build targets:*  
+*NOTE: Typing the command* `make` *within the MELTS directory with no argument produces a list of possible build targets:*
 
 ```
-make 
+make
 /Applications/Xcode.app/Contents/Developer/usr/bin/make -s usage
 Usage: Melts Melts-MS Melts-SACNK
         Melts-batch
@@ -112,7 +119,7 @@ Usage: Melts Melts-MS Melts-SACNK
         Marc
         cpx-olv-rhm
 ```
-*Some of these targets are no longer active on this fork or are used only rarely to develop specialied applications.  The more relevant targets are discussed below.*  
+*Some of these targets are no longer active on this fork or are used only rarely to develop specialied applications.  The more relevant targets are discussed below.*
 
 
 #### Standalone MELTS rhyolite-MELTS (v 1.0.2, 1.1.x, 1.2.x)  and pMELTS (5.6.1) - batch execution, read-write XML files ####
@@ -122,7 +129,7 @@ Usage: Melts Melts-MS Melts-SACNK
     ```
     make Melts-batch
     ```
-    A new file appears in the directory named `Melts-batch` (or `Melts-batch.exe`).   Here (and on the MAGMA branch of **[xMELTS](https://gitlab.com/ENKI-portal/xMELTS)**) this `Melts-batch` will be for the pMELTS model by default (on the master/develop branches it will be rhyolite-MELTS 1.0.2 by default; the prebuilt executables in MCS-Melts-batch and Linux-Melts-batch are also rhyolite-MELTS 1.0.2. unless otherwise labeled). You may want to rename the file, e.g: 
+    A new file appears in the directory named `Melts-batch` (or `Melts-batch.exe`).   Here (and on the MAGMA branch of **[xMELTS](https://gitlab.com/ENKI-portal/xMELTS)**) this `Melts-batch` will be for the pMELTS model by default (on the master/develop branches it will be rhyolite-MELTS 1.0.2 by default; the prebuilt executables in MCS-Melts-batch and Linux-Melts-batch are also rhyolite-MELTS 1.0.2. unless otherwise labeled). You may want to rename the file, e.g:
 
     ```
     mv Melts-batch Melts-batch-pMELTS-v5.6.1
@@ -134,12 +141,12 @@ Usage: Melts Melts-MS Melts-SACNK
     make Melts-batch -DV110
     make Melts-batch -DV120
     ```
-The `Melts-batch` file is an executable image that you can run by typing this command:  
+The `Melts-batch` file is an executable image that you can run by typing this command:
 
 ```
 ./Melts-batch
 ```
-The command generates the following output detailing usage:  
+The command generates the following output detailing usage:
 
 ```
 Usage:
@@ -148,7 +155,7 @@ Usage:
   Melts-batch inputDir outputDir [inputProcessedDir]
               Directories are stipulated relative to current directory with no trailing delimiter.
 ```
- The three usage scenarios are as follows:  
+ The three usage scenarios are as follows:
 - First usage takes a standard MELTS input file as input on the command line and processes it using MELTS version 1.0.2, placing output files in the current directory.
 - Second usage processes a MELTS input file formatted using the standard MELTS input XML schema (contained in schema definition file [MELTSinput.xsd](https://github.com/magmasource/blob/MAGMA/main/MELTSinput.xsd)) and processes it using the MELTS/pMELTS version specified in that file, placing output files in the current directory.
     - The output file ending `*-out.xml` will contain output for the last step in the calculation sequence. On the MAGMA branch another file is produced ending `*-sequence.xml` which contains output for all steps, similar to the MELTS web services output (see below).
@@ -163,16 +170,16 @@ Usage:
 Input files for the second and third usage must conform to the XML schema noted in the second usage ([MELTSinput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/MAGMA/MELTSinput.xsd)), and output files are generated according to XML output schema specified in [MELTSoutput.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/MAGMA/MELTSoutput.xsd) and [MELTSstatus.xsd](https://gitlab.com/ENKI-portal/xMELTS/blob/MAGMA/MELTSstatus.xsd).  These schema are also utilized in client-server communication involving the MELTS web services (see below).  Detailed documentation files on all of the XML schema may be found in [the MELTS Web Services page](https://melts.ofm-research.org/web-services.html).  The main difference between the MAGMA branch version of the MELTS input XML schema and the web services one is the introduction of a `<finalize />` tag that is used to complete and close the `*-seqence.xml` output file.
 
 ### Building command-line auxillary and testing programs ###
-You can build command-line executables for testing various aspects of the MELTS software library by executing this command:  
+You can build command-line executables for testing various aspects of the MELTS software library by executing this command:
 
 ```
 make Test_*
 ```
-where * refers to one of the targets listed above.  In particular, the make targets **Test_a-x_relations**, **Test_liquid**, and **Test_gibbs** create executables for testing new implementations or corrections to solid and fluid solution thermodynamic modules, liquid solution properties, and standard state thermodynamic property routines.  
+where * refers to one of the targets listed above.  In particular, the make targets **Test_a-x_relations**, **Test_liquid**, and **Test_gibbs** create executables for testing new implementations or corrections to solid and fluid solution thermodynamic modules, liquid solution properties, and standard state thermodynamic property routines.
 
-The somewhat mysteriously named make targets **Kevin**,  **KevinSolid**, **Marc**, and **cpx-olv-rhm** create executables for standalone command-line geothermometers and oxybarometers.  Consult the source code in the subdirectory `./source` for more information.  
+The somewhat mysteriously named make targets **Kevin**,  **KevinSolid**, **Marc**, and **cpx-olv-rhm** create executables for standalone command-line geothermometers and oxybarometers.  Consult the source code in the subdirectory `./source` for more information.
 ### Building statically and dynamically linked libraries that encapsulate the MELTS CT engine
-This command builds a runtime statically linked library of phase properties and MELTS engine functions:  
+This command builds a runtime statically linked library of phase properties and MELTS engine functions:
 
 ```
 make MELTS-dynamic
@@ -180,8 +187,8 @@ make MELTS-dynamic
 The build process creates a static library named `libMELTSdynamic.a` and two standalone executable files that are linked against this library:
 - **`Test_commandLib`** - Is built from the source `./source/test_commandLib.c` and demonstrates how to  perform MELTS calculations by calling the static library functions from a **C code** front end. `Test_commandLib` also demonstrates how to specify MELTS input using command line arguments[.](http://mdp.tylingsoft.com/)
 - **`Test_dynamicLib`** - Is built from the source `./source/test_dynamicLib.f` and demonstrates how to perform MELTS calculations by calling the static library functions from a **FORTRAN code** front end.
- 
-To build the 'libMELTSdynamic' library used with early versions of MELTS for MATLAB (later alphaMELTS for MATLAB/Python) use the following (you may get an error message if you do not have Fortran installed, but you can safely ignore it): 
+
+To build the 'libMELTSdynamic' library used with early versions of MELTS for MATLAB (later alphaMELTS for MATLAB/Python) use the following (you may get an error message if you do not have Fortran installed, but you can safely ignore it):
 
 ```
 make realclean Melts-dynamicPrivate "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS" DYNAMIC=true
