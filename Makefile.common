@@ -3,6 +3,25 @@
 #   equires GNUmake or compatble that supports vpath
 # ==============================================================
 
+# Environment variable defaults
+# =============================
+
+MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
+MELTS_DATA_DIR         = .
+MELTS_DATA_SUFFIX      = *.xml
+MELTS_HARDWARE_VERSION = 
+MELTS_INPUT_DIR        = .
+MELTS_INPUT_SUFFIX     = *.melts
+MELTS_MOTIF_VERSION    = 2.3.4
+MELTS_OS_VERSION       = *nix - 
+MELTS_OUTPUT_FILE      = melts.out
+MELTS_WWW_BROWSER      = 
+MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
+MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
+MELTS_X_VERSION        = X.Org / OSF Motif 2.3
+MELTS_RELEASE_DATE     = March 2015
+MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (*nix, clang 14+, 64 bit)
+
 # directories for sources and include files
 # =========================================
 

@@ -117,3 +117,6 @@ Melts-batch-v1.1.0
 !.vscode/launch.json
 !/MCS-Melts-batch/*
 !/Linux-Melts-batch/*
+.Rproj.user
+xMELTS.Rproj
+.Rhistory

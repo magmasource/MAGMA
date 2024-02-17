@@ -2618,6 +2618,9 @@ int main (int argc, char *argv[])
             printf("Usage:\n");
             printf("  Melts-batch input.melts\n");
             printf("  Melts-batch input.xml\n");
+#ifdef DEBUG
+            printf("  Melts-batch input.txt\n");
+#endif
             printf("  Melts-batch inputDir outputDir [inputProcessedDir]\n");
             printf("              Directories are stipulated relative to current directory\n");
             printf("              with no trailing delimiter.\n");

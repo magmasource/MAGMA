@@ -1,13 +1,11 @@
 # =================================================================================
-# Makefile for build of the xMELTS package on Linux (Ubuntu - 18.04)
-#   $Id: Makefile.Linux,v 1.3 2009/04/16 16:35:22 ghiorso Exp $
-# Generic Linux makefile (will dynamically link with Motif file by default)
-# For static linking of the GUI use: 'make Melts-rhyolite-public STATIC=true' 
-# See Makefile.ubuntu and Makefile.redhat for backwards compatibility
+# Makefile for build of the xMELTS package on Linux (Ubuntu - 20.04)
+# Generic Linux makefile (will dynamically link with libxml2 file by default)
+# For static linking of the GUI use: 'make Melts-batch STATIC=true'
 # =================================================================================
 
 MAKEFILE = Makefile.Linux
-ARCH    := $(shell uname -m)
+ROOTDIR := x86_64-linux-gnu
 
 # Compilation options
 # ===================
@@ -16,29 +14,6 @@ PROTO   = XTFUNCPROTO
 VLIST   = _NO_DRAWINGA_VLIST_PARENT
 ENTRYC  = _NO_WHITE_TEXTW
 ACEPLT  = _NO_GRACE_PIPE
-
-# Environment variable defaults
-# =============================
-
-MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
-MELTS_DATA_DIR         = .
-MELTS_DATA_SUFFIX      = *.xml
-MELTS_HARDWARE_VERSION = 3.00 GHz Intel Xeon Quad Core
-MELTS_INPUT_DIR        = .
-MELTS_INPUT_SUFFIX     = *.melts
-MELTS_MOTIF_VERSION    = 2.3.4
-MELTS_OS_VERSION       = Ubuntu - 18.04
-MELTS_OUTPUT_FILE      = melts.out
-MELTS_WWW_BROWSER      = 
-MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
-MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
-MELTS_X_VERSION        = X.Org / OSF Motif 2.3
-MELTS_RELEASE_DATE     = March 2015
-ifeq ($(ARCH), x86_64)
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Ubuntu - 18.04, clang 6.0.0, 64 bit)
-else
-MELTS_RELEASE_VERSION  = 5.6.1 ()(p)(x), V1.0.2, V1.1.0, V1.2.0 (rhyolite) (Ubuntu - 18.04, clang 6.0.0, 32 bit)
-endif
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
@@ -56,10 +31,7 @@ AR            = ar
 ARFLAGS       = rvU
 DYFLAGS	      = xv
 CC            = clang
-LD            = clang
-ifneq ($(STATIC),)
-override LD   = g++
-endif
+LD            = clang++
 FC            = gfortran
 CFLAGS        = -c -O3 -D_USE_ISOC99 -D_ISOC99_SOURCE $(BATCH) $(VERSION) \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
@@ -87,6 +59,7 @@ PYMELTSVER    = 0.1.1
 ifneq ($(DYNAMIC),)
 CFLAGS   += -fPIC -DTESTDYNAMICLIB
 endif
+
 ifneq ($(STATIC),)
 CFLAGS   += -fPIC
 endif
@@ -102,12 +75,6 @@ endif
 
 # Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
 # ==============================================================================
-
-ifeq ($(ARCH), x86_64)
-ROOTDIR := x86_64-linux-gnu
-else
-ROOTDIR := i386-linux-gnu
-endif
 
 # Not sure that it is possible to build the static version of Melts-rhyolite-public.
 # Will still be able to run a dynamically linked version in the VM and WSL.
