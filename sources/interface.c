@@ -669,6 +669,7 @@ static void SelectComputeDataStruct(void) {
 /*         RUN_EQUILIBRATE_CALC if succesful */
 /*         FALSE                if not       */
 
+#define RUN_WETLIQUIDUS_CALC    1
 #define RUN_LIQUIDUS_CALC       2
 #define RUN_EQUILIBRATE_CALC    3
 #define RETURN_WITHOUT_CALC     4
@@ -814,9 +815,9 @@ static int batchInputDataFromXmlFile(char *fileName) {
 
                         } else if (!strcmp((char *) level1->name, "calculationMode")) {
                             printf("Found calculationMode: %s\n", content1);
-                            if      (!strcmp((char *) content1, "findLiquidus")) ret = RUN_LIQUIDUS_CALC;
+                            if   (!strcmp((char *) content1, "findWetLiquidus")) ret = RUN_WETLIQUIDUS_CALC;
+                            else if (!strcmp((char *) content1, "findLiquidus")) ret = RUN_LIQUIDUS_CALC;
                             else if (!strcmp((char *) content1, "equilibrate" )) ret = RUN_EQUILIBRATE_CALC;
-                            // fineWetLiquidus
 
                         } else if (!strcmp((char *) level1->name, "title")) {
                             printf("Found title: %s\n", content1);
@@ -1417,7 +1418,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
     int rc;
     time_t tp;
     char * cOut, *temporary = (char *) malloc((size_t) 40*sizeof(char));
-    double gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, cpLiq = 0.0, mLiq = 0.0, viscosity = 0.0;
+    double gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, cpLiq = 0.0, mLiq = 0.0, viscosity = 0.0, fracMass = 0.0;
     double totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0, totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0;
     static double *m, *r, *oxVal;
     int i, j;
@@ -1644,7 +1645,10 @@ static void putOutputDataToXmlFile(char *outputFile) {
     if (silminState->isentropic  && (silminState->refEntropy  == 0.0)) silminState->refEntropy  = sLiq+totalEntropy;
     if (silminState->isochoric   && (silminState->refVolume   == 0.0)) silminState->refVolume   = vLiq+totalVolume;
 
-    if (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) {
+    fracMass = (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) ? 
+        (silminState->fracMass-previousSilminState->fracMass) : 0.0;
+    
+    if ((silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) && (fracMass > 0.0)) {
         rc = xmlTextWriterStartElement(writer, BAD_CAST "fractionate");
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "type", BAD_CAST "current");
         rc = sprintf(temporary, "%23.16e", silminState->fracMass-previousSilminState->fracMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
@@ -1841,7 +1845,7 @@ static void putOutputDataToXmlFile(char *outputFile) {
     }
 
     if ( (previousSilminState->fractionateSol || previousSilminState->fractionateFlu || previousSilminState->fractionateLiq)
-        && (previousSilminState->fracMass > 0) ) {
+        && (previousSilminState->fracMass > 0.0) ) {
         rc = xmlTextWriterStartElement(writer, BAD_CAST "fractionate");
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "type", BAD_CAST "previous");
         rc = sprintf(temporary, "%23.16e", previousSilminState->fracMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
@@ -2129,6 +2133,7 @@ static void putStatusDataToXmlFile(char *statusFile) {
         "Error: Phase rule violation (rank deficiency)",           /* SILMIN_RANK		 */
         "Error: Maximum time limit exceeded in Silmin",            /* SILMIN_TIME		 */
         "Error: Internal",                                         /* GENERIC_INTERNAL_ERROR */
+        "Error: Failure in equilibration in Find Wet Liquidus",   /* LIQUIDUS_SILMIN_ERROR */
     };
 
     printf("Output file name is %s\n", statusFile);
@@ -2646,7 +2651,7 @@ int main (int argc, char *argv[])
                 getchar();
             }
 
-            if ((argc == 2) || !strncmp(argv[2], "liquidus", 8)) {
+            if ((argc == 2) || !strncmp(argv[2], "liquidus", 8)) { // default is find liquidus followed by equilibrate
                 int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu,
                     fractionateLiq = silminState->fractionateLiq;
                 silminState->fractionateSol = FALSE;
@@ -2661,7 +2666,22 @@ int main (int argc, char *argv[])
                 silminState->fractionateFlu = fractionateFlu;
                 silminState->fractionateLiq = fractionateLiq;
             }
-            if ((argc == 2) || !strncmp(argv[2], "equilibrate", 8)) {
+            else if (!strncmp(argv[2], "wetliquidus", 11)) {
+                int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu,
+                    fractionateLiq = silminState->fractionateLiq;
+                silminState->fractionateSol = FALSE;
+                silminState->fractionateFlu = FALSE;
+                silminState->fractionateLiq = FALSE;
+
+                while(!liquidus());
+                printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
+                (void) putOutputDataToFile(NULL);
+
+                silminState->fractionateSol = fractionateSol;
+                silminState->fractionateFlu = fractionateFlu;
+                silminState->fractionateLiq = fractionateLiq;
+            }
+            if ((argc == 2) || !strncmp(argv[2], "equilibrate", 11)) {
                 if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
                     silminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
                     silminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
@@ -2747,6 +2767,10 @@ int main (int argc, char *argv[])
             if        (ret == FALSE) {
                 printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
                 exit(0);
+            } else if (ret == RUN_WETLIQUIDUS_CALC) {
+                (void) findWetLiquidus();
+                printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
+                putOutputDataToXmlFile(outputFile);
             } else if (ret == RUN_LIQUIDUS_CALC) {
                 while(!liquidus());
                 printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
@@ -2804,6 +2828,12 @@ int main (int argc, char *argv[])
                 if        (ret == FALSE) {
                     printf("Error(s) detected on reading input file %s. Exiting.\n", iFileName);
                     exit(0);
+                } else if (ret == RUN_WETLIQUIDUS_CALC) {
+                    meltsStatus.status = GENERIC_INTERNAL_ERROR;
+                    (void) findWetLiquidus();
+                    (void) strcpy(silminInputData.name, iFileName);
+                    putOutputDataToXmlFile(oFileName);
+                    putStatusDataToXmlFile(sFileName);
                 } else if (ret == RUN_LIQUIDUS_CALC) {
                     meltsStatus.status = GENERIC_INTERNAL_ERROR;
                     while(!liquidus());
@@ -2929,6 +2959,13 @@ int main (int argc, char *argv[])
                         if        (ret == FALSE) {
                             fileOpenAttempts++;
                             printf("Error(s) detected on reading input file %s. Exiting.\n", iFileName);
+                        } else if (ret == RUN_WETLIQUIDUS_CALC) {
+                            fileOpenAttempts = 0;
+                            meltsStatus.status = GENERIC_INTERNAL_ERROR;
+                            (void) findWetLiquidus();
+                            (void) strcpy(silminInputData.name, iFileName);
+                            putOutputDataToXmlFile(oFileName);
+                            putStatusDataToXmlFile(sFileName);
                         } else if (ret == RUN_LIQUIDUS_CALC) {
                             fileOpenAttempts = 0;
                             meltsStatus.status = GENERIC_INTERNAL_ERROR;

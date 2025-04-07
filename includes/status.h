@@ -40,6 +40,7 @@ MELTS Source Code: RCS
 
 #define GENERIC_INTERNAL_ERROR 14
 
+#define LIQUIDUS_SILMIN_ERROR 15
 typedef struct _meltsStatus {
   int status;
 } MeltsStatus;

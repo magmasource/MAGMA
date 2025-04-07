@@ -1496,8 +1496,8 @@ int putSequenceDataToXmlFile(int active) {
     int rc;
     time_t tp;
     char * cOut, *temporary = (char *) malloc((size_t) 40*sizeof(char));
-    double gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, cpLiq = 0.0, mLiq = 0.0, viscosity = 0.0;
-    double totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0, totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0, fracMass=0.0;
+    double gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, cpLiq = 0.0, mLiq = 0.0, viscosity = 0.0, fracMass = 0.0;
+    double totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0, totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0;
     static double *m, *r, *oxVal;
     int i, j;
 
@@ -1754,7 +1754,8 @@ int putSequenceDataToXmlFile(int active) {
     if (silminState->isentropic  && (silminState->refEntropy  == 0.0)) silminState->refEntropy  = sLiq+totalEntropy;
     if (silminState->isochoric   && (silminState->refVolume   == 0.0)) silminState->refVolume   = vLiq+totalVolume;
     
-    fracMass = (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) ? (silminState->fracMass-previousSilminState->fracMass) : 0.0;
+    fracMass = (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) ? 
+      (silminState->fracMass-previousSilminState->fracMass) : 0.0;
 
     if ((silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) && (fracMass > 0.0)) {
         rc = xmlTextWriterStartElement(writer, BAD_CAST "fractionate");

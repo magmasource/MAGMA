@@ -849,6 +849,7 @@ void        updateUserGraphGW(void);
 #ifdef BATCH_VERSION
 
 int liquidus(void);
+int findWetLiquidus(void);
 int putOutputDataToFile(char *);
 int putSequenceDataToXmlFile(int);
 int silmin(void);

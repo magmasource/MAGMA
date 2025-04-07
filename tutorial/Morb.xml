@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MELTSinput>
+    <initialize>
+        <modelSelection>MELTS_v1.0.x</modelSelection>
+        <SiO2>48.68</SiO2>
+        <TiO2>1.01</TiO2>
+        <Al2O3>17.64</Al2O3>
+        <Fe2O3>0.89</Fe2O3>
+        <Cr2O3>0.03</Cr2O3>
+        <FeO>7.59</FeO>
+        <MnO>0</MnO>
+        <MgO>9.10</MgO>
+        <NiO>0</NiO>
+        <CoO>0</CoO>
+        <CaO>12.45</CaO>
+        <Na2O>2.65</Na2O>
+        <K2O>0.03</K2O>
+        <P2O5>0.08</P2O5>
+        <H2O>0.2</H2O>
+    </initialize>
+    <calculationMode>equilibrate</calculationMode>
+    <title>Allan et al 1989</title>
+    <constraints>
+        <setTP>
+            <initialT>1220</initialT>
+            <finalT>1000</finalT>
+            <incT>3</incT>
+            <initialP>500</initialP>
+            <finalP>500</finalP>
+            <incP>0</incP>
+            <fo2Path>none</fo2Path>
+            <fo2Offset>0</fo2Offset>
+        </setTP>
+    </constraints>
+    <fractionationMode>fractionateSolids</fractionationMode>
+</MELTSinput>
