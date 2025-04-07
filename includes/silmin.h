@@ -145,18 +145,18 @@ MELTS Source Code: RCS
 **      V1.2-6  Mark S. Ghiorso  September 23, 1991
 **              Altered declaration of getAffinityAndComposition
 **      V1.2-7  Mark S. Ghiorso  September 24, 1991
-**              Changed parameter list for con*** and test*** routine 
-**              declarations and altered solids[] structure for corresponding 
+**              Changed parameter list for con*** and test*** routine
+**              declarations and altered solids[] structure for corresponding
 **              declaration of (*convert) and (*test)
 **      V1.2-8  Mark S. Ghiorso  October 12, 1991
 **              Added checForCoexistingSolids function and solidCoexist
 **              element to silminState structure
 **      V1.2-9  Mark S. Ghiorso  October 15, 1991
-**              (1) Altered definition of silminState->solidComp to be a 
+**              (1) Altered definition of silminState->solidComp to be a
 **                  two dimensional array.
 **              (2) same for silminState->solidDelta.
 **              (3) changed silminState->solidCoexist from pointer to double
-**                  to int *(silminState->nSolidCoexist), to count the 
+**                  to int *(silminState->nSolidCoexist), to count the
 **                  number of columns (immiscible solids) in solidComp and
 **                  solidDelta arrays
 **      V2.1-10 Mark S. Ghiorso  October 24, 1991
@@ -175,7 +175,7 @@ MELTS Source Code: RCS
 **      V2.1-15 Mark S. Ghiorso  January 15, 1992
 **              (1) redefined argument list to updateAssimilantPADB()
 **      V2.1-16 Mark S. Ghiorso  January 21, 1992
-**              (1) added definition of visLiq() for viscosity of the 
+**              (1) added definition of visLiq() for viscosity of the
 **                  liquid
 **      V2.1-17 Mark S. Ghiorso  February 18, 1992
 **              (1) Minor changes for ANSI compliance
@@ -190,7 +190,7 @@ MELTS Source Code: RCS
 **                               April 28, 1992
 **              (2) Added typedef and extern declaration of constraint struct
 **      V2.2-2  Mark S. Ghiorso  May 1, 1992
-**              (1) Added reference enthalpy and volume entries to 
+**              (1) Added reference enthalpy and volume entries to
 **                  silminState structure
 **      V2.2-3  Mark S. Ghiorso  May 4, 1992
 **              (1) Added *cylSolids to silminState structure
@@ -210,7 +210,7 @@ MELTS Source Code: RCS
 **              (2) Altered modelParameter[] structure to add activeS
 **                  member
 **      V2.4-3  Mark S. Ghiorso July 19, 1993
-**              (1) Altered modelParameter[] structure to add activeV 
+**              (1) Altered modelParameter[] structure to add activeV
 **                  and volume members
 **      V3.0-1  Mark S. Ghiorso May 10, 1994
 **              (1) altered solid structure declaration to reflect entries
@@ -241,7 +241,7 @@ MELTS Source Code: RCS
 #include <ctype.h>
 #include <float.h>
 #include <limits.h>
-#include <math.h>  
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -275,7 +275,7 @@ MELTS Source Code: RCS
 #endif
 #endif
 
-#define TAU   DBL_EPSILON /* machine precision               */ 
+#define TAU   DBL_EPSILON /* machine precision               */
 #define BIG   DBL_MAX     /* maximum double precision number */
 #ifndef TRUE
 #define TRUE  1
@@ -306,26 +306,26 @@ MELTS Source Code: RCS
  * Public liquid solution functions:
  */
 
-void conLiq  (int inpMask, int outMask, double t, double p, double *o, 
+void conLiq  (int inpMask, int outMask, double t, double p, double *o,
               double *m, double *r, double *x, double **dm, double ***dm2,
               double *logfo2);
-int testLiq (int mask, double t, double p, int na, int nr, char **names, 
+int testLiq (int mask, double t, double p, int na, int nr, char **names,
              char **formulas, double *r, double *m);
 void dispLiq (int mask, double t, double p, double *x, char **formula);
 void setModeToMixingLiq(int flag);
-void actLiq  (int mask, double t, double p, double *x, double *a, 
+void actLiq  (int mask, double t, double p, double *x, double *a,
               double *mu, double **dx, double **dw);
-void gmixLiq (int mask, double t, double P, double *x, double *gmix, 
+void gmixLiq (int mask, double t, double P, double *x, double *gmix,
               double *dx, double **dx2);
 void hmixLiq (int mask, double t, double P, double *x, double *hmix, double *dw);
-void smixLiq (int mask, double t, double P, double *x, double *smix, 
+void smixLiq (int mask, double t, double P, double *x, double *smix,
               double *dx, double **dx2, double *dw);
 void cpmixLiq(int mask, double t, double P, double *x, double *cpmix,
               double *dt, double *dx);
 void vmixLiq (int mask, double t, double P, double *x, double *vmix,
-              double *dx, double **dx2, double *dt, double *dp, double *dt2, 
+              double *dx, double **dx2, double *dt, double *dp, double *dt2,
               double *dtdp, double *dp2, double *dxdt, double *dxdp, double *dw);
-void muO2Liq(int mask, double t, double p, double *m, double *muO2, double *dm, 
+void muO2Liq(int mask, double t, double p, double *m, double *muO2, double *dm,
              double *dt, double *dp, double **d2m, double *d2mt, double *d2mp,
              double *d2t2, double *d2tp, double *d2p2);
 void visLiq  (int mask, double t, double P, double *x, double *viscosity);
@@ -354,7 +354,7 @@ void visLiq  (int mask, double t, double P, double *x, double *viscosity);
 #define EIGHTEENTH  00400000 /* octal for binary 00100000000000000000 */
 #define NINETEENTH  01000000 /* octal for binary 01000000000000000000 */
 #define TWENTIETH   02000000 /* octal for binary 10000000000000000000 */
- 
+
 /*
  *==============================================================================
  * Algorithmic constants
@@ -363,7 +363,7 @@ void visLiq  (int mask, double t, double P, double *x, double *viscosity);
 #define MASSOUT 1.0e-7   /* minimal mass of included phases           */
 #define SCALET  1000.0   /* scaling factor for T in isenthalpic calcs */
 #define SCALEP  1000.0   /* scaling factor for P in isochoric calcs   */
-#define ITERMX  100      /* maximum number of quadratic interations   */        
+#define ITERMX  100      /* maximum number of quadratic interations   */
 
 #define R       8.3143   /* gas constant (J/K)                        */
 #define TR      298.15   /* reference temperature (K)                 */
@@ -371,23 +371,23 @@ void visLiq  (int mask, double t, double P, double *x, double *viscosity);
 
 /*
  *==============================================================================
- * Thermodynamic data structures 
+ * Thermodynamic data structures
  *   (1) These are type definitions, and are incorporated into actual
  *       data structures which characterize each phase
  */
 #define EOS_BERMAN  0
 #define EOS_GHIORSO 1
-#define EOS_KRESS   2 
+#define EOS_KRESS   2
 #define EOS_VINET   3
 #define EOS_SAXENA  4
- 
+
 typedef union _EOS {
   struct { double a0, a1, a2, a3, b0, b1, b2, b3, dKdP, d2KdTdP; }  Saxena;
   struct { double alpha, c, dcdt, cp, mw, d2vdp2, d3vdp3, d4vdp4; } Ghiorso;
   struct { double v1, v2, v3, v4; }                                 Berman;
-  struct { double dvdt, dvdp, d2vdtp, d2vdp2; }                     Kress; 
+  struct { double dvdt, dvdp, d2vdtp, d2vdp2; }                     Kress;
   struct { double alpha, K, Kp;   }                                 Vinet;
-} EOS;  
+} EOS;
 
 #define CP_BERMAN 0
 #define CP_SAXENA 1
@@ -396,7 +396,7 @@ typedef union _CP {
   struct { double k0, k1, k2, k3, Tt, deltah, l1, l2; } Berman;
   struct { double a, b, c, d, e, g, h; }                Saxena;
 } CP;
- 
+
 typedef struct _thermoRef {
   double h, s, v;        /* enthalpy (J), entropy (J/K), volume (J/bar)   */
   int    cp_type;        /* Cp formulation for solid                      */
@@ -431,10 +431,10 @@ typedef struct _modelParameters {
   int        activeF;  /* active fusion   parameter (TRUE), inactive (FALSE) */
 } ModelParameters;
 
-extern 
-ModelParameters *modelParameters; /* data structure 
+extern
+ModelParameters *modelParameters; /* data structure
                                      containing nls*(nls-1)/2+nls entries */
-				     
+
 typedef struct _eosModelParameters {
   const char *label;     /* label for the model parameter                    */
   double     Kp;         /* value of Kp   for oxide                          */
@@ -469,11 +469,11 @@ EosModelParameters eosModelParameters[];     /* data structure containing
 extern
 SsCnModelParameters ssCnModelParameters[];   /* data structure containing
                                                                nc entries */
-					    
+
 extern
 WCnModelParameters wCnModelParameters[];     /* data structure containing
                                                     [nc*(nc-1)/2 entries] */
-					    
+
 extern int nCN;                    /* total number of coordination states */
 
 /*
@@ -489,9 +489,9 @@ typedef struct _bulkSystem {
   int        type;       /* FEO, FE2O3, OTHER oxide                            */
   double     coeff;      /* coefficient if OTHER, for ferrous/ferric calc      */
   double     mw;         /* molecular weights of oxides                        */
-  double     *oxToLiq;   /* pointer to an array of length [nc] which converts 
+  double     *oxToLiq;   /* pointer to an array of length [nc] which converts
                             moles of oxides to moles of liquid components      */
-  int        *oxToElm;   /* pointer to an array of length [106] which converts 
+  int        *oxToElm;   /* pointer to an array of length [106] which converts
                             moles of oxides to moles of elements               */
   double     gk_v;       /* Ghiorso-Kress, v-bar-sub-i                         */
   double     gk_dvdt;    /* Ghiorso-Kress, dvdt-bar-sub-i                      */
@@ -508,7 +508,7 @@ extern int nc;
 
 typedef struct _liquid {
   const char *label;   /* label for the liquid component                    */
-  double     *liqToOx; /* pointer to an array of length [nc] which converts 
+  double     *liqToOx; /* pointer to an array of length [nc] which converts
                           component moles to moles of oxides                */
   ThermoRef  ref;      /* reference properties (solid) at TR, PR            */
   ThermoLiq  liq;      /* reference properties (liquid)                     */
@@ -526,7 +526,7 @@ extern int liqERRstate;
 #define COMPONENT 0
 
 typedef struct _solids {
-  const char *label;   /* label for solid phase or solid phase components   */ 
+  const char *label;   /* label for solid phase or solid phase components   */
   int        type;     /* PHASE or COMPONENT                                */
   const char *formula; /* character string formula                          */
   int        inclInClb;/* TRUE/FALSE - include phase in calibration         */
@@ -695,7 +695,7 @@ typedef struct _silminState {
   double  dspDVDt;        /* displayed dVdT gradient (J/bar-K)               */
   double  P;              /* current pressure (bars)                         */
 
-  double  fo2;            /* current value of fo2 (numeric, base 10 log)     */ 
+  double  fo2;            /* current value of fo2 (numeric, base 10 log)     */
   int     fo2Path;        /* current value of fo2 path (i.e. FO2_NONE, etc   */
   double  fo2Delta;       /* offset from fo2Path                             */
   double  oxygen;         /* reference value of O2 content in the system     */
@@ -736,7 +736,11 @@ typedef struct _silminState {
   int     plotState;      /* current value of user configurable plot state   */
   double  *ySol;          /* array output from evaluateSaturationState       */
   double  *yLiq;          /* array output from evaluateSaturationState       */
-} SilminState;   
+
+#ifdef EASYMELTS_UPDATE_SYSTEM
+  int ready_to_output; // Addition -Einari
+#endif
+} SilminState;
 
 extern SilminState *silminState;
 
@@ -770,7 +774,7 @@ extern SilminInputData silminInputData;
 typedef struct _silminHistory *SilminHistoryPtr;
 typedef struct _silminHistory {
   SilminState      *state;                   /* current state of the system */
-  SilminHistoryPtr next;  
+  SilminHistoryPtr next;
 } SilminHistory;
 
 extern SilminHistory *silminHistory;
@@ -780,7 +784,7 @@ typedef struct _constraints {
   double *lambdaO2;     /* Lagrange multiplier for f O2 constraints           */
   double lambdaH;       /* Lagrange multiplier for isenthalpic constraint     */
   double lambdaS;       /* Lagrange multiplier for isentropic constraint      */
-  double lambdaV;       /* Lagrange multiplier for isochoric constraint       */ 
+  double lambdaV;       /* Lagrange multiplier for isochoric constraint       */
   double **liquidDelta; /* Correction vector of liquid moles to maintain feas */
   double **solidDelta;  /* Correction vector of solid moles to maintain feasi */
   double T;             /* Consistent Temperature of the system               */
@@ -814,7 +818,7 @@ void        destroyConstraintsStructure(void *p);
 void        destroySilminStateStructure(void *p);
 int         evaluateSaturationState(double *rSol, double *rLiq);
 double      formulaToMwStoich(char *formula, double *stoich);
-int         getAffinityAndComposition(double t, double p, int index, int *zeroX, 
+int         getAffinityAndComposition(double t, double p, int index, int *zeroX,
               double *muMinusMu0, double *affinity, double *indepVar);
 void        getEqualityConstraints(int *conRows, int *conCols, double ***cMatrixPt,
               double **hVectorPt, double **dVectorPt, double **yVectorPt);
@@ -823,10 +827,10 @@ double      getdlog10fo2dt(double t, double p, int buffer);
 double      getdlog10fo2dp(double t, double p, int buffer);
 double      getd2log10fo2dt2(double t, double p, int buffer);
 double      getd2log10fo2dp2(double t, double p, int buffer);
-int         getProjGradientAndHessian(int conRows, int conCols, double ***eMatrixPt, 
-              double ***bMatrixPt, double **cMatrix, double *hVector, double *dVector, 
+int         getProjGradientAndHessian(int conRows, int conCols, double ***eMatrixPt,
+              double ***bMatrixPt, double **cMatrix, double *hVector, double *dVector,
               double *yVector);
-void        gibbs(double t, double p, char *name, ThermoRef *phase, 
+void        gibbs(double t, double p, char *name, ThermoRef *phase,
               ThermoLiq *liquid, ThermoData *fusion, ThermoData *result);
 void        InitComputeDataStruct(void);
 void        intenToExtenGradient(double pMix, double *dpMix, int nr,  double *dp,
@@ -837,7 +841,7 @@ void        intenToExtenHessian(double pMix, double *dpMix, double **d2pMix,
 double      linearSearch(double lambda, int *notcomp);
 int         spinodeTest(void);
 int         subsolidusmuO2(int mask, double *muO2, double *dm, double *dt, double *dp,
-              double **d2m, double *d2mt, double *d2mp, double *d2t2, double *d2tp, 
+              double **d2m, double *d2mt, double *d2mp, double *d2t2, double *d2tp,
               double *d2p2);
 void        updateAssimilantPADB(char *member);
 void        updateBulkADB(void);
@@ -852,7 +856,11 @@ int liquidus(void);
 int findWetLiquidus(void);
 int putOutputDataToFile(char *);
 int putSequenceDataToXmlFile(int);
+#ifndef EASYMELTS_UPDATE_SYSTEM
 int silmin(void);
+#else
+int silmin(int calc_index); // Addition -Einari
+#endif
 
 #define ASSIM_PADB_INDEX_MASS        0  /* + npc + nc */
 #define ASSIM_PADB_INDEX_T           1  /* + npc + nc */

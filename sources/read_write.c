@@ -99,7 +99,7 @@ MELTS Source Code: RCS
 **              (2) Changed access to tpValues through global macros
 **              (3) Changed compositionValues[].textwg -> .name
 **              (4) changed statusEntries reference to new style
-**              (5) added magma and assimilant initialization 
+**              (5) added magma and assimilant initialization
 **              (6) added toggle button initialization and setting
 **      V1.0-3  Mark S. Ghiorso  September 4, 1991
 **              (1) Added reference to silminState global strcture
@@ -107,19 +107,19 @@ MELTS Source Code: RCS
 **              (2) Finished assimilant and magma mixing initialization
 **              (3) Added initialization of status_adb and solid_adb entries
 **              ->->-> Final version to implement all expected options
-**              (4) Since the text widgets set the numeric values of 
+**              (4) Since the text widgets set the numeric values of
 **                  their string displays into the appropriate global
 **                  structures, this initialization has been removed.
-**              (5) Toggle buttons are now initialized using the 
+**              (5) Toggle buttons are now initialized using the
 **                  DecWindows XmToggleButtonSetState.
 **      V1.0-4  Mark S. Ghiorso  September 20, 1991
 **              (1) Removed initialization of phases[0].* labels
 **      V2.0-1  Mark S. Ghiorso  November 14, 1991
 **              Conversion to OSF Motif V1.1.1/X11 Release 4
 **      V2.0-2  Mark S. Ghiorso  November 23, 1991
-**              (1) Converted the update method for the display of text in the 
+**              (1) Converted the update method for the display of text in the
 **                  statusEntries[STATUS_ADB_INDEX_STATUS].name widget to
-**                  reflect that it is now a scrolled text widget. The 
+**                  reflect that it is now a scrolled text widget. The
 **                  wprintf (widget printf) function is used for this purpose.
 **      V2.0-3  Mark S. Ghiorso  November 27, 1991
 **              (1) Added vframe, vheader, vlist include files inorder to
@@ -146,7 +146,7 @@ MELTS Source Code: RCS
 **      V2.0-8  Mark S. Ghiorso  January 15, 1992
 **              (1) Minor format corrections to putInputDataToFile()
 **              (2) Added assimilant printout to putOutputDataToFile()
-**              (3) Added calls to updateAssimilantPADB() to clear the 
+**              (3) Added calls to updateAssimilantPADB() to clear the
 **                  list entries and update the list
 **      V2.0-9  Mark S. Ghiorso  January 29, 1992
 **              Corrected definition of "output" to be a pointer to FILE
@@ -154,7 +154,7 @@ MELTS Source Code: RCS
 **              (1) Corrected minor casting violations for ANSI C compliance
 **              (2) Removed global dependence on arg_set
 **      V2.0-11 Mark S. Ghiorso  March 14, 1992
-**              (1) Corrected error in write file routines to avoid NULL 
+**              (1) Corrected error in write file routines to avoid NULL
 **                  memory reference in the event that "title" is undefined
 **              (2) same as 2.0-11.1 for uninitialized tpValues structure
 **              (3) same as 2.0-11.1 for included solids structure
@@ -169,7 +169,7 @@ MELTS Source Code: RCS
 **      V2.1-1  Mark S. Ghiorso  July 13, 1992
 **              Added formula output to solid description
 **      V2.1-2  Mark S. Ghiorso  September 29, 1992
-**              Converted TextField to Text widgets as a bug workaround 
+**              Converted TextField to Text widgets as a bug workaround
 **              for DECWindows Motif V 1.1
 **      V2.1-3  Mark S. Ghiorso  June 14, 1993
 **              Added code for additional fo2 path constraints
@@ -185,7 +185,7 @@ MELTS Source Code: RCS
 **      V2.2-2  Mark S. Ghiorso  January 17, 1994
 **              (1) Fixed an error on read in Assimilant liquid composition
 **                  7 -> 12 character length problem
-**              (2) corr initialization of 
+**              (2) corr initialization of
 **                  assimilantValues[npc+nc+ASSIM_PADB_INDEX_LIQUID_MASS].ns
 **                  when liquid mass is read in. Note that the code assumes
 **                  only liquid is assimilated
@@ -194,31 +194,59 @@ MELTS Source Code: RCS
 **                  derivatives
 **              (2) Added reference to isentropic constraints
 **                               June 9, 1994
-**              (3) Added initialization of silminState->refEnthalpy, 
+**              (3) Added initialization of silminState->refEnthalpy,
 **                  silminState->refEntropy and silminState->refVolume
 **                               July 2, 1994
 **              (4) Modified initialization of silminState->refEnthalpy,
 **                  silminState->refEntropy and silminState->refVolume so that
-**                  when constrained to an fo2 path, these quatities are 
+**                  when constrained to an fo2 path, these quatities are
 **                  reset on each pass through the program.
 **              (5) Revoked 3.0-1.4
 **      V3.1-1  Mark S. Ghiorso  March 4, 1995
 **              (1) Modified MELTS_DEMO code for putOutputDataToFile()
 **      V3.2-1  Mark S. Ghiorso  March 22, 1995
 **              (1) Added code to putInputDataToFile() to output H, S, V
-**                  increments and related data 
+**                  increments and related data
 **              (2) Added code to getInputDataFromFile() to input H, S, V
-**                  increments and related data 
+**                  increments and related data
 **      V4.0-1  Paul D. Asimow April 26, 1995
 **              (1) Make sensible printouts without liquid
 **--
 */
- 
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "silmin.h"               /*SILMIN structures include file          */
+#ifdef EASYMELTS_UPDATE_SYSTEM
+/*
+ Additions for folder creation
+ */
+
+#if defined(_WIN32) || defined(__linux__) //Addition ES
+
+#ifdef _WIN32
+#include <direct.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#define GetCurrentDir _getcwd
+#endif
+#ifdef __linux__
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
+struct stat st = {0};
+#endif
+/*
+ End additions
+ */
+#endif
+
+#include "silmin.h" /*SILMIN structures include file          */
 
 #define MAKE_TABLES
 
@@ -260,7 +288,7 @@ MELTS Source Code: RCS
   XmStringFree(cstring1); \
   XmStringFree(cstring2); \
   XmStringFree(cstring3); \
-  return GET_INPUT_ERROR_BAD_READ; 
+  return GET_INPUT_ERROR_BAD_READ;
 
 #define UPDATE_DISPLAY \
   while (XtAppPending(app_context) == XtIMXEvent) { \
@@ -274,7 +302,7 @@ MELTS Source Code: RCS
 
 static char *defFileName;
 
-int getInputDataFromFile(char *fileName) 
+int getInputDataFromFile(char *fileName)
 {
   static char compositionEntry[8];
   static char *label;
@@ -306,7 +334,7 @@ int getInputDataFromFile(char *fileName)
 
   if (silminInputData.name == NULL)  silminInputData.name  = (char *) malloc((unsigned) (REC+1)*sizeof(char));
   if (silminInputData.title == NULL) silminInputData.title = (char *) malloc((unsigned) (REC+1)*sizeof(char));
-  if (label == NULL) { 
+  if (label == NULL) {
     for (i=0, len=0; i<nc; i++) len = MAX(len, (int) strlen(bulkSystem[i].label));
     label = (char *) malloc((unsigned) (len+1)*sizeof(char));
   }
@@ -331,7 +359,7 @@ int getInputDataFromFile(char *fileName)
   (void) snprintf(compositionEntry, 8, "%s", "");
   for (i=0; i<nc; i++) {
     XmTextSetString(compositionValues[i].name, compositionEntry);
-    compositionValues[i].value = 0.0; 
+    compositionValues[i].value = 0.0;
   }
   sum = 0.0;
 
@@ -342,7 +370,7 @@ int getInputDataFromFile(char *fileName)
     }
     (assimilantValues[npc+nc+ASSIM_PADB_INDEX_MASS].value)[0]        = 0.0;
     (assimilantValues[npc+nc+ASSIM_PADB_INDEX_T].value)[0]           = 0.0;
-    (assimilantValues[npc+nc+ASSIM_PADB_INDEX_INCREMENT].value)[0]   = 0.0; 
+    (assimilantValues[npc+nc+ASSIM_PADB_INDEX_INCREMENT].value)[0]   = 0.0;
     (assimilantValues[npc+nc+ASSIM_PADB_INDEX_LIQUID_MASS].value)[0] = 0.0;
     assimilantUnits.units = ASSIM_PADB_UNITS_WEIGHT;
     updateAssimilantPADB((char *) NULL);
@@ -534,13 +562,13 @@ int getInputDataFromFile(char *fileName)
     } else if (!strncmp(line, "suppress: ",              MIN(len,10))) {
       for (i=0, j=0; i<npc; i++) {
         if (solids[i].type == PHASE) {
-	  int phaseStrLen = (int) strlen(solids[i].label); 
+	  int phaseStrLen = (int) strlen(solids[i].label);
           if (((len-10-phaseStrLen)  == 0) && !strncmp(&line[10], solids[i].label, phaseStrLen)) {
             if ( solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL)) {
               XmToggleButtonGadgetSetState(includedSolids[j].name, False, False);
             }
             break;
-          } 
+          }
           j++;
         }
       }
@@ -573,10 +601,10 @@ int getInputDataFromFile(char *fileName)
         else { READ_ERROR }
       } else if (!strncmp(&line[12],  "temperature ", MIN((len-12), 12))) {
         if (sscanf(&line[24], "%f", &temporary) == EOF) { READ_ERROR }
-        (assimilantValues[npc+nc+ASSIM_PADB_INDEX_T].value)[0] = (double) temporary; 
+        (assimilantValues[npc+nc+ASSIM_PADB_INDEX_T].value)[0] = (double) temporary;
       } else if (!strncmp(&line[12],  "mass ",        MIN((len-12),  5))) {
         if (sscanf(&line[17], "%f", &temporary) == EOF) { READ_ERROR }
-        (assimilantValues[npc+nc+ASSIM_PADB_INDEX_MASS].value)[0] = (double) temporary; 
+        (assimilantValues[npc+nc+ASSIM_PADB_INDEX_MASS].value)[0] = (double) temporary;
       } else if (!strncmp(&line[12],  "increments ",  MIN((len-12), 11))) {
         if (sscanf(&line[23], "%f", &temporary) == EOF) { READ_ERROR }
         (assimilantValues[npc+nc+ASSIM_PADB_INDEX_INCREMENT].value)[0] = (double) temporary;
@@ -596,7 +624,7 @@ int getInputDataFromFile(char *fileName)
             (assimilantValues[i].value)[ns] = (double) temporary;
 	    if (endPhase == i) { curPhase = 0; endPhase = 0; }
             break;
-          } 
+          }
         }
         if (i == npc) {
           for (i=0; i<nc; i++) {
@@ -647,7 +675,7 @@ int getInputDataFromFile(char *fileName)
 }
 
 
-int putInputDataToFile(char *fileName) 
+int putInputDataToFile(char *fileName)
 {
   XmString  cstring1, cstring2, cstring3;
   int i,j ;
@@ -822,7 +850,7 @@ int putInputDataToFile(char *fileName)
       ((assimilantValues[npc+nc+ASSIM_PADB_INDEX_INCREMENT].value)[0] > 0.0)) {
 
     fprintf(output, "Assimilant: Temperature %.2f\n", (assimilantValues[npc+nc+ASSIM_PADB_INDEX_T].value)[0]);
-    fprintf(output, "Assimilant: Mass %.2f\n",        (assimilantValues[npc+nc+ASSIM_PADB_INDEX_MASS].value)[0]); 
+    fprintf(output, "Assimilant: Mass %.2f\n",        (assimilantValues[npc+nc+ASSIM_PADB_INDEX_MASS].value)[0]);
     fprintf(output, "Assimilant: Increments %.2f\n",  (assimilantValues[npc+nc+ASSIM_PADB_INDEX_INCREMENT].value)[0]);
     fprintf(output, "Assimilant: Liquid Mass %.2f\n", (assimilantValues[npc+nc+ASSIM_PADB_INDEX_LIQUID_MASS].value)[0]);
     if      (assimilantUnits.units == ASSIM_PADB_UNITS_VOLUME) fprintf(output, "Assimilant: Units Vol %%\n");
@@ -867,26 +895,67 @@ extern SilminState *previousSilminState;
 
 #endif /* BATCH_VERSION */
 
-int putOutputDataToFile(char *fileName) 
+int putOutputDataToFile(char *fileName)
 {
   static FILE *output;
 #ifdef MAKE_TABLES
   static FILE *tableLiq;
-  static const char *liquidFile = "melts-liquid.tbl";
-  static FILE **tableSol;
-  static int rowIndex = 0;
+#ifdef EASYMELTS_UPDATE_SYSTEM
+#if defined(_WIN32) || defined(__linux__) //Addition ES
+    static const char *liquidFile = "tables/melts-liquid.tbl";
+    // #elif defined(__APPLE__) //Addition ES
+    //     char[200] temp;
+    //     const char *home_path = getenv("HOME"); //HOME must be set for this to work
+    //     if (home_path == NULL) {
+    //         const char* liquidFile = "melts-liquid.tbl";
+    //     } else {
+    //     const char *l_file = "/Documents/easyMelts_output/tables/melts-liquid.tbl"; //These folders are always created at program startup
+    //     strcpy(temp, home_path);
+    //     strcat(temp, l_file);
+    //     const char* liquidFile = temp;
+    //     }
+#else
+    static const char *liquidFile = "melts-liquid.tbl";
 #endif
+#else
+    static const char *liquidFile = "melts-liquid.tbl";
+#endif
+    static FILE **tableSol;
+    static int rowIndex = 0;
+
+#ifdef EASYMELTS_UPDATE_SYSTEM
+    /*Addition ES - for macOS the tables folder is made in imgui_opengl.cpp*/
+#ifdef _WIN32
+    char buffer[FILENAME_MAX];
+    GetCurrentDir(buffer, FILENAME_MAX);
+    strcat(buffer, "/tables");
+    if (stat(buffer, &st) == -1) {
+        _mkdir(buffer);
+    }
+#endif
+#ifdef __linux__
+    char buffer[FILENAME_MAX];
+    GetCurrentDir(buffer, FILENAME_MAX);
+    strcat(buffer, "/tables");
+    if (stat(buffer, &st) == -1) {
+        mkdir(buffer, 0777);
+    }
+#endif
+    /*End addition*/
+#endif
+#endif // MAKE_TABLES
+
   static double *m, *r, *oxVal;
   double moles,        viscosity, gLiq, hLiq, sLiq, vLiq, cpLiq, dvdtLiq, dvdpLiq, mLiq,
          mass,         totalMass,
          gibbsEnergy,  totalGibbsEnergy,
          enthalpy,     totalEnthalpy,
-         entropy,      totalEntropy, 
+         entropy,      totalEntropy,
          volume,       totalVolume,
          heatCapacity, totalHeatCapacity,
       	 dVolumeDt,    totaldVolumeDt,
       	 dVolumeDp,    totaldVolumeDp,
-         oxSum, 
+         oxSum,
          fo2Delta;
   int i, j, nl, ns;
   int hasLiquid = (silminState->liquidMass != 0.0);
@@ -918,7 +987,7 @@ int putOutputDataToFile(char *fileName)
       printf("Error in SILMIN file output procedure. Cannot open file: %s!\n", (char *) liquidFile);
       return FALSE;
 #endif /* BATCH_VERSION */
-    } 
+    }
     fprintf(tableLiq, "Index,T (C),P (kbars),log(10) f O2");
     fprintf(tableLiq, ",liq mass (gm),liq rho (gm/cc)");
     for (i=0; i<nc; i++) fprintf(tableLiq, ",wt%% %s", bulkSystem[i].label);
@@ -952,16 +1021,16 @@ int putOutputDataToFile(char *fileName)
   silminState->fo2Delta = 0;
 
   fprintf(output, "delta HM = %.2f  NNO = %.2f  QFM = %.2f  COH = %.2f  IW = %.2f\n\n",
-    silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_HM), 
-    silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_NNO), 
+    silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_HM),
+    silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_NNO),
     silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_QFM),
-    silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH), 
+    silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH),
     silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_IW));
 
   silminState->fo2Delta = fo2Delta;
 
   fprintf(output, "Constraint Flags: ");
-  
+
   if      (silminState->fo2Path == FO2_HM)     fprintf(output, "fO2 path = HM  ");
   else if (silminState->fo2Path == FO2_QFM)    fprintf(output, "fO2 path = QFM  ");
   else if (silminState->fo2Path == FO2_COH)    fprintf(output, "fO2 path = C-COH  ");
@@ -981,7 +1050,7 @@ int putOutputDataToFile(char *fileName)
   else if (silminState->fo2Path == FO2_QFM_M9) fprintf(output, "fO2 path = QFM-9  ");
   else if (silminState->fo2Path == FO2_QFM_P0_5) fprintf(output, "fO2 path = QFM+0.5  ");
   else if (silminState->fo2Path == FO2_QFM_P1_5) fprintf(output, "fO2 path = QFM+1.5  ");
-  
+
   if (silminState->fractionateSol) fprintf(output, "Fractionate Solids  ");
   if (silminState->fractionateFlu) fprintf(output, "Fractionate Fluids  ");
   if (silminState->fractionateLiq) fprintf(output, "Fractionate Liquids  ");
@@ -1001,7 +1070,7 @@ int putOutputDataToFile(char *fileName)
       gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
       hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy,     NULL);
       smixLiq (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL, NULL);
-      vmixLiq (FIRST | FOURTH | FIFTH, 
+      vmixLiq (FIRST | FOURTH | FIFTH,
                       silminState->T, silminState->P, r, &volume,       NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL, NULL, NULL, NULL, NULL);
       cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
       visLiq  (FIRST, silminState->T, silminState->P, r, &viscosity);
@@ -1042,7 +1111,7 @@ int putOutputDataToFile(char *fileName)
       fprintf(output, "V = %.2f (cc)  ",   volume*10.0);
       fprintf(output, "Cp = %.2f (J/K)  ", heatCapacity);
       fprintf(output, "\n");
- 
+
       fprintf(output, "     ");
       for (i=0; i<nc; i++) fprintf(output, "%7.7s", bulkSystem[i].label);
       fprintf(output, "\n");
@@ -1065,7 +1134,7 @@ int putOutputDataToFile(char *fileName)
   }
 
   for (j=0, totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0,
-    totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0, totaldVolumeDt=0.0, totaldVolumeDp=0.0; j<npc; j++) 
+    totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0, totaldVolumeDt=0.0, totaldVolumeDp=0.0; j<npc; j++)
   for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
     if (solids[j].na == 1) {
       mass               = (silminState->solidComp)[j][ns]*solids[j].mw;
@@ -1086,8 +1155,8 @@ int putOutputDataToFile(char *fileName)
       totaldVolumeDp    += (silminState->solidComp)[j][ns]*(solids[j].cur).dvdp;
       fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
       fprintf(output, "\n");
-      fprintf(output, "                 %s\n", solids[j].formula); 
-      fprintf(output, "                 "); 
+      fprintf(output, "                 %s\n", solids[j].formula);
+      fprintf(output, "                 ");
       fprintf(output, "G = %.2f (J)  ", gibbsEnergy);
       fprintf(output, "H = %.2f (J)  ", enthalpy);
       fprintf(output, "S = %.2f (J/K)  ", entropy);
@@ -1097,10 +1166,37 @@ int putOutputDataToFile(char *fileName)
 #ifdef MAKE_TABLES
       if (tableSol[j] == NULL) {
         int len = (int) strlen(solids[j].label);
+
+#ifdef EASYMELTS_UPDATE_SYSTEM
+#if defined(_WIN32) /*Addition ES*/
+          char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
+          strcpy(nameOfFile, "tables\\");
+          nameOfFile = strcat(nameOfFile, solids[j].label);
+          nameOfFile = strcat(nameOfFile, ".tbl");
+#elif defined(__linux__)
+          char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
+          strcpy(nameOfFile, "tables/");
+          nameOfFile = strcat(nameOfFile, solids[j].label);
+          nameOfFile = strcat(nameOfFile, ".tbl");
+          // #elif defined(__APPLE__)
+          //                     const char *home_path = getenv("HOME");
+          //                     size_t home_path_len = strlen(home_path);
+          //                     char *nameOfFile = (char *)calloc((unsigned)(home_path_len + 28 + len + 5 + 7), sizeof(char));
+          //                     strcpy(nameOfFile, home_path);
+          //                     nameOfFile = strcat(nameOfFile, "/Documents/easyMelts_output/tables/");
+          //                     nameOfFile = strcat(nameOfFile, solids[j].label);
+          //                     nameOfFile = strcat(nameOfFile, ".tbl");
+#else               /*End addition*/
+          char *nameOfFile = (char *)calloc((unsigned)(len + 5), sizeof(char));
+          strcpy(nameOfFile, solids[j].label);
+          nameOfFile = strcat(nameOfFile, ".tbl");
+#endif
+#else
         char *nameOfFile = (char *) calloc((unsigned) (len+5), sizeof(char));
         strcpy(nameOfFile, solids[j].label);
         for (i=0; i<len; i++) if(nameOfFile[i] == ' ') nameOfFile[i] = '-';
         nameOfFile = strncat(nameOfFile, ".tbl", 4);
+#endif
         if ((tableSol[j] = fopen (nameOfFile, "w")) == NULL) {
 #ifndef BATCH_VERSION
           ABORT("Error in SILMIN file output procedure. Cannot open file:\n", nameOfFile)
@@ -1109,7 +1205,7 @@ int putOutputDataToFile(char *fileName)
           printf("Error in SILMIN file output procedure. Cannot open file: %s!\n", nameOfFile);
           return FALSE;
 #endif /* BATCH_VERSION */
-        } 
+        }
         free(nameOfFile);
         fprintf(tableSol[j], "Index,T (C),P (kbars),log(10) f O2");
         fprintf(tableSol[j], ",mass (gm),rho (gm/cc)");
@@ -1120,7 +1216,7 @@ int putOutputDataToFile(char *fileName)
 
       fprintf(tableSol[j], "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
       fprintf(tableSol[j], ",%.4f,%.4f", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
-      
+
       for (i=0, oxSum=0.0; i<nc; i++) {
         oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
     	oxSum	 += oxVal[i];
@@ -1141,11 +1237,11 @@ int putOutputDataToFile(char *fileName)
       (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
       (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
       (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-      (*solids[j].vmix) (FIRST | FOURTH | FIFTH, 
+      (*solids[j].vmix) (FIRST | FOURTH | FIFTH,
                                 silminState->T, silminState->P, r, &volume,       NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL);
       (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
-      gibbsEnergy  *= (silminState->solidComp)[j][ns]; 
-      enthalpy     *= (silminState->solidComp)[j][ns]; 
+      gibbsEnergy  *= (silminState->solidComp)[j][ns];
+      enthalpy     *= (silminState->solidComp)[j][ns];
       entropy      *= (silminState->solidComp)[j][ns];
       volume       *= (silminState->solidComp)[j][ns];
       heatCapacity *= (silminState->solidComp)[j][ns];
@@ -1170,27 +1266,53 @@ int putOutputDataToFile(char *fileName)
       totaldVolumeDp    += dVolumeDp;
       fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
       fprintf(output, "     (analysis in mole %%)\n");
-      fprintf(output, "                 %s\n", formula); free(formula); 
-      fprintf(output, "                 "); 
+      fprintf(output, "                 %s\n", formula); free(formula);
+      fprintf(output, "                 ");
       fprintf(output, "G = %.2f (J)  ", gibbsEnergy);
       fprintf(output, "H = %.2f (J)  ", enthalpy);
       fprintf(output, "S = %.2f (J/K)  ", entropy);
       fprintf(output, "V = %.2f (cc)  ", volume*10.0);
       fprintf(output, "Cp = %.2f (J/K)  ", heatCapacity);
       fprintf(output, "\n");
-      fprintf(output, "     "); 
+      fprintf(output, "     ");
       for (i=0; i<solids[j].na; i++) fprintf(output, " %13.13s", solids[j+1+i].label);
       fprintf(output, "\n");
-      fprintf(output, "     "); 
+      fprintf(output, "     ");
       for (i=0; i<solids[j].na; i++) fprintf(output, " %13.2f", 100.0*m[i]/(silminState->solidComp)[j][ns]);
       fprintf(output, "\n");
 #ifdef MAKE_TABLES
       if (tableSol[j] == NULL) {
         int len = (int) strlen(solids[j].label);
+#ifdef EASYMELTS_UPDATE_SYSTEM
+#if defined(_WIN32) /*Addition ES*/
+          char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
+          strcpy(nameOfFile, "tables\\");
+          nameOfFile = strcat(nameOfFile, solids[j].label);
+          nameOfFile = strcat(nameOfFile, ".tbl");
+#elif defined(__linux__)
+          char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
+          strcpy(nameOfFile, "tables/");
+          nameOfFile = strcat(nameOfFile, solids[j].label);
+          nameOfFile = strcat(nameOfFile, ".tbl");
+          // #elif defined(__APPLE__)
+          //                     const char *home_path = getenv("HOME");
+          //                     size_t home_path_len = strlen(home_path);
+          //                     char *nameOfFile = (char *)calloc((unsigned)(home_path_len + 28 + len + 5 + 7), sizeof(char));
+          //                     strcpy(nameOfFile, home_path);
+          //                     nameOfFile = strcat(nameOfFile, "/Documents/easyMelts_output/tables/");
+          //                     nameOfFile = strcat(nameOfFile, solids[j].label);
+          //                     nameOfFile = strcat(nameOfFile, ".tbl");
+#else               /*End addition*/
+          char *nameOfFile = (char *)calloc((unsigned)(len + 5), sizeof(char));
+          strcpy(nameOfFile, solids[j].label);
+          nameOfFile = strcat(nameOfFile, ".tbl");
+#endif
+#else
         char *nameOfFile = (char *) calloc((unsigned) (len+5), sizeof(char));
         strcpy(nameOfFile, solids[j].label);
         for (i=0; i<len; i++) if(nameOfFile[i] == ' ') nameOfFile[i] = '-';
         nameOfFile = strncat(nameOfFile, ".tbl", 4);
+#endif
         if ((tableSol[j] = fopen (nameOfFile, "w")) == NULL) {
 #ifndef BATCH_VERSION
           ABORT("Error in SILMIN file output procedure. Cannot open file:\n", nameOfFile)
@@ -1200,7 +1322,7 @@ int putOutputDataToFile(char *fileName)
           free(nameOfFile);
           return FALSE;
 #endif /* BATCH_VERSION */
-        } 
+        }
         free(nameOfFile);
         fprintf(tableSol[j], "Index,T (C),P (kbars),log(10) f O2");
         fprintf(tableSol[j], ",mass (gm),rho (gm/cc)");
@@ -1228,7 +1350,7 @@ int putOutputDataToFile(char *fileName)
   }
 
   fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)\n", "Total solids", totalMass, (totalVolume == 0.0) ? 0.0 : totalMass/(10.0*totalVolume));
-  fprintf(output, "                 "); 
+  fprintf(output, "                 ");
   fprintf(output, "G = %.2f (J)  ", totalGibbsEnergy);
   fprintf(output, "H = %.2f (J)  ", totalEnthalpy);
   fprintf(output, "S = %.2f (J/K)  ", totalEntropy);
@@ -1246,7 +1368,7 @@ int putOutputDataToFile(char *fileName)
   if (silminState->isentropic  && (silminState->refEntropy  == 0.0)) silminState->refEntropy  = sLiq+totalEntropy;
   if (silminState->isochoric   && (silminState->refVolume   == 0.0)) silminState->refVolume   = vLiq+totalVolume;
 
-  if (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) 
+  if (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq)
     fprintf(output, "\nSummary of all fractionated phases: (total mass = %.2f grams)\n", silminState->fracMass);
 
   if (silminState->fractionateSol || silminState->fractionateFlu) {
@@ -1275,8 +1397,8 @@ int putOutputDataToFile(char *fileName)
 	  totaldVolumeDp    += (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
           fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
           fprintf(output, "\n");
-          fprintf(output, "		    %s\n", solids[j].formula); 
-          fprintf(output, "		    "); 
+          fprintf(output, "		    %s\n", solids[j].formula);
+          fprintf(output, "		    ");
           fprintf(output, "G = %.2f (J)  ", gibbsEnergy);
           fprintf(output, "H = %.2f (J)  ", enthalpy);
           fprintf(output, "S = %.2f (J/K)  ", entropy);
@@ -1294,11 +1416,11 @@ int putOutputDataToFile(char *fileName)
           (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
           (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
           (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-          (*solids[j].vmix) (FIRST | FOURTH | FIFTH, 
+          (*solids[j].vmix) (FIRST | FOURTH | FIFTH,
 	                            silminState->T, silminState->P, r, &volume,       NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL);
           (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
-          gibbsEnergy  *= (silminState->fracSComp)[j][ns]; 
-          enthalpy     *= (silminState->fracSComp)[j][ns]; 
+          gibbsEnergy  *= (silminState->fracSComp)[j][ns];
+          enthalpy     *= (silminState->fracSComp)[j][ns];
           entropy      *= (silminState->fracSComp)[j][ns];
           volume       *= (silminState->fracSComp)[j][ns];
           heatCapacity *= (silminState->fracSComp)[j][ns];
@@ -1323,25 +1445,25 @@ int putOutputDataToFile(char *fileName)
 	  totaldVolumeDp    += dVolumeDp;
           fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
           fprintf(output, "	(analysis in mole %%)\n");
-          fprintf(output, "		    %s\n", formula); free(formula); 
-          fprintf(output, "		    "); 
+          fprintf(output, "		    %s\n", formula); free(formula);
+          fprintf(output, "		    ");
           fprintf(output, "G = %.2f (J)  ", gibbsEnergy);
           fprintf(output, "H = %.2f (J)  ", enthalpy);
           fprintf(output, "S = %.2f (J/K)  ", entropy);
           fprintf(output, "V = %.2f (cc)  ", volume*10.0);
           fprintf(output, "Cp = %.2f (J/K)  ", heatCapacity);
           fprintf(output, "\n");
-          fprintf(output, "	"); 
+          fprintf(output, "	");
           for (i=0; i<solids[j].na; i++) fprintf(output, " %13.13s", solids[j+1+i].label);
           fprintf(output, "\n");
-          fprintf(output, "	"); 
+          fprintf(output, "	");
           for (i=0; i<solids[j].na; i++) fprintf(output, " %13.2f", 100.0*(silminState->fracSComp)[j+1+i][ns]/(silminState->fracSComp)[j][ns]);
           fprintf(output, "\n");
         }
       }
     }
   }
-  
+
   if (silminState->fractionateLiq) {
     char *formula;
     for (i=0, mass=0.0, moles=0.0; i<nlc; i++) {
@@ -1357,7 +1479,7 @@ int putOutputDataToFile(char *fileName)
       gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy, NULL, NULL);
       hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy, NULL);
       smixLiq (FIRST, silminState->T, silminState->P, r, &entropy, NULL, NULL, NULL);
-      vmixLiq (FIRST | FOURTH | FIFTH, 
+      vmixLiq (FIRST | FOURTH | FIFTH,
                       silminState->T, silminState->P, r, &volume, NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL, NULL);
       cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
       gibbsEnergy  *= moles;
@@ -1400,9 +1522,9 @@ int putOutputDataToFile(char *fileName)
   if (vLiq > totalVolume) fprintf(output,"\nViscosity of the System: %.2f (log 10 poise)\n", viscosity - 2.0*log10(1.0-2.0*totalVolume/(totalVolume+vLiq)));
   else fprintf(output,"\nViscosity of the System cannot be computed.\n");
 
-  fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)\n", "System", mLiq+totalMass, (totalVolume+vLiq == 0.0) ? 0.0 : 
+  fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)\n", "System", mLiq+totalMass, (totalVolume+vLiq == 0.0) ? 0.0 :
     (mLiq+totalMass)/(10.0*(vLiq+totalVolume)));
-  fprintf(output, "                 "); 
+  fprintf(output, "                 ");
   fprintf(output, "G = %.2f (J)  ",    gLiq+totalGibbsEnergy);
   fprintf(output, "H = %.2f (J)  ",    hLiq+totalEnthalpy);
   fprintf(output, "S = %.2f (J/K)  ",  sLiq+totalEntropy);
@@ -1438,7 +1560,7 @@ int putOutputDataToFile(char *fileName)
       }
     }
     fprintf(output, "\n%-15.15s  delta moles = %.6g  delta grams = %.6g\n", "Oxygen", mO2, mO2*31.9988);
-    fprintf(output, "                 "); 
+    fprintf(output, "                 ");
     fprintf(output, "G = %.2f (J)  ",    mO2*(oxygen.cur).g);
     fprintf(output, "H = %.2f (J)  ",    mO2*(oxygen.cur).h);
     fprintf(output, "S = %.2f (J/K)  ",  mO2*(oxygen.cur).s);
@@ -1461,10 +1583,10 @@ int putOutputDataToFile(char *fileName)
         mass *= silminState->assimMass/silminState->dspAssimMass;
         fprintf(output, "\n%-15.15s  mass = %.2f (gm)", solids[j].label, mass);
         fprintf(output, "     (analysis in mole %%)\n");
-        fprintf(output, "     "); 
+        fprintf(output, "     ");
         for (i=0; i<solids[j].na; i++) fprintf(output, " %13.13s", solids[j+1+i].label);
         fprintf(output, "\n");
-        fprintf(output, "     "); 
+        fprintf(output, "     ");
         for (i=0; i<solids[j].na; i++) fprintf(output, " %13.2f", 100.0*(silminState->assimComp)[j+1+i][ns]/(silminState->assimComp)[j][ns]);
         fprintf(output, "\n");
       }
@@ -1528,7 +1650,7 @@ int putSequenceDataToXmlFile(int active) {
         previousSilminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
       }
     }
-    
+
     (void) strncpy(outputFile, silminInputData.name, len);
     (void) strcpy(&outputFile[len], "-out.xml");
 
@@ -1561,39 +1683,39 @@ int putSequenceDataToXmlFile(int active) {
     rc = sprintf(temporary, "%23.16e", silminState->P);        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "pressure",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "log_fO2",     "%s", temporary);
 
-    fo2Delta = silminState->fo2Delta; silminState->fo2Delta = 0;    
+    fo2Delta = silminState->fo2Delta; silminState->fo2Delta = 0;
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_HM));  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaHM",     "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_NNO)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaNNO",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_QFM)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaFMQ",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_COH)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaCOH",    "%s", temporary);
     rc = sprintf(temporary, "%23.16e", silminState->fo2 - getlog10fo2(silminState->T, silminState->P, FO2_IW));  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "deltaIW",     "%s", temporary);
     silminState->fo2Delta = fo2Delta;
-    
+
     if (silminState->liquidMass != 0.0) {
         int nl;
-        
+
         for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
             double moles, oxSum;
             double gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
 
             rc = xmlTextWriterStartElement(writer, BAD_CAST "liquid");
-            
+
             conLiq(SECOND, THIRD, silminState->T, silminState->P, NULL, silminState->liquidComp[nl], r, NULL, NULL, NULL, NULL);
-            
+
             gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
             hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy,	  NULL);
             smixLiq (FIRST, silminState->T, silminState->P, r, &entropy,	  NULL, NULL, NULL);
             vmixLiq (FIRST, silminState->T, silminState->P, r, &volume,	  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
             cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
             visLiq  (FIRST, silminState->T, silminState->P, r, &viscosity);
-            
+
             for (i=0, moles=0.0; i<nlc; i++) moles +=  (silminState->liquidComp)[nl][i];
             gibbsEnergy  *= moles;
             enthalpy     *= moles;
             entropy      *= moles;
             volume	     *= moles;
             heatCapacity *= moles;
-            
+
             for (i=0; i<nlc; i++) {
                 gibbsEnergy  += (silminState->liquidComp)[nl][i]*(liquid[i].cur).g;
                 enthalpy     += (silminState->liquidComp)[nl][i]*(liquid[i].cur).h;
@@ -1601,14 +1723,14 @@ int putSequenceDataToXmlFile(int active) {
                 volume       += (silminState->liquidComp)[nl][i]*(liquid[i].cur).v;
                 heatCapacity += (silminState->liquidComp)[nl][i]*(liquid[i].cur).cp;
             }
-            
+
             for (i=0, oxSum=0.0; i<nc; i++) {
                 for (j=0, oxVal[i]=0.0; j<nlc; j++) oxVal[i] += (liquid[j].liqToOx)[i]*(silminState->liquidComp)[nl][j];
                 oxVal[i] *= bulkSystem[i].mw;
                 oxSum	   += oxVal[i];
             }
             if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
-            
+
             gLiq += gibbsEnergy; hLiq += enthalpy; sLiq += entropy; vLiq += volume; cpLiq += heatCapacity; mLiq += oxSum;
 
             rc = sprintf(temporary, "%23.16e", oxSum);        rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",            "%s", temporary);
@@ -1626,15 +1748,15 @@ int putSequenceDataToXmlFile(int active) {
             rc = xmlTextWriterEndElement(writer);
         }
     }
-    
+
     for (j=0, totalMass=0.0, totalGibbsEnergy=0.0, totalEnthalpy=0.0,
          totalEntropy=0.0, totalVolume=0.0, totalHeatCapacity=0.0; j<npc; j++) {
         int ns;
         for (ns=0; ns<(silminState->nSolidCoexist)[j]; ns++) {
             double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
-            
+
             rc = xmlTextWriterStartElement(writer, BAD_CAST "solid");
-            
+
             if (solids[j].na == 1) {
                 mass  	     = (silminState->solidComp)[j][ns]*solids[j].mw;
                 gibbsEnergy	     = (silminState->solidComp)[j][ns]*(solids[j].cur).g;
@@ -1648,7 +1770,7 @@ int putSequenceDataToXmlFile(int active) {
                 totalEntropy      += (silminState->solidComp)[j][ns]*(solids[j].cur).s;
                 totalVolume	    += (silminState->solidComp)[j][ns]*(solids[j].cur).v;
                 totalHeatCapacity += (silminState->solidComp)[j][ns]*(solids[j].cur).cp;
-                
+
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",            "%s",   solids[j].label);
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",         "%s",   solids[j].formula);
                 rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", 	   "%s", temporary);
@@ -1658,21 +1780,21 @@ int putSequenceDataToXmlFile(int active) {
                 rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-                
+
                 for (i=0, oxSum=0.0; i<nc; i++) {
                     oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
                     oxSum    += oxVal[i];
                 }
                 if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
                 for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
-                    rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary); 
+                    rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
                 }
                 rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j].label);
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
                 rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary);
                 rc = xmlTextWriterEndElement(writer);
-                
+
             } else {
                 char *formula;
                 for (i=0, mass=0.0; i<solids[j].na; i++) {
@@ -1704,7 +1826,7 @@ int putSequenceDataToXmlFile(int active) {
                 totalEntropy      += entropy;
                 totalVolume	    += volume;
                 totalHeatCapacity += heatCapacity;
-                
+
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",            "%s",   solids[j].label);
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",         "%s",   formula); free(formula);
                 rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", 	   "%s", temporary);
@@ -1714,7 +1836,7 @@ int putSequenceDataToXmlFile(int active) {
                 rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy", 	     "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-                
+
                 for (i=0, oxSum=0.0; i<nc; i++) {
                     int k;
                     for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
@@ -1733,11 +1855,11 @@ int putSequenceDataToXmlFile(int active) {
                     rc = xmlTextWriterEndElement(writer);
                 }
             }
-            
+
             rc = xmlTextWriterEndElement(writer);
         }
     }
-    
+
     if (totalMass != 0.0) {
         rc = xmlTextWriterStartElement(writer, BAD_CAST "totalSolids");
         rc = sprintf(temporary, "%23.16e", totalMass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		      "%s", temporary);
@@ -1749,7 +1871,7 @@ int putSequenceDataToXmlFile(int active) {
         rc = sprintf(temporary, "%23.16e", totalHeatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	  "%s", temporary);
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     if (silminState->isenthalpic && (silminState->refEnthalpy == 0.0)) silminState->refEnthalpy = hLiq+totalEnthalpy;
     if (silminState->isentropic  && (silminState->refEntropy  == 0.0)) silminState->refEntropy  = sLiq+totalEntropy;
     if (silminState->isochoric   && (silminState->refVolume   == 0.0)) silminState->refVolume   = vLiq+totalVolume;
@@ -1766,20 +1888,20 @@ int putSequenceDataToXmlFile(int active) {
             int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
             for (j=0; j<npc; j++) {
                 int ns;
-                
+
                 if ( haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
                 if ( haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
                 if (!haveWater &&  silminState->fractionateSol && !silminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
                 if (!haveWater && !silminState->fractionateSol &&  silminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
-                
+
                 for (ns=0; ns<(silminState->nFracCoexist)[j]; ns++) {
                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
-                    double tmpMoles = ((previousSilminState->nFracCoexist)[j] <= ns) ? (silminState->fracSComp)[j][ns] 
+                    double tmpMoles = ((previousSilminState->nFracCoexist)[j] <= ns) ? (silminState->fracSComp)[j][ns]
                     : (silminState->fracSComp)[j][ns] - (previousSilminState->fracSComp)[j][ns];
                     if (fabs(tmpMoles) < 10.0*DBL_EPSILON) continue;
-                    
+
                     rc = xmlTextWriterStartElement(writer, BAD_CAST "solid");
-                    
+
                     if (solids[j].na == 1) {
                         mass		   = tmpMoles*solids[j].mw;
                         gibbsEnergy	   = tmpMoles*(solids[j].cur).g;
@@ -1793,7 +1915,7 @@ int putSequenceDataToXmlFile(int active) {
                         totalEntropy	  += tmpMoles*(solids[j].cur).s;
                         totalVolume	  += tmpMoles*(solids[j].cur).v;
                         totalHeatCapacity += tmpMoles*(solids[j].cur).cp;
-                        
+
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   solids[j].formula);
                         rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%s", temporary);
@@ -1803,7 +1925,7 @@ int putSequenceDataToXmlFile(int active) {
                         rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%s", temporary);
-                        
+
                         for (i=0, oxSum=0.0; i<nc; i++) {
                             oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
                             oxSum    += oxVal[i];
@@ -1817,11 +1939,11 @@ int putSequenceDataToXmlFile(int active) {
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
                         rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary);
                         rc = xmlTextWriterEndElement(writer);
-                        
+
                     } else {
                         char *formula;
                         for (i=0, mass=0.0; i<solids[j].na; i++) {
-                            double tmpCmpMoles = ((previousSilminState->nFracCoexist)[j] <= ns) ? (silminState->fracSComp)[j+1+i][ns] 
+                            double tmpCmpMoles = ((previousSilminState->nFracCoexist)[j] <= ns) ? (silminState->fracSComp)[j+1+i][ns]
                             : (silminState->fracSComp)[j+1+i][ns] - (previousSilminState->fracSComp)[j+1+i][ns];
                             m[i]  = tmpCmpMoles;
                             mass += tmpCmpMoles*solids[j+1+i].mw;
@@ -1851,7 +1973,7 @@ int putSequenceDataToXmlFile(int active) {
                         totalEntropy	  += entropy;
                         totalVolume	  += volume;
                         totalHeatCapacity += heatCapacity;
-                        
+
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   formula); free(formula);
                         rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",		     "%s", temporary);
@@ -1861,7 +1983,7 @@ int putSequenceDataToXmlFile(int active) {
                         rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%s", temporary);
-                        
+
                         for (i=0, oxSum=0.0; i<nc; i++) {
                             int k;
                             for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
@@ -1879,16 +2001,16 @@ int putSequenceDataToXmlFile(int active) {
                             rc = xmlTextWriterEndElement(writer);
                         }
                     }
-                    
+
                     rc = xmlTextWriterEndElement(writer);
                 }
             }
         }
-        
+
         if (silminState->fractionateLiq) {
             double oxSum, mass, moles, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
             char *formula;
-            
+
             for (i=0, mass=0.0, moles=0.0; i<nlc; i++) {
                 double mw;
                 double tmpMoles = (previousSilminState->fractionateLiq) ?
@@ -1898,10 +2020,10 @@ int putSequenceDataToXmlFile(int active) {
                 moles += m[i];
                 mass  += tmpMoles*mw;
             }
-            
+
             if (mass > 0.0) {
                 rc = xmlTextWriterStartElement(writer, BAD_CAST "liquid");
-                
+
                 conLiq  (SECOND, THIRD, silminState->T, silminState->P, NULL, m, r, NULL, NULL, NULL, NULL);
                 dispLiq (FIRST, silminState->T, silminState->P, r, &formula);
                 gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
@@ -1927,14 +2049,14 @@ int putSequenceDataToXmlFile(int active) {
                 totalEntropy      += entropy;
                 totalVolume       += volume;
                 totalHeatCapacity += heatCapacity;
-                
+
                 for (i=0, oxSum=0.0; i<nc; i++) {
                     for (j=0, oxVal[i]=0.0; j<nlc; j++) oxVal[i] += (liquid[j].liqToOx)[i]*m[j];
                     oxVal[i] *= bulkSystem[i].mw;
                     oxSum    += oxVal[i];
                 }
                 if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
-                
+
                 rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", (volume == 0.0) ? 0.0 : mass/(10.0*volume)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density", "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", gibbsEnergy);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%s", temporary);
@@ -1942,38 +2064,38 @@ int putSequenceDataToXmlFile(int active) {
                 rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-                
+
                 for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
                     rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
                 }
                 rc = xmlTextWriterEndElement(writer);
             }
         }
-        
+
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     if ( (previousSilminState->fractionateSol || previousSilminState->fractionateFlu || previousSilminState->fractionateLiq)
         && (previousSilminState->fracMass > 0) ) {
         rc = xmlTextWriterStartElement(writer, BAD_CAST "fractionate");
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "type", BAD_CAST "previous");
         rc = sprintf(temporary, "%23.16e", previousSilminState->fracMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
-        
+
         if (previousSilminState->fractionateSol || previousSilminState->fractionateFlu) {
             int haveWater = ((calculationMode == MODE__MELTS) || (calculationMode == MODE_pMELTS));
             for (j=0; j<npc; j++) {
                 int ns;
-                
+
                 if ( haveWater &&  previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "water")) continue;
                 if ( haveWater && !previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "water")) continue;
                 if (!haveWater &&  previousSilminState->fractionateSol && !previousSilminState->fractionateFlu && !strcmp((char *) solids[j].label, "fluid")) continue;
                 if (!haveWater && !previousSilminState->fractionateSol &&  previousSilminState->fractionateFlu &&  strcmp((char *) solids[j].label, "fluid")) continue;
-                
+
                 for (ns=0; ns<(previousSilminState->nFracCoexist)[j]; ns++) {
                     double oxSum, mass, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
-                    
+
                     rc = xmlTextWriterStartElement(writer, BAD_CAST "solid");
-                    
+
                     if (solids[j].na == 1) {
                         mass		   = (previousSilminState->fracSComp)[j][ns]*solids[j].mw;
                         gibbsEnergy	   = (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).g;
@@ -1987,7 +2109,7 @@ int putSequenceDataToXmlFile(int active) {
                         totalEntropy	  += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).s;
                         totalVolume	  += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).v;
                         totalHeatCapacity += (previousSilminState->fracSComp)[j][ns]*(solids[j].cur).cp;
-                        
+
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   solids[j].formula);
                         rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%s", temporary);
@@ -1997,7 +2119,7 @@ int putSequenceDataToXmlFile(int active) {
                         rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%s", temporary);
-                        
+
                         for (i=0, oxSum=0.0; i<nc; i++) {
                             oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
                             oxSum    += oxVal[i];
@@ -2011,7 +2133,7 @@ int putSequenceDataToXmlFile(int active) {
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",      "%s",   solids[j].formula);
                         rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary);
                         rc = xmlTextWriterEndElement(writer);
-                        
+
                     } else {
                         char *formula;
                         for (i=0, mass=0.0; i<solids[j].na; i++) {
@@ -2043,7 +2165,7 @@ int putSequenceDataToXmlFile(int active) {
                         totalEntropy	  += entropy;
                         totalVolume	  += volume;
                         totalHeatCapacity += heatCapacity;
-                        
+
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",		 "%s",   solids[j].label);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "formula",	 "%s",   formula); free(formula);
                         rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	         "%s", temporary);
@@ -2053,7 +2175,7 @@ int putSequenceDataToXmlFile(int active) {
                         rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
                         rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	 "%s", temporary);
-                        
+
                         for (i=0, oxSum=0.0; i<nc; i++) {
                             int k;
                             for (k=0, oxVal[i]=0.0; k<solids[j].na; k++) oxVal[i] += (solids[j+1+k].solToOx)[i]*m[k]*bulkSystem[i].mw;
@@ -2071,16 +2193,16 @@ int putSequenceDataToXmlFile(int active) {
                             rc = xmlTextWriterEndElement(writer);
                         }
                     }
-                    
+
                     rc = xmlTextWriterEndElement(writer);
                 }
             }
         }
-        
+
         if (previousSilminState->fractionateLiq) {
             double oxSum, mass, moles, gibbsEnergy, enthalpy, entropy, volume, heatCapacity;
             char *formula;
-            
+
             for (i=0, mass=0.0, moles=0.0; i<nlc; i++) {
                 double mw;
                 for (j=0, mw = 0.0; j<nc; j++) mw += (liquid[i].liqToOx)[j]*bulkSystem[j].mw;
@@ -2088,10 +2210,10 @@ int putSequenceDataToXmlFile(int active) {
                 moles += m[i];
                 mass  += (previousSilminState->fracLComp)[i]*mw;
             }
-            
+
             if (mass > 0.0) {
                 rc = xmlTextWriterStartElement(writer, BAD_CAST "liquid");
-                
+
                 conLiq  (SECOND, THIRD, silminState->T, silminState->P, NULL, m, r, NULL, NULL, NULL, NULL);
                 dispLiq (FIRST, silminState->T, silminState->P, r, &formula);
                 gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
@@ -2117,14 +2239,14 @@ int putSequenceDataToXmlFile(int active) {
                 totalEntropy      += entropy;
                 totalVolume       += volume;
                 totalHeatCapacity += heatCapacity;
-                
+
                 for (i=0, oxSum=0.0; i<nc; i++) {
                     for (j=0, oxVal[i]=0.0; j<nlc; j++) oxVal[i] += (liquid[j].liqToOx)[i]*(previousSilminState->fracLComp)[j];
                     oxVal[i] *= bulkSystem[i].mw;
                     oxSum    += oxVal[i];
                 }
                 if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
-                
+
                 rc = sprintf(temporary, "%23.16e", mass);         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",           "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", (volume == 0.0) ? 0.0 : mass/(10.0*volume)); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density", "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", gibbsEnergy);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%s", temporary);
@@ -2132,22 +2254,22 @@ int putSequenceDataToXmlFile(int active) {
                 rc = sprintf(temporary, "%23.16e", entropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",	     "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", volume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	         "%s", temporary);
                 rc = sprintf(temporary, "%23.16e", heatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-                
+
                 for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
                     rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
                 }
                 rc = xmlTextWriterEndElement(writer);
             }
         }
-        
+
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     rc = xmlTextWriterStartElement(writer, BAD_CAST "system");
     rc = sprintf(temporary, "%23.16e", mLiq+totalMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
     rc = sprintf(temporary, "%23.16e", (vLiq+totalVolume == 0.0) ? 0.0 : (mLiq+totalMass)/(10.0*(vLiq+totalVolume)));
     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "density", "%s", temporary);
-                                         
+
     if (vLiq > totalVolume) {
         rc = sprintf(temporary, "%23.16e", viscosity - 2.0*log10(1.0-2.0*totalVolume/(totalVolume+vLiq)));
         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "viscosity", "%s", temporary);
@@ -2158,7 +2280,7 @@ int putSequenceDataToXmlFile(int active) {
     rc = sprintf(temporary, "%23.16e", (vLiq+totalVolume)*10.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	        "%s", temporary);
     rc = sprintf(temporary, "%23.16e", cpLiq+totalHeatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
     rc = xmlTextWriterEndElement(writer);
-    
+
     if (silminState->fo2Path != FO2_NONE) {
         double mO2 = -silminState->oxygen;
         int nl, ns;
@@ -2175,43 +2297,43 @@ int putSequenceDataToXmlFile(int active) {
         rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).g);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "gibbsFreeEnergy", "%s", temporary);
         rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).h);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "enthalpy",        "%s", temporary);
         rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).s);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
-        rc = sprintf(temporary, "%23.16e", mO2*10.0*(oxygen.cur).v); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	        "%s", temporary); 
-        rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).cp);     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary); 
+        rc = sprintf(temporary, "%23.16e", mO2*10.0*(oxygen.cur).v); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	        "%s", temporary);
+        rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).cp);     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
         rc = xmlTextWriterEndElement(writer);
     }
-    
+
     if (silminState->assimilate) {
         int ns;
         rc = xmlTextWriterStartElement(writer, BAD_CAST "assimilant");
-        rc = sprintf(temporary, "%23.16e", silminState->assimMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	    "%s", temporary);       
-        rc = sprintf(temporary, "%23.16e", silminState->assimT); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature", "%s", temporary); 
-        
+        rc = sprintf(temporary, "%23.16e", silminState->assimMass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass",	    "%s", temporary);
+        rc = sprintf(temporary, "%23.16e", silminState->assimT); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "temperature", "%s", temporary);
+
         for (j=0; j<npc; j++) if (solids[j].type == PHASE)
             for (ns=0; ns<(silminState->nAssimComp)[j]; ns++) {
                 rc = xmlTextWriterStartElement(writer, BAD_CAST "solid");
                 rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name", "%s", solids[j].label);
                 if (solids[j].na == 1) {
                     double mass = (silminState->assimComp)[j][ns]*solids[j].mw*silminState->assimMass/silminState->dspAssimMass;
-                    rc = sprintf(temporary, "%23.16e", mass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary); 
+                    rc = sprintf(temporary, "%23.16e", mass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
                     rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
                     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",         "%s",   solids[j].label);
-                    rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary); 
+                    rc = sprintf(temporary, "%23.16e", 1.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "moleFraction", "%s", temporary);
                     rc = xmlTextWriterEndElement(writer);
-                    
+
                 } else {
                     double mass = 0.0;
                     for (i=0; i<solids[j].na; i++) mass += (silminState->assimComp)[j+1+i][ns]*solids[j+1+i].mw;
                     mass *= silminState->assimMass/silminState->dspAssimMass;
-                    rc = sprintf(temporary, "%23.16e", mass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary); 
-                    
+                    rc = sprintf(temporary, "%23.16e", mass); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "mass", "%s", temporary);
+
                     for (i=0; i<solids[j].na; i++) {
                         rc = xmlTextWriterStartElement(writer, BAD_CAST "component");
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "name",    "%s", solids[j+1+i].label);
-                        rc = sprintf(temporary, "%23.16e", (silminState->assimComp)[j+1+i][ns]/(silminState->assimComp)[j][ns]);                        
+                        rc = sprintf(temporary, "%23.16e", (silminState->assimComp)[j+1+i][ns]/(silminState->assimComp)[j][ns]);
                         rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "molFrac", "%s", temporary);
                         rc = xmlTextWriterEndElement(writer);
                     }
-                    
+
                 }
                 rc = xmlTextWriterEndElement(writer);
             }

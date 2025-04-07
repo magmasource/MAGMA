@@ -343,7 +343,11 @@ static void (*oldErrorHandler)();      /* old error handler function */
 
 Boolean silmin(XtPointer client_data)
 #else
+#ifndef EASYMELTS_UPDATE_SYSTEM
 int silmin(void)
+#else
+int silmin(int calc_index)
+#endif
 #endif /* BATCH_VERSION */
 {
     enum steps {
@@ -369,6 +373,12 @@ int silmin(void)
     int hasLiquid = ((silminState != NULL) && (silminState->liquidMass != 0.0));
     static double bestrNorm;
     static int acceptable = FALSE, bestIter, hessianType = HESSIAN_TYPE_NORMAL;
+    
+#ifdef EASYMELTS_UPDATE_SYSTEM
+    /*additions, Einari*/
+    silminState->ready_to_output = 0;
+    if (calc_index == 0) curStep = 0;
+#endif
     
 #ifndef BATCH_VERSION
     WorkProcData *workProcData = (WorkProcData *) client_data;
@@ -955,14 +965,18 @@ int silmin(void)
                 tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
                 //silminState->dspTstart = silminState->T - 273.15; Fix: MSG 2/11/15
+#ifndef EASYMELTS_UPDATE_SYSTEM
                 silminState->dspTstart = silminState->T;
+#endif
             } else if (silminState->isentropic  && (silminState->refEntropy  != 0.0)) { correctTforChangeInEntropy();
 #ifndef BATCH_VERSION
                 updateStatusADB(STATUS_ADB_INDEX_T, &(silminState->T));
                 tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
                 //silminState->dspTstart = silminState->T - 273.15; Fix: MSG 2/11/15
+#ifndef EASYMELTS_UPDATE_SYSTEM
                 silminState->dspTstart = silminState->T;
+#endif
             } else if (silminState->isochoric   && (silminState->refVolume   != 0.0)) {
                 correctPforChangeInVolume();
 #ifndef BATCH_VERSION
@@ -1256,7 +1270,9 @@ int silmin(void)
                 tpValues[TP_PADB_INDEX_T_INITIAL].value = silminState->T - 273.15;
 #endif
                 //silminState->dspTstart = silminState->T - 273.15; Fix: MSG 2/11/15
+#ifndef EASYMELTS_UPDATE_SYSTEM
                 silminState->dspTstart = silminState->T;
+#endif
                 
                 if (silminState->fo2Path != FO2_NONE) {
 #ifdef DEBUG
@@ -1904,7 +1920,10 @@ int silmin(void)
             }
             
             stateChange = FALSE;
+
             
+            /*deletions, Einari*/
+#ifndef EASYMELTS_UPDATE_SYSTEM
             /* Changing T ? */
             if (fabs(silminState->dspTstart - silminState->dspTstop) >=  (silminState->dspTinc != 0.0 ? silminState->dspTinc : 0.001) 
                 && !(silminState->isenthalpic && (silminState->refEnthalpy != 0.0))
@@ -2108,6 +2127,8 @@ int silmin(void)
 #endif
                 }
             }
+#endif
+            /*end deletions*/
             
 #ifndef BATCH_VERSION
             workProcData->active = stateChange;
