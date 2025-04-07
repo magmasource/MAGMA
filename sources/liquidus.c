@@ -389,15 +389,15 @@ int findWetLiquidus(void) {
                 break;
             }
 
-            silminState->dspTstart = silminState->T;
+            silminState->dspTstart = silminState->T; // dspT in K
             silminState->dspTstop  = silminState->T;
             iter++;
         } while ((fabs(oldT - silminState->T) > 0.5) && (iter < 50));
-        silminState->dspTstart   = dspTstart;
-        silminState->dspTstop    = dspTstop; 
-        silminState->dspTinc     = dspTinc; 
+        silminState->dspTinc     = dspTinc;
 
         if (iter == 50) {
+            silminState->dspTstart   = dspTstart;
+            silminState->dspTstop    = dspTstop;
             meltsStatus.status = GENERIC_INTERNAL_ERROR;
             printf("<><><><> !!! <><><><> Unable to locate (Wet) liquidus.\n");
         } else {
