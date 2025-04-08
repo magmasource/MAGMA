@@ -1637,7 +1637,10 @@ int silmin(int calc_index)
 #ifndef BATCH_VERSION
             updateUserGraphGW();
 #else
-    if (strstr(silminInputData.name, ".xml")   != NULL) putSequenceDataToXmlFile(TRUE);
+    if (strstr(silminInputData.name, ".xml")   != NULL) {
+        putSequenceDataToXmlFile(TRUE);
+        previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+    }
 #endif
             
 #ifndef DO_NOT_PRODUCE_OUTPUT_FILES
@@ -2134,7 +2137,6 @@ int silmin(int calc_index)
             workProcData->active = stateChange;
 #else
             meltsStatus.status = SILMIN_SUCCESS;
-            if (strstr(silminInputData.name, ".xml")   != NULL) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 #endif
             
             curStep = 0;
@@ -2144,7 +2146,6 @@ int silmin(int calc_index)
     
 #ifdef BATCH_VERSION
     meltsStatus.status = SILMIN_SUCCESS;
-    if (strstr(silminInputData.name, ".xml")   != NULL) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 #endif
     return TRUE;
 }

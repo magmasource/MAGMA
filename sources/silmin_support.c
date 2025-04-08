@@ -380,8 +380,31 @@ void destroySilminStateStructure(void *pt)
   free(p->solidDelta);
   free(p->incSolids);   
   free(p->cylSolids);   
-  
+
+  if (p->fracSComp != NULL) {
+    for (i=0; i<npc; i++) if ((p->fracSComp)[i] != NULL) free((p->fracSComp)[i]);
+    free(p->fracSComp);
+  }
+  if (p->nFracCoexist != NULL) free(p->nFracCoexist);
+
+  if (p->fracLComp != NULL) free(p->fracLComp);
+
+  if (p->dspAssimComp != NULL) {
+      for (i=0; i<(npc+nc); i++)  if ((p->dspAssimComp)[i] != NULL) free((p->dspAssimComp)[i]);
+      free(p->dspAssimComp);
+  }
+  if (p->assimComp    != NULL) {
+      for (i=0; i<(npc+nlc); i++) if ((p->assimComp)[i]    != NULL) free((p->assimComp)[i]);
+      free(p->assimComp);
+  }
+  if (p->nDspAssimComp != NULL) free(p->nDspAssimComp);
+  if (p->nAssimComp    != NULL) free(p->nAssimComp);
+
+  if ((p->ySol) != NULL) free(p->ySol);
+  if ((p->yLiq) != NULL) free(p->yLiq);
+
   free(p);
+  
 }
 
 SilminState *copySilminStateStructure(SilminState *pOld, SilminState *pNew)

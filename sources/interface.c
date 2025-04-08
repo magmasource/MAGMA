@@ -719,17 +719,16 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             int i, j, np;
                             printf("Found initialize: %s\n", content1);
 
-                            if (silminState != NULL)
-                                ; /*destroy the old state - nyi */
-                            if (silminState == NULL) { // add test to avoid memory leak
-                                silminState = allocSilminStatePointer();
-                                for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-                                (silminState->incSolids)[npc] = TRUE;
-                                silminState->nLiquidCoexist  = 1;
-                                silminState->fo2Path  = FO2_NONE;
-                                silminState->T = 0.0;
-                                silminState->P = 0.0;
-                            }
+                            if (silminState != NULL)                                
+                                destroySilminStateStructure(silminState); /*destroy the old state*/
+                                /*if (silminState == NULL) was testing to avoid memory leak when destroy was nyi */
+                            silminState = allocSilminStatePointer();
+                            for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+                            (silminState->incSolids)[npc] = TRUE;
+                            silminState->nLiquidCoexist  = 1;
+                            silminState->fo2Path  = FO2_NONE;
+                            silminState->T = 0.0;
+                            silminState->P = 0.0;
 
                             for (i=0, silminState->liquidMass=0.0; i<nc; i++) (silminState->bulkComp)[i] = 0.0;
                             while (level2 != NULL) {
