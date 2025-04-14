@@ -1,12 +1,16 @@
 # =================================================================================
-# Makefile for cross-compilation of the xMELTS package with Rtools43 (CLI & dll)
+# Makefile for cross-compilation of the xMELTS package with Rtools44 (CLI & dll)
 # Generic Windows makefile (will dynamically link libxml2 by default)
-# For static linking of Melts-batch.exe use: 'make Melts-batch STATIC=true' 
+# For static linking of Melts-batch.exe use: 'make Melts-batch STATIC=true'
 # Ignore chmod error; see Makefile.Linux for backwards compatibility
 # =================================================================================
 
 MAKEFILE = Makefiles/Makefile.Windows
+ifneq ($(wildcard /aarch64-w64-mingw32.static.posix),)
+ROOTDIR := aarch64-w64-mingw32.static.posix
+else
 ROOTDIR := x86_64-w64-mingw32.static.posix
+endif
 
 # Compilation options
 # ===================
@@ -31,23 +35,23 @@ INCXML = /$(ROOTDIR)/include/libxml2
 AR            = ar
 ARFLAGS       = rvU
 DYFLAGS	      = xv
-CC            = gcc
-LD            = g++
+CC            = clang
+LD            = clang++
 FC            = gfortran
 CFLAGS        = -c -O3 $(BATCH) -D_USE_ISOC99 -D_ISOC99_SOURCE -DMINGW $(VERSION) \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib
-RANLIBFG      = 
+RANLIBFG      =
 RM            = rm
 RMFLAGS       = -f
 MPICC         = mpicc
 MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
 MPILDFLAGS    = -L/usr/lib -lmpi
-CP            = cp 
+CP            = cp
 CPFLAGS       = -R
 MKDIR         = mkdir
-TAR           = tar 
+TAR           = tar
 TARFLAGS      = czvf
 CHECKSUM      = openssl
 CHECKSUMFLAGS = sha256
@@ -71,13 +75,13 @@ endif
 # Loader flags (default is static on Windows)
 # =================================================
 
-LDFLAGS = 
+LDFLAGS =
 SONAME = dll
 ifneq ($(DYNAMIC),)
 override DYNAMIC = -shared
 endif
 
-# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions
 # ==============================================================================
 
 LIBS    = -L/$(ROOTDIR)/lib/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
@@ -89,7 +93,7 @@ override PUBLIBS = /$(ROOTDIR)/lib/libXm.a \
 	 port3/libport.a /lib/gcc/$(ARCH)-linux-gnu/5/libgfortran.a /lib/gcc/$(ARCH)-linux-gnu/5/libquadmath.a
 endif
 
-LIBF2C = 
+LIBF2C =
 LIBXML = -L/lib -lxml2 -lm
 ifneq ($(STATIC),)
 override LIBXML = /$(ROOTDIR)/lib/libxml2.a /$(ROOTDIR)/lib/libz.a \
@@ -98,7 +102,7 @@ override LIBXML = /$(ROOTDIR)/lib/libxml2.a /$(ROOTDIR)/lib/libz.a \
         -L/$(ROOTDIR)/lib/ -lpng -ldl -lm
 endif
 
-LIBBATCH = -L/$(ROOTDIR)/lib -lxml2 -lz -lws2_32 -luuid -lm -lmingw32 
+LIBBATCH = -L/$(ROOTDIR)/lib -lxml2 -lz -lws2_32 -luuid -lm -lmingw32
 ifneq ($(STATIC),)
 override LIBBATCH = /$(ROOTDIR)/lib/libxml2.a /$(ROOTDIR)/lib/libz.a \
 	/$(ROOTDIR)/lib/liblzma.a /$(ROOTDIR)/lib/libz.a \

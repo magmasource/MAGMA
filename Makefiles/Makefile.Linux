@@ -5,7 +5,11 @@
 # =================================================================================
 
 MAKEFILE = Makefiles/Makefile.Linux
+ifneq ($(wildcard /lib/aarch64-linux-gnu),)
+ROOTDIR := aarch64-linux-gnu
+else
 ROOTDIR := x86_64-linux-gnu
+endif
 
 # Compilation options
 # ===================
@@ -37,16 +41,16 @@ CFLAGS        = -c -O3 -D_USE_ISOC99 -D_ISOC99_SOURCE $(BATCH) $(VERSION) \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib
-RANLIBFG      = 
+RANLIBFG      =
 RM            = rm
 RMFLAGS       = -f
 MPICC         = mpicc
 MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
 MPILDFLAGS    = -L/usr/lib -lmpi
-CP            = cp 
+CP            = cp
 CPFLAGS       = -R
 MKDIR         = mkdir
-TAR           = tar 
+TAR           = tar
 TARFLAGS      = czvf
 CHECKSUM      = openssl
 CHECKSUMFLAGS = sha256
@@ -67,13 +71,13 @@ endif
 # Loader flags (default is shared, add -non_shared)
 # =================================================
 
-LDFLAGS = 
+LDFLAGS =
 SONAME = so
 ifneq ($(DYNAMIC),)
 override DYNAMIC = -shared
 endif
 
-# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions 
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions
 # ==============================================================================
 
 # Not sure that it is possible to build the static version of Melts-rhyolite-public.
@@ -89,7 +93,7 @@ override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
 	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libgfortran.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libquadmath.a
 endif
 
-LIBF2C = 
+LIBF2C =
 LIBXML = -L/usr/lib -lxml2 -lm
 ifneq ($(STATIC),)
 override LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
