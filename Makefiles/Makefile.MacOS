@@ -1,10 +1,10 @@
 # ==================================================================
-# Makefile for build of the MELTS package on MacOS (MacOS - 14)
-# Set environment variable for backwards deployment to MacOS 12
+# Makefile for build of the MELTS package on MacOS (MacOS - 15)
+# Set environment variable for backwards deployment to MacOS 13
 # ==================================================================
 
 MAKEFILE	= Makefiles/Makefile.MacOS
-export MACOSX_DEPLOYMENT_TARGET := 12.0
+export MACOSX_DEPLOYMENT_TARGET := 13.0
 
 # Compilation options
 # ===================
@@ -27,6 +27,7 @@ INCF2C = .
 #INCXML = /usr/local/opt/libxml2/include/libxml2
 INCXML = /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
 
+
 # Compiler choice and flags - Do not delete the $(BATCH) macro
 # ============================================================
 
@@ -36,7 +37,7 @@ DYFLAGS	      = xv
 CC            = clang
 LD            = clang
 FC            = gfortran
-CFLAGS        = -ansi -c -O3 $(BATCH) $(VERSION) -mmacosx-version-min=11.0 \
+CFLAGS        = -ansi -c -O3 $(BATCH) $(VERSION) -mmacosx-version-min=13.0 \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib

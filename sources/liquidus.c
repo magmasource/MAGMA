@@ -100,7 +100,7 @@ MELTS Source Code: RCS
 #include <stdlib.h>
 
 #ifndef BATCH_VERSION
-#include <Xm/Xm.h> 
+#include <Xm/Xm.h>
 #include "interface.h"            /*Specific external declarations          */
 #endif
 
@@ -113,17 +113,17 @@ MELTS Source Code: RCS
 
 /*
  *=============================================================================
- * Executable code                     
+ * Executable code
  */
 
 #ifndef BATCH_VERSION
 Boolean liquidus(XtPointer client_data)
 #else
 int liquidus(void)
-#endif 
+#endif
 {
   enum steps {
-    CHECK_CONDITION, CHANGE_TP, CHECK_SATURATION, UPDATE_SYSTEM  
+    CHECK_CONDITION, CHANGE_TP, CHECK_SATURATION, UPDATE_SYSTEM
   };
   static int curStep = 0;
   static int hasSupersaturation, tState = -1;
@@ -213,7 +213,7 @@ int liquidus(void)
 #endif
       curStep = 0;
       return TRUE;
-    } 
+    }
 
 #ifndef BATCH_VERSION
     workProcData->active = TRUE;
@@ -245,8 +245,8 @@ int liquidus(void)
     }
 
 /* -> Calculate O2 end-member properties if path is buffered                  */
-            
-           
+
+
 /* -> Redistribute Fe2O3 and FeO in liquid phase to establish buffer at this T and P */
     if (silminState->fo2Path != FO2_NONE) {
       double *moles = (double *) malloc((unsigned) nc*sizeof(double));
@@ -257,7 +257,7 @@ int liquidus(void)
         (silminState->bulkComp)[i] -= moles[i];
       }
       conLiq(FIRST | SEVENTH, FIRST, silminState->T, silminState->P, moles, NULL, NULL, NULL, NULL, NULL, &(silminState->fo2));
-      for (i=0; i<nc; i++) (silminState->bulkComp)[i] += moles[i];  
+      for (i=0; i<nc; i++) (silminState->bulkComp)[i] += moles[i];
       for (i=0; i<nlc; i++) for (j=0, (silminState->liquidComp)[0][i]=0.0; j<nc; j++)
           (silminState->liquidComp)[0][i] += moles[j]*(bulkSystem[j].oxToLiq)[i];
       free(moles);
@@ -310,7 +310,7 @@ int liquidus(void)
       if (silminState->T <  500.0) { meltsStatus.status = LIQUIDUS_MIN_T; return TRUE; }
 #endif
     } else {
-      if (tState != hasSupersaturation) { 
+      if (tState != hasSupersaturation) {
         tState = hasSupersaturation; tInterval *= -0.5;
       }
       if (fabs(tInterval) > 0.1) {
@@ -342,74 +342,6 @@ int liquidus(void)
   return FALSE;
 }
 
-#ifdef BATCH_VERSION
-/* Adapted from rMELTSframework.m */
-int findWetLiquidus(void) {
-    int *oldIncSolids = (int *) malloc((size_t) npc*sizeof(int));
-    double oldT = 0.0, dspTstart, dspTstop, dspTinc;
-    int i, j, iter = 0, failure = TRUE;
-
-    if ((silminState->solidMass > 0.0) || (silminState->nLiquidCoexist > 1)) {
-        meltsStatus.status = LIQUIDUS_MULTIPLE;
-        printf("<><><><> !!! <><><><> Unable to locate (Wet) liquidus with solids/multiple liquids present.\n");
-    }
-    else {
-      dspTstart = silminState->dspTstart;
-      dspTstop  = silminState->dspTstop;
-      dspTinc   = silminState->dspTinc;
-      do {
-            oldT = silminState->T;
-            for (i=0, j=0; i<npc; i++) if ((solids[i].type == PHASE) && (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL))) {
-                    oldIncSolids[j] = (silminState->incSolids)[j];
-                    (silminState->incSolids)[j] = FALSE;
-                    if (!strcmp("water", solids[i].label)) (silminState->incSolids)[j] = TRUE; // rMELTSframework has only "water"
-                    if (!strcmp("fluid", solids[i].label)) (silminState->incSolids)[j] = TRUE; // alphaMELTS has only "fluid"
-                    j++;
-                }
-            silminState->dspTstart   = oldT;
-            silminState->dspTstop    = oldT; 
-            silminState->dspTinc     = 0.0; 
-            while(!silmin());
-            fprintf(stderr, "<><><><> !!! <><><><> T after equilibrate: %lf\n", silminState->T);
-            if (meltsStatus.status != SILMIN_SUCCESS) {
-                meltsStatus.status = LIQUIDUS_SILMIN_ERROR;
-                printf("<><><><> !!! <><><><>  Failure in silmin() stage of findWetLiquidus. Aborting ...\n");
-                break;
-            }
-
-            for (i=0, j=0; i<npc; i++) if ((solids[i].type == PHASE) && (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL))) {
-                    (silminState->incSolids)[j] = oldIncSolids[j];
-                    j++;
-                }
-            silminState->solidMass = 0.0; // added to make sure liquidus() doesn't fail
-            while(!liquidus());
-            fprintf(stderr, "<><><><> !!! <><><><> T after liquidus: %lf, iter: %d\n", silminState->T, iter);
-            if (meltsStatus.status != LIQUIDUS_SUCCESS) {
-                printf("<><><><> !!! <><><><>  Failure in liquidus() stage of findWetLiquidus. Aborting ...\n");
-                break;
-            }
-
-            silminState->dspTstart = silminState->T; // dspT in K
-            silminState->dspTstop  = silminState->T;
-            iter++;
-        } while ((fabs(oldT - silminState->T) > 0.5) && (iter < 50));
-        silminState->dspTinc     = dspTinc;
-
-        if (iter == 50) {
-            silminState->dspTstart   = dspTstart;
-            silminState->dspTstop    = dspTstop;
-            meltsStatus.status = GENERIC_INTERNAL_ERROR;
-            printf("<><><><> !!! <><><><> Unable to locate (Wet) liquidus.\n");
-        } else {
-            printf("<><><><> !!! <><><><> Found (Wet) liquidus at %.2f (C).\n", silminState->T-273.15);
-            failure = FALSE;
-        }
-    }
-    free(oldIncSolids);
-
-    return failure;
-
-}
-#endif
+// findWetLiquidus moved to interface.c as it is not called from easyMelts
 
 /* end of file LIQUIDUS.C */

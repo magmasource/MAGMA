@@ -291,7 +291,9 @@
 /*
  *==============================================================================
  */
-
+#ifdef __cplusplus 
+extern "C" {
+#endif
 int  testAlL (int mask, double t, double p, int na, int nr, char **names,
               char **formulas, double *r, double *m);
 void conAlL  (int inpMask, int outMask, double t, double p, double *e,
@@ -831,7 +833,9 @@ void vmixWus (int mask, double t, double P, double *x, double *vmix,
               double *dt2, double *dtdp, double *dp2, double *dxdt,
               double *dxdp);
 void dispWus (int mask, double t, double P, double *x, char **formula);
-
+#ifdef __cplusplus 
+};
+#endif
 #define        INCLUDE_IN_CALIBRATION TRUE
 #define DO_NOT_INCLUDE_IN_CALIBRATION FALSE
 

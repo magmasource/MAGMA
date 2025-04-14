@@ -901,21 +901,17 @@ int putOutputDataToFile(char *fileName)
 #ifdef MAKE_TABLES
   static FILE *tableLiq;
 #ifdef EASYMELTS_UPDATE_SYSTEM
-#if defined(_WIN32) || defined(__linux__) //Addition ES
+#if defined(_WIN32) //Addition ES
     static const char *liquidFile = "tables/melts-liquid.tbl";
-    // #elif defined(__APPLE__) //Addition ES
-    //     char[200] temp;
-    //     const char *home_path = getenv("HOME"); //HOME must be set for this to work
-    //     if (home_path == NULL) {
-    //         const char* liquidFile = "melts-liquid.tbl";
-    //     } else {
-    //     const char *l_file = "/Documents/easyMelts_output/tables/melts-liquid.tbl"; //These folders are always created at program startup
-    //     strcpy(temp, home_path);
-    //     strcat(temp, l_file);
-    //     const char* liquidFile = temp;
-    //     }
-#else
-    static const char *liquidFile = "melts-liquid.tbl";
+#else //Addition ES/PMA
+    char *liquidFile;
+    if (access("tables/", F_OK) == 0) {
+      liquidFile = (char *) calloc((unsigned) (strlen("tables/") + strlen("melts-liquid.tbl") + 1), sizeof(char));
+      strcpy(liquidFile, "tables/melts-liquid.tbl");
+    } else {
+      liquidFile = (char *) calloc((unsigned) (strlen("tables/") + strlen("melts-liquid.tbl") + 1), sizeof(char));
+      strcpy(liquidFile, "melts-liquid.tbl");
+    }
 #endif
 #else
     static const char *liquidFile = "melts-liquid.tbl";
@@ -988,6 +984,11 @@ int putOutputDataToFile(char *fileName)
       return FALSE;
 #endif /* BATCH_VERSION */
     }
+#ifdef EASYMELTS_UPDATE_SYSTEM
+#ifndef _WIN32
+    free(liquidFile);
+#endif
+#endif /* EASYMELTS_UPDATE_SYSTEM */
     fprintf(tableLiq, "Index,T (C),P (kbars),log(10) f O2");
     fprintf(tableLiq, ",liq mass (gm),liq rho (gm/cc)");
     for (i=0; i<nc; i++) fprintf(tableLiq, ",wt%% %s", bulkSystem[i].label);
@@ -1173,24 +1174,19 @@ int putOutputDataToFile(char *fileName)
           strcpy(nameOfFile, "tables\\");
           nameOfFile = strcat(nameOfFile, solids[j].label);
           nameOfFile = strcat(nameOfFile, ".tbl");
-#elif defined(__linux__)
-          char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
-          strcpy(nameOfFile, "tables/");
-          nameOfFile = strcat(nameOfFile, solids[j].label);
-          nameOfFile = strcat(nameOfFile, ".tbl");
-          // #elif defined(__APPLE__)
-          //                     const char *home_path = getenv("HOME");
-          //                     size_t home_path_len = strlen(home_path);
-          //                     char *nameOfFile = (char *)calloc((unsigned)(home_path_len + 28 + len + 5 + 7), sizeof(char));
-          //                     strcpy(nameOfFile, home_path);
-          //                     nameOfFile = strcat(nameOfFile, "/Documents/easyMelts_output/tables/");
-          //                     nameOfFile = strcat(nameOfFile, solids[j].label);
-          //                     nameOfFile = strcat(nameOfFile, ".tbl");
-#else               /*End addition*/
-          char *nameOfFile = (char *)calloc((unsigned)(len + 5), sizeof(char));
-          strcpy(nameOfFile, solids[j].label);
-          nameOfFile = strcat(nameOfFile, ".tbl");
-#endif
+#else  /*Addition ES/PMA */
+          char *nameOfFile;
+          if (access("tables/", F_OK) == 0) {
+            nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
+            strcpy(nameOfFile, "tables/");
+            nameOfFile = strcat(nameOfFile, solids[j].label);
+            nameOfFile = strcat(nameOfFile, ".tbl");
+          } else {
+            nameOfFile = (char *)calloc((unsigned)(len + 5), sizeof(char));
+            strcpy(nameOfFile, solids[j].label);
+            nameOfFile = strcat(nameOfFile, ".tbl");
+          }
+#endif               /*End addition*/
 #else
         char *nameOfFile = (char *) calloc((unsigned) (len+5), sizeof(char));
         strcpy(nameOfFile, solids[j].label);
@@ -1253,8 +1249,8 @@ int putOutputDataToFile(char *fileName)
         entropy      += m[i]*(solids[j+1+i].cur).s;
         volume       += m[i]*(solids[j+1+i].cur).v;
         heatCapacity += m[i]*(solids[j+1+i].cur).cp;
-	dVolumeDt    += m[i]*(solids[j+1+i].cur).dvdt;
-	dVolumeDp    += m[i]*(solids[j+1+i].cur).dvdp;
+        dVolumeDt    += m[i]*(solids[j+1+i].cur).dvdt;
+        dVolumeDp    += m[i]*(solids[j+1+i].cur).dvdp;
       }
       totalMass         += mass;
       totalGibbsEnergy  += gibbsEnergy;
@@ -1284,29 +1280,24 @@ int putOutputDataToFile(char *fileName)
       if (tableSol[j] == NULL) {
         int len = (int) strlen(solids[j].label);
 #ifdef EASYMELTS_UPDATE_SYSTEM
-#if defined(_WIN32) /*Addition ES*/
+#if defined(_WIN32) /*Addition ES */
           char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
           strcpy(nameOfFile, "tables\\");
           nameOfFile = strcat(nameOfFile, solids[j].label);
           nameOfFile = strcat(nameOfFile, ".tbl");
-#elif defined(__linux__)
-          char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
-          strcpy(nameOfFile, "tables/");
-          nameOfFile = strcat(nameOfFile, solids[j].label);
-          nameOfFile = strcat(nameOfFile, ".tbl");
-          // #elif defined(__APPLE__)
-          //                     const char *home_path = getenv("HOME");
-          //                     size_t home_path_len = strlen(home_path);
-          //                     char *nameOfFile = (char *)calloc((unsigned)(home_path_len + 28 + len + 5 + 7), sizeof(char));
-          //                     strcpy(nameOfFile, home_path);
-          //                     nameOfFile = strcat(nameOfFile, "/Documents/easyMelts_output/tables/");
-          //                     nameOfFile = strcat(nameOfFile, solids[j].label);
-          //                     nameOfFile = strcat(nameOfFile, ".tbl");
-#else               /*End addition*/
-          char *nameOfFile = (char *)calloc((unsigned)(len + 5), sizeof(char));
-          strcpy(nameOfFile, solids[j].label);
-          nameOfFile = strcat(nameOfFile, ".tbl");
-#endif
+#else /*Addition ES/PMA */
+          char *nameOfFile;
+          if (access("tables/", F_OK) == 0) {
+            nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
+            strcpy(nameOfFile, "tables/");
+            nameOfFile = strcat(nameOfFile, solids[j].label);
+            nameOfFile = strcat(nameOfFile, ".tbl");
+          } else {
+            nameOfFile = (char *)calloc((unsigned)(len + 5), sizeof(char));
+            strcpy(nameOfFile, solids[j].label);
+            nameOfFile = strcat(nameOfFile, ".tbl");
+          }
+#endif               /*End addition*/
 #else
         char *nameOfFile = (char *) calloc((unsigned) (len+5), sizeof(char));
         strcpy(nameOfFile, solids[j].label);
@@ -1875,8 +1866,8 @@ int putSequenceDataToXmlFile(int active) {
     if (silminState->isenthalpic && (silminState->refEnthalpy == 0.0)) silminState->refEnthalpy = hLiq+totalEnthalpy;
     if (silminState->isentropic  && (silminState->refEntropy  == 0.0)) silminState->refEntropy  = sLiq+totalEntropy;
     if (silminState->isochoric   && (silminState->refVolume   == 0.0)) silminState->refVolume   = vLiq+totalVolume;
-    
-    fracMass = (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) ? 
+
+    fracMass = (silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) ?
       (silminState->fracMass-previousSilminState->fracMass) : 0.0;
 
     if ((silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq) && (fracMass > 0.0)) {
