@@ -846,7 +846,7 @@ private:
 
     const std::vector<std::string> m_FO2Paths{"None", "HM", "NNO", "QFM", "COH", "IW", "QFM_P3", "QFM_P2", "QFM_P1", "QFM_M1", "QFM_M2", "QFM_M3", "QFM_M4", "QFM_M5", "QFM_M6", "QFM_M7", "QFM_M8", "QFM_M9", "FO2_QFM_P0_5", "FO2_QFM_P1_5"};
     const std::vector<std::string> m_MeltsVersions{/*"xMELTS",*/"MELTS_v1.0.x","pMELTS_v5.6.1","MELTS_v1.1.0", "MELTS_v1.2.0"};
-    const std::vector<std::string> m_CalculationModes{"Isothermal", "Isenthalpic", "Isentropic", "Isochoric"};
+    const std::vector<std::string> m_CalculationModes{"Isothermal/Isobaric", "Isenthalpic", "Isentropic", "Isochoric"};
     std::map<int, std::string> m_Phases;
     std::vector<std::string> m_PhasesVec;
     const std::vector<std::string> m_OxideNames{"SiO2", "TiO2", "Al2O3", "Fe2O3", "Cr2O3", "FeO", "MnO", "MgO", "NiO", "CoO", "CaO", "Na2O", "K2O", "P2O5", "H2O", "CO2", "SO3", "Cl2O-1", "F2O-1"};
