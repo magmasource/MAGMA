@@ -384,7 +384,7 @@ void ImGuiOpenGL::UpdateImGUI() {
     ImGui::SetNextWindowPos(vec);
     ImGui::SetNextWindowSize(io.DisplaySize);
 
-    ImGui::Begin("easyMelts 0.2 beta", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse /*ImGuiWindowFlags_None*/);
+    ImGui::Begin("easyMelts 0.3.0", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse /*ImGuiWindowFlags_None*/);
 
     static int current_melts_version = 0;
     static const char *version_string = "";

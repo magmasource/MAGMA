@@ -1,7 +1,7 @@
 =======================
 MAC
 
-clang -c -I./include ./src/glad.c -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM
+clang -c -I./include ./src/glad.c -DGL_SILENCE_DEPRECATION
 
 clang++ -o easyMelts -std=c++17 -I/opt/homebrew/include -I./include -I./include/imgui -I./include/melts ./src/*.cpp glad.o -L./lib -L/opt/homebrew/lib -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -lxlsxwriter -lmeltslibwin -lxml2 -lz -liconv -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM
 
