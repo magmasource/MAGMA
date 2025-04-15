@@ -1636,7 +1636,7 @@ int silmin(int calc_index)
             
 #ifndef BATCH_VERSION
             updateUserGraphGW();
-#else
+#elsif !defined(EASYMELTS_UPDATE_SYSTEM)
     if (strstr(silminInputData.name, ".xml")   != NULL) {
         putSequenceDataToXmlFile(TRUE);
         previousSilminState = copySilminStateStructure(silminState, previousSilminState);

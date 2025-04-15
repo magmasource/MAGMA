@@ -988,7 +988,7 @@ int putOutputDataToFile(char *fileName)
 #ifndef _WIN32
     free(liquidFile);
 #endif
-#endif /* EASYMELTS_UPDATE_SYSTEM */
+#endif
     fprintf(tableLiq, "Index,T (C),P (kbars),log(10) f O2");
     fprintf(tableLiq, ",liq mass (gm),liq rho (gm/cc)");
     for (i=0; i<nc; i++) fprintf(tableLiq, ",wt%% %s", bulkSystem[i].label);
