@@ -218,7 +218,7 @@ MELTS Source Code: RCS
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef EASYMELTS_UPDATE_SYSTEM
+#ifdef BATCH_VERSION
 /*
  Additions for folder creation
  */
@@ -900,7 +900,7 @@ int putOutputDataToFile(char *fileName)
   static FILE *output;
 #ifdef MAKE_TABLES
   static FILE *tableLiq;
-#ifdef EASYMELTS_UPDATE_SYSTEM
+#ifdef BATCH_VERSION
 #if defined(_WIN32) //Addition ES
     static const char *liquidFile = "tables/melts-liquid.tbl";
 #else //Addition ES/PMA
@@ -919,8 +919,8 @@ int putOutputDataToFile(char *fileName)
     static FILE **tableSol;
     static int rowIndex = 0;
 
-#ifdef EASYMELTS_UPDATE_SYSTEM
-    /*Addition ES - for macOS the tables folder is made in imgui_opengl.cpp*/
+#ifdef BATCH_VERSION
+    /*Addition ES/PMA - for macOS the tables folder is made by easyMelts.command */
 #ifdef _WIN32
     char buffer[FILENAME_MAX];
     GetCurrentDir(buffer, FILENAME_MAX);
@@ -984,7 +984,7 @@ int putOutputDataToFile(char *fileName)
       return FALSE;
 #endif /* BATCH_VERSION */
     }
-#ifdef EASYMELTS_UPDATE_SYSTEM
+#ifdef BATCH_VERSION
 #ifndef _WIN32
     free(liquidFile);
 #endif
@@ -1168,7 +1168,7 @@ int putOutputDataToFile(char *fileName)
       if (tableSol[j] == NULL) {
         int len = (int) strlen(solids[j].label);
 
-#ifdef EASYMELTS_UPDATE_SYSTEM
+#ifdef BATCH_VERSION
 #if defined(_WIN32) /*Addition ES*/
           char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
           strcpy(nameOfFile, "tables\\");
@@ -1279,7 +1279,7 @@ int putOutputDataToFile(char *fileName)
 #ifdef MAKE_TABLES
       if (tableSol[j] == NULL) {
         int len = (int) strlen(solids[j].label);
-#ifdef EASYMELTS_UPDATE_SYSTEM
+#ifdef BATCH_VERSION
 #if defined(_WIN32) /*Addition ES */
           char *nameOfFile = (char *)calloc((unsigned)(len + 5 + 7), sizeof(char));
           strcpy(nameOfFile, "tables\\");
