@@ -22,7 +22,7 @@ Still need libwinpthread-1.dll - doesn't seem to be a way to get round this.
 
 (actually use mingw directory)
 
-x86_64-w64-mingw32-g++ -o easyMelts.exe -std=c++17 -I./include -I./include/imgui -I./include/melts *.cpp glad.c -L./mingw /usr/x86_64-w64-mingw32/lib/libglfw3.a -lOpenXLSX -lmeltslibwin  /usr/x86_64-w64-mingw32/lib/libgdi32.a /usr/x86_64-w64-mingw32/lib/libssp.a /usr/x86_64-w64-mingw32/lib/libglu32.a -lopengl32 -static-libstdc++ -lstdc++fs -static-libgcc -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-no-whole-archive -Wl,-Bdynamic -lws2_32 -luuid
+g++ -o easyMelts.exe -std=c++17 -I./include -I./include/imgui -I./include/melts -I/mingw64/include src/*.cpp src/glad.c -L./lib -L/mingw64/lib -lxlsxwriter -Wl,-Bstatic -lmeltslibwin -lglfw3 -lopengl32 -lgdi32 -lxml2 -lz -llzma -liconv -static-libstdc++ -lstdc++fs -static-libgcc -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-no-whole-archive -Wl,-Bdynamic -lws2_32 -luuid -DEASYMELTS_UPDATE_SYSTEM
 
 =======================
 UBUNTU

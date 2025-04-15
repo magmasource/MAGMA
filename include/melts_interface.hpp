@@ -9,6 +9,10 @@
 #define BATCH_VERSION
 #endif
 
+#ifndef EASYMELTS_UPDATE_SYSTEM
+#define EASYMELTS_UPDATE_SYSTEM
+#endif
+
 #include <array>
 #include <vector>
 #include <limits>

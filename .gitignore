@@ -1,4 +1,8 @@
 easyMelts
+easyMelts.exe
 glad.o
 libmeltslibwin.a
+*.dll
 .DS_Store
+
+
