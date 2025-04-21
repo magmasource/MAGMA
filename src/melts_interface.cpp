@@ -76,7 +76,9 @@ void MeltsInterface::DestroySilminState() {
         ClearAllAssimilants();
 
         if (p_SS->yLiq != NULL) free(p_SS->yLiq);
+        p_SS->yLiq = NULL;
         if (p_SS->ySol != NULL) free(p_SS->ySol);
+        p_SS->ySol = NULL;
 
         destroySilminStateStructure(p_SS);
     }
