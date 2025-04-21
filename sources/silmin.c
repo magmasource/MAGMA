@@ -373,29 +373,29 @@ int silmin(int calc_index)
     int hasLiquid = ((silminState != NULL) && (silminState->liquidMass != 0.0));
     static double bestrNorm;
     static int acceptable = FALSE, bestIter, hessianType = HESSIAN_TYPE_NORMAL;
-    
+
 #ifdef EASYMELTS_UPDATE_SYSTEM
     /*additions, Einari*/
     silminState->ready_to_output = 0;
     if (calc_index == 0) curStep = 0;
 #endif
-    
+
 #ifndef BATCH_VERSION
     WorkProcData *workProcData = (WorkProcData *) client_data;
-    
+
     /******************************************************************************
      * On entry, check status of calculation and check workProcData.mode for tag:
      *   FALSE   return call without interface modification
      *   TRUE    initial call to invoke a crystallization run
      ******************************************************************************/
-    
+
     if (workProcData->mode) {
         if( (stateChange = checkStateAgainstInterface()) & SILMIN_STATE_CHANGE_FATAL_ERROR) {
             workProcData->active = FALSE; return TRUE;
         }
-        
+
         if (stateChange != SILMIN_STATE_CHANGE_NONE) {
-            
+
             if (stateChange & SILMIN_STATE_CHANGE_FRAC_SOL)    wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Fractionate solids mode.\n");
             if (stateChange & SILMIN_STATE_CHANGE_FRAC_LIQ)    wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Fractionate liquids mode.\n");
             if (stateChange & SILMIN_STATE_CHANGE_FRAC_FLU)    wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Fractionate fluids mode.\n");
@@ -406,7 +406,7 @@ int silmin(int calc_index)
             if (stateChange & SILMIN_STATE_CHANGE_ASSIM_MASS)  wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Mass of assimilant.\n");
             if (stateChange & SILMIN_STATE_CHANGE_ASSIM_INC)   wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Number of assimilant increments.\n");
             if (stateChange & SILMIN_STATE_CHANGE_PLOT)        wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Choice of user defined plot.\n");
-            
+
             if (stateChange & SILMIN_STATE_CHANGE_INC_SOLIDS)  {
                 curStep = CHANGE_TP;
                 wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: List of potential solid phases.\n");
@@ -424,7 +424,7 @@ int silmin(int calc_index)
             if (stateChange & SILMIN_STATE_CHANGE_ASSIM_T) {
                 wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Assimilant temperature.\n");
             }
-            
+
             if (stateChange & SILMIN_STATE_CHANGE_BULK) {
                 curStep = CHANGE_COMPOSITION;
                 wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Bulk composition.\n");
@@ -437,47 +437,47 @@ int silmin(int calc_index)
                 wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "<> Constraint Change: Assimilant composition.\n");
             }
         }
-        
+
         if (oldErrorHandler != NULL && signal(SIGFPE, oldErrorHandler) == SIG_ERR)
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Error in installing old signal handler.\n");
         if ((oldErrorHandler = signal(SIGFPE, &newErrorHandler)) == SIG_ERR)
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Error in installing new signal handler.\n");
-        
+
         workProcData->mode = FALSE;
     }
-    
+
     /******************************************************************************
      * Step to current phase of the calculation
      ******************************************************************************/
-    
+
     updateStatusADB(STATUS_ADB_INDEX_PHASE, &curStep);
 #else /* BATCH_VERSION */
     if (curStep == 0) curStep = CHANGE_COMPOSITION;
 #endif /* BATCH_VERSION */
-    
+
     if (curStage == 0) curStage = PRE_STAGE_ZERO;
-    
+
     switch(curStep) {
             /* ======================================================================== */
         case CHANGE_COMPOSITION:
-            
+
             updateBulkADB();
 #ifndef BATCH_VERSION
             updateStatusADB(STATUS_ADB_INDEX_MASS_LIQUID, &(silminState->liquidMass));
             if(silminState->fo2Path == FO2_NONE) updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
-            
+
             workProcData->active = TRUE;
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case CHANGE_TP:
-            
+
             /* -> Calculate liquid end-member properties                                  */
             for (i=0; i<nlc; i++)
                 gibbs(silminState->T, silminState->P, (char *) liquid[i].label, &(liquid[i].ref), &(liquid[i].liq), &(liquid[i].fus), &(liquid[i].cur));
-            
+
             /* -> Calculate solid  end-member properties                                  */
             for (i=0, j=0; i<npc; i++) {
                 if (solids[i].type == PHASE) {
@@ -494,11 +494,11 @@ int silmin(int calc_index)
                     j++;
                 }
             }
-            
+
             /* -> Calculate O2 end-member properties if path is buffered                  */
             if (silminState->fo2Path != FO2_NONE) gibbs(silminState->T, silminState->P, "o2", &(oxygen.ref), NULL, NULL, &(oxygen.cur));
-            
-            
+
+
             /* -> Redistribute Fe2O3 and FeO in liquid phase to establish buffer at
              this T and P                                                            */
             if (silminState->fo2Path != FO2_NONE && hasLiquid) {
@@ -514,7 +514,7 @@ int silmin(int calc_index)
                     for (i=0; i<nlc; i++) for (j=0, (silminState->liquidComp)[nl][i]=0.0; j<nc; j++) (silminState->liquidComp)[nl][i] += moles[j]*(bulkSystem[j].oxToLiq)[i];
                 }
                 free(moles);
-                
+
                 if (silminState->oxygen == 0.0) {
                     for (i=0, silminState->oxygen=0.0; i<nlc; i++) for (nl=0; nl<silminState->nLiquidCoexist; nl++)
                         silminState->oxygen += (oxygen.liqToOx)[i]*(silminState->liquidComp)[nl][i];
@@ -525,13 +525,13 @@ int silmin(int calc_index)
                         }
                     }
                 }
-                
+
                 updateBulkADB();
 #ifndef BATCH_VERSION
                 updateStatusADB(STATUS_ADB_INDEX_MASS_LIQUID, &(silminState->liquidMass));
                 updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
 #endif
-                
+
                 /* -> If no liquid, find a subsolidus buffer reaction, run it to establish buffer at this T and P                                       */
             } else if (silminState->fo2Path != FO2_NONE && !hasLiquid) {
                 double muO2;
@@ -539,7 +539,7 @@ int silmin(int calc_index)
                 muO2 = silminState->fo2*(R*silminState->T*log(10.0));
                 if (silminState->oxygen == 0.0) /* Atomic Number of O is 8; we want O2 */
                     for (i=0, silminState->oxygen=0.0; i<nc; i++) silminState->oxygen += (silminState->bulkComp)[i]*(bulkSystem[i].oxToElm)[8]/2.0;
-                
+
 #ifdef DEBUG
                 printf("\nBefore entry to subsolidusmuO2:\n");
                 for (i=0; i<npc; i++) {
@@ -558,7 +558,7 @@ int silmin(int calc_index)
                 }
                 printf("oxygen content = %13.6g\n", silminState->oxygen);
 #endif /* DEBUG */
-                
+
                 if (!subsolidusmuO2(0, &muO2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
                     printf("Failure to impose fO2 buffer in subsolidus. Releasing buffer constraint from the system.\n");
                     silminState->fo2Path = FO2_NONE;
@@ -566,7 +566,7 @@ int silmin(int calc_index)
                     XmToggleButtonGadgetSetState(tg_path_none, True, True);
 #endif
                 }
-                
+
 #ifdef DEBUG
                 printf("\nAfter exit from subsolidusmuO2:\n");
                 for (i=0; i<npc; i++) {
@@ -585,71 +585,71 @@ int silmin(int calc_index)
                 }
                 printf("oxygen content = %13.6g\n", silminState->oxygen);
 #endif /* DEBUG */
-                
+
                 updateBulkADB();
 #ifndef BATCH_VERSION
                 updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
 #endif
             }
-            
+
 #ifndef BATCH_VERSION
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Checking saturation state of potential solids.\n");
             workProcData->active = TRUE;
 #else
             fprintf(stderr, "...Checking saturation state of potential solids.\n");
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case CHECK_SATURATION:
-            
+
             /* Note: This routine uses the array (silminState->ySol)[]. It returns a result in
              the the first npc elements. For liquids it uses (silminState->yLiq)[] and returns
              nlc elements; (silminState->yLiq)[nlc-1] is the liquid affinity.
-             
+
              Note: The storage mode of the array silminState->solidComp obeys the
              following convention:
-             
+
              if solids[i].type == PHASE then
              (silminState->solidComp)[i][*] = total moles of the phase in the system
-             
+
              if solids[i].type == PHASE and solids[i].na > 1,
              i.e. an solids[i].na-component solid solution, then
              (silminState->solidComp)[i+1][*] through
              (silminState->solidComp)[i+solids[i].na][*] contain the composition of
              the solid solution in terms of moles of the endmember components
-             
+
              For all solids if solids[i].type == PHASE, then a non-zero value in
              (silminState->solidComp)[i][*] means the solid phase is present. This
              test is used in evaluateSaturationState()                            */
-            
+
             if ((silminState->ySol) == NULL) {
                 (silminState->ySol) = (double *) malloc((size_t) npc*sizeof(double));
                 (silminState->yLiq) = (double *) malloc((size_t) nlc*sizeof(double));
             }
             for (i=0; i<npc; i++) (silminState->cylSolids)[i] = 0;
-            
+
             /* Only call at this stage if we are starting from liquid */
             if (hasLiquid) hasSupersaturation = evaluateSaturationState((silminState->ySol), (silminState->yLiq));
             else           hasSupersaturation = FALSE;
-            
+
 #ifndef BATCH_VERSION
             updateSolidADB((silminState->ySol), (silminState->yLiq));
             workProcData->active = TRUE;
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case ADD_PHASE:
-            
+
             /* Note: The storage (silminState->ySol)[0:npc-1] must contain results set by the
              previous call to evaluateSaturationState. The space may be
              reused upon exit from this case.  If liquid is absent, (silminState->yLiq)[0:nlc-1]
              should contain results for liquid.  SilminState->incSolids[npc] is
              used to store inclusion or suppression of liquid phase.          */
-            
+
             if (hasSupersaturation) {
                 double minAffinity = 0.0;
                 int    index = -9999;
@@ -663,13 +663,13 @@ int silmin(int calc_index)
                 if (index >= 0) {
                     double inmass = MASSIN;
                     int acceptable = FALSE;
-                    
+
 #ifndef BATCH_VERSION
                     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Adding the solid phase %s to the assemblage.\n", solids[index].label);
 #else
                     fprintf(stderr, "...Adding the solid phase %s to the assemblage.\n", solids[index].label);
 #endif
-                    
+
                     /* test to see how much we can safely add - use the first liquid as a test case */
                     if (hasLiquid) {
                         while (!acceptable) {
@@ -749,7 +749,7 @@ int silmin(int calc_index)
                     printf("...addPhase: inmass(b) = %g\n", inmass);
 #endif
                     (silminState->nSolidCoexist)[index] = 1;
-                    
+
                 } else {  /* adding liquid to subsolidus assemblage */
                     double inmass = MASSIN;
                     int acceptable = FALSE;
@@ -787,7 +787,7 @@ int silmin(int calc_index)
                     silminState->nLiquidCoexist = 1;
                     free (mLiq);
                 }
-                
+
                 if (silminState->fo2Path != FO2_NONE && hasLiquid) {
                     double *moles = (double *) malloc((size_t) nc*sizeof(double));
                     for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
@@ -811,30 +811,30 @@ int silmin(int calc_index)
                     }
                 }
             }
-            
+
             iterQuad = 0; bestrNorm = 1.0; acceptable = FALSE;
-            
+
 #ifndef BATCH_VERSION
             updateStatusADB(STATUS_ADB_INDEX_QUADRATIC, &iterQuad);
             workProcData->active = TRUE;
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case PROJECT_CONSTRAINTS:
-            
+
             /* Note: Storage for cMatrix, hVector, dVector and yVector is allocated
              within getEqualityConstraints. Hence, they are passed as pointers.
              The sizes of the resulting arrays are returned in conRows and conCols  */
-            
+
             if      (   (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)  ) && (silminState->fo2Path != FO2_NONE)
                      && (curStage == PRE_STAGE_ZERO) ) { curStage = L_H_STAGE_ONE; silminState->isenthalpic = FALSE; }
             else if (     (silminState->isentropic  && (silminState->refEntropy  != 0.0)) && (silminState->fo2Path != FO2_NONE)
                      && (curStage == PRE_STAGE_ZERO) ) { curStage = L_S_STAGE_ONE; silminState->isentropic  = FALSE; }
             else if (   (silminState->isochoric   && (silminState->refVolume   != 0.0)  ) && (silminState->fo2Path != FO2_NONE)
                      && (curStage == PRE_STAGE_ZERO) ) { curStage = L_V_STAGE_ONE; silminState->isochoric   = FALSE; }
-            
+
 #ifndef BATCH_VERSION
             if (iterQuad == 0) wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Projecting equality constraints.\n");
 #else
@@ -855,47 +855,47 @@ int silmin(int calc_index)
             printf(". T = %g, P = %g\n", silminState->T-273.15, silminState->P);
 #endif
             getEqualityConstraints(&conRows, &conCols, &cMatrix, &hVector, &dVector, &yVector);
-            
+
 #ifndef BATCH_VERSION
             workProcData->active = TRUE;
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case PRE_QUADRATIC:
-            
+
 #ifndef BATCH_VERSION
             if (iterQuad == 0) wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Minimizing the thermodynamic potential.\n");
             workProcData->active = TRUE;
 #else
             if (iterQuad == 0) fprintf(stderr, "...Minimizing the thermodynamic potential.\n");
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case CONSTRUCT_QUADRATIC:
-            
+
             /* Note: Storage for eMatrix, and bMatrix is allocated within getProjGradientAndHessian. Hence, they are passed as pointers. */
-            
+
             iterQuad++;
 #ifndef BATCH_VERSION
             updateStatusADB(STATUS_ADB_INDEX_QUADRATIC, &iterQuad);
 #endif
-            
+
 #ifdef DEBUG
             printf("\nMaking call to getProjGradientAndHessian(...) with conRows = %d and conCols = %d\n", conRows, conCols);
 #endif
             hessianType = getProjGradientAndHessian(conRows, conCols, &eMatrix, &bMatrix, cMatrix, hVector, dVector, yVector);
-            
+
 #ifndef BATCH_VERSION
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->Solving quadratic minimization Iter: %d.\n", iterQuad);
             workProcData->active = TRUE;
 #else
             fprintf(stderr, "...-->Solving quadratic minimization Iter: %d.\n", iterQuad);
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
@@ -904,12 +904,12 @@ int silmin(int calc_index)
                 double **aMatrix, *hVector, *gVector;
                 int    *pVector, pseudoRank, nLiqs, nSols, nCmps;
                 double tolerance = 10.0*DBL_EPSILON /**DBL_EPSILON */, scale = DBL_MIN, fNORM;
-                
+
                 aMatrix =  matrix(0, conCols-conRows-1, 0, conCols-conRows-1);
                 hVector =  vector(0, conCols-conRows-1);
                 gVector =  vector(0, conCols-conRows-1);
                 pVector = ivector(0, conCols-conRows-1);
-                
+
                 nLiqs = (silminState->multipleLiqs) ? silminState->nLiquidCoexist : 1;
                 for (i=0, nCmps=0; i<nc;  i++) if ((silminState->bulkComp)[i] != 0.0) nCmps++;
                 for (i=0, nSols=0; i<npc; i++) if (solids[i].type == PHASE) nSols += (silminState->nSolidCoexist)[i];
@@ -918,7 +918,7 @@ int silmin(int calc_index)
                 if (nCmps < (nLiqs+nSols))
                     printf("*****Assemblage input to HFTI violates phase rule for divariant assemblage.\n");
 #endif
-                
+
                 for (i=0; i<(conCols-conRows); i++) {
                     if (fabs(bMatrix[conRows+i][0]) > scale) scale = fabs(bMatrix[conRows+i][0]);
                     for (j=0; j<(conCols-conRows); j++) if (fabs(eMatrix[i+conRows][j+conRows]) > scale) scale = fabs(eMatrix[i+conRows][j+conRows]);
@@ -927,14 +927,14 @@ int silmin(int calc_index)
                     bMatrix[conRows+i][0] /= scale;
                     for (j=0; j<(conCols-conRows); j++) aMatrix[i][j] = eMatrix[i+conRows][j+conRows]/scale;
                 }
-                
+
                 for (i=0, fNORM=0.0; i<(conCols-conRows); i++) for (j=0; j<(conCols-conRows); j++) fNORM += aMatrix[i][j]*aMatrix[i][j];
                 fNORM = sqrt(fNORM);
 #ifdef DEBUG
                 printf("Frobenious norm of HFTI matrix = %g\n", fNORM);
 #endif
                 hfti(aMatrix, conCols-conRows, conCols-conRows, &bMatrix[conRows], 1, tolerance, &pseudoRank, &rNorm, hVector, gVector, pVector);
-                
+
                 if (pseudoRank < conCols-conRows) {
 #ifndef BATCH_VERSION
                     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->Rank deficiency detected by HFTI, rank = %d\n", pseudoRank);
@@ -946,14 +946,14 @@ int silmin(int calc_index)
                     printf("Rank deficiency detected by HFTI, rank = %d\n", pseudoRank);
 #endif
                 }
-                
+
 #ifdef DEBUG
                 printf("HFTI: scale factor: %20.13g\n", scale);
                 /*
                  for (i=0; i<(conCols-conRows); i++) printf("HFTI Soln: bMatrix[%d] = %20.13g\n", conRows+i, bMatrix[conRows+i][0]);
                  */
 #endif
-                
+
                 free_ivector(pVector, 0, conCols-conRows-1);
                 free_vector (gVector, 0, conCols-conRows-1);
                 free_vector (hVector, 0, conCols-conRows-1);
@@ -985,16 +985,16 @@ int silmin(int calc_index)
 #endif
                 silminState->dspPstart = silminState->P;
             }
-            
+
 #ifndef BATCH_VERSION
             workProcData->active = TRUE;
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case REASSEMBLE_SOLUTION:
-            
+
             hasNlCon =  (silminState->isenthalpic && (silminState->refEnthalpy != 0.0))
             || (silminState->isentropic  && (silminState->refEntropy  != 0.0))
             || (silminState->isochoric   && (silminState->refVolume   != 0.0))
@@ -1006,7 +1006,7 @@ int silmin(int calc_index)
              for (i=0; i<conCols; i++) printf("unProj HFTI Soln: bMatrix[%d] = %20.13g\n", i, bMatrix[i][0]);
              */
 #endif
-            
+
             j=0; rNorm=0.0; sNorm = 0.0;
             if (hasLiquid) {
                 for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
@@ -1025,7 +1025,7 @@ int silmin(int calc_index)
                     if (hasNlCon) for (i=0; i<nlc; i++) (constraints->liquidDelta)[nl][i] = 0.0;
                 }
             }
-            
+
 #ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
             if (iterQuad == 1) printf("T = %g, P = %g\n", silminState->T - 273.15, silminState->P);
 #endif
@@ -1071,7 +1071,7 @@ int silmin(int calc_index)
 #ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
             if (iterQuad == 1) printf("\n");
 #endif
-            
+
             if ((silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) || (silminState->isentropic  && (silminState->refEntropy  != 0.0))) {
                 silminState->tDelta = bMatrix[j][0];
                 constraints->T = 0.0;
@@ -1091,29 +1091,29 @@ int silmin(int calc_index)
 #endif
                 j++;
             }
-            
+
             rNorm = sqrt(rNorm);  sNorm = sqrt(sNorm);
-            
+
             /* New code to save best iteration that meets non-optimal criteria */
             if (rNorm < sqrt(DBL_EPSILON)*sNorm && rNorm < bestrNorm) {
                 bestrNorm = rNorm; bestIter = iterQuad;
                 acceptable = TRUE;
                 bestState = copySilminStateStructure(silminState, bestState);
             }
-            
+
 #ifndef BATCH_VERSION
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->rNorm = %13.6g, sNorm = %13.6g\n", rNorm, sNorm);
 #else
             fprintf(stderr, "...-->rNorm = %13.6g, sNorm = %13.6g\n", rNorm, sNorm);
 #endif
-            
+
 #ifdef DEBUG
             printf("rNorm = %13.6g, sNorm = %13.6g\n", rNorm, sNorm);
 #endif
 #ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
             printf("iter = %3.3d rNorm = %13.6e, sNorm = %13.6e", iterQuad, rNorm, sNorm);
 #endif
-            
+
             if (rNorm < pow(DBL_EPSILON, (double) 0.75)*sNorm*((double) quad_tol_modifier)) curStep = CONVERGENCE_TEST;
             else if (iterQuad > ITERMX) {
                 if (rNorm < sqrt(DBL_EPSILON)*sNorm*((double) quad_tol_modifier)) {
@@ -1134,24 +1134,24 @@ int silmin(int calc_index)
                 } else {
 #ifndef BATCH_VERSION
                     XmString csString1, csString2, csString3;
-                    
+
                     csString1 = XmStringCreateLtoR("THE QUADRATIC MINIMIZATION ALGORITHM HAS FAILED TO CONVERGE.\n", "ISO8859-1");
                     csString2 = XmStringCreateLtoR("Try restarting the calculation at the current point with\n", "ISO8859-1");
                     csString3 = XmStringConcat(csString1, csString2);
                     XmStringFree(csString1); XmStringFree(csString2);
-                    
+
                     csString1 = XmStringCreateLtoR("slightly modified system parameters. You may wish to save the\n", "ISO8859-1");
                     csString2 = XmStringConcat(csString3, csString1);
                     XmStringFree(csString3); XmStringFree(csString1);
-                    
+
                     csString1 = XmStringCreateLtoR("current system state before proceeding.", "ISO8859-1");
                     csString3 = XmStringConcat(csString2, csString1);
                     XmStringFree(csString1); XmStringFree(csString2);
-                    
+
                     XtVaSetValues(error_message, XmNmessageString, csString3, NULL);
                     XtManageChild(error_message);
                     XmStringFree(csString3);
-                    
+
                     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Quadratic convergence failure. Aborting.\n");
                     workProcData->active = FALSE;
 #else
@@ -1173,14 +1173,14 @@ int silmin(int calc_index)
                 else if (curStage == L_V_STAGE_ONE  ) { fo2PathOld = silminState->fo2Path; silminState->fo2Path = FO2_NONE; silminState->isochoric   = TRUE;  curStage = L_V_STAGE_TWO;	}
                 else if (curStage == L_V_STAGE_TWO  ) { silminState->fo2Path = fo2PathOld;				  silminState->isochoric   = FALSE; curStage = L_V_STAGE_THREE; }
                 else if (curStage == L_V_STAGE_THREE) { silminState->fo2Path = fo2PathOld;				  silminState->isochoric   = TRUE;  curStage = PRE_STAGE_ZERO ; }
-                
+
                 if (curStage != PRE_STAGE_ZERO) { curStep = PROJECT_CONSTRAINTS; iterQuad = 0; }
                 if ( (curStage == L_H_STAGE_THREE) || (curStage == L_S_STAGE_THREE) || (curStage == L_V_STAGE_THREE) ) {
                     silminState->fo2 = getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
                     gibbs(silminState->T, silminState->P, "o2", &(oxygen.ref), NULL, NULL, &(oxygen.cur));
                 }
             }
-            
+
 #ifndef BATCH_VERSION
             workProcData->active = TRUE;
 #endif
@@ -1191,7 +1191,7 @@ int silmin(int calc_index)
             static double pTotalLast = 0.0, pTotalAveLast = 0.0, pTotalHistory[ITERMX+1];
             double lambda = 1.0, stepSize = 0.10, pTotal, pTotalAverage;
             int iter, status;
-            
+
             do {
                 double reltest = MAX(10.0*DBL_EPSILON, DBL_EPSILON*sNorm);
                 iter   = ITERMX;
@@ -1221,14 +1221,14 @@ int silmin(int calc_index)
 #ifdef PRINT_ENERGY_AT_EACH_QUAD_ITERATION
             printf(" lambda = %13.6e pTotal = %20.13e (%20.13e, %21.1f)\n", lambda, pTotal, (pTotal-pTotalLast)/pTotal, (pTotal-pTotalLast)/(pTotal*DBL_EPSILON));
 #endif
-            
+
 #ifndef BATCH_VERSION
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...-->Linear search: Min = %13.6g, step = %13.6g\n", pTotal, lambda);
             updateStatusADB(STATUS_ADB_INDEX_LINEAR, &iter);
 #else
             fprintf(stderr, "...-->Linear search: Min = %13.6g, step = %13.6g\n", pTotal, lambda);
 #endif
-            
+
             if (hasLiquid) {
                 silminState->liquidMass = 0.0;
                 for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
@@ -1258,7 +1258,7 @@ int silmin(int calc_index)
                     }
                 }
             }
-            
+
             /* -> Change system temperature                                         */
             if ((silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) || (silminState->isentropic  && (silminState->refEntropy  != 0.0))) {
 #ifdef DEBUG
@@ -1273,7 +1273,7 @@ int silmin(int calc_index)
 #ifndef EASYMELTS_UPDATE_SYSTEM
                 silminState->dspTstart = silminState->T;
 #endif
-                
+
                 if (silminState->fo2Path != FO2_NONE) {
 #ifdef DEBUG
                     printf("log10 fO2 reset from %g -> %g\n", silminState->fo2, constraints->fo2);
@@ -1284,7 +1284,7 @@ int silmin(int calc_index)
 #endif
                 }
             }
-            
+
             /* -> Change system pressure                                            */
             if (silminState->isochoric   && (silminState->refVolume   != 0.0)) {
 #ifdef DEBUG
@@ -1296,7 +1296,7 @@ int silmin(int calc_index)
                 tpValues[TP_PADB_INDEX_P_INITIAL].value = silminState->P;
 #endif
                 silminState->dspPstart = silminState->P;
-                
+
                 if (silminState->fo2Path != FO2_NONE) {
 #ifdef DEBUG
                     printf("log10 fO2 reset from %g -> %g\n", silminState->fo2, constraints->fo2);
@@ -1307,7 +1307,7 @@ int silmin(int calc_index)
 #endif
                 }
             }
-            
+
             /* -> Calculate liquid and solid end-member properties                  */
             if ((silminState->isenthalpic && (silminState->refEnthalpy != 0.0))
                 || (silminState->isentropic  && (silminState->refEntropy  != 0.0))
@@ -1327,7 +1327,7 @@ int silmin(int calc_index)
                 }
                 if (silminState->fo2Path != FO2_NONE) gibbs(silminState->T, silminState->P, "o2", &(oxygen.ref), NULL, NULL, &(oxygen.cur));
             }
-            
+
 #ifdef DEBUG
             if ((silminState->fo2Path != FO2_NONE) && hasLiquid) {
                 double muO2E =  (oxygen.cur).g + R*silminState->T*log((double) 10.0)*getlog10fo2(silminState->T, silminState->P, silminState->fo2Path);
@@ -1339,7 +1339,7 @@ int silmin(int calc_index)
                 }
             }
 #endif
-            
+
             pTotalHistory[iterQuad] = pTotal;
             if (iterQuad > 5) {
                 pTotalAverage = (pTotalHistory[iterQuad-5]+pTotalHistory[iterQuad-4]+pTotalHistory[iterQuad-3]+pTotalHistory[iterQuad-2]+pTotalHistory[iterQuad-1])/5.0;
@@ -1359,31 +1359,31 @@ int silmin(int calc_index)
                     goto jumpFromLinSearch;
                 }
             } else pTotalAverage = 0.0;
-            
+
             pTotalLast = pTotal;
             pTotalAveLast = pTotalAverage;
-            
+
         }
-            
+
 #ifndef BATCH_VERSION
             workProcData->active = TRUE;
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case DROP_PHASE:
-            
+
             curStep = ((silminState->isenthalpic && (silminState->refEnthalpy != 0.0))
                        || (silminState->isentropic  && (silminState->refEntropy  != 0.0))
                        || (silminState->isochoric   && (silminState->refVolume   != 0.0))
                        || (silminState->fo2Path != FO2_NONE)
                        ) ? PROJECT_CONSTRAINTS : CONSTRUCT_QUADRATIC;
-            
+
             /* check if a solid phase is trying to disappear - add the solid components to the 1st liquid */
             for (i=0; i<npc; i++) {
                 int nDrop = 0;
-                
+
                 for (ns=0; ns<(silminState->nSolidCoexist)[i]; ns++) {
                     if ( (silminState->solidComp)[i][ns] < MASSOUT) {
 #ifndef BATCH_VERSION
@@ -1444,7 +1444,7 @@ int silmin(int calc_index)
                         iterQuad = 0; bestrNorm = 1.0; acceptable = FALSE;
                     }
                 }
-                
+
                 if (nDrop > 0) {
                     for (ns=0, k=0; ns<(silminState->nSolidCoexist)[i]; ns++) {
                         if ((silminState->solidComp)[i][ns] != 0.0) {
@@ -1455,31 +1455,31 @@ int silmin(int calc_index)
                     }
                     (silminState->nSolidCoexist)[i] -= nDrop;
                 }
-                
+
             }
-            
+
             /* check if a liquid phase is trying to disappear - add the liquid components to the 1st liquid */
             if (hasLiquid && silminState->multipleLiqs && (silminState->nLiquidCoexist > 1)) {
                 int nDrop = 0;
-                
+
                 for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
                     double mass = 0.0;
                     for (i=0; i<nlc; i++) for (j=0; j<nc; j++) mass += silminState->liquidComp[nl][i]*(liquid[i].liqToOx)[j]*bulkSystem[j].mw;
-                    
+
                     if (mass < MASSOUT) {
 #ifndef BATCH_VERSION
                         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Dropping liquid %d from the assemblage.\n", nl);
 #else
                         fprintf(stderr, "...Dropping multiple liquid %d (of %d) from the assemblage.\n", nl, silminState->nLiquidCoexist);
 #endif
-                        
+
 #ifdef DEBUG
                         printf("...Dropping multiple liquid %d (of %d) from the assemblage.\n", nl, silminState->nLiquidCoexist);
 #endif
-                        
+
                         curStep = PROJECT_CONSTRAINTS;
                         nDrop++;
-                        
+
                         if (nl > 0) {
                             for (i=0; i<nlc; i++) {
                                 (silminState->liquidComp)[0][i] += (silminState->liquidComp)[nl][i];
@@ -1493,7 +1493,7 @@ int silmin(int calc_index)
                         iterQuad = 0; bestrNorm = 1.0; acceptable = FALSE;
                     }
                 }
-                
+
                 if ((nDrop > 0) && (silminState->fo2Path != FO2_NONE)) {
                     double *moles = (double *) malloc((size_t) nc*sizeof(double));
                     /* Just the first liquid, because only its composition was changed */
@@ -1507,7 +1507,7 @@ int silmin(int calc_index)
                     free(moles);
                 }
             }
-            
+
             /* check if liquid is trying to disappear - if the liquid mass is this low, there will only be one liquid */
             if (hasLiquid) {
                 if (silminState->liquidMass < MASSOUT) {
@@ -1518,11 +1518,11 @@ int silmin(int calc_index)
 #else
                     fprintf(stderr, "...Dropping liquid from the assemblage.\n");
 #endif
-                    
+
 #ifdef DEBUG
                     printf("...Dropping liquid from the assemblage.\n");
 #endif
-                    
+
                     curStep = PROJECT_CONSTRAINTS;
                     silminState->liquidMass = 0.0; hasLiquid = FALSE;
                     for (i=0; i<nlc; i++) {
@@ -1534,17 +1534,17 @@ int silmin(int calc_index)
                     free(deltaBulkComp);
                 }
             }
-            
+
 #ifndef BATCH_VERSION
             workProcData->active = TRUE;
 #endif
-            
+
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case CONVERGENCE_TEST:
-            
+
             iterQuad = 0;
-            
+
             updateBulkADB();
 #ifndef BATCH_VERSION
             updateSolidADB((double *) NULL, (double *) NULL);
@@ -1552,18 +1552,18 @@ int silmin(int calc_index)
             updateStatusADB(STATUS_ADB_INDEX_MASS_LIQUID, &(silminState->liquidMass));
             updateStatusADB(STATUS_ADB_INDEX_MASS_SOLID, &(silminState->solidMass));
             if(silminState->fo2Path == FO2_NONE) updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
-            
+
             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Checking saturation state of potential solids.\n");
             workProcData->active = TRUE;
 #else
             fprintf(stderr, "...Checking saturation state of potential solids.\n");
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case VERIFY_SATURATION:
-            
+
             if ((hasSupersaturation = evaluateSaturationState((silminState->ySol), (silminState->yLiq)))) curStep = ADD_PHASE;
             else if ((hasSupersaturation = checkForCoexistingSolids())) {
                 curStep = PROJECT_CONSTRAINTS;
@@ -1624,45 +1624,47 @@ int silmin(int calc_index)
 #endif
                 curStep++;
             }
-            
+
 #ifndef BATCH_VERSION
             updateSolidADB((silminState->ySol), (silminState->yLiq));
             workProcData->active = TRUE;
 #endif
-            
+
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case OUTPUT_RESULTS:
-            
+
 #ifndef BATCH_VERSION
             updateUserGraphGW();
-#elsif !defined(EASYMELTS_UPDATE_SYSTEM)
-    if (strstr(silminInputData.name, ".xml")   != NULL) {
-        putSequenceDataToXmlFile(TRUE);
-        previousSilminState = copySilminStateStructure(silminState, previousSilminState);
-    }
+#elif defined(EASYMELTS_UPDATE_SYSTEM)
+            silminState->ready_to_output = 1; /*addition*/
+#else
+            if (strstr(silminInputData.name, ".xml")   != NULL) {
+                putSequenceDataToXmlFile(TRUE);
+                previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+            }
 #endif
-            
+
 #ifndef DO_NOT_PRODUCE_OUTPUT_FILES
             (void) putOutputDataToFile((char *) NULL);
             if (additionalOutput != NULL) (*additionalOutput)(addOutputFileName);
 #endif
-            
+
 #ifndef BATCH_VERSION
             workProcData->active = TRUE;
 #endif
-            
+
             curStep++;
             return FALSE;
             /* ------------------------------------------------------------------------ */
         case UPDATE_SYSTEM:
-            
+
 #ifndef BATCH_VERSION
             if (oldErrorHandler != NULL && signal(SIGFPE, oldErrorHandler) == SIG_ERR)
                 wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Error in installing old signal handler.\n");
             oldErrorHandler = NULL;
 #endif
-            
+
             /* Solid Phase Fractionation */
 #ifndef BATCH_VERSION
             if ((silminState->fractionateSol || silminState->fractionateFlu) && !hasLiquid) wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name,
@@ -1670,7 +1672,7 @@ int silmin(int calc_index)
 #else
             if ((silminState->fractionateSol || silminState->fractionateFlu) && !hasLiquid) fprintf(stderr, "...Cannot do solid/fluid fractionation without a liquid phase.\n");
 #endif
-            
+
             if ((silminState->fractionateSol || silminState->fractionateFlu) && hasLiquid) {
                 double *m = (double *) malloc((size_t) nlc*sizeof(double));
                 double *r = (double *) malloc((size_t) nlc*sizeof(double));
@@ -1705,7 +1707,7 @@ int silmin(int calc_index)
                             if (silminState->fo2Path != FO2_NONE) silminState->oxygen -= (oxygen.solToOx)[i]*((silminState->solidComp)[i][ns]-MASSIN);
                             silminState->fracMass += ((silminState->solidComp)[i][ns]-MASSIN)*solids[i].mw;
                             for (j=0; j<nc; j++) (silminState->bulkComp)[j] -= (solids[i].solToOx)[j]*((silminState->solidComp)[i][ns]-MASSIN);
-                            
+
                             /* Subtract off H, S or V if appropriate                          */
                             if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0))
                                 silminState->refEnthalpy -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).h;
@@ -1713,7 +1715,7 @@ int silmin(int calc_index)
                                 silminState->refEntropy -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).s;
                             if (silminState->isochoric && (silminState->refVolume != 0.0))
                                 silminState->refVolume -= ((silminState->solidComp)[i][ns]-MASSIN)*(solids[i].cur).v;
-                            
+
                             (silminState->solidComp)[i][ns] = MASSIN;
                         } else {
                             double moleF, totalMoles=0.0;
@@ -1727,14 +1729,14 @@ int silmin(int calc_index)
                                 silminState->fracMass += m[j]*solids[i+1+j].mw;
                                 for (k=0; k<nc; k++) (silminState->bulkComp)[k] -= (solids[i+1+j].solToOx)[k]*m[j];
                                 (silminState->solidComp)[i+1+j][ns] = MASSIN*moleF;
-                                
+
                                 /* Subtract off H, S or V if appropriate                        */
                                 if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) silminState->refEnthalpy -= m[j]*(solids[i+1+j].cur).h;
                                 if (silminState->isentropic && (silminState->refEntropy != 0.0))   silminState->refEntropy  -= m[j]*(solids[i+1+j].cur).s;
                                 if (silminState->isochoric && (silminState->refVolume != 0.0))     silminState->refVolume   -= m[j]*(solids[i+1+j].cur).v;
                             }
                             (silminState->solidComp)[i][ns] = MASSIN;
-                            
+
                             /* Subtract off H, S or V if appropriate                          */
                             if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) {
                                 double enthalpy;
@@ -1754,15 +1756,15 @@ int silmin(int calc_index)
                                 (*solids[i].vmix)(FIRST, silminState->T, silminState->P, r, &volume, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
                                 silminState->refVolume   -= totalMoles*volume;
                             }
-                            
+
                         }
                     }
                 }
-                
+
 #ifndef BATCH_VERSION
                 updateStatusADB(STATUS_ADB_INDEX_MASS_FRAC, &(silminState->fracMass));
 #endif
-                
+
                 for (i=0; i<nc; i++) {
                     if ((silminState->bulkComp)[i] != 0.0 && (silminState->bulkComp)[i] <  MASSOUT && bulkSystem[i].type != FE2O3) {
 #ifndef BATCH_VERSION
@@ -1810,7 +1812,7 @@ int silmin(int calc_index)
                 free(m);
                 free(r);
             }
-            
+
             /* Liquid Phase Fractionation */
 #ifndef BATCH_VERSION
             if (silminState->fractionateLiq && !hasLiquid) wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name,
@@ -1818,7 +1820,7 @@ int silmin(int calc_index)
 #else
             if (silminState->fractionateLiq && !hasLiquid) fprintf(stderr, "...Cannot do liquid fractionation without a liquid phase.\n");
 #endif
-            
+
             if (silminState->fractionateLiq && hasLiquid) {
                 double *m = (double *) malloc((size_t) nlc*sizeof(double));
                 double *r = (double *) malloc((size_t) nlc*sizeof(double));
@@ -1826,12 +1828,12 @@ int silmin(int calc_index)
                     double refMoles, totalMoles;
                     for (i=0, refMoles=0.0; i<nlc; i++) refMoles += (silminState->liquidComp)[nl][i];
                     if (refMoles < MASSIN) continue;
-                    
+
                     for (i=0, totalMoles=0.0; i<nlc; i++) {
                         if (((silminState->liquidComp)[nl][i] != 0.0) && (refMoles != 0.0)) {
                             double mw;
                             double moleF = (silminState->liquidComp)[nl][i]/refMoles;
-                            
+
                             for (j=0, mw = 0.0; j<nc; j++) mw += (liquid[i].liqToOx)[j]*bulkSystem[j].mw;
                             m[i] = (silminState->liquidComp)[nl][i] - MASSIN*moleF;
                             totalMoles += m[i];
@@ -1840,14 +1842,14 @@ int silmin(int calc_index)
                             silminState->fracMass += m[i]*mw;
                             for (j=0; j<nc; j++) (silminState->bulkComp)[j] -= (liquid[i].liqToOx)[j]*m[i];
                             (silminState->liquidComp)[nl][i] = MASSIN*moleF;
-                            
+
                             /* Subtract off H, S or V if appropriate			    */
                             if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) silminState->refEnthalpy -= m[i]*(liquid[i].cur).h;
                             if (silminState->isentropic  && (silminState->refEntropy  != 0.0)) silminState->refEntropy  -= m[i]*(liquid[i].cur).s;
                             if (silminState->isochoric   && (silminState->refVolume   != 0.0)) silminState->refVolume	-= m[i]*(liquid[i].cur).v;
                         } else m[i] = 0.0;
                     }
-                    
+
                     /* Subtract off H, S or V if appropriate			  */
                     if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) {
                         double enthalpy;
@@ -1867,22 +1869,22 @@ int silmin(int calc_index)
                         vmixLiq(FIRST, silminState->T, silminState->P, r, &volume, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
                         silminState->refVolume   -= totalMoles*volume;
                     }
-                    
+
                 }
-                
+
 #ifndef BATCH_VERSION
                 updateStatusADB(STATUS_ADB_INDEX_MASS_FRAC, &(silminState->fracMass));
 #endif
-                
+
                 for (i=0; i<nc; i++) {
-                    if ((silminState->bulkComp)[i] != 0.0 && (silminState->bulkComp)[i] <  MASSOUT && bulkSystem[i].type != FE2O3) { 
+                    if ((silminState->bulkComp)[i] != 0.0 && (silminState->bulkComp)[i] <  MASSOUT && bulkSystem[i].type != FE2O3) {
 #ifndef BATCH_VERSION
                         wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
 #else
                         fprintf(stderr, "  Moles of %5.5s in system (%g) < %g\n.", bulkSystem[i].label, (silminState->bulkComp)[i], MASSOUT);
 #endif
                         (silminState->bulkComp)[i] = 0.0;
-                        for (j=0; j<nlc; j++) if ((liquid[j].liqToOx)[i] != 0.0) { 
+                        for (j=0; j<nlc; j++) if ((liquid[j].liqToOx)[i] != 0.0) {
                             for (nl=0; nl<silminState->nLiquidCoexist; nl++) (silminState->liquidComp)[nl][j] = 0.0;
 #ifndef BATCH_VERSION
                             wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "    Moles of %s in liquid(s) set to zero.\n", liquid[j].label);
@@ -1921,14 +1923,14 @@ int silmin(int calc_index)
                 free(m);
                 free(r);
             }
-            
+
             stateChange = FALSE;
 
-            
+
             /*deletions, Einari*/
 #ifndef EASYMELTS_UPDATE_SYSTEM
             /* Changing T ? */
-            if (fabs(silminState->dspTstart - silminState->dspTstop) >=  (silminState->dspTinc != 0.0 ? silminState->dspTinc : 0.001) 
+            if (fabs(silminState->dspTstart - silminState->dspTstop) >=  (silminState->dspTinc != 0.0 ? silminState->dspTinc : 0.001)
                 && !(silminState->isenthalpic && (silminState->refEnthalpy != 0.0))
                 && !(silminState->isentropic  && (silminState->refEntropy  != 0.0))) {
                 stateChange = TRUE;
@@ -1944,7 +1946,7 @@ int silmin(int calc_index)
                 }
 #endif
                 /* Changing H ? */
-            } else if ((fabs(silminState->dspHstop) > 0.0) && 
+            } else if ((fabs(silminState->dspHstop) > 0.0) &&
                        (fabs(silminState->dspHstop - silminState->refEnthalpy) >= (silminState->dspHinc != 0.0 ? fabs(silminState->dspHinc) : 0.001)) &&
                        (silminState->isenthalpic && (silminState->refEnthalpy != 0.0))) {
                 stateChange = TRUE;
@@ -1979,7 +1981,7 @@ int silmin(int calc_index)
 #endif
 	      }
                 /* Changing S ? */
-            } else if ((fabs(silminState->dspSstop) > 0.0) && 
+            } else if ((fabs(silminState->dspSstop) > 0.0) &&
                        (fabs(silminState->dspSstop - silminState->refEntropy) >= (silminState->dspSinc != 0.0 ? fabs(silminState->dspSinc) : 0.001)) &&
                        (silminState->isentropic && (silminState->refEntropy != 0.0))) {
                 stateChange = TRUE;
@@ -2067,7 +2069,7 @@ int silmin(int calc_index)
             /* Assimilation ? - add assimilant to the first liquid, if a liquid is present */
             if (silminState->assimilate && silminState->assimMass < silminState->dspAssimMass) {
                 double fraction = 1.0/silminState->dspAssimInc;
-                
+
                 stateChange = TRUE;
                 silminState->assimMass += fraction*silminState->dspAssimMass;
                 if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) silminState->refEnthalpy += fraction*(silminState->assimTD).h;
@@ -2078,7 +2080,7 @@ int silmin(int calc_index)
                 workProcData->mode = TRUE;
                 updateStatusADB(STATUS_ADB_INDEX_MASS_ASSIM, &(silminState->assimMass));
 #endif
-                
+
                 for (i=0; i<npc; i++) for (ns=0; ns<(silminState->nAssimComp)[i]; ns++) {
                     if (solids[i].type == PHASE && solids[i].na == 1) {
                         for (k=0; k<nc; k++) (silminState->bulkComp)[k] += fraction*(silminState->assimComp)[i][ns]*(solids[i].solToOx)[k];
@@ -2132,18 +2134,18 @@ int silmin(int calc_index)
             }
 #endif
             /*end deletions*/
-            
+
 #ifndef BATCH_VERSION
             workProcData->active = stateChange;
 #else
             meltsStatus.status = SILMIN_SUCCESS;
 #endif
-            
+
             curStep = 0;
             return (!stateChange);
             /* ======================================================================== */
     } /* end switch */
-    
+
 #ifdef BATCH_VERSION
     meltsStatus.status = SILMIN_SUCCESS;
 #endif
@@ -2156,24 +2158,24 @@ static void newErrorHandler(int sig)
     XmString csString1, csString2, csString3;
     XEvent event;
     XtAppContext app;
-    
+
     csString1 = XmStringCreateLtoR("A FATAL ARITHMETIC ERROR HAS OCCURRED.\n",          "ISO8859-1");
     csString2 = XmStringCreateLtoR("The program has been left in an unstable state.\n", "ISO8859-1");
-    csString3 = XmStringConcat(csString1, csString2); 
+    csString3 = XmStringConcat(csString1, csString2);
     XmStringFree(csString1); XmStringFree(csString2);
-    
+
     csString1 = XmStringCreateLtoR("You must try to save your work, and restart the calculation.\n", "ISO8859-1");
-    csString2 = XmStringConcat(csString3, csString1); 
+    csString2 = XmStringConcat(csString3, csString1);
     XmStringFree(csString3); XmStringFree(csString1);
-    
+
     csString1 = XmStringCreateLtoR("Please report the sequence of events which led to this disaster.", "ISO8859-1");
-    csString3 = XmStringConcat(csString2, csString1); 
+    csString3 = XmStringConcat(csString2, csString1);
     XmStringFree(csString1); XmStringFree(csString2);
-    
+
     XtVaSetValues(error_message, XmNmessageString, csString3, NULL);
     XtManageChild(error_message);
     XmStringFree(csString3);
-    
+
     updateBulkADB();
     updateSolidADB((double *) NULL, (double *) NULL);
     updateCompADB();
@@ -2181,13 +2183,13 @@ static void newErrorHandler(int sig)
     updateStatusADB(STATUS_ADB_INDEX_MASS_SOLID, &(silminState->solidMass));
     if(silminState->fo2Path == FO2_NONE) updateStatusADB(STATUS_ADB_INDEX_LOGFO2, &(silminState->fo2));
     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...FATAL arithmetic error detected. Aborting.\n");
-    
+
     app = XtDisplayToApplicationContext(XtDisplay(topLevel));
     for(;;) {
         XtAppNextEvent(app, &event);
         XtDispatchEvent(&event);
     }
-    
+
 }
 #endif /* BATCH_VERSION */
 
