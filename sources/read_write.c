@@ -1376,16 +1376,16 @@ int putOutputDataToFile(char *fileName)
           entropy	     = (silminState->fracSComp)[j][ns]*(solids[j].cur).s;
           volume	     = (silminState->fracSComp)[j][ns]*(solids[j].cur).v;
           heatCapacity       = (silminState->fracSComp)[j][ns]*(solids[j].cur).cp;
-	  dVolumeDt          = (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdt;
-	  dVolumeDp          = (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
+	        dVolumeDt          = (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdt;
+	        dVolumeDp          = (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
           totalMass	    += (silminState->fracSComp)[j][ns]*solids[j].mw;
           totalGibbsEnergy  += (silminState->fracSComp)[j][ns]*(solids[j].cur).g;
           totalEnthalpy     += (silminState->fracSComp)[j][ns]*(solids[j].cur).h;
           totalEntropy      += (silminState->fracSComp)[j][ns]*(solids[j].cur).s;
           totalVolume	    += (silminState->fracSComp)[j][ns]*(solids[j].cur).v;
           totalHeatCapacity += (silminState->fracSComp)[j][ns]*(solids[j].cur).cp;
-	  totaldVolumeDt    += (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdt;
-	  totaldVolumeDp    += (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
+	        totaldVolumeDt    += (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdt;
+	        totaldVolumeDp    += (silminState->fracSComp)[j][ns]*(solids[j].cur).dvdp;
           fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
           fprintf(output, "\n");
           fprintf(output, "		    %s\n", solids[j].formula);
@@ -1415,16 +1415,16 @@ int putOutputDataToFile(char *fileName)
           entropy      *= (silminState->fracSComp)[j][ns];
           volume       *= (silminState->fracSComp)[j][ns];
           heatCapacity *= (silminState->fracSComp)[j][ns];
-	  dVolumeDt    *= (silminState->fracSComp)[j][ns];
-	  dVolumeDp    *= (silminState->fracSComp)[j][ns];
+	        dVolumeDt    *= (silminState->fracSComp)[j][ns];
+	        dVolumeDp    *= (silminState->fracSComp)[j][ns];
           for (i=0; i<solids[j].na; i++) {
             gibbsEnergy  += m[i]*(solids[j+1+i].cur).g;
             enthalpy	 += m[i]*(solids[j+1+i].cur).h;
             entropy	 += m[i]*(solids[j+1+i].cur).s;
             volume	 += m[i]*(solids[j+1+i].cur).v;
             heatCapacity += m[i]*(solids[j+1+i].cur).cp;
-	    dVolumeDt    += m[i]*(solids[j+1+i].cur).dvdt;
-	    dVolumeDp    += m[i]*(solids[j+1+i].cur).dvdp;
+	          dVolumeDt    += m[i]*(solids[j+1+i].cur).dvdt;
+	          dVolumeDp    += m[i]*(solids[j+1+i].cur).dvdp;
           }
           totalMass	    += mass;
           totalGibbsEnergy  += gibbsEnergy;
@@ -1432,8 +1432,8 @@ int putOutputDataToFile(char *fileName)
           totalEntropy      += entropy;
           totalVolume	    += volume;
           totalHeatCapacity += heatCapacity;
-	  totaldVolumeDt    += dVolumeDt;
-	  totaldVolumeDp    += dVolumeDp;
+	        totaldVolumeDt    += dVolumeDt;
+	        totaldVolumeDp    += dVolumeDp;
           fprintf(output, "\n%-15.15s  mass = %.2f (gm)  density = %.2f (gm/cc)", solids[j].label, mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
           fprintf(output, "	(analysis in mole %%)\n");
           fprintf(output, "		    %s\n", formula); free(formula);
@@ -1486,8 +1486,8 @@ int putOutputDataToFile(char *fileName)
         entropy      += m[i]*(liquid[i].cur).s;
         volume       += m[i]*(liquid[i].cur).v;
         heatCapacity += m[i]*(liquid[i].cur).cp;
-	dVolumeDt    += m[i]*(liquid[i].cur).dvdt;
-	dVolumeDp    += m[i]*(liquid[i].cur).dvdp;
+      	dVolumeDt    += m[i]*(liquid[i].cur).dvdt;
+      	dVolumeDp    += m[i]*(liquid[i].cur).dvdp;
       }
       totalMass 	+= mass;
       totalGibbsEnergy  += gibbsEnergy;
@@ -1588,7 +1588,8 @@ int putOutputDataToFile(char *fileName)
   wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "Current state of the system recorded in file %s.\n", meltsEnviron.OUTPUT_FILE);
   return GET_INPUT_SUCCESS;
 #else
-  if(!fflush(NULL)) fprintf(stderr, "Output files flushed."); else fprintf(stderr, "Error returned when attempting to flush output files.");
+  if(!fflush(NULL)) fprintf(stderr, "Output files flushed. ");
+  else fprintf(stderr, "Error returned when attempting to flush output files. ");
   fprintf(stderr, "Current state of the system recorded in file melts.out.\n");
   return TRUE;
 #endif
@@ -2336,6 +2337,9 @@ int putSequenceDataToXmlFile(int active) {
       rc = xmlTextWriterEndDocument(writer);
       xmlFreeTextWriter(writer);
     */
+
+    if(!xmlTextWriterFlush(writer)) fprintf(stderr, "XML files flushed.\n");
+    else fprintf(stderr, "Error returned when attempting to flush XML files.\n");
 
     free (outputFile);
     free (temporary);

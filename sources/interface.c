@@ -517,6 +517,11 @@ static int batchInputDataFromFile(char *fileName)
             else if (!strncmp(&line[14], "+1.5fmq", MIN((len-14), 5))) silminState->fo2Path  = FO2_QFM_P1_5;
             else { return FALSE; }
 
+            /* -> log fo2 delta record */
+        } else if (!strncmp(line, "log fo2 offset:", MIN(len, 15))) {
+            if (sscanf(&line[15], "%f", &temporary) == EOF) { return FALSE; }
+            silminState->fo2Delta = (double) temporary;
+
             /* -> suppress a solid phase record */
         } else if (!strncmp(line, "suppress: ",              MIN(len,10))) {
             for (i=0, j=0; i<npc; i++) {
@@ -2672,7 +2677,7 @@ int main (int argc, char *argv[])
                 silminState->fractionateFlu = FALSE;
                 silminState->fractionateLiq = FALSE;
 
-                while(!liquidus());
+                (void) findWetLiquidus();
                 printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
                 (void) putOutputDataToFile(NULL);
 

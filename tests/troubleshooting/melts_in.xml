@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MELTSinput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MELTSinput.xsd">
+  <initialize>
+    <modelSelection>MELTS_v1.0.x</modelSelection>
+    <SiO2>73.8</SiO2>
+    <TiO2>0.23</TiO2>
+    <Al2O3>14.12</Al2O3>
+    <Fe2O3>0</Fe2O3>
+    <Cr2O3>0</Cr2O3>
+    <FeO>1.38</FeO>
+    <MnO>0</MnO>
+    <MgO>0.46</MgO>
+    <NiO>0</NiO>
+    <CoO>0</CoO>
+    <CaO>1.44</CaO>
+    <Na2O>3.61</Na2O>
+    <K2O>4.96</K2O>
+    <P2O5>0</P2O5>
+    <H2O>13</H2O>
+    <CO2>0</CO2>
+  </initialize>
+  <calculationMode>equilibrate</calculationMode>
+  <title>AW_WR-AW566-CM_NNO-1</title>
+  <constraints>
+    <setTP>
+      <initialT>1100</initialT>
+      <finalT>700</finalT>
+      <incT>1</incT>
+      <initialP>4750</initialP>
+      <finalP>4750</finalP>
+      <incP>0</incP>
+      <dpdt>0</dpdt>
+      <fo2Path>nno</fo2Path>
+      <fo2Offset>-1</fo2Offset>
+    </setTP>
+  </constraints>
+  <fractionationMode>fractionateNone</fractionationMode>
+</MELTSinput>

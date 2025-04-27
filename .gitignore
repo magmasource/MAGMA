@@ -114,5 +114,5 @@ Melts-batch-v1.1.0
 .Rproj.user
 xMELTS.Rproj
 .Rhistory
-/tutorial/Morb-out.xml
-/tutorial/Morb-sequence.xml
+/tests/*/Morb-out.xml
+/tests/*/Morb-sequence.xml

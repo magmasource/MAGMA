@@ -115,12 +115,8 @@
         {
             "name": "Win64",
             "includePath": [
-                "C:/msys64/mingw64/include",
-                "C:/msys64/mingw64/include/c++",
-                "C:/msys64/mingw64/include/clang",
-                "C:/msys64/mingw64/include/clang-c",
-                "C:/msys64/mingw64/include/libxml2",
-                "C:/msys64/mingw64/x86_64-w64-mingw32/include",
+                "C:/rtools44/x86_64-w64-mingw32.static.posix/include",
+                "C:/rtools44/x86_64-w64-mingw32.static.posix/include/libxml2",
                 "${workspaceFolder}",
                 "${workspaceFolder}/includes"
             ],
@@ -141,12 +137,8 @@
             "intelliSenseMode": "linux-gcc-x64",
             "browse": {
                 "path": [
-                    "C:/msys64/mingw64/include",
-                    "C:/msys64/mingw64/include/c++",
-                    "C:/msys64/mingw64/include/clang",
-                    "C:/msys64/mingw64/include/clang-c",
-                    "C:/msys64/mingw64/include/libxml2",
-                    "C:/msys64/mingw64/x86_64-w64-mingw32/include",
+                    "C:/rtools44/x86_64-w64-mingw32.static.posix/include",
+                    "C:/rtools44/x86_64-w64-mingw32.static.posix/include/libxml2",
                     "${workspaceFolder}",
                     "${workspaceFolder}/includes"
                 ],
@@ -155,7 +147,7 @@
             },
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "compilerPath": "C:/msys64/mingw64/bin/clang"
+            "compilerPath": "C:/rtools44/x86_64-w64-mingw32.static.posix/bin/gcc"
         }
     ],
     "version": 4
