@@ -50,7 +50,7 @@ bool XLSXWriter::WriteToFile(const std::vector<SilminData> &data, std::string fi
         fn = orig_fn + " (" + std::to_string(fileadd++) + ")";
         p = std::filesystem::path(fn + std::string(".XLSX"));
     }
-    fn = orig_fn + " (" + std::to_string(fileadd - 1) + ")";
+    fn = orig_fn + ((fileadd - 1) ? " (" + std::to_string(fileadd - 1) + ")" : "") + std::string(".XLSX");
 
     lxw_workbook *doc = workbook_new(&fn[0]);
 
