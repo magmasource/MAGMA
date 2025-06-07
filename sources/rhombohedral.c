@@ -58,15 +58,15 @@ MELTS Source Code: RCS
  * MELTS Version 3 - Initial Entry
  *
 */
- 
+
 /*
 **++
 **  FACILITY:  Silicate Melts Regression/Crystallization Package
 **
 **  MODULE DESCRIPTION:
 **
-**      Routines to compute rhombohedral oxide solution properties 
-**      (file: RHOMBOHEDRAL.C) 
+**      Routines to compute rhombohedral oxide solution properties
+**      (file: RHOMBOHEDRAL.C)
 **
 **  MODIFICATION HISTORY:
 **
@@ -91,7 +91,7 @@ MELTS Source Code: RCS
 **                  provide for bounds testing on both the independent
 **                  compositional variables and on endmember moles
 **      V1.0-7  Mark S. Ghiorso  September 25, 1991
-**              Added bounds on site mole fractions in order to avoid 
+**              Added bounds on site mole fractions in order to avoid
 **              overflow conditions when an endmember component has zero
 **              concentration
 **      V1.0-8  Mark S. Ghiorso  September 26, 1991
@@ -133,8 +133,8 @@ MELTS Source Code: RCS
 #undef DEBUG
 #endif
 
+#include "melts_gsl.h"
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
-#include "recipes.h" /* Numerical recipes routines                */
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
@@ -172,7 +172,7 @@ static const double wpyhmDIS =   5000.0;  /* joules */
 static const double dwpyhm   = -19000.0;  /* joules */
 
 /*
- * Global (to this file): variables 
+ * Global (to this file): variables
  */
 
 #define R  8.3143
@@ -192,46 +192,48 @@ static MTHREAD_KEY_T tOldKey;
 static MTHREAD_KEY_T pOldKey;
 static MTHREAD_KEY_T rOldKey;
 static MTHREAD_KEY_T sOldKey;
-static MTHREAD_KEY_T d2gds2Key;
 static MTHREAD_KEY_T ptToD2gds2Key;
+static MTHREAD_KEY_T d2gds2Key;
+static MTHREAD_KEY_T indexD2gds2Key;
 static MTHREAD_KEY_T tOldPureKey;
 static MTHREAD_KEY_T pOldPureKey;
 static MTHREAD_KEY_T sOldPureKey;
 static MTHREAD_KEY_T d2gds2PureKey;
 
 static void freeNSarray(void *NSarray) {
-  free_vector((double *) NSarray, 0, NS-1);
-}
-
-static void freeD2gds2(void *d2gds2) {
-  free_matrix((double **) d2gds2, 0, NS-1, 0, NS-1);
+    gsl_vector_free((gsl_vector *) NSarray);
 }
 
 static void freePtToD2gds2(void *ptToD2gds2) {
-  free_submatrix((double **) ptToD2gds2, 1, NS, 1, NS);
+    gsl_matrix_free((gsl_matrix *) ptToD2gds2);
+}
+
+static void freeIndexD2gds2(void *indexD2gds2) {
+    gsl_permutation_free((gsl_permutation *) indexD2gds2);
 }
 
 static void threadOInit(void) {
-  MTHREAD_KEY_CREATE(&tOldKey,       free);
-  MTHREAD_KEY_CREATE(&pOldKey,       free);
-  MTHREAD_KEY_CREATE(&rOldKey,       freeNSarray);
-  MTHREAD_KEY_CREATE(&sOldKey,       freeNSarray);
-  MTHREAD_KEY_CREATE(&d2gds2Key,     freeD2gds2);
-  MTHREAD_KEY_CREATE(&ptToD2gds2Key, freePtToD2gds2);
-  MTHREAD_KEY_CREATE(&tOldPureKey,   free);
-  MTHREAD_KEY_CREATE(&pOldPureKey,   free);
-  MTHREAD_KEY_CREATE(&sOldPureKey,   freeNSarray);
-  MTHREAD_KEY_CREATE(&d2gds2PureKey, freeNSarray);
+    MTHREAD_KEY_CREATE(&tOldKey,       free);
+    MTHREAD_KEY_CREATE(&pOldKey,       free);
+    MTHREAD_KEY_CREATE(&rOldKey,       freeNSarray);
+    MTHREAD_KEY_CREATE(&sOldKey,       freeNSarray);
+    MTHREAD_KEY_CREATE(&ptToD2gds2Key, freePtToD2gds2);
+    MTHREAD_KEY_CREATE(&d2gds2Key,     free);
+    MTHREAD_KEY_CREATE(&indexD2gds2Key, freeIndexD2gds2);
+    MTHREAD_KEY_CREATE(&tOldPureKey,   free);
+    MTHREAD_KEY_CREATE(&pOldPureKey,   free);
+    MTHREAD_KEY_CREATE(&sOldPureKey,   freeNSarray);
+    MTHREAD_KEY_CREATE(&d2gds2PureKey, freeNSarray);
 }
 
 static double getTOld() {
   double *tOldPt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);   
+
+  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);
   if (tOldPt == NULL) {
-    tOldPt  = (double *) malloc(sizeof(double)); 
-    *tOldPt = -9999.0;    
+    tOldPt  = (double *) malloc(sizeof(double));
+    *tOldPt = -9999.0;
     MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
   }
   return *tOldPt;
@@ -240,11 +242,11 @@ static double getTOld() {
 static void setTOld(double tOld) {
   double *tOldPt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);   
+
+  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);
   if (tOldPt == NULL) {
-    tOldPt  = (double *) malloc(sizeof(double)); 
-    *tOldPt = -9999.0;    
+    tOldPt  = (double *) malloc(sizeof(double));
+    *tOldPt = -9999.0;
     MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
   }
   *tOldPt = tOld;
@@ -253,91 +255,104 @@ static void setTOld(double tOld) {
 static double getPOld() {
   double *pOldPt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);   
+
+  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);
   if (pOldPt == NULL) {
-    pOldPt  = (double *) malloc(sizeof(double)); 
-    *pOldPt = -9999.0;    
+    pOldPt  = (double *) malloc(sizeof(double));
+    *pOldPt = -9999.0;
     MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
   }
-  return *pOldPt; 
+  return *pOldPt;
 }
 
 static void setPOld(double pOld) {
   double *pOldPt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);   
+
+  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);
   if (pOldPt == NULL) {
-    pOldPt  = (double *) malloc(sizeof(double)); 
-    *pOldPt = -9999.0;    
+    pOldPt  = (double *) malloc(sizeof(double));
+    *pOldPt = -9999.0;
     MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
   }
-  *pOldPt = pOld; 
+  *pOldPt = pOld;
 }
 
 static double *getROld() {
-  double *rOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  rOldPt = (double *) MTHREAD_GETSPECIFIC(rOldKey);   
-  if (rOldPt == NULL) {
-    int i;
-    rOldPt = vector(0, NR-1);
-    for (i=0; i<NR; i++) rOldPt[i] = -9999.0;    
-    MTHREAD_SETSPECIFIC(rOldKey, (void *) rOldPt);
-  }
-  return rOldPt; 
+    gsl_vector *rOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    rOldPt = (gsl_vector *) MTHREAD_GETSPECIFIC(rOldKey);
+    if (rOldPt == NULL) {
+        rOldPt = gsl_vector_alloc((size_t) NR);
+        gsl_vector_set_all(rOldPt, -9999.0);
+        MTHREAD_SETSPECIFIC(rOldKey, (void *) rOldPt);
+    }
+    return rOldPt->data;
 }
 
 static double *getSOld() {
-  double *sOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  sOldPt = (double *) MTHREAD_GETSPECIFIC(sOldKey);   
-  if (sOldPt == NULL) {
-    int i;
-    sOldPt = vector(0, NS-1);
-    for (i=0; i<NS; i++) sOldPt[i] = 2.0;    
-    MTHREAD_SETSPECIFIC(sOldKey, (void *) sOldPt);
-  }
-  return sOldPt;
+    gsl_vector *sOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    sOldPt = (gsl_vector *) MTHREAD_GETSPECIFIC(sOldKey);
+    if (sOldPt == NULL) {
+        sOldPt = gsl_vector_alloc((size_t) NS);
+        gsl_vector_set_all(sOldPt, 2.0);
+        MTHREAD_SETSPECIFIC(sOldKey, (void *) sOldPt);
+    }
+    return sOldPt->data;
+}
+
+static gsl_matrix *getPtToD2gds2() {
+    gsl_matrix *ptToD2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    ptToD2gds2Pt = (gsl_matrix *) MTHREAD_GETSPECIFIC(ptToD2gds2Key);
+    if (ptToD2gds2Pt == NULL) {
+        ptToD2gds2Pt  = gsl_matrix_alloc((size_t) NS, (size_t) NS);
+        gsl_matrix_set_zero(ptToD2gds2Pt);
+        MTHREAD_SETSPECIFIC(ptToD2gds2Key, (void *) ptToD2gds2Pt);
+    }
+    return ptToD2gds2Pt;
 }
 
 static double **getD2gds2() {
-  double **d2gds2Pt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  d2gds2Pt = (double **) MTHREAD_GETSPECIFIC(d2gds2Key);   
-  if (d2gds2Pt == NULL) {
-    int i, j;
-    d2gds2Pt  = matrix(0, NS-1, 0, NS-1);
-    for (i=0; i<NS; i++) for (j=0; j<NS; j++) d2gds2Pt[i][j] = 0.0;
-    MTHREAD_SETSPECIFIC(d2gds2Key, (void *) d2gds2Pt);
-  }
-  return d2gds2Pt; 
+    double **d2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    d2gds2Pt = (double **) MTHREAD_GETSPECIFIC(d2gds2Key);
+    if (d2gds2Pt == NULL) {
+        int i;
+        gsl_matrix *ptToD2gds2Pt = getPtToD2gds2();
+        d2gds2Pt  = (double **) malloc((size_t) NS*sizeof(double *));
+        for (i=0; i<NS; i++) d2gds2Pt[i] = &(ptToD2gds2Pt->data[i*NS]);
+        MTHREAD_SETSPECIFIC(d2gds2Key, (void *) d2gds2Pt);
+    }
+    return d2gds2Pt;
 }
 
-static double **getPtToD2gds2() {
-  double **ptToD2gds2Pt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  ptToD2gds2Pt = (double **) MTHREAD_GETSPECIFIC(ptToD2gds2Key);   
-  if (ptToD2gds2Pt == NULL) {
-    ptToD2gds2Pt = submatrix(getD2gds2(), 0, NS-1, 0, NS-1, 1, 1);
-    MTHREAD_SETSPECIFIC(ptToD2gds2Key, (void *) ptToD2gds2Pt);
-  }
-  return ptToD2gds2Pt;
+static gsl_permutation *getIndexD2gds2() {
+    gsl_permutation *indexD2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    indexD2gds2Pt = (gsl_permutation *) MTHREAD_GETSPECIFIC(indexD2gds2Key);
+    if (indexD2gds2Pt == NULL) {
+        indexD2gds2Pt = gsl_permutation_alloc((size_t) NS);
+        gsl_permutation_init(indexD2gds2Pt);
+        MTHREAD_SETSPECIFIC(indexD2gds2Key, (void *) indexD2gds2Pt);
+    }
+    return indexD2gds2Pt;
 }
 
 static double getTOldPure() {
   double *tOldPurePt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPurePt = (double *) MTHREAD_GETSPECIFIC(tOldPureKey);   
+
+  tOldPurePt = (double *) MTHREAD_GETSPECIFIC(tOldPureKey);
   if (tOldPurePt == NULL) {
-    tOldPurePt  = (double *) malloc(sizeof(double)); 
-    *tOldPurePt = -9999.0;    
+    tOldPurePt  = (double *) malloc(sizeof(double));
+    *tOldPurePt = -9999.0;
     MTHREAD_SETSPECIFIC(tOldPureKey, (void *) tOldPurePt);
   }
   return *tOldPurePt;
@@ -346,11 +361,11 @@ static double getTOldPure() {
 static void setTOldPure(double tOldPure) {
   double *tOldPurePt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPurePt = (double *) MTHREAD_GETSPECIFIC(tOldPureKey);   
+
+  tOldPurePt = (double *) MTHREAD_GETSPECIFIC(tOldPureKey);
   if (tOldPurePt == NULL) {
-    tOldPurePt  = (double *) malloc(sizeof(double)); 
-    *tOldPurePt = -9999.0;    
+    tOldPurePt  = (double *) malloc(sizeof(double));
+    *tOldPurePt = -9999.0;
     MTHREAD_SETSPECIFIC(tOldPureKey, (void *) tOldPurePt);
   }
   *tOldPurePt = tOldPure;
@@ -359,11 +374,11 @@ static void setTOldPure(double tOldPure) {
 static double getPOldPure() {
   double *pOldPurePt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPurePt = (double *) MTHREAD_GETSPECIFIC(pOldPureKey);   
+
+  pOldPurePt = (double *) MTHREAD_GETSPECIFIC(pOldPureKey);
   if (pOldPurePt == NULL) {
-    pOldPurePt  = (double *) malloc(sizeof(double)); 
-    *pOldPurePt = -9999.0;    
+    pOldPurePt  = (double *) malloc(sizeof(double));
+    *pOldPurePt = -9999.0;
     MTHREAD_SETSPECIFIC(pOldPureKey, (void *) pOldPurePt);
   }
   return *pOldPurePt;
@@ -372,42 +387,40 @@ static double getPOldPure() {
 static void setPOldPure(double pOldPure) {
   double *pOldPurePt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPurePt = (double *) MTHREAD_GETSPECIFIC(pOldPureKey);   
+
+  pOldPurePt = (double *) MTHREAD_GETSPECIFIC(pOldPureKey);
   if (pOldPurePt == NULL) {
-    pOldPurePt  = (double *) malloc(sizeof(double)); 
-    *pOldPurePt = -9999.0;    
+    pOldPurePt  = (double *) malloc(sizeof(double));
+    *pOldPurePt = -9999.0;
     MTHREAD_SETSPECIFIC(pOldPureKey, (void *) pOldPurePt);
   }
   *pOldPurePt = pOldPure;
 }
 
 static double *getSOldPure() {
-  double *sOldPurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  sOldPurePt = (double *) MTHREAD_GETSPECIFIC(sOldPureKey);   
-  if (sOldPurePt == NULL) {
-    int i;
-    sOldPurePt = vector(0, NS-1);
-    for (i=0; i<NS; i++) sOldPurePt[i] = 2.0;    
-    MTHREAD_SETSPECIFIC(sOldPureKey, (void *) sOldPurePt);
-  }
-  return sOldPurePt;
+    gsl_vector *sOldPurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    sOldPurePt = (gsl_vector *) MTHREAD_GETSPECIFIC(sOldPureKey);
+    if (sOldPurePt == NULL) {
+        sOldPurePt = gsl_vector_alloc((size_t) NS);
+        gsl_vector_set_all(sOldPurePt, 2.0);
+        MTHREAD_SETSPECIFIC(sOldPureKey, (void *) sOldPurePt);
+    }
+    return sOldPurePt->data;
 }
 
 static double *getD2gds2Pure() {
-  double *d2gds2PurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  d2gds2PurePt = (double *) MTHREAD_GETSPECIFIC(d2gds2PureKey);   
-  if (d2gds2PurePt == NULL) {
-    int i;
-    d2gds2PurePt  = vector(0, NS-1);
-    for (i=0; i<NS; i++) d2gds2PurePt[i] = 0.0;
-    MTHREAD_SETSPECIFIC(d2gds2PureKey, (void *) d2gds2PurePt);
-  }
-  return d2gds2PurePt;
+    gsl_vector *d2gds2PurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    d2gds2PurePt = (gsl_vector *) MTHREAD_GETSPECIFIC(d2gds2PureKey);
+    if (d2gds2PurePt == NULL) {
+        d2gds2PurePt  = gsl_vector_alloc((size_t) NS);
+        gsl_vector_set_zero(d2gds2PurePt);
+        MTHREAD_SETSPECIFIC(d2gds2PureKey, (void *) d2gds2PurePt);
+    }
+    return d2gds2PurePt->data;
 }
 
 /***********************************/
@@ -440,11 +453,11 @@ static void threadXInit(void) {
 }
 
 static double getX(int n) {
-  double *xPt;  
+  double *xPt;
   MTHREAD_ONCE(&initThreadXBlock, threadXInit);
-  
-  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);   
-  if (xPt == NULL) { 
+
+  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);
+  if (xPt == NULL) {
     xPt = (double *) malloc(sizeof(double)); *xPt = 0.0;
     MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
   }
@@ -452,11 +465,11 @@ static double getX(int n) {
 }
 
 static void setX(int n, double x) {
-  double *xPt;  
+  double *xPt;
   MTHREAD_ONCE(&initThreadXBlock, threadXInit);
-  
-  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);   
-  if (xPt == NULL) { 
+
+  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);
+  if (xPt == NULL) {
     xPt = (double *) malloc(sizeof(double));
     MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
   }
@@ -474,7 +487,7 @@ static void setX(int n, double x) {
   xmn2B = getX(XMN2B); \
   xti4B = getX(XTI4B); \
   xfe3B = getX(XFE3B);
-  
+
 #define SET_SITE_FRACTIONS \
   setX(XMG2A, xmg2A); \
   setX(XFE2A, xfe2A); \
@@ -509,7 +522,7 @@ static void setX(int n, double x) {
 #define D2IL_GDTP       0.0
 #define D2IL_GDP2       0.0
 
-#define D3IL_GDS0S0S0   - R*t*( 1.0/SQUARE(1.0+s[0]) - 1.0/SQUARE(1.0-s[0]) ) 
+#define D3IL_GDS0S0S0   - R*t*( 1.0/SQUARE(1.0+s[0]) - 1.0/SQUARE(1.0-s[0]) )
 #define D3IL_GDS0S0DT   R*( 1.0/(1.0+s[0]) + 1.0/(1.0-s[0]) )
 #define D3IL_GDS0S0DP   0.0
 #define D3IL_GDS0DT2    0.0
@@ -536,7 +549,7 @@ static void setX(int n, double x) {
 #define D2GK_GDTP      0.0
 #define D2GK_GDP2      0.0
 
-#define D3GK_GDS1S1S1  - R*t*( 1.0/SQUARE(1.0+s[1]) - 1.0/SQUARE(1.0-s[1]) ) 
+#define D3GK_GDS1S1S1  - R*t*( 1.0/SQUARE(1.0+s[1]) - 1.0/SQUARE(1.0-s[1]) )
 #define D3GK_GDS1S1DT  R*( 1.0/(1.0+s[1]) + 1.0/(1.0-s[1]) )
 #define D3GK_GDS1S1DP  0.0
 #define D3GK_GDS1DT2   0.0
@@ -576,7 +589,7 @@ static void setX(int n, double x) {
 
 #define HM_S  0.0
 #define HM_H  0.0
-#define HM_G  HM_H - t*(HM_S)      
+#define HM_G  HM_H - t*(HM_S)
 
 #define DHM_GDT      -(HM_S)
 #define DHM_GDP      0.0
@@ -618,8 +631,8 @@ static void setX(int n, double x) {
  d3gdsdp2[0] = D3IL_GDS0DP2; d3gdsdp2[1] = D3GK_GDS1DP2; \
  d3gdsdp2[2] = D3PY_GDS2DP2;
 
-static void 
-pureOrder(int mask, double t, double p, 
+static void
+pureOrder(int mask, double t, double p,
       double s[NS],   /* s[NS]       BINARY MASK: 000001 */
       double dt[NS],  /* ds[NS]/dt   BINARY MASK: 000010 */
       double dp[NS],  /* ds[NS]/dp   BINARY MASK: 000100 */
@@ -637,7 +650,7 @@ pureOrder(int mask, double t, double p,
   if ( (t != tOld) || (p != pOld) ) {
     double dgds[NS], sNew[NS];
     for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.9; }
-    while (((ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) || 
+    while (((ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) ||
             (ABS(sNew[1]-sOld[1]) > 10.0*DBL_EPSILON) ||
             (ABS(sNew[2]-sOld[2]) > 10.0*DBL_EPSILON))  && (iter < MAX_ITER)) {
       double s[NS];
@@ -665,7 +678,7 @@ pureOrder(int mask, double t, double p,
     }
     tOld = t;
     pOld = p;
-    
+
     setTOldPure(tOld);
     setPOldPure(pOld);
     /* sOld and d2gds2 are automatically saved */
@@ -673,7 +686,7 @@ pureOrder(int mask, double t, double p,
 
   if (mask & FIRST  ) {   /* return s        */
     for (i=0; i<NS; i++) s[i] = sOld[i];
-  }   
+  }
 
   if (mask & SECOND ) {   /* compute ds/dt:  */
     double *s = sOld;
@@ -702,7 +715,7 @@ pureOrder(int mask, double t, double p,
     fillD3GDSDT2
 
     for (i=0; i<NS; i++) dsdt[i] = - d2gdsdt[i]/d2gds2[i];
-    for (i=0; i<NS; i++) dt2[i] = - (d3gdsdt2[i] + 2.0*d3gds2dt[i]*dsdt[i] 
+    for (i=0; i<NS; i++) dt2[i] = - (d3gdsdt2[i] + 2.0*d3gds2dt[i]*dsdt[i]
       + d3gds3[i]*dsdt[i]*dsdt[i])/d2gds2[i];
   }
 
@@ -722,7 +735,7 @@ pureOrder(int mask, double t, double p,
     for (i=0; i<NS; i++) dsdp[i] = - d2gdsdp[i]/d2gds2[i];
 
     for (i=0; i<NS; i++)
-      dtp[i] = - (d3gdsdtdp[i] + d3gds2dt[i]*dsdp[i] + d3gds2dp[i]*dsdt[i] 
+      dtp[i] = - (d3gdsdtdp[i] + d3gds2dt[i]*dsdp[i] + d3gds2dp[i]*dsdt[i]
              + d3gds3[i]*dsdt[i]*dsdp[i])/d2gds2[i];
 
   }
@@ -870,8 +883,8 @@ pureOrder(int mask, double t, double p,
  d3gdp3[0] = D3GK_GDP3; d3gdp3[1] = D3HM_GDP3; d3gdp3[2] = D3IL_GDP3; \
  d3gdp3[3] = D3PY_GDP3;
 
-static void 
-pureRhm(int mask, double t, double p, 
+static void
+pureRhm(int mask, double t, double p,
   double a[NA],        /* activities              BINARY MASK: 0000000000001 */
   double mu[NA],       /* chemical potentials     BINARY MASK: 0000000000010 */
   double gmix[NA],     /* Gibbs energy            BINARY MASK: 0000000000100 */
@@ -889,9 +902,9 @@ pureRhm(int mask, double t, double p,
 {
   double s[NS];
   int i, j;
-  
-  pureOrder(FIRST, t, p, 
-            s,               (double *) NULL, (double *) NULL, (double *) NULL, 
+
+  pureOrder(FIRST, t, p,
+            s,               (double *) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
 
   if (mask & FIRST) {
@@ -932,15 +945,15 @@ pureRhm(int mask, double t, double p,
     smix[2] = IL_S;
     smix[3] = PY_S;
   }
-  
+
   if (mask & SIXTH) {
-    double d2gdsdt[NA][NS], d2gds2[NA][NS], dsdt[NS];        
+    double d2gdsdt[NA][NS], d2gds2[NA][NS], dsdt[NS];
 
     fillD2GDS2
     fillD2GDSDT
 
-    pureOrder(SECOND, t, p, 
-            (double *) NULL, dsdt,            (double *) NULL, (double *) NULL, 
+    pureOrder(SECOND, t, p,
+            (double *) NULL, dsdt,            (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
 
     cpmix[0] = D2GK_GDT2;
@@ -949,7 +962,7 @@ pureRhm(int mask, double t, double p,
     cpmix[3] = D2PY_GDT2;
 
     for (i=0; i<NA; i++) {
-      for (j=0; j<NS; j++) 
+      for (j=0; j<NS; j++)
         cpmix[i] += 2.0*d2gdsdt[i][j]*dsdt[j] + d2gds2[i][j]*SQUARE(dsdt[j]);
       cpmix[i] *= -t;
     }
@@ -957,7 +970,7 @@ pureRhm(int mask, double t, double p,
 
   if(mask & SEVENTH) {
     double d2gdsdt[NA][NS], d2gds2[NA][NS], d2gdt2[NA], d3gds3[NA][NS],
-      d3gds2dt[NA][NS], d3gdsdt2[NA][NS], d3gdt3[NA], dsdt[NS], d2sdt2[NS], 
+      d3gds2dt[NA][NS], d3gdsdt2[NA][NS], d3gdt3[NA], dsdt[NS], d2sdt2[NS],
       temp;
 
     fillD2GDT2
@@ -968,22 +981,22 @@ pureRhm(int mask, double t, double p,
     fillD3GDSDT2
     fillD3GDT3
 
-    pureOrder(SECOND | FOURTH, t, p, 
-            (double *) NULL, dsdt,            (double *) NULL, d2sdt2,          
+    pureOrder(SECOND | FOURTH, t, p,
+            (double *) NULL, dsdt,            (double *) NULL, d2sdt2,
             (double *) NULL, (double *) NULL);
 
     for (i=0; i<NA; i++) {
       temp = d2gdt2[i];
-      for (j=0; j<NS; j++) 
-        temp += 2.0*d2gdsdt[i][j]*dsdt[j] + d2gds2[i][j]*SQUARE(dsdt[j]); 
+      for (j=0; j<NS; j++)
+        temp += 2.0*d2gdsdt[i][j]*dsdt[j] + d2gds2[i][j]*SQUARE(dsdt[j]);
 
       cpmixdt[i] = d3gdt3[i];
-      for (j=0; j<NS; j++) 
-        cpmixdt[i] += 3.0*d3gdsdt2[i][j]*dsdt[j] 
+      for (j=0; j<NS; j++)
+        cpmixdt[i] += 3.0*d3gdsdt2[i][j]*dsdt[j]
                     + 3.0*d2gdsdt[i][j]*d2sdt2[j]
-                    + 3.0*d2gds2[i][j]*dsdt[j]*d2sdt2[j] 
+                    + 3.0*d2gds2[i][j]*dsdt[j]*d2sdt2[j]
                     + 3.0*d3gds2dt[i][j]*dsdt[j]*dsdt[j]
-                    + d3gds3[i][j]*dsdt[j]*dsdt[j]*dsdt[j]; 
+                    + d3gds3[i][j]*dsdt[j]*dsdt[j]*dsdt[j];
 
       cpmixdt[i] = -t*cpmixdt[i] - temp;
     }
@@ -1005,16 +1018,16 @@ pureRhm(int mask, double t, double p,
     fillD2GDSDP
     fillD2GDTDP
 
-    pureOrder(SECOND | THIRD, t, p, 
-            (double *) NULL, dsdt,            dsdp,            (double *) NULL, 
+    pureOrder(SECOND | THIRD, t, p,
+            (double *) NULL, dsdt,            dsdp,            (double *) NULL,
             (double *) NULL, (double *) NULL);
 
     for (i=0; i<NA; i++) {
       vmixdt[i] = d2gdtdp[i];
       for (j=0; j<NS; j++)
-        vmixdt[i] += d2gdsdt[i][j]*dsdp[j] + d2gdsdp[i][j]*dsdt[j] 
+        vmixdt[i] += d2gdsdt[i][j]*dsdp[j] + d2gdsdp[i][j]*dsdt[j]
                 + d2gds2[i][j]*dsdt[j]*dsdp[j];
-    } 
+    }
   }
 
   if(mask & TENTH) {
@@ -1024,8 +1037,8 @@ pureRhm(int mask, double t, double p,
     fillD2GDSDP
     fillD2GDP2
 
-    pureOrder(THIRD, t, p, 
-            (double *) NULL, (double *) NULL, dsdp,            (double *) NULL, 
+    pureOrder(THIRD, t, p,
+            (double *) NULL, (double *) NULL, dsdp,            (double *) NULL,
             (double *) NULL, (double *) NULL);
 
     for (i=0; i<NA; i++) {
@@ -1050,21 +1063,21 @@ pureRhm(int mask, double t, double p,
     fillD3GDSDTDP
     fillD3GDT2DP
 
-    pureOrder(SECOND | THIRD | FOURTH | FIFTH, t, p, 
-            (double *) NULL, dsdt,            dsdp,            d2sdt2,          
+    pureOrder(SECOND | THIRD | FOURTH | FIFTH, t, p,
+            (double *) NULL, dsdt,            dsdp,            d2sdt2,
             d2sdtdp,         (double *) NULL);
 
     for (i=0; i<NA; i++) {
       vmixdt2[i] = d3gdt2dp[i];
-      for (j=0; j<NS; j++) 
-        vmixdt2[i] += d3gdsdt2[i][j]*dsdp[j] 
-                    + 2.0*d2gdsdt[i][j]*d2sdtdp[j] 
+      for (j=0; j<NS; j++)
+        vmixdt2[i] += d3gdsdt2[i][j]*dsdp[j]
+                    + 2.0*d2gdsdt[i][j]*d2sdtdp[j]
                     + d2gdsdp[i][j]*d2sdt2[j] + 2.0*d3gdsdtdp[i][j]*dsdt[j]
                     + 2.0*d3gds2dt[i][j]*dsdt[j]*dsdp[j]
                     + d2gds2[i][j]*d2sdt2[j]*dsdp[j]
                     + 2.0*d2gds2[i][j]*dsdt[j]*d2sdtdp[j]
                     + d3gds2dp[i][j]*dsdt[j]*dsdt[j]
-                    + d3gds3[i][j]*dsdt[j]*dsdt[j]*dsdp[j]; 
+                    + d3gds3[i][j]*dsdt[j]*dsdt[j]*dsdp[j];
     }
   }
 
@@ -1083,20 +1096,20 @@ pureRhm(int mask, double t, double p,
     fillD3GDSDP2
     fillD3GDTDP2
 
-    pureOrder(SECOND | THIRD | FIFTH | SIXTH, t, p, 
-            (double *) NULL, dsdt,            dsdp,            (double *) NULL, 
+    pureOrder(SECOND | THIRD | FIFTH | SIXTH, t, p,
+            (double *) NULL, dsdt,            dsdp,            (double *) NULL,
             d2sdtdp,         d2sdp2);
 
     for (i=0; i<NA; i++) {
       vmixdtdp[i] = d3gdtdp2[i];
       for (j=0; j<NS; j++)
-        vmixdtdp[i] += 2.0*d3gdsdtdp[i][j]*dsdp[j] + d2gdsdt[i][j]*d2sdp2[j]  
+        vmixdtdp[i] += 2.0*d3gdsdtdp[i][j]*dsdp[j] + d2gdsdt[i][j]*d2sdp2[j]
                      + 2.0*d2gdsdp[i][j]*d2sdtdp[j] + d3gdsdp2[i][j]*dsdt[j]
-                     + 2.0*d3gds2dp[i][j]*dsdt[j]*dsdp[j] 
-                     + d2gds2[i][j]*dsdt[j]*d2sdp2[j] 
+                     + 2.0*d3gds2dp[i][j]*dsdt[j]*dsdp[j]
+                     + d2gds2[i][j]*dsdt[j]*d2sdp2[j]
                      + 2.0*d2gds2[i][j]*d2sdtdp[j]*dsdp[j]
                      + d3gds2dt[i][j]*dsdp[j]*dsdp[j]
-                     + d3gds3[i][j]*dsdt[j]*dsdp[j]*dsdp[j]; 
+                     + d3gds3[i][j]*dsdt[j]*dsdp[j]*dsdp[j];
     }
   }
 
@@ -1111,13 +1124,13 @@ pureRhm(int mask, double t, double p,
     fillD3GDSDP2
     fillD3GDP3
 
-    pureOrder(THIRD | SIXTH, t, p, 
-            (double *) NULL, (double *) NULL, dsdp,            (double *) NULL, 
+    pureOrder(THIRD | SIXTH, t, p,
+            (double *) NULL, (double *) NULL, dsdp,            (double *) NULL,
             (double *) NULL, d2sdp2);
 
     for (i=0; i<NA; i++) {
       vmixdp2[i] = d3gdp3[i];
-      for (j=0; j<NS; j++) 
+      for (j=0; j<NS; j++)
         vmixdp2[i] += 3.0*d3gdsdp2[i][j]*dsdp[j] + 3.0*d2gdsdp[i][j]*d2sdp2[j]
                     + 3.0*d2gds2[i][j]*dsdp[j]*d2sdp2[j]
                     + 3.0*d3gds2dp[i][j]*dsdp[j]*dsdp[j]
@@ -1159,13 +1172,13 @@ pureRhm(int mask, double t, double p,
 #undef D3IL_GDS0S0S0
 #undef D3IL_GDS0S0DT
 #undef D3IL_GDS0S0DP
-#undef D3IL_GDS0DT2  
+#undef D3IL_GDS0DT2
 #undef D3IL_GDS0DTDP
-#undef D3IL_GDS0DP2 
-#undef D3IL_GDT3    
-#undef D3IL_GDT2DP  
-#undef D3IL_GDTDP2  
-#undef D3IL_GDP3    
+#undef D3IL_GDS0DP2
+#undef D3IL_GDT3
+#undef D3IL_GDT2DP
+#undef D3IL_GDTDP2
+#undef D3IL_GDP3
 
 #undef GK_S
 #undef GK_H
@@ -1182,13 +1195,13 @@ pureRhm(int mask, double t, double p,
 #undef D3GK_GDS1S1S1
 #undef D3GK_GDS1S1DT
 #undef D3GK_GDS1S1DP
-#undef D3GK_GDS1DT2  
+#undef D3GK_GDS1DT2
 #undef D3GK_GDS1DTDP
-#undef D3GK_GDS1DP2 
-#undef D3GK_GDT3    
-#undef D3GK_GDT2DP  
-#undef D3GK_GDTDP2  
-#undef D3GK_GDP3    
+#undef D3GK_GDS1DP2
+#undef D3GK_GDT3
+#undef D3GK_GDT2DP
+#undef D3GK_GDTDP2
+#undef D3GK_GDP3
 
 #undef PY_S
 #undef PY_H
@@ -1205,26 +1218,26 @@ pureRhm(int mask, double t, double p,
 #undef D3PY_GDS2S2S2
 #undef D3PY_GDS2S2DT
 #undef D3PY_GDS2S2DP
-#undef D3PY_GDS2DT2  
+#undef D3PY_GDS2DT2
 #undef D3PY_GDS2DTDP
-#undef D3PY_GDS2DP2 
-#undef D3PY_GDT3    
-#undef D3PY_GDT2DP  
-#undef D3PY_GDTDP2  
-#undef D3PY_GDP3    
+#undef D3PY_GDS2DP2
+#undef D3PY_GDT3
+#undef D3PY_GDT2DP
+#undef D3PY_GDTDP2
+#undef D3PY_GDP3
 
-#undef HM_S        
-#undef HM_H        
-#undef HM_G        
+#undef HM_S
+#undef HM_H
+#undef HM_G
 #undef DHM_GDT
-#undef DHM_GDP     
-#undef D2HM_GDT2   
-#undef D2HM_GDTP   
-#undef D2HM_GDP2   
-#undef D3HM_GDT3   
-#undef D3HM_GDT2DP 
-#undef D3HM_GDTDP2 
-#undef D3HM_GDP3   
+#undef DHM_GDP
+#undef D2HM_GDT2
+#undef D2HM_GDTP
+#undef D2HM_GDP2
+#undef D3HM_GDT3
+#undef D3HM_GDT2DP
+#undef D3HM_GDTDP2
+#undef D3HM_GDP3
 
 /*
  * Global (to this file): activity definitions and component transforms
@@ -1240,7 +1253,7 @@ pureRhm(int mask, double t, double p,
 #define GS1(i)     (i == 0) ? 1.0 - s[1] : - s[1]
 #define GS2(i)     (i == 3) ? 1.0 - s[2] : - s[2]
 
-#define DFR0DR0(i) - 1.0                                 
+#define DFR0DR0(i) - 1.0
 #define DFR1DR1(i) - 1.0
 #define DFR2DR2(i) - 1.0
 
@@ -1286,7 +1299,7 @@ pureRhm(int mask, double t, double p,
                + wilpyDIS*r[2] - wgkhmDIS*r[1] - wpyhmDIS*r[2] \
                + 2.0*s[0]*s[0]*(dwilhm+hil) + 2.0*s[1]*s[1]*(dwgkhm+hgk) \
                + 2.0*s[2]*s[2]*(dwpyhm+hpy) + 2.0*s[1]*s[1]*(dwgkil-hgk) \
-               + 2.0*s[2]*s[2]*(dwpyil-hpy) 
+               + 2.0*s[2]*s[2]*(dwpyil-hpy)
 #define DGDR1  R*t*(  0.5*log(xmg2A) + 0.5*log(xti4A) - log(xfe3A) \
                     + 0.5*log(xmg2B) + 0.5*log(xti4B) - log(xfe3B) ) \
                + hgk - wilhmDIS*r[0] + wilgkDIS*r[0] \
@@ -1328,19 +1341,19 @@ pureRhm(int mask, double t, double p,
 #define D2GDR0R2  R*t*(  0.25/xti4A + 1.0/xfe3A + 0.25/xti4B + 1.0/xfe3B ) \
                   - wilhmDIS + wilpyDIS - wpyhmDIS
 #define D2GDR0S0  0.25*R*t*( 1.0/xfe2A - 1.0/xti4A - 1.0/xfe2B + 1.0/xti4B ) \
-                  + 4.0*s[0]*(dwilhm+hil) 
+                  + 4.0*s[0]*(dwilhm+hil)
 #define D2GDR0S1  0.25*R*t*( - 1.0/xti4A + 1.0/xti4B ) \
-                  + 4.0*s[1]*(dwgkhm+hgk) + 4.0*s[1]*(dwgkil-hgk) 
+                  + 4.0*s[1]*(dwgkhm+hgk) + 4.0*s[1]*(dwgkil-hgk)
 #define D2GDR0S2  0.25*R*t*( - 1.0/xti4A + 1.0/xti4B ) \
-                  + 4.0*s[2]*(dwpyhm+hpy) + 4.0*s[2]*(dwpyil-hpy) 
+                  + 4.0*s[2]*(dwpyhm+hpy) + 4.0*s[2]*(dwpyil-hpy)
 #define D2GDR0DT  R*(  0.5*log(xfe2A) + 0.5*log(xti4A) - log(xfe3A) \
                      + 0.5*log(xfe2B) + 0.5*log(xti4B) - log(xfe3B) )
 #define D2GDR0DP  0.0
 
 #define D2GDR1R1  R*t*(  0.25/xmg2A + 0.25/xti4A + 1.0/xfe3A \
-                       + 0.25/xmg2B + 0.25/xti4B + 1.0/xfe3B ) - 2.0*wgkhmDIS 
+                       + 0.25/xmg2B + 0.25/xti4B + 1.0/xfe3B ) - 2.0*wgkhmDIS
 #define D2GDR1R2  R*t*( 0.25/xti4A + 1.0/xfe3A + 0.25/xti4B + 1.0/xfe3B ) \
-                  - wgkhmDIS + wgkpyDIS - wpyhmDIS 
+                  - wgkhmDIS + wgkpyDIS - wpyhmDIS
 #define D2GDR1S0  0.25*R*t*( - 1.0/xti4A + 1.0/xti4B ) \
                   + 4.0*s[0]*(dwilhm+hil) + 4.0*s[0]*(dwilgk-hil)
 #define D2GDR1S1  0.25*R*t*( 1.0/xmg2A - 1.0/xti4A - 1.0/xmg2B + 1.0/xti4B ) \
@@ -1352,7 +1365,7 @@ pureRhm(int mask, double t, double p,
 #define D2GDR1DP  0.0
 
 #define D2GDR2R2  R*t*(  0.25/xmn2A + 0.25/xti4A + 1.0/xfe3A \
-                       + 0.25/xmn2B + 0.25/xti4B + 1.0/xfe3B ) - 2.0*wpyhmDIS 
+                       + 0.25/xmn2B + 0.25/xti4B + 1.0/xfe3B ) - 2.0*wpyhmDIS
 #define D2GDR2S0  0.25*R*t*( - 1.0/xti4A + 1.0/xti4B ) \
                   + 4.0*s[0]*(dwilhm+hil) + 4.0*s[0]*(dwilpy-hil)
 #define D2GDR2S1  0.25*R*t*( - 1.0/xti4A + 1.0/xti4B ) \
@@ -1365,7 +1378,7 @@ pureRhm(int mask, double t, double p,
 
 #define D2GDS0S0  0.25*R*t*( 1.0/xfe2A + 1.0/xti4A + 1.0/xfe2B + 1.0/xti4B ) \
                   - 2.0*hil - 4.0*(1.0-r[0]-r[1]-r[2])*(dwilhm+hil) \
-                  + 4.0*r[1]*(dwilgk-hil) + 4.0*r[2]*(dwilpy-hil) 
+                  + 4.0*r[1]*(dwilgk-hil) + 4.0*r[2]*(dwilpy-hil)
 #define D2GDS0S1  0.25*R*t*( 1.0/xti4A + 1.0/xti4B ) \
                   + (wilgkORD-wilgkDIS-dwilgk-dwgkil)
 #define D2GDS0S2  0.25*R*t*( 1.0/xti4A + 1.0/xti4B ) \
@@ -1379,7 +1392,7 @@ pureRhm(int mask, double t, double p,
 #define D2GDS1S2  0.25*R*t*( 1.0/xti4A + 1.0/xti4B ) \
                   + (wgkpyORD-wgkpyDIS-dwgkpy-dwpygk)
 #define D2GDS1DT  0.5*R*( log(xmg2A) - log(xti4A) - log(xmg2B) + log(xti4B) )
-#define D2GDS1DP  0.0 
+#define D2GDS1DP  0.0
 
 #define D2GDS2S2  0.25*R*t*( 1.0/xmn2A + 1.0/xti4A + 1.0/xmn2B + 1.0/xti4B ) \
                   - 2.0*hpy - 4.0*(1.0-r[0]-r[1]-r[2])*(dwpyhm+hpy) \
@@ -1411,13 +1424,13 @@ pureRhm(int mask, double t, double p,
 #define D3GDR0R1S2  - 0.125*R*t*( - 1.0/SQUARE(xti4A) + 1.0/SQUARE(xti4B) )
 #define D3GDR0R1DT  R*(  0.25/xti4A + 1.0/xfe3A + 0.25/xti4B + 1.0/xfe3B )
 #define D3GDR0R1DP  0.0
-  
+
 #define D3GDR0R2S0  - 0.125*R*t*( - 1.0/SQUARE(xti4A) + 1.0/SQUARE(xti4B) )
 #define D3GDR0R2S1  - 0.125*R*t*( - 1.0/SQUARE(xti4A) + 1.0/SQUARE(xti4B) )
 #define D3GDR0R2S2  - 0.125*R*t*( - 1.0/SQUARE(xti4A) + 1.0/SQUARE(xti4B) )
 #define D3GDR0R2DT  R*(  0.25/xti4A + 1.0/xfe3A + 0.25/xti4B + 1.0/xfe3B )
 #define D3GDR0R2DP  0.0
-  
+
 #define D3GDR0S0S0  - 0.125*R*t*( 1.0/SQUARE(xfe2A) + 1.0/SQUARE(xti4A) \
                       + 1.0/SQUARE(xfe2B) + 1.0/SQUARE(xti4B) ) \
                     + 4.0*(dwilhm+hil)
@@ -1482,7 +1495,7 @@ pureRhm(int mask, double t, double p,
                         - 1.0/SQUARE(xmn2B) + 1.0/SQUARE(xti4B) )
 #define D3GDR2R2DT  R*(  0.25/xmn2A + 0.25/xti4A + 1.0/xfe3A \
                        + 0.25/xmn2B + 0.25/xti4B + 1.0/xfe3B )
-#define D3GDR2R2DP  0.0 
+#define D3GDR2R2DP  0.0
 
 #define D3GDR2S0S0  - 0.125*R*t*( 1.0/SQUARE(xti4A) + 1.0/SQUARE(xti4B) ) \
                     + 4.0*(dwilhm+hil) + 4.0*(dwilpy-hil)
@@ -1519,7 +1532,7 @@ pureRhm(int mask, double t, double p,
 #define D3GDS0DT2   0.0
 #define D3GDS0DTDP  0.0
 #define D3GDS0DP2   0.0
-  
+
 #define D3GDS1S1S1  - 0.125*R*t*( 1.0/SQUARE(xmg2A) - 1.0/SQUARE(xti4A) \
                        - 1.0/SQUARE(xmg2B) + 1.0/SQUARE(xti4B) )
 #define D3GDS1S1S2  - 0.125*R*t*( - 1.0/SQUARE(xti4A) + 1.0/SQUARE(xti4B) )
@@ -1531,7 +1544,7 @@ pureRhm(int mask, double t, double p,
 #define D3GDS1DT2   0.0
 #define D3GDS1DTDP  0.0
 #define D3GDS1DP2   0.0
-  
+
 #define D3GDS2S2S2  - 0.125*R*t*( 1.0/SQUARE(xmn2A) - 1.0/SQUARE(xti4A) \
                        - 1.0/SQUARE(xmn2B) + 1.0/SQUARE(xti4B) )
 #define D3GDS2S2DT  0.25*R*( 1.0/xmn2A + 1.0/xti4A + 1.0/xmn2B + 1.0/xti4B )
@@ -1626,7 +1639,7 @@ pureRhm(int mask, double t, double p,
  d3gdr2ds[2][1][0] = d3gdr2ds[1][2][0]; d3gdr2ds[2][1][1] = d3gdr2ds[1][2][1]; \
  d3gdr2ds[2][1][2] = d3gdr2ds[1][2][2]; \
  d3gdr2ds[2][2][0] = D3GDR2R2S0;        d3gdr2ds[2][2][1] = D3GDR2R2S1; \
- d3gdr2ds[2][2][2] = D3GDR2R2S2; 
+ d3gdr2ds[2][2][2] = D3GDR2R2S2;
 
 #define fillD3GDR2DT \
  d3gdr2dt[0][0] = D3GDR0R0DT;     d3gdr2dt[0][1] = D3GDR0R1DT; \
@@ -1678,7 +1691,7 @@ pureRhm(int mask, double t, double p,
  d3gdrdsdp[1][0] = D3GDR1S0DP; d3gdrdsdp[1][1] = D3GDR1S1DP; \
  d3gdrdsdp[1][2] = D3GDR1S2DP; \
  d3gdrdsdp[2][0] = D3GDR2S0DP; d3gdrdsdp[2][1] = D3GDR2S1DP; \
- d3gdrdsdp[2][2] = D3GDR2S2DP; 
+ d3gdrdsdp[2][2] = D3GDR2S2DP;
 
 #define fillD3GDS3 \
  d3gds3[0][0][0] = D3GDS0S0S0;      d3gds3[0][0][1] = D3GDS0S0S1; \
@@ -1698,7 +1711,7 @@ pureRhm(int mask, double t, double p,
  d3gds3[2][1][0] = d3gds3[0][1][2]; d3gds3[2][1][1] = d3gds3[1][1][2]; \
  d3gds3[2][1][2] = d3gds3[1][2][2]; \
  d3gds3[2][2][0] = d3gds3[0][2][2]; d3gds3[2][2][1] = d3gds3[1][2][2]; \
- d3gds3[2][2][2] = D3GDS2S2S2;  
+ d3gds3[2][2][2] = D3GDS2S2S2;
 
 #define fillD3GDS2DT \
  d3gds2dt[0][0] = D3GDS0S0DT;     d3gds2dt[0][1] = D3GDS0S1DT; \
@@ -1706,7 +1719,7 @@ pureRhm(int mask, double t, double p,
  d3gds2dt[1][0] = d3gds2dt[0][1]; d3gds2dt[1][1] = D3GDS1S1DT; \
  d3gds2dt[1][2] = D3GDS1S2DT; \
  d3gds2dt[2][0] = d3gds2dt[0][2]; d3gds2dt[2][1] = d3gds2dt[1][2]; \
- d3gds2dt[2][2] = D3GDS2S2DT;  
+ d3gds2dt[2][2] = D3GDS2S2DT;
 
 #define fillD3GDS2DP \
  d3gds2dp[0][0] = D3GDS0S0DP;     d3gds2dp[0][1] = D3GDS0S1DP; \
@@ -1743,8 +1756,8 @@ pureRhm(int mask, double t, double p,
  * Local function to compute ordering state and associated derivatives
  */
 
-static void 
-order(int mask, double t, double p, double r[NR], 
+static void
+order(int mask, double t, double p, double r[NR],
       double s[NS],           /* s[NS]                BINARY MASK: 0000000001 */
       double dr[NS][NR] ,     /* ds[NS]/dr[NR]        BINARY MASK: 0000000010 */
       double dt[NS],          /* ds[NS]/dt            BINARY MASK: 0000000100 */
@@ -1757,83 +1770,92 @@ order(int mask, double t, double p, double r[NR],
       double dp2[NS]          /* d2s[NS]/dp2          BINARY MASK: 1000000000 */
       )
 {
-  DECLARE_SITE_FRACTIONS
-  double tOld         = getTOld();
-  double pOld         = getPOld();
-  double *rOld        = getROld();
-  double *sOld        = getSOld();
-  double **d2gds2     = getD2gds2();
-  double **ptToD2gds2 = getPtToD2gds2();
-  int i, j, iter = 0;
+    DECLARE_SITE_FRACTIONS
+    double tOld         = getTOld();
+    double pOld         = getPOld();
+    double *rOld        = getROld();
+    double *sOld        = getSOld();
+    double **d2gds2     = getD2gds2();
+    gsl_matrix      *ptToD2gds2  = getPtToD2gds2();
+    gsl_permutation *indexD2gds2 = getIndexD2gds2();
+    int i, j, iter = 0, signum;
 
-  GET_SITE_FRACTIONS
-  
-  /* look-up or compute the current ordering state */
-  if ( (t != tOld)       || (p != pOld) || 
+    GET_SITE_FRACTIONS
+
+    /* look-up or compute the current ordering state */
+    if ( (t != tOld)       || (p != pOld) ||
        (r[0] != rOld[0]) || (r[1] != rOld[1]) || (r[2] != rOld[2]) ) {
-    double dgds[NS], sNew[NS];
-    for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.9*r[i]; }
-    while ( ((ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) || 
+        double dgds[NS], sNew[NS];
+        gsl_vector_view vvToDgds = gsl_vector_view_array(dgds, (size_t) NS);
+
+        for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.9*r[i]; }
+
+        while ( ((ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) ||
              (ABS(sNew[1]-sOld[1]) > 10.0*DBL_EPSILON) ||
              (ABS(sNew[2]-sOld[2]) > 10.0*DBL_EPSILON) ) && (iter < MAX_ITER)) {
-      double s[NS];
+            double s[NS], deltaS[NS];
+    	    gsl_vector_view vvToDeltaS = gsl_vector_view_array(deltaS, (size_t) NS);
 
-      for (i=0; i<NS; i++) s[i] = sNew[i];
+            for (i=0; i<NS; i++) s[i] = sNew[i];
 
-      xfe2A = (r[0] + s[0])/2.0;
-      xmg2A = (r[1] + s[1])/2.0;
-      xmn2A = (r[2] + s[2])/2.0;
-      xti4A = (r[0] - s[0] + r[1] - s[1] + r[2] - s[2])/2.0;
-      xfe3A = 1.0 - r[0] - r[1] - r[2];
+            xfe2A = (r[0] + s[0])/2.0;
+            xmg2A = (r[1] + s[1])/2.0;
+            xmn2A = (r[2] + s[2])/2.0;
+            xti4A = (r[0] - s[0] + r[1] - s[1] + r[2] - s[2])/2.0;
+            xfe3A = 1.0 - r[0] - r[1] - r[2];
 
-      xfe2B = (r[0] - s[0])/2.0;
-      xmg2B = (r[1] - s[1])/2.0;
-      xmn2B = (r[2] - s[2])/2.0;
-      xti4B = (r[0] + s[0] + r[1] + s[1] + r[2] + s[2])/2.0;
-      xfe3B = 1.0 - r[0] - r[1] - r[2];
+            xfe2B = (r[0] - s[0])/2.0;
+            xmg2B = (r[1] - s[1])/2.0;
+            xmn2B = (r[2] - s[2])/2.0;
+            xti4B = (r[0] + s[0] + r[1] + s[1] + r[2] + s[2])/2.0;
+            xfe3B = 1.0 - r[0] - r[1] - r[2];
 
-      if (xfe2A <= 0.0) xfe2A = DBL_EPSILON; /* added in V1.0-7 */
-      if (xmg2A <= 0.0) xmg2A = DBL_EPSILON; /* added in V1.0-7 */
-      if (xmn2A <= 0.0) xmn2A = DBL_EPSILON; /* added in V1.0-7 */
-      if (xti4A <= 0.0) xti4A = DBL_EPSILON; /* added in V1.0-7 */
-      if (xfe3A <= 0.0) xfe3A = DBL_EPSILON; /* added in V1.0-7 */
+            if (xfe2A <= 0.0) xfe2A = DBL_EPSILON; /* added in V1.0-7 */
+            if (xmg2A <= 0.0) xmg2A = DBL_EPSILON; /* added in V1.0-7 */
+            if (xmn2A <= 0.0) xmn2A = DBL_EPSILON; /* added in V1.0-7 */
+            if (xti4A <= 0.0) xti4A = DBL_EPSILON; /* added in V1.0-7 */
+            if (xfe3A <= 0.0) xfe3A = DBL_EPSILON; /* added in V1.0-7 */
 
-      if (xfe2B <= 0.0) xfe2B = DBL_EPSILON; /* added in V1.0-7 */
-      if (xmg2B <= 0.0) xmg2B = DBL_EPSILON; /* added in V1.0-7 */
-      if (xmn2B <= 0.0) xmn2B = DBL_EPSILON; /* added in V1.0-7 */
-      if (xti4B <= 0.0) xti4B = DBL_EPSILON; /* added in V1.0-7 */
-      if (xfe3B <= 0.0) xfe3B = DBL_EPSILON; /* added in V1.0-7 */
+            if (xfe2B <= 0.0) xfe2B = DBL_EPSILON; /* added in V1.0-7 */
+            if (xmg2B <= 0.0) xmg2B = DBL_EPSILON; /* added in V1.0-7 */
+            if (xmn2B <= 0.0) xmn2B = DBL_EPSILON; /* added in V1.0-7 */
+            if (xti4B <= 0.0) xti4B = DBL_EPSILON; /* added in V1.0-7 */
+            if (xfe3B <= 0.0) xfe3B = DBL_EPSILON; /* added in V1.0-7 */
 
-      dgds[0] = DGDS0;
-      dgds[1] = DGDS1;
-      dgds[2] = DGDS2;
+            dgds[0] = DGDS0;
+            dgds[1] = DGDS1;
+            dgds[2] = DGDS2;
 
-      d2gds2[0][0] = D2GDS0S0;
-      d2gds2[0][1] = D2GDS0S1;
-      d2gds2[0][2] = D2GDS0S2;
-      d2gds2[1][0] = d2gds2[0][1];
-      d2gds2[1][1] = D2GDS1S1;
-      d2gds2[1][2] = D2GDS1S2;
-      d2gds2[2][0] = d2gds2[0][2];
-      d2gds2[2][1] = d2gds2[1][2];
-      d2gds2[2][2] = D2GDS2S2;
+            d2gds2[0][0] = D2GDS0S0;
+            d2gds2[0][1] = D2GDS0S1;
+            d2gds2[0][2] = D2GDS0S2;
+            d2gds2[1][0] = d2gds2[0][1];
+            d2gds2[1][1] = D2GDS1S1;
+            d2gds2[1][2] = D2GDS1S2;
+            d2gds2[2][0] = d2gds2[0][2];
+            d2gds2[2][1] = d2gds2[1][2];
+            d2gds2[2][2] = D2GDS2S2;
 
-      for (i=0; i<NS; i++) sOld[i] = s[i];
+            for (i=0; i<NS; i++) sOld[i] = s[i];
 
-      gaussj(ptToD2gds2, NS, (double **) NULL, 0);
+            /* original: gaussj(ptToD2gds2, NS, (double **) NULL, 0);
+            for (i=0; i<NS; i++) {
+            for(j=0; j<NS; j++) s[i] += - d2gds2[i][j]*dgds[j];
+                        for(j=0; j<NS; j++) s[i] += - d2gds2[i][j]*dgds[j];
+            } */
 
-      for (i=0; i<NS; i++) {
-        for(j=0; j<NS; j++) s[i] += - d2gds2[i][j]*dgds[j];
-        s[i] = MIN(s[i], r[i] - DBL_EPSILON);
-        s[i] = MAX(s[i], 0.0);
-      }
+            gsl_matrix_scale(ptToD2gds2, -1.0);
+            melts_LU_decomp(ptToD2gds2, indexD2gds2, &signum);
 
-      for (i=0; i<NS; i++) sNew[i] = s[i];
-      iter++;
-    }
-    tOld = t;
-    pOld = p;
-    for (i=0; i<NR; i++) rOld[i] = r[i];
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToDgds.vector, &vvToDeltaS.vector);
+            for (i=0; i<NS; i++) s[i] += deltaS[i];
+
+            for (i=0; i<NS; i++) sNew[i] = s[i];
+            iter++;
+        }
+        tOld = t;
+        pOld = p;
+        for (i=0; i<NR; i++) rOld[i] = r[i];
 
 #ifdef DEBUG
     for (i=0; i<NS; i++) {
@@ -1856,275 +1878,284 @@ order(int mask, double t, double p, double r[NR],
     }
 #endif
 
-    setTOld(tOld);
-    setPOld(pOld);
-    /* arrays (rOld, sOld, d2gds2) should be preserved automatically */
+        setTOld(tOld);
+        setPOld(pOld);
+        /* arrays (rOld, sOld, d2gds2, indexD2gds2) should be preserved automatically */
 
-    SET_SITE_FRACTIONS
-  }
-
-  if (mask & FIRST  ) {   /* return s        */
-    for (i=0; i<NS; i++) s[i] = sOld[i];
-  }   
-  if (mask & SECOND ) {   /* compute ds/dr:  */
-    double *s = sOld;
-    double d2gdrds[NR][NS];
-    int k;                    
-
-    fillD2GDRDS
-
-    for (i=0; i<NS; i++) {
-       for (j=0; j<NR; j++) {
-          dr[i][j] = 0.0; 
-          for (k=0; k<NS; k++) dr[i][j] += - d2gds2[i][k]*d2gdrds[j][k];
-       }
-    }
-  }
-  if (mask & THIRD  ) {   /* compute ds/dt:  */
-    double d2gdsdt[NS];
-
-    fillD2GDSDT
-
-    for (i=0; i<NS; i++) {
-       dt[i] = 0.0;
-       for (j=0; j<NS; j++) dt[i] += - d2gds2[i][j]*d2gdsdt[j];
-    }
-  }
-  if (mask & FOURTH ) {   /* compute ds/dp:  */
-    double d2gdsdp[NS];
-
-    fillD2GDSDP
-
-    for (i=0; i<NS; i++) {
-       dp[i] = 0.0; 
-       for (j=0; j<NS; j++) dp[i] += - d2gds2[i][j]*d2gdsdp[j];
-    }
-  }
-  if (mask & FIFTH  ) {   /* compute d2s/dr2 */
-    double *s = sOld;
-    double d2gdrds[NR][NS], d3gdr2ds[NR][NR][NS], d3gdrds2[NR][NS][NS],
-      d3gds3[NS][NS][NS], dsdr[NS][NR], temp[NS];
-    int k, l, m, n;                    
-
-    fillD2GDRDS
-    fillD3GDR2DS
-    fillD3GDRDS2
-    fillD3GDS3
-
-    /* compute dsdr matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        dsdr[i][j] = 0.0; 
-        for (k=0; k<NS; k++) dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k];
-      }
+        SET_SITE_FRACTIONS
     }
 
-    /* compute dsdr2 cube */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        for (k=0; k<NR; k++) {
-          for (l=0; l<NS; l++) {
-            temp[l] = d3gdr2ds[j][k][l];
-            for (m=0; m<NS; m++) {
-              temp[l] += d3gdrds2[j][l][m]*dsdr[m][k] 
-                       + d3gdrds2[k][l][m]*dsdr[m][j];
-              for (n=0; n<NS; n++) 
-                temp[l] += d3gds3[l][m][n]*dsdr[m][j]*dsdr[n][k];
-             }
-          }
-          dr2[i][j][k] = 0.0;
-          for (l=0; l<NS; l++) dr2[i][j][k] += - d2gds2[i][l]*temp[l];
+    if (mask & FIRST  ) {   /* return s        */
+        for (i=0; i<NS; i++) s[i] = sOld[i];
+    }
+    if (mask & SECOND ) {   /* compute ds/dr:  */
+        double *s = sOld;
+        double d2gdrds[NR][NS];
+        gsl_matrix_view mvToDr = gsl_matrix_view_array((double *) dr, (size_t) NS, (size_t) NR),
+            mvToD2gdrds = gsl_matrix_view_array((double *) d2gdrds, (size_t) NR, (size_t) NS);
+
+        fillD2GDRDS
+
+        /* original: dr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
+        for (j=0; j<NR; j++) {
+            gsl_vector_view vvToDr = gsl_matrix_column(&mvToDr.matrix, j),
+            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDr.vector);
         }
-      }
     }
+    if (mask & THIRD  ) {   /* compute ds/dt:  */
+        double d2gdsdt[NS];
+        gsl_vector_view vvToDt = gsl_vector_view_array(dt, (size_t) NS),
+            vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS);
 
-  }
-  if (mask & SIXTH  ) {   /* compute d2s/drt */
-    double *s = sOld;
-    double d2gdrds[NR][NS], d2gdsdt[NS], d3gdrds2[NR][NS][NS],
-      d3gdrdsdt[NR][NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], dsdr[NS][NR],
-      dsdt[NS], temp[NS];
-    int k, l, m;
+        fillD2GDSDT
 
-    fillD2GDRDS
-    fillD2GDSDT
-    fillD3GDRDS2
-    fillD3GDRDSDT
-    fillD3GDS3
-    fillD3GDS2DT
+        /* original: dt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDt.vector);
 
-    /* compute dsdr matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        dsdr[i][j] = 0.0; 
-        for (k=0; k<NS; k++) dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k];
-      }
     }
+    if (mask & FOURTH ) {   /* compute ds/dp:  */
+        double d2gdsdp[NS];
+        gsl_vector_view vvToDp = gsl_vector_view_array(dp, (size_t) NS),
+            vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS);
 
-    /* compute dsdt vector */
-    for (i=0; i<NS; i++) {
-      dsdt[i] = 0.0;
-      for (j=0; j<NS; j++) dsdt[i] += - d2gds2[i][j]*d2gdsdt[j];
+        fillD2GDSDP
+
+        /* original: dp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDp.vector);
+
     }
+    if (mask & FIFTH  ) {   /* compute d2s/dr2 */
+        double *s = sOld;
+        double d2gdrds[NR][NS], d3gdr2ds[NR][NR][NS], d3gdrds2[NR][NS][NS],
+            d3gds3[NS][NS][NS], dsdr[NS][NR], temp[NS];
+        gsl_matrix_view mvToDsdr = gsl_matrix_view_array((double *) dsdr, (size_t) NS, (size_t) NR),
+            mvToD2gdrds = gsl_matrix_view_array((double *) d2gdrds, (size_t) NR, (size_t) NS);
+        gsl_vector_view vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l, m, n;
 
-    /* compute dsdrdt matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        for (k=0; k<NS; k++) {
-          temp[k] = d3gdrdsdt[j][k];
-          for (l=0; l<NS; l++) {
-             temp[k] += d3gdrds2[j][k][l]*dsdt[l] + d3gds2dt[k][l]*dsdr[l][j];
-             for (m=0; m<NS; m++) temp[k] += d3gds3[k][l][m]*dsdr[l][j]*dsdt[m];
-          }
+        fillD2GDRDS
+        fillD3GDR2DS
+        fillD3GDRDS2
+        fillD3GDS3
+
+        /* compute dsdr matrix */
+        /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
+        for (j=0; j<NR; j++) {
+            gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
+            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
-        drt[i][j] = 0.0;
-        for (k=0; k<NS; k++) drt[i][j] += - d2gds2[i][k]*temp[k];
-      }
-    }
 
-  }
-  if (mask & SEVENTH) {   /* compute d2s/drp */
-    double *s = sOld;
-    double d2gdrds[NR][NS], d2gdsdp[NS], d3gdrds2[NR][NS][NS],
-      d3gdrdsdp[NR][NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS], dsdr[NS][NR],
-      dsdp[NS], temp[NS];
-    int k, l, m;
-
-    fillD2GDRDS
-    fillD2GDSDP
-    fillD3GDRDS2
-    fillD3GDRDSDP
-    fillD3GDS3
-    fillD3GDS2DP
-
-    /* compute dsdr matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        dsdr[i][j] = 0.0; 
-        for (k=0; k<NS; k++) dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k];
-      }
-    }
-
-    /* compute dsdp vector */
-    for (i=0; i<NS; i++) {
-      dsdp[i] = 0.0;
-      for (j=0; j<NS; j++) dsdp[i] += - d2gds2[i][j]*d2gdsdp[j];
-    }
-
-    /* compute dsdrdp matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        for (k=0; k<NS; k++) {
-          temp[k] = d3gdrdsdp[j][k];
-          for (l=0; l<NS; l++) {
-             temp[k] += d3gdrds2[j][k][l]*dsdp[l] + d3gds2dp[k][l]*dsdr[l][j];
-             for (m=0; m<NS; m++) temp[k] += d3gds3[k][l][m]*dsdr[l][j]*dsdp[m];
-          }
+        /* compute dsdr2 cube */
+        for (j=0; j<NR; j++) {
+            for (k=0; k<NR; k++) {
+                for (l=0; l<NS; l++) {
+                    temp[l] = d3gdr2ds[j][k][l];
+                    for (m=0; m<NS; m++) {
+                        temp[l] += d3gdrds2[j][l][m]*dsdr[m][k]
+                            + d3gdrds2[k][l][m]*dsdr[m][j];
+                        for (n=0; n<NS; n++)
+                            temp[l] += d3gds3[l][m][n]*dsdr[m][j]*dsdr[n][k];
+            	    }
+                }
+                /* original: dr2[i][j][k] += - d2gds2[i][l]*temp[l]; */
+                melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+                for (l=0; l<NS; l++) dr2[l][j][k] = temp[l];
+            }
         }
-        drp[i][j] = 0.0;
-        for (k=0; k<NS; k++) drp[i][j] += - d2gds2[i][k]*temp[k];
-      }
+
     }
+    if (mask & SIXTH  ) {   /* compute d2s/drt */
+        double *s = sOld;
+        double d2gdrds[NR][NS], d2gdsdt[NS], d3gdrds2[NR][NS][NS],
+            d3gdrdsdt[NR][NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], dsdr[NS][NR],
+            dsdt[NS], temp[NS];
+        gsl_matrix_view mvToDsdr = gsl_matrix_view_array((double *) dsdr, (size_t) NS, (size_t) NR),
+            mvToD2gdrds = gsl_matrix_view_array((double *) d2gdrds, (size_t) NR, (size_t) NS);
+        gsl_vector_view vvToDsdt = gsl_vector_view_array(dsdt, (size_t) NS),
+            vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l, m;
 
-  }
-  if (mask & EIGHTH ) {   /* compute d2s/dt2 */
-    double d2gdsdt[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gdsdt2[NS],
-      dsdt[NS], temp[NS];
-     int k, l;
+        fillD2GDRDS
+        fillD2GDSDT
+        fillD3GDRDS2
+        fillD3GDRDSDT
+        fillD3GDS3
+        fillD3GDS2DT
 
-    fillD2GDSDT
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDSDT2
-
-   /* compute dsdt vector */
-    for (i=0; i<NS; i++) {
-      dsdt[i] = 0.0;
-      for (j=0; j<NS; j++) dsdt[i] += - d2gds2[i][j]*d2gdsdt[j];
-    }
-
-    /* compute dsdt2 vector */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NS; j++) { 
-        temp[j] = d3gdsdt2[j];
-        for (k=0; k<NS; k++) {
-          temp[j] +=  2.0*d3gds2dt[j][k]*dsdt[k];
-          for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdt[k]*dsdt[l];
+        /* compute dsdr matrix */
+        /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
+        for (j=0; j<NR; j++) {
+            gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
+            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
-      }
-      dt2[i] = 0.0;
-      for (j=0; j<NS; j++) dt2[i] += - d2gds2[i][j]*temp[j];
-    } 
 
-  }
-  if (mask & NINTH  ) {   /* compute d2s/dtp */
-    double d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS],
-      d3gds2dp[NS][NS], d3gdsdtdp[NS], dsdt[NS], dsdp[NS], temp[NS];
-    int k, l;
+        /* compute dsdt vector */
+        /* original: dsdt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDsdt.vector);
 
-    fillD2GDSDT
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDS2DP
-    fillD3GDSDTDP
-
-    /* compute dsdt vector */
-    for (i=0; i<NS; i++) {
-      dsdt[i] = 0.0;
-      for (j=0; j<NS; j++) dsdt[i] += - d2gds2[i][j]*d2gdsdt[j];
-    }
-
-    /* compute dsdp vector */
-    for (i=0; i<NS; i++) {
-      dsdp[i] = 0.0;
-      for (j=0; j<NS; j++) dsdp[i] += - d2gds2[i][j]*d2gdsdp[j];
-    }
-
-    /* compute dsdtp vector */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NS; j++) {
-        temp[j] = d3gdsdtdp[j];
-        for (k=0; k<NS; k++) {
-          temp[j] += d3gds2dt[j][k]*dsdp[k] + d3gds2dp[j][k]*dsdt[k];
-          for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdt[k]*dsdp[l];
+        /* compute dsdrdt matrix */
+        for (j=0; j<NR; j++) {
+            for (k=0; k<NS; k++) {
+                temp[k] = d3gdrdsdt[j][k];
+                for (l=0; l<NS; l++) {
+                    temp[k] += d3gdrds2[j][k][l]*dsdt[l] + d3gds2dt[k][l]*dsdr[l][j];
+                    for (m=0; m<NS; m++) temp[k] += d3gds3[k][l][m]*dsdr[l][j]*dsdt[m];
+                }
+            }
+            /* original: drt[i][j] += - d2gds2[i][k]*temp[k]; */
+            melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+            for (k=0; k<NS; k++) drt[k][j] = temp[k];
         }
-      }
-      dtp[i] = 0.0;
-      for (j=0; j<NS; j++) dtp[i] += - d2gds2[i][j]*temp[j];
+
     }
+    if (mask & SEVENTH) {   /* compute d2s/drp */
+        double *s = sOld;
+        double d2gdrds[NR][NS], d2gdsdp[NS], d3gdrds2[NR][NS][NS],
+            d3gdrdsdp[NR][NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS], dsdr[NS][NR],
+            dsdp[NS], temp[NS];
+        gsl_matrix_view mvToDsdr = gsl_matrix_view_array((double *) dsdr, (size_t) NS, (size_t) NR),
+            mvToD2gdrds = gsl_matrix_view_array((double *) d2gdrds, (size_t) NR, (size_t) NS);
+        gsl_vector_view vvToDsdp = gsl_vector_view_array(dsdp, (size_t) NS),
+            vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l, m;
 
-  }
-  if (mask & TENTH  ) {   /* compute d2s/dp2 */
-    double d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS], d3gdsdp2[NS],
-      dsdp[NS], temp[NS];
-    int k, l;
+        fillD2GDRDS
+        fillD2GDSDP
+        fillD3GDRDS2
+        fillD3GDRDSDP
+        fillD3GDS3
+        fillD3GDS2DP
 
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DP
-    fillD3GDSDP2
-
-    /* compute dsdp vector */
-    for (i=0; i<NS; i++) {
-      dsdp[i] = 0.0;
-      for (j=0; j<NS; j++) dsdp[i] += - d2gds2[i][j]*d2gdsdp[j];
-    }
-
-    /* compute dsdp2 vector */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NS; j++) { 
-        temp[j] = d3gdsdp2[j];
-        for (k=0; k<NS; k++) {
-          temp[j] +=  2.0*d3gds2dp[j][k]*dsdp[k];
-          for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdp[k]*dsdp[l];
+        /* compute dsdr matrix */
+        /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
+        for (j=0; j<NR; j++) {
+            gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
+            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
-      }
-      dp2[i] = 0.0;
-      for (j=0; j<NS; j++) dp2[i] += - d2gds2[i][j]*temp[j];
-    } 
 
-  }
+        /* compute dsdp vector */
+        /* original: dsdp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDsdp.vector);
+
+        /* compute dsdrdp matrix */
+        for (j=0; j<NR; j++) {
+            for (k=0; k<NS; k++) {
+                temp[k] = d3gdrdsdp[j][k];
+                for (l=0; l<NS; l++) {
+                    temp[k] += d3gdrds2[j][k][l]*dsdp[l] + d3gds2dp[k][l]*dsdr[l][j];
+                    for (m=0; m<NS; m++) temp[k] += d3gds3[k][l][m]*dsdr[l][j]*dsdp[m];
+                }
+            }
+            /* original: drp[i][j] += - d2gds2[i][k]*temp[k]; */
+            melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+            for (k=0; k<NS; k++) drp[k][j] = temp[k];
+        }
+
+    }
+    if (mask & EIGHTH ) {   /* compute d2s/dt2 */
+        double d2gdsdt[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gdsdt2[NS],
+            dsdt[NS], temp[NS];
+        gsl_vector_view vvToDsdt = gsl_vector_view_array(dsdt, (size_t) NS),
+            vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l;
+
+        fillD2GDSDT
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDSDT2
+
+        /* compute dsdt vector */
+        /* original: dsdt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDsdt.vector);
+
+        /* compute dsdt2 vector */
+        for (j=0; j<NS; j++) {
+            temp[j] = d3gdsdt2[j];
+            for (k=0; k<NS; k++) {
+                temp[j] +=  2.0*d3gds2dt[j][k]*dsdt[k];
+                for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdt[k]*dsdt[l];
+            }
+        }
+        /* original: dt2[i] += - d2gds2[i][j]*temp[j]; */
+        melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+        for (j=0; j<NS; j++) dt2[j] = temp[j];
+
+    }
+    if (mask & NINTH  ) {   /* compute d2s/dtp */
+        double d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS],
+            d3gds2dp[NS][NS], d3gdsdtdp[NS], dsdt[NS], dsdp[NS], temp[NS];
+        gsl_vector_view vvToDsdt = gsl_vector_view_array(dsdt, (size_t) NS),
+            vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS),
+            vvToDsdp = gsl_vector_view_array(dsdp, (size_t) NS),
+            vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l;
+
+        fillD2GDSDT
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDS2DP
+        fillD3GDSDTDP
+
+        /* compute dsdt vector */
+        /* original: dsdt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDsdt.vector);
+
+        /* compute dsdp vector */
+        /* original: dsdp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDsdp.vector);
+
+        /* compute dsdtp vector */
+        for (j=0; j<NS; j++) {
+            temp[j] = d3gdsdtdp[j];
+            for (k=0; k<NS; k++) {
+                temp[j] += d3gds2dt[j][k]*dsdp[k] + d3gds2dp[j][k]*dsdt[k];
+                for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdt[k]*dsdp[l];
+            }
+        }
+        /* original: dtp[i] += - d2gds2[i][j]*temp[j]; */
+        melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+        for (j=0; j<NS; j++) dtp[j] = temp[j];
+
+    }
+    if (mask & TENTH  ) {   /* compute d2s/dp2 */
+        double d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS], d3gdsdp2[NS],
+            dsdp[NS], temp[NS];
+        gsl_vector_view vvToDsdp = gsl_vector_view_array(dsdp, (size_t) NS),
+            vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l;
+
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DP
+        fillD3GDSDP2
+
+        /* compute dsdp vector */
+        /* original: dsdp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDsdp.vector);
+
+        /* compute dsdp2 vector */
+        for (j=0; j<NS; j++) {
+            temp[j] = d3gdsdp2[j];
+            for (k=0; k<NS; k++) {
+                temp[j] +=  2.0*d3gds2dp[j][k]*dsdp[k];
+                for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdp[k]*dsdp[l];
+            }
+        }
+        /* original: dp2[i] += - d2gds2[i][j]*temp[j]; */
+        melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+        for (j=0; j<NS; j++) dp2[j] = temp[j];
+
+    }
 
 }
 
@@ -2222,7 +2253,7 @@ conRhm(int inpMask, int outMask, double t, double p,
   In this routine it is assumed that the elements are in the order of atomic
   numbers and that the order of rhm oxides components has been verified as:
       m[0] = geikielite  (MgTiO3) ,
-      m[1] = hematite    (Fe2O3), 
+      m[1] = hematite    (Fe2O3),
       m[2] = ilmenite    (FeTiO3),
       m[3] = pyrophanite (MnTiO3),
 
@@ -2263,14 +2294,14 @@ conRhm(int inpMask, int outMask, double t, double p,
     if (outMask & ~(THIRD | FOURTH | FIFTH | SIXTH | EIGHTH))
       printf("Illegal call to conRhm with inpMask = %o and outMask = %o\n",
         inpMask, outMask);
- 
+
     for (i=0, sum=0.0; i<NA; i++) sum += m[i];
 
     if (outMask & THIRD) {
-      /* Converts a vector of moles of end-member components (m) into a vector 
-         of independent compositional variables (r) required as input for the 
+      /* Converts a vector of moles of end-member components (m) into a vector
+         of independent compositional variables (r) required as input for the
          remaining public functions.                                          */
-      r[0] = (sum != 0.0) ? m[2]/sum : 0.0;  /* Xil = X FeTiO3 */ 
+      r[0] = (sum != 0.0) ? m[2]/sum : 0.0;  /* Xil = X FeTiO3 */
       r[1] = (sum != 0.0) ? m[0]/sum : 0.0;  /* Xgk = X MgTiO3 */
       r[2] = (sum != 0.0) ? m[3]/sum : 0.0;  /* Xpy = X MnTiO3 */
     }
@@ -2308,14 +2339,14 @@ conRhm(int inpMask, int outMask, double t, double p,
         for (j=0; j<NA; j++) {
           for (k=0; k<NA; k++) {
             d2m[0][j][k]  = 2.0*m[2]/CUBE(sum);
-            d2m[0][j][k] -= (j == 2) ? 1.0/SQUARE(sum) : 0.0; 
-            d2m[0][j][k] -= (k == 2) ? 1.0/SQUARE(sum) : 0.0; 
+            d2m[0][j][k] -= (j == 2) ? 1.0/SQUARE(sum) : 0.0;
+            d2m[0][j][k] -= (k == 2) ? 1.0/SQUARE(sum) : 0.0;
             d2m[1][j][k]  = 2.0*m[0]/CUBE(sum);
-            d2m[1][j][k] -= (j == 0) ? 1.0/SQUARE(sum) : 0.0; 
-            d2m[1][j][k] -= (k == 0) ? 1.0/SQUARE(sum) : 0.0; 
+            d2m[1][j][k] -= (j == 0) ? 1.0/SQUARE(sum) : 0.0;
+            d2m[1][j][k] -= (k == 0) ? 1.0/SQUARE(sum) : 0.0;
             d2m[2][j][k]  = 2.0*m[3]/CUBE(sum);
-            d2m[2][j][k] -= (j == 3) ? 1.0/SQUARE(sum) : 0.0; 
-            d2m[2][j][k] -= (k == 3) ? 1.0/SQUARE(sum) : 0.0; 
+            d2m[2][j][k] -= (j == 3) ? 1.0/SQUARE(sum) : 0.0;
+            d2m[2][j][k] -= (k == 3) ? 1.0/SQUARE(sum) : 0.0;
           }
         }
       }
@@ -2364,10 +2395,10 @@ conRhm(int inpMask, int outMask, double t, double p,
     if (outMask & FOURTH) {
       /* Converts a vector of independent compositional variables (r) into a
          vector of mole fractions of endmember components (x).                */
-      x[0] = r[1]; 
+      x[0] = r[1];
       x[1] = 1.0 - r[0] - r[1] - r[2];
-      x[2] = r[0]; 
-      x[3] = r[2]; 
+      x[2] = r[0];
+      x[3] = r[2];
     }
 
     if (outMask & SEVENTH) {
@@ -2414,13 +2445,13 @@ dispRhm(int mask, double t, double p, double *x,
     (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[16+i] = n[i];
     (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[25+i] = n[i];
     (void) snprintf(n, 5, "%4.2f", totTi);  for (i=0; i<4; i++) string[31+i] = n[i];
- 
+
     *formula = string;
   }
 }
 
-void 
-actRhm(int mask, double t, double p, double *x, 
+void
+actRhm(int mask, double t, double p, double *x,
   double *a,  /* (pointer to a[]) activities              BINARY MASK: 0001 */
   double *mu, /* (pointer to mu[]) chemical potentials    BINARY MASK: 0010 */
   double **dx /* (pointer to dx[][]) d(a[])/d(x[])        BINARY MASK: 0100 */
@@ -2431,19 +2462,19 @@ actRhm(int mask, double t, double p, double *x,
   double s[NS], g, dgdr[NR];
   double fr[NA][NR];
   int i, j;
-  
+
   for(i=0; i<NA; i++) {
      fr[i][0] = FR0(i); /* Xil */
      fr[i][1] = FR1(i); /* Xgk */
      fr[i][2] = FR2(i); /* Xpy */
   }
 
-  order(FIRST, t, p, r, 
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
   g       = G;
-  dgdr[0] = DGDR0;          
+  dgdr[0] = DGDR0;
   dgdr[1] = DGDR1;
   dgdr[2] = DGDR2;
 
@@ -2459,10 +2490,10 @@ actRhm(int mask, double t, double p, double *x,
   if (mask & FIRST) {
     double a0[NA];
 
-    pureRhm(FIRST, t, p, 
+    pureRhm(FIRST, t, p,
        a0,              (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     for(i=0; i<NA; i++) {
@@ -2476,10 +2507,10 @@ actRhm(int mask, double t, double p, double *x,
   if (mask & SECOND) {
     double mu0[NA];
 
-    pureRhm(SECOND, t, p, 
+    pureRhm(SECOND, t, p,
        (double *) NULL, mu0,             (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     for(i=0; i<NA; i++) {
@@ -2497,10 +2528,10 @@ actRhm(int mask, double t, double p, double *x,
     fillD2GDRDS
     fillD2GDS2
 
-    pureRhm(FIRST, t, p, 
+    pureRhm(FIRST, t, p,
        a0,              (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     for(i=0; i<NA; i++) {
@@ -2515,7 +2546,7 @@ actRhm(int mask, double t, double p, double *x,
        dgsds[i][2] = DGS2DS2(i); /* u   */
     }
 
-    order(SECOND, t, p, r, 
+    order(SECOND, t, p, r,
           NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NA; i++) {
@@ -2566,8 +2597,8 @@ actRhm(int mask, double t, double p, double *x,
   }
 }
 
-void 
-gmixRhm(int mask, double t, double p, double *x, 
+void
+gmixRhm(int mask, double t, double p, double *x,
   double *gmix, /* Gibbs energy of mixing             BINARY MASK: 0001 */
   double *dx,   /* (pointer to dx[]) d(g)/d(x[])      BINARY MASK: 0010 */
   double **dx2, /* (pointer to dx2[][]) d2(g)/d(x[])2 BINARY MASK: 0100 */
@@ -2577,8 +2608,8 @@ gmixRhm(int mask, double t, double p, double *x,
   DECLARE_SITE_FRACTIONS
   double *r = x;
   double s[NS];
-  
-  order(FIRST, t, p, r, 
+
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
@@ -2587,15 +2618,15 @@ gmixRhm(int mask, double t, double p, double *x,
 
     *gmix = G;
 
-    pureRhm(THIRD, t, p, 
+    pureRhm(THIRD, t, p,
        (double *) NULL, (double *) NULL, ends,            (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     *gmix -= ENDMEMBERS;
   }
-  
+
   if(mask & SECOND) {
     double ends[NA];
 
@@ -2603,10 +2634,10 @@ gmixRhm(int mask, double t, double p, double *x,
     dx[1] = DGDR1;
     dx[2] = DGDR2;
 
-    pureRhm(THIRD, t, p, 
+    pureRhm(THIRD, t, p,
        (double *) NULL, (double *) NULL, ends,           (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     dx[0] -= DENDDR0;
@@ -2622,14 +2653,14 @@ gmixRhm(int mask, double t, double p, double *x,
     fillD2GDRDS
     fillD2GDS2
 
-    order(SECOND, t, p, r, 
+    order(SECOND, t, p, r,
           NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
       for (j=0; j<NR; j++) {
         dx2[i][j] = d2gdr2[i][j];
         for (k=0; k<NS; k++) {
-          dx2[i][j] += d2gdrds[i][k]*dsdr[k][j] + d2gdrds[j][k]*dsdr[k][i]; 
+          dx2[i][j] += d2gdrds[i][k]*dsdr[k][j] + d2gdrds[j][k]*dsdr[k][i];
           for (l=0; l<NS; l++) dx2[i][j] += d2gds2[k][l]*dsdr[k][i]*dsdr[l][j];
         }
       }
@@ -2647,7 +2678,7 @@ gmixRhm(int mask, double t, double p, double *x,
     fillD3GDRDS2
     fillD3GDS3
 
-    order(SECOND, t, p, r, 
+    order(SECOND, t, p, r,
           NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
@@ -2658,7 +2689,7 @@ gmixRhm(int mask, double t, double p, double *x,
             dx3[i][j][k] += d3gdr2ds[i][j][l]*dsdr[l][k] +
               d3gdr2ds[j][k][l]*dsdr[l][i] + d3gdr2ds[k][i][l]*dsdr[l][j];
             for (m=0; m<NS; m++) {
-              dx3[i][j][k] += 
+              dx3[i][j][k] +=
                 d3gdrds2[i][l][m]*dsdr[l][j]*dsdr[m][k] +
                 d3gdrds2[j][l][m]*dsdr[l][k]*dsdr[m][i] +
                 d3gdrds2[k][l][m]*dsdr[l][i]*dsdr[m][j];
@@ -2674,32 +2705,32 @@ gmixRhm(int mask, double t, double p, double *x,
 
 }
 
-void 
-hmixRhm(int mask, double t, double p, double *x, 
+void
+hmixRhm(int mask, double t, double p, double *x,
   double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
   )
 {
   DECLARE_SITE_FRACTIONS
   double *r = x;
   double s[NS], ends[NA];
-  
-  order(FIRST, t, p, r, 
+
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
   *hmix = (G) + t*(S);
 
-  pureRhm(FOURTH, t, p, 
+  pureRhm(FOURTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, ends,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
   *hmix -= ENDMEMBERS;
 }
 
-void 
-smixRhm(int mask, double t, double p, double *x, 
+void
+smixRhm(int mask, double t, double p, double *x,
   double *smix, /* Entropy of mixing                  BINARY MASK: 001 */
   double *dx,   /* (pointer to dx[]) d(s)/d(x[])      BINARY MASK: 010 */
   double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
@@ -2709,24 +2740,24 @@ smixRhm(int mask, double t, double p, double *x,
   double *r = x;
   double s[NS];
 
-  order(FIRST, t, p, r, 
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
   if (mask & FIRST) {
     double ends[NA];
 
-    *smix = S; 
+    *smix = S;
 
-    pureRhm(FIFTH, t, p, 
+    pureRhm(FIFTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        ends,            (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     *smix -= ENDMEMBERS;
   }
-  
+
   if(mask & SECOND) {
     double d2gdrds[NR][NS], d2gdrdt[NR], d2gds2[NS][NS], d2gdsdt[NS],
       dsdr[NS][NR], dsdt[NS], ends[NA];
@@ -2737,9 +2768,9 @@ smixRhm(int mask, double t, double p, double *x,
     fillD2GDS2
     fillD2GDSDT
 
-    order(SECOND | THIRD, t, p, r, 
+    order(SECOND | THIRD, t, p, r,
           NULL, dsdr, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-    
+
     for (i=0; i<NR; i++) {
       dx[i] = d2gdrdt[i];
       for (k=0; k<NS; k++) {
@@ -2749,10 +2780,10 @@ smixRhm(int mask, double t, double p, double *x,
       dx[i] *= -1.0;
     }
 
-    pureRhm(FIFTH, t, p, 
+    pureRhm(FIFTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        ends,            (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     dx[0] -= DENDDR0;
@@ -2777,27 +2808,27 @@ smixRhm(int mask, double t, double p, double *x,
     fillD3GDS3
     fillD3GDS2DT
 
-    order(SECOND | THIRD | FIFTH | SIXTH, t, p, r, 
+    order(SECOND | THIRD | FIFTH | SIXTH, t, p, r,
           NULL, dsdr, dsdt, NULL, d2sdr2, d2sdrdt, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) { 
+      for (j=0; j<NR; j++) {
         dx2[i][j] = d3gdr2dt[i][j];
         for (k=0; k<NS; k++) {
-          dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k] 
-                     + d3gdrdsdt[i][k]*dsdr[k][j] 
-                     + d3gdrdsdt[j][k]*dsdr[k][i] 
+          dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k]
+                     + d3gdrdsdt[i][k]*dsdr[k][j]
+                     + d3gdrdsdt[j][k]*dsdr[k][i]
                      + d2gdsdt[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdt[k][j] 
+                     + d2gdrds[i][k]*d2sdrdt[k][j]
                      + d2gdrds[j][k]*d2sdrdt[k][i];
           for (l=0; l<NS; l++) {
             dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdt[l]
                        + d3gdrds2[j][k][l]*dsdr[k][i]*dsdt[l]
-                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l] 
+                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l]
                        + d3gds2dt[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j] 
+                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j]
                        + d2gds2[k][l]*dsdr[k][j]*d2sdrdt[l][i];
-            for (m=0; m<NS; m++) 
+            for (m=0; m<NS; m++)
               dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdt[m];
           }
         }
@@ -2809,8 +2840,8 @@ smixRhm(int mask, double t, double p, double *x,
 
 }
 
-void 
-cpmixRhm(int mask, double t, double p, double *x, 
+void
+cpmixRhm(int mask, double t, double p, double *x,
   double *cpmix, /* Heat capacity of mixing               BINARY MASK: 001 */
   double *dt,    /* d(cp)/d(t)                            BINARY MASK: 010 */
   double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
@@ -2821,7 +2852,7 @@ cpmixRhm(int mask, double t, double p, double *x,
   double s[NS], dsdt[NS], d2gdsdt[NS], d2gds2[NS][NS], d2gdt2;
   int i, j;
 
-  order(FIRST | THIRD, t, p, r, 
+  order(FIRST | THIRD, t, p, r,
         s, NULL, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
@@ -2835,14 +2866,14 @@ cpmixRhm(int mask, double t, double p, double *x,
     *cpmix = d2gdt2;
     for (i=0; i<NS; i++) {
       *cpmix += 2.0*d2gdsdt[i]*dsdt[i];
-      for (j=0; j<NS; j++) *cpmix += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
+      for (j=0; j<NS; j++) *cpmix += d2gds2[i][j]*dsdt[i]*dsdt[j];
     }
     *cpmix *= -t;
 
-    pureRhm(SIXTH, t, p, 
+    pureRhm(SIXTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, ends,            (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     *cpmix -= ENDMEMBERS;
@@ -2858,38 +2889,38 @@ cpmixRhm(int mask, double t, double p, double *x,
     fillD3GDS2DT
     fillD3GDSDT2
 
-    order(EIGHTH, t, p, r, 
+    order(EIGHTH, t, p, r,
           NULL, NULL, NULL, NULL, NULL, NULL, NULL, d2sdt2, NULL, NULL);
 
     /* compute d2gdt2 */
     temp = d2gdt2;
     for (i=0; i<NS; i++) {
       temp += 2.0*d2gdsdt[i]*dsdt[i];
-      for (j=0; j<NS; j++) temp += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
+      for (j=0; j<NS; j++) temp += d2gds2[i][j]*dsdt[i]*dsdt[j];
     }
 
     *dt = d3gdt3;
     for (i=0; i<NS; i++) {
-      *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i]; 
+      *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i];
       for (j=0; j<NS; j++) {
-        *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j] 
+        *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j]
              + 3.0*d3gds2dt[i][j]*dsdt[i]*dsdt[j];
-        for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k]; 
+        for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k];
       }
     }
     *dt = -t*(*dt) - temp;
 
-    pureRhm(SEVENTH, t, p, 
+    pureRhm(SEVENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, ends,            (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     *dt -= ENDMEMBERS;
   }
 
   if(mask & THIRD) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS], 
+    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
       d3gds2dt[NS][NS], d2gdrds[NR][NS], d3gdrdt2[NR], d3gdsdt2[NS],
       dsdr[NS][NR], d2sdrdt[NS][NR], d2sdt2[NS], ends[NA];
     int k, l;
@@ -2902,7 +2933,7 @@ cpmixRhm(int mask, double t, double p, double *x,
     fillD3GDS2DT
     fillD3GDSDT2
 
-    order(SECOND | SIXTH | EIGHTH, t, p, r, 
+    order(SECOND | SIXTH | EIGHTH, t, p, r,
           NULL, dsdr, NULL, NULL, NULL, d2sdrdt, NULL, d2sdt2, NULL, NULL);
 
     for (i=0; i<NR; i++) {
@@ -2910,21 +2941,21 @@ cpmixRhm(int mask, double t, double p, double *x,
         dx[i] += d3gdsdt2[j]*dsdr[j][i] + 2.0*d2gdsdt[j]*d2sdrdt[j][i] +
                  2.0*d3gdrdsdt[i][j]*dsdt[j] + d2gdrds[i][j]*d2sdt2[j];
         for (k=0; k<NS; k++) {
-          dx[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdt[k] + 
+          dx[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdt[k] +
                    2.0*d2gds2[j][k]*dsdt[j]*d2sdrdt[k][i] +
                    2.0*d3gds2dt[j][k]*dsdr[j][i]*dsdt[k] +
                    d2gds2[j][k]*dsdr[j][i]*d2sdt2[k];
-          for (l=0; l<NS; l++) 
+          for (l=0; l<NS; l++)
             dx[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdt[l];
         }
       }
       dx[i] *= -t;
     }
 
-    pureRhm(SIXTH, t, p, 
+    pureRhm(SIXTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, ends,            (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     dx[0] -= DENDDR0;
@@ -2934,8 +2965,8 @@ cpmixRhm(int mask, double t, double p, double *x,
 
 }
 
-void 
-vmixRhm(int mask, double t, double p, double *x, 
+void
+vmixRhm(int mask, double t, double p, double *x,
   double *vmix, /* Volume of mixing                BINARY MASK: 0000000001 */
   double *dx,   /* (pointer to dx[]) d(v)/d(x[])   BINARY MASK: 0000000010 */
   double **dx2, /* (point to dx2[][]) d(v)/d(x[])2 BINARY MASK: 0000000100 */
@@ -2951,8 +2982,8 @@ vmixRhm(int mask, double t, double p, double *x,
   DECLARE_SITE_FRACTIONS
   double *r = x;
   double s[NS];
-  
-  order(FIRST, t, p, r, 
+
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
@@ -2961,10 +2992,10 @@ vmixRhm(int mask, double t, double p, double *x,
 
     *vmix = DGDP;
 
-    pureRhm(EIGHTH, t, p, 
+    pureRhm(EIGHTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, ends,           
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, ends,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     *vmix -= ENDMEMBERS;
@@ -2980,7 +3011,7 @@ vmixRhm(int mask, double t, double p, double *x,
     fillD2GDS2
     fillD2GDSDP
 
-     order(SECOND | FOURTH, t, p, r, 
+     order(SECOND | FOURTH, t, p, r,
            NULL, dsdr, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
@@ -2991,10 +3022,10 @@ vmixRhm(int mask, double t, double p, double *x,
       }
     }
 
-    pureRhm(EIGHTH, t, p, 
+    pureRhm(EIGHTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, ends,           
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, ends,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     dx[0] -= DENDDR0;
@@ -3019,27 +3050,27 @@ vmixRhm(int mask, double t, double p, double *x,
     fillD3GDS3
     fillD3GDS2DP
 
-    order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r, 
+    order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r,
           NULL, dsdr, NULL, dsdp, d2sdr2, NULL, d2sdrdp,  NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
       for (j=0; j<NR; j++) {
-        dx2[i][j] = d3gdr2dp[i][j]; 
+        dx2[i][j] = d3gdr2dp[i][j];
         for (k=0; k<NS; k++) {
           dx2[i][j] += d3gdr2ds[i][j][k]*dsdp[k]
-                     + d3gdrdsdp[i][k]*dsdr[k][j] 
+                     + d3gdrdsdp[i][k]*dsdr[k][j]
                      + d3gdrdsdp[j][k]*dsdr[k][i]
                      + d2gdsdp[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdp[k][j] 
+                     + d2gdrds[i][k]*d2sdrdp[k][j]
                      + d2gdrds[j][k]*d2sdrdp[k][i];
           for (l=0; l<NS; l++) {
             dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdp[l]
                        + d3gdrds2[j][k][l]*dsdr[k][i]*dsdp[l]
                        + d2gds2[k][l]*d2sdr2[k][i][j]*dsdp[l]
                        + d3gds2dp[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j] 
-                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];  
-            for (m=0; m<NS; m++) 
+                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j]
+                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];
+            for (m=0; m<NS; m++)
               dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdp[m];
           }
         }
@@ -3058,19 +3089,19 @@ vmixRhm(int mask, double t, double p, double *x,
     fillD2GDSDT
     fillD2GDSDP
 
-    order(THIRD | FOURTH, t, p, r, 
+    order(THIRD | FOURTH, t, p, r,
           NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
     *dt = d2gdtdp;
     for (i=0; i<NS; i++) {
       *dt += d2gdsdt[i]*dsdp[i] + d2gdsdp[i]*dsdt[i];
       for (j=0; j<NS; j++) *dt += d2gds2[i][j]*dsdt[i]*dsdp[j];
-    } 
+    }
 
-    pureRhm(NINTH, t, p, 
+    pureRhm(NINTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       ends,            (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       ends,            (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     *dt -= ENDMEMBERS;
@@ -3084,7 +3115,7 @@ vmixRhm(int mask, double t, double p, double *x,
     fillD2GDS2
     fillD2GDSDP
 
-    order(FOURTH, t, p, r, 
+    order(FOURTH, t, p, r,
           NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
     *dp = d2gdp2;
@@ -3093,10 +3124,10 @@ vmixRhm(int mask, double t, double p, double *x,
       for (j=0; j<NS; j++) *dp += d2gds2[i][j]*dsdp[i]*dsdp[j];
     }
 
-    pureRhm(TENTH, t, p, 
+    pureRhm(TENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL, ends,            (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, ends,            (double *) NULL, (double *) NULL,
        (double *) NULL);
 
     *dp -= ENDMEMBERS;
@@ -3118,26 +3149,26 @@ vmixRhm(int mask, double t, double p, double *x,
     fillD3GDSDT2
     fillD3GDSDTDP
 
-    order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r, 
+    order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r,
           NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, d2sdt2, d2sdtdp, NULL);
 
     *dt2 = d3gdt2dp;
     for (i=0; i<NS; i++) {
-      *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i] 
+      *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i]
             + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
       for (j=0; j<NS; j++) {
         *dt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
               + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
               + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
               + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
-        for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k]; 
+        for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k];
       }
     }
 
-    pureRhm(ELEVENTH, t, p, 
+    pureRhm(ELEVENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL, (double *) NULL, ends,            (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, (double *) NULL, ends,            (double *) NULL,
        (double *) NULL);
 
     *dt2 -= ENDMEMBERS;
@@ -3159,26 +3190,26 @@ vmixRhm(int mask, double t, double p, double *x,
     fillD3GDSDTDP
     fillD3GDSDP2
 
-    order(THIRD | FOURTH | NINTH | TENTH, t, p, r, 
+    order(THIRD | FOURTH | NINTH | TENTH, t, p, r,
           NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, d2sdtdp, d2sdp2);
 
     *dtdp = d3gdtdp2;
     for (i=0; i<NS; i++) {
-      *dtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]  
-             + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i]; 
+      *dtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]
+             + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i];
       for (j=0; j<NS; j++) {
-        *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j] 
-               + d2gds2[i][j]*dsdt[i]*d2sdp2[j] 
+        *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j]
+               + d2gds2[i][j]*dsdt[i]*d2sdp2[j]
                + 2.0*d2gds2[i][j]*d2sdtdp[i]*dsdp[j]
                + d3gds2dt[i][j]*dsdp[i]*dsdp[j];
-        for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k]; 
+        for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k];
       }
     }
 
-    pureRhm(TWELFTH, t, p, 
+    pureRhm(TWELFTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL, (double *) NULL, (double *) NULL, ends,       
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, (double *) NULL, (double *) NULL, ends,
        (double *) NULL);
 
     *dtdp -= ENDMEMBERS;
@@ -3196,12 +3227,12 @@ vmixRhm(int mask, double t, double p, double *x,
     fillD3GDS2DP
     fillD3GDSDP2
 
-    order(FOURTH | TENTH, t, p, r, 
+    order(FOURTH | TENTH, t, p, r,
           NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, d2sdp2);
 
     *dp2 = d3gdp3;
     for (i=0; i<NS; i++) {
-      *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i]; 
+      *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i];
       for (j=0; j<NS; j++) {
         *dp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
               + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
@@ -3209,11 +3240,11 @@ vmixRhm(int mask, double t, double p, double *x,
       }
     }
 
-    pureRhm(THIRTEENTH, t, p, 
+    pureRhm(THIRTEENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       ends);          
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       ends);
 
     *dp2 -= ENDMEMBERS;
   }

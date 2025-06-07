@@ -105,7 +105,6 @@ MELTS Source Code: RCS
 #endif
 
 #include "silmin.h"               /*SILMIN structures include file          */
-#include "recipes.h"              /*Numerical recipes routines              */
 
 #ifdef BATCH_VERSION
 #include "status.h"               /*Status of calculation                   */

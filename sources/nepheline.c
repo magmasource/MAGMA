@@ -59,8 +59,8 @@ MELTS Source Code: RCS
 **
 **  MODULE DESCRIPTION:
 **
-**      Routines to compute nepheline solution properties 
-**      (file: NEPHELINE.C) 
+**      Routines to compute nepheline solution properties
+**      (file: NEPHELINE.C)
 **
 **  MODIFICATION HISTORY:
 **
@@ -69,8 +69,8 @@ MELTS Source Code: RCS
 **--
 */
 
+#include "melts_gsl.h"
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
-#include "recipes.h" /* Numerical recipes routines                */
 
 #ifdef DEBUG
 #undef DEBUG
@@ -141,16 +141,16 @@ MELTS Source Code: RCS
 #define AWVK                      0.0 /* joules */
 
 /*
- * Global (to this file): variables 
+ * Global (to this file): variables
  */
 
 #define R  8.3143
 #define NR         3    /* Three independent composition variables */
 #define NS         1    /* One ordering parameter                  */
 #define NA         4    /* Four endmember compositions             */
-                   /* Penalty constant for approaching the zero 
+                   /* Penalty constant for approaching the zero
                       concentration of r[1] - see #define G        */
-#define PENALTY    sqrt(DBL_EPSILON) 
+#define PENALTY    sqrt(DBL_EPSILON)
 
                 /* correction to zero point entropy of []CaNa2Al4Si4O16 */
 #define S4      -15.8765
@@ -175,38 +175,40 @@ static MTHREAD_KEY_T tOldKey;
 static MTHREAD_KEY_T pOldKey;
 static MTHREAD_KEY_T rOldKey;
 static MTHREAD_KEY_T sOldKey;
-static MTHREAD_KEY_T d2gds2Key;
 static MTHREAD_KEY_T ptToD2gds2Key;
+static MTHREAD_KEY_T d2gds2Key;
+static MTHREAD_KEY_T indexD2gds2Key;
 
 static void freeNSarray(void *NSarray) {
-  free_vector((double *) NSarray, 0, NS-1);
-}
-
-static void freeD2gds2(void *d2gds2) {
-  free_matrix((double **) d2gds2, 0, NS-1, 0, NS-1);
+    gsl_vector_free((gsl_vector *) NSarray);
 }
 
 static void freePtToD2gds2(void *ptToD2gds2) {
-  free_submatrix((double **) ptToD2gds2, 1, NS, 1, NS);
+    gsl_matrix_free((gsl_matrix *) ptToD2gds2);
+}
+
+static void freeIndexD2gds2(void *indexD2gds2) {
+    gsl_permutation_free((gsl_permutation *) indexD2gds2);
 }
 
 static void threadOInit(void) {
-  MTHREAD_KEY_CREATE(&tOldKey,       free);
-  MTHREAD_KEY_CREATE(&pOldKey,       free);
-  MTHREAD_KEY_CREATE(&rOldKey,       freeNSarray);
-  MTHREAD_KEY_CREATE(&sOldKey,       freeNSarray);
-  MTHREAD_KEY_CREATE(&d2gds2Key,     freeD2gds2);
-  MTHREAD_KEY_CREATE(&ptToD2gds2Key, freePtToD2gds2);
+    MTHREAD_KEY_CREATE(&tOldKey,       free);
+    MTHREAD_KEY_CREATE(&pOldKey,       free);
+    MTHREAD_KEY_CREATE(&rOldKey,       freeNSarray);
+    MTHREAD_KEY_CREATE(&sOldKey,       freeNSarray);
+    MTHREAD_KEY_CREATE(&ptToD2gds2Key, freePtToD2gds2);
+    MTHREAD_KEY_CREATE(&d2gds2Key,     free);
+    MTHREAD_KEY_CREATE(&indexD2gds2Key, freeIndexD2gds2);
 }
 
 static double getTOld() {
   double *tOldPt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);   
+
+  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);
   if (tOldPt == NULL) {
-    tOldPt  = (double *) malloc(sizeof(double)); 
-    *tOldPt = -9999.0;    
+    tOldPt  = (double *) malloc(sizeof(double));
+    *tOldPt = -9999.0;
     MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
   }
   return *tOldPt;
@@ -215,11 +217,11 @@ static double getTOld() {
 static void setTOld(double tOld) {
   double *tOldPt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);   
+
+  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);
   if (tOldPt == NULL) {
-    tOldPt  = (double *) malloc(sizeof(double)); 
-    *tOldPt = -9999.0;    
+    tOldPt  = (double *) malloc(sizeof(double));
+    *tOldPt = -9999.0;
     MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
   }
   *tOldPt = tOld;
@@ -228,81 +230,94 @@ static void setTOld(double tOld) {
 static double getPOld() {
   double *pOldPt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);   
+
+  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);
   if (pOldPt == NULL) {
-    pOldPt  = (double *) malloc(sizeof(double)); 
-    *pOldPt = -9999.0;    
+    pOldPt  = (double *) malloc(sizeof(double));
+    *pOldPt = -9999.0;
     MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
   }
-  return *pOldPt; 
+  return *pOldPt;
 }
 
 static void setPOld(double pOld) {
   double *pOldPt;
   MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);   
+
+  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);
   if (pOldPt == NULL) {
-    pOldPt  = (double *) malloc(sizeof(double)); 
-    *pOldPt = -9999.0;    
+    pOldPt  = (double *) malloc(sizeof(double));
+    *pOldPt = -9999.0;
     MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
   }
-  *pOldPt = pOld; 
+  *pOldPt = pOld;
 }
 
 static double *getROld() {
-  double *rOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  rOldPt = (double *) MTHREAD_GETSPECIFIC(rOldKey);   
-  if (rOldPt == NULL) {
-    int i;
-    rOldPt = vector(0, NR-1);
-    for (i=0; i<NR; i++) rOldPt[i] = -9999.0;    
-    MTHREAD_SETSPECIFIC(rOldKey, (void *) rOldPt);
-  }
-  return rOldPt; 
+    gsl_vector *rOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    rOldPt = (gsl_vector *) MTHREAD_GETSPECIFIC(rOldKey);
+    if (rOldPt == NULL) {
+        rOldPt = gsl_vector_alloc((size_t) NR);
+        gsl_vector_set_all(rOldPt, -9999.0);
+        MTHREAD_SETSPECIFIC(rOldKey, (void *) rOldPt);
+    }
+    return rOldPt->data;
 }
 
 static double *getSOld() {
-  double *sOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  sOldPt = (double *) MTHREAD_GETSPECIFIC(sOldKey);   
-  if (sOldPt == NULL) {
-    int i;
-    sOldPt = vector(0, NS-1);
-    for (i=0; i<NS; i++) sOldPt[i] = 2.0;    
-    MTHREAD_SETSPECIFIC(sOldKey, (void *) sOldPt);
-  }
-  return sOldPt;
+    gsl_vector *sOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    sOldPt = (gsl_vector *) MTHREAD_GETSPECIFIC(sOldKey);
+    if (sOldPt == NULL) {
+        sOldPt = gsl_vector_alloc((size_t) NS);
+        gsl_vector_set_all(sOldPt, 2.0);
+        MTHREAD_SETSPECIFIC(sOldKey, (void *) sOldPt);
+    }
+    return sOldPt->data;
+}
+
+static gsl_matrix *getPtToD2gds2() {
+    gsl_matrix *ptToD2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    ptToD2gds2Pt = (gsl_matrix *) MTHREAD_GETSPECIFIC(ptToD2gds2Key);
+    if (ptToD2gds2Pt == NULL) {
+        ptToD2gds2Pt  = gsl_matrix_alloc((size_t) NS, (size_t) NS);
+        gsl_matrix_set_zero(ptToD2gds2Pt);
+        MTHREAD_SETSPECIFIC(ptToD2gds2Key, (void *) ptToD2gds2Pt);
+    }
+    return ptToD2gds2Pt;
 }
 
 static double **getD2gds2() {
-  double **d2gds2Pt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  d2gds2Pt = (double **) MTHREAD_GETSPECIFIC(d2gds2Key);   
-  if (d2gds2Pt == NULL) {
-    int i, j;
-    d2gds2Pt  = matrix(0, NS-1, 0, NS-1);
-    for (i=0; i<NS; i++) for (j=0; j<NS; j++) d2gds2Pt[i][j] = 0.0;
-    MTHREAD_SETSPECIFIC(d2gds2Key, (void *) d2gds2Pt);
-  }
-  return d2gds2Pt; 
+    double **d2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    d2gds2Pt = (double **) MTHREAD_GETSPECIFIC(d2gds2Key);
+    if (d2gds2Pt == NULL) {
+        int i;
+        gsl_matrix *ptToD2gds2Pt = getPtToD2gds2();
+        d2gds2Pt  = (double **) malloc((size_t) NS*sizeof(double *));
+        for (i=0; i<NS; i++) d2gds2Pt[i] = &(ptToD2gds2Pt->data[i*NS]);
+        MTHREAD_SETSPECIFIC(d2gds2Key, (void *) d2gds2Pt);
+    }
+    return d2gds2Pt;
 }
 
-static double **getPtToD2gds2() {
-  double **ptToD2gds2Pt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  ptToD2gds2Pt = (double **) MTHREAD_GETSPECIFIC(ptToD2gds2Key);   
-  if (ptToD2gds2Pt == NULL) {
-    ptToD2gds2Pt = submatrix(getD2gds2(), 0, NS-1, 0, NS-1, 1, 1);
-    MTHREAD_SETSPECIFIC(ptToD2gds2Key, (void *) ptToD2gds2Pt);
-  }
-  return ptToD2gds2Pt;
+static gsl_permutation *getIndexD2gds2() {
+    gsl_permutation *indexD2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    indexD2gds2Pt = (gsl_permutation *) MTHREAD_GETSPECIFIC(indexD2gds2Key);
+    if (indexD2gds2Pt == NULL) {
+        indexD2gds2Pt = gsl_permutation_alloc((size_t) NS);
+        gsl_permutation_init(indexD2gds2Pt);
+        MTHREAD_SETSPECIFIC(indexD2gds2Key, (void *) indexD2gds2Pt);
+    }
+    return indexD2gds2Pt;
 }
 
 /***********************************/
@@ -310,7 +325,7 @@ static double **getPtToD2gds2() {
 /***********************************/
 
 #define DECLARE_SITE_FRACTIONS \
-  double xkls, xvcls, xnals, xkss, xnass, xcass; 
+  double xkls, xvcls, xnals, xkss, xnass, xcass;
 
 #define XKLS  0
 #define XVCLS 1
@@ -331,11 +346,11 @@ static void threadXInit(void) {
 }
 
 static double getX(int n) {
-  double *xPt;  
+  double *xPt;
   MTHREAD_ONCE(&initThreadXBlock, threadXInit);
-  
-  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);   
-  if (xPt == NULL) { 
+
+  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);
+  if (xPt == NULL) {
     xPt = (double *) malloc(sizeof(double)); *xPt = 0.0;
     MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
   }
@@ -343,11 +358,11 @@ static double getX(int n) {
 }
 
 static void setX(int n, double x) {
-  double *xPt;  
+  double *xPt;
   MTHREAD_ONCE(&initThreadXBlock, threadXInit);
-  
-  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);   
-  if (xPt == NULL) { 
+
+  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);
+  if (xPt == NULL) {
     xPt = (double *) malloc(sizeof(double));
     MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
   }
@@ -361,7 +376,7 @@ static void setX(int n, double x) {
   xkss  = getX(XKSS);  \
   xnass = getX(XNASS); \
   xcass = getX(XCASS);
-  
+
 #define SET_SITE_FRACTIONS \
   setX(XKLS,  xkls ); \
   setX(XVCLS, xvcls); \
@@ -382,7 +397,7 @@ static void setX(int n, double x) {
                    /* Order: S1 */
 #define GS1(i)     - s[0]
 
-#define DFR2DR2(i) - 1.0                                 
+#define DFR2DR2(i) - 1.0
 #define DFR3DR3(i) - 1.0
 #define DFR4DR4(i) - 1.0
 
@@ -651,7 +666,7 @@ static void setX(int n, double x) {
 #define D3GDR0R2DT R*(1.0/xnals + 1.0/xnass) \
                                       + (-6.0*(S23)-3.0*(SEX)+15.0*(SX))/18.0
 #define D3GDR0R2DP (3.0*(VEX)-15.0*(VX)-18.0*(WVNAKLS)-4.0*(WVNAKSS))/18.0
-  
+
 #define D3GDR0S0S0 - R*t*(0.75*0.75/(xkls*xkls) - 0.75*0.75/(xnals*xnals) \
                    + 3.0*0.25*0.25/(xkss*xkss) - 3.0*0.25*0.25/(xnass*xnass)) \
                    + (DWKNALS)*(-6.0/16.0+6.0*r[1]/8.0) \
@@ -707,7 +722,7 @@ static void setX(int n, double x) {
 #define D3GDS0DT2   0.0
 #define D3GDS0DTDP  0.0
 #define D3GDS0DP2   0.0
-  
+
 #define D3GDT3      0.0
 #define D3GDT2DP    0.0
 #define D3GDTDP2    0.0
@@ -789,8 +804,8 @@ static void setX(int n, double x) {
  * Local function to compute ordering state and associated derivatives
  */
 
-static void 
-order(int mask, double t, double p, double r[NR], 
+static void
+order(int mask, double t, double p, double r[NR],
       double s[NS],           /* s[NS]                BINARY MASK: 0000000001 */
       double dr[NS][NR] ,     /* ds[NS]/dr[NR]        BINARY MASK: 0000000010 */
       double dt[NS],          /* ds[NS]/dt            BINARY MASK: 0000000100 */
@@ -803,426 +818,439 @@ order(int mask, double t, double p, double r[NR],
       double dp2[NS]          /* d2s[NS]/dp2          BINARY MASK: 1000000000 */
       )
 {
-  DECLARE_SITE_FRACTIONS
-  double tOld         = getTOld();
-  double pOld         = getPOld();
-  double *rOld        = getROld();
-  double *sOld        = getSOld();
-  double **d2gds2     = getD2gds2();
-  double **ptToD2gds2 = getPtToD2gds2();
-  int i, j, iter=0;
+    DECLARE_SITE_FRACTIONS
+    double tOld         = getTOld();
+    double pOld         = getPOld();
+    double *rOld        = getROld();
+    double *sOld        = getSOld();
+    double **d2gds2     = getD2gds2();
+    gsl_matrix      *ptToD2gds2  = getPtToD2gds2();
+    gsl_permutation *indexD2gds2 = getIndexD2gds2();
+    int i, j, iter = 0, signum;
 
-  GET_SITE_FRACTIONS
+    GET_SITE_FRACTIONS
 
-  /* look-up or compute the current ordering state */
-  if ( (t != tOld)       || (p != pOld) || 
+    /* look-up or compute the current ordering state */
+    if ( (t != tOld)       || (p != pOld) ||
        (r[0] != rOld[0]) || (r[1] != rOld[1]) || (r[2] != rOld[2]) ) {
-    double dgds[NS], sNew[NS];
-    int skipCheck = FALSE;
-    double xk  = r[0];
-    double xvc = (r[1]+r[2])/4.0;
-    double xna = 1.0 - r[0] - r[1]/4.0 - r[2]/2.0;
+        double dgds[NS], sNew[NS];
+        int skipCheck = FALSE;
+        double xk  = r[0];
+        double xvc = (r[1]+r[2])/4.0;
+        double xna = 1.0 - r[0] - r[1]/4.0 - r[2]/2.0;
+        gsl_vector_view vvToDgds = gsl_vector_view_array(dgds, (size_t) NS);
 
-    for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.0; dgds[i] = 0.0; }
+        for (i=0; i<NS; i++) { sOld[i] = 2.0; sNew[i] = 0.0; dgds[i] = 0.0; }
 
-    /* Initial guess assumes random distribution */
-    sNew[0] = -4.0*r[0]*(r[1]+2.0*r[2]/3.0)/(4.0-r[1]-2.0*r[2]);
+        /* Initial guess assumes random distribution */
+        sNew[0] = -4.0*r[0]*(r[1]+2.0*r[2]/3.0)/(4.0-r[1]-2.0*r[2]);
 
-    xkls  = r[0] + 3.0*sNew[0]/4.0;
-    xvcls = r[1] + r[2];
-    xnals = 1.0 - r[0] - r[1] - r[2] - 3.0*sNew[0]/4.0;
-    xkss  = r[0] - sNew[0]/4.0;
-    xcass = r[2]/3.0;
-    xnass = 1.0 - r[0] - r[2]/3.0 + sNew[0]/4.0;
-
-    if (xkls  <= DBL_EPSILON) xkls  = DBL_EPSILON;
-    if (xvcls <= DBL_EPSILON) xvcls = DBL_EPSILON;
-    if (xnals <= DBL_EPSILON) xnals = DBL_EPSILON;
-    if (xkss  <= DBL_EPSILON) xkss  = DBL_EPSILON;
-    if (xcass <= DBL_EPSILON) xcass = DBL_EPSILON;
-    if (xnass <= DBL_EPSILON) xnass = DBL_EPSILON;
-
-    if (xkls  >= 1.0     - DBL_EPSILON) xkls  = 1.0     - DBL_EPSILON;
-    if (xvcls >= 1.0     - DBL_EPSILON) xvcls = 1.0     - DBL_EPSILON;
-    if (xnals >= 1.0     - DBL_EPSILON) xnals = 1.0     - DBL_EPSILON;
-    if (xkss  >= 1.0     - DBL_EPSILON) xkss  = 1.0     - DBL_EPSILON;
-    if (xcass >= 1.0/3.0 - DBL_EPSILON) xcass = 1.0/3.0 - DBL_EPSILON;
-    if (xnass >= 1.0     - DBL_EPSILON) xnass = 1.0     - DBL_EPSILON;
-
-    sNew[0] = xkls - xkss;
-
-    /* Check for irrelevant compositions */
-    if (xk  < sqrt(DBL_EPSILON) || xna < sqrt(DBL_EPSILON) ||
-        xvc > ((double) (1.0/4.0) - sqrt(DBL_EPSILON)) ) {
-      for (i=0; i<NS; i++) sOld[i] = sNew[i];
-      skipCheck = TRUE;
-    }
-
-    while ( (ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) && (iter < MAX_ITER)) {
-      double s[NS], sCorr[NS], lambda = 1.0;
-
-      for (i=0; i<NS; i++) s[i] = sNew[i];
-
-      dgds[0] = DGDS0;
-      d2gds2[0][0] = D2GDS0S0;
-
-      for (i=0; i<NS; i++) sOld[i] = s[i];
-
-      gaussj(ptToD2gds2, NS, (double **) NULL, 0);
-
-      for (i=0; i<NS; i++) {
-        for(j=0, sCorr[i]=0.0; j<NS; j++) sCorr[i] += - d2gds2[i][j]*dgds[j];
-        s[i] = sOld[i] + lambda*sCorr[i];
-      }
-
-      xkls  = r[0] + 3.0*s[0]/4.0;
-      xvcls = r[1] + r[2];
-      xnals = 1.0 - r[0] - r[1] - r[2] - 3.0*s[0]/4.0;
-      xkss  = r[0] - s[0]/4.0;
-      xcass = r[2]/3.0;
-      xnass = 1.0 - r[0] - r[2]/3.0 + s[0]/4.0;
-
-      while ((   xkls  < 0.0 || xkls  > 1.0     || xvcls < 0.0 || xvcls > 1.0 
-              || xnals < 0.0 || xnals > 1.0     || xkss  < 0.0 || xkss  > 1.0
-              || xcass < 0.0 || xcass > 1.0/3.0 || xnass < 0.0 || xnass > 1.0)
-             && lambda > DBL_EPSILON ) {
-        lambda /= 2.0;
-        for (i=0; i<NS; i++) s[i] = sOld[i] + lambda*sCorr[i];
-        xkls  = r[0] + 3.0*s[0]/4.0;
+        xkls  = r[0] + 3.0*sNew[0]/4.0;
         xvcls = r[1] + r[2];
-        xnals = 1.0 - r[0] - r[1] - r[2] - 3.0*s[0]/4.0;
-        xkss  = r[0] - s[0]/4.0;
+        xnals = 1.0 - r[0] - r[1] - r[2] - 3.0*sNew[0]/4.0;
+        xkss  = r[0] - sNew[0]/4.0;
         xcass = r[2]/3.0;
-        xnass = 1.0 - r[0] - r[2]/3.0 + s[0]/4.0;
-      }
+        xnass = 1.0 - r[0] - r[2]/3.0 + sNew[0]/4.0;
 
-      if (xkls  <= DBL_EPSILON) xkls  = DBL_EPSILON;
-      if (xvcls <= DBL_EPSILON) xvcls = DBL_EPSILON;
-      if (xnals <= DBL_EPSILON) xnals = DBL_EPSILON;
-      if (xkss  <= DBL_EPSILON) xkss  = DBL_EPSILON;
-      if (xcass <= DBL_EPSILON) xcass = DBL_EPSILON;
-      if (xnass <= DBL_EPSILON) xnass = DBL_EPSILON;
+        if (xkls  <= DBL_EPSILON) xkls  = DBL_EPSILON;
+        if (xvcls <= DBL_EPSILON) xvcls = DBL_EPSILON;
+        if (xnals <= DBL_EPSILON) xnals = DBL_EPSILON;
+        if (xkss  <= DBL_EPSILON) xkss  = DBL_EPSILON;
+        if (xcass <= DBL_EPSILON) xcass = DBL_EPSILON;
+        if (xnass <= DBL_EPSILON) xnass = DBL_EPSILON;
 
-      if (xkls  >= 1.0     - DBL_EPSILON) xkls  = 1.0     - DBL_EPSILON;
-      if (xvcls >= 1.0     - DBL_EPSILON) xvcls = 1.0     - DBL_EPSILON;
-      if (xnals >= 1.0     - DBL_EPSILON) xnals = 1.0     - DBL_EPSILON;
-      if (xkss  >= 1.0     - DBL_EPSILON) xkss  = 1.0     - DBL_EPSILON;
-      if (xcass >= 1.0/3.0 - DBL_EPSILON) xcass = 1.0/3.0 - DBL_EPSILON;
-      if (xnass >= 1.0     - DBL_EPSILON) xnass = 1.0     - DBL_EPSILON;
+        if (xkls  >= 1.0     - DBL_EPSILON) xkls  = 1.0     - DBL_EPSILON;
+        if (xvcls >= 1.0     - DBL_EPSILON) xvcls = 1.0     - DBL_EPSILON;
+        if (xnals >= 1.0     - DBL_EPSILON) xnals = 1.0     - DBL_EPSILON;
+        if (xkss  >= 1.0     - DBL_EPSILON) xkss  = 1.0     - DBL_EPSILON;
+        if (xcass >= 1.0/3.0 - DBL_EPSILON) xcass = 1.0/3.0 - DBL_EPSILON;
+        if (xnass >= 1.0     - DBL_EPSILON) xnass = 1.0     - DBL_EPSILON;
 
-      s[0] = xkls - xkss;
+        sNew[0] = xkls - xkss;
 
-      for (i=0; i<NS; i++) sNew[i] = s[i];
-      iter++;
-    }
-    tOld = t;
-    pOld = p;
-    for (i=0; i<NR; i++) rOld[i] = r[i];
+        /* Check for irrelevant compositions */
+        if (xk  < sqrt(DBL_EPSILON) || xna < sqrt(DBL_EPSILON) ||
+                xvc > ((double) (1.0/4.0) - sqrt(DBL_EPSILON)) ) {
+            for (i=0; i<NS; i++) sOld[i] = sNew[i];
+            skipCheck = TRUE;
+        }
+
+        while ( (ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) && (iter < MAX_ITER)) {
+            double s[NS], sCorr[NS], lambda = 1.0;
+            gsl_vector_view vvToSCorr = gsl_vector_view_array(sCorr, (size_t) NS);
+
+            for (i=0; i<NS; i++) s[i] = sNew[i];
+
+            dgds[0] = DGDS0;
+            d2gds2[0][0] = D2GDS0S0;
+
+            for (i=0; i<NS; i++) sOld[i] = s[i];
+
+            /* original: gaussj(ptToD2gds2, NS, (double **) NULL, 0);
+              	for (i=0; i<NS; i++) {
+                    for(j=0, sCorr[i]=0.0; j<NS; j++) sCorr[i] += - d2gds2[i][j]*dgds[j];
+                    s[i] = sOld[i] + lambda*sCorr[i];
+        	  }*/
+
+            gsl_matrix_scale(ptToD2gds2, -1.0);
+            melts_LU_decomp(ptToD2gds2, indexD2gds2, &signum);
+
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToDgds.vector, &vvToSCorr.vector);
+            for (i=0; i<NS; i++) s[i] += lambda*sCorr[i];
+
+            xkls  = r[0] + 3.0*s[0]/4.0;
+            xvcls = r[1] + r[2];
+            xnals = 1.0 - r[0] - r[1] - r[2] - 3.0*s[0]/4.0;
+            xkss  = r[0] - s[0]/4.0;
+            xcass = r[2]/3.0;
+            xnass = 1.0 - r[0] - r[2]/3.0 + s[0]/4.0;
+
+            while ((   xkls  < 0.0 || xkls  > 1.0     || xvcls < 0.0 || xvcls > 1.0
+                            || xnals < 0.0 || xnals > 1.0     || xkss  < 0.0 || xkss  > 1.0
+                            || xcass < 0.0 || xcass > 1.0/3.0 || xnass < 0.0 || xnass > 1.0)
+             && lambda > DBL_EPSILON ) {
+                lambda /= 2.0;
+                for (i=0; i<NS; i++) s[i] = sOld[i] + lambda*sCorr[i];
+                xkls  = r[0] + 3.0*s[0]/4.0;
+                xvcls = r[1] + r[2];
+                xnals = 1.0 - r[0] - r[1] - r[2] - 3.0*s[0]/4.0;
+                xkss  = r[0] - s[0]/4.0;
+                xcass = r[2]/3.0;
+                xnass = 1.0 - r[0] - r[2]/3.0 + s[0]/4.0;
+            }
+
+            if (xkls  <= DBL_EPSILON) xkls  = DBL_EPSILON;
+            if (xvcls <= DBL_EPSILON) xvcls = DBL_EPSILON;
+            if (xnals <= DBL_EPSILON) xnals = DBL_EPSILON;
+            if (xkss  <= DBL_EPSILON) xkss  = DBL_EPSILON;
+            if (xcass <= DBL_EPSILON) xcass = DBL_EPSILON;
+            if (xnass <= DBL_EPSILON) xnass = DBL_EPSILON;
+
+            if (xkls  >= 1.0     - DBL_EPSILON) xkls  = 1.0     - DBL_EPSILON;
+            if (xvcls >= 1.0     - DBL_EPSILON) xvcls = 1.0     - DBL_EPSILON;
+            if (xnals >= 1.0     - DBL_EPSILON) xnals = 1.0     - DBL_EPSILON;
+            if (xkss  >= 1.0     - DBL_EPSILON) xkss  = 1.0     - DBL_EPSILON;
+            if (xcass >= 1.0/3.0 - DBL_EPSILON) xcass = 1.0/3.0 - DBL_EPSILON;
+            if (xnass >= 1.0     - DBL_EPSILON) xnass = 1.0     - DBL_EPSILON;
+
+            s[0] = xkls - xkss;
+
+            for (i=0; i<NS; i++) sNew[i] = s[i];
+            iter++;
+        }
+        tOld = t;
+        pOld = p;
+        for (i=0; i<NR; i++) rOld[i] = r[i];
 
 #ifdef DEBUG
     for (i=0; i<NS; i++) {
-      if (!skipCheck && ABS(dgds[i]) > sqrt(DBL_EPSILON) 
+      if (!skipCheck && ABS(dgds[i]) > sqrt(DBL_EPSILON)
           && (ABS(          xk *dgds[i]) > sqrt(DBL_EPSILON) &&
               ABS(          xna*dgds[i]) > sqrt(DBL_EPSILON) &&
-              ABS((1.0/4.0-xvc)*dgds[i]) > sqrt(DBL_EPSILON) ) 
+              ABS((1.0/4.0-xvc)*dgds[i]) > sqrt(DBL_EPSILON) )
           && ABS(sOld[i]) > DBL_EPSILON) {
         printf("ERROR in NEPHELINE.C (function ORDER). Failed to converge!\n");
-        if (iter >= MAX_ITER) 
+        if (iter >= MAX_ITER)
           printf("  Iteration limit (%4d) exceeded.\n", iter);
         printf("  X2    = %13.6g, X3    = %13.6g\n", r[0], r[1]);
         printf("  X4    = %13.6g, s1    = %13.6g\n", r[2], sOld[0]);
         printf("  dgds1 = %13.6g\n", dgds[0]);
-        printf("  X K  ls: %13.6g  X K  ss: %13.6g\n", xkls,  xkss); 
-        printf("  X Na ls: %13.6g  X Na ss: %13.6g\n", xnals, xnass); 
+        printf("  X K  ls: %13.6g  X K  ss: %13.6g\n", xkls,  xkss);
+        printf("  X Na ls: %13.6g  X Na ss: %13.6g\n", xnals, xnass);
         printf("  X Vc ls: %13.6g  X Ca ss: %13.6g\n", xvcls, xcass);
         break;
       }
     }
 #endif
 
-    setTOld(tOld);
-    setPOld(pOld);
-    /* arrays (rOld, sOld, d2gds2) should be preserved automatically */
+        setTOld(tOld);
+        setPOld(pOld);
+        /* arrays (rOld, sOld, d2gds2, indexD2gds2) should be preserved automatically */
 
-    SET_SITE_FRACTIONS
-  }
-
-  if (mask & FIRST  ) {   /* return s        */
-    for (i=0; i<NS; i++) s[i] = sOld[i];
-  }   
-
-  if (mask & SECOND) {   /* compute ds/dr:  */
-    double *s = sOld;
-    double d2gdrds[NR][NS];
-    int k;                    
-
-    fillD2GDRDS
-
-    for (i=0; i<NS; i++) {
-       for (j=0; j<NR; j++) {
-          dr[i][j] = 0.0; 
-          for (k=0; k<NS; k++) dr[i][j] += - d2gds2[i][k]*d2gdrds[j][k];
-       }
-    }
-  }
-
-  if (mask & THIRD) {   /* compute ds/dt:  */
-    double *s = sOld;
-    double d2gdsdt[NS];
-
-    fillD2GDSDT
-
-    for (i=0; i<NS; i++) {
-       dt[i] = 0.0;
-       for (j=0; j<NS; j++) dt[i] += - d2gds2[i][j]*d2gdsdt[j];
-    }
-  }
-
-  if (mask & FOURTH) {   /* compute ds/dp:  */
-    double *s = sOld;
-    double d2gdsdp[NS];
-
-    fillD2GDSDP
-
-    for (i=0; i<NS; i++) {
-      dp[i] = 0.0; 
-      for (j=0; j<NS; j++) dp[i] += - d2gds2[i][j]*d2gdsdp[j];
-    }
-  }
-
-  if (mask & FIFTH) {   /* compute d2s/dr2 */
-    double *s = sOld;
-    double d2gdrds[NR][NS], d3gdr2ds[NR][NR][NS], d3gdrds2[NR][NS][NS],
-      d3gds3[NS][NS][NS], dsdr[NS][NR], temp[NS];
-    int k, l, m, n;                    
-
-    fillD2GDRDS
-    fillD3GDR2DS
-    fillD3GDRDS2
-    fillD3GDS3
-
-    /* compute dsdr matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        dsdr[i][j] = 0.0; 
-        for (k=0; k<NS; k++) dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k];
-      }
+        SET_SITE_FRACTIONS
     }
 
-    /* compute dsdr2 cube */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        for (k=0; k<NR; k++) {
-          for (l=0; l<NS; l++) {
-            temp[l] = d3gdr2ds[j][k][l];
-            for (m=0; m<NS; m++) {
-              temp[l] += d3gdrds2[j][l][m]*dsdr[m][k] 
-                       + d3gdrds2[k][l][m]*dsdr[m][j];
-              for (n=0; n<NS; n++) 
-                temp[l] += d3gds3[l][m][n]*dsdr[m][j]*dsdr[n][k];
-             }
-          }
-          dr2[i][j][k] = 0.0;
-          for (l=0; l<NS; l++) dr2[i][j][k] += - d2gds2[i][l]*temp[l];
+    if (mask & FIRST  ) {   /* return s        */
+        for (i=0; i<NS; i++) s[i] = sOld[i];
+    }
+
+    if (mask & SECOND) {   /* compute ds/dr:  */
+        double *s = sOld;
+        double d2gdrds[NR][NS];
+        gsl_matrix_view mvToDr = gsl_matrix_view_array((double *) dr, (size_t) NS, (size_t) NR),
+            mvToD2gdrds = gsl_matrix_view_array((double *) d2gdrds, (size_t) NR, (size_t) NS);
+
+        fillD2GDRDS
+
+        /* original: dr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
+        for (j=0; j<NR; j++) {
+            gsl_vector_view vvToDr = gsl_matrix_column(&mvToDr.matrix, j),
+            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDr.vector);
         }
-      }
     }
 
-  }
+    if (mask & THIRD) {   /* compute ds/dt:  */
+        double *s = sOld;
+        double d2gdsdt[NS];
+        gsl_vector_view vvToDt = gsl_vector_view_array(dt, (size_t) NS),
+            vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS);
 
-  if (mask & SIXTH) {   /* compute d2s/drt */
-    double *s = sOld;
-    double d2gdrds[NR][NS], d2gdsdt[NS], d3gdrds2[NR][NS][NS],
-      d3gdrdsdt[NR][NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], dsdr[NS][NR],
-      dsdt[NS], temp[NS];
-    int k, l, m;
+        fillD2GDSDT
 
-    fillD2GDRDS
-    fillD2GDSDT
-    fillD3GDRDS2
-    fillD3GDRDSDT
-    fillD3GDS3
-    fillD3GDS2DT
+        /* original: dt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDt.vector);
 
-    /* compute dsdr matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        dsdr[i][j] = 0.0; 
-        for (k=0; k<NS; k++) dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k];
-      }
     }
 
-    /* compute dsdt vector */
-    for (i=0; i<NS; i++) {
-      dsdt[i] = 0.0;
-      for (j=0; j<NS; j++) dsdt[i] += - d2gds2[i][j]*d2gdsdt[j];
+    if (mask & FOURTH) {   /* compute ds/dp:  */
+        double *s = sOld;
+        double d2gdsdp[NS];
+        gsl_vector_view vvToDp = gsl_vector_view_array(dp, (size_t) NS),
+            vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS);
+
+        fillD2GDSDP
+
+        /* original: dp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDp.vector);
+
     }
 
-    /* compute dsdrdt matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        for (k=0; k<NS; k++) {
-          temp[k] = d3gdrdsdt[j][k];
-          for (l=0; l<NS; l++) {
-             temp[k] += d3gdrds2[j][k][l]*dsdt[l] + d3gds2dt[k][l]*dsdr[l][j];
-             for (m=0; m<NS; m++) temp[k] += d3gds3[k][l][m]*dsdr[l][j]*dsdt[m];
-          }
+    if (mask & FIFTH) {   /* compute d2s/dr2 */
+        double *s = sOld;
+        double d2gdrds[NR][NS], d3gdr2ds[NR][NR][NS], d3gdrds2[NR][NS][NS],
+            d3gds3[NS][NS][NS], dsdr[NS][NR], temp[NS];
+        gsl_matrix_view mvToDsdr = gsl_matrix_view_array((double *) dsdr, (size_t) NS, (size_t) NR),
+            mvToD2gdrds = gsl_matrix_view_array((double *) d2gdrds, (size_t) NR, (size_t) NS);
+        gsl_vector_view vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l, m, n;
+
+        fillD2GDRDS
+        fillD3GDR2DS
+        fillD3GDRDS2
+        fillD3GDS3
+
+        /* compute dsdr matrix */
+        /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
+        for (j=0; j<NR; j++) {
+            gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
+            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
-        drt[i][j] = 0.0;
-        for (k=0; k<NS; k++) drt[i][j] += - d2gds2[i][k]*temp[k];
-      }
-    }
 
-  }
-
-  if (mask & SEVENTH) {   /* compute d2s/drp */
-    double *s = sOld;
-    double d2gdrds[NR][NS], d2gdsdp[NS], d3gdrds2[NR][NS][NS],
-      d3gdrdsdp[NR][NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS], dsdr[NS][NR],
-      dsdp[NS], temp[NS];
-    int k, l, m;
-
-    fillD2GDRDS
-    fillD2GDSDP
-    fillD3GDRDS2
-    fillD3GDRDSDP
-    fillD3GDS3
-    fillD3GDS2DP
-
-    /* compute dsdr matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        dsdr[i][j] = 0.0; 
-        for (k=0; k<NS; k++) dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k];
-      }
-    }
-
-    /* compute dsdp vector */
-    for (i=0; i<NS; i++) {
-      dsdp[i] = 0.0;
-      for (j=0; j<NS; j++) dsdp[i] += - d2gds2[i][j]*d2gdsdp[j];
-    }
-
-    /* compute dsdrdp matrix */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NR; j++) {
-        for (k=0; k<NS; k++) {
-          temp[k] = d3gdrdsdp[j][k];
-          for (l=0; l<NS; l++) {
-             temp[k] += d3gdrds2[j][k][l]*dsdp[l] + d3gds2dp[k][l]*dsdr[l][j];
-             for (m=0; m<NS; m++) temp[k] += d3gds3[k][l][m]*dsdr[l][j]*dsdp[m];
-          }
+        /* compute dsdr2 cube */
+        for (j=0; j<NR; j++) {
+            for (k=0; k<NR; k++) {
+                for (l=0; l<NS; l++) {
+                    temp[l] = d3gdr2ds[j][k][l];
+                    for (m=0; m<NS; m++) {
+                        temp[l] += d3gdrds2[j][l][m]*dsdr[m][k]
+                            + d3gdrds2[k][l][m]*dsdr[m][j];
+                        for (n=0; n<NS; n++)
+                            temp[l] += d3gds3[l][m][n]*dsdr[m][j]*dsdr[n][k];
+                    }
+                    }
+                /* original: dr2[i][j][k] += - d2gds2[i][l]*temp[l]; */
+                melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+                for (l=0; l<NS; l++) dr2[l][j][k] = temp[l];
+            }
         }
-        drp[i][j] = 0.0;
-        for (k=0; k<NS; k++) drp[i][j] += - d2gds2[i][k]*temp[k];
-      }
+
     }
 
-  }
+    if (mask & SIXTH) {   /* compute d2s/drt */
+        double *s = sOld;
+        double d2gdrds[NR][NS], d2gdsdt[NS], d3gdrds2[NR][NS][NS],
+            d3gdrdsdt[NR][NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], dsdr[NS][NR],
+            dsdt[NS], temp[NS];
+        gsl_matrix_view mvToDsdr = gsl_matrix_view_array((double *) dsdr, (size_t) NS, (size_t) NR),
+            mvToD2gdrds = gsl_matrix_view_array((double *) d2gdrds, (size_t) NR, (size_t) NS);
+        gsl_vector_view vvToDsdt = gsl_vector_view_array(dsdt, (size_t) NS),
+            vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l, m;
 
-  if (mask & EIGHTH) {   /* compute d2s/dt2 */
-    double *s = sOld;
-    double d2gdsdt[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gdsdt2[NS],
-      dsdt[NS], temp[NS];
-    int k, l;
+        fillD2GDRDS
+        fillD2GDSDT
+        fillD3GDRDS2
+        fillD3GDRDSDT
+        fillD3GDS3
+        fillD3GDS2DT
 
-    fillD2GDSDT
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDSDT2
-
-    /* compute dsdt vector */
-    for (i=0; i<NS; i++) {
-      dsdt[i] = 0.0;
-      for (j=0; j<NS; j++) dsdt[i] += - d2gds2[i][j]*d2gdsdt[j];
-    }
-
-    /* compute dsdt2 vector */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NS; j++) { 
-        temp[j] = d3gdsdt2[j];
-        for (k=0; k<NS; k++) {
-          temp[j] +=  2.0*d3gds2dt[j][k]*dsdt[k];
-          for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdt[k]*dsdt[l];
+        /* compute dsdr matrix */
+        /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
+        for (j=0; j<NR; j++) {
+            gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
+            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
-      }
-      dt2[i] = 0.0;
-      for (j=0; j<NS; j++) dt2[i] += - d2gds2[i][j]*temp[j];
-    } 
 
-  }
+        /* compute dsdt vector */
+        /* original: dsdt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDsdt.vector);
 
-  if (mask & NINTH) {   /* compute d2s/dtp */
-    double *s = sOld;
-    double d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS],
-      d3gds2dp[NS][NS], d3gdsdtdp[NS], dsdt[NS], dsdp[NS], temp[NS];
-    int k, l;
-
-    fillD2GDSDT
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDS2DP
-    fillD3GDSDTDP
-
-    /* compute dsdt vector */
-    for (i=0; i<NS; i++) {
-      dsdt[i] = 0.0;
-      for (j=0; j<NS; j++) dsdt[i] += - d2gds2[i][j]*d2gdsdt[j];
-    }
-
-    /* compute dsdp vector */
-    for (i=0; i<NS; i++) {
-      dsdp[i] = 0.0;
-      for (j=0; j<NS; j++) dsdp[i] += - d2gds2[i][j]*d2gdsdp[j];
-    }
-
-    /* compute dsdtp vector */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NS; j++) {
-        temp[j] = d3gdsdtdp[j];
-        for (k=0; k<NS; k++) {
-          temp[j] += d3gds2dt[j][k]*dsdp[k] + d3gds2dp[j][k]*dsdt[k];
-          for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdt[k]*dsdp[l];
+        /* compute dsdrdt matrix */
+        for (j=0; j<NR; j++) {
+            for (k=0; k<NS; k++) {
+                temp[k] = d3gdrdsdt[j][k];
+                for (l=0; l<NS; l++) {
+                    temp[k] += d3gdrds2[j][k][l]*dsdt[l] + d3gds2dt[k][l]*dsdr[l][j];
+                    for (m=0; m<NS; m++) temp[k] += d3gds3[k][l][m]*dsdr[l][j]*dsdt[m];
+                }
+            }
+            /* original: drt[i][j] += - d2gds2[i][k]*temp[k]; */
+            melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+            for (k=0; k<NS; k++) drt[k][j] = temp[k];
         }
-      }
-      dtp[i] = 0.0;
-      for (j=0; j<NS; j++) dtp[i] += - d2gds2[i][j]*temp[j];
+
     }
+    if (mask & SEVENTH) {   /* compute d2s/drp */
+        double *s = sOld;
+        double d2gdrds[NR][NS], d2gdsdp[NS], d3gdrds2[NR][NS][NS],
+            d3gdrdsdp[NR][NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS], dsdr[NS][NR],
+            dsdp[NS], temp[NS];
+        gsl_matrix_view mvToDsdr = gsl_matrix_view_array((double *) dsdr, (size_t) NS, (size_t) NR),
+            mvToD2gdrds = gsl_matrix_view_array((double *) d2gdrds, (size_t) NR, (size_t) NS);
+        gsl_vector_view vvToDsdp = gsl_vector_view_array(dsdp, (size_t) NS),
+            vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l, m;
 
-  }
+        fillD2GDRDS
+        fillD2GDSDP
+        fillD3GDRDS2
+        fillD3GDRDSDP
+        fillD3GDS3
+        fillD3GDS2DP
 
-  if (mask & TENTH) {   /* compute d2s/dp2 */
-    double *s = sOld;
-    double d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS], d3gdsdp2[NS],
-      dsdp[NS], temp[NS];
-    int k, l;
-
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DP
-    fillD3GDSDP2
-
-    /* compute dsdp vector */
-    for (i=0; i<NS; i++) {
-      dsdp[i] = 0.0;
-      for (j=0; j<NS; j++) dsdp[i] += - d2gds2[i][j]*d2gdsdp[j];
-    }
-
-    /* compute dsdp2 vector */
-    for (i=0; i<NS; i++) {
-      for (j=0; j<NS; j++) { 
-        temp[j] = d3gdsdp2[j];
-        for (k=0; k<NS; k++) {
-          temp[j] +=  2.0*d3gds2dp[j][k]*dsdp[k];
-          for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdp[k]*dsdp[l];
+        /* compute dsdr matrix */
+        /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
+        for (j=0; j<NR; j++) {
+            gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
+            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
-      }
-      dp2[i] = 0.0;
-      for (j=0; j<NS; j++) dp2[i] += - d2gds2[i][j]*temp[j];
-    } 
 
-  }
+        /* compute dsdp vector */
+        /* original: dsdp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDsdp.vector);
+
+        /* compute dsdrdp matrix */
+        for (j=0; j<NR; j++) {
+            for (k=0; k<NS; k++) {
+                temp[k] = d3gdrdsdp[j][k];
+                for (l=0; l<NS; l++) {
+                    temp[k] += d3gdrds2[j][k][l]*dsdp[l] + d3gds2dp[k][l]*dsdr[l][j];
+                    for (m=0; m<NS; m++) temp[k] += d3gds3[k][l][m]*dsdr[l][j]*dsdp[m];
+                }
+            }
+            /* original: drp[i][j] += - d2gds2[i][k]*temp[k]; */
+            melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+            for (k=0; k<NS; k++) drp[k][j] = temp[k];
+        }
+
+    }
+    if (mask & EIGHTH) {   /* compute d2s/dt2 */
+        double *s = sOld;
+        double d2gdsdt[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gdsdt2[NS],
+            dsdt[NS], temp[NS];
+        gsl_vector_view vvToDsdt = gsl_vector_view_array(dsdt, (size_t) NS),
+            vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l;
+
+        fillD2GDSDT
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDSDT2
+
+        /* compute dsdt vector */
+        /* original: dsdt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDsdt.vector);
+
+        /* compute dsdt2 vector */
+        for (j=0; j<NS; j++) {
+            temp[j] = d3gdsdt2[j];
+            for (k=0; k<NS; k++) {
+                temp[j] +=  2.0*d3gds2dt[j][k]*dsdt[k];
+                for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdt[k]*dsdt[l];
+            }
+        }
+        /* original: dt2[i] += - d2gds2[i][j]*temp[j]; */
+        melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+        for (j=0; j<NS; j++) dt2[j] = temp[j];
+
+    }
+    if (mask & NINTH) {   /* compute d2s/dtp */
+        double *s = sOld;
+        double d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS],
+            d3gds2dp[NS][NS], d3gdsdtdp[NS], dsdt[NS], dsdp[NS], temp[NS];
+        gsl_vector_view vvToDsdt = gsl_vector_view_array(dsdt, (size_t) NS),
+            vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS),
+            vvToDsdp = gsl_vector_view_array(dsdp, (size_t) NS),
+            vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l;
+
+        fillD2GDSDT
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDS2DP
+        fillD3GDSDTDP
+
+        /* compute dsdt vector */
+        /* original: dsdt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDsdt.vector);
+
+        /* compute dsdp vector */
+        /* original: dsdp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDsdp.vector);
+
+        /* compute dsdtp vector */
+        for (j=0; j<NS; j++) {
+            temp[j] = d3gdsdtdp[j];
+            for (k=0; k<NS; k++) {
+                temp[j] += d3gds2dt[j][k]*dsdp[k] + d3gds2dp[j][k]*dsdt[k];
+                for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdt[k]*dsdp[l];
+            }
+        }
+        /* original: dtp[i] += - d2gds2[i][j]*temp[j]; */
+        melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+        for (j=0; j<NS; j++) dtp[j] = temp[j];
+
+    }
+    if (mask & TENTH) {   /* compute d2s/dp2 */
+        double *s = sOld;
+        double d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS], d3gdsdp2[NS],
+            dsdp[NS], temp[NS];
+        gsl_vector_view vvToDsdp = gsl_vector_view_array(dsdp, (size_t) NS),
+            vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS),
+            vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
+        int k, l;
+
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DP
+        fillD3GDSDP2
+
+        /* compute dsdp vector */
+        /* original: dsdp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+        melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDsdp.vector);
+
+        /* compute dsdp2 vector */
+        for (j=0; j<NS; j++) {
+            temp[j] = d3gdsdp2[j];
+            for (k=0; k<NS; k++) {
+                temp[j] +=  2.0*d3gds2dp[j][k]*dsdp[k];
+                for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dsdp[k]*dsdp[l];
+            }
+        }
+        /* original: dp2[i] += - d2gds2[i][j]*temp[j]; */
+        melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+        for (j=0; j<NS; j++) dp2[j] = temp[j];
+
+    }
 
 }
 
@@ -1244,8 +1272,8 @@ testNph(int mask, double t, double p,
   double *m)       /* array of moles of endmember components, check bounds    */
 {
   const char *phase = "nepheline.c";
-  const char *NAMES[NA]    = { "na-nepheline", "k-nepheline", "vc-nepheline", "ca-nepheline" }; 
-  const char *FORMULAS[NA] = { "Na4Al4Si4O16", "K4Al4Si4O16", "Na3Al3Si5O16", "CaNa2Al4Si4O16" }; 
+  const char *NAMES[NA]    = { "na-nepheline", "k-nepheline", "vc-nepheline", "ca-nepheline" };
+  const char *FORMULAS[NA] = { "Na4Al4Si4O16", "K4Al4Si4O16", "Na3Al3Si5O16", "CaNa2Al4Si4O16" };
   int result = TRUE, i;
   double sum;
 
@@ -1285,7 +1313,7 @@ testNph(int mask, double t, double p,
     result = result && (r[2] >= 0.0) && (r[2] <= 1.0+sqrt(DBL_EPSILON));                       /* tot Ca */
     result = result && (r[1]+r[2] >= 0.0) && (r[1]+r[2] <= 1.0+sqrt(DBL_EPSILON));             /* tot Vc */
     result = result && (4.0-r[1] >= 3.0-sqrt(DBL_EPSILON)) && (4.0-r[1] <= 5.0+sqrt(DBL_EPSILON));   /* tot Al */
-    result = result && (4.0+r[1] >= 3.0-sqrt(DBL_EPSILON)) && (4.0+r[1] <= 5.0+sqrt(DBL_EPSILON));   /* tot Si */ 
+    result = result && (4.0+r[1] >= 3.0-sqrt(DBL_EPSILON)) && (4.0+r[1] <= 5.0+sqrt(DBL_EPSILON));   /* tot Si */
   }
   /* Check bounds on moles of endmember components */
   if (mask & SIXTH) {
@@ -1345,7 +1373,7 @@ testNph(int mask, double t, double p,
       pResult = (4.0*m[0]+4.0*m[1]+3.0*m[2]+4.0*m[3] >= 3.0*sum-sqrt(DBL_EPSILON))  /* tot Al */
              && (4.0*m[0]+4.0*m[1]+3.0*m[2]+4.0*m[3] <= 5.0*sum+sqrt(DBL_EPSILON));
 #ifdef DEBUG
-      if (!pResult) printf("Bound check tot Al: %g <= %g <= %g\n", 3.0*sum, 
+      if (!pResult) printf("Bound check tot Al: %g <= %g <= %g\n", 3.0*sum,
         4.0*m[0]+4.0*m[1]+3.0*m[2]+4.0*m[3], 5.0*sum);
 #endif
       result = result && pResult;
@@ -1353,7 +1381,7 @@ testNph(int mask, double t, double p,
       pResult = (4.0*m[0]+4.0*m[1]+5.0*m[2]+4.0*m[3] >= 3.0*sum-sqrt(DBL_EPSILON))  /* tot Si */
              && (4.0*m[0]+4.0*m[1]+5.0*m[2]+4.0*m[3] <= 5.0*sum+sqrt(DBL_EPSILON));
 #ifdef DEBUG
-      if (!pResult) printf("Bound check tot Si: %g <= %g <= %g\n", 3.0*sum, 
+      if (!pResult) printf("Bound check tot Si: %g <= %g <= %g\n", 3.0*sum,
         4.0*m[0]+4.0*m[1]+5.0*m[2]+4.0*m[3], 5.0*sum);
 #endif
       result = result && pResult;
@@ -1365,10 +1393,10 @@ testNph(int mask, double t, double p,
 
 void
 conNph(int inpMask, int outMask, double t, double p,
-  double *e,      /* comp of spinel in moles of elements                      */
-  double *m,      /* comp of spinel in moles of endmember components          */
-  double *r,      /* comp of spinel in terms of the independent comp var      */
-  double *x,      /* comp of spinel in mole fractions of endmember comp       */
+  double *e,      /* comp of nepheline in moles of elements                      */
+  double *m,      /* comp of nepheline in moles of endmember components          */
+  double *r,      /* comp of nepheline in terms of the independent comp var      */
+  double *x,      /* comp of nepheline in mole fractions of endmember comp       */
   double **dm,    /* Jacobian matrix: dm[i][j] = dr[i]/dm[j]                  */
   double ***d2m,  /* vector of matrices: d2m[i][j][k] = d2r[i]/dm[j]dm[k]     */
   double **dr,    /* Jacobian matrix: dr[i][j] = dx[i]/dr[j]                  */
@@ -1379,31 +1407,31 @@ conNph(int inpMask, int outMask, double t, double p,
     combinations are:
 
        inpMask          outMask
-  (1)  FIRST            SECOND
-  (2)  SECOND           THIRD  | FOURTH  | FIFTH | SIXTH | EIGHTH
-  (3)  THIRD            FOURTH | SEVENTH
+    (1)  FIRST            SECOND
+    (2)  SECOND           THIRD  | FOURTH  | FIFTH | SIXTH | EIGHTH
+    (3)  THIRD            FOURTH | SEVENTH
 
-  (1) converts a vector of moles of elements into a vector of moles of
-      endmember spinel components.
-  (2) calculates from a vector of moles of endmember components, one or
-      all of: r[], x[], dr[]/dm[], d2r[]/dm[]dm[], or d3r[]/dm[]dm[]dm[]
-  (3) calculates from a vector of independent compositional variables
-      mole fractions of endmember components and/or the Jacobian matrix
-      dx[]/dr[]
+    (1) converts a vector of moles of elements into a vector of moles of
+            endmember nepheline components.
+    (2) calculates from a vector of moles of endmember components, one or
+            all of: r[], x[], dr[]/dm[], d2r[]/dm[]dm[], or d3r[]/dm[]dm[]dm[]
+    (3) calculates from a vector of independent compositional variables
+            mole fractions of endmember components and/or the Jacobian matrix
+            dx[]/dr[]
 
-  In this routine it is assumed that the elements are in the order of atomic
-  numbers and that the order of spinel components has been verified as:
-      m[0] = na-nepheline   (Na4Al4Si4O16) ,
-      m[1] = k-nepheline    (K4Al4Si4O16), 
-      m[2] = vc-nepheline   (Na3Al3Si5O16),
-      m[3] = ca-nepheline   (CaNa2Al4Si4O16),
+    In this routine it is assumed that the elements are in the order of atomic
+    numbers and that the order of nepheline components has been verified as:
+            m[0] = na-nepheline   (Na4Al4Si4O16) ,
+            m[1] = k-nepheline    (K4Al4Si4O16),
+            m[2] = vc-nepheline   (Na3Al3Si5O16),
+            m[3] = ca-nepheline   (CaNa2Al4Si4O16),
 
-  ----------------------------------------------------------------------------*/
+    ----------------------------------------------------------------------------*/
 
-  int i, j, k;
+    int i, j, k;
 
-  if (inpMask == FIRST && outMask == SECOND) {
-    /* Converts a vector of moles of elements into a vector of moles of
+    if (inpMask == FIRST && outMask == SECOND) {
+        /* Converts a vector of moles of elements into a vector of moles of
        end-member components.                                                 */
     static const int Na = 11;
     static const int Mg = 12;
@@ -1430,10 +1458,10 @@ conNph(int inpMask, int outMask, double t, double p,
     for (i=0, sum=0.0; i<NA; i++) sum += m[i];
 
     if (outMask & THIRD) {
-      /* Converts a vector of moles of end-member components (m) into a vector 
-         of independent compositional variables (r) required as input for the 
+      /* Converts a vector of moles of end-member components (m) into a vector
+         of independent compositional variables (r) required as input for the
          remaining public functions.                                          */
-      r[0] = (sum != 0.0) ? m[1]/sum : 0.0;  /* X2 = X K4Al4Si4O16    */ 
+      r[0] = (sum != 0.0) ? m[1]/sum : 0.0;  /* X2 = X K4Al4Si4O16    */
       r[1] = (sum != 0.0) ? m[2]/sum : 0.0;  /* X3 = X Na3Al3Si5O16   */
       r[2] = (sum != 0.0) ? m[3]/sum : 0.0;  /* X4 = X CaNa2Al4Si4O16 */
     }
@@ -1586,8 +1614,8 @@ dispNph(int mask, double t, double p, double *x,
   }
 }
 
-void 
-actNph(int mask, double t, double p, double *x, 
+void
+actNph(int mask, double t, double p, double *x,
   double *a,  /* (pointer to a[]) activities              BINARY MASK: 0001 */
   double *mu, /* (pointer to mu[]) chemical potentials    BINARY MASK: 0010 */
   double **dx /* (pointer to dx[][]) d(a[])/d(x[])        BINARY MASK: 0100 */
@@ -1605,12 +1633,12 @@ actNph(int mask, double t, double p, double *x,
      fr[i][2] = FR4(i); /* X4 */
   }
 
-  order(FIRST, t, p, r, 
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
   g       = G;
-  dgdr[0] = DGDR0;          
+  dgdr[0] = DGDR0;
   dgdr[1] = DGDR1;
   dgdr[2] = DGDR2;
 
@@ -1652,7 +1680,7 @@ actNph(int mask, double t, double p, double *x,
        dgsds[i][0] = DGS1DS1(i); /* s1 */
     }
 
-    order(SECOND, t, p, r, 
+    order(SECOND, t, p, r,
           NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NA; i++) {
@@ -1682,7 +1710,7 @@ actNph(int mask, double t, double p, double *x,
        0.05,  /* exclusion criteria on the mole fraction of Na+  */
        0.05,  /* exclusion criteria on the mole fraction of K+   */
        0.05,  /* exclusion criteria on the mole fraction of Vc   */
-       0.05,  /* exclusion criteria on the mole fraction of Ca++ */ 
+       0.05,  /* exclusion criteria on the mole fraction of Ca++ */
     };
     double x[NA], totNa, totK, totCa, totVc;
 
@@ -1695,7 +1723,7 @@ actNph(int mask, double t, double p, double *x,
     x[1] = totK/4.0;    /* K+ averaged on both sites  */
     x[2] = totVc-totCa; /* Vc on large site           */
     x[3] = totCa;       /* Ca on small site           */
-    
+
     for (i=0; i<NA; i++) {
       if (x[i] < exclusion[i]) {
         if (mask & FIRST)  a[i]  = 0.0;
@@ -1707,8 +1735,8 @@ actNph(int mask, double t, double p, double *x,
 
 }
 
-void 
-gmixNph(int mask, double t, double p, double *x, 
+void
+gmixNph(int mask, double t, double p, double *x,
   double *gmix, /* Gibbs energy of mixing             BINARY MASK: 0001 */
   double *dx,   /* (pointer to dx[]) d(g)/d(x[])      BINARY MASK: 0010 */
   double **dx2, /* (pointer to dx2[][]) d2(g)/d(x[])2 BINARY MASK: 0100 */
@@ -1719,14 +1747,14 @@ gmixNph(int mask, double t, double p, double *x,
   double *r = x;
   double s[NS];
 
-  order(FIRST, t, p, r, 
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
   if (mask & FIRST) {
     *gmix = G;
   }
-  
+
   if(mask & SECOND) {
     dx[0] = DGDR0;
     dx[1] = DGDR1;
@@ -1741,14 +1769,14 @@ gmixNph(int mask, double t, double p, double *x,
     fillD2GDRDS
     fillD2GDS2
 
-    order(SECOND, t, p, r, 
+    order(SECOND, t, p, r,
           NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
       for (j=0; j<NR; j++) {
         dx2[i][j] = d2gdr2[i][j];
         for (k=0; k<NS; k++) {
-          dx2[i][j] += d2gdrds[i][k]*dsdr[k][j] + d2gdrds[j][k]*dsdr[k][i]; 
+          dx2[i][j] += d2gdrds[i][k]*dsdr[k][j] + d2gdrds[j][k]*dsdr[k][i];
           for (l=0; l<NS; l++) dx2[i][j] += d2gds2[k][l]*dsdr[k][i]*dsdr[l][j];
         }
       }
@@ -1766,7 +1794,7 @@ gmixNph(int mask, double t, double p, double *x,
     fillD3GDRDS2
     fillD3GDS3
 
-    order(SECOND, t, p, r, 
+    order(SECOND, t, p, r,
           NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
@@ -1777,7 +1805,7 @@ gmixNph(int mask, double t, double p, double *x,
             dx3[i][j][k] += d3gdr2ds[i][j][l]*dsdr[l][k] +
               d3gdr2ds[j][k][l]*dsdr[l][i] + d3gdr2ds[k][i][l]*dsdr[l][j];
             for (m=0; m<NS; m++) {
-              dx3[i][j][k] += 
+              dx3[i][j][k] +=
                 d3gdrds2[i][l][m]*dsdr[l][j]*dsdr[m][k] +
                 d3gdrds2[j][l][m]*dsdr[l][k]*dsdr[m][i] +
                 d3gdrds2[k][l][m]*dsdr[l][i]*dsdr[m][j];
@@ -1794,24 +1822,24 @@ gmixNph(int mask, double t, double p, double *x,
 
 }
 
-void 
-hmixNph(int mask, double t, double p, double *x, 
+void
+hmixNph(int mask, double t, double p, double *x,
   double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
   )
 {
   DECLARE_SITE_FRACTIONS
   double *r = x;
   double s[NS];
-  
-  order(FIRST, t, p, r, 
+
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
   *hmix = (G) + t*(S);
 }
 
-void 
-smixNph(int mask, double t, double p, double *x, 
+void
+smixNph(int mask, double t, double p, double *x,
   double *smix, /* Entropy of mixing                  BINARY MASK: 001 */
   double *dx,   /* (pointer to dx[]) d(s)/d(x[])      BINARY MASK: 010 */
   double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
@@ -1821,14 +1849,14 @@ smixNph(int mask, double t, double p, double *x,
   double *r = x;
   double s[NS];
 
-  order(FIRST, t, p, r, 
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
   if (mask & FIRST) {
-    *smix = S; 
+    *smix = S;
   }
-  
+
   if(mask & SECOND) {
     double d2gdrds[NR][NS], d2gdrdt[NR], d2gds2[NS][NS], d2gdsdt[NS],
       dsdr[NS][NR], dsdt[NS];
@@ -1839,9 +1867,9 @@ smixNph(int mask, double t, double p, double *x,
     fillD2GDS2
     fillD2GDSDT
 
-    order(SECOND | THIRD, t, p, r, 
+    order(SECOND | THIRD, t, p, r,
           NULL, dsdr, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-    
+
     for (i=0; i<NR; i++) {
       dx[i] = d2gdrdt[i];
       for (k=0; k<NS; k++) {
@@ -1869,27 +1897,27 @@ smixNph(int mask, double t, double p, double *x,
     fillD3GDS3
     fillD3GDS2DT
 
-    order(SECOND | THIRD | FIFTH | SIXTH, t, p, r, 
+    order(SECOND | THIRD | FIFTH | SIXTH, t, p, r,
           NULL, dsdr, dsdt, NULL, d2sdr2, d2sdrdt, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) { 
+      for (j=0; j<NR; j++) {
         dx2[i][j] = d3gdr2dt[i][j];
         for (k=0; k<NS; k++) {
-          dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k] 
-                     + d3gdrdsdt[i][k]*dsdr[k][j] 
-                     + d3gdrdsdt[j][k]*dsdr[k][i] 
+          dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k]
+                     + d3gdrdsdt[i][k]*dsdr[k][j]
+                     + d3gdrdsdt[j][k]*dsdr[k][i]
                      + d2gdsdt[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdt[k][j] 
+                     + d2gdrds[i][k]*d2sdrdt[k][j]
                      + d2gdrds[j][k]*d2sdrdt[k][i];
           for (l=0; l<NS; l++) {
             dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdt[l]
                        + d3gdrds2[j][k][l]*dsdr[k][i]*dsdt[l]
-                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l] 
+                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l]
                        + d3gds2dt[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j] 
+                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j]
                        + d2gds2[k][l]*dsdr[k][j]*d2sdrdt[l][i];
-            for (m=0; m<NS; m++) 
+            for (m=0; m<NS; m++)
               dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdt[m];
           }
         }
@@ -1901,8 +1929,8 @@ smixNph(int mask, double t, double p, double *x,
 
 }
 
-void 
-cpmixNph(int mask, double t, double p, double *x, 
+void
+cpmixNph(int mask, double t, double p, double *x,
   double *cpmix, /* Heat capacity of mixing               BINARY MASK: 001 */
   double *dt,    /* d(cp)/d(t)                            BINARY MASK: 010 */
   double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
@@ -1913,7 +1941,7 @@ cpmixNph(int mask, double t, double p, double *x,
   double s[NS], dsdt[NS], d2gdsdt[NS], d2gds2[NS][NS], d2gdt2;
   int i, j;
 
-  order(FIRST | THIRD, t, p, r, 
+  order(FIRST | THIRD, t, p, r,
         s, NULL, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
@@ -1926,7 +1954,7 @@ cpmixNph(int mask, double t, double p, double *x,
     *cpmix = d2gdt2;
     for (i=0; i<NS; i++) {
       *cpmix += 2.0*d2gdsdt[i]*dsdt[i];
-      for (j=0; j<NS; j++) *cpmix += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
+      for (j=0; j<NS; j++) *cpmix += d2gds2[i][j]*dsdt[i]*dsdt[j];
     }
     *cpmix *= -t;
   }
@@ -1941,30 +1969,30 @@ cpmixNph(int mask, double t, double p, double *x,
     fillD3GDS2DT
     fillD3GDSDT2
 
-    order(EIGHTH, t, p, r, 
+    order(EIGHTH, t, p, r,
           NULL, NULL, NULL, NULL, NULL, NULL, NULL, d2sdt2, NULL, NULL);
 
     /* compute d2gdt2 */
     temp = d2gdt2;
     for (i=0; i<NS; i++) {
       temp += 2.0*d2gdsdt[i]*dsdt[i];
-      for (j=0; j<NS; j++) temp += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
+      for (j=0; j<NS; j++) temp += d2gds2[i][j]*dsdt[i]*dsdt[j];
     }
 
     *dt = d3gdt3;
     for (i=0; i<NS; i++) {
-      *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i]; 
+      *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i];
       for (j=0; j<NS; j++) {
-        *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j] 
+        *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j]
              + 3.0*d3gds2dt[i][j]*dsdt[i]*dsdt[j];
-        for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k]; 
+        for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k];
       }
     }
     *dt = -t*(*dt) - temp;
   }
 
   if(mask & THIRD) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS], 
+    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
       d3gds2dt[NS][NS], d2gdrds[NR][NS], d3gdrdt2[NR], d3gdsdt2[NS],
       dsdr[NS][NR], d2sdrdt[NS][NR], d2sdt2[NS];
     int k, l;
@@ -1977,7 +2005,7 @@ cpmixNph(int mask, double t, double p, double *x,
     fillD3GDS2DT
     fillD3GDSDT2
 
-    order(SECOND | SIXTH | EIGHTH, t, p, r, 
+    order(SECOND | SIXTH | EIGHTH, t, p, r,
           NULL, dsdr, NULL, NULL, NULL, d2sdrdt, NULL, d2sdt2, NULL, NULL);
 
     for (i=0; i<NR; i++) {
@@ -1985,11 +2013,11 @@ cpmixNph(int mask, double t, double p, double *x,
         dx[i] += d3gdsdt2[j]*dsdr[j][i] + 2.0*d2gdsdt[j]*d2sdrdt[j][i] +
                  2.0*d3gdrdsdt[i][j]*dsdt[j] + d2gdrds[i][j]*d2sdt2[j];
         for (k=0; k<NS; k++) {
-          dx[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdt[k] + 
+          dx[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdt[k] +
                    2.0*d2gds2[j][k]*dsdt[j]*d2sdrdt[k][i] +
                    2.0*d3gds2dt[j][k]*dsdr[j][i]*dsdt[k] +
                    d2gds2[j][k]*dsdr[j][i]*d2sdt2[k];
-          for (l=0; l<NS; l++) 
+          for (l=0; l<NS; l++)
             dx[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdt[l];
         }
       }
@@ -1999,8 +2027,8 @@ cpmixNph(int mask, double t, double p, double *x,
 
 }
 
-void 
-vmixNph(int mask, double t, double p, double *x, 
+void
+vmixNph(int mask, double t, double p, double *x,
   double *vmix, /* Volume of mixing                BINARY MASK: 0000000001 */
   double *dx,   /* (pointer to dx[]) d(v)/d(x[])   BINARY MASK: 0000000010 */
   double **dx2, /* (point to dx2[][]) d(v)/d(x[])2 BINARY MASK: 0000000100 */
@@ -2016,8 +2044,8 @@ vmixNph(int mask, double t, double p, double *x,
   DECLARE_SITE_FRACTIONS
   double *r = x;
   double s[NS];
-  
-  order(FIRST, t, p, r, 
+
+  order(FIRST, t, p, r,
         s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   GET_SITE_FRACTIONS
 
@@ -2035,7 +2063,7 @@ vmixNph(int mask, double t, double p, double *x,
     fillD2GDS2
     fillD2GDSDP
 
-    order(SECOND | FOURTH, t, p, r, 
+    order(SECOND | FOURTH, t, p, r,
           NULL, dsdr, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
@@ -2064,27 +2092,27 @@ vmixNph(int mask, double t, double p, double *x,
     fillD3GDS3
     fillD3GDS2DP
 
-    order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r, 
+    order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r,
           NULL, dsdr, NULL, dsdp, d2sdr2, NULL, d2sdrdp,  NULL, NULL, NULL);
 
     for (i=0; i<NR; i++) {
       for (j=0; j<NR; j++) {
-        dx2[i][j] = d3gdr2dp[i][j]; 
+        dx2[i][j] = d3gdr2dp[i][j];
         for (k=0; k<NS; k++) {
           dx2[i][j] += d3gdr2ds[i][j][k]*dsdp[k]
-                     + d3gdrdsdp[i][k]*dsdr[k][j] 
+                     + d3gdrdsdp[i][k]*dsdr[k][j]
                      + d3gdrdsdp[j][k]*dsdr[k][i]
                      + d2gdsdp[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdp[k][j] 
+                     + d2gdrds[i][k]*d2sdrdp[k][j]
                      + d2gdrds[j][k]*d2sdrdp[k][i];
           for (l=0; l<NS; l++) {
             dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdp[l]
                        + d3gdrds2[j][k][l]*dsdr[k][i]*dsdp[l]
                        + d2gds2[k][l]*d2sdr2[k][i][j]*dsdp[l]
                        + d3gds2dp[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j] 
-                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];  
-            for (m=0; m<NS; m++) 
+                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j]
+                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];
+            for (m=0; m<NS; m++)
               dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdp[m];
           }
         }
@@ -2102,14 +2130,14 @@ vmixNph(int mask, double t, double p, double *x,
     fillD2GDSDT
     fillD2GDSDP
 
-    order(THIRD | FOURTH, t, p, r, 
+    order(THIRD | FOURTH, t, p, r,
           NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
     *dt = d2gdtdp;
     for (i=0; i<NS; i++) {
       *dt += d2gdsdt[i]*dsdp[i] + d2gdsdp[i]*dsdt[i];
       for (j=0; j<NS; j++) *dt += d2gds2[i][j]*dsdt[i]*dsdp[j];
-    } 
+    }
   }
 
   if(mask & FIFTH) {
@@ -2120,7 +2148,7 @@ vmixNph(int mask, double t, double p, double *x,
     fillD2GDS2
     fillD2GDSDP
 
-    order(FOURTH, t, p, r, 
+    order(FOURTH, t, p, r,
           NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
     *dp = d2gdp2;
@@ -2146,19 +2174,19 @@ vmixNph(int mask, double t, double p, double *x,
     fillD3GDSDT2
     fillD3GDSDTDP
 
-    order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r, 
+    order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r,
           NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, d2sdt2, d2sdtdp, NULL);
 
     *dt2 = d3gdt2dp;
     for (i=0; i<NS; i++) {
-      *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i] 
+      *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i]
             + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
       for (j=0; j<NS; j++) {
         *dt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
               + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
               + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
               + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
-        for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k]; 
+        for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k];
       }
     }
   }
@@ -2179,19 +2207,19 @@ vmixNph(int mask, double t, double p, double *x,
     fillD3GDSDTDP
     fillD3GDSDP2
 
-    order(THIRD | FOURTH | NINTH | TENTH, t, p, r, 
+    order(THIRD | FOURTH | NINTH | TENTH, t, p, r,
           NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, d2sdtdp, d2sdp2);
 
     *dtdp = d3gdtdp2;
     for (i=0; i<NS; i++) {
-      *dtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]  
-             + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i]; 
+      *dtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]
+             + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i];
       for (j=0; j<NS; j++) {
-        *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j] 
-               + d2gds2[i][j]*dsdt[i]*d2sdp2[j] 
+        *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j]
+               + d2gds2[i][j]*dsdt[i]*d2sdp2[j]
                + 2.0*d2gds2[i][j]*d2sdtdp[i]*dsdp[j]
                + d3gds2dt[i][j]*dsdp[i]*dsdp[j];
-        for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k]; 
+        for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k];
       }
     }
   }
@@ -2208,12 +2236,12 @@ vmixNph(int mask, double t, double p, double *x,
     fillD3GDS2DP
     fillD3GDSDP2
 
-    order(FOURTH | TENTH, t, p, r, 
+    order(FOURTH | TENTH, t, p, r,
           NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, d2sdp2);
 
     *dp2 = d3gdp3;
     for (i=0; i<NS; i++) {
-      *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i]; 
+      *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i];
       for (j=0; j<NS; j++) {
         *dp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
               + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
@@ -2223,9 +2251,9 @@ vmixNph(int mask, double t, double p, double *x,
   }
 
   if(mask & NINTH) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS], 
+    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
       d3gds2dp[NS][NS], d2gdrds[NR][NS], d3gdrdtdp[NR], d3gdsdtdp[NS],
-      dsdt[NS], dsdp[NS], dsdr[NS][NR], d2sdrdt[NS][NR], d2sdrdp[NS][NR], 
+      dsdt[NS], dsdp[NS], dsdr[NS][NR], d2sdrdt[NS][NR], d2sdrdp[NS][NR],
       d2gds2[NS][NS], d2gdsdt[NS], d3gdrdsdp[NR][NS], d2gdsdp[NS],
       d2sdtdp[NS], d3gds2dt[NS][NS];
     int i, j, k, l;
@@ -2243,7 +2271,7 @@ vmixNph(int mask, double t, double p, double *x,
     fillD3GDSDTDP
     fillD3GDS2DP
 
-    order(SECOND | THIRD | FOURTH | SIXTH | SEVENTH | NINTH, t, p, r, 
+    order(SECOND | THIRD | FOURTH | SIXTH | SEVENTH | NINTH, t, p, r,
       NULL, dsdr, dsdt, dsdp, NULL, d2sdrdt, d2sdrdp, NULL, d2sdtdp, NULL);
 
     for (i=0; i<NR; i++) {
@@ -2252,13 +2280,13 @@ vmixNph(int mask, double t, double p, double *x,
                    d3gdrdsdt[i][j]*dsdp[j] + d2gdrds[i][j]*d2sdtdp[j] +
                    d3gdrdsdp[i][j]*dsdt[j] + d2gdsdp[j]*d2sdrdt[j][i];
         for (k=0; k<NS; k++) {
-          dxdt[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdp[k] + 
+          dxdt[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdp[k] +
                      d2gds2[j][k]*dsdt[j]*d2sdrdp[k][i] +
                      d2gds2[j][k]*dsdp[j]*d2sdrdt[k][i] +
                      d3gds2dt[j][k]*dsdr[j][i]*dsdp[k] +
                      d3gds2dp[j][k]*dsdr[j][i]*dsdt[k] +
                      d2gds2[j][k]*dsdr[j][i]*d2sdtdp[k];
-          for (l=0; l<NS; l++) 
+          for (l=0; l<NS; l++)
             dxdt[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdp[l];
         }
       }
@@ -2266,7 +2294,7 @@ vmixNph(int mask, double t, double p, double *x,
   }
 
   if(mask & TENTH) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gds2dp[NS][NS], 
+    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gds2dp[NS][NS],
       d2gdrds[NR][NS], dsdp[NS], dsdr[NS][NR], d2sdrdp[NS][NR], d2gds2[NS][NS],
       d3gdrdsdp[NR][NS], d3gdrdp2[NR], d3gdsdp2[NS], d2gdsdp[NS], d2sdp2[NS];
     int i, j, k, l;
@@ -2281,7 +2309,7 @@ vmixNph(int mask, double t, double p, double *x,
     fillD3GDS2DP
     fillD3GDSDP2
 
-    order(SECOND | FOURTH | SEVENTH | TENTH, t, p, r, 
+    order(SECOND | FOURTH | SEVENTH | TENTH, t, p, r,
       NULL, dsdr, NULL, dsdp, NULL, NULL, d2sdrdp, NULL, NULL, d2sdp2);
 
     for (i=0; i<NR; i++) {
@@ -2290,11 +2318,11 @@ vmixNph(int mask, double t, double p, double *x,
                    2.0*d3gdrdsdp[i][j]*dsdp[j] + d2gdrds[i][j]*d2sdp2[j] +
                    d2gdsdp[j]*d2sdrdp[j][i];
         for (k=0; k<NS; k++) {
-          dxdp[i] += d3gdrds2[i][j][k]*dsdp[j]*dsdp[k] + 
+          dxdp[i] += d3gdrds2[i][j][k]*dsdp[j]*dsdp[k] +
                      2.0*d2gds2[j][k]*dsdp[j]*d2sdrdp[k][i] +
                      2.0*d3gds2dp[j][k]*dsdr[j][i]*dsdp[k] +
                      d2gds2[j][k]*dsdr[j][i]*d2sdp2[k];
-          for (l=0; l<NS; l++) 
+          for (l=0; l<NS; l++)
             dxdp[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdp[k]*dsdp[l];
         }
       }

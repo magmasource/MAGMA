@@ -55,10 +55,11 @@ const char *check_coexisting_liquids_ver(void) { return "$Id: check_coexisting_l
  **--
  */
 
+#include "melts_gsl.h"
+
 #include "silmin.h"
 #include "nash.h"
 #include "lawson_hanson.h"
-#include "recipes.h"
 
 #define SQUARE(x) ((x)*(x))
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
@@ -106,31 +107,25 @@ static void   fmingr(int n, double *bVec, double *g);
 #define SUCCESS TRUE
 #define FAILURE FALSE
 
-static int choldc(double **a, int n) {
-    int i,j,k;
-    double sum, *p;
-    
-    p = dvector(0,nr);
-    for (i=0;i<n;i++) {
-        for (j=i;j<n;j++) {
-            for (sum=a[i][j],k=i-1;k>=0;k--) sum-=a[i][k]*a[j][k];
-            if (i==j) {
-                if (sum <= 0.0) return FAILURE;
-                p[i] = sqrt(sum);
-            } else a[j][i] = sum/p[i];
-        }
-    }
-    free_dvector(p,0,nr);
-    return TRUE;
+static int checkpd(gsl_matrix *a, int n) {
+    gsl_matrix_view p = gsl_matrix_submatrix(a, (size_t) 0, (size_t) 0, (size_t) n, (size_t) n);
+    int status;
+
+    (void) gsl_set_error_handler_off();
+    status = gsl_linalg_cholesky_decomp1(&p.matrix);
+    (void) gsl_set_error_handler(NULL);
+
+    return (status == GSL_SUCCESS);
 }
 
 int checkForCoexistingLiquids(  /* returns a MODE flag for success or failure */
                               void)
 {
+    static gsl_matrix *gHessMat;
     static double **bVec, *Fmin, **mVec, *rTr;
     double reltest;
-    int i, j, k, mode, np, nl, nHess, result;
-    
+    int i, j, k, l, mode, np, nl, nHess, result;
+
 #ifdef DEBUG
     printf("Call to checkForCoexistingLiquids\n");
 #endif
@@ -147,6 +142,7 @@ int checkForCoexistingLiquids(  /* returns a MODE flag for success or failure */
         dgRef    = (double *)  malloc((size_t) nr*sizeof(double));
         gHess    = (double **) malloc((size_t) nr*sizeof(double *));
         for (i=0; i<nr; i++) gHess[i] = (double *)  malloc((size_t) nr*sizeof(double));
+        gHessMat = gsl_matrix_alloc((size_t) nr, (size_t) nr);
         dxdr     = (double **) malloc((size_t) na*sizeof(double *));
         for (i=0; i<na; i++) dxdr[i]  = (double *)  malloc((size_t) nr*sizeof(double));
         Fmin     = (double *)  malloc((size_t) na*sizeof(double));
@@ -171,11 +167,17 @@ int checkForCoexistingLiquids(  /* returns a MODE flag for success or failure */
         gmixLiq(FIRST | SECOND | THIRD, t, p, bRef, &gRef, dgRef, gHess);
         
         /* Determine if the Hessian is positive definite */
-        for (i=0, k=0; i<nr; i++) if (bRef[i] != 0.0) { for (j=0; j<nr; j++)    gHess[k][j] = gHess[i][j]; k++; }
+        for (i=0, k=0; i<nr; i++) if (bRef[i] != 0.0) {
+            for (j=0, l=0; j<nr; j++) if (bRef[j] != 0.0) {
+                gsl_matrix_set(gHessMat, k, l, gHess[i][j]);
+                gsl_matrix_set(gHessMat, l, k, gHess[i][j]);
+                l++;
+            }
+            k++;
+        }
         nHess = k;
-        for (i=0, k=0; i<nr; i++) if (bRef[i] != 0.0) { for (j=0; j<nHess; j++) gHess[j][k] = gHess[j][i]; k++; }
-        
-        if (!choldc(gHess, nHess)) {
+
+        if (!checkpd(gHessMat, nHess)) {
 #ifdef DEBUG
             printf("Check for coexisting liquids called inside spinodal!\n");
 #endif
@@ -287,8 +289,9 @@ int checkForCoexistingLiquids(  /* returns a MODE flag for success or failure */
             (silminState->liquidDelta)[nl] = (double *) malloc((size_t) na*sizeof(double));
             
             /* Find the composition most distant from the initial composition */
-            for (i=0, j=0; i<np; i++) if (rTr[i] > rTr[j]) j = i; np = j;
-            
+            for (i=0, j=0; i<np; i++) if (rTr[i] > rTr[j]) j = i;
+            np = j;
+
             /* Add the new phase to the system */
             inmass = MASSIN;
             silminState->nLiquidCoexist++;

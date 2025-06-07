@@ -72,8 +72,8 @@ MELTS Source Code: RCS
 **--
 */
 
+#include "melts_gsl.h"
 #include "silmin.h"
-#include "recipes.h" /* Numerical recipes routines                */
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
@@ -102,129 +102,145 @@ static MTHREAD_ONCE_T initThreadOBlock = MTHREAD_ONCE_INIT;
 static MTHREAD_KEY_T tOldKey;
 static MTHREAD_KEY_T pOldKey;
 static MTHREAD_KEY_T sOldKey;
-static MTHREAD_KEY_T d2gds2Key;
 static MTHREAD_KEY_T ptToD2gds2Key;
+static MTHREAD_KEY_T d2gds2Key;
+static MTHREAD_KEY_T indexD2gds2Key;
 
 static void freeNSarray(void *NSarray) {
-  free_vector((double *) NSarray, 0, NS-1);
-}
-
-static void freeD2gds2(void *d2gds2) {
-  free_matrix((double **) d2gds2, 0, NS-1, 0, NS-1);
+    gsl_vector_free((gsl_vector *) NSarray);
 }
 
 static void freePtToD2gds2(void *ptToD2gds2) {
-  free_submatrix((double **) ptToD2gds2, 1, NS, 1, NS);
+    gsl_matrix_free((gsl_matrix *) ptToD2gds2);
+}
+
+static void freeIndexD2gds2(void *indexD2gds2) {
+    gsl_permutation_free((gsl_permutation *) indexD2gds2);
 }
 
 static void threadOInit(void) {
-  MTHREAD_KEY_CREATE(&tOldKey,       free);
-  MTHREAD_KEY_CREATE(&pOldKey,       free);
-  MTHREAD_KEY_CREATE(&sOldKey,       freeNSarray);
-  MTHREAD_KEY_CREATE(&d2gds2Key,     freeD2gds2);
-  MTHREAD_KEY_CREATE(&ptToD2gds2Key, freePtToD2gds2);
+    MTHREAD_KEY_CREATE(&tOldKey,       free);
+    MTHREAD_KEY_CREATE(&pOldKey,       free);
+    MTHREAD_KEY_CREATE(&sOldKey,       freeNSarray);
+    MTHREAD_KEY_CREATE(&ptToD2gds2Key, freePtToD2gds2);
+    MTHREAD_KEY_CREATE(&d2gds2Key,     free);
+    MTHREAD_KEY_CREATE(&indexD2gds2Key, freeIndexD2gds2);
 }
 
 static double getTOld() {
-  double *tOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);   
-  if (tOldPt == NULL) {
-    tOldPt  = (double *) malloc(sizeof(double)); 
-    *tOldPt = -9999.0;    
-    MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
-  }
-  return *tOldPt;
+    double *tOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);
+    if (tOldPt == NULL) {
+        tOldPt  = (double *) malloc(sizeof(double));
+        *tOldPt = -9999.0;
+        MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
+    }
+    return *tOldPt;
 }
 
 static void setTOld(double tOld) {
-  double *tOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);   
-  if (tOldPt == NULL) {
-    tOldPt  = (double *) malloc(sizeof(double)); 
-    *tOldPt = -9999.0;    
-    MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
-  }
-  *tOldPt = tOld;
+    double *tOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);
+    if (tOldPt == NULL) {
+        tOldPt  = (double *) malloc(sizeof(double));
+        *tOldPt = -9999.0;
+        MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
+    }
+    *tOldPt = tOld;
 }
 
 static double getPOld() {
-  double *pOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);   
-  if (pOldPt == NULL) {
-    pOldPt  = (double *) malloc(sizeof(double)); 
-    *pOldPt = -9999.0;    
-    MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
-  }
-  return *pOldPt; 
+    double *pOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);
+    if (pOldPt == NULL) {
+        pOldPt  = (double *) malloc(sizeof(double));
+        *pOldPt = -9999.0;
+        MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
+    }
+    return *pOldPt;
 }
 
 static void setPOld(double pOld) {
-  double *pOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);   
-  if (pOldPt == NULL) {
-    pOldPt  = (double *) malloc(sizeof(double)); 
-    *pOldPt = -9999.0;    
-    MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
-  }
-  *pOldPt = pOld; 
+    double *pOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);
+    if (pOldPt == NULL) {
+        pOldPt  = (double *) malloc(sizeof(double));
+        *pOldPt = -9999.0;
+        MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
+    }
+    *pOldPt = pOld;
 }
 
 static double *getSOld() {
-  double *sOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  sOldPt = (double *) MTHREAD_GETSPECIFIC(sOldKey);   
-  if (sOldPt == NULL) {
-    int i;
-    sOldPt = vector(0, NS-1);
-    for (i=0; i<NS; i++) sOldPt[i] = 2.0;    
-    MTHREAD_SETSPECIFIC(sOldKey, (void *) sOldPt);
-  }
-  return sOldPt;
+    gsl_vector *sOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    sOldPt = (gsl_vector *) MTHREAD_GETSPECIFIC(sOldKey);
+    if (sOldPt == NULL) {
+        sOldPt = gsl_vector_alloc((size_t) NS);
+        gsl_vector_set_all(sOldPt, 2.0);
+        MTHREAD_SETSPECIFIC(sOldKey, (void *) sOldPt);
+    }
+    return sOldPt->data;
+}
+
+static gsl_matrix *getPtToD2gds2() {
+    gsl_matrix *ptToD2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    ptToD2gds2Pt = (gsl_matrix *) MTHREAD_GETSPECIFIC(ptToD2gds2Key);
+    if (ptToD2gds2Pt == NULL) {
+        ptToD2gds2Pt  = gsl_matrix_alloc((size_t) NS, (size_t) NS);
+        gsl_matrix_set_zero(ptToD2gds2Pt);
+        MTHREAD_SETSPECIFIC(ptToD2gds2Key, (void *) ptToD2gds2Pt);
+    }
+    return ptToD2gds2Pt;
 }
 
 static double **getD2gds2() {
-  double **d2gds2Pt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  d2gds2Pt = (double **) MTHREAD_GETSPECIFIC(d2gds2Key);   
-  if (d2gds2Pt == NULL) {
-    int i, j;
-    d2gds2Pt  = matrix(0, NS-1, 0, NS-1);
-    for (i=0; i<NS; i++) for (j=0; j<NS; j++) d2gds2Pt[i][j] = 0.0;
-    MTHREAD_SETSPECIFIC(d2gds2Key, (void *) d2gds2Pt);
-  }
-  return d2gds2Pt; 
+    double **d2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    d2gds2Pt = (double **) MTHREAD_GETSPECIFIC(d2gds2Key);
+    if (d2gds2Pt == NULL) {
+        int i;
+        gsl_matrix *ptToD2gds2Pt = getPtToD2gds2();
+        d2gds2Pt  = (double **) malloc((size_t) NS*sizeof(double *));
+        for (i=0; i<NS; i++) d2gds2Pt[i] = &(ptToD2gds2Pt->data[i*NS]);
+        MTHREAD_SETSPECIFIC(d2gds2Key, (void *) d2gds2Pt);
+    }
+    return d2gds2Pt;
 }
 
-static double **getPtToD2gds2() {
-  double **ptToD2gds2Pt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  ptToD2gds2Pt = (double **) MTHREAD_GETSPECIFIC(ptToD2gds2Key);   
-  if (ptToD2gds2Pt == NULL) {
-    ptToD2gds2Pt = submatrix(getD2gds2(), 0, NS-1, 0, NS-1, 1, 1);
-    MTHREAD_SETSPECIFIC(ptToD2gds2Key, (void *) ptToD2gds2Pt);
-  }
-  return ptToD2gds2Pt;
+static gsl_permutation *getIndexD2gds2() {
+    gsl_permutation *indexD2gds2Pt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    indexD2gds2Pt = (gsl_permutation *) MTHREAD_GETSPECIFIC(indexD2gds2Key);
+    if (indexD2gds2Pt == NULL) {
+        indexD2gds2Pt = gsl_permutation_alloc((size_t) NS);
+        gsl_permutation_init(indexD2gds2Pt);
+        MTHREAD_SETSPECIFIC(indexD2gds2Key, (void *) indexD2gds2Pt);
+    }
+    return indexD2gds2Pt;
 }
 
 /* q = s[0], qod = s[1] */
 
 #define S   -(0.5*a0*s[0]*s[0] + 0.5*aod0*s[1]*s[1] \
-              + (d1+2.0*d2*t+3.0*d3*t*t)*s[0]*s[1])
+                            + (d1+2.0*d2*t+3.0*d3*t*t)*s[0]*s[1])
 #define H   - 0.5*a0*tc*s[0]*s[0] + 0.25 *b*s[0]*s[0]*s[0]*s[0] \
-            - 0.5*aod0*tod*s[1]*s[1] + 0.25*bod*s[1]*s[1]*s[1]*s[1] \
-            + (cod/6.0)*s[1]*s[1]*s[1]*s[1]*s[1]*s[1] \
-            + (d0 - d2*t*t - 2.0*d3*t*t*t)*s[0]*s[1]   
+                        - 0.5*aod0*tod*s[1]*s[1] + 0.25*bod*s[1]*s[1]*s[1]*s[1] \
+                        + (cod/6.0)*s[1]*s[1]*s[1]*s[1]*s[1]*s[1] \
+                        + (d0 - d2*t*t - 2.0*d3*t*t*t)*s[0]*s[1]
 #define V   (H)/335282.925
 #define G   (H) - t*(S) + (p-1.0)*(V)
 
@@ -248,15 +264,15 @@ static double **getPtToD2gds2() {
 #define D2GDS0DT -2.0*(d2*t+3.0*d3*t*t)*s[1]*(p-1.0)/335282.925 \
                  + a0*s[0] + (d1+2.0*d2*t+3.0*d3*t*t)*s[1]
 #define D2GDS0DP (-a0*tc*s[0] + b*s[0]*s[0]*s[0] \
-                  + (d0-d2*t*t-2.0*d3*t*t*t)*s[1])/335282.925
+                                    + (d0-d2*t*t-2.0*d3*t*t*t)*s[1])/335282.925
 
 #define D2GDS1S1 (-aod0*tod + 3.0*bod*s[1]*s[1] + 5.0*cod*s[1]*s[1]*s[1]*s[1]) \
-                  *(1.0+(p-1.0)/335282.925) + t*aod0
+                                    *(1.0+(p-1.0)/335282.925) + t*aod0
 #define D2GDS1DT -2.0*(d2*t+3.0*d3*t*t)*s[0]*(p-1.0)/335282.925 \
                  + aod0*s[1] + (d1+2.0*d2*t+3.0*d3*t*t)*s[0]
 #define D2GDS1DP (-aod0*tod*s[1] + bod*s[1]*s[1]*s[1] \
-                  + cod*s[1]*s[1]*s[1]*s[1]*s[1] \
-                  + (d0-d2*t*t-2.0*d3*t*t*t)*s[0])/335282.925
+                                    + cod*s[1]*s[1]*s[1]*s[1]*s[1] \
+                                    + (d0-d2*t*t-2.0*d3*t*t*t)*s[0])/335282.925
 
 #define D2GDT2   -2.0*(d2+6.0*d3*t)*s[0]*s[1]*(p-1.0)/335282.925 \
                  + (2.0*d2+6.0*d3*t)*s[0]*s[1]
@@ -277,17 +293,17 @@ static double **getPtToD2gds2() {
                    + (2.0*d2+6.0*d3*t)*s[1]
 #define D3GDS0DTDP -2.0*(d2*t+3.0*d3*t*t)*s[1]/335282.925
 #define D3GDS0DP2  0.0
-  
+
 #define D3GDS1S1S1 (6.0*bod*s[1] + 20.0*cod*s[1]*s[1]*s[1]) \
-                    *(1.0+(p-1.0)/335282.925)
+                                        *(1.0+(p-1.0)/335282.925)
 #define D3GDS1S1DT aod0
 #define D3GDS1S1DP (-aod0*tod + 3.0*bod*s[1]*s[1] \
-                    + 5.0*cod*s[1]*s[1]*s[1]*s[1])/335282.925
+                                        + 5.0*cod*s[1]*s[1]*s[1]*s[1])/335282.925
 #define D3GDS1DT2  -2.0*(d2+6.0*d3*t)*s[0]*(p-1.0)/335282.925 \
                    + (2.0*d2+6.0*d3*t)*s[0]
 #define D3GDS1DTDP -2.0*(d2*t+3.0*d3*t*t)*s[0]/335282.925
 #define D3GDS1DP2  0.0
-  
+
 #define D3GDT3     -12.0*d3*s[0]*s[1]*(p-1.0)/335282.925 + 6.0*d3*s[0]*s[1]
 #define D3GDT2DP   -2.0*(d2+6.0*d3*t)*s[0]*s[1]/335282.925
 #define D3GDTDP2   0.0
@@ -301,7 +317,7 @@ static double **getPtToD2gds2() {
  d2gdsdt[0] = D2GDS0DT;  d2gdsdt[1] = D2GDS1DT;
 
 #define fillD2GDSDP \
- d2gdsdp[0] = D2GDS0DP;  d2gdsdp[1] = D2GDS1DP; 
+ d2gdsdp[0] = D2GDS0DP;  d2gdsdp[1] = D2GDS1DP;
 
 #define fillD3GDS3 \
  d3gds3[0][0][0] = D3GDS0S0S0;      d3gds3[0][0][1] = D3GDS0S0S1; \
@@ -326,148 +342,156 @@ static double **getPtToD2gds2() {
 #define fillD3GDSDP2 \
  d3gdsdp2[0] = D3GDS0DP2; d3gdsdp2[1] = D3GDS1DP2;
 
-static void 
-order(double t, double p,  
-      double s[NS],           /* s[NS]       */
-      double dt[NS],          /* ds[NS]/dt   */
-      double dp[NS],          /* ds[NS]/dp   */
-      double dt2[NS],         /* d2s[NS]/dt2 */
-      double dtp[NS],         /* d2s[NS]/dtp */
-      double dp2[NS]          /* d2s[NS]/dp2 */
-      )
+static void
+order(double t, double p,
+            double s[NS],           /* s[NS]       */
+            double dt[NS],          /* ds[NS]/dt   */
+            double dp[NS],          /* ds[NS]/dp   */
+            double dt2[NS],         /* d2s[NS]/dt2 */
+            double dtp[NS],         /* d2s[NS]/dtp */
+            double dp2[NS]          /* d2s[NS]/dp2 */
+            )
 {
-  double tOld         = getTOld();
-  double pOld         = getPOld();
-  double *sOld        = getSOld();
-  double **d2gds2     = getD2gds2();
-  double **ptToD2gds2 = getPtToD2gds2();
+    double tOld         = getTOld();
+    double pOld         = getPOld();
+    double *sOld        = getSOld();
+    double **d2gds2     = getD2gds2();
+    gsl_matrix      *ptToD2gds2  = getPtToD2gds2();
+    gsl_permutation *indexD2gds2 = getIndexD2gds2();
 
-  int i, j, k, l, iter=0;
-  double d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS], 
-    d3gdsdt2[NS], temp[NS], d3gds2dp[NS][NS], d3gdsdtdp[NS], d3gdsdp2[NS];
+    int i, j, k, l, iter=0, signum;
+    double d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dt[NS][NS],
+        d3gdsdt2[NS], temp[NS], d3gds2dp[NS][NS], d3gdsdtdp[NS], d3gdsdp2[NS];
 
-  /* look-up or compute the current ordering state */
-  if ( (t != tOld) || (p != pOld) ) {
-    double dgds[NS], sNew[NS];
+    gsl_vector_view vvToDt = gsl_vector_view_array(dt, (size_t) NS),
+        vvToD2gdsdt = gsl_vector_view_array(d2gdsdt, (size_t) NS),
+        vvToDp = gsl_vector_view_array(dp, (size_t) NS),
+        vvToD2gdsdp = gsl_vector_view_array(d2gdsdp, (size_t) NS),
+        vvToTemp = gsl_vector_view_array(temp, (size_t) NS);
 
-    for (i=0; i<NS; i++) sOld[i] = 2.0;
+    /* look-up or compute the current ordering state */
+    if ( (t != tOld) || (p != pOld) ) {
+        double dgds[NS], sNew[NS];
+        gsl_vector_view vvToDgds = gsl_vector_view_array(dgds, (size_t) NS);
 
-    sNew[0] = 0.6;
-    sNew[1] = 0.9;
+        for (i=0; i<NS; i++) sOld[i] = 2.0;
 
-    while (   ((ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) || (ABS(sNew[1]-sOld[1]) > 10.0*DBL_EPSILON)) 
+        sNew[0] = 0.6;
+        sNew[1] = 0.9;
+
+        while (   ((ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) || (ABS(sNew[1]-sOld[1]) > 10.0*DBL_EPSILON))
            && (iter < MAX_ITER)) {
-      double s[NS], deltaS[NS];
+            double s[NS], deltaS[NS];
+            gsl_vector_view vvToDeltaS = gsl_vector_view_array(deltaS, (size_t) NS);
 
-      for (i=0; i<NS; i++) s[i] = sNew[i];
+            for (i=0; i<NS; i++) s[i] = sNew[i];
 
-      dgds[0] = DGDS0;
-      dgds[1] = DGDS1;
+            dgds[0] = DGDS0;
+            dgds[1] = DGDS1;
 
-      d2gds2[0][0] = D2GDS0S0;
-      d2gds2[0][1] = D2GDS0S1;
-      d2gds2[1][0] = d2gds2[0][1];
-      d2gds2[1][1] = D2GDS1S1;
+            d2gds2[0][0] = D2GDS0S0;
+            d2gds2[0][1] = D2GDS0S1;
+            d2gds2[1][0] = d2gds2[0][1];
+            d2gds2[1][1] = D2GDS1S1;
 
-      for (i=0; i<NS; i++) sOld[i] = s[i];
+            for (i=0; i<NS; i++) sOld[i] = s[i];
 
-      gaussj(ptToD2gds2, NS, (double **) NULL, 0);
+            /* original: gaussj(ptToD2gds2, NS, (double **) NULL, 0);
+            for (i=0; i<NS; i++) {
+            for(j=0; j<NS; j++) s[i] += - d2gds2[i][j]*dgds[j];
+            deltaS[i] = s[i] - sOld[i];
+            } */
 
-      for (i=0; i<NS; i++) {
-        for(j=0; j<NS; j++) s[i] += - d2gds2[i][j]*dgds[j];
-        deltaS[i] = s[i] - sOld[i]; 
-      }
+            gsl_matrix_scale(ptToD2gds2, -1.0);
+            melts_LU_decomp(ptToD2gds2, indexD2gds2, &signum);
 
-      for (i=0; i<NS; i++) sNew[i] = s[i];
-      iter++;
+            melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToDgds.vector, &vvToDeltaS.vector);
+            for (i=0; i<NS; i++) s[i] += deltaS[i];
+
+            for (i=0; i<NS; i++) sNew[i] = s[i];
+            iter++;
+        }
+        tOld = t;
+        pOld = p;
+        setTOld(tOld);
+        setPOld(pOld);
     }
-    tOld = t;
-    pOld = p;
-    setTOld(tOld);
-    setPOld(pOld);
-  }
-    
-  /* s */
-  for (i=0; i<NS; i++) s[i] = sOld[i];
 
-  /* dsdt */
-  fillD2GDSDT
+    /* s */
+    for (i=0; i<NS; i++) s[i] = sOld[i];
 
-  for (i=0; i<NS; i++) {
-     dt[i] = 0.0;
-     for (j=0; j<NS; j++) dt[i] += - d2gds2[i][j]*d2gdsdt[j];
-  }
+    /* dsdt */
+    fillD2GDSDT
 
-  /* dsdp */
-  fillD2GDSDP
+    /* original: dt[i] += - d2gds2[i][j]*d2gdsdt[j]; */
+    melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdt.vector, &vvToDt.vector);
 
-  for (i=0; i<NS; i++) {
-    dp[i] = 0.0; 
-    for (j=0; j<NS; j++) dp[i] += - d2gds2[i][j]*d2gdsdp[j];
-  }
+    /* dsdp */
+    fillD2GDSDP
 
-  /* d2sdt2 */
-  fillD2GDSDT
-  fillD3GDS3
-  fillD3GDS2DT
-  fillD3GDSDT2
+    /* original: dp[i] += - d2gds2[i][j]*d2gdsdp[j]; */
+    melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdsdp.vector, &vvToDp.vector);
 
-  for (i=0; i<NS; i++) {
-    for (j=0; j<NS; j++) { 
-      temp[j] = d3gdsdt2[j];
-      for (k=0; k<NS; k++) {
-        temp[j] +=  2.0*d3gds2dt[j][k]*dt[k];
-        for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dt[k]*dt[l];
-      }
-    }
-    dt2[i] = 0.0;
-    for (j=0; j<NS; j++) dt2[i] += - d2gds2[i][j]*temp[j];
-  } 
+    /* d2sdt2 */
+    fillD2GDSDT
+    fillD3GDS3
+    fillD3GDS2DT
+    fillD3GDSDT2
 
-  /* d2sdtdp */
-  fillD2GDSDT
-  fillD2GDSDP
-  fillD3GDS3
-  fillD3GDS2DT
-  fillD3GDS2DP
-  fillD3GDSDTDP
-
-  for (i=0; i<NS; i++) {
     for (j=0; j<NS; j++) {
-      temp[j] = d3gdsdtdp[j];
-      for (k=0; k<NS; k++) {
-        temp[j] += d3gds2dt[j][k]*dp[k] + d3gds2dp[j][k]*dt[k];
-        for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dt[k]*dp[l];
-      }
+        temp[j] = d3gdsdt2[j];
+        for (k=0; k<NS; k++) {
+            temp[j] +=  2.0*d3gds2dt[j][k]*dt[k];
+            for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dt[k]*dt[l];
+        }
     }
-    dtp[i] = 0.0;
-    for (j=0; j<NS; j++) dtp[i] += - d2gds2[i][j]*temp[j];
-  }
+    /* original: dt2[i] += - d2gds2[i][j]*temp[j]; */
+    melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+    for (j=0; j<NS; j++) dt2[j] = temp[j];
 
-  /* d2sdp2 */
-  fillD2GDSDP
-  fillD3GDS3
-  fillD3GDS2DP
-  fillD3GDSDP2
+    /* d2sdtdp */
+    fillD2GDSDT
+    fillD2GDSDP
+    fillD3GDS3
+    fillD3GDS2DT
+    fillD3GDS2DP
+    fillD3GDSDTDP
 
-  for (i=0; i<NS; i++) {
-    for (j=0; j<NS; j++) { 
-      temp[j] = d3gdsdp2[j];
-      for (k=0; k<NS; k++) {
-        temp[j] +=  2.0*d3gds2dp[j][k]*dp[k];
-        for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dp[k]*dp[l];
-      }
+    for (j=0; j<NS; j++) {
+        temp[j] = d3gdsdtdp[j];
+        for (k=0; k<NS; k++) {
+            temp[j] += d3gds2dt[j][k]*dp[k] + d3gds2dp[j][k]*dt[k];
+            for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dt[k]*dp[l];
+        }
     }
-    dp2[i] = 0.0;
-    for (j=0; j<NS; j++) dp2[i] += - d2gds2[i][j]*temp[j];
-  } 
+    /* original: dtp[i] += - d2gds2[i][j]*temp[j]; */
+    melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+    for (j=0; j<NS; j++) dtp[j] = temp[j];
+
+    /* d2sdp2 */
+    fillD2GDSDP
+    fillD3GDS3
+    fillD3GDS2DP
+    fillD3GDSDP2
+
+    for (j=0; j<NS; j++) {
+        temp[j] = d3gdsdp2[j];
+        for (k=0; k<NS; k++) {
+            temp[j] +=  2.0*d3gds2dp[j][k]*dp[k];
+            for (l=0; l<NS; l++) temp[j] += d3gds3[j][k][l]*dp[k]*dp[l];
+        }
+    }
+    /* original: dp2[i] += - d2gds2[i][j]*temp[j]; */
+    melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
+    for (j=0; j<NS; j++) dp2[j] = temp[j];
+
 }
 
 void albite(double p, double t, double *gDis, double *hDis, double *sDis,
    double *cpDis, double *dcpdt, double *vDis, double *dvdt, double *dvdp,
    double *d2vdt2, double *d2vdtdp, double *d2vdp2)
 {
-   double s[NS], dsdt[NS], dsdp[NS], d2sdt2[NS], d2sdtdp[NS], d2sdp2[NS]; 
+   double s[NS], dsdt[NS], dsdp[NS], d2sdt2[NS], d2sdtdp[NS], d2sdp2[NS];
    int skip;
    *gDis    = 0.0;
    *hDis    = 0.0;
@@ -486,117 +510,117 @@ void albite(double p, double t, double *gDis, double *hDis, double *sDis,
 
 /* if (t > 1290.0) { This was Berman's test - change on 8/19/09 */
    if (skip) {
-      return;
+            return;
    } else {
-      int i, j, k;
-      double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d2gdt2, d2gdtdp, d2gdp2;
-      double d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gds2dp[NS][NS], 
-        d3gdsdt2[NS], d3gdsdtdp[NS], d3gdsdp2[NS], d3gdt3, d3gdt2dp, d3gdtdp2,
-        d3gdp3;
-      double temp;
-  
-/* ---------- */
-      *gDis = (G);
-/* ---------- */
-      *hDis = *gDis - t*(DGDT);
-/* ---------- */
-      *sDis = -(DGDT); 
-/* ---------- */
-      fillD2GDS2
-      fillD2GDSDT
-      d2gdt2  = D2GDT2;
+            int i, j, k;
+            double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d2gdt2, d2gdtdp, d2gdp2;
+            double d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gds2dp[NS][NS],
+                d3gdsdt2[NS], d3gdsdtdp[NS], d3gdsdp2[NS], d3gdt3, d3gdt2dp, d3gdtdp2,
+                d3gdp3;
+            double temp;
 
-      *cpDis = d2gdt2;
-      for (i=0; i<NS; i++) {
-        *cpDis += 2.0*d2gdsdt[i]*dsdt[i];
-        for (j=0; j<NS; j++) *cpDis += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
-      }
-      temp = *cpDis;
-      *cpDis *= -t;
 /* ---------- */
-      fillD3GDS3
-      fillD3GDS2DT
-      fillD3GDSDT2
-      d3gdt3 = D3GDT3;
+            *gDis = (G);
+/* ---------- */
+            *hDis = *gDis - t*(DGDT);
+/* ---------- */
+            *sDis = -(DGDT);
+/* ---------- */
+            fillD2GDS2
+            fillD2GDSDT
+            d2gdt2  = D2GDT2;
 
-      *dcpdt = d3gdt3;
-      for (i=0; i<NS; i++) {
-        *dcpdt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i]; 
-        for (j=0; j<NS; j++) {
-          *dcpdt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j] 
+            *cpDis = d2gdt2;
+            for (i=0; i<NS; i++) {
+                *cpDis += 2.0*d2gdsdt[i]*dsdt[i];
+                for (j=0; j<NS; j++) *cpDis += d2gds2[i][j]*dsdt[i]*dsdt[j];
+            }
+            temp = *cpDis;
+            *cpDis *= -t;
+/* ---------- */
+            fillD3GDS3
+            fillD3GDS2DT
+            fillD3GDSDT2
+            d3gdt3 = D3GDT3;
+
+            *dcpdt = d3gdt3;
+            for (i=0; i<NS; i++) {
+                *dcpdt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i];
+                for (j=0; j<NS; j++) {
+                    *dcpdt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j]
                  + 3.0*d3gds2dt[i][j]*dsdt[i]*dsdt[j];
-          for (k=0; k<NS; k++) *dcpdt += 
-            d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k]; 
-        }
-      }
-      *dcpdt = -t*(*dcpdt) - temp;
+                    for (k=0; k<NS; k++) *dcpdt +=
+                        d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k];
+                }
+            }
+            *dcpdt = -t*(*dcpdt) - temp;
 /* ---------- */
-      *vDis = (V);
+            *vDis = (V);
 /* ---------- */
-      fillD2GDSDP
-      d2gdtdp = D2GDTDP;
+            fillD2GDSDP
+            d2gdtdp = D2GDTDP;
 
-      *dvdt = d2gdtdp;
-      for (i=0; i<NS; i++) {
-        *dvdt += d2gdsdt[i]*dsdp[i] + d2gdsdp[i]*dsdt[i];
-        for (j=0; j<NS; j++) *dvdt += d2gds2[i][j]*dsdt[i]*dsdp[j];
-      } 
+            *dvdt = d2gdtdp;
+            for (i=0; i<NS; i++) {
+                *dvdt += d2gdsdt[i]*dsdp[i] + d2gdsdp[i]*dsdt[i];
+                for (j=0; j<NS; j++) *dvdt += d2gds2[i][j]*dsdt[i]*dsdp[j];
+            }
 /* ---------- */
-      d2gdp2 = D2GDP2;
+            d2gdp2 = D2GDP2;
 
-      *dvdp = d2gdp2;
-      for (i=0; i<NS; i++) {
-        *dvdp += 2.0*d2gdsdp[i]*dsdp[i];
-        for (j=0; j<NS; j++) *dvdp += d2gds2[i][j]*dsdp[i]*dsdp[j];
-      }
+            *dvdp = d2gdp2;
+            for (i=0; i<NS; i++) {
+                *dvdp += 2.0*d2gdsdp[i]*dsdp[i];
+                for (j=0; j<NS; j++) *dvdp += d2gds2[i][j]*dsdp[i]*dsdp[j];
+            }
 /* ---------- */
-      fillD3GDS2DP
-      fillD3GDSDTDP
-      d3gdt2dp = D3GDT2DP;
+            fillD3GDS2DP
+            fillD3GDSDTDP
+            d3gdt2dp = D3GDT2DP;
 
-      *d2vdt2 = d3gdt2dp;
-      for (i=0; i<NS; i++) {
-        *d2vdt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i] 
-                + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
-        for (j=0; j<NS; j++) {
-          *d2vdt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
-                + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
-                + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
-                + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
-          for (k=0; k<NS; k++) *d2vdt2 
-            += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k]; 
-        }
-      }
+            *d2vdt2 = d3gdt2dp;
+            for (i=0; i<NS; i++) {
+                *d2vdt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i]
+                                + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
+                for (j=0; j<NS; j++) {
+                    *d2vdt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
+                                + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
+                                + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
+                                + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
+                    for (k=0; k<NS; k++) *d2vdt2
+                        += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k];
+                }
+            }
 /* ---------- */
-      fillD3GDSDP2
-      d3gdtdp2 = D3GDTDP2;
+            fillD3GDSDP2
+            d3gdtdp2 = D3GDTDP2;
 
-      *d2vdtdp = d3gdtdp2;
-      for (i=0; i<NS; i++) {
-        *d2vdtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]  
-                 + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i]; 
-        for (j=0; j<NS; j++) {
-          *d2vdtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j] 
-                   + d2gds2[i][j]*dsdt[i]*d2sdp2[j] 
+            *d2vdtdp = d3gdtdp2;
+            for (i=0; i<NS; i++) {
+                *d2vdtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]
+                 + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i];
+                for (j=0; j<NS; j++) {
+                    *d2vdtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j]
+                   + d2gds2[i][j]*dsdt[i]*d2sdp2[j]
                    + 2.0*d2gds2[i][j]*d2sdtdp[i]*dsdp[j]
                    + d3gds2dt[i][j]*dsdp[i]*dsdp[j];
-          for (k=0; k<NS; k++) *d2vdtdp 
-            += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k]; 
-        }
-      }
+                    for (k=0; k<NS; k++) *d2vdtdp
+                        += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k];
+                }
+            }
 /* ---------- */
-      d3gdp3 = D3GDP3;
+            d3gdp3 = D3GDP3;
 
-      *d2vdp2 = d3gdp3;
-      for (i=0; i<NS; i++) {
-        *d2vdp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i]; 
-        for (j=0; j<NS; j++) {
-          *d2vdp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
-                  + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
-          for (k=0; k<NS; k++) *d2vdp2 
-            += d3gds3[i][j][k]*dsdp[i]*dsdp[j]*dsdp[k];
-        }
-      }
+            *d2vdp2 = d3gdp3;
+            for (i=0; i<NS; i++) {
+                *d2vdp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i];
+                for (j=0; j<NS; j++) {
+                    *d2vdp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
+                                    + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
+                    for (k=0; k<NS; k++) *d2vdp2
+                        += d3gds3[i][j][k]*dsdp[i]*dsdp[j]*dsdp[k];
+                }
+            }
    }
 }
 

@@ -66,7 +66,6 @@ MELTS Source Code: RCS
 */
 
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
-#include "recipes.h" /* Numerical recipes routines                */
 
 #ifdef DEBUG
 #undef DEBUG

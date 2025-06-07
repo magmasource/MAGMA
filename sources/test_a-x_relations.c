@@ -86,8 +86,8 @@ MELTS Source Code: RCS
 **              Inserted test calls to (*solids[].convert) for new options
 **      V1.0-5  Mark S. Ghiorso  September 25, 1991
 **              (1) Altered parameter list to (*solids[].test) to reflect
-**                  new bounds constraints options. Note that the bounds 
-**                  algorithms are not tested for consistency but are 
+**                  new bounds constraints options. Note that the bounds
+**                  algorithms are not tested for consistency but are
 **                  called to check on their existence.
 **              (2) Altered parameter list to (*solids[].convert) to
 **                  test new derivative dx/dr (d(mole fractions of end-
@@ -95,7 +95,7 @@ MELTS Source Code: RCS
 **      V1.0-6  Mark S. Ghiorso  March 28, 1992
 **              Defined RAND_MAX for non-ANSI implementations (SparcStation)
 **      V2.0-1  Mark S. Ghiorso  May 10, 1994
-**              (1) Added modifications to test new derivatives for 
+**              (1) Added modifications to test new derivatives for
 **                  isenthalpic, isentropic and isochoric mode
 **      V2.0-2  Mark S. Ghiorso  May 17, 1994
 **              (1) Corrected test on the enthalpy
@@ -107,15 +107,18 @@ MELTS Source Code: RCS
 **--
 */
 
+#ifndef BATCH_VERSION
 #include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
 
-#include "interface.h"
 Widget main_window, silmin_adb, topLevel;
 MeltsEnviron meltsEnviron;
+#endif
+
+#include "interface.h"
 
 #include "silmin.h"
-#include "recipes.h"
+#include "melts_gsl.h"
 
 #ifdef BUILD_MGO_SIO2_VERSION
 #include "liq_struct_data_MgO_SiO2.h"
@@ -135,6 +138,28 @@ MeltsEnviron meltsEnviron;
 
 int calculationMode = MODE_DEFAULT;
 SilminState *silminState;
+
+static double **matrix_alloc(int n1, int n2) {
+    int i;
+    double *m0 = (double *) malloc((size_t) n1*n2*sizeof(double));
+    double **m = (double **) malloc((size_t) n1*sizeof(double *));
+    for (i=0; i<n1; i++) m[i] = &m0[i*n2];
+    return m;
+}
+
+static void matrix_free(double **m, int n1, int n2) {
+    free(m[0]);
+    free(m);
+}
+
+static double *vector_alloc(int n) {
+    double *v = (double *) malloc((size_t) n*sizeof(double));
+    return v;
+}
+
+static void vector_free(double *v, int n) {
+    free(v);
+}
 
 #ifndef RAND_MAX
 #define RAND_MAX INT_MAX         /* SparcStations don't define this macro */
@@ -170,7 +195,7 @@ int main()
       if (tolower(getchar()) == 'y') { getchar(); calculationMode = MODE_pMELTS; }
     }
   } else getchar();
-  
+
   if (calculationMode == MODE_xMELTS) {
     printf("---> Calculation mode is xMELTS (experimental v 5.0.x).\n");
   } else if (calculationMode == MODE__MELTS) {
@@ -199,7 +224,7 @@ int main()
      printf("Input a temperature in (C):"); scanf("%f", &ftemp); t = ((double) ftemp) +273.15;
      getchar();
    } else getchar();
-   
+
    printf("Do calculations at %7.2f bars (y or n)? ", p);
    if (tolower(getchar()) != 'y') {
      getchar();
@@ -212,14 +237,14 @@ int main()
    printf("*******************************************************\n\n");
 
    /**************************************************************************
-    Compute constants for numerical differentiation                        
+    Compute constants for numerical differentiation
     **************************************************************************/
-   
+
    deltaT = sqrt(TAU)*(1.0+ABS(t));
    deltaP = sqrt(TAU)*(1.0+ABS(p));
 
    /**************************************************************************
-    Evaluate activity-composition relations for all solid phases          
+    Evaluate activity-composition relations for all solid phases
     **************************************************************************/
 
    for (n=0; n<npc; n++) {
@@ -230,68 +255,68 @@ int main()
          getchar();
 
          for (i=n+1; solids[i].type == COMPONENT && i<npc; i++)
-	   ; 
+	   ;
 	 i--;
 
          NC =  i - n;   /* Number of end-member components in solid solution */
          NX = NC - 1;   /* Number of independent compositional variables     */
 
          /********************************************************************
-          Allocate space for required vectors and matrices                 
+          Allocate space for required vectors and matrices
           ********************************************************************/
-         
-         moles   = vector(0, NC-1);
-         mtemp   = vector(0, NC-1);
-         x       = vector(0, NX-1);
-         xtemp   = vector(0, NX-1);
-         vtemp   = vector(0, NC-1);
-         deltaM  = vector(0, NC-1);
-         deltaX  = vector(0, NX-1);
-         a       = vector(0, NC-1);
-         mu      = vector(0, NC-1);
-         dgdx    = vector(0, NX-1);
-         dsdx    = vector(0, NX-1);
-         dvdx    = vector(0, NX-1);
-         dcpdx   = vector(0, NX-1);
-         d2vdxdt = vector(0, NX-1);
-         d2vdxdp = vector(0, NX-1);
 
-         drdm   = matrix(0, NX-1, 0, NC-1);
-         dxdr   = matrix(0, NC-1, 0, NX-1);
-         dtemp  = matrix(0, NX-1, 0, NC-1);
-         dadx   = matrix(0, NC-1, 0, NX-1);
-         d2gdx2 = matrix(0, NX-1, 0, NX-1);
-         d2sdx2 = matrix(0, NX-1, 0, NX-1);
-         d2vdx2 = matrix(0, NX-1, 0, NX-1);
-         v2temp = matrix(0, NX-1, 0, NX-1);
+         moles   = vector_alloc(NC);
+         mtemp   = vector_alloc(NC);
+         x       = vector_alloc(NX);
+         xtemp   = vector_alloc(NX);
+         vtemp   = vector_alloc(NC);
+         deltaM  = vector_alloc(NC);
+         deltaX  = vector_alloc(NX);
+         a       = vector_alloc(NC);
+         mu      = vector_alloc(NC);
+         dgdx    = vector_alloc(NX);
+         dsdx    = vector_alloc(NX);
+         dvdx    = vector_alloc(NX);
+         dcpdx   = vector_alloc(NX);
+         d2vdxdt = vector_alloc(NX);
+         d2vdxdp = vector_alloc(NX);
+
+         drdm   = matrix_alloc(NX, NC);
+         dxdr   = matrix_alloc(NC, NX);
+         dtemp  = matrix_alloc(NX, NC);
+         dadx   = matrix_alloc(NC, NX);
+         d2gdx2 = matrix_alloc(NX, NX);
+         d2sdx2 = matrix_alloc(NX, NX);
+         d2vdx2 = matrix_alloc(NX, NX);
+         v2temp = matrix_alloc(NX, NX);
 
          d2rdm2 = (double ***) malloc((unsigned) NX*sizeof(double **));
-         for (i=0; i<NX; i++) d2rdm2[i] = matrix(0, NC-1, 0, NC-1);
+         for (i=0; i<NX; i++) d2rdm2[i] = matrix_alloc(NC, NC);
          d2temp = (double ***) malloc((unsigned) NX*sizeof(double **));
-         for (i=0; i<NX; i++) d2temp[i] = matrix(0, NC-1, 0, NC-1);
+         for (i=0; i<NX; i++) d2temp[i] = matrix_alloc(NC, NC);
 
          d3rdm3 = (double ****) malloc((unsigned) NX*sizeof(double ***));
          for (i=0; i<NX; i++) {
            d3rdm3[i] = (double ***) malloc((unsigned) NC*sizeof(double **));
-           for (j=0; j<NC; j++) d3rdm3[i][j] = matrix(0, NC-1, 0, NC-1);
+           for (j=0; j<NC; j++) d3rdm3[i][j] = matrix_alloc(NC, NC);
          }
 
          d3gdx3 = (double ***) malloc((unsigned) NX*sizeof(double **));
-         for (i=0; i<NX; i++) d3gdx3[i] = matrix(0, NX-1, 0, NX-1);
+         for (i=0; i<NX; i++) d3gdx3[i] = matrix_alloc(NX, NX);
 
          names    = (char **) malloc((unsigned) NC*sizeof(char *));
          formulas = (char **) malloc((unsigned) NC*sizeof(char *));
          for (i=0; i<NC; i++) {
-           names[i]    = (char *) malloc((unsigned) 
+           names[i]    = (char *) malloc((unsigned)
                          (strlen(solids[n+1+i].label)+1)*sizeof(char));
-           formulas[i] = (char *) malloc((unsigned) 
+           formulas[i] = (char *) malloc((unsigned)
                          (strlen(solids[n+1+i].formula)+1)*sizeof(char));
          }
 
          /********************************************************************
           Test internal consistency of SOL_STRUCT_DATA.H include file
           and conventions adopted in coding the routine. Do not check bounds
-          constraints, since there is no a priori way of knowing what they 
+          constraints, since there is no a priori way of knowing what they
           may be.
           ********************************************************************/
 
@@ -299,14 +324,14 @@ int main()
            names[i]    = strcpy(names[i], solids[n+1+i].label);
            formulas[i] = strcpy(formulas[i], solids[n+1+i].formula);
          }
-         if (!(*solids[n].test)(FIRST | SECOND | THIRD | FOURTH, t, p, 
+         if (!(*solids[n].test)(FIRST | SECOND | THIRD | FOURTH, t, p,
            NC, NX, names, formulas, (double *) NULL, (double *) NULL)) exit(0);
 
-         /******************************************************************** 
-          Compute composition of the solid phase (moles) 
+         /********************************************************************
+          Compute composition of the solid phase (moles)
           ********************************************************************/
 
-         if (doRandom) 
+         if (doRandom)
            for (i=0; i<NC; i++) moles[i] = ((double) rand())/((double) RAND_MAX);
          else {
            for (i=0; i<NC; i++) {
@@ -317,7 +342,7 @@ int main()
          for (i=0; i<NC; i++) deltaM[i] = sqrt(TAU)*(1.0+ABS(moles[i]));
 
          if (!(*solids[n].test)(SIXTH, t, p, 0, 0, NULL, NULL, NULL, moles)) printf(
-           "BAD The moles vector apparently violates bound constraints.\n"); 
+           "BAD The moles vector apparently violates bound constraints.\n");
 
          /********************************************************************
           Transform mole vector into independent compositional variables
@@ -334,11 +359,11 @@ int main()
          for (i=0; i<NX; i++) deltaX[i] = sqrt(TAU)*(1.0+ABS(x[i]));
 
          if (!(*solids[n].test)(FIFTH, t, p, 0, 0, NULL, NULL, x, NULL)) printf(
-           "BAD The r vector apparently violates bound constraints.\n"); 
+           "BAD The r vector apparently violates bound constraints.\n");
 
          /* Output moles and independent compositional variables */
          for (i=0; i<NC; i++) {
-           printf("    moles[%-15.15s] = %13.6g", solids[n+i+1].label, 
+           printf("    moles[%-15.15s] = %13.6g", solids[n+i+1].label,
              moles[i]);
            if (i < NX) printf("    r[%3d] = %13.6g\n", i, x[i]);
            else        printf("\n");
@@ -366,7 +391,7 @@ int main()
          for (i=0; i<NC; i++) {
            for (j=0; j<NC; j++) mtemp[j] = moles[j];
            mtemp[i] += deltaM[i];
-           (*solids[n].convert)(SECOND, THIRD, t, p, (double *) NULL, mtemp, 
+           (*solids[n].convert)(SECOND, THIRD, t, p, (double *) NULL, mtemp,
              xtemp, (double *) NULL, (double **) NULL, (double ***) NULL,
              (double **) NULL, (double ****) NULL);
            for (j=0; j<NX; j++) {
@@ -416,7 +441,7 @@ int main()
          }
          printf("\n");
 
-         /* Convert independent compositional variables into mole fractions 
+         /* Convert independent compositional variables into mole fractions
             and obtain derivatives of the mole fractions with respect to r    */
          (*solids[n].convert)(THIRD, FOURTH | SEVENTH, t, p, (double *) NULL,
            (double *) NULL, x, mtemp, (double **) NULL, (double ***) NULL,
@@ -426,7 +451,7 @@ int main()
          for (i=0; i<NC; i++) {
             temp = mtemp[i];
             TEST(moles[i]/mtotal);
-            printf("%s X[%s] = %g (%g, %s)\n", flag, solids[n+i+1].label, 
+            printf("%s X[%s] = %g (%g, %s)\n", flag, solids[n+i+1].label,
                moles[i]/mtotal, temp, "from convert THIRD->FOURTH");
          }
          printf("\n");
@@ -435,8 +460,8 @@ int main()
          for (i=0; i<NX; i++) {
            for (j=0; j<NX; j++) xtemp[j] = x[j];
            xtemp[i] += deltaX[i];
-           (*solids[n].convert)(THIRD, FOURTH, t, p, (double *) NULL, 
-             (double *) NULL, xtemp, mtemp, (double **) NULL, 
+           (*solids[n].convert)(THIRD, FOURTH, t, p, (double *) NULL,
+             (double *) NULL, xtemp, mtemp, (double **) NULL,
              (double ***) NULL, (double **) NULL, (double ****) NULL);
            for (j=0; j<NC; j++) {
              temp = (mtemp[j]-moles[j]/mtotal)/deltaX[i];
@@ -453,19 +478,19 @@ int main()
 
          (*solids[n].gmix)(FIRST | SECOND | THIRD | FOURTH, t, p, x,
              &g, dgdx, d2gdx2, d3gdx3);
-         printf("    g = %g\n", g); 
+         printf("    g = %g\n", g);
 
          /* print and test dgdx[] */
          for (i=0; i<NX; i++) {
             for (j=0; j<NX; j++) xtemp[j] = x[j];
             xtemp[i] += deltaX[i];
-            (*solids[n].gmix)(FIRST, t, p, xtemp, &temp, (double *) NULL, 
+            (*solids[n].gmix)(FIRST, t, p, xtemp, &temp, (double *) NULL,
                (double **) NULL, (double ***) NULL);
             temp = (temp-g)/deltaX[i];
             TEST(dgdx[i]);
             printf("%s dgdx[%d] = %g (%g, %s)\n", flag, i, dgdx[i], temp,
                "from g");
-         } 
+         }
 
          /* print and test d2gdx2[][] */
          for (i=0; i<NX; i++) {
@@ -476,7 +501,7 @@ int main()
                   (double **) NULL, (double ***) NULL);
                temp = (vtemp[i]-dgdx[i])/deltaX[j];
                TEST(d2gdx2[i][j]);
-               printf("%s d2gdx2[%d][%d] = %g (%g, %s)\n", flag, i, j, 
+               printf("%s d2gdx2[%d][%d] = %g (%g, %s)\n", flag, i, j,
                   d2gdx2[i][j], temp, "from dgdx[]");
             }
          }
@@ -509,10 +534,10 @@ int main()
             for (j=0; j<NC; j++) mtemp[j] = moles[j];
             mtemp[i] += deltaM[i];
             for (j=0, mtotal=0.0; j<NC; j++) mtotal += mtemp[j];
-            (*solids[n].convert)(SECOND, THIRD, t, p, (double *) NULL, mtemp, 
+            (*solids[n].convert)(SECOND, THIRD, t, p, (double *) NULL, mtemp,
               xtemp, (double *) NULL, (double **) NULL, (double ***) NULL,
               (double **) NULL, (double ****) NULL);
-            (*solids[n].gmix)(FIRST, t, p, xtemp, &temp, (double *) NULL, 
+            (*solids[n].gmix)(FIRST, t, p, xtemp, &temp, (double *) NULL,
                (double **) NULL, (double ***) NULL);
             temp = mtotal*((temp-g)/deltaM[i]) + (g+temp)/2.0;
             temp = exp(temp/(8.3143*t));
@@ -525,7 +550,7 @@ int main()
          for (i=0; i<NC; i++) {
             temp = 8.3143*t*log(a[i]);
             TEST(mu[i]);
-            printf("%s (mu-mu0)[%s] = %g (%g, %s)\n", flag, 
+            printf("%s (mu-mu0)[%s] = %g (%g, %s)\n", flag,
                solids[n+i+1].label, mu[i], temp, "from a[]");
          }
 
@@ -534,11 +559,11 @@ int main()
             for (j=0; j<NX; j++) {
                for (k=0; k<NX; k++) xtemp[k] = x[k];
                xtemp[j] += deltaX[j];
-               (*solids[n].activity)(FIRST, t, p, xtemp, vtemp, 
+               (*solids[n].activity)(FIRST, t, p, xtemp, vtemp,
                   (double *) NULL, (double **) NULL);
                temp = (vtemp[i]-a[i])/deltaX[j];
                TEST(dadx[i][j]);
-               printf("%s dadx[%s][%d] = %g (%g, %s)\n", flag, 
+               printf("%s dadx[%s][%d] = %g (%g, %s)\n", flag,
                   solids[n+i+1].label, j, dadx[i][j], temp, "from a[]");
             }
          }
@@ -551,24 +576,24 @@ int main()
          (*solids[n].smix)(FIRST | SECOND | THIRD, t, p, x, &s, dsdx, d2sdx2);
 
          /* print and test s */
-         (*solids[n].gmix)(FIRST, t+deltaT, p, x, &temp, (double *) NULL, 
+         (*solids[n].gmix)(FIRST, t+deltaT, p, x, &temp, (double *) NULL,
             (double **) NULL, (double ***) NULL);
          temp = -(temp-g)/deltaT;
          TEST(s);
-         printf("%s s = %g (%g, %s)\n", flag, s, temp, "from g"); 
+         printf("%s s = %g (%g, %s)\n", flag, s, temp, "from g");
 
          /* print and test dsdx[] */
          for (i=0; i<NX; i++) {
             for (j=0; j<NX; j++) xtemp[j] = x[j];
             xtemp[i] += deltaX[i];
-            (*solids[n].smix)(FIRST, t, p, xtemp, &temp, (double *) NULL, 
+            (*solids[n].smix)(FIRST, t, p, xtemp, &temp, (double *) NULL,
                (double **) NULL);
             temp = (temp-s)/deltaX[i];
             TEST(dsdx[i]);
             printf("%s dsdx[%d] = %g (%g, %s)\n",flag, i, dsdx[i], temp,
                "from s");
          }
- 
+
          /* print and test d2ddx2[][] */
          for (i=0; i<NX; i++) {
             for (j=0; j<NX; j++) {
@@ -578,7 +603,7 @@ int main()
                   (double **) NULL);
                temp = (vtemp[i]-dsdx[i])/deltaX[j];
                TEST(d2sdx2[i][j]);
-               printf("%s d2sdx2[%d][%d] = %g (%g, %s)\n", flag, i, j, 
+               printf("%s d2sdx2[%d][%d] = %g (%g, %s)\n", flag, i, j,
                   d2sdx2[i][j], temp, "from dsdx[]");
             }
          }
@@ -592,7 +617,7 @@ int main()
            dcpdx);
 
          /* print and test cp */
-         (*solids[n].smix)(FIRST, t+deltaT, p, x, &temp, (double *) NULL, 
+         (*solids[n].smix)(FIRST, t+deltaT, p, x, &temp, (double *) NULL,
             (double **) NULL);
          temp = t*(temp-s)/deltaT;
          TEST(cp);
@@ -609,7 +634,7 @@ int main()
          for (i=0; i<NX; i++) {
             for (j=0; j<NX; j++) xtemp[j] = x[j];
             xtemp[i] += deltaX[i];
-            (*solids[n].cpmix)(FIRST, t, p, xtemp, &temp, (double *) NULL, 
+            (*solids[n].cpmix)(FIRST, t, p, xtemp, &temp, (double *) NULL,
                (double *) NULL);
             temp = (temp-cp)/deltaX[i];
             TEST(dcpdx[i]);
@@ -628,18 +653,18 @@ int main()
             &d2vdtdp, &d2vdp2, d2vdxdt, d2vdxdp);
 
          /* print and test v */
-         (*solids[n].gmix)(FIRST, t, p+deltaP, x, &temp, (double *) NULL, 
+         (*solids[n].gmix)(FIRST, t, p+deltaP, x, &temp, (double *) NULL,
             (double **) NULL, (double ***) NULL);
          temp = (temp-g)/deltaP;
          flag = ( ABS(temp - v) <= sqrt(TAU)*ABS(g) ) ? "OK " : "BAD";
-         printf("%s v = %g (%g, %s)\n", flag, v, temp, "from g"); 
+         printf("%s v = %g (%g, %s)\n", flag, v, temp, "from g");
 
          /* print and test dvdx[] */
-         for (i=0; i<NX; i++) { 
+         for (i=0; i<NX; i++) {
             for (j=0; j<NX; j++) xtemp[j] = x[j];
             xtemp[i] += deltaX[i];
-            (*solids[n].vmix)(FIRST, t, p, xtemp, &temp, (double *) NULL, 
-               (double **) NULL, (double *) NULL, (double *) NULL, 
+            (*solids[n].vmix)(FIRST, t, p, xtemp, &temp, (double *) NULL,
+               (double **) NULL, (double *) NULL, (double *) NULL,
                (double *) NULL, (double *) NULL, (double *) NULL,
                (double *) NULL, (double *) NULL);
             temp = (temp-v)/deltaX[i];
@@ -647,86 +672,86 @@ int main()
             printf("%s dvdx[%d] = %g (%g, %s)\n", flag, i, dvdx[i], temp,
                "from v");
          }
- 
+
          /* print and test d2vdx2[][] */
          for (i=0; i<NX; i++) {
-            for (j=0; j<NX; j++) { 
+            for (j=0; j<NX; j++) {
                for (k=0; k<NX; k++) xtemp[k] = x[k];
                xtemp[j] += deltaX[j];
                (*solids[n].vmix)(SECOND, t, p, xtemp, (double *) NULL, vtemp,
-                  (double **) NULL, (double *) NULL, (double *) NULL, 
+                  (double **) NULL, (double *) NULL, (double *) NULL,
                   (double *) NULL, (double *) NULL, (double *) NULL,
                   (double *) NULL, (double *) NULL);
                temp = (vtemp[i]-dvdx[i])/deltaX[j];
                TEST(d2vdx2[i][j]);
-               printf("%s d2vdx2[%d][%d] = %g (%g, %s)\n", flag, i, j, 
+               printf("%s d2vdx2[%d][%d] = %g (%g, %s)\n", flag, i, j,
                   d2vdx2[i][j], temp, "from dvdx[]");
             }
          }
 
          /* print and test dvdt */
-         (*solids[n].vmix)(FIRST, t+deltaT, p, x, &temp, (double *) NULL, 
-            (double **) NULL, (double *) NULL, (double *) NULL, 
+         (*solids[n].vmix)(FIRST, t+deltaT, p, x, &temp, (double *) NULL,
+            (double **) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
          temp = (temp-v)/deltaT;
          TEST(dvdt);
          printf("%s dvdt = %g (%g, %s)\n", flag, dvdt, temp, "from v");
- 
+
          /* print and test dvdp */
-         (*solids[n].vmix)(FIRST, t, p+deltaP, x, &temp, (double *) NULL, 
-            (double **) NULL, (double *) NULL, (double *) NULL, 
+         (*solids[n].vmix)(FIRST, t, p+deltaP, x, &temp, (double *) NULL,
+            (double **) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
          temp = (temp-v)/deltaP;
          TEST(dvdp);
-         printf("%s dvdp = %g (%g, %s)\n", flag, dvdp, temp, "from v"); 
+         printf("%s dvdp = %g (%g, %s)\n", flag, dvdp, temp, "from v");
 
          /* print and test d2vdt2 */
-         (*solids[n].vmix)(FOURTH, t+deltaT, p, x, (double *) NULL, 
-            (double *) NULL, (double **) NULL, &temp, (double *) NULL, 
+         (*solids[n].vmix)(FOURTH, t+deltaT, p, x, (double *) NULL,
+            (double *) NULL, (double **) NULL, &temp, (double *) NULL,
             (double *) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
          temp = (temp-dvdt)/deltaT;
          TEST(d2vdt2);
-         printf("%s d2vdt2 = %g (%g, %s)\n", flag, d2vdt2, temp, "from dvdt"); 
+         printf("%s d2vdt2 = %g (%g, %s)\n", flag, d2vdt2, temp, "from dvdt");
 
          /* print and test d2vdtdp */
-         (*solids[n].vmix)(FOURTH, t, p+deltaP, x, (double *) NULL, 
+         (*solids[n].vmix)(FOURTH, t, p+deltaP, x, (double *) NULL,
             (double *) NULL, (double **) NULL, &temp, (double *) NULL,
             (double *) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
          temp = (temp-dvdt)/deltaP;
          TEST(d2vdtdp);
-         printf("%s d2vdtdp = %g (%g, %s)\n", flag, d2vdtdp, temp, 
-            "from dvdt"); 
+         printf("%s d2vdtdp = %g (%g, %s)\n", flag, d2vdtdp, temp,
+            "from dvdt");
 
          /* print and test d2vdtdp */
-         (*solids[n].vmix)(FIFTH, t+deltaT, p, x, (double *) NULL, 
-            (double *) NULL, (double **) NULL, (double *) NULL, &temp, 
+         (*solids[n].vmix)(FIFTH, t+deltaT, p, x, (double *) NULL,
+            (double *) NULL, (double **) NULL, (double *) NULL, &temp,
             (double *) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
          temp = (temp-dvdp)/deltaT;
          TEST(d2vdtdp);
-         printf("%s d2vdtdp = %g (%g, %s)\n", flag, d2vdtdp, temp, 
-            "from dvdp"); 
+         printf("%s d2vdtdp = %g (%g, %s)\n", flag, d2vdtdp, temp,
+            "from dvdp");
 
          /* print and test d2vdp2 */
-         (*solids[n].vmix)(FIFTH, t, p+deltaP, x, (double *) NULL, 
-            (double *) NULL, (double **) NULL, (double *) NULL, &temp, 
+         (*solids[n].vmix)(FIFTH, t, p+deltaP, x, (double *) NULL,
+            (double *) NULL, (double **) NULL, (double *) NULL, &temp,
             (double *) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
          temp = (temp-dvdp)/deltaP;
          TEST(d2vdp2);
-         printf("%s d2vdp2 = %g (%g, %s)\n", flag, d2vdp2, temp, "from dvdp"); 
+         printf("%s d2vdp2 = %g (%g, %s)\n", flag, d2vdp2, temp, "from dvdp");
 
          /* print and test d2vdxdt[] */
-         for (i=0; i<NX; i++) { 
+         for (i=0; i<NX; i++) {
             for (j=0; j<NX; j++) xtemp[j] = x[j];
             xtemp[i] += deltaX[i];
-            (*solids[n].vmix)(FOURTH, t, p, xtemp, (double *) NULL, 
-               (double *) NULL, (double **) NULL, &temp, (double *) NULL, 
-               (double *) NULL, (double *) NULL, (double *) NULL, 
+            (*solids[n].vmix)(FOURTH, t, p, xtemp, (double *) NULL,
+               (double *) NULL, (double **) NULL, &temp, (double *) NULL,
+               (double *) NULL, (double *) NULL, (double *) NULL,
                (double *) NULL, (double *) NULL);
             temp = (temp-dvdt)/deltaX[i];
             TEST(d2vdxdt[i]);
@@ -735,12 +760,12 @@ int main()
          }
 
          /* print and test d2vdxdp[] */
-         for (i=0; i<NX; i++) { 
+         for (i=0; i<NX; i++) {
             for (j=0; j<NX; j++) xtemp[j] = x[j];
             xtemp[i] += deltaX[i];
-            (*solids[n].vmix)(FIFTH, t, p, xtemp, (double *) NULL, 
-               (double *) NULL, (double **) NULL, (double *) NULL, &temp, 
-               (double *) NULL, (double *) NULL, (double *) NULL, 
+            (*solids[n].vmix)(FIFTH, t, p, xtemp, (double *) NULL,
+               (double *) NULL, (double **) NULL, (double *) NULL, &temp,
+               (double *) NULL, (double *) NULL, (double *) NULL,
                (double *) NULL, (double *) NULL);
             temp = (temp-dvdp)/deltaX[i];
             TEST(d2vdxdp[i]);
@@ -758,46 +783,46 @@ int main()
          /* print and test h */
          temp = g + t*s;
          TEST(h);
-         printf("%s h = %g (%g, %s)\n", flag, h, temp, "from g and s"); 
+         printf("%s h = %g (%g, %s)\n", flag, h, temp, "from g and s");
          printf("\n");
 
-         /******************************************************************** 
-          Destroy space allocated for vectors and matrices                 
+         /********************************************************************
+          Destroy space allocated for vectors and matrices
           ********************************************************************/
 
-         free_vector(  moles, 0, NC-1);
-         free_vector(  mtemp, 0, NC-1);
-         free_vector(      x, 0, NX-1);
-         free_vector(  xtemp, 0, NX-1);
-         free_vector(  vtemp, 0, NC-1);
-         free_vector( deltaM, 0, NC-1);
-         free_vector( deltaX, 0, NX-1);
-         free_vector(      a, 0, NC-1);
-         free_vector(     mu, 0, NC-1);
-         free_vector(   dgdx, 0, NX-1);
-         free_vector(   dsdx, 0, NX-1);
-         free_vector(   dvdx, 0, NX-1);
-         free_vector(  dcpdx, 0, NX-1);
-         free_vector(d2vdxdt, 0, NX-1);
-         free_vector(d2vdxdp, 0, NX-1);
+         vector_free(  moles, NC);
+         vector_free(  mtemp, NC);
+         vector_free(      x, NX);
+         vector_free(  xtemp, NX);
+         vector_free(  vtemp, NC);
+         vector_free( deltaM, NC);
+         vector_free( deltaX, NX);
+         vector_free(      a, NC);
+         vector_free(     mu, NC);
+         vector_free(   dgdx, NX);
+         vector_free(   dsdx, NX);
+         vector_free(   dvdx, NX);
+         vector_free(  dcpdx, NX);
+         vector_free(d2vdxdt, NX);
+         vector_free(d2vdxdp, NX);
 
-         free_matrix(  drdm, 0, NX-1, 0, NC-1);
-         free_matrix(  dxdr, 0, NC-1, 0, NX-1);
-         free_matrix( dtemp, 0, NX-1, 0, NC-1);
-         free_matrix(  dadx, 0, NC-1, 0, NX-1);
-         free_matrix(d2gdx2, 0, NX-1, 0, NX-1);
-         free_matrix(d2sdx2, 0, NX-1, 0, NX-1);
-         free_matrix(d2vdx2, 0, NX-1, 0, NX-1);
-         free_matrix(v2temp, 0, NX-1, 0, NX-1);
+         matrix_free(  drdm, NX, NC);
+         matrix_free(  dxdr, NC, NX);
+         matrix_free( dtemp, NX, NC);
+         matrix_free(  dadx, NC, NX);
+         matrix_free(d2gdx2, NX, NX);
+         matrix_free(d2sdx2, NX, NX);
+         matrix_free(d2vdx2, NX, NX);
+         matrix_free(v2temp, NX, NX);
 
-         for (i=0; i<NX; i++) free_matrix(d2rdm2[i], 0, NC-1, 0, NC-1);
+         for (i=0; i<NX; i++) matrix_free(d2rdm2[i], NC, NC);
          free(d2rdm2);
-         for (i=0; i<NX; i++) free_matrix(d2temp[i], 0, NC-1, 0, NC-1);
+         for (i=0; i<NX; i++) matrix_free(d2temp[i], NC, NC);
          free(d2temp);
-         for (i=0; i<NX; i++) free_matrix(d3gdx3[i], 0, NX-1, 0, NX-1);
+         for (i=0; i<NX; i++) matrix_free(d3gdx3[i], NX, NX);
          free(d3gdx3);
          for (i=0; i<NX; i++) {
-            for (j=0; j<NC; j++) free_matrix(d3rdm3[i][j],0,NC-1,0,NC-1);
+            for (j=0; j<NC; j++) matrix_free(d3rdm3[i][j],0,NC-1,0,NC-1);
             free(d3rdm3[i]);
          }
          free(d3rdm3);

@@ -125,14 +125,14 @@ MELTS Source Code: RCS
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "melts_gsl.h"            /* Needs to go before silmin.h */
 #include "silmin.h"               /*SILMIN structures include file          */
-#include "recipes.h"
 
-int getAffinityAndCompositionGeneric(double t, double p, int index,                           
-  int *zeroX, double *muMinusMu0, double *affinity, double *indepVar);
+int getAffinityAndCompositionGeneric(double t, double p, int index,
+    int *zeroX, double *muMinusMu0, double *affinity, double *indepVar);
 
-int getAffinityAndCompositionPyroxene(double t, double p, int index,                           
-  int *zeroX, double *muMinusMu0, double *affinity, double *indepVar);
+int getAffinityAndCompositionPyroxene(double t, double p, int index,
+    int *zeroX, double *muMinusMu0, double *affinity, double *indepVar);
 
 #ifdef DEBUG
 #undef DEBUG
@@ -208,91 +208,100 @@ int evaluateSaturationState(double *rSol, double *rLiq)
     for (i=0;i<nlc;i++) liquidComp[i] = silminState->liquidComp[0][i];
 
   } else {    /* liquid is absent */
-
-    double *muAllSol, **stoichMatrix, *muAllLiq, *w, **v;
-    char *yes;
-    int nonZero, m, n;
-    muAllSol = (double *) calloc((unsigned) npc, sizeof(double));
-    muAllLiq = dvector(1,nlc+1);
-    stoichMatrix = dmatrix(1,npc,1,nlc+1);
-
-    /* obtain solid chemical potentials */
-    for (i=0,j=1;i<npc;i++) {
-      if (solids[i].type == PHASE) {
-        if (silminState->nSolidCoexist[i]) {
-          if (solids[i].na == 1) muAllSol[j++] = (solids[i].cur).g;
-          else {
-            for (k=0;k<solids[i].na;k++) xSol[k] = silminState->solidComp[i+1+k][0];
-            (*solids[i].convert)(SECOND, THIRD, t, p, (double *) NULL, xSol,
-              rSol, (double *) NULL, (double **) NULL, (double ***) NULL,
-              (double **) NULL, (double ****) NULL);
-            (*solids[i].activity)(SECOND, t, p, rSol, (double *) NULL,
-              muTemp, (double **) NULL);
-            for (k=0;k<solids[i].na;k++)
-              if (silminState->solidComp[i+1+k][0] != 0.0)
-                muAllSol[j++] = (solids[i+1+k].cur).g + muTemp[k];
-          }
-        }
-      }
-    }
-    /* obtain stoichiometry matrix */
-    for (i=0,j=1;i<npc;i++) {
-      if (solids[i].type == PHASE) {
-        if (silminState->nSolidCoexist[i]) {
-          if (solids[i].na == 1) {
-            for (k=0,l=1;k<nlc;k++) {
-              for (n=0,nonZero=1;n<nc;n++)
-                if (silminState->bulkComp[n] == 0.0 && liquid[k].liqToOx[n] != 0) nonZero = 0;
-              if (nonZero)
-                stoichMatrix[j][l++] = solids[i].solToLiq[k];
-            }
-            j++;
-          } else {
-            for (m=0;m<solids[i].na;m++) {
-              if (silminState->solidComp[i+1+m][0] != 0.0) {
-                for (k=0,l=1;k<nlc;k++) {
-                  for (n=0,nonZero=1;n<nc;n++)
-                    if (silminState->bulkComp[n] == 0.0 && liquid[k].liqToOx[n] != 0) nonZero = 0;
-                  if (nonZero)
-                    stoichMatrix[j][l++] = solids[i+1+m].solToLiq[k];
-                }
-                j++;
+      
+      gsl_vector *muAllSol, *muAllLiq, *S;
+      gsl_matrix *stoichMatrix, *V;
+      gsl_matrix_view A;
+      gsl_vector_view b, x;
+      int nonZero, m, n;
+      
+      muAllSol = gsl_vector_alloc((size_t) npc);
+      muAllLiq = gsl_vector_alloc((size_t) nlc+1);
+      stoichMatrix = gsl_matrix_alloc((size_t) npc, (size_t) nlc+1);
+      
+      /* obtain solid chemical potentials */
+      for (i=0,j=0;i<npc;i++) {
+          if (solids[i].type == PHASE) {
+              if (silminState->nSolidCoexist[i]) {
+                  if (solids[i].na == 1) {
+                      gsl_vector_set(muAllSol, j, (solids[i].cur).g);
+                      j++;
+                  }
+                  else {
+                      for (k=0;k<solids[i].na;k++) xSol[k] = silminState->solidComp[i+1+k][0];
+                      (*solids[i].convert)(SECOND, THIRD, t, p, NULL, xSol, rSol, NULL, NULL, NULL, NULL, NULL);
+                      (*solids[i].activity)(SECOND, t, p, rSol, NULL, muTemp, NULL);
+                      for (k=0;k<solids[i].na;k++) {
+                          if (silminState->solidComp[i+1+k][0] != 0.0) {
+                              gsl_vector_set(muAllSol, j, (solids[i+1+k].cur).g + muTemp[k]);
+                              j++;
+                          }
+                      }
+                  }
               }
-            }
           }
-        }
       }
-    }
-    l-=1; j-=1; /* l now holds number of columns, j number of rows */
-    /* obtain liquid chemical potentials by least squares; if solids are in
+      /* obtain stoichiometry matrix */
+      for (i=0,j=0;i<npc;i++) {
+          if (solids[i].type == PHASE) {
+              if (silminState->nSolidCoexist[i]) {
+                  if (solids[i].na == 1) {
+                      for (k=0,l=0;k<nlc;k++) {
+                          for (n=0,nonZero=1;n<nc;n++) if (silminState->bulkComp[n] == 0.0 && liquid[k].liqToOx[n] != 0) nonZero = 0;
+                          if (nonZero) {
+                              gsl_matrix_set(stoichMatrix, j, l,  solids[i].solToLiq[k]);
+                              l++;
+                          }
+                      }
+                      j++;
+                  } else {
+                      for (m=0;m<solids[i].na;m++) {
+                          if (silminState->solidComp[i+1+m][0] != 0.0) {
+                              for (k=0,l=0;k<nlc;k++) {
+                                  for (n=0,nonZero=1;n<nc;n++) if (silminState->bulkComp[n] == 0.0 && liquid[k].liqToOx[n] != 0) nonZero = 0;
+                                  if (nonZero) {
+                                      gsl_matrix_set(stoichMatrix, j, l, solids[i+1+m].solToLiq[k]);
+                                      l++;
+                                  }
+                              }
+                              j++;
+                          }
+                      }
+                  }
+              }
+          }
+      }
+      /* l now holds number of columns, j number of rows */
+      /* obtain liquid chemical potentials by least squares; if solids are in
        equilibrium the system should be overdetermined but exactly consistent */
-    w = dvector(1,l);
-    v = dmatrix(1,l,1,l);
-    yes = (char *) malloc((unsigned) (j+1)*sizeof(char));
-    for (i=1; i<=j; i++) yes[i] = 1;
-    svdcmp(stoichMatrix,j,l,w,v);
-    for (i=1;i<l;i++) if (w[i] < 1.0e-08) w[i] = 0.0;
-    svbksb(stoichMatrix,w,v,j,l,muAllSol,yes,muAllLiq);
-    for (i=0,l=1;i<nlc;i++) {
-      for (n=0,nonZero=1;n<nc;n++)
-        if (silminState->bulkComp[n] == 0.0 && liquid[i].liqToOx[n] != 0) nonZero = 0;
-      if (!nonZero) {
-        muLiq[i] = 0.0;
-        liquidComp[i] = 0.0;
-      } else {
-        muLiq[i] = muAllLiq[l++];
-        liquidComp[i] = 1.0;
+      S = gsl_vector_alloc((size_t) l);
+      V = gsl_matrix_alloc((size_t) l, (size_t) l);
+      A = gsl_matrix_submatrix(stoichMatrix, (size_t) 0, (size_t) 0, (size_t) j, (size_t) l);
+      b = gsl_vector_subvector(muAllSol, (size_t) 0, (size_t) j);
+      x = gsl_vector_subvector(muAllLiq, (size_t) 0, (size_t) l);
+      
+      gsl_linalg_SV_decomp(&A.matrix, V, S, &x.vector); // muAllLiq used as work space
+      for (i=0;i<l;i++) if (gsl_vector_get(S, i) < 1.0e-08) gsl_vector_set(S, i, 0.0);
+      gsl_linalg_SV_solve(&A.matrix, V, S, &b.vector, &x.vector);
+      
+      for (i=0,l=0;i<nlc;i++) {
+          for (n=0,nonZero=1;n<nc;n++) if (silminState->bulkComp[n] == 0.0 && liquid[i].liqToOx[n] != 0) nonZero = 0;
+          if (!nonZero) {
+              muLiq[i] = 0.0;
+              liquidComp[i] = 0.0;
+          } else {
+              muLiq[i] = gsl_vector_get(&x.vector, l);
+              liquidComp[i] = 1.0;
+              l++;
+          }
       }
-    }
-    l-=1;
-    free_dvector(w,1,l);
-    free_dmatrix(v,1,l,1,l);
-    free_dmatrix(stoichMatrix,1,npc,1,nlc+1);
-    free_dvector(muAllLiq,1,nlc+1);
-    free(muAllSol);
-    free(yes);
-  }
+      
+      gsl_matrix_free(V); gsl_vector_free(S);
+      gsl_matrix_free(stoichMatrix);
+      gsl_vector_free(muAllLiq); gsl_vector_free(muAllSol);
 
+  }
+      
   hasSupersat = FALSE;
 
   /* obtain solid chemical potentials, affinities and composition estimates  */

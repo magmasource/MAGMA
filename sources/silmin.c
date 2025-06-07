@@ -253,7 +253,6 @@ const char *silmin_ver(void) { return "$Id: silmin.c,v 1.12 2009/04/24 20:51:09 
 
 #include "lawson_hanson.h"        /*func decl for Lawson and Hanson routines*/
 #include "silmin.h"               /*SILMIN structures include file          */
-#include "recipes.h"              /*Numerical recipes routines              */
 #include "nash.h"                 /*func decl for Nash routines             */
 
 #ifndef BATCH_VERSION
@@ -340,7 +339,40 @@ XmStringFree(csString); \
 
 static void newErrorHandler(int sig);  /* new error handler function */
 static void (*oldErrorHandler)();      /* old error handler function */
+#endif
 
+static double **matrix_alloc(int n1, int n2) {
+    int i;
+    double *m0 = (double *) malloc((size_t) n1*n2*sizeof(double));
+    double **m = (double **) malloc((size_t) n1*sizeof(double *));
+    for (i=0; i<n1; i++) m[i] = &m0[i*n2];
+    return m;
+}
+
+static void matrix_free(double **m, int n1, int n2) {
+    free(m[0]);
+    free(m);
+}
+
+static double *vector_alloc(int n) {
+    double *v = (double *) malloc((size_t) n*sizeof(double));
+    return v;
+}
+
+static void vector_free(double *v, int n) {
+    free(v);
+}
+
+static int *permutation_alloc(int n) {
+    int *p = (int *) malloc((size_t) n*sizeof(int));
+    return p;
+}
+
+static void permutation_free(int *p, int n) {
+    free(p);
+}
+
+#ifndef BATCH_VERSION
 Boolean silmin(XtPointer client_data)
 #else
 #ifndef EASYMELTS_UPDATE_SYSTEM
@@ -905,10 +937,10 @@ int silmin(int calc_index)
                 int    *pVector, pseudoRank, nLiqs, nSols, nCmps;
                 double tolerance = 10.0*DBL_EPSILON /**DBL_EPSILON */, scale = DBL_MIN, fNORM;
 
-                aMatrix =  matrix(0, conCols-conRows-1, 0, conCols-conRows-1);
-                hVector =  vector(0, conCols-conRows-1);
-                gVector =  vector(0, conCols-conRows-1);
-                pVector = ivector(0, conCols-conRows-1);
+                aMatrix =  matrix_alloc(conCols-conRows, conCols-conRows);
+                hVector =  vector_alloc(conCols-conRows);
+                gVector =  vector_alloc(conCols-conRows);
+                pVector =  permutation_alloc(conCols-conRows);
 
                 nLiqs = (silminState->multipleLiqs) ? silminState->nLiquidCoexist : 1;
                 for (i=0, nCmps=0; i<nc;  i++) if ((silminState->bulkComp)[i] != 0.0) nCmps++;
@@ -954,10 +986,10 @@ int silmin(int calc_index)
                  */
 #endif
 
-                free_ivector(pVector, 0, conCols-conRows-1);
-                free_vector (gVector, 0, conCols-conRows-1);
-                free_vector (hVector, 0, conCols-conRows-1);
-                free_matrix (aMatrix, 0, conCols-conRows-1, 0, conCols-conRows-1);
+                permutation_free(pVector, conCols-conRows);
+                vector_free (gVector, conCols-conRows);
+                vector_free (hVector, conCols-conRows);
+                matrix_free (aMatrix, conCols-conRows, conCols-conRows);
             } else if (silminState->isenthalpic && (silminState->refEnthalpy != 0.0)) {
                 correctTforChangeInEnthalpy();
 #ifndef BATCH_VERSION

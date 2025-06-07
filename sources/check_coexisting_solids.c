@@ -95,15 +95,16 @@ MELTS Source Code: RCS
 **              reject 2.1-0
 **--
 */
+//#include "melts_gsl.h"
 
 #include "silmin.h"
 #include "nash.h"
 #include "lawson_hanson.h"
-#include "recipes.h"
 
 #define SQUARE(x) ((x)*(x))
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
 
+/* If change this would need to set up gsl matrix like in check coexisting liquids */
 #define _NO_SPINODE_TEST
 
 #ifdef DEBUG
@@ -149,22 +150,16 @@ static void   initializeGlobalStatics(void);
 #define FAILURE FALSE
 
 #ifdef SPINODE_TEST
-static int choldc(double **a, int n) {
-  int i,j,k;
-  double sum, *p;
+static int checkpd(gsl_matrix *a, int n) {
+    gsl_matrix_view p = gsl_matrix_submatrix(a, (size_t) 0, (size_t) 0, (size_t) n, (size_t) n);
+    int status;
 
-  p = dvector(0,nr);
-  for (i=0;i<n;i++) {
-    for (j=i;j<n;j++) {
-      for (sum=a[i][j],k=i-1;k>=0;k--) sum-=a[i][k]*a[j][k];
-      if (i==j) {
-        if (sum <= 0.0) return FAILURE;
-        p[i] = sqrt(sum);
-      } else a[j][i] = sum/p[i];
-    }
-  }
-  free_dvector(p,0,nr);
-  return TRUE;
+    (void) gsl_set_error_handler_off();
+    status = gsl_linalg_cholesky_decomp1(&p.matrix);
+    (void) gsl_set_error_handler(NULL);
+
+    return (status == GSL_SUCCESS);
+}
 }
 #endif
 
@@ -348,7 +343,8 @@ int checkForCoexistingSolids(  /* returns a MODE flag for success or failure */
           (silminState->solidDelta)[Index+i] = (double *) REALLOC((silminState->solidDelta)[Index+i], (size_t) (ns+1)*sizeof(double));
         }
         /* Find the composition most distant from the initial composition */
-        for (i=0, j=0; i<np; i++) if (rTr[i] > rTr[j]) j = i; np = j;
+        for (i=0, j=0; i<np; i++) if (rTr[i] > rTr[j]) j = i;
+        np = j;
         /* Add the new phase to the system */
         inmass = MASSIN; acceptable = FALSE;
         if (hasLiquid) {  /* test to see whether withdrawing from liquid will cause crash (use first liquid) */

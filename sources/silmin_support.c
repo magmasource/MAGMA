@@ -280,8 +280,8 @@ MELTS Source Code: RCS
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "melts_gsl.h"
 #include "silmin.h"                 /*SILMIN structures include file        */
-#include "recipes.h"                /* numerical recipes include file       */
 
 #ifndef BATCH_VERSION
 #include <Xm/PushBG.h>
@@ -2020,86 +2020,105 @@ void correctPforChangeInVolume(void)
 *************************************************************************/
 
 int addOrDropLiquid(double *deltaBulkComp) {
-  int i, j, k, l, n, result;
-  double **reducedSolToOx;
-  double *w, **v, *deltaSol, *weights;
-  char *yes;
+    int i, j, k, l, n, result;
+    gsl_matrix *reducedSolToOx, *V;
+    gsl_vector *deltaSol, *deltaLiq, *S;
+    double *weights;
 
-  result = TRUE;
-  /* count solid phase-components in assemblage */
-  for (i=0, n=0; i<npc; i++) if (silminState->nSolidCoexist[i]) n+= solids[i].na;
+    result = TRUE;
+    /* count solid phase-components in assemblage */
+    for (i=0, n=0; i<npc; i++) if (silminState->nSolidCoexist[i]) n+= solids[i].na;
+    if (n == 0) return FALSE;
 
-  /* allocate memory */
-  reducedSolToOx = matrix(1, nc, 1, n);
-  w = vector(1, n);
-  v = matrix(1, n, 1, n);
-  deltaSol = vector(1, n);
-  weights = vector(1, n);
-  yes = (char *) malloc((size_t) (nc+1)*sizeof(char));
-  for (i=1; i<=nc; i++) yes[i] = True;
-
-  /* construct reduced SolToLiq matrix */
-  for (i=0, k=1; i<npc; i++) {
-    if (silminState->nSolidCoexist[i]) {
-      if (solids[i].na == 1) {
-        weights[k] = silminState->solidComp[i][0];
-        for (j=1; j<=nc; j++) reducedSolToOx[j][k] = (solids[i].solToOx)[j-1]*weights[k];
-        k++;
-      } else for (l=0; l<solids[i].na; l++) {
-        weights[k] = silminState->solidComp[i+1+l][0];
-        for(j=1; j<=nc; j++) reducedSolToOx[j][k] = (solids[i+1+l].solToOx)[j-1]*weights[k];
-        k++;
-      }
+    /* allocate memory */
+    if (nc >= n) {
+        reducedSolToOx = gsl_matrix_alloc((size_t) nc, (size_t) n);
+        deltaLiq = gsl_vector_alloc((size_t) nc);
     }
-  }
+    else {
+        reducedSolToOx = gsl_matrix_alloc((size_t) n, (size_t) n);
+        deltaLiq = gsl_vector_alloc((size_t) n);
+        gsl_matrix_set_zero(reducedSolToOx); // pad with zeros
+        gsl_vector_set_zero(deltaLiq);
+    }
+    deltaSol = gsl_vector_alloc((size_t) n);
+    weights =  (double *) malloc((size_t) n*sizeof(double));
 
-  /* SVD it and backsub deltaBulkComp to get correction vector */
-  svdcmp(reducedSolToOx, nc, n, w, v);
-  for (i=1;i<=n;i++) if (w[i] <= 1.0e-08) w[i] = 0.0;
-  svbksb(reducedSolToOx, w, v, nc, n, (deltaBulkComp-1), yes, deltaSol);
-
-  /* apply the correction */
-  for (i=0, k=1; i<npc; i++) {
-    if (silminState->nSolidCoexist[i]) {
-      if (solids[i].na == 1) {
-        silminState->solidComp[i][0] -= weights[k]*deltaSol[k]; k++;
-        if (silminState->solidComp[i][0] <= 0.0) result = FALSE;
-      } else {
-        double *mSol = vector(0, solids[i].na);
-        for (j=0;j<solids[i].na;j++) {
-          silminState->solidComp[i][0] -= weights[k]*deltaSol[k];
-          mSol[j] = (silminState->solidComp[i+1+j][0] -= weights[k]*deltaSol[k]); k++;
+    /* construct reduced SolToLiq matrix */
+    for (i=0, k=0; i<npc; i++) {
+        if (silminState->nSolidCoexist[i]) {
+            if (solids[i].na == 1) {
+                weights[k] = silminState->solidComp[i][0];
+                if (nc >= n) for (j=0; j<nc; j++) gsl_matrix_set(reducedSolToOx, j, k, (solids[i].solToOx)[j]*weights[k]);
+                else for (j=0; j<nc; j++) gsl_matrix_set(reducedSolToOx, k, j, (solids[i].solToOx)[j]*weights[k]);
+                k++;
+            } else for (l=0; l<solids[i].na; l++) {
+                weights[k] = silminState->solidComp[i+1+l][0];
+                if (nc >= n) for (j=0; j<nc; j++) gsl_matrix_set(reducedSolToOx, j, k, (solids[i+1+l].solToOx)[j]*weights[k]);
+                else for (j=0; j<nc; j++) gsl_matrix_set(reducedSolToOx, k, j, (solids[i+1+l].solToOx)[j]*weights[k]);
+                k++;
+            }
         }
-        if (silminState->solidComp[i][0] <= 0.0) result = FALSE;
-        else result = result & (*solids[i].test)(SIXTH, silminState->T, silminState->P, 0, 0, NULL, NULL, NULL, mSol);
-        free_vector(mSol, 0, solids[i].na);
-      }
     }
-  }
 
-  /* undo the correction on failure */
-  if (result == FALSE) {
-    for (i=0, k=1; i<npc; i++) {
-      if (silminState->nSolidCoexist[i]) {
-        if (solids[i].na == 1) {
-          silminState->solidComp[i][0] += weights[k]*deltaSol[k]; k++;
-        } else {
-          for (j=0; j<solids[i].na; j++) {
-            silminState->solidComp[i][0] += weights[k]*deltaSol[k];
-            silminState->solidComp[i+1+j][0] += weights[k]*deltaSol[k]; k++;
-          }
+    V = gsl_matrix_alloc((size_t) n, (size_t) n);
+    S = gsl_vector_alloc((size_t) n);
+
+    /* SVD it and backsub deltaBulkComp to get correction vector */
+    gsl_linalg_SV_decomp(reducedSolToOx, V, S, deltaSol); // deltaSol used as work space
+    for (i=0;i<n;i++) if (gsl_vector_get(S, i) < 1.0e-08) gsl_vector_set(S, i, 0.0);
+
+    for (i=0; i<nc; i++) gsl_vector_set(deltaLiq, i, deltaBulkComp[i]);
+
+    // SVD not implemented for M < N in GSL
+    if (nc >= n) gsl_linalg_SV_solve(reducedSolToOx, V, S, deltaLiq, deltaSol);
+    else gsl_linalg_SV_solve(V, reducedSolToOx, S, deltaLiq, deltaSol);
+
+    /* apply the correction */
+    for (i=0, k=0; i<npc; i++) {
+        if (silminState->nSolidCoexist[i]) {
+            if (solids[i].na == 1) {
+                silminState->solidComp[i][0] -= weights[k]*gsl_vector_get(deltaSol, k);
+                k++;
+                if (silminState->solidComp[i][0] <= 0.0) result = FALSE;
+            } else {
+                double *mSol = (double *) malloc((size_t) solids[i].na*sizeof(double));
+                for (j=0;j<solids[i].na;j++) {
+                    mSol[j] = silminState->solidComp[i+1+j][0];
+                    silminState->solidComp[i][0] -= weights[k]*gsl_vector_get(deltaSol, k);
+                    silminState->solidComp[i+1+j][0] -= weights[k]*gsl_vector_get(deltaSol, k);
+                    k++;
+                }
+                if (silminState->solidComp[i][0] <= 0.0) result = FALSE;
+                else result = result & (*solids[i].test)(SIXTH, silminState->T, silminState->P, 0, 0, NULL, NULL, NULL, mSol);
+                free(mSol);
+            }
         }
-      }
     }
-  }
-  free_matrix(reducedSolToOx, 1, nc, 1, n);
-  free_matrix(v, 1, n, 1, n);
-  free_vector(w, 1, n);
-  free_vector(deltaSol, 1, n);
-  free_vector(weights, 1, n);
-  free(yes);
 
-  return result;
+    /* undo the correction on failure */
+    if (result == FALSE) {
+        for (i=0, k=0; i<npc; i++) {
+            if (silminState->nSolidCoexist[i]) {
+                if (solids[i].na == 1) {
+                    silminState->solidComp[i][0] += weights[k]*gsl_vector_get(deltaSol, k);
+                    k++;
+               } else {
+                    for (j=0; j<solids[i].na; j++) {
+                        silminState->solidComp[i][0] += weights[k]*gsl_vector_get(deltaSol, k);
+                        silminState->solidComp[i+1+j][0] += weights[k]*gsl_vector_get(deltaSol, k);
+                        k++;
+                    }
+                }
+            }
+        }
+    }
+    gsl_matrix_free(reducedSolToOx);
+    gsl_matrix_free(V); gsl_vector_free(S);
+    gsl_vector_free(deltaLiq); gsl_vector_free(deltaSol);
+    free(weights);
+
+    return result;
 }
 
 /* end of file SILMIN_SUPPORT.C */

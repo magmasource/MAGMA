@@ -183,7 +183,6 @@ const char *gibbs_ver(void) { return "$Id: gibbs.c,v 1.11 2008/10/15 00:40:06 gh
  */
 
 #include "silmin.h"  /* SILMIN structures include file */
-#include "recipes.h" /* Numerical Recipes routines     */
 
 /*
  #define SPECIAL_O2
