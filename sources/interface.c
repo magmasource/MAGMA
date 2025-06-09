@@ -1410,7 +1410,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
     }
 
     if (schema != NULL) xmlSchemaFree(schema);
-    xmlSchemaCleanupTypes();
+    //xmlSchemaCleanupTypes(); deprecated - now private and called by xmlCleanupParser
     xmlCleanupParser();
 
     return ret;
@@ -2918,7 +2918,7 @@ int main (int argc, char *argv[])
 
                 while ((dp = readdir(inputDir)) != NULL) {
                     if (strstr(dp->d_name, ".xml")   != NULL) { /* found a file to process */
-                        int ret;
+                        int ret, len;
                         char *iFileName, *oFileName, *pFileName, *sFileName;
 
                         if (silminState == NULL) {
@@ -2931,10 +2931,11 @@ int main (int argc, char *argv[])
                         }
                         silminState->assimilate = FALSE;
 
-                        iFileName = (char *) malloc((size_t) (lenIdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
-                        oFileName = (char *) malloc((size_t) (lenOdir + 1 + strlen(dp->d_name) + 5)*sizeof(char));
-                        pFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 1)*sizeof(char));
-                        sFileName = (char *) malloc((size_t) (lenPdir + 1 + strlen(dp->d_name) + 8)*sizeof(char));
+                        len = strlen(dp->d_name);
+                        iFileName = (char *) malloc((size_t) (lenIdir + 1 + len + 1)*sizeof(char));
+                        oFileName = (char *) malloc((size_t) (lenOdir + 1 + len + 5)*sizeof(char));
+                        pFileName = (char *) malloc((size_t) (lenPdir + 1 + len + 1)*sizeof(char));
+                        sFileName = (char *) malloc((size_t) (lenPdir + 1 + len + 8)*sizeof(char));
 
                         (void) strcpy(iFileName, argv[1]);
                         (void) strcat(iFileName, DIR_DELIM);
@@ -2942,7 +2943,7 @@ int main (int argc, char *argv[])
 
                         (void) strcpy(oFileName, argv[2]);
                         (void) strcat(oFileName, DIR_DELIM);
-                        (void) strncat(oFileName, dp->d_name, strlen(dp->d_name)-4);
+                        (void) strncat(oFileName, dp->d_name, len-4);
                         (void) strcat(oFileName, "-out.xml");
 
                         (void) strcpy(pFileName, (argc > 3) ? argv[3] : argv[2]);
@@ -2951,7 +2952,7 @@ int main (int argc, char *argv[])
 
                         (void) strcpy(sFileName, argv[2]);
                         (void) strcat(sFileName, DIR_DELIM);
-                        (void) strncat(sFileName, dp->d_name, strlen(dp->d_name)-4);
+                        (void) strncat(sFileName, dp->d_name, len-4);
                         (void) strcat(sFileName, "-status.xml");
 
                         ret = batchInputDataFromXmlFile(iFileName);
