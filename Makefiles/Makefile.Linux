@@ -94,14 +94,15 @@ override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
 endif
 
 LIBF2C =
-LIBXML = -L/usr/lib -lxml2 -lm
+LIBXML = -L/usr/lib -lgsl -lgslcblas -lxml2 -lz -lm
+
 ifneq ($(STATIC),)
 override LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
        	 /usr/lib/$(ROOTDIR)/libicuuc.a /usr/lib/$(ROOTDIR)/libicudata.a \
 	 /usr/lib/$(ROOTDIR)/liblzma.a \
         -L/usr/lib/$(ROOTDIR)/ -lpng -lz -lpthread -ldl -lm
 endif
-LIBBATCH = -L/usr/lib -lxml2 -lz -lm
+LIBBATCH = -L/usr/lib -lgsl -lgslcblas -lxml2 -lz -lm
 
 include Makefile.common
 

@@ -1,0 +1,110 @@
+# =================================================================================
+# Makefile for build of the xMELTS package on Linux (Ubuntu - 20.04)
+# Generic Linux makefile (will dynamically link with libxml2 file by default)
+# For static linking of the GUI use: 'make Melts-batch STATIC=true'
+# =================================================================================
+
+MAKEFILE = Makefiles/Makefile.Linux
+ifneq ($(wildcard /lib/aarch64-linux-gnu),)
+ROOTDIR := aarch64-linux-gnu
+else
+ROOTDIR := x86_64-linux-gnu
+endif
+
+# Compilation options
+# ===================
+
+PROTO   = XTFUNCPROTO
+VLIST   = _NO_DRAWINGA_VLIST_PARENT
+ENTRYC  = _NO_WHITE_TEXTW
+ACEPLT  = _NO_GRACE_PIPE
+
+# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
+# ======================================================================================
+
+INCC   = /usr/includexss
+INCXM  = /usr/include
+INCX   = /usr/include
+INCF2C = .
+INCXML = /usr/include/libxml2
+
+# Compiler choice and flags - Do not delete the $(BATCH) macro
+# ============================================================
+
+AR            = ar
+ARFLAGS       = rvU
+DYFLAGS	      = xv
+CC            = clang
+LD            = clang++
+FC            = gfortran
+CFLAGS        = -c -gdwarf-4 -D_USE_ISOC99 -D_ISOC99_SOURCE $(BATCH) $(VERSION) -DDEBUG \
+                -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+FFLAGS        = -O3
+RANLIB        = ranlib
+RANLIBFG      =
+RM            = rm
+RMFLAGS       = -f
+MPICC         = mpicc
+MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
+MPILDFLAGS    = -L/usr/lib -lmpi
+CP            = cp
+CPFLAGS       = -R
+MKDIR         = mkdir
+TAR           = tar
+TARFLAGS      = czvf
+CHECKSUM      = openssl
+CHECKSUMFLAGS = sha256
+SCP           = scp
+USER          = administrator
+HOST          = repository.ofm-research.org
+LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
+PYMELTSVER    = 0.1.1
+
+ifneq ($(DYNAMIC),)
+CFLAGS   += -fPIC -DTESTDYNAMICLIB
+endif
+
+ifneq ($(STATIC),)
+CFLAGS   += -fPIC
+endif
+
+# Loader flags (default is shared, add -non_shared)
+# =================================================
+
+LDFLAGS =
+SONAME = so
+ifneq ($(DYNAMIC),)
+override DYNAMIC = -shared
+endif
+
+# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions
+# ==============================================================================
+
+# Not sure that it is possible to build the static version of Melts-rhyolite-public.
+# Will still be able to run a dynamically linked version in the VM and WSL.
+
+LIBS    = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
+PUBLIBS = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
+ifneq ($(STATIC),)
+override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
+	 -L/usr/lib/$(ROOTDIR)/ -lXft -lXmu -lXt -lXext -lX11 \
+	 -lfreetype -lfontconfig \
+	  /usr/lib/$(ROOTDIR)/libjpeg.a \
+	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libgfortran.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libquadmath.a
+endif
+
+LIBF2C =
+LIBXML = -L/usr/lib -lgsl -lgslcblas -lxml2 -lz -lm
+
+ifneq ($(STATIC),)
+override LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
+       	 /usr/lib/$(ROOTDIR)/libicuuc.a /usr/lib/$(ROOTDIR)/libicudata.a \
+	 /usr/lib/$(ROOTDIR)/liblzma.a \
+        -L/usr/lib/$(ROOTDIR)/ -lpng -lz -lpthread -ldl -lm
+endif
+LIBBATCH = -L/usr/lib -lgsl -lgslcblas -lxml2 -lz -lm
+
+include Makefile.debug
+
+# end of Makefile
+# ===============

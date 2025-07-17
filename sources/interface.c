@@ -1411,7 +1411,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
 
     if (schema != NULL) xmlSchemaFree(schema);
     //xmlSchemaCleanupTypes(); deprecated - now private and called by xmlCleanupParser
-    xmlCleanupParser();
+    //xmlCleanupParser();
 
     return ret;
 }
@@ -2369,6 +2369,11 @@ static void doBatchFractionation(void) {
 /* MAIN FUNCTION */
 /****************/
 
+static void chomp(char *s) {
+    while(*s && *s != '\n' && *s != '\r') s++;
+    *s = 0;
+}
+
 int main (int argc, char *argv[])
 {
 #ifndef BATCH_VERSION
@@ -2849,6 +2854,7 @@ int main (int argc, char *argv[])
                 iFileName = (char *) malloc((size_t) REC*sizeof(char));
 
                 if (fgets(iFileName, REC, input) == NULL) break;
+                chomp(iFileName);
                 ret = batchInputDataFromXmlFile(iFileName);
 
                 len = strlen(silminInputData.name) - 4;
@@ -2895,13 +2901,17 @@ int main (int argc, char *argv[])
                     putOutputDataToXmlFile(oFileName);
                     putStatusDataToXmlFile(sFileName);
                 } else if (ret == RETURN_FINALIZED) {
+                    meltsStatus.status = SILMIN_SUCCESS;
                     putSequenceDataToXmlFile(FALSE); /* finalize and close file */
+                    xmlCleanupParser();
                 }
 
                 free (iFileName);
                 free (oFileName);
                 free (sFileName);
 
+                if ((meltsStatus.status != SILMIN_SUCCESS) && (meltsStatus.status != LIQUIDUS_SUCCESS)) break;
+                
             }
 
             /* -> Close and discard file and return */
@@ -3043,7 +3053,9 @@ int main (int argc, char *argv[])
                             putOutputDataToXmlFile(oFileName);
                             putStatusDataToXmlFile(sFileName);
                         } else if (ret == RETURN_FINALIZED) {
+                            meltsStatus.status = SILMIN_SUCCESS;
                             putSequenceDataToXmlFile(FALSE); /* finalize and close file */
+                            xmlCleanupParser();
                         }
 
                         if (fileOpenAttempts > 2) { ret = TRUE; fileOpenAttempts = 0; }

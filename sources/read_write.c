@@ -1623,6 +1623,7 @@ int putSequenceDataToXmlFile(int active) {
 
     if (active == FALSE) {
       if (writer != NULL) {
+        rc = xmlTextWriterEndElement(writer);
         rc = xmlTextWriterEndDocument(writer);
         xmlFreeTextWriter(writer);
         printf("Sequence file name is %s\n", sequenceFile);
@@ -1737,7 +1738,7 @@ int putSequenceDataToXmlFile(int active) {
             for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
                  rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
             }
-            rc = xmlTextWriterEndElement(writer);
+            rc = xmlTextWriterEndElement(writer); //liquid
         }
     }
 
@@ -1848,7 +1849,7 @@ int putSequenceDataToXmlFile(int active) {
                 }
             }
 
-            rc = xmlTextWriterEndElement(writer);
+            rc = xmlTextWriterEndElement(writer); //solid
         }
     }
 
@@ -1861,7 +1862,7 @@ int putSequenceDataToXmlFile(int active) {
         rc = sprintf(temporary, "%23.16e", totalEntropy);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
         rc = sprintf(temporary, "%23.16e", totalVolume*10.0);  rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",          "%s", temporary);
         rc = sprintf(temporary, "%23.16e", totalHeatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",	  "%s", temporary);
-        rc = xmlTextWriterEndElement(writer);
+        rc = xmlTextWriterEndElement(writer); //totalSolids
     }
 
     if (silminState->isenthalpic && (silminState->refEnthalpy == 0.0)) silminState->refEnthalpy = hLiq+totalEnthalpy;
@@ -1994,7 +1995,7 @@ int putSequenceDataToXmlFile(int active) {
                         }
                     }
 
-                    rc = xmlTextWriterEndElement(writer);
+                    rc = xmlTextWriterEndElement(writer); //solid
                 }
             }
         }
@@ -2060,11 +2061,11 @@ int putSequenceDataToXmlFile(int active) {
                 for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
                     rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
                 }
-                rc = xmlTextWriterEndElement(writer);
+                rc = xmlTextWriterEndElement(writer); //liquid
             }
         }
 
-        rc = xmlTextWriterEndElement(writer);
+        rc = xmlTextWriterEndElement(writer); //fractionate
     }
 
     if ( (previousSilminState->fractionateSol || previousSilminState->fractionateFlu || previousSilminState->fractionateLiq)
@@ -2186,7 +2187,7 @@ int putSequenceDataToXmlFile(int active) {
                         }
                     }
 
-                    rc = xmlTextWriterEndElement(writer);
+                    rc = xmlTextWriterEndElement(writer); //solid
                 }
             }
         }
@@ -2250,11 +2251,11 @@ int putSequenceDataToXmlFile(int active) {
                 for (i=0; i<nc; i++) if (oxVal[i] != 0.0) {
                     rc = sprintf(temporary, "%23.16e", oxVal[i]*100.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST bulkSystem[i].label, "%s", temporary);
                 }
-                rc = xmlTextWriterEndElement(writer);
+                rc = xmlTextWriterEndElement(writer); //liquid
             }
         }
 
-        rc = xmlTextWriterEndElement(writer);
+        rc = xmlTextWriterEndElement(writer); //fractionate
     }
 
     rc = xmlTextWriterStartElement(writer, BAD_CAST "system");
@@ -2271,7 +2272,7 @@ int putSequenceDataToXmlFile(int active) {
     rc = sprintf(temporary, "%23.16e", sLiq+totalEntropy);       rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
     rc = sprintf(temporary, "%23.16e", (vLiq+totalVolume)*10.0); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	        "%s", temporary);
     rc = sprintf(temporary, "%23.16e", cpLiq+totalHeatCapacity); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-    rc = xmlTextWriterEndElement(writer);
+    rc = xmlTextWriterEndElement(writer); //system
 
     if (silminState->fo2Path != FO2_NONE) {
         double mO2 = -silminState->oxygen;
@@ -2291,7 +2292,7 @@ int putSequenceDataToXmlFile(int active) {
         rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).s);      rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "entropy",         "%s", temporary);
         rc = sprintf(temporary, "%23.16e", mO2*10.0*(oxygen.cur).v); rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "volume",	        "%s", temporary);
         rc = sprintf(temporary, "%23.16e", mO2*(oxygen.cur).cp);     rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heatCapacity",    "%s", temporary);
-        rc = xmlTextWriterEndElement(writer);
+        rc = xmlTextWriterEndElement(writer); //oxygen
     }
 
     if (silminState->assimilate) {
@@ -2327,18 +2328,19 @@ int putSequenceDataToXmlFile(int active) {
                     }
 
                 }
-                rc = xmlTextWriterEndElement(writer);
+                rc = xmlTextWriterEndElement(writer); //solid
             }
-        rc = xmlTextWriterEndElement(writer);
+        rc = xmlTextWriterEndElement(writer); //assimilant
     }
 
-    rc = xmlTextWriterEndElement(writer);
+    rc = xmlTextWriterEndElement(writer); //MELTSoutput
+
     /*
       rc = xmlTextWriterEndDocument(writer);
       xmlFreeTextWriter(writer);
     */
 
-    if(!xmlTextWriterFlush(writer)) fprintf(stderr, "XML files flushed.\n");
+    if(xmlTextWriterFlush(writer) >= 0) fprintf(stderr, "XML files flushed.\n");
     else fprintf(stderr, "Error returned when attempting to flush XML files.\n");
 
     free (outputFile);
