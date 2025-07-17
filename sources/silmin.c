@@ -307,10 +307,6 @@ SilminState *bestState;
  * Global variables needed in Magma Chamber Simulator / standalone Melts-batch
  * to mimic webservices output
  */
-#ifdef BATCH_VERSION
-extern SilminState *previousSilminState;
-SilminState *previousSilminState;
-#endif
 
 /*
  *=============================================================================
@@ -1673,7 +1669,6 @@ int silmin(int calc_index)
 #else
             if (strstr(silminInputData.name, ".xml")   != NULL) {
                 putSequenceDataToXmlFile(TRUE);
-                previousSilminState = copySilminStateStructure(silminState, previousSilminState);
             }
 #endif
 

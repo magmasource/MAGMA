@@ -889,7 +889,7 @@ int putInputDataToFile(char *fileName)
 #include <dirent.h>
 #include <unistd.h>
 
-extern SilminState *previousSilminState;
+static SilminState *previousSilminState;
 
 /* ... to here from interface.c */
 
@@ -2343,6 +2343,8 @@ int putSequenceDataToXmlFile(int active) {
 
     free (outputFile);
     free (temporary);
+
+    previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
     return active;
 
