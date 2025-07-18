@@ -390,12 +390,12 @@ void destroySilminStateStructure(void *pt)
     if (p->fracLComp != NULL) free(p->fracLComp);
 
     if (p->dspAssimComp != NULL) {
-            for (i=0; i<(npc+nc); i++)  if ((p->dspAssimComp)[i] != NULL) free((p->dspAssimComp)[i]);
-            free(p->dspAssimComp);
+        for (i=0; i<(npc+nc); i++)  if ((p->dspAssimComp)[i] != NULL) free((p->dspAssimComp)[i]);
+        free(p->dspAssimComp);
     }
     if (p->assimComp    != NULL) {
-            for (i=0; i<(npc+nlc); i++) if ((p->assimComp)[i]    != NULL) free((p->assimComp)[i]);
-            free(p->assimComp);
+        for (i=0; i<(npc+nlc); i++) if ((p->assimComp)[i]    != NULL) free((p->assimComp)[i]);
+        free(p->assimComp);
     }
     if (p->nDspAssimComp != NULL) free(p->nDspAssimComp);
     if (p->nAssimComp    != NULL) free(p->nAssimComp);
@@ -514,7 +514,6 @@ SilminState *copySilminStateStructure(SilminState *pOld, SilminState *pNew)
             pNew->assimComp = (double **) calloc((unsigned) (npc+nlc), sizeof(double *));
             pNew->nDspAssimComp = (int *)     calloc((unsigned) (npc+nc), sizeof(int));
             pNew->nAssimComp = (int *)     calloc((unsigned) (npc+nlc), sizeof(int));
-                = (int *)     calloc((unsigned) (npc+nlc), sizeof(int));
             for (i=0; i<(npc+nc); i++) {
                 (pNew->nDspAssimComp)[i] = (pOld->nDspAssimComp)[i];
                 if ((ns = (pOld->nDspAssimComp)[i]) > 0) {
