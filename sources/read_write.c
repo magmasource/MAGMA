@@ -1633,17 +1633,8 @@ int putSequenceDataToXmlFile(int active) {
       return active;
   }
 
-  if (previousSilminState == NULL) {
-      previousSilminState = allocSilminStatePointer();
-      if ((silminState->fractionateSol || silminState->fractionateFlu) && previousSilminState->fracSComp == (double **) NULL) {
-    previousSilminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
-    previousSilminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
-      }
-      if (silminState->fractionateLiq && previousSilminState->fracLComp == (double *) NULL) {
-    previousSilminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
-      }
-  }
-
+  if (previousSilminState == NULL) previousSilminState = allocSilminStatePointer();
+ 
   (void) strncpy(outputFile, silminInputData.name, len);
   (void) strcpy(&outputFile[len], "-out.xml");
 

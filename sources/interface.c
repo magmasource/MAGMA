@@ -1432,6 +1432,8 @@ static void putOutputDataToXmlFile(char *outputFile) {
     if (r == NULL)         r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
     if (oxVal == NULL) oxVal = (double *) malloc((size_t)      nc*sizeof(double));
 
+    if (previousSilminState == NULL) previousSilminState = allocSilminStatePointer();
+   
     printf("Output file name is %s\n", outputFile);
 
     (void) time(&tp);
@@ -2771,7 +2773,9 @@ int main (int argc, char *argv[])
             (void) strncpy(outputFile, silminInputData.name, len);
             (void) strcpy(&outputFile[len], "-out.xml");
 
-            if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+            if ((ret != FALSE) && (silminState->fractionateSol || silminState->fractionateFlu ||
+                 silminState->fractionateLiq))
+                previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
             if        (ret == FALSE) {
                 printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
@@ -2834,7 +2838,9 @@ int main (int argc, char *argv[])
                 (void) strncpy(sFileName, silminInputData.name, len);
                 (void) strcpy(&sFileName[len], "-status.xml");
 
-                if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+                if ((ret != FALSE) && (silminState->fractionateSol || silminState->fractionateFlu ||
+                    silminState->fractionateLiq))
+                    previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
                 if        (ret == FALSE) {
                     printf("Error(s) detected on reading input file %s. Exiting.\n", iFileName);

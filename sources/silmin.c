@@ -1124,9 +1124,19 @@ int silmin(int calc_index)
 
             /* New code to save best iteration that meets non-optimal criteria */
             if (rNorm < sqrt(DBL_EPSILON)*sNorm && rNorm < bestrNorm) {
+                int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu,
+                    fractionateLiq = silminState->fractionateLiq;
+                silminState->fractionateSol = FALSE;
+                silminState->fractionateFlu = FALSE;
+                silminState->fractionateLiq = FALSE;
+
                 bestrNorm = rNorm; bestIter = iterQuad;
                 acceptable = TRUE;
                 bestState = copySilminStateStructure(silminState, bestState);
+
+                silminState->fractionateSol = fractionateSol;
+                silminState->fractionateFlu = fractionateFlu;
+                silminState->fractionateLiq = fractionateLiq;
             }
 
 #ifndef BATCH_VERSION
@@ -1152,6 +1162,12 @@ int silmin(int calc_index)
                     fprintf(stderr, "...Quadratic convergence accepted, but non-optimal.\n");
 #endif
                 } else if (acceptable) {
+                    int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu,
+                        fractionateLiq = silminState->fractionateLiq;
+                    silminState->fractionateSol = FALSE;
+                    silminState->fractionateFlu = FALSE;
+                    silminState->fractionateLiq = FALSE;
+
                     curStep = CONVERGENCE_TEST;
 #ifndef BATCH_VERSION
                     wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Quadratic convergence was acceptable at iterQuad = %d (rNorm = %g).\n", bestIter, bestrNorm);
@@ -1159,6 +1175,10 @@ int silmin(int calc_index)
                     fprintf(stderr, "...Quadratic convergence was acceptable at iterQuad = %d (rNorm = %g).\n", bestIter, bestrNorm);
 #endif
                     silminState = copySilminStateStructure(bestState, silminState);
+
+                    silminState->fractionateSol = fractionateSol;
+                    silminState->fractionateFlu = fractionateFlu;
+                    silminState->fractionateLiq = fractionateLiq;
                 } else {
 #ifndef BATCH_VERSION
                     XmString csString1, csString2, csString3;
