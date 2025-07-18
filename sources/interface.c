@@ -2649,17 +2649,6 @@ int main (int argc, char *argv[])
 
             if (silminState == NULL) silminState = allocSilminStatePointer();
 
-            if (previousSilminState == NULL) {
-                previousSilminState = allocSilminStatePointer();
-                if ((silminState->fractionateSol || silminState->fractionateFlu) && previousSilminState->fracSComp == (double **) NULL) {
-                    previousSilminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
-                    previousSilminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
-                }
-                if (silminState->fractionateLiq && previousSilminState->fracLComp == (double *) NULL) {
-                    previousSilminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
-                }
-            }
-
             if(!batchInputDataFromFile(argv[1])) {
                 printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
                 exit(0);
@@ -2777,17 +2766,6 @@ int main (int argc, char *argv[])
             }
             ret = batchInputDataFromXmlFile(argv[1]);
 
-            if (previousSilminState == NULL) {
-                previousSilminState = allocSilminStatePointer();
-                if ((silminState->fractionateSol || silminState->fractionateFlu) && previousSilminState->fracSComp == (double **) NULL) {
-                    previousSilminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
-                    previousSilminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
-                }
-                if (silminState->fractionateLiq && previousSilminState->fracLComp == (double *) NULL) {
-                    previousSilminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
-                }
-            }
-
             len = strlen(silminInputData.name) - 4;
             outputFile = (char *) malloc((size_t) (len+9)*sizeof(char));
             (void) strncpy(outputFile, silminInputData.name, len);
@@ -2815,6 +2793,7 @@ int main (int argc, char *argv[])
                 putOutputDataToXmlFile(outputFile);
             }
 
+            xmlCleanupParser();
             free(outputFile);
 
         } else if (strstr(argv[1], ".txt")) { /* debugging option to process list of files */
@@ -2839,17 +2818,6 @@ int main (int argc, char *argv[])
                     silminState->fo2Path  = FO2_NONE;
                 }
                 silminState->assimilate = FALSE;
-
-                if (previousSilminState == NULL) {
-                    previousSilminState = allocSilminStatePointer();
-                    if ((silminState->fractionateSol || silminState->fractionateFlu) && previousSilminState->fracSComp == (double **) NULL) {
-                        previousSilminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
-                        previousSilminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
-                    }
-                    if (silminState->fractionateLiq && previousSilminState->fracLComp == (double *) NULL) {
-                        previousSilminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
-                    }
-                }
 
                 iFileName = (char *) malloc((size_t) REC*sizeof(char));
 
@@ -2911,7 +2879,7 @@ int main (int argc, char *argv[])
                 free (sFileName);
 
                 if ((meltsStatus.status != SILMIN_SUCCESS) && (meltsStatus.status != LIQUIDUS_SUCCESS)) break;
-                
+
             }
 
             /* -> Close and discard file and return */
@@ -2973,17 +2941,6 @@ int main (int argc, char *argv[])
                             silminState->fo2Path  = FO2_NONE;
                         }
                         silminState->assimilate = FALSE;
-
-                        if (previousSilminState == NULL) {
-                            previousSilminState = allocSilminStatePointer();
-                            if ((silminState->fractionateSol || silminState->fractionateFlu) && previousSilminState->fracSComp == (double **) NULL) {
-                                previousSilminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
-                                previousSilminState->nFracCoexist = (int *) calloc((unsigned) npc, sizeof(int));
-                            }
-                            if (silminState->fractionateLiq && previousSilminState->fracLComp == (double *) NULL) {
-                                previousSilminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
-                            }
-                        }
 
                         len = strlen(dp->d_name);
                         iFileName = (char *) malloc((size_t) (lenIdir + 1 + len + 1)*sizeof(char));
