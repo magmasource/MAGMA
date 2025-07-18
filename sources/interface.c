@@ -2508,7 +2508,7 @@ int main (int argc, char *argv[])
     /* Select largest values for nlc, nls, and npc so can allocate silminState safely */
     nlc = MAX(meltsNlc, MAX(meltsFluidNlc, pMeltsNlc));
     nls = MAX(meltsNls, MAX(meltsFluidNls, pMeltsNls));
-    nlc = MAX(meltsNpc, MAX(meltsFluidNpc, pMeltsNpc));
+    npc = MAX(meltsNpc, MAX(meltsFluidNpc, pMeltsNpc));
 #endif
 
 #ifndef BATCH_VERSION
