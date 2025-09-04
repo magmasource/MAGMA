@@ -22,7 +22,7 @@ ACEPLT  = _NO_GRACE_PIPE
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
 # ======================================================================================
 
-INCC   = /usr/includexss
+INCC   = /usr/include
 INCXM  = /usr/include
 INCX   = /usr/include
 INCF2C = .
