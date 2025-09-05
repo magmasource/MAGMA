@@ -1,5 +1,6 @@
 /*
- easyMelts (c) 2020 Einari Suikkanen
+ easyMelts (c) 2020-2024 Einari Suikkanen
+ easyMelts (c) 2025 Paula Antoshechkina
 */
 
 #ifndef XLSXWRITER_HPP
@@ -11,11 +12,11 @@
 class XLSXWriter  {
 public:
     XLSXWriter(const std::vector<SilminData> &data, std::string filename);
-    
+
 private:
     bool WriteToFile(const std::vector<SilminData> &data, std::string filename);
-           
-    
+
+
 };
 
 #endif /* XLSXWRITER_HPP */

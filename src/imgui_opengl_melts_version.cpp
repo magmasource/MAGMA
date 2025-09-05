@@ -1,5 +1,6 @@
 /*
-easyMelts (c) 2020 Einari Suikkanen
+ easyMelts (c) 2020-2024 Einari Suikkanen
+ easyMelts (c) 2025 Paula Antoshechkina
 */
 
 #include <algorithm>
@@ -384,7 +385,7 @@ void ImGuiOpenGL::UpdateImGUI() {
     ImGui::SetNextWindowPos(vec);
     ImGui::SetNextWindowSize(io.DisplaySize);
 
-    ImGui::Begin("easyMelts 0.3.0", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse /*ImGuiWindowFlags_None*/);
+    ImGui::Begin("easyMelts 0.3.0 (beta)", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse /*ImGuiWindowFlags_None*/);
 
     static int current_melts_version = 0;
     static const char *version_string = "";
@@ -396,13 +397,16 @@ void ImGuiOpenGL::UpdateImGUI() {
     static bool ffluids = false;
     static bool assimilate = false;
 
+    static double fo2_offset = 0.0;
     static double inc_t = 0.0;
     static double inc_p = 0.0;
     static double inc_h = 0.0;
     static double inc_s = 0.0;
     static double inc_v = 0.0;
 
+    static bool normalize_on_save = true;
     static bool state_loaded_from_file = false;
+    static bool state_copied_from_step = false;
 
     /*MAIN MENU*/
     //BeginMenuBar creates fullscreen menu
@@ -529,6 +533,10 @@ void ImGuiOpenGL::UpdateImGUI() {
                 if (ImGui::MenuItem("MORB")) {
                     m_Composition = std::array<double, 20>{48.68, 1.01, 17.64, 0.89, 0.0425, 7.59, 0.00, 9.10, 0.0, 0.0, 12.45, 2.65, 0.03, 0.08, 0.200, 0.00, 0.00, 0.00, 0.00, 0.00};
                 }
+                else if (ImGui::MenuItem("Bishop Tuff")) {
+                    /* Composition from MELTS for Excel since ~2020 */
+                    m_Composition = std::array<double, 20>{74.39, 0.180, 13.55, 0.36, 0.000, 0.976, 0.00, 0.5, 0.0, 0.0, 1.43, 3.36, 5.09, 0.00, 10.0, 0.00, 0.00, 0.00, 0.00, 0.00};
+                }
 
                 ImGui::EndMenu();
             }
@@ -569,7 +577,9 @@ void ImGuiOpenGL::UpdateImGUI() {
             if (_MI.MeltsInitialized()) {
                 ImGui::Dummy(ImVec2(0, 5.f));
                 if (ImGui::Button("Reset state")) {
+                    strncpy(title_buf, "Title", strlen(title_buf));
                     fo2_path = 0;
+                    fo2_offset = 0.0;
                     _mode = 0;
                     fsolids = false;
                     fliquids = false;
@@ -610,11 +620,18 @@ void ImGuiOpenGL::UpdateImGUI() {
                     ImGui::SameLine();
                     HelpMarker("Saving initial TP resets state if modeling steps exist!");
 
+                    if (ImGui::Button("Clear")) {
+                        T0 = 0.0;
+                        P0 = 0.0;
+                    }
+
                     ImGui::PopItemWidth();
                     ImGui::TreePop();
                 }
 
                 if (ImGui::TreeNode("Set initial composition")) {
+                    // default composition set in imgui_opengl.hpp
+                    ImGui::SameLine(); HelpMarker("Units are grams - normalize to 100 g to approximate wt%");
                     ImGui::PushItemWidth(ImGui::GetWindowContentRegionWidth() * 0.25f);
 
                     ImGui::InputDouble("SiO2", &m_Composition[0], 0.0, 100.0, "%.3f");
@@ -624,18 +641,35 @@ void ImGuiOpenGL::UpdateImGUI() {
                     ImGui::InputDouble("Cr2O3", &m_Composition[4], 0.0, 100.0, "%.3f");
                     ImGui::InputDouble("FeO", &m_Composition[5], 0.0, 100.0, "%.3f");
                     ImGui::InputDouble("MnO", &m_Composition[6], 0.0, 100.0, "%.3f");
+                    if (current_melts_version == MODE_pMELTS - 1) {
+                        ImGui::SameLine(); HelpMarker("Warning: MnO not calibrated in pMELTS!");
+                    }
                     ImGui::InputDouble("MgO", &m_Composition[7], 0.0, 100.0, "%.3f");
                     ImGui::InputDouble("NiO", &m_Composition[8], 0.0, 100.0, "%.3f");
+                    if (current_melts_version == MODE_pMELTS - 1) {
+                        ImGui::SameLine(); HelpMarker("Warning: NiO not calibrated in pMELTS!");
+                    }
                     ImGui::InputDouble("CoO", &m_Composition[9], 0.0, 100.0, "%.3f");
+                    if (current_melts_version == MODE_pMELTS - 1) {
+                        ImGui::SameLine(); HelpMarker("Warning: CoO not calibrated in pMELTS!");
+                    }
                     ImGui::InputDouble("CaO", &m_Composition[10], 0.0, 100.0, "%.3f");
                     ImGui::InputDouble("Na2O", &m_Composition[11], 0.0, 100.0, "%.3f");
                     ImGui::InputDouble("K2O", &m_Composition[12], 0.0, 100.0, "%.3f");
                     ImGui::InputDouble("P2O5", &m_Composition[13], 0.0, 100.0, "%.3f");
                     ImGui::InputDouble("H2O", &m_Composition[14], 0.0, 100.0, "%.3f");
                     ImGui::InputDouble("CO2", &m_Composition[15], 0.0, 100.0, "%.3f");
+                    if (current_melts_version == MODE_pMELTS - 1) {
+                        ImGui::SameLine(); HelpMarker("Warning: CO2 not calibrated in pMELTS!");
+                    } else if (current_melts_version == MODE__MELTS - 1) {
+                        ImGui::SameLine(); HelpMarker("Warning: CO2 not calibrated in MELTS_v1.0.x!");
+                    }
                     ImGui::InputDouble("SO3", &m_Composition[16], 0.0, 100.0, "%.3f");
+                    ImGui::SameLine(); HelpMarker("Warning: SO3 not calibrated in (p)MELTS!");
                     ImGui::InputDouble("Cl2O-1", &m_Composition[17], 0.0, 100.0, "%.3f");
+                    ImGui::SameLine(); HelpMarker("Warning: Cl not calibrated in (p)MELTS!");
                     ImGui::InputDouble("F2O-1", &m_Composition[18], 0.0, 100.0, "%.3f");
+                    ImGui::SameLine(); HelpMarker("Warning: F not calibrated in (p)MELTS!");
 
                     for (size_t i = 0; i < m_Composition.size(); ++i) {
                         if (m_Composition[i] < 0.0) m_Composition[i] = 0.0;
@@ -661,6 +695,12 @@ void ImGuiOpenGL::UpdateImGUI() {
                     ImGui::SameLine();
                     HelpMarker("Saving initial composition resets state if modeling steps exist!");
 
+                    ImGui::SameLine();
+                    ImGui::Checkbox("Normalize on Save", &normalize_on_save);
+                    ImGui::SameLine();
+                    HelpMarker("Normalize system to 100 g (~ wt%) when saving\n");
+                    _MI.SetNormalizeOnSave(normalize_on_save);
+
                     if (ImGui::Button("Clear")) {
                         for (size_t i = 0; i < m_Composition.size(); ++i) {
                             m_Composition[i] = 0.0;
@@ -671,18 +711,41 @@ void ImGuiOpenGL::UpdateImGUI() {
                     ImGui::TreePop();
                 }
 
+                /* FO2 BUFFER*/
+                ImGui::Dummy(ImVec2(0, 5.f));
+                ImGui::Text("fO2 path: buffer and offset (log 10 units)");
+                ImGui::SameLine();
+                HelpMarker("Calibrated range ~ HM-15<->HM, NNO-10<->NNO+5, FMQ-9<->FMQ+6, COH-3<->COH+12, IW-5<->IW+10\nWarning: imposing fO2 paths outside the calibrated range is NOT recommended");
+                ImGui::Combo("fO2 buffer", &fo2_path, _MI.GetFO2Paths(), (int)_MI.GetFO2Paths().size());
+                if (_MI.SilminStateExists()) _MI.GetSilminState()->fo2Path = fo2_path;
+                ImGui::InputDouble("fO2 offset", &fo2_offset, 0.5, 1.0, "%.1f");
+                MyUtil::Limit<double>(-15., 15., &fo2_offset);
+                if (_MI.SilminStateExists()) _MI.GetSilminState()->fo2Delta = (fo2_path != FO2_NONE) ? fo2_offset : 0.0;
+
                 if (_MI.CompositionSet() && _MI.TPSet() && _MI.GetData().empty()) {
+                    ImGui::Dummy(ImVec2(0, 5.f));
                     if (ImGui::Button("RedistFeOx")) {
                         _MI.RedistributeFeOx(fo2_path);
                     }
                     ImGui::SameLine();
                     HelpMarker("Redistribute Fe oxides according to initial T and P and selected fO2 buffer");
                     ImGui::SameLine();
+                    ImGui::Checkbox("Normalize on Save", &normalize_on_save);
+                    ImGui::SameLine();
+                    HelpMarker("Normalize system to 100 g (~ wt%) after redistribution\n");
+                    _MI.SetNormalizeOnSave(normalize_on_save);
+
                     if (ImGui::Button("Liquidus&RedistFeOx")) {
                         _MI.Liquidus();
                     }
                     ImGui::SameLine();
                     HelpMarker("Attempt to change T to liquidus T and redistribute Fe oxides\naccording to PT-conditions and selected fO2 buffer");
+                    ImGui::SameLine();
+                    if (ImGui::Button("WetLiquidus&RedistFeOx")) {
+                        _MI.WetLiquidus();
+                    }
+                    ImGui::SameLine();
+                    HelpMarker("Attempt to change T to fluid-saturated liquidus T and redistribute\nFe oxides according to PT-conditions and selected fO2 buffer");
 
                     //                    if (!std::isnan(_MI.GetLiquidusT())) {
                     //                        ImGui::Text("Liquidus found at: %.2f C", _MI.GetLiquidusT());
@@ -690,16 +753,16 @@ void ImGuiOpenGL::UpdateImGUI() {
                 }
                 /*END COMPOSITION AND INITIAL TP*/
 
-                /*CALCULATION MODE AND FO2 BUFFER*/
-                ImGui::Dummy(ImVec2(0, 5.f));
-                ImGui::Combo("Calculation Mode", &_mode, _MI.GetCalculationModes(), (int)_MI.GetCalculationModes().size());
-                _MI.SetMode(_mode);
-                ImGui::Combo("fO2 buffer", &fo2_path, _MI.GetFO2Paths(), (int)_MI.GetFO2Paths().size());
-                if (_MI.SilminStateExists()) _MI.GetSilminState()->fo2Path = fo2_path;
-
+                /*CALCULATION MODE */
                 ImGui::Dummy(ImVec2(0, 15.f));
+                ImGui::Combo("Mode", &_mode, _MI.GetCalculationModes(), (int)_MI.GetCalculationModes().size());
+                ImGui::SameLine();
+                HelpMarker("First calculation is always Isothermal/Isobaric\nSet calculation parameters for subsequent steps");
+                _MI.SetMode(_mode);
+
+                //ImGui::Dummy(ImVec2(0, 5.f));
                 /*RUN SETTINGS (i.e steps to calculate and increments between steps)*/
-                if (ImGui::TreeNode("Set run settings")) {
+                if (ImGui::TreeNode("Set calculation parameters")) {
 
                     static int calc_steps = 1;
 
@@ -708,7 +771,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     _MI.SetCalcSteps(calc_steps);
                     ImGui::Text("Increment between steps");
                     ImGui::SameLine();
-                    HelpMarker("Isothermal/Isobaric: TP, Isenthalpic: HP\nIsentropic: SP, Isochoric: VT");
+                    HelpMarker("Isothermal/Isobaric: TP, Isenthalpic: HP\nIsentropic: SP, Isochoric: VT\nNote: the increments are signed quantities");
                     if (_mode == 0 || _mode == 3) {
                         ImGui::InputDouble("T (C)", &inc_t, 1.0, 100.0, "%.2f");
                         MyUtil::Limit<double>(-2000., 2000., &inc_t);
@@ -844,16 +907,16 @@ void ImGuiOpenGL::UpdateImGUI() {
 
                     if (solids[current_index].na == 1) {
                         //ImGui::Text(solids[current_index].label);
-		         ImGui::Text("%s", solids[current_index].label);
+        		        ImGui::Text("%s", solids[current_index].label);
                         ImGui::InputDouble("Mass/Step", &m_AssimilationValues[current_index], 1.0, 10.0, "%.2f");
                         if (m_AssimilationValues[current_index] < 0) m_AssimilationValues[current_index] = 0;
                     } else if (solids[current_index].na > 1) {
                         //ImGui::Text(solids[current_index].label);
-		         ImGui::Text("%s", solids[current_index].label);
+		                ImGui::Text("%s", solids[current_index].label);
                         ImGui::InputDouble("Mass/Step", &m_AssimilationValues[current_index], 1.0, 10.0, "%.2f");
                         if (m_AssimilationValues[current_index] < 0) m_AssimilationValues[current_index] = 0;
                         //ImGui::Text("Set end member mol.% (0-100)");
-                        ImGui::Text("Set end member mol.%% (0-100)");
+                        ImGui::Text("Set end member mol%% (0-100)");
                         for (int j = 0; j < solids[current_index].na; ++j) {
                             ImGui::InputDouble(solids[current_index + 1 + j].label, &m_AssimilationValues[current_index + 1 + j], 1.0, 10.0, "%.2f");
                             if (m_AssimilationValues[current_index + 1 + j] < 0.0) m_AssimilationValues[current_index + 1 + j] = 0.0;
@@ -915,7 +978,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     HelpMarker("Note that Melts liquid species tend to include SiO2.\nLeaving SiO2 empty while including other oxides\nwill usually result in a crash to desktop.\nGiving a realistic liquid composition is advisable.\n\nThis problem does not include Al2O3, TiO2, Fe2O3,\nor the fluid components.");
                     ImGui::InputDouble("Mass/Step", &liq_mass, 1.0, 10.0, "%.2f");
                     if (liq_mass < 0.0) liq_mass = 0.0;
-                    ImGui::LabelText("Oxide", "Wt.%%");
+                    ImGui::LabelText("Oxide", "wt%%");
                     {
 
                         ImGui::InputDouble("SiO2", &m_AssimilationValues[npc], 0.0, 100.0, "%.3f");
@@ -1098,6 +1161,7 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::Separator();
             ImGui::Text("Constraints");
             ImGui::Text("fO2 buffer: %s", _MI.GetFO2Paths().at(fo2_path).c_str());
+            ImGui::Text("fO2 offset: %.1f", fo2_offset);
 
             ImGui::Text("Mode:");
             if (_MI.SilminStateExists()) {
@@ -1164,11 +1228,19 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::Separator();
 
             ImGui::Text("Bulk composition set: %s", _MI.CompositionSet() ? "Yes" : "No");
+
+
+                        //if (_MI.SilminStateExists()) {
+
+                          //  ImGui::Text("Mass of system: %.2f g", _MI.GetSilminState()->mass);
+
+
+
             if (ImGui::TreeNode("Initial bulk composition")) {
                 ImGui::Separator();
                 /*NOTE: theres 20 in total!*/
                 for (int i = 0; i < 19; ++i) {
-                    ImGui::Text("%-8s%.3f wt.%%", _MI.GetOxideNames()[i].c_str(), _MI.GetComposition()[i]);
+                    ImGui::Text("%-8s%.3f g", _MI.GetOxideNames()[i].c_str(), _MI.GetComposition()[i]);
                 }
                 ImGui::TreePop();
             }
@@ -1225,7 +1297,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                         ImGui::Text("n = %.2f log(10) poise, Cp = %.2f J", prop.viscosity, prop.spec_heat_cap);
                         int oxides = 0;
                         for (const std::string &ss : _MI.GetOxideNames()) {
-                            ImGui::Text("%-8s%.2f wt.%%", ss.c_str(), sd.liquid_composition.at(i).at(oxides));
+                            ImGui::Text("%-8s%.2f g", ss.c_str(), sd.liquid_composition.at(i).at(oxides));
                             oxides++;
                         }
                         ImGui::TreePop();
@@ -1581,9 +1653,9 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::Text("License");
             ImGui::Separator();
 
-            ImGui::TextWrapped("easyMelts 0.2 beta (c) Einari Suikkanen 2020"
-                               "\n\nWork in progress." // Beta-version not for public distribution."
-                               "\n\nSee License.txt distributed with this application for legal information.");
+            ImGui::TextWrapped("easyMelts 0.3.0 (beta) (c) Paula Antoshechkina 2025"
+                                "\n\nOriginally created by Einari Suikkanen (c) 2020-2024"
+                                "\n\nSee License.txt distributed with this application for legal information.");
             ImGui::Spacing();
             ImGui::Spacing();
             ImGui::Text("Information");
@@ -1598,7 +1670,8 @@ void ImGuiOpenGL::UpdateImGUI() {
                 //" the scientist can fully concentrate on the science."
 
                 "\n\nHave a pleasant day modeling!"
-                "\n\nContact: einari.suikkanen[at]gmail.com\n\n");
+                //"\n\nContact: einari.suikkanen[at]gmail.com\n\n");
+                "\n\nContact: psmith[at]gps.caltech.edu\n\n");
 
             ImGui::EndTabItem();
         }

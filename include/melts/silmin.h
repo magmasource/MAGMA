@@ -803,7 +803,7 @@ extern int quad_tol_modifier;
 
 #define HESSIAN_TYPE_NORMAL 1
 #define HESSIAN_TYPE_ONE    2
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C" {
 #endif
 int         addOrDropLiquid(double *deltaBulkComp);
@@ -872,7 +872,7 @@ int silmin(int calc_index); // Addition -Einari
 #define ASSIM_PADB_UNITS_WEIGHT      1
 
 #endif
-#ifdef __cplusplus 
+#ifdef __cplusplus
 };
 #endif
 #endif /* _Silmin_h */

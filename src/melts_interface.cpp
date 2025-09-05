@@ -1,5 +1,6 @@
 /*
- easyMelts (c) 2020 Einari Suikkanen
+ easyMelts (c) 2020-2024 Einari Suikkanen
+ easyMelts (c) 2025 Paula Antoshechkina
 */
 #include "melts_interface.hpp"
 #include "e_utility.hpp"
@@ -135,7 +136,7 @@ void MeltsInterface::InitializeMelts(int melts_version) {
 
     if (!m_Phases.empty()) m_Phases.clear();
     GetPhaseNames(&m_Phases);
-    std::cout << "Amount of phases: " << m_Phases.size() << std::endl;
+    std::cout << "Number of phases: " << m_Phases.size() << std::endl;
 
     meltsStatus.status = NO_STATUS;
 }
@@ -342,6 +343,20 @@ bool MeltsInterface::SetFO2Path(int fo2_path) {
     return true;
 }
 
+bool MeltsInterface::SetFO2Offset(double fo2_offset) {
+    if (!p_SS)
+        return false;
+
+    if (p_SS->fo2Path < 0 || p_SS->fo2Path > 19 || p_SS->fo2Path == FO2_NONE)
+        return false;
+
+    m_Fo2Offset = fo2_offset;
+
+    p_SS->fo2Delta = fo2_offset;
+
+    return true;
+}
+
 bool MeltsInterface::SetComposition(std::array<double, 20> composition) {
     if (!p_SS) return false;
 
@@ -351,14 +366,18 @@ bool MeltsInterface::SetComposition(std::array<double, 20> composition) {
     double total = 0.0;
 
     /*
-     Normalizes automatically
+     Original: Normalized automatically but this makes restarting a run complicated
+     Edit: normalization is optional, controlled by a checkbox in the GUI
      */
-    for (const double &d : m_Composition)
-        total += d;
 
-    if (total != 0.0)
+    if (m_NormalizeOnSave) {
         for (double &d : m_Composition)
-            d = d / total * 100.0;
+            total += d;
+
+        if (total != 0.0)
+            for (double &d : m_Composition)
+                d = d / total * 100.0;
+    }
 
     /*
     Calculates bulk composition in moles and total mass of liquid (nc = component oxide)
@@ -803,14 +822,43 @@ bool MeltsInterface::Liquidus() {
 
     silminState = p_SS;
 
-    while (!liquidus())
-        ;
+    while (!liquidus());
 
     if (meltsStatus.status == LIQUIDUS_SUCCESS) {
         m_LiquidusT = silminState->T - 273.15;
         std::cout << "Liquidus found at: " << m_LiquidusT << " C" << std::endl;
     } else {
         std::cout << "Liquidus calculation failed! " << GetErrorString() << std::endl;
+    }
+
+    silminState = nullptr;
+
+    /*Update state*/
+
+    p_SS->dspTstart = p_SS->T - 273.15;
+    p_SS->dspTstop = p_SS->dspTstart;
+
+    for (int i = 0; i < nc; ++i) {
+        m_Composition[i] = bulkSystem[i].mw * p_SS->bulkComp[i];
+    }
+    SetComposition(m_Composition);
+
+    meltsStatus.status = NO_STATUS;
+
+    return true;
+}
+
+bool MeltsInterface::WetLiquidus() {
+
+    silminState = p_SS;
+
+    findWetLiquidus();
+
+    if (meltsStatus.status == LIQUIDUS_SUCCESS) {
+        m_LiquidusT = silminState->T - 273.15;
+        std::cout << "Wet liquidus found at: " << m_LiquidusT << " C" << std::endl;
+    } else {
+        std::cout << "Wet liquidus calculation failed! " << GetErrorString() << std::endl;
     }
 
     silminState = nullptr;
@@ -922,7 +970,9 @@ bool MeltsInterface::SaveMeltsInputData(const std::vector<double> &assimilation_
     if (path == 19) p_s = "+1.5FMQ";
     if (path > 19 || path < 0) p_s = "None";
 
-    output << "log fo2 Path: " << p_s << "\n";
+    output << "Log fo2 Path: " << p_s << "\n";
+
+    output << "Log fo2 Offset: " << DAS(p_SS->fo2Delta, 1) << "\n";
 
     int j;
     for (int i = 0, j = 0; i < npc; i++) {
@@ -1112,6 +1162,10 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
 
             m_Fo2Path = p_SS->fo2Path;
 
+            continue;
+        }
+        if (line.find("Log fo2 Offset:") != s_end) {
+            p_SS->fo2Delta = std::stod(line.substr(16));
             continue;
         }
         if (line.find("Suppress:") != s_end) {
