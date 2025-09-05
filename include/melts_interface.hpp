@@ -1,5 +1,6 @@
 /*
- easyMelts (c) 2020 Einari Suikkanen
+ easyMelts (c) 2020-2024 Einari Suikkanen
+ easyMelts (c) 2025 Paula Antoshechkina
 */
 
 #ifndef MELTS_INTERFACE_HPP
@@ -63,11 +64,11 @@ public:
         static int idx = 0;
         static double f_liq_mass = 0.0;
         static double f_sol_mass = 0.0;
-        
+
 
         if ((idx = index) == 0) {
             f_liq_mass = 0.0, f_sol_mass = 0.0;
-            
+
 
         }
 
@@ -651,11 +652,16 @@ public:
     bool SaveMeltsInputData(const std::vector<double> &assimilation_values);
 
     bool Liquidus();
+    bool WetLiquidus();
     bool Equilibrate();
     int StopEquilibration();
 
     bool RedistributeFeOx(int fo2_buffer);
     void Normalize();
+
+    bool SetNormalizeOnSave(bool set = true) {
+        return m_NormalizeOnSave = set;
+    }
 
     void SetTitle(std::string title) {
         m_RunTitle = title;
@@ -675,6 +681,7 @@ public:
     void AssimilateSetComposition();
 
     bool SetFO2Path(int fo2_path);
+    bool SetFO2Offset(double fo2_offset);
     bool SetFractionate(bool solids = false, bool fluid = false, bool liquid = false);
     bool SetMode(int mode); //isothermal, isenthalpic, isentropic, isochoric
     bool SetInitialTP(double initial_t, double initial_p);
@@ -746,7 +753,7 @@ public:
     bool SetSuppressedPhases(std::map<int, std::string> suppressed_phases);
     bool ClearSuppressedPhases();
 
-   
+
 
     double GetLiquidusT() const {
         return m_LiquidusT;
@@ -827,24 +834,28 @@ private:
     bool m_CompositionSet = false;
     bool m_ParametersSet = false;
 
+    bool m_NormalizeOnSave = true;
+
     std::array<double, 20> m_Composition; /* Initial composition of the system set by user */
 
     double m_LiquidusT = NaN; /*calculated by MELTS*/
 
     int m_Fo2Path = FO2_NONE;
+    double m_Fo2Offset = 0.0;
 
-    /*    
+    /*
     MODE__DEFAULT == xMELTS
     MODE_xMELTS == xMELTS (experimental 2.0.0)      0
     MODE__MELTS == rhyolite-MELTS 1.0.2             1
     MODE_pMELTS == pMELTS 5.6.1                     2
     MODE__MELTSandCO2 == rhyolite-MELTS 1.1.0       3
     MODE__MELTSandCO2_H2O = rhyolite-MELTS 1.2.0    4
-    
-     * 
+
+     *
      */
 
-    const std::vector<std::string> m_FO2Paths{"None", "HM", "NNO", "QFM", "COH", "IW", "QFM_P3", "QFM_P2", "QFM_P1", "QFM_M1", "QFM_M2", "QFM_M3", "QFM_M4", "QFM_M5", "QFM_M6", "QFM_M7", "QFM_M8", "QFM_M9", "FO2_QFM_P0_5", "FO2_QFM_P1_5"};
+    //const std::vector<std::string> m_FO2Paths{"None", "HM", "NNO", "QFM", "COH", "IW", "QFM_P3", "QFM_P2", "QFM_P1", "QFM_M1", "QFM_M2", "QFM_M3", "QFM_M4", "QFM_M5", "QFM_M6", "QFM_M7", "QFM_M8", "QFM_M9", "FO2_QFM_P0_5", "FO2_QFM_P1_5"};
+    const std::vector<std::string> m_FO2Paths{"None", "HM", "NNO", "QFM", "COH", "IW"};
     const std::vector<std::string> m_MeltsVersions{/*"xMELTS",*/"MELTS_v1.0.x","pMELTS_v5.6.1","MELTS_v1.1.0", "MELTS_v1.2.0"};
     const std::vector<std::string> m_CalculationModes{"Isothermal/Isobaric", "Isenthalpic", "Isentropic", "Isochoric"};
     std::map<int, std::string> m_Phases;
@@ -857,10 +868,10 @@ private:
 #endif /* MELTS_INTERFACE_HPP */
 
 /*
- 
+
  * temperature of mixed fluids
- * 
- t = (m1 c1 t1 + m2 c2 t2 + ... + mn cn tn) / (m1 c1 + m2 c2 + ... + mn cn)                         
+ *
+ t = (m1 c1 t1 + m2 c2 t2 + ... + mn cn tn) / (m1 c1 + m2 c2 + ... + mn cn)
 
 where
 

@@ -1,5 +1,6 @@
 /*
- easyMelts (c) 2020 Einari Suikkanen
+ easyMelts (c) 2020-2024 Einari Suikkanen
+ easyMelts (c) 2025 Paula Antoshechkina
 */
 
 #ifndef IMGUI_INPUT_HPP

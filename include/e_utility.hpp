@@ -1,5 +1,6 @@
 /*
- easyMelts (c) 2020 Einari Suikkanen
+ easyMelts (c) 2020-2024 Einari Suikkanen
+ easyMelts (c) 2025 Paula Antoshechkina
 */
 
 #ifndef E_UTILITY_HPP
@@ -23,14 +24,14 @@ enum Severity {
 };
 
 class Elog {
-    
+
 private:
     Elog();
     virtual ~Elog();
     std::vector<std::pair<std::string, Severity>> log;
-    
+
 public:
-    
+
     Elog(Elog const&) = delete;
     void operator=(Elog const&) = delete;
 

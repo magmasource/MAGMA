@@ -1,5 +1,6 @@
 /*
- easyMelts (c) 2020 Einari Suikkanen
+ easyMelts (c) 2020-2024 Einari Suikkanen
+ easyMelts (c) 2025 Paula Antoshechkina
 */
 
 #ifndef IMGUI_OPENGL_HPP
@@ -19,7 +20,7 @@ class ImGuiOpenGL {
 public:
     ImGuiOpenGL(GLFWwindow* window);
     virtual ~ImGuiOpenGL();
-    
+
     void UpdateImGUI();
     void RenderGUI(ImDrawData* draw_data);
     void UpdateAndRender();
@@ -27,27 +28,27 @@ public:
     void ClearPlotData();
     void ClearLists();
 private:
-    
+
     GLuint LoadShaders();
     void LoadImGuiTexture();
     void SetupOpenGL();
 
     std::vector<std::string> melts_files;
-    
+
     GLuint vao, vbo, ibo; //buffer handles
     GLuint texture_pointer; //texture handle
     GLuint program_id; //shader handle
-    
+
     GLFWwindow* window;
-    
+
     double time;
-    
+
     MeltsInterface _MI;
-    
+
     std::future<bool> m_Future;
-    
+
     bool m_PlotDataLoaded = false;
-    
+
     std::vector<float> m_PlotTemperatures;
     std::vector<float> m_PlotPressures;
     std::vector<float> m_PlotEnthalpy;
@@ -56,19 +57,19 @@ private:
     std::vector<std::vector<float>> m_PlotLiquidComp;
     std::vector<std::vector<float>> m_PlotPhaseMasses;
     std::vector<bool> m_PlotPhaseExists;
-    
+
     std::vector<std::vector<float>> m_PlotFracPhaseMasses;
     std::vector<bool> m_PlotFracPhaseExists;
-    
+
     std::vector<double> m_AssimilationValues;
     std::vector<double> m_SetAssimilationValues;
-    
+
     std::array<double, 20> m_Composition = { 48.68, 1.01, 17.64, 0.89, 0.0425, 7.59, 0.00, 9.10, 0.0, 0.0, 12.45, 2.65, 0.03, 0.08, 0.200, 0.00, 0.00, 0.00, 0.00, 0.00 };
     std::array<bool, 42> m_Suppressed{};
-    
+
     ImVec2 m_WindowPos = ImVec2(0,0);
     ImVec2 m_WindowSize = ImVec2(0,0);
-    
+
 };
 #endif /* IMUGUI_OPENGL_HPP */
 

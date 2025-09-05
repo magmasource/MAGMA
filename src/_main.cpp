@@ -1,5 +1,6 @@
 /*
- easyMelts (c) 2020 Einari Suikkanen
+ easyMelts (c) 2020-2024 Einari Suikkanen
+ easyMelts (c) 2025 Paula Antoshechkina
 
  Changelog:
  0.1 Initial build
@@ -57,7 +58,7 @@ int main(int argc, char** argv) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    GLFWwindow* window = glfwCreateWindow(INITIAL_VIEWPORT_X, INITIAL_VIEWPORT_Y, "easyMelts 0.3.0", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(INITIAL_VIEWPORT_X, INITIAL_VIEWPORT_Y, "easyMelts 0.3.0 (beta)", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     glfwSetWindowSizeLimits(window, 1024, 768, GLFW_DONT_CARE, GLFW_DONT_CARE); //sets minimum window size 1024x768
