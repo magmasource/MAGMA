@@ -92,11 +92,15 @@ const GLchar *vertex_shader_glsl_130 =
     "}\n";
 
 GLuint ImGuiOpenGL::LoadShaders() {
+    GLuint vao_name; // Mac workaround
     GLuint vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
 
     GLint result = GL_FALSE;
     int info_log_length;
+
+    glGenVertexArrays(1, &vao_name); // Mac workaround
+    glBindVertexArray(vao_name);
 
     glShaderSource(vertex_shader_id, 1, &vertex_shader_glsl_130, NULL);
     glCompileShader(vertex_shader_id);
@@ -144,6 +148,8 @@ GLuint ImGuiOpenGL::LoadShaders() {
         glGetProgramInfoLog(program_id, info_log_length, NULL, &error_message[0]);
         printf("%s\n", &error_message[0]);
     }
+
+    glBindVertexArray(0); // Mac workaround
 
     glDetachShader(program_id, vertex_shader_id);
     glDetachShader(program_id, fragment_shader_id);
@@ -696,9 +702,9 @@ void ImGuiOpenGL::UpdateImGUI() {
                     HelpMarker("Saving initial composition resets state if modeling steps exist!");
 
                     ImGui::SameLine();
-                    ImGui::Checkbox("Normalize on Save", &normalize_on_save);
+                    ImGui::Checkbox("Normalize on save", &normalize_on_save);
                     ImGui::SameLine();
-                    HelpMarker("Normalize system to 100 g (~ wt%) when saving\n");
+                    HelpMarker("Normalize initial system to 100 g (~ wt%) when saving\n");
                     _MI.SetNormalizeOnSave(normalize_on_save);
 
                     if (ImGui::Button("Clear")) {
@@ -730,9 +736,9 @@ void ImGuiOpenGL::UpdateImGUI() {
                     ImGui::SameLine();
                     HelpMarker("Redistribute Fe oxides according to initial T and P and selected fO2 buffer");
                     ImGui::SameLine();
-                    ImGui::Checkbox("Normalize on Save", &normalize_on_save);
+                    ImGui::Checkbox("Normalize on save", &normalize_on_save);
                     ImGui::SameLine();
-                    HelpMarker("Normalize system to 100 g (~ wt%) after redistribution\n");
+                    HelpMarker("Normalize initial system to 100 g (~ wt%) after redistribution\n");
                     _MI.SetNormalizeOnSave(normalize_on_save);
 
                     if (ImGui::Button("Liquidus&RedistFeOx")) {
@@ -755,7 +761,7 @@ void ImGuiOpenGL::UpdateImGUI() {
 
                 /*CALCULATION MODE */
                 ImGui::Dummy(ImVec2(0, 15.f));
-                ImGui::Combo("Mode", &_mode, _MI.GetCalculationModes(), (int)_MI.GetCalculationModes().size());
+                ImGui::Combo("Calc mode", &_mode, _MI.GetCalculationModes(), (int)_MI.GetCalculationModes().size());
                 ImGui::SameLine();
                 HelpMarker("First calculation is always Isothermal/Isobaric\nSet calculation parameters for subsequent steps");
                 _MI.SetMode(_mode);
@@ -1240,7 +1246,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                 ImGui::Separator();
                 /*NOTE: theres 20 in total!*/
                 for (int i = 0; i < 19; ++i) {
-                    ImGui::Text("%-8s%.3f g", _MI.GetOxideNames()[i].c_str(), _MI.GetComposition()[i]);
+                    ImGui::Text("%-8s%.3f", _MI.GetOxideNames()[i].c_str(), _MI.GetComposition()[i]);
                 }
                 ImGui::TreePop();
             }
@@ -1269,6 +1275,10 @@ void ImGuiOpenGL::UpdateImGUI() {
                     if (jump_to_step > max_index) jump_to_step = max_index;
                     ImGui::SameLine();
                     if (ImGui::Button("Go to step")) *_MI.GetStep() = jump_to_step;
+                    ImGui::SameLine();
+                    ImGui::Text("  ");
+                    ImGui::SameLine();
+                    if (ImGui::Button("Go to last step")) *_MI.GetStep() = max_index;
                 }
 
                 int step = *_MI.GetStep();
@@ -1284,12 +1294,20 @@ void ImGuiOpenGL::UpdateImGUI() {
                 ImGui::Text("G = %.2f kJ, H = %.02f kJ, S = %.2f J/K", sd.sys_prop_nofrac.gibbs_energy / 1000., sd.sys_prop_nofrac.enthalpy / 1000., sd.sys_prop_nofrac.entropy);
                 ImGui::Text("m = %.2f g, V = %.2f cc, r = %.2f g/cc,", sd.sys_prop_nofrac.mass, sd.sys_prop_nofrac.volume, sd.sys_prop_nofrac.density);
                 ImGui::Text("n = %.2f log(10) poise, Cp = %.2f J", sd.sys_prop_nofrac.viscosity, sd.sys_prop_nofrac.spec_heat_cap);
+                if (ImGui::TreeNode("Bulk composition")) {
+                    int oxides = 0;
+                    for (const std::string &ss : _MI.GetOxideNames()) {
+                        ImGui::Text("%-8s%.2f", ss.c_str(), sd.bulk_comp_n.at(oxides));
+                        oxides++;
+                    }
+                    ImGui::TreePop();
+                }
 
                 ImGui::Separator();
 
                 for (unsigned int i = 0; i < sd.liq_properties.size(); ++i) {
                     const auto &prop = sd.liq_properties.at(i);
-                    ImGui::Text("m liquid %i: %.2f", i + 1, prop.mass);
+                    ImGui::Text("m liquid %i: %.2f g", i + 1, prop.mass);
                     if (ImGui::TreeNode("Liquid")) {
                         ImGui::Text("Liquid %i:", i + 1);
                         ImGui::Text("G = %.2f kJ, H = %.02f kJ, S = %.2f J/K", prop.gibbs_energy / 1000., prop.enthalpy / 1000., prop.entropy);
@@ -1297,7 +1315,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                         ImGui::Text("n = %.2f log(10) poise, Cp = %.2f J", prop.viscosity, prop.spec_heat_cap);
                         int oxides = 0;
                         for (const std::string &ss : _MI.GetOxideNames()) {
-                            ImGui::Text("%-8s%.2f g", ss.c_str(), sd.liquid_composition.at(i).at(oxides));
+                            ImGui::Text("%-8s%.2f wt%%", ss.c_str(), sd.liquid_composition.at(i).at(oxides));
                             oxides++;
                         }
                         ImGui::TreePop();
@@ -1305,7 +1323,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                 }
 
                 if (!std::isnan(sd.sol_tot_properties.mass) && sd.sol_tot_properties.mass > 0.0)
-                    ImGui::Text("m solid & fluid: %.2f", sd.sol_tot_properties.mass);
+                    ImGui::Text("m solid & fluid: %.2f g", sd.sol_tot_properties.mass);
                 if (ImGui::TreeNode("Solid and fluid")) {
                     for (size_t i = 0; i < sd.sol_properties.size(); ++i) {
                         const auto &prop = sd.sol_properties[i];
@@ -1329,7 +1347,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                 }
 
                 if (!std::isnan(sd.frac_mass) && sd.frac_mass > 0.0) {
-                    ImGui::Text("m fractionated solids & fluids: %.2f", sd.frac_mass);
+                    ImGui::Text("m fractionated solids & fluids: %.2f g", sd.frac_mass);
                     if (ImGui::TreeNode("Fractionated solids and fluids")) {
                         for (size_t i = 0; i < sd.frac_properties.size(); ++i) {
 
@@ -1653,7 +1671,7 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::Text("License");
             ImGui::Separator();
 
-            ImGui::TextWrapped("easyMelts 0.3.0 (beta) (c) Paula Antoshechkina 2025"
+            ImGui::TextWrapped("easyMelts 0.3.0 (beta) Paula Antoshechkina (c) 2025"
                                 "\n\nOriginally created by Einari Suikkanen (c) 2020-2024"
                                 "\n\nSee License.txt distributed with this application for legal information.");
             ImGui::Spacing();

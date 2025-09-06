@@ -83,7 +83,7 @@ public:
         fO2 = state->fo2;
 
         for (int i = 0; i < 20; ++i) {
-            bulk_comp_n[i] = state->bulkComp[i];
+            bulk_comp_n[i] = bulkSystem[i].mw * state->bulkComp[i];
         }
 
         double moles = 0.0, viscosity, gLiq = 0.0, hLiq = 0.0, sLiq = 0.0, vLiq = 0.0, cpLiq = 0.0, dvdtLiq = 0.0, dvdpLiq = 0.0, mLiq = 0.0,
@@ -584,7 +584,7 @@ public:
     /*
      NEEDS TOTAL FRAC SOLIDS & MELTS
      */
-    std::array<double, 20> bulk_comp_n; /*bulk composition moles of oxides*/
+    std::array<double, 20> bulk_comp_n; /*bulk composition grams of oxides*/
 
     bool fractionate_solids = false;
     bool fractionate_liquid = false;
@@ -606,7 +606,7 @@ public:
      */
 
     /*LIQUID*/
-    std::map<int, std::vector<double>> liquid_composition; /*composition of n liquids in moles*/
+    std::map<int, std::vector<double>> liquid_composition; /*composition of n liquids in wt% */
     std::map<int, Prop> liq_properties; /*liquid properties at step*/
 
     /*SOLID*/
