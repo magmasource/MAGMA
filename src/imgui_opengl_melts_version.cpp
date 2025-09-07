@@ -605,10 +605,10 @@ void ImGuiOpenGL::UpdateImGUI() {
             if (_MI.MeltsInitialized()) {
                 if (ImGui::TreeNode("Set initial T & P")) {
                     ImGui::PushItemWidth(ImGui::GetWindowContentRegionWidth() * 0.25f);
-                    static double T0 = 1200.0;
-                    ImGui::InputDouble("Initial T (C): ", &T0, 0.0, 100.0, "%.1f");
-                    static double P0 = 1000.0;
-                    ImGui::InputDouble("Initial P (bar): ", &P0, 0.0, 100.0, "%.1f");
+                    //static double T0 = 1200.0;
+                    ImGui::InputDouble("Initial T (C): ", &m_T0, 0.0, 100.0, "%.1f");
+                    //static double P0 = 1000.0;
+                    ImGui::InputDouble("Initial P (bar): ", &m_P0, 0.0, 100.0, "%.1f");
 
                     if (ImGui::Button("Save")) {
                         if (!_MI.GetData().empty()) {
@@ -620,15 +620,15 @@ void ImGuiOpenGL::UpdateImGUI() {
                             ClearLists();
                         }
 
-                        _MI.SetInitialTP(T0, P0);
-                        _MI.SetInitTP(T0, P0);
+                        _MI.SetInitialTP(m_T0, m_P0);
+                        _MI.SetInitTP(m_T0, m_P0);
                     }
                     ImGui::SameLine();
                     HelpMarker("Saving initial TP resets state if modeling steps exist!");
 
                     if (ImGui::Button("Clear")) {
-                        T0 = 0.0;
-                        P0 = 0.0;
+                        m_T0 = 0.0;
+                        m_P0 = 0.0;
                     }
 
                     ImGui::PopItemWidth();
@@ -1290,6 +1290,12 @@ void ImGuiOpenGL::UpdateImGUI() {
 
                 ImGui::Text("Temperature: %.2f C", sd.T);
                 ImGui::Text("Pressure: %.2f bar", sd.P);
+
+                if (ImGui::Button("Copy to initial T & P")) {
+                    m_T0 = sd.T;
+                    m_P0 = sd.P;
+                }
+
                 ImGui::Text("log 10 fO2: %.3f ", sd.fO2);
                 ImGui::Text("G = %.2f kJ, H = %.02f kJ, S = %.2f J/K", sd.sys_prop_nofrac.gibbs_energy / 1000., sd.sys_prop_nofrac.enthalpy / 1000., sd.sys_prop_nofrac.entropy);
                 ImGui::Text("m = %.2f g, V = %.2f cc, r = %.2f g/cc,", sd.sys_prop_nofrac.mass, sd.sys_prop_nofrac.volume, sd.sys_prop_nofrac.density);
@@ -1301,6 +1307,11 @@ void ImGuiOpenGL::UpdateImGUI() {
                         oxides++;
                     }
                     ImGui::TreePop();
+                }
+
+                if (ImGui::Button("Copy to initial composition")) {
+                    for (int i = 0; i < 19; ++i)
+                        m_Composition[i] = sd.bulk_comp_n.at(i);
                 }
 
                 ImGui::Separator();
