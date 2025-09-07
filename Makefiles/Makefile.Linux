@@ -24,7 +24,7 @@ ACEPLT  = _NO_GRACE_PIPE
 
 INCC   = /usr/include
 INCXM  = /usr/include
-INCX   = /usr/include
+INCX   = ./libxlsxwriter/include
 INCF2C = .
 INCXML = /usr/include/libxml2
 
@@ -37,7 +37,12 @@ DYFLAGS	      = xv
 CC            = clang
 LD            = clang++
 FC            = gfortran
-CFLAGS        = -c -O3 -D_USE_ISOC99 -D_ISOC99_SOURCE $(BATCH) $(VERSION) \
+ifneq ($(DEBUG),)
+CFLAGS   	  = -c -gdwarf-4 -DDEBUG
+else
+CFLAGS   	  = -c -O3
+endif
+CFLAGS        += $(BATCH) $(VERSION) -D_USE_ISOC99 -D_ISOC99_SOURCE \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib
@@ -104,7 +109,11 @@ override LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
 endif
 LIBBATCH = -L/usr/lib -lgsl -lgslcblas -lxml2 -lz -lm
 
+ifneq ($(DEBUG),)
+include Makefile.debug
+else
 include Makefile.common
+endif
 
 # end of Makefile
 # ===============

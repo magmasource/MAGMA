@@ -6,16 +6,16 @@
 # Environment variable defaults
 # =============================
 
-MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow 
+MELTS_AUTHOR_LIST      = Mark S. Ghiorso, Marc M. Hirschmann, Paul D. Asimow
 MELTS_DATA_DIR         = .
 MELTS_DATA_SUFFIX      = *.xml
-MELTS_HARDWARE_VERSION = 
+MELTS_HARDWARE_VERSION =
 MELTS_INPUT_DIR        = .
 MELTS_INPUT_SUFFIX     = *.melts
 MELTS_MOTIF_VERSION    = 2.3.4
-MELTS_OS_VERSION       = *nix - 
+MELTS_OS_VERSION       = *nix -
 MELTS_OUTPUT_FILE      = melts.out
-MELTS_WWW_BROWSER      = 
+MELTS_WWW_BROWSER      =
 MELTS_WWW_CALCULATOR   = http://melts.ofm-research.org/
 MELTS_WWW_MANUAL       = http://melts.ofm-research.org/
 MELTS_X_VERSION        = X.Org / OSF Motif 2.3
@@ -32,7 +32,7 @@ vpath %.h includes
 
 # random access library of MELTS support functions
 # ================================================
-	 
+
 MELTSLIB        = libMELTS.a
 MELTSBATCHLIB   = libMELTSbatch.a
 MELTSDYNAMICLIB = libMELTSdynamic.a
@@ -68,10 +68,8 @@ all:
 	$(MAKE) -s usage
 
 usage:
-	echo "Usage: Melts Melts-MS Melts-SACNK"
-	echo "       Melts-batch"
-	echo "       Melts-public"
-	echo "       Melts-rhyolite Melts-rhyolite-public"
+	echo "Usage: easyMelts"
+	echo "       Melts-batch Melts-MS Melts-SACNK"
 	echo "       Melts-dynamic"
 	echo "       Analyze-fusion Analyze-fusion-MS"
 	echo "       Analyze-water Analyze-water-MS"
@@ -79,6 +77,7 @@ usage:
 	echo "       LinAndPelton"
 	echo "       Make-liquid-model"
 	echo "       Make_species_map"
+	echo "       Melts-rhyolite-public Melts"
 	echo "       Test_a-x_relations Test_a-x_relations-MS  Test_a-x_relations-SACNK"
 	echo "       Test_CCO_buffer Test_CCOH_buffer"
 	echo "       Test_database Test_database-MS Test_database-SACNK"
@@ -169,8 +168,8 @@ realclean:
 	$(RM) $(RMFLAGS) cpx-olv-rhm
 
 version:
-	touch interface.c button_callbacks.c
-	make Melts
+	touch interface.c
+	make easyMelts
 
 # Object module dependencies (modules in MELTSLIB and MELTSBATCHLIB)
 # ==================================================================
@@ -297,11 +296,11 @@ $(MELTSBATCHLIB)(rhombohedral.o):             rhombohedral.c melts_gsl.h silmin.
 $(MELTSBATCHLIB)(rhomsghiorso.o):             rhomsghiorso.c melts_gsl.h silmin.h mthread.h
 $(MELTSBATCHLIB)(ringwoodite.o):              ringwoodite.c silmin.h mthread.h
 $(MELTSBATCHLIB)(silmin.o):                   silmin.c lawson_hanson.h nash.h melts_gsl.h silmin.h mthread.h status.h
-$(MELTSBATCHLIB)(silmin_support.o):           silmin_support.c silmin.h mthread.h melts_gsl.h 
+$(MELTSBATCHLIB)(silmin_support.o):           silmin_support.c silmin.h mthread.h melts_gsl.h
 $(MELTSBATCHLIB)(spinel.o):                   spinel.c melts_gsl.h silmin.h mthread.h
 $(MELTSBATCHLIB)(subSolidusMuO2.o):           subSolidusMuO2.c melts_gsl.h silmin.h mthread.h
 $(MELTSBATCHLIB)(wadsleyite.o):               wadsleyite.c silmin.h mthread.h
-$(MELTSBATCHLIB)(water.o):                    water.c silmin.h mthread.h 
+$(MELTSBATCHLIB)(water.o):                    water.c silmin.h mthread.h
 $(MELTSBATCHLIB)(wustite.o):                  wustite.c silmin.h mthread.h
 
 $(MELTSDYNAMICLIB)(albite.o):                   albite.c melts_gsl.h silmin.h mthread.h
@@ -354,11 +353,11 @@ $(MELTSDYNAMICLIB)(rhombohedral.o):             rhombohedral.c melts_gsl.h silmi
 $(MELTSDYNAMICLIB)(rhomsghiorso.o):             rhomsghiorso.c melts_gsl.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(ringwoodite.o):              ringwoodite.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(silmin.o):                   silmin.c lawson_hanson.h nash.h melts_gsl.h silmin.h mthread.h status.h
-$(MELTSDYNAMICLIB)(silmin_support.o):           silmin_support.c silmin.h mthread.h melts_gsl.h 
+$(MELTSDYNAMICLIB)(silmin_support.o):           silmin_support.c silmin.h mthread.h melts_gsl.h
 $(MELTSDYNAMICLIB)(spinel.o):                   spinel.c melts_gsl.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(subSolidusMuO2.o):           subSolidusMuO2.c melts_gsl.h silmin.h mthread.h
 $(MELTSDYNAMICLIB)(wadsleyite.o):               wadsleyite.c silmin.h mthread.h
-$(MELTSDYNAMICLIB)(water.o):                    water.c silmin.h mthread.h 
+$(MELTSDYNAMICLIB)(water.o):                    water.c silmin.h mthread.h
 $(MELTSDYNAMICLIB)(wustite.o):                  wustite.c silmin.h mthread.h
 
 $(MELTSCOMMANDLIB)(albite.o):                   albite.c melts_gsl.h silmin.h mthread.h
@@ -410,11 +409,11 @@ $(MELTSCOMMANDLIB)(rhombohedral.o):             rhombohedral.c melts_gsl.h silmi
 $(MELTSCOMMANDLIB)(rhomsghiorso.o):             rhomsghiorso.c melts_gsl.h silmin.h mthread.h
 $(MELTSCOMMANDLIB)(ringwoodite.o):              ringwoodite.c silmin.h mthread.h
 $(MELTSCOMMANDLIB)(silmin.o):                   silmin.c lawson_hanson.h nash.h melts_gsl.h silmin.h mthread.h status.h
-$(MELTSCOMMANDLIB)(silmin_support.o):           silmin_support.c silmin.h mthread.h melts_gsl.h 
+$(MELTSCOMMANDLIB)(silmin_support.o):           silmin_support.c silmin.h mthread.h melts_gsl.h
 $(MELTSCOMMANDLIB)(spinel.o):                   spinel.c melts_gsl.h silmin.h mthread.h
 $(MELTSCOMMANDLIB)(subSolidusMuO2.o):           subSolidusMuO2.c melts_gsl.h silmin.h mthread.h
 $(MELTSCOMMANDLIB)(wadsleyite.o):               wadsleyite.c silmin.h mthread.h
-$(MELTSCOMMANDLIB)(water.o):                    water.c silmin.h mthread.h 
+$(MELTSCOMMANDLIB)(water.o):                    water.c silmin.h mthread.h
 $(MELTSCOMMANDLIB)(wustite.o):                  wustite.c silmin.h mthread.h
 
 # Object module dependencies (other than libraries)
@@ -492,7 +491,7 @@ $(MELTSLIB): $(MELTSLIB)(albite.o) \
              $(MELTSLIB)(wadsleyite.o) \
              $(MELTSLIB)(water.o) \
              $(MELTSLIB)(wustite.o)
-             
+
 $(MELTSBATCHLIB): $(MELTSBATCHLIB)(albite.o) \
                   $(MELTSBATCHLIB)(alloy-liquid.o) \
                   $(MELTSBATCHLIB)(alloy-solid.o) \
@@ -665,9 +664,6 @@ $(MELTSCOMMANDLIB): $(MELTSCOMMANDLIB)(albite.o) \
                     $(MELTSCOMMANDLIB)(water.o) \
                     $(MELTSCOMMANDLIB)(wustite.o)
 
-simann.o: simann.f
-	$(FC) -c $(FFLAGS) $<
-
 liquid-MS.o: liquid.c silmin.h mthread.h
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $< -o $@
 
@@ -680,8 +676,72 @@ melts_support-MS.o: melts_support.c silmin.h mthread.h melts_gsl.h
 melts_support-SACNK.o: melts_support.c silmin.h mthread.h melts_gsl.h
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $< -o $@
 
-# Melts main Program
-# ==================
+# Melts main Programs
+# ===================
+
+easyMelts: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
+                       calibration.h interface.h liq_struct_data.h mthread.h melts_gsl.h res_struct_data.h silmin.h \
+                       sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS \
+           sources/interface.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb_slave.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/postclb.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/check_coexisting_solids.c
+	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	      $(MELTSLIB) $(PUBLIBS) $(LIBXML)
+	chmod 755 $@
+
+Melts-batch: interface.c lawson_hanson.h liq_struct_data.h melts_gsl.h nash.h silmin.h status.h param_struct_data.h \
+             param_struct_data_v34.h param_struct_data_CO2.h param_struct_data_CO2_H2O.h sol_struct_data.h \
+             albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
+             check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
+             est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
+             gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
+             linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
+             nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
+             perovskite.c read_write.c melts_linalg.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
+             spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
+	$(MAKE) Melts-batchPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS"
+
+Melts-batchPrivate: interface.c gibbs.c silmin.h status.h \
+                    liq_struct_data.h param_struct_data.h sol_struct_data.h \
+                    $(MELTSBATCHLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
+	$(CC) $(CFLAGS) sources/interface.c
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(LD) $(LDFLAGS) -o Melts-batch interface.o gibbs.o $(MELTSBATCHLIB) $(LIBBATCH)
+	chmod 755 Melts-batch
+
+Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h melts_gsl.h nash.h silmin.h status.h param_struct_data.h \
+               param_struct_data_v34.h param_struct_data_CO2.h param_struct_data_CO2_H2O.h sol_struct_data.h \
+               albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
+               check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
+               est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
+               gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
+               linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
+               nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
+               perovskite.c read_write.c melts_linalg.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
+               spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
+	$(MAKE) Melts-dynamicPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS -DDO_NOT_PRODUCE_OUTPUT_FILES"
+	$(MAKE) Melts-commandPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS"
+
+Melts-dynamicPrivate: test_dynamicLib.f gibbs.c $(MELTSDYNAMICLIB) $(MELTSDYLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSDYNAMICLIB)
+	$(FC) -o Test_dynamicLib -ffree-form sources/test_dynamicLib.f $(LIBMELTSDYNAMIC) $(LIBBATCH)
+	chmod 755 Test_dynamicLib
+
+Melts-commandPrivate: test_commandLib.c gibbs.c $(MELTSCOMMANDLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSCOMMANDLIB)
+	$(CC) $(CFLAGS) sources/test_commandLib.c
+	$(LD) $(LDFLAGS) -o Test_commandLib test_commandLib.o $(LIBMELTSCOMMAND) $(LIBBATCH)
+	chmod 755 Test_commandLib
+
+# Melts test Programs
+# ===================
 
 Analyze-fusion: analyze-fusion.c gibbs.c \
                 silmin.h melts_gsl.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
@@ -752,259 +812,9 @@ Make_species_map: make_species_map.c \
 	$(LD) $(LDFLAGS) -o $@ make_species_map.o $(MELTSLIB) $(LIBS)
 	chmod 755 $@
 
-Melts: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-       calibration.h interface.h liq_struct_data.h mthread.h melts_gsl.h res_struct_data.h silmin.h \
-       sol_struct_data.h vframe.h vheader.h vlist.h \
-       sources/melts.icon $(MELTSLIB) 
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
-	$(CC) $(CFLAGS) \
-           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
-           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
-           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
-           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
-           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
-           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
-           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
-           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
-           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
-           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
-           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
-           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
-           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
-           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
-           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
-           sources/interface.c
-	$(CC) $(CFLAGS) sources/preclb.c
-	$(CC) $(CFLAGS) sources/preclb_slave.c
-	$(CC) $(CFLAGS) sources/postclb.c
-	$(CC) $(CFLAGS) sources/gibbs.c
-	$(CC) $(CFLAGS) sources/evaluate_saturation.c
-	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(FC) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
-	      $(MELTSLIB) $(LIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
-	chmod 755 $@
-
-Melts-MS: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c \
-          liquid-MS.o melts_support-MS.o simann.o calibration.h interface.h melts_gsl.h res_struct_data.h silmin.h mthread.h \
-          liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
-          vframe.h vlist.h vheader.h \
-          sources/melts.icon $(MELTSLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
-	$(CC) $(CFLAGS) \
-           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
-           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
-           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
-           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
-           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
-           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
-           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
-           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
-           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
-           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
-           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
-           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
-           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
-           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
-           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
-           -DBUILD_MGO_SIO2_VERSION \
-           sources/interface.c
-	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION sources/preclb.c
-	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION sources/preclb_slave.c
-	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION sources/postclb.c
-	$(CC) $(CFLAGS) sources/gibbs.c
-	$(CC) $(CFLAGS) sources/evaluate_saturation.c
-	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-MS.o melts_support-MS.o simann.o \
-	       gibbs.o evaluate_saturation.o check_coexisting_solids.o$(MELTSLIB) $(LIBS) $(LIBXML)
-	chmod 755 $@
-
-Melts-SACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c \
-          liquid-SACNK.o melts_support-SACNK.o simann.o calibration.h interface.h melts_gsl.h res_struct_data.h silmin.h mthread.h \
-          liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
-          vframe.h vheader.h vlist.h \
-          sources/melts.icon $(MELTSLIB) 
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
-	$(CC) $(CFLAGS) \
-           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
-           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
-           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
-           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
-           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
-           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
-           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
-           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
-           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
-           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
-           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
-           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
-           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
-           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
-           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
-           -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION \
-           sources/interface.c
-	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb.c
-	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb_slave.c
-	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/postclb.c
-	$(CC) $(CFLAGS) sources/gibbs.c
-	$(CC) $(CFLAGS) sources/evaluate_saturation.c
-	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o liquid-SACNK.o melts_support-SACNK.o simann.o \
-	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSLIB) $(LIBS) $(LIBXML)
-	chmod 755 $@
-
-Melts-mSACNK: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c \
-          liquid-SACNK.o melts_support-SACNK.o simann.o calibration.h interface.h melts_gsl.h res_struct_data.h silmin.h mthread.h \
-          liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
-          vframe.h vheader.h vlist.h \
-          sources/melts.icon $(MELTSLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
-	$(CC) $(CFLAGS) \
-           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
-           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
-           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
-           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
-           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
-           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
-           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
-           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
-           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
-           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
-           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
-           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
-           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
-           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
-           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
-           -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION \
-           sources/interface.c
-	$(CC) $(CFLAGS) $(MPICCFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb.c
-	$(CC) $(CFLAGS) $(MPICCFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/postclb.c
-	$(CC) $(CFLAGS) sources/gibbs.c
-	$(CC) $(CFLAGS) sources/evaluate_saturation.c
-	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(LD) $(LDFLAGS) -o Melts-master interface.o preclb.o postclb.o liquid-SACNK.o melts_support-SACNK.o \
-	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
-	chmod 755 Melts-master
-	$(MAKE) Melts-batch
-	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
-	$(CC) $(CFLAGS) $(MPICCFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION sources/preclb_slave.c
-	$(LD) $(LDFLAGS) -o Melts-slave preclb_slave.o liquid-SACNK.o melts_support-SACNK.o simann.o \
-	      gibbs.o evaluate_saturation.o check_coexisting_solids.o $(MELTSBATCHLIB) $(LIBS) $(MPILDFLAGS) $(LIBXML)
-	chmod 755 Melts-slave
-	touch $@
-
-Melts-batch: interface.c lawson_hanson.h liq_struct_data.h nash.h param_struct_data.h \
-             param_struct_data_v34.h param_struct_data_CO2.h param_struct_data_CO2_H2O.h melts_gsl.h silmin.h sol_struct_data.h status.h \
-             albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
-             check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
-             est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
-             gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
-             linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
-             nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
-             perovskite.c read_write.c melts_linalg.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
-             spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
-	$(MAKE) Melts-batchPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS" 
-
-Melts-batchPrivate: interface.c gibbs.c \
-                    silmin.h liq_struct_data.h param_struct_data.h sol_struct_data.h status.h \
-                    $(MELTSBATCHLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
-	$(CC) $(CFLAGS) sources/interface.c
-	$(CC) $(CFLAGS) sources/gibbs.c
-	$(LD) $(LDFLAGS) -o Melts-batch interface.o gibbs.o $(MELTSBATCHLIB) $(LIBBATCH)
-	chmod 755 Melts-batch
-
-Melts-dynamic: library.c lawson_hanson.h liq_struct_data.h nash.h param_struct_data.h \
-               param_struct_data_v34.h param_struct_data_CO2.h param_struct_data_CO2_H2O.h melts_gsl.h silmin.h sol_struct_data.h status.h \
-               albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
-               check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
-               est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
-               gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
-               linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
-               nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
-               perovskite.c read_write.c melts_linalg.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
-               spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
-	$(MAKE) Melts-dynamicPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS -DDO_NOT_PRODUCE_OUTPUT_FILES"
-	$(MAKE) Melts-commandPrivate -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS"
-
-Melts-dynamicPrivate: test_dynamicLib.f gibbs.c $(MELTSDYNAMICLIB) $(MELTSDYLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSDYNAMICLIB)
-	$(FC) -o Test_dynamicLib -ffree-form sources/test_dynamicLib.f $(LIBMELTSDYNAMIC) $(LIBBATCH)
-	chmod 755 Test_dynamicLib
-
-Melts-commandPrivate: test_commandLib.c gibbs.c $(MELTSCOMMANDLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSCOMMANDLIB)
-	$(CC) $(CFLAGS) sources/test_commandLib.c
-	$(LD) $(LDFLAGS) -o Test_commandLib test_commandLib.o $(LIBMELTSCOMMAND) $(LIBBATCH)
-	chmod 755 Test_commandLib
-
-Melts-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-              calibration.h interface.h liq_struct_data.h mthread.h melts_gsl.h res_struct_data.h silmin.h sol_struct_data.h \
-              vframe.h vheader.h vlist.h \
-              sources/melts.icon $(MELTSLIB) 
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
-	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION \
-           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
-           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
-           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
-           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
-           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
-           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
-           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
-           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
-           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
-           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
-           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
-           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
-           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
-           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
-           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
-           sources/interface.c
-	$(CC) $(CFLAGS) sources/preclb.c
-	$(CC) $(CFLAGS) sources/preclb_slave.c
-	$(CC) $(CFLAGS) sources/postclb.c
-	$(CC) $(CFLAGS) sources/gibbs.c
-	$(CC) $(CFLAGS) sources/evaluate_saturation.c
-	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
-	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
-	      $(MELTSLIB) $(LIBS) $(LIBXML)
-	$(RM) $(RMFLAGS) interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o
-	chmod 755 $@
-
-Melts-rhyolite: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-                calibration.h interface.h liq_struct_data.h mthread.h melts_gsl.h res_struct_data.h silmin.h \
-                sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB) 
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS \
-           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
-           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
-           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
-           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
-           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
-           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
-           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
-           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
-           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
-           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
-           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
-           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
-           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
-           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
-           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
-           sources/interface.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb_slave.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/postclb.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/evaluate_saturation.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/check_coexisting_solids.c
-	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
-	      $(MELTSLIB) $(LIBS) $(LIBXML)
-	chmod 755 $@
-
 Melts-rhyolite-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
                        calibration.h interface.h liq_struct_data.h mthread.h melts_gsl.h res_struct_data.h silmin.h \
-                       sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB) 
+                       sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS \
            -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
@@ -1033,10 +843,86 @@ Melts-rhyolite-public: interface.c preclb.c preclb_slave.c postclb.c gibbs.c eva
 	      $(MELTSLIB) $(LIBS) $(LIBXML)
 	chmod 755 $@
 
+Melts: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
+       calibration.h interface.h liq_struct_data.h mthread.h melts_gsl.h res_struct_data.h silmin.h \
+       sol_struct_data.h vframe.h vheader.h vlist.h \
+       sources/melts.icon $(MELTSLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
+	$(CC) $(CFLAGS) \
+           -DMELTS_AUTHOR_LIST="\"$(MELTS_AUTHOR_LIST)\"" \
+           -DMELTS_DATA_DIR="\"$(MELTS_DATA_DIR)\"" \
+           -DMELTS_DATA_SUFFIX="\"$(MELTS_DATA_SUFFIX)\"" \
+           -DMELTS_HARDWARE_VERSION="\"$(MELTS_HARDWARE_VERSION)\"" \
+           -DMELTS_INPUT_DIR="\"$(MELTS_INPUT_DIR)\"" \
+           -DMELTS_INPUT_SUFFIX="\"$(MELTS_INPUT_SUFFIX)\"" \
+           -DMELTS_MOTIF_VERSION="\"$(MELTS_MOTIF_VERSION)\"" \
+           -DMELTS_OS_VERSION="\"$(MELTS_OS_VERSION)\"" \
+           -DMELTS_OUTPUT_FILE="\"$(MELTS_OUTPUT_FILE)\"" \
+           -DMELTS_WWW_BROWSER="\"$(MELTS_WWW_BROWSER)\"" \
+           -DMELTS_WWW_CALCULATOR="\"$(MELTS_WWW_CALCULATOR)\"" \
+           -DMELTS_WWW_MANUAL="\"$(MELTS_WWW_MANUAL)\"" \
+           -DMELTS_X_VERSION="\"$(MELTS_X_VERSION)\"" \
+           -DMELTS_RELEASE_DATE="\"$(MELTS_RELEASE_DATE)\"" \
+           -DMELTS_RELEASE_VERSION="\"$(MELTS_RELEASE_VERSION)\"" \
+           sources/interface.c
+	$(CC) $(CFLAGS) sources/preclb.c
+	$(CC) $(CFLAGS) sources/preclb_slave.c
+	$(CC) $(CFLAGS) sources/postclb.c
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(CC) $(CFLAGS) sources/evaluate_saturation.c
+	$(CC) $(CFLAGS) sources/check_coexisting_solids.c
+	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
+	      $(MELTSLIB) $(LIBS) $(LIBXML)
+	chmod 755 $@
+
+# Melts-batch version of Melts-MS (not tested)
+Melts-MS: interface.c lawson_hanson.h melts_gsl.h nash.h silmin.h status.h \
+            liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
+            albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
+            check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
+            est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
+            gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
+            linear_search.c liquid-MS.o liquid_v34.c liquidus.c majorite.c melilite.c melts_support-MS.o \
+            nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
+            perovskite.c read_write.c melts_linalg.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
+            spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
+	$(MAKE) Melts-MSPrivate -f $(MAKEFILE) "BATCH=-DBUILD_MGO_SIO2_VERSION"
+
+Melts-MSPrivate: interface.c gibbs.c silmin.h status.h \
+            liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
+            $(MELTSBATCHLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
+	$(CC) $(CFLAGS) sources/interface.c
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(LD) $(LDFLAGS) -o Melts-MS interface.o gibbs.o $(MELTSBATCHLIB) $(LIBBATCH)
+	chmod 755 Melts-MS
+
+# Melts-batch version of Melts-SACNK (not tested)
+Melts-SACNK: interface.c lawson_hanson.h melts_gsl.h nash.h silmin.h status.h \
+            liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
+            albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
+            check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
+            est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
+            gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
+            linear_search.c liquid-SACNK.o liquid_v34.c liquidus.c majorite.c melilite.c melts_support-SACNK.o \
+            nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
+            perovskite.c read_write.c melts_linalg.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
+            spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
+	$(MAKE) Melts-SACNKPrivate -f $(MAKEFILE) "BATCH=-DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION"
+
+Melts-SACNKPrivate: interface.c gibbs.c silmin.h status.h \
+            liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
+            $(MELTSBATCHLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
+	$(CC) $(CFLAGS) sources/interface.c
+	$(CC) $(CFLAGS) sources/gibbs.c
+	$(LD) $(LDFLAGS) -o Melts-SACNK interface.o gibbs.o $(MELTSBATCHLIB) $(LIBBATCH)
+	chmod 755 Melts-SACNK
+
 Test_a-x_relations: test_a-x_relations.c \
                     silmin.h melts_gsl.h liq_struct_data.h param_struct_data.h sol_struct_data.h \
                     $(MELTSLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB) 
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) $<
 	$(LD) $(LDFLAGS) -o $@ test_a-x_relations.o $(MELTSLIB) $(LIBS)
 	chmod 755 $@
@@ -1044,7 +930,7 @@ Test_a-x_relations: test_a-x_relations.c \
 Test_a-x_relations-MS: test_a-x_relations.c liquid-MS.o melts_support-MS.o \
                        silmin.h melts_gsl.h liq_struct_data_MgO_SiO2.h param_struct_data_MgO_SiO2.h sol_struct_data_MgO_SiO2.h \
                        $(MELTSLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB) 
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_MGO_SIO2_VERSION $<
 	$(LD) $(LDFLAGS) -o $@ test_a-x_relations.o liquid-MS.o melts_support-MS.o $(MELTSLIB) $(LIBS)
 	chmod 755 $@
@@ -1053,7 +939,7 @@ Test_a-x_relations-SACNK: test_a-x_relations.c liquid-SACNK.o melts_support-SACN
                           silmin.h melts_gsl.h liq_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h param_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
                           sol_struct_data_SiO2_Al2O3_CaO_Na2O_K2O.h \
                           $(MELTSLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB) 
+	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DBUILD_SIO2_AL2O3_CAO_NA2O_K2O_VERSION $<
 	$(LD) $(LDFLAGS) -o $@ test_a-x_relations.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	chmod 755 $@
@@ -1248,7 +1134,7 @@ Test_eos-SACNK: test_eos.c liquid-SACNK.o melts_support-SACNK.o \
 	$(LD) $(LDFLAGS) -o $@ test_eos.o liquid-SACNK.o melts_support-SACNK.o $(MELTSLIB) $(LIBS)
 	chmod 755 $@
 
-Test_fluidRegression: test_fluidRegression.c 
+Test_fluidRegression: test_fluidRegression.c
 	$(CC) $(CFLAGS) $<
 	$(LD) $(LDFLAGS) -o $@ test_fluidRegression.o $(MELTSLIB) $(LIBS)
 	chmod 755 $@
@@ -1324,7 +1210,7 @@ Marc: marc.c \
 	$(LD) $(LDFLAGS) -mmacosx-version-min=10.6 -o $@ marc.o $(MELTSBATCHLIB) $(LIBBATCH)
 	chmod 755 $@
 
-cpx-olv-rhm: cpx-olv-rhm.c gibbs.c liq_struct_data.h mthread.h param_struct_data.h silmin.h sol_struct_data.h $(MELTSLIB) 
+cpx-olv-rhm: cpx-olv-rhm.c gibbs.c liq_struct_data.h mthread.h param_struct_data.h silmin.h sol_struct_data.h $(MELTSLIB)
 	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
 	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS sources/cpx-olv-rhm.c
 	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
