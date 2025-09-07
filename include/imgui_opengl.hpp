@@ -64,6 +64,9 @@ private:
     std::vector<double> m_AssimilationValues;
     std::vector<double> m_SetAssimilationValues;
 
+    double m_T0 = 1200.0;
+    double m_P0 = 1000.0;
+
     std::array<double, 20> m_Composition = { 48.68, 1.01, 17.64, 0.89, 0.0425, 7.59, 0.00, 9.10, 0.0, 0.0, 12.45, 2.65, 0.03, 0.08, 0.200, 0.00, 0.00, 0.00, 0.00, 0.00 };
     std::array<bool, 42> m_Suppressed{};
 

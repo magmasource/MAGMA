@@ -1051,6 +1051,8 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
     std::array<double, 20> composition = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.00, 0.0, 0.0, 0.0, 0.00, 0.00, 0.0, 0.0, 0.0, 0.00, 0.00, 0.00, 0.00, 0.00};
     double init_temp = 0.0;
     double init_pres = 0.0;
+    double final_temp = 0.0;
+    double final_pres = 0.0;
     bool fractionate_sol = false;
     bool fractionate_liq = false;
     bool fractionate_flu = false;
@@ -1087,7 +1089,6 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
         if (line.find("Initial Temperature:") != s_end) {
             std::string init_t_string = line.substr(21);
             init_temp = std::stod(init_t_string);
-
             continue;
         }
         if (line.find("Initial Pressure:") != s_end) {
@@ -1095,12 +1096,22 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
             init_pres = std::stod(init_p_string);
             continue;
         }
-        if (line.find("Increment Pressure:") != s_end) {
-            step_inc.P = std::stod(line.substr(20));
+        if (line.find("Final Temperature:") != s_end) {
+            std::string final_t_string = line.substr(19);
+            final_temp = std::stod(final_t_string);
+            continue;
+        }
+        if (line.find("Final Pressure:") != s_end) {
+            std::string final_p_string = line.substr(16);
+            final_pres = std::stod(final_p_string);
             continue;
         }
         if (line.find("Increment Temperature:") != s_end) {
             step_inc.T = std::stod(line.substr(23));
+            continue;
+        }
+        if (line.find("Increment Pressure:") != s_end) {
+            step_inc.P = std::stod(line.substr(20));
             continue;
         }
         if (line.find("Increment Enthalpy:") != s_end) {
@@ -1264,6 +1275,19 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
                 }
             }
         }
+    }
+
+    if (step_inc.T != 0.0 && init_temp != 0.0 && final_temp != 0.0) {
+        if (final_temp < init_temp)
+            step_inc.T = -std::abs(step_inc.T);
+        else
+            step_inc.T = std::abs(step_inc.T);
+    }
+    if (step_inc.P != 0.0 && init_pres != 0.0 && final_pres != 0.0) {
+        if (final_pres < init_pres)
+            step_inc.P = -std::abs(step_inc.P);
+        else
+            step_inc.P = std::abs(step_inc.P);
     }
 
     SetComposition(composition);
