@@ -30,8 +30,8 @@ vpath %.cc sources
 vpath %.f sources
 vpath %.h includes
 
-vpath *.cpp src
-vapth *.hpp include
+vpath %.cpp src
+vpath %.hpp include
 
 # random access library of MELTS support functions
 # ================================================
