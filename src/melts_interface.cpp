@@ -161,7 +161,7 @@ void MeltsInterface::CreateSilminState() {
 
     SetFractionate();
 
-    p_SS->fo2Path = m_Fo2Path;
+    p_SS->fo2Path = FO2_NONE; //m_Fo2Path;
     p_SS->nLiquidCoexist = 1;
     p_SS->multipleLiqs = 0; //Allow multiple liquids?
 
@@ -333,7 +333,7 @@ bool MeltsInterface::SetFO2Path(int fo2_path) {
     if (fo2_path < 0 || fo2_path > 19)
         return false;
 
-    m_Fo2Path = fo2_path;
+    //m_Fo2Path = fo2_path;
 
     if (!p_SS)
         return false;
@@ -350,7 +350,7 @@ bool MeltsInterface::SetFO2Offset(double fo2_offset) {
     if (p_SS->fo2Path < 0 || p_SS->fo2Path > 19 || p_SS->fo2Path == FO2_NONE)
         return false;
 
-    m_Fo2Offset = fo2_offset;
+    //m_Fo2Offset = fo2_offset;
 
     p_SS->fo2Delta = fo2_offset;
 
@@ -970,9 +970,9 @@ bool MeltsInterface::SaveMeltsInputData(const std::vector<double> &assimilation_
     if (path == 19) p_s = "+1.5FMQ";
     if (path > 19 || path < 0) p_s = "None";
 
-    output << "Log fo2 Path: " << p_s << "\n";
+    output << "log fo2 Path: " << p_s << "\n";
 
-    output << "Log fo2 Offset: " << DAS(p_SS->fo2Delta, 1) << "\n";
+    output << "log fo2 Offset: " << DAS(p_SS->fo2Delta, 1) << "\n";
 
     int j;
     for (int i = 0, j = 0; i < npc; i++) {
@@ -1128,55 +1128,69 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
         }
         if (line.find("log fo2 Path:") != s_end) {
             std::string path = line.substr(14);
-            if (path == "None")
+            if (path.find("None") != s_end)
                 p_SS->fo2Path = 0;
-            else if (path == "HM")
+            else if (path.find("HM") != s_end)
                 p_SS->fo2Path = 1;
-            else if (path == "NNO")
+            else if (path.find("NNO") != s_end)
                 p_SS->fo2Path = 2;
-            else if (path == "FMQ")
+            else if (path.find("FMQ") != s_end) // need to make sure don't get false positive with +3FMQ etc
                 p_SS->fo2Path = 3;
-            else if (path == "COH")
+            else if (path.find("COH") != s_end)
                 p_SS->fo2Path = 4;
-            else if (path == "IW")
+            else if (path.find("IW") != s_end)
                 p_SS->fo2Path = 5;
-            else if (path == "+3FMQ")
-                p_SS->fo2Path = 6;
-            else if (path == "+2FMQ")
-                p_SS->fo2Path = 7;
-            else if (path == "+1FMQ")
-                p_SS->fo2Path = 8;
-            else if (path == "-1FMQ")
-                p_SS->fo2Path = 9;
-            else if (path == "-2FMQ")
-                p_SS->fo2Path = 10;
-            else if (path == "-3FMQ")
-                p_SS->fo2Path = 11;
-            else if (path == "-4FMQ")
-                p_SS->fo2Path = 12;
-            else if (path == "-5FMQ")
-                p_SS->fo2Path = 13;
-            else if (path == "-6FMQ")
-                p_SS->fo2Path = 14;
-            else if (path == "-7FMQ")
-                p_SS->fo2Path = 15;
-            else if (path == "-8FMQ")
-                p_SS->fo2Path = 16;
-            else if (path == "-9FMQ")
-                p_SS->fo2Path = 17;
-            else if (path == "+0.5FMQ")
-                p_SS->fo2Path = 18;
-            else if (path == "+1.5FMQ")
-                p_SS->fo2Path = 19;
+            else if (path.find("+3FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = 3.0; //p_SS->fo2Path = 6;
+            }
+            else if (path.find("+2FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = 2.0; //p_SS->fo2Path = 7;
+            }
+            else if (path.find("+1FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = 1.0; //p_SS->fo2Path = 8;
+            }
+            else if (path.find("-1FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -1.0; //p_SS->fo2Path = 9;
+            }
+            else if (path.find("-2FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -2.0; //p_SS->fo2Path = 10;
+            }
+            else if (path.find("-3FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -3.0; //p_SS->fo2Path = 11;
+            }
+            else if (path.find("-4FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -4.0; //p_SS->fo2Path = 12;
+            }
+            else if (path.find("-5FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -5.0; //p_SS->fo2Path = 13;
+            }
+            else if (path.find("-6FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -6.0; //p_SS->fo2Path = 14;
+            }
+            else if (path.find("-7FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -7.0; //p_SS->fo2Path = 15;
+            }
+            else if (path.find("-8FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -8.0; //p_SS->fo2Path = 16;
+            }
+            else if (path.find("-9FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = -9.0; //p_SS->fo2Path = 17;
+            }
+            else if (path.find("+0.5FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = 0.5; //p_SS->fo2Path = 18;
+            }
+            else if (path.find("+1.5FMQ") != s_end) {
+                p_SS->fo2Path = 3; p_SS->fo2Delta = 1.5; //p_SS->fo2Path = 19;
+            }
             else
                 p_SS->fo2Path = 0;
-
-            m_Fo2Path = p_SS->fo2Path;
+            //m_Fo2Path = p_SS->fo2Path;
 
             continue;
         }
-        if (line.find("Log fo2 Offset:") != s_end) {
-            p_SS->fo2Delta = std::stod(line.substr(16));
+        if (line.find("log fo2 Offset:") != s_end) {
+            double offset = std::stod(line.substr(16));
+            p_SS->fo2Delta = offset;
             continue;
         }
         if (line.find("Suppress:") != s_end) {

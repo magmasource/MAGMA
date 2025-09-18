@@ -544,15 +544,16 @@ inline void GetTicks(float tMin, float tMax, int nMajor, int nMinor, bool logsca
 
 inline void LabelTicks(ImVector<ImTick> &ticks, bool scientific, ImGuiTextBuffer& buffer) {
     buffer.Buf.resize(0);
-    char temp[32];
+    //char temp[32];
+    std::string temp;
     for (auto &tk : ticks) {
         if (tk.RenderLabel) {
             tk.TextOffset = buffer.size();
             if (scientific)
-                fmt::sprintf(temp, "%.0e", tk.PlotPos);
+                temp = fmt::sprintf("%.0e", tk.PlotPos);
             else
-                fmt::sprintf(temp, "%g", tk.PlotPos);
-            buffer.append(temp, temp + strlen(temp) + 1);
+                temp = fmt::sprintf("%g", tk.PlotPos);
+            buffer.append(temp.c_str(), temp.c_str() + strlen(temp.c_str()) + 1);
             tk.Size = CalcTextSize(buffer.Buf.Data + tk.TextOffset);
         }
     }
@@ -1316,11 +1317,11 @@ void EndPlot() {
 
     // render mouse pos
     if (HasFlag(plot.Flags, ImPlotFlags_MousePos) && gp.Hov_Grid) {
-        static char buffer[128];
-        fmt::sprintf(buffer, "%.2f,%.2f", gp.LastMousePos.x, gp.LastMousePos.y);
-        ImVec2 size = CalcTextSize(buffer);
+        //static char buffer[128];
+        std::string buffer = fmt::sprintf("%.2f,%.2f", gp.LastMousePos.x, gp.LastMousePos.y);
+        ImVec2 size = CalcTextSize(buffer.c_str());
         ImVec2 pos  = gp.BB_Grid.Max - size - ImVec2(5, 5);
-        DrawList.AddText(pos, gp.Col_Txt, buffer);
+        DrawList.AddText(pos, gp.Col_Txt, buffer.c_str());
     }
 
     PopPlotClipRect();
@@ -2180,13 +2181,13 @@ void PlotPieChart(char** label_ids, float* values, int count, const ImVec2& cent
                 DrawPieSlice(DrawList, center, radius, a0 + (a1 - a0) * 0.5f, a1, col);
             }
             if (show_percents) {
-                static char buffer[8];
-                fmt::sprintf(buffer, "%.0f%%", percent * 100);
-                ImVec2 size = CalcTextSize(buffer);
+                //static char buffer[8];
+                std::string buffer = fmt::sprintf("%.0f%%", percent * 100);
+                ImVec2 size = CalcTextSize(buffer.c_str());
                 float angle = a0 + (a1 - a0) * 0.5f;
                 ImVec2 pos = PlotToPixels(center.x + 0.5f * radius * cos(angle), center.y + 0.5f * radius * sin(angle));
-                DrawList.AddText(pos - size * 0.5f + ImVec2(1,1), gp.Col_Bg, buffer);
-                DrawList.AddText(pos - size * 0.5f, GetColorU32(ImGuiCol_Text), buffer);
+                DrawList.AddText(pos - size * 0.5f + ImVec2(1,1), gp.Col_Bg, buffer.c_str());
+                DrawList.AddText(pos - size * 0.5f, GetColorU32(ImGuiCol_Text), buffer.c_str());
             }
         }
         a0 = a1;

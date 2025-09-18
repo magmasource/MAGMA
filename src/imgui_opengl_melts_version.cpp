@@ -487,7 +487,15 @@ void ImGuiOpenGL::UpdateImGUI() {
                                 //Get Assimilation values and attempt to reload SilminState from file.
                                 m_SetAssimilationValues = _MI.LoadFromFile(melts_files[i].c_str());
                                 SilminState *s = _MI.GetSilminState();
-                                fo2_path = s->fo2Path;
+
+                                m_T0 = s->T - 273.15;
+                                m_P0 = s->P;
+                                m_Composition = _MI.GetComposition();
+
+                                m_Fo2Path = s->fo2Path;
+                                fo2_path = m_Fo2Path;
+                                m_Fo2Offset = s->fo2Delta;
+                                fo2_offset = m_Fo2Offset;
 
                                 inc_t = _MI.step_inc.T;
                                 inc_p = _MI.step_inc.P;
@@ -1235,12 +1243,8 @@ void ImGuiOpenGL::UpdateImGUI() {
 
             ImGui::Text("Bulk composition set: %s", _MI.CompositionSet() ? "Yes" : "No");
 
-
-                        //if (_MI.SilminStateExists()) {
-
-                          //  ImGui::Text("Mass of system: %.2f g", _MI.GetSilminState()->mass);
-
-
+            if (_MI.SilminStateExists())
+                ImGui::Text("Mass of system: %.2f g", _MI.GetSilminState()->liquidMass + _MI.GetSilminState()->solidMass);
 
             if (ImGui::TreeNode("Initial bulk composition")) {
                 ImGui::Separator();
