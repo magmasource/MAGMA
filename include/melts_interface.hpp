@@ -840,9 +840,6 @@ private:
 
     double m_LiquidusT = NaN; /*calculated by MELTS*/
 
-    int m_Fo2Path = FO2_NONE;
-    double m_Fo2Offset = 0.0;
-
     /*
     MODE__DEFAULT == xMELTS
     MODE_xMELTS == xMELTS (experimental 2.0.0)      0
