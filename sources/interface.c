@@ -2507,10 +2507,26 @@ int main (int argc, char *argv[])
     InitComputeDataStruct();
 # else
     /* Move initialization later for BATCH_VERSION so models can be selected via XML */
-    /* Select largest values for nlc, nls, and npc so can allocate silminState safely */
-    nlc = MAX(meltsNlc, MAX(meltsFluidNlc, pMeltsNlc));
-    nls = MAX(meltsNls, MAX(meltsFluidNls, pMeltsNls));
-    npc = MAX(meltsNpc, MAX(meltsFluidNpc, pMeltsNpc));
+    /* Select temporary values for nlc, nls, and npc so can allocate silminState safely */
+    if (calculationMode == MODE__MELTS) {
+        liquid = meltsLiquid;
+        solids = meltsSolids;
+        nlc = meltsNlc;
+        nls = meltsNls;
+        npc = meltsNpc;
+    } else if ((calculationMode == MODE__MELTSandCO2) || (calculationMode == MODE__MELTSandCO2_H2O)) {
+        liquid = meltsFluidLiquid;
+        solids = meltsFluidSolids;
+        nlc = meltsFluidNlc;
+        nls = meltsFluidNls;
+        npc = meltsFluidNpc;
+    } else if (calculationMode == MODE_pMELTS) {
+        liquid = pMeltsLiquid;
+        solids = pMeltsSolids;
+        nlc = pMeltsNlc;
+        nls = pMeltsNls;
+        npc = pMeltsNpc;
+    }
 #endif
 
 #ifndef BATCH_VERSION
