@@ -753,7 +753,9 @@ public:
     bool SetSuppressedPhases(std::map<int, std::string> suppressed_phases);
     bool ClearSuppressedPhases();
 
-
+    double GetTotal() const {
+        return m_Total;
+    }
 
     double GetLiquidusT() const {
         return m_LiquidusT;
@@ -837,6 +839,7 @@ private:
     bool m_NormalizeOnSave = true;
 
     std::array<double, 20> m_Composition; /* Initial composition of the system set by user */
+    double m_Total = 0.0;
 
     double m_LiquidusT = NaN; /*calculated by MELTS*/
 

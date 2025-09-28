@@ -370,13 +370,17 @@ bool MeltsInterface::SetComposition(std::array<double, 20> composition) {
      Edit: normalization is optional, controlled by a checkbox in the GUI
      */
 
-    if (m_NormalizeOnSave) {
-        for (double &d : m_Composition)
-            total += d;
+    for (double &d : m_Composition)
+        total += d;
 
+    if (m_NormalizeOnSave) {
         if (total != 0.0)
             for (double &d : m_Composition)
                 d = d / total * 100.0;
+        m_Total = 100.0;
+    }
+    else {
+        m_Total = total;
     }
 
     /*
@@ -779,7 +783,8 @@ bool MeltsInterface::Equilibrate() {
     //calc_index is sent to silmin() to fix crash that is caused by stopping equilibration
     //in the middle of silmin, recreating silminstate and starting again
     static int calc_index = 0;
-    calc_index = m_LastIndex;
+    if (m_LastIndex < 0) m_LastIndex = 0; // set in FindLiquidus
+    calc_index =  m_LastIndex;
 
     silminState = p_SS;
 
