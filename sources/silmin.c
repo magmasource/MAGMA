@@ -260,9 +260,9 @@ const char *silmin_ver(void) { return "$Id: silmin.c,v 1.12 2009/04/24 20:51:09 
 #include <Xm/ToggleBG.h>
 #include "interface.h"            /*Specific external declarations          */
 #else
+#include <gsl/gsl_errno.h>
 #include "status.h"               /*Status of calculation in batch mode     */
 #endif
-
 
 #define SQUARE(x) ((x)*(x))
 #define REALLOC(x, y) (((x) == NULL) ? malloc(y) : realloc((x), (y)))
@@ -480,6 +480,7 @@ int silmin(int calc_index)
 
     updateStatusADB(STATUS_ADB_INDEX_PHASE, &curStep);
 #else /* BATCH_VERSION */
+    (void) gsl_set_error_handler_off();
     if (curStep == 0) curStep = CHANGE_COMPOSITION;
 #endif /* BATCH_VERSION */
 
@@ -1710,6 +1711,8 @@ int silmin(int calc_index)
             if (oldErrorHandler != NULL && signal(SIGFPE, oldErrorHandler) == SIG_ERR)
                 wprintf(statusEntries[STATUS_ADB_INDEX_STATUS].name, "...Error in installing old signal handler.\n");
             oldErrorHandler = NULL;
+#else
+            (void) gsl_set_error_handler(NULL);
 #endif
 
             /* Solid Phase Fractionation */
