@@ -415,10 +415,12 @@ actLiq_v34(int mask, double t, double p, double *r,
       mu[i] = - gex;
       for (j=0;   j<i;  j++) mu[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
       for (j=i+1; j<NA; j++) mu[i] += (WH(i,j)-t*WS(i,j)+(p-1.0)*WV(i,j))*x[j];
+#ifdef TESTDYNAMICLIB
 #ifdef USESEH
       if (x[i] < 0.0) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
 #else
       if (x[i] < 0.0) (void) raise(SIGABRT);
+#endif
 #endif
       mu[i] = (x[i] != 0.0) ? mu[i] + R*t*log(x[i]) : 0.0;
       if (i != NA-1)           mu[i]    += R*t*log(1.0-x[NA-1]);
@@ -498,10 +500,12 @@ gmixLiq_v34(int mask, double t, double p, double *r,
     for (*gmix = 0.0, i=0; i<NA; i++) {
       for (j=i+1; j<NA; j++) *gmix += x[i]*x[j]*(WH(i,j) - t*WS(i,j)
                                     + (p-1.0)*WV(i,j));
+#ifdef TESTDYNAMICLIB
 #ifdef USESEH
       if (x[i] < 0.0) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
 #else
       if (x[i] < 0.0) (void) raise(SIGABRT);
+#endif
 #endif
       *gmix += (x[i] != 0.0) ? R*t*x[i]*log(x[i]) : 0.0;
     }
@@ -511,10 +515,12 @@ gmixLiq_v34(int mask, double t, double p, double *r,
   
   if(mask & SECOND) {
     for (i=0; i<NR; i++) {
+#ifdef TESTDYNAMICLIB
 #ifdef USESEH
       if ((x[0] < 0.0) || (r[i] < 0.0)) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
 #else
       if ((x[0] < 0.0) || (r[i] < 0.0)) (void) raise(SIGABRT);
+#endif
 #endif
       dr[i] = (r[i] != 0.0) ? R*t*(log(r[i]) - log(x[0])) : 0.0;
       dr[i] += x[0]*(WH(0,i+1)-t*WS(0,i+1)+(p-1.0)*WV(0,i+1));
@@ -583,10 +589,12 @@ smixLiq_v34(int mask, double t, double p, double *r,
   if (mask & FIRST) {
     for (*smix = 0.0, i=0; i<NA; i++) {
       for (j=i+1; j<NA; j++) *smix += x[i]*x[j]*WS(i,j);
+#ifdef TESTDYNAMICLIB
 #ifdef USESEH
       if (x[i] < 0.0) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
 #else
       if (x[i] < 0.0) (void) raise(SIGABRT);
+#endif
 #endif
       *smix += (x[i] != 0.0) ? - R*x[i]*log(x[i]) : 0.0;
     }
@@ -596,10 +604,12 @@ smixLiq_v34(int mask, double t, double p, double *r,
   
   if(mask & SECOND) {
     for (i=0; i<NR; i++) {
+#ifdef TESTDYNAMICLIB
 #ifdef USESEH
       if ((x[0] < 0.0) || (r[i] < 0.0)) { doInterrupt = TRUE; raise_sigabrt(EXCEPTION_FLT_INVALID_OPERATION); }
 #else
       if ((x[0] < 0.0) || (r[i] < 0.0)) (void) raise(SIGABRT);
+#endif
 #endif
       dr[i] = (r[i] != 0.0) ? R*(log(x[0]) - log(r[i])) : 0.0;
       dr[i] += x[0]*WS(0,i+1);
