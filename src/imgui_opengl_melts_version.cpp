@@ -1126,7 +1126,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     }
 
                     if (status != std::future_status::ready) {
-                        ImGui::Text("Calculating... %.1f %%", 100.f - ((float)_MI.GetStepsRemaining() / _MI.GetStepsToCalculate() * 100.f));
+                        ImGui::Text("Calculating... %.1f %%", 101.f - ((float)_MI.GetStepsRemaining() / _MI.GetStepsToCalculate() * 100.f));
                         ImGui::Dummy(ImVec2(1.0f, 5.f));
                         //End silmin() calculation on next silmin() function return.
                         if (ImGui::Button("Stop equilibration")) {
@@ -1244,7 +1244,7 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::Text("Bulk composition set: %s", _MI.CompositionSet() ? "Yes" : "No");
 
             if (_MI.SilminStateExists())
-                ImGui::Text("Mass of system: %.2f g", _MI.GetSilminState()->liquidMass + _MI.GetSilminState()->solidMass);
+                ImGui::Text("Mass of system: %.2f g", _MI.GetTotal());
 
             if (ImGui::TreeNode("Initial bulk composition")) {
                 ImGui::Separator();
