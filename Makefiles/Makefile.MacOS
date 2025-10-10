@@ -47,7 +47,7 @@ CFLAGS   	  = -c -g3 -DDEBUG
 else
 CFLAGS   	  = -c -O3
 endif
-CFLAGS        += $(BATCH) $(VERSION)= -ansi -mmacosx-version-min=13.0 \
+CFLAGS        += $(BATCH) $(VERSION) -ansi -mmacosx-version-min=13.0 \
                 -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
 FFLAGS        = -O3
 RANLIB        = ranlib

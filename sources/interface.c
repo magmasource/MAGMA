@@ -726,56 +726,71 @@ static int batchInputDataFromXmlFile(char *fileName) {
 
                             if (silminState != NULL)
                                 destroySilminStateStructure(silminState); /*destroy the old state*/
-                                /*if (silminState == NULL) was testing to avoid memory leak when destroy was nyi */
-                            silminState = allocSilminStatePointer();
-                            for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-                            (silminState->incSolids)[npc] = TRUE;
-                            silminState->nLiquidCoexist  = 1;
-                            silminState->fo2Path  = FO2_NONE;
-                            silminState->T = 0.0;
-                            silminState->P = 0.0;
+                                /*if (silminState == NULL) silminState = allocSilminStatePointer();
+                                    was testing to avoid memory leak when destroy was nyi */
 
-                            for (i=0, silminState->liquidMass=0.0; i<nc; i++) (silminState->bulkComp)[i] = 0.0;
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
                                     xmlChar *content2 = xmlNodeGetContent(level2);
                                     char *pEnd = NULL;
                                     errno = 0;
 
-                                    if (!strcmp((char *) level2->name, "modelSelection")) {
+                                    if (!strcmp((char *) level2->name, "modelSelection")) { /* first time through */
                                         printf("Found modelSelection: %s\n", content2);
-                                             if (!strcmp((char *) content2, "MELTS_v1.0.x")) calculationMode = MODE__MELTS;
-                                        else if (!strcmp((char *) content2, "MELTS_v1.1.x")) calculationMode = MODE__MELTSandCO2;
-                                        else if (!strcmp((char *) content2, "MELTS_v1.2.x")) calculationMode = MODE__MELTSandCO2_H2O;
-                                        else if (!strcmp((char *) content2, "pMELTS_v5.6.1")) calculationMode = MODE_pMELTS;
-                                    }
-                                    if (SiO2 == -1) {
-                                        printf("---> Initializing data structures using selected calculation mode...\n");
-                                        SelectComputeDataStruct();
-                                        InitComputeDataStruct();
-                                        int i;
-                                        for (i=0; i<nc; i++) {
-                                            if      (!strcmp(bulkSystem[i].label, "SiO2" )) SiO2  = i;
-                                            else if (!strcmp(bulkSystem[i].label, "TiO2" )) TiO2  = i;
-                                            else if (!strcmp(bulkSystem[i].label, "Al2O3")) Al2O3 = i;
-                                            else if (!strcmp(bulkSystem[i].label, "Fe2O3")) Fe2O3 = i;
-                                            else if (!strcmp(bulkSystem[i].label, "Cr2O3")) Cr2O3 = i;
-                                            else if (!strcmp(bulkSystem[i].label, "FeO"  )) FeO   = i;
-                                            else if (!strcmp(bulkSystem[i].label, "MnO"  )) MnO   = i;
-                                            else if (!strcmp(bulkSystem[i].label, "MgO"  )) MgO   = i;
-                                            else if (!strcmp(bulkSystem[i].label, "NiO"  )) NiO   = i;
-                                            else if (!strcmp(bulkSystem[i].label, "CoO"  )) CoO   = i;
-                                            else if (!strcmp(bulkSystem[i].label, "CaO"  )) CaO   = i;
-                                            else if (!strcmp(bulkSystem[i].label, "Na2O" )) Na2O  = i;
-                                            else if (!strcmp(bulkSystem[i].label, "K2O"  )) K2O   = i;
-                                            else if (!strcmp(bulkSystem[i].label, "P2O5" )) P2O5  = i;
-                                            else if (!strcmp(bulkSystem[i].label, "H2O"  )) H2O   = i;
-                                            else if (!strcmp(bulkSystem[i].label, "CO2"  )) CO2   = i;
+
+                                        if (SiO2 == -1) {
+
+                                            /* 'default' does not change the calculationMode */
+                                                 if (!strcmp((char *) content2, "MELTS_v1.0.x")) calculationMode = MODE__MELTS;
+                                            else if (!strcmp((char *) content2, "MELTS_v1.1.x")) calculationMode = MODE__MELTSandCO2;
+                                            else if (!strcmp((char *) content2, "MELTS_v1.2.x")) calculationMode = MODE__MELTSandCO2_H2O;
+                                            else if (!strcmp((char *) content2, "pMELTS_v5.6.1")) calculationMode = MODE_pMELTS;
+
+                                            printf("---> Initializing data structures using selected calculation mode...\n");
+                                            SelectComputeDataStruct();
+                                            InitComputeDataStruct();
+                                            int i;
+                                            for (i=0; i<nc; i++) {
+                                                if      (!strcmp(bulkSystem[i].label, "SiO2" )) SiO2  = i;
+                                                else if (!strcmp(bulkSystem[i].label, "TiO2" )) TiO2  = i;
+                                                else if (!strcmp(bulkSystem[i].label, "Al2O3")) Al2O3 = i;
+                                                else if (!strcmp(bulkSystem[i].label, "Fe2O3")) Fe2O3 = i;
+                                                else if (!strcmp(bulkSystem[i].label, "Cr2O3")) Cr2O3 = i;
+                                                else if (!strcmp(bulkSystem[i].label, "FeO"  )) FeO   = i;
+                                                else if (!strcmp(bulkSystem[i].label, "MnO"  )) MnO   = i;
+                                                else if (!strcmp(bulkSystem[i].label, "MgO"  )) MgO   = i;
+                                                else if (!strcmp(bulkSystem[i].label, "NiO"  )) NiO   = i;
+                                                else if (!strcmp(bulkSystem[i].label, "CoO"  )) CoO   = i;
+                                                else if (!strcmp(bulkSystem[i].label, "CaO"  )) CaO   = i;
+                                                else if (!strcmp(bulkSystem[i].label, "Na2O" )) Na2O  = i;
+                                                else if (!strcmp(bulkSystem[i].label, "K2O"  )) K2O   = i;
+                                                else if (!strcmp(bulkSystem[i].label, "P2O5" )) P2O5  = i;
+                                                else if (!strcmp(bulkSystem[i].label, "H2O"  )) H2O   = i;
+                                                else if (!strcmp(bulkSystem[i].label, "CO2"  )) CO2   = i;
+                                            }
                                         }
+                                        else if ((!strcmp((char *) content2, "MELTS_v1.0.x") && calculationMode != MODE__MELTS) ||
+                                                (!strcmp((char *) content2, "MELTS_v1.1.x")  && calculationMode != MODE__MELTSandCO2) ||
+                                                (!strcmp((char *) content2, "MELTS_v1.2.x")  && calculationMode != MODE__MELTSandCO2_H2O) ||
+                                                (!strcmp((char *) content2, "pMELTS_v5.6.1") && calculationMode != MODE_pMELTS)) {
+                                            printf("Error: cannot change modelSelection after it has been initialized.\n");
+                                            ret = FALSE;
+                                        }
+
+                                        silminState = allocSilminStatePointer();
+                                        for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
+                                        (silminState->incSolids)[npc] = TRUE;
+                                        silminState->nLiquidCoexist  = 1;
+                                        silminState->fo2Path  = FO2_NONE;
+                                        silminState->T = 0.0;
+                                        silminState->P = 0.0;
+                                        silminState->assimilate = FALSE;
+
+                                        for (i=0, silminState->liquidMass=0.0; i<nc; i++) (silminState->bulkComp)[i] = 0.0;
                                     }
 
-                                    if (strcmp((char *) level2->name, "modelSelection")) {
-                                            if (!strcmp((char *) level2->name, "SiO2" )) (silminState->bulkComp)[SiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[SiO2 ].mw;
+                                    if (strcmp((char *) level2->name, "modelSelection")) { /* subsequent passes through */
+                                             if (!strcmp((char *) level2->name, "SiO2" )) (silminState->bulkComp)[SiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[SiO2 ].mw;
                                         else if (!strcmp((char *) level2->name, "TiO2" )) (silminState->bulkComp)[TiO2 ] = strtod((char *) content2, &pEnd)/bulkSystem[TiO2 ].mw;
                                         else if (!strcmp((char *) level2->name, "Al2O3")) (silminState->bulkComp)[Al2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Al2O3].mw;
                                         else if (!strcmp((char *) level2->name, "Fe2O3")) (silminState->bulkComp)[Fe2O3] = strtod((char *) content2, &pEnd)/bulkSystem[Fe2O3].mw;
@@ -809,13 +824,12 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                 }
                                 level2 = level2->next;
                             }
-                            for (i=0; i<nlc; i++)
+                            for (i=0; i<nlc; i++) {
                                 for ((silminState->liquidComp)[0][i]=0.0, silminState->oxygen=0.0, j=0; j<nc; j++) {
                                     (silminState->liquidComp)[0][i] += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i];
                                     silminState->oxygen += (silminState->bulkComp)[j]*(bulkSystem[j].oxToLiq)[i]*(oxygen.liqToOx)[i];
                                 }
-
-
+                            }
 
                         } else if (!strcmp((char *) level1->name, "calculationMode")) {
                             printf("Found calculationMode: %s\n", content1);
@@ -2774,14 +2788,8 @@ int main (int argc, char *argv[])
             int ret;
             char *outputFile;
 
-            if (silminState == NULL) {
-                int i, np;
-                silminState = allocSilminStatePointer();
-                for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-                (silminState->incSolids)[npc] = TRUE;
-                silminState->nLiquidCoexist  = 1;
-                silminState->fo2Path  = FO2_NONE;
-            }
+            if (silminState == NULL) silminState = allocSilminStatePointer();
+            /* moved initialization of incSolids etc. into input routine */
             ret = batchInputDataFromXmlFile(argv[1]);
 
             len = strlen(silminInputData.name) - 4;
@@ -2829,15 +2837,9 @@ int main (int argc, char *argv[])
                 int ret;
                 char *iFileName, *oFileName, *sFileName;
 
-                if (silminState == NULL) {
-                    int i, np;
-                    silminState = allocSilminStatePointer();
-                    for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-                    (silminState->incSolids)[npc] = TRUE;
-                    silminState->nLiquidCoexist  = 1;
-                    silminState->fo2Path  = FO2_NONE;
-                }
-                silminState->assimilate = FALSE;
+                if (silminState == NULL) silminState = allocSilminStatePointer();
+                /* moved initialization of incSolids etc. into input routine */
+                silminState->assimilate = FALSE; // turn off assimilation for MCS debugging
 
                 iFileName = (char *) malloc((size_t) REC*sizeof(char));
 
@@ -2954,15 +2956,9 @@ int main (int argc, char *argv[])
                         int ret, len;
                         char *iFileName, *oFileName, *pFileName, *sFileName;
 
-                        if (silminState == NULL) {
-                            int i, np;
-                            silminState = allocSilminStatePointer();
-                            for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
-                            (silminState->incSolids)[npc] = TRUE;
-                            silminState->nLiquidCoexist  = 1;
-                            silminState->fo2Path  = FO2_NONE;
-                        }
-                        silminState->assimilate = FALSE;
+                        if (silminState == NULL) silminState = allocSilminStatePointer();
+                        /* moved initialization of incSolids etc. into input routine */
+                        silminState->assimilate = FALSE; // assimilation is handled in MCS
 
                         len = strlen(dp->d_name);
                         iFileName = (char *) malloc((size_t) (lenIdir + 1 + len + 1)*sizeof(char));

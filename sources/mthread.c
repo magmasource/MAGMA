@@ -32,7 +32,7 @@ void MTHREAD_CLEANUPSPECIFIC(void) { ; }
 #include <errno.h>
 #include <float.h>
 #include <limits.h>
-#include <math.h> 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,7 +42,7 @@ void MTHREAD_CLEANUPSPECIFIC(void) { ; }
 
 #ifdef DEBUG_THREAD
 #undef DEBUG_THREAD
-#endif 
+#endif
 
 #define	MTHREAD_DATAKEYS_MAX  512
 #define OK                      0
@@ -54,7 +54,7 @@ char *threadList[MAX_CONNECTION_THREADS];
 
 struct MTHREAD_KEY {
   long count;
-  void (*destructor)();
+  void (*destructor)(void *);
   void *specific_data[MAX_CONNECTION_THREADS];
 };
 

@@ -66,13 +66,14 @@
 					<xs:element name="initialize" minOccurs="0" maxOccurs="1">
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="modelSelection" minOccurs="0" maxOccurs="1">
+								<xs:element name="modelSelection" minOccurs="1" maxOccurs="1">
 									<xs:simpleType>
 										<xs:restriction base="xs:string">
 											<xs:enumeration value="MELTS_v1.0.x"/>
 											<xs:enumeration value="MELTS_v1.1.x"/>
 											<xs:enumeration value="MELTS_v1.2.x"/>
 											<xs:enumeration value="pMELTS_v5.6.1"/>
+											<xs:enumeration value="default"/>
 										</xs:restriction>
 									</xs:simpleType>
 								</xs:element>

@@ -11,10 +11,7 @@
 #define MAX 4.0e+10
 #define MIN 3.0e-10
 
-double
-frac(v, n, d, error)
-double v, error;
-int *n, *d;
+double frac(double v, int *n, int *d, double error)
 {
 	/*
 	  given a number, v, this function outputs two integers,
