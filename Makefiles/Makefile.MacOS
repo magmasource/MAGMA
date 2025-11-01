@@ -7,30 +7,24 @@ MAKEFILE	= Makefiles/Makefile.MacOS
 ifneq ($(wildcard /opt/homebrew),)
 ROOTDIR := opt/homebrew
 else
-ROOTDIR := use/local
+ROOTDIR := usr/local
 endif
 
-export MACOSX_DEPLOYMENT_TARGET := 13.0
+#export MACOSX_DEPLOYMENT_TARGET := 14.0
 
 # Compilation options
 # ===================
 
-PROTO   = XTFUNCPROTO
-VLIST   = _NO_DRAWINGA_VLIST_PARENT
-ENTRYC  = _NO_WHITE_TEXTW
-
-# To compile without grace (per instructions on GitLab)
-#ACEPLT  =     GRACE_PIPE
 ACEPLT  = _NO_GRACE_PIPE
 
-# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
+# Include files for GSL (INCM), easyMelts-related (INCX), and the C library (INCC)
 # ======================================================================================
 
 INCC   = /$(ROOTDIR)/include
-INCXM  = /$(ROOTDIR)/include
-INCX   = /$(ROOTDIR)/include
+INCM   = /$(ROOTDIR)/include
+INCG   = ./include/imgui
+INCX   = ./libxlsxwriter/include
 INCF2C = .
-#INCXML = /usr/local/opt/libxml2/include/libxml2
 INCXML = /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
 
 # Compiler choice and flags - Do not delete the $(BATCH) macro
@@ -40,23 +34,25 @@ AR            = ar
 ARFLAGS       = rv
 DYFLAGS	      = xv
 CC            = clang
+CPP           = clang++
 LD            = clang
 FC            = gfortran
 ifneq ($(DEBUG),)
 CFLAGS   	  = -c -g3 -DDEBUG
+CPPFLAGS   	  = -c -g3 -DDEBUG
 else
 CFLAGS   	  = -c -O3
+CPPFLAGS      = -c -std=c++17
 endif
-CFLAGS        += $(BATCH) $(VERSION) -ansi -mmacosx-version-min=13.0 \
-                -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+CFLAGS        += $(BATCH) $(VERSION) -ansi -mmacosx-version-min=14.0 -D$(ACEPLT) -D__osf__ \
+                -I./includes -I$(INCC) -I$(INCM) -I$(INCX) -I$(INCXML) -I$(INCF2C)
+CPPFLAGS      += -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM \
+                -I./include -I./includes -I$(INCC) -I$(INCM) -I$(INCX)
 FFLAGS        = -O3
 RANLIB        = ranlib
 RANLIBFG      = -s
 RM            = rm
 RMFLAGS       = -rf
-MPICC         = mpicc
-MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
-MPILDFLAGS    = -L/usr/lib -lmpi
 CP            = cp
 CPFLAGS       = -R
 MKDIR         = mkdir
@@ -65,49 +61,34 @@ TARFLAGS      = czvf
 CHECKSUM      = openssl
 CHECKSUMFLAGS = sha256
 SCP           = scp
-USER          = administrator
-HOST          = repository.ofm-research.org
-LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
-PYMELTSVER    = 0.1.1
 
 ifneq ($(DYNAMIC),)
 CFLAGS   += -DTESTDYNAMICLIB
 endif
 
-# Loader flags (default is shared on Mac)
+# Loader flags (default is static)
 # =================================================
 
 LDFLAGS = -v
-#-Wl,-no_compact_unwind
-# the above will suppress
-#ld: warning: could not create compact unwind for _write_float: stack subq instruction is too different from dwarf stack size
 SONAME	= dylib
 ifneq ($(DYNAMIC),)
 override DYNAMIC = -dynamiclib
 endif
 
-# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions
-# ==============================================================================
+# Libraries for xlsx, glfw, c functions and math functions (install with homebrew)
+# ================================================================================
 
-LIBS    = -L/usr/local/lib -lMrm -lXm -lgrace_np -L/opt/X11/lib -lXt -lXp -lX11 -lXext -lXpm -lXmu port3/libport.a
-
-PUBLIBS = /usr/local/lib/libMrm.a /usr/local/lib/libXm.a /usr/local/lib/libjpeg.a \
-          -L/opt/X11/lib -lXft -lXt -lXp -lSM -lICE -lX11 -lXext -lXpm -lXmu -lXRender -lXau -lXdmcp -lpng -lX11-xcb \
-          -lxcb -lfreetype -lfontconfig \
-          -L/usr/lib -lexpat -lz -lbz2 -lcharset -liconv \
-          port3/libport.a /usr/local/opt/gcc/lib/gcc/11/libgfortran.a /usr/local/opt/gcc/lib/gcc/11/libquadmath.a \
-	  /usr/local/opt/gcc/lib/gcc/11/gcc/x86_64-apple-darwin19/11.2.0/libgcc.a
+LIBS    = -lglfw3 -lxlsxwriter
+PUBLIBS = /$(ROOTDIR)/lib/libglfw3.a /$(ROOTDIR)/lib/libxlsxwriter.a /$(ROOTDIR)/lib/libfmt.a
 
 LIBF2C =
-LIBXML = -L/usr/lib -lxml2
+LIBXML = -lgsl -lgslblas -lxml2 -lz -liconv
 
-#LIBBATCH = /usr/local/opt/libxml2/lib/libxml2.a  -lz -liconv
-LIBBATCH = -L/$(ROOTDIR)/lib -lxml2 -lgsl -lgslcblas -lz -liconv
+LIBBATCH = /$(ROOTDIR)/lib/libgsl.a /$(ROOTDIR)/lib/libgslcblas.a -lxml2 -lz -liconv
 
-ifneq ($(STATIC),)
-override LIBBATCH = /$(ROOTDIR)/lib/libxml2.a /$(ROOTDIR)/lib/libz.a \
-	/$(ROOTDIR)/lib/liblzma.a /$(ROOTDIR)/lib/libz.a \
-	/$(ROOTDIR)/lib/libiconv.a
+ifneq ($(DYNAMIC),)
+PUBLIBS  = $(LIBS)
+LIBBATCH = $(LIBXML)
 endif
 
 ifneq ($(DEBUG),)

@@ -15,16 +15,13 @@ endif
 # Compilation options
 # ===================
 
-PROTO   = XTFUNCPROTO
-VLIST   = _NO_DRAWINGA_VLIST_PARENT
-ENTRYC  = _NO_WHITE_TEXTW
 ACEPLT  = _NO_GRACE_PIPE
 
-# Include files for GSL (INCXM), easyMelts-related (INCX), and the ANSI C library (INCC)
+# Include files for GSL (INCM), easyMelts-related (INCX), and the ANSI C library (INCC)
 # ======================================================================================
 
 INCC   = /$(ROOTDIR1)/include
-INCXM  = /$(ROOTDIR2)/include
+INCM   = /$(ROOTDIR2)/include
 INCX   = ./libxlsxwriter/include
 INCF2C = .
 INCXML = /$(ROOTDIR1)/include/libxml2
@@ -43,9 +40,8 @@ CFLAGS   	  = -c -g3 -DDEBUG
 else
 CFLAGS   	  = -c -O3
 endif
-CFLAGS        += $(BATCH) $(VERSION) -D_USE_ISOC99 -D_ISOC99_SOURCE -DMINGW \
-                -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -D__osf__ \
-				-I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C)
+CFLAGS        += $(BATCH) $(VERSION) -D_USE_ISOC99 -D_ISOC99_SOURCE -DMINGW -D$(ACEPLT) -D__osf__ \
+				-I./includes -I$(INCC) -I$(INCM) -I$(INCX) -I$(INCXML) -I$(INCF2C)
 FFLAGS        = -O3
 RANLIB        = ranlib
 RANLIBFG      =
@@ -73,13 +69,13 @@ endif
 # Loader flags (default is static on Windows)
 # =================================================
 
-LDFLAGS =
+LDFLAGS = -v
 SONAME = dll
 ifneq ($(DYNAMIC),)
 override DYNAMIC = -shared
 endif
 
-# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions
+# Libraries for xlsx, glfw, c functions and math functions (install with pacman)
 # ==============================================================================
 
 LIBS    = -L/$(ROOTDIR)/lib/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
