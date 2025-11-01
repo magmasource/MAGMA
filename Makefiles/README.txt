@@ -6,7 +6,8 @@ brew install glfw
 
 clang -c -I./include ./src/glad.c -DGL_SILENCE_DEPRECATION
 
-clang++ -o easyMelts -std=c++17 -I/opt/homebrew/include -I./include -I./include/imgui -I./include/melts ./src/*.cpp glad.o -L./lib -lmeltslibwin /opt/homebrew/lib/libglfw3.a /opt/homebrew/lib/libxlsxwriter.a -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -lxml2 -lz -liconv -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM
+clang++ -o easyMelts -std=c++17 -I/opt/homebrew/include -I./include -I./include/imgui -I./include/melts ./src/*.cpp glad.o libMELTSbatch.a /opt/homebrew/lib/libglfw3.a /opt/homebrew/lib/libxlsxwriter.a -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
+-lxml2 -lz -liconv -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM
 
 clang++ -o easyMelts -std=c++17 -I/usr/local/include -I./include -I./include/imgui -I./include/melts ./src/*.cpp glad.o -L./lib -lmeltslibwin /usr/local/lib/libglfw3.a /usr/local/lib/libxlsxwriter.a -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -lxml2 -lz -liconv -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM
 

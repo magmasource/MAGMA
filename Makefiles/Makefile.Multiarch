@@ -9,9 +9,6 @@ ROOTDIR := x86_64-w64-mingw32
 # Compilation options
 # ===================
 
-PROTO   = XTFUNCPROTO
-VLIST   = _NO_DRAWINGA_VLIST_PARENT
-ENTRYC  = _NO_WHITE_TEXTW
 ACEPLT  = _NO_GRACE_PIPE
 
 # Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
@@ -54,10 +51,6 @@ TARFLAGS      = czvf
 CHECKSUM      = openssl
 CHECKSUMFLAGS = sha256
 SCP           = scp
-USER          = administrator
-HOST          = repository.ofm-research.org
-LOCATION      = /Library/Server/Web/Data/Sites/Default/packages
-PYMELTSVER    = 0.1.1
 
 # Default to static on Windows
 ifneq ($(DYNAMIC),)
@@ -66,7 +59,7 @@ else
 CFLAGS 	 += -DLIBXML_STATIC
 endif
 
-# Loader flags (default is shared, add -non_shared)
+# Loader flags (default is static)
 # =================================================
 
 LDFLAGS =
