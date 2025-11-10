@@ -1,6 +1,6 @@
 # ==================================================================
-# Makefile for build of the MELTS package on MacOS (MacOS - 15)
-# Set environment variable for backwards deployment to MacOS 13
+# Makefile for build of the MELTS package on MacOS
+# Set environment variable for backwards deployment to MacOS 14
 # ==================================================================
 
 MAKEFILE	= Makefiles/Makefile.MacOS
@@ -17,13 +17,13 @@ endif
 
 ACEPLT  = _NO_GRACE_PIPE
 
-# Include files for GSL (INCM), easyMelts-related (INCX), and the C library (INCC)
-# ======================================================================================
+# Include files easyMelts-related (INCM, X, GUI), math and the C library (INCC)
+# =============================================================================
 
 INCC   = /$(ROOTDIR)/include
 INCM   = /$(ROOTDIR)/include
-INCG   = ./include/imgui
-INCX   = ./libxlsxwriter/include
+INCX   = /$(ROOTDIR)/include
+INCGUI = ./include/imgui
 INCF2C = .
 INCXML = /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
 
@@ -45,9 +45,9 @@ CFLAGS   	  = -c -O3
 CPPFLAGS      = -c -std=c++17
 endif
 CFLAGS        += $(BATCH) $(VERSION) -ansi -mmacosx-version-min=14.0 -D$(ACEPLT) -D__osf__ \
-                -I./includes -I$(INCC) -I$(INCM) -I$(INCX) -I$(INCXML) -I$(INCF2C)
+                -I./includes -I$(INCC) -I$(INCXML) -I$(INCF2C)
 CPPFLAGS      += -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM \
-                -I./include -I./includes -I$(INCC) -I$(INCM) -I$(INCX)
+                -I./include -I./includes -I$(INCM) -I$(INCX) -I$(INCGUI)
 FFLAGS        = -O3
 RANLIB        = ranlib
 RANLIBFG      = -s
@@ -78,11 +78,11 @@ endif
 # Libraries for xlsx, glfw, c functions and math functions (install with homebrew)
 # ================================================================================
 
-LIBS    = -lglfw3 -lxlsxwriter
-PUBLIBS = /$(ROOTDIR)/lib/libglfw3.a /$(ROOTDIR)/lib/libxlsxwriter.a /$(ROOTDIR)/lib/libfmt.a
+LIBS    = -L/$(ROOTDIR)/lib -lglfw3 -lfmt -lxlsxwriter
+PUBLIBS = /$(ROOTDIR)/lib/libglfw3.a /$(ROOTDIR)/lib/libfmt.a /$(ROOTDIR)/lib/libxlsxwriter.a
 
 LIBF2C =
-LIBXML = -lgsl -lgslblas -lxml2 -lz -liconv
+LIBXML = -L/$(ROOTDIR)/lib -lgsl -lgslblas -lxml2 -lz -liconv
 
 LIBBATCH = /$(ROOTDIR)/lib/libgsl.a /$(ROOTDIR)/lib/libgslcblas.a -lxml2 -lz -liconv
 
@@ -90,6 +90,8 @@ ifneq ($(DYNAMIC),)
 PUBLIBS  = $(LIBS)
 LIBBATCH = $(LIBXML)
 endif
+
+PUBLIBS  += -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
 ifneq ($(DEBUG),)
 include Makefile.debug

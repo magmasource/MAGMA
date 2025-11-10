@@ -1,7 +1,6 @@
 # =================================================================================
-# Makefile for build of the xMELTS package on Linux (Ubuntu - 20.04)
-# Generic Linux makefile (will dynamically link with libxml2 file by default)
-# For static linking of the GUI use: 'make Melts-batch STATIC=true'
+# Makefile for build of the MELTS package on Linux (Ubuntu - 22.04)
+# Generic Linux makefile (will try to static link with libxml2 file by default)
 # =================================================================================
 
 MAKEFILE = Makefiles/Makefile.Linux
@@ -22,6 +21,7 @@ ACEPLT  = _NO_GRACE_PIPE
 INCC   = /usr/include
 INCM   = /usr/include
 INCX   = ./libxlsxwriter/include
+INCGUI = ./include/imgui
 INCF2C = .
 INCXML = /usr/include/libxml2
 
@@ -32,23 +32,25 @@ AR            = ar
 ARFLAGS       = rvU
 DYFLAGS	      = xv
 CC            = clang
+CPP           = clang++
 LD            = clang++
 FC            = gfortran
 ifneq ($(DEBUG),)
 CFLAGS   	  = -c -gdwarf-4 -DDEBUG
+CPPFLAGS   	  = -c -gdwarf-4 -DDEBUG
 else
 CFLAGS   	  = -c -O3
+CPPFLAGS      = -c -std=c++17
 endif
 CFLAGS        += $(BATCH) $(VERSION) -D_USE_ISOC99 -D_ISOC99_SOURCE -D$(ACEPLT) -D__osf__ -fPIC \
-                -I./includes -I$(INCC) -I$(INCM) -I$(INCX) -I$(INCXML) -I$(INCF2C)
+                -I./includes -I$(INCC) -I$(INCM) -I$(INCXML) -I$(INCF2C)
+CPPFLAGS      += -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM \
+                -I./include -I./includes -I$(INCM) -I$(INCX) -I$(INCGUI)
 FFLAGS        = -O3
 RANLIB        = ranlib
 RANLIBFG      =
 RM            = rm
 RMFLAGS       = -f
-MPICC         = mpicc
-MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
-MPILDFLAGS    = -L/usr/lib -lmpi
 CP            = cp
 CPFLAGS       = -R
 MKDIR         = mkdir
@@ -72,29 +74,25 @@ ifneq ($(DYNAMIC),)
 override DYNAMIC = -shared
 endif
 
-# Libraries for xlsx, glfw, c functions and math functions
-# ========================================================
+# Libraries for xlsx, glfw, c functions and math functions (install with apt or build)
+# ====================================================================================
 
-LIBS    = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
-PUBLIBS = -L/usr/lib/$(ROOTDIR)/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
-ifneq ($(STATIC),)
-override PUBLIBS = /usr/lib/$(ROOTDIR)/libXm.a \
-	 -L/usr/lib/$(ROOTDIR)/ -lXft -lXmu -lXt -lXext -lX11 \
-	 -lfreetype -lfontconfig \
-	  /usr/lib/$(ROOTDIR)/libjpeg.a \
-	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libgfortran.a /usr/lib/gcc/$(ARCH)-linux-gnu/7/libquadmath.a
-endif
+LIBS    = -L/usr/lib/$(ROOTDIR)/ -lglfw -lGL -lfmt -L./libxlsxwriter/lib -lxlsxwriter
+PUBLIBS = -L/usr/lib/$(ROOTDIR)/ -lglfw -lGL -lfmt ./libxlsxwriter/lib/libxlsxwriter.a
 
 LIBF2C =
-LIBXML = -L/usr/lib -lgsl -lgslcblas -lxml2 -lz -lm
+LIBXML = -L/usr/lib/$(ROOTDIR) -lgsl -lgslcblas -lxml2 -lz -lm
 
-ifneq ($(STATIC),)
-override LIBXML = /usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
-       	/usr/lib/$(ROOTDIR)/libicuuc.a /usr/lib/$(ROOTDIR)/libicudata.a \
-	 	/usr/lib/$(ROOTDIR)/liblzma.a -L/usr/lib/$(ROOTDIR)/ -lpng -lz -lpthread -ldl -lm
+LIBBATCH = /usr/lib/$(ROOTDIR)/libgsl.a /usr/lib/$(ROOTDIR)/libgslcblas.a \
+	/usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
+    /usr/lib/$(ROOTDIR)/libicuuc.a /usr/lib/$(ROOTDIR)/libicudata.a \
+	/usr/lib/$(ROOTDIR)/liblzma.a /usr/lib/$(ROOTDIR)/libz.a \
+	-static-libstdc++ -lstdc++ -static-libgcc -lpthread -ldl -lm
+
+ifneq ($(DYNAMIC),)
+PUBLIBS  = $(LIBS)
+LIBBATCH = $(LIBXML)
 endif
-
-LIBBATCH = -L/usr/lib -lgsl -lgslcblas -lxml2 -lz -lm
 
 ifneq ($(DEBUG),)
 include Makefile.debug
