@@ -2985,7 +2985,9 @@ int main (int argc, char *argv[])
                         (void) strcat(sFileName, "-status.xml");
 
                         ret = batchInputDataFromXmlFile(iFileName);
-                        if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+                        if ((ret != FALSE) && (silminState->fractionateSol || silminState->fractionateFlu ||
+                            silminState->fractionateLiq))
+                            previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
                         /* Rename file so -sequence.xml file is written in same location as .tbl files */
                         (void) strcpy(silminInputData.name, dp->d_name);
