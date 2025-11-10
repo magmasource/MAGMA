@@ -1,5 +1,5 @@
 # ==============================================================
-# Common Makefile for builds of the xMELTS package all computers
+# Common Makefile for builds of the MELTS package all computers
 # requires GNUmake or comparable that supports vpath
 # ==============================================================
 
@@ -110,7 +110,8 @@ clean:
 
 realclean:
 	$(RM) $(RMFLAGS) core *.out *.tbl  *.preclb *.log *.plt *.res *.zip
-	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.dll *.inp
+	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.dll *.inp *.exe
+	$(RM) $(RMFLAGS) easyMelts
 	$(RM) $(RMFLAGS) Analyze-fusion
 	$(RM) $(RMFLAGS) Analyze-fusion-MS
 	$(RM) $(RMFLAGS) Analyze-water
@@ -714,7 +715,7 @@ easyMelts-private: _main.cpp e_utility.cpp file_utility.cpp glad.c imgui_demo.cp
 	$(CPP) $(CPPFLAGS) src/xlsx_writer.cpp
 	$(CPP) $(LDFLAGS) -o easyMelts _main.o e_utility.o file_utility.o glad.o imgui_demo.o imgui_draw.o imgui_input.o \
 			imgui_opengl_melts_version.o imgui_widgets.o imgui.o implot.o LiberationSans_Regular.o melts_interface.o xlsx_writer.o \
-	        $(MELTSBATCHLIB) $(PUBLIBS) $(LIBBATCH) -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
+	        $(MELTSBATCHLIB) $(PUBLIBS) $(LIBBATCH)
 	$(RM) $(RMFLAGS) _main.o e_utility.o file_utility.o glad.o imgui_demo.o imgui_draw.o imgui_input.o \
 			imgui_opengl_melts_version.o imgui_widgets.o imgui.o implot.o LiberationSans_Regular.o melts_interface.o xlsx_writer.o
 	chmod 755 easyMelts

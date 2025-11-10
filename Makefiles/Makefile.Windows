@@ -1,6 +1,6 @@
 # =================================================================================
-# Makefile for cross-compilation of the xMELTS package with Rtools44 (CLI & dll)
-# Ignore chmod error; see Makefile.Linux for backwards compatibility
+# Makefile for cross-compilation of the MELTS package with Rtools44 (CLI & dll)
+# Ignore chmod error
 # =================================================================================
 
 MAKEFILE = Makefiles/Makefile.Windows
@@ -17,12 +17,13 @@ endif
 
 ACEPLT  = _NO_GRACE_PIPE
 
-# Include files for GSL (INCM), easyMelts-related (INCX), and the ANSI C library (INCC)
-# ======================================================================================
+# Include files easyMelts-related (INCM, X, GUI), math and the C library (INCC)
+# ==========================================================================
 
 INCC   = /$(ROOTDIR1)/include
 INCM   = /$(ROOTDIR2)/include
 INCX   = ./libxlsxwriter/include
+INCGUI = ./include/imgui
 INCF2C = .
 INCXML = /$(ROOTDIR1)/include/libxml2
 
@@ -33,23 +34,25 @@ AR            = ar
 ARFLAGS       = rvU
 DYFLAGS	      = xv
 CC            = gcc
+CPP           = g++
 LD            = g++
 FC            = gfortran
 ifneq ($(DEBUG),)
 CFLAGS   	  = -c -g3 -DDEBUG
+CPPFLAGS   	  = -c -g3 -DDEBUG
 else
 CFLAGS   	  = -c -O3
+CPPFLAGS      = -c -std=c++17
 endif
 CFLAGS        += $(BATCH) $(VERSION) -D_USE_ISOC99 -D_ISOC99_SOURCE -DMINGW -D$(ACEPLT) -D__osf__ \
-				-I./includes -I$(INCC) -I$(INCM) -I$(INCX) -I$(INCXML) -I$(INCF2C)
+				-I./includes -I$(INCC) -I$(INCXML) -I$(INCF2C)
+CPPFLAGS      += -DGL_SILENCE_DEPRECATION -DEASYMELTS_UPDATE_SYSTEM \
+                -I./include -I./includes -I$(INCM) -I$(INCX) -I$(INCGUI)
 FFLAGS        = -O3
 RANLIB        = ranlib
 RANLIBFG      =
 RM            = rm
 RMFLAGS       = -f
-MPICC         = mpicc
-MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
-MPILDFLAGS    = -L/usr/lib -lmpi
 CP            = cp
 CPFLAGS       = -R
 MKDIR         = mkdir
@@ -69,27 +72,27 @@ endif
 # Loader flags (default is static on Windows)
 # =================================================
 
-LDFLAGS = -v
+LDFLAGS =
 SONAME = dll
 ifneq ($(DYNAMIC),)
 override DYNAMIC = -shared
 endif
 
-# Libraries for xlsx, glfw, c functions and math functions (install with pacman)
-# ==============================================================================
+# Libraries for xlsx, glfw, c functions and math functions (install with pacman or build)
+# =======================================================================================
 
-LIBS    = -L/$(ROOTDIR)/lib/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
-PUBLIBS = /$(ROOTDIR)/lib/libXm.a \
-	 -L/$(ROOTDIR)/lib/ /$(ROOTDIR)/lib/libXft.a /$(ROOTDIR)/lib/libXmu.a -lXt -lXext -lX11 -lfontconfig \
-	  /$(ROOTDIR)/lib/libjpeg.a
+LIBS    = -L/$(ROOTDIR2)/lib -lglfw3 -lopengl32 -lgdi32 -lfmt -L./libxlsxwriter/lib -lxlsxwriter
+PUBLIBS = /$(ROOTDIR2)/lib/libglfw3.a /$(ROOTDIR1)/lib/libopengl32.a /$(ROOTDIR1)/lib/libgdi32.a \
+	 /$(ROOTDIR2)/lib/libfmt.a ./libxlsxwriter/lib/libxlsxwriter.a \
+	 -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-no-whole-archive 
 
 LIBF2C =
 LIBXML = -lgsl -lgslcblas -lxml2 -llzma -lz -liconv -lws2_32 -luuid -lm -lmingw32
 
-LIBBATCH = /$(ROOTDIR2)/lib/libgsl.a /$(ROOTDIR2)/lib/libgslcblas.a \
-	 /$(ROOTDIR1)/lib/libxml2.a /$(ROOTDIR1)/lib/libz.a \
-	 /$(ROOTDIR1)/lib/liblzma.a /$(ROOTDIR1)/lib/libz.a \
-	 /$(ROOTDIR1)/lib/libiconv.a -lws2_32 -luuid -lm -lmingw32
+LIBBATCH = /$(ROOTDIR1)/lib/libgsl.a /$(ROOTDIR1)/lib/libgslcblas.a \
+	 /$(ROOTDIR1)/lib/libxml2.a /$(ROOTDIR1)/lib/libz.a /$(ROOTDIR1)/lib/liblzma.a \
+	 /$(ROOTDIR1)/lib/libiconv.a -static-libstdc++ -lstdc++ -static-libgcc \
+	 -Wl,-Bdynamic -lws2_32 -luuid -lm -lmingw32
 
 ifneq ($(DYNAMIC),)
 PUBLIBS  = $(LIBS) $(LIBXML)

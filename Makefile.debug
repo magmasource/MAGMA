@@ -1,5 +1,5 @@
 # ==============================================================
-# Makefile for debugging the xMELTS packages on all computers
+# Makefile for debugging the MELTS packages on all computers
 # requires GNUmake or comparable that supports vpath
 # ==============================================================
 
@@ -109,7 +109,8 @@ clean:
 
 realclean:
 	$(RM) $(RMFLAGS) core *.out *.tbl  *.preclb *.log *.plt *.res *.zip
-	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.dll *.inp
+	$(RM) $(RMFLAGS) *.o *.a *.so *.dylib *.dll *.inp *.exe
+	$(RM) $(RMFLAGS) easyMelts
 	$(RM) $(RMFLAGS) Analyze-fusion
 	$(RM) $(RMFLAGS) Analyze-fusion-MS
 	$(RM) $(RMFLAGS) Analyze-water
@@ -682,21 +683,40 @@ melts_support-SACNK.o: melts_support.c silmin.h mthread.h melts_gsl.h
 # Melts main Programs
 # ===================
 
-easyMelts: interface.c preclb.c preclb_slave.c postclb.c gibbs.c evaluate_saturation.c check_coexisting_solids.c simann.o \
-                       calibration.h interface.h liq_struct_data.h mthread.h melts_gsl.h res_struct_data.h silmin.h \
-                       sol_struct_data.h vframe.h vheader.h vlist.h sources/melts.icon $(MELTSLIB)
-	$(RANLIB) $(RANLIBFG) $(MELTSLIB)
-	$(CC) $(CFLAGS) -DPUBLIC_RELEASE_VERSION -DRHYOLITE_ADJUSTMENTS \
-           sources/interface.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/preclb_slave.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/postclb.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/gibbs.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/evaluate_saturation.c
-	$(CC) $(CFLAGS) -DRHYOLITE_ADJUSTMENTS sources/check_coexisting_solids.c
-	$(LD) $(LDFLAGS) -o $@ interface.o preclb.o preclb_slave.o postclb.o simann.o gibbs.o evaluate_saturation.o check_coexisting_solids.o \
-	      $(MELTSLIB) $(PUBLIBS) $(LIBXML)
-	chmod 755 $@
+easyMelts: interface.c lawson_hanson.h liq_struct_data.h melts_gsl.h nash.h silmin.h status.h param_struct_data.h \
+             param_struct_data_v34.h param_struct_data_CO2.h param_struct_data_CO2_H2O.h sol_struct_data.h \
+             albite.c alloy-liquid.c alloy-solid.c amphibole.c biotite.c biotiteTaj.c check_coexisting_liquids.c \
+             check_coexisting_solids.c clinopyroxene.c cummingtonite.c equality_constraints.c \
+             est_saturation_state.c est_satState_revised.c evaluate_saturation.c feldspar.c fluid.c fluidPhase.c frac.c garnet.c \
+             gibbs.c gradient_hessian.c hornblende.c ilmenite.c lawson_hanson.c leucite.c \
+             linear_search.c liquid.c liquid_v34.c liquidus.c majorite.c melilite.c melts_support.c \
+             nash.c nepheline.c kalsilite.c olivine.c olivine-sx.c orthopyroxene.c ortho-oxide.c \
+             perovskite.c read_write.c melts_linalg.c rhombohedral.c ringwoodite.c silmin.c silmin_support.c \
+             spinel.c subSolidusMuO2.c wadsleyite.c water.c wustite.c rhomsghiorso.c
+	$(MAKE) easyMelts-private -f $(MAKEFILE) "BATCH=-DBATCH_VERSION -DRHYOLITE_ADJUSTMENTS -DEASYMELTS_UPDATE_SYSTEM"
+
+easyMelts-private: _main.cpp e_utility.cpp file_utility.cpp glad.c imgui_demo.cpp imgui_draw.cpp imgui_input.cpp \
+		   imgui_opengl_melts_version.cpp imgui_widgets.cpp imgui.cpp implot.cpp LiberationSans_Regular.cpp \
+		   melts_interface.cpp xlsx_writer.cpp $(MELTSBATCHLIB)
+	$(RANLIB) $(RANLIBFG) $(MELTSBATCHLIB)
+	$(CC) -c -I./include -DGL_SILENCE_DEPRECATION src/glad.c
+	$(CPP) $(CPPFLAGS) src/_main.cpp
+	$(CPP) $(CPPFLAGS) src/e_utility.cpp
+	$(CPP) $(CPPFLAGS) src/file_utility.cpp
+	$(CPP) $(CPPFLAGS) src/imgui_demo.cpp
+	$(CPP) $(CPPFLAGS) src/imgui_draw.cpp
+	$(CPP) $(CPPFLAGS) src/imgui_input.cpp
+	$(CPP) $(CPPFLAGS) src/imgui_opengl_melts_version.cpp
+	$(CPP) $(CPPFLAGS) src/imgui_widgets.cpp
+	$(CPP) $(CPPFLAGS) src/imgui.cpp
+	$(CPP) $(CPPFLAGS) src/implot.cpp
+	$(CPP) $(CPPFLAGS) src/LiberationSans_Regular.cpp
+	$(CPP) $(CPPFLAGS) src/melts_interface.cpp
+	$(CPP) $(CPPFLAGS) src/xlsx_writer.cpp
+	$(CPP) $(LDFLAGS) -o easyMelts _main.o e_utility.o file_utility.o glad.o imgui_demo.o imgui_draw.o imgui_input.o \
+			imgui_opengl_melts_version.o imgui_widgets.o imgui.o implot.o LiberationSans_Regular.o melts_interface.o xlsx_writer.o \
+	        $(MELTSBATCHLIB) $(LIBS) $(LIBBATCH)
+	chmod 755 easyMelts
 
 Melts-batch: interface.c lawson_hanson.h liq_struct_data.h melts_gsl.h nash.h silmin.h status.h param_struct_data.h \
              param_struct_data_v34.h param_struct_data_CO2.h param_struct_data_CO2_H2O.h sol_struct_data.h \
