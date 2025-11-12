@@ -1446,7 +1446,16 @@ static void putOutputDataToXmlFile(char *outputFile) {
     if (r == NULL)         r = (double *) malloc((size_t) (nlc-1)*sizeof(double));
     if (oxVal == NULL) oxVal = (double *) malloc((size_t)      nc*sizeof(double));
 
+    /* Zero previous entries - should only be necessary if have never fractionated */
     if (previousSilminState == NULL) previousSilminState = allocSilminStatePointer();
+    if (silminState->fractionateSol || silminState->fractionateFlu) {
+        if (previousSilminState->nFracCoexist == NULL) {
+            previousSilminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
+            previousSilminState->nFracCoexist = (int *)     calloc((unsigned) npc, sizeof(int));
+        }
+    }
+    if ((silminState->fractionateLiq) && (previousSilminState->fracLComp == NULL))
+        previousSilminState->fracLComp = (double *) calloc((unsigned) nlc, sizeof(double));
 
     printf("Output file name is %s\n", outputFile);
 
@@ -2797,9 +2806,7 @@ int main (int argc, char *argv[])
             (void) strncpy(outputFile, silminInputData.name, len);
             (void) strcpy(&outputFile[len], "-out.xml");
 
-            if ((ret != FALSE) && (silminState->fractionateSol || silminState->fractionateFlu ||
-                 silminState->fractionateLiq))
-                previousSilminState = copySilminStateStructure(silminState, previousSilminState);
+            if (ret != FALSE) previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
             if        (ret == FALSE) {
                 printf("Error(s) detected on reading input file %s. Exiting.\n", argv[1]);
@@ -2856,8 +2863,7 @@ int main (int argc, char *argv[])
                 (void) strncpy(sFileName, silminInputData.name, len);
                 (void) strcpy(&sFileName[len], "-status.xml");
 
-                if ((ret != FALSE) && (silminState->fractionateSol || silminState->fractionateFlu ||
-                    silminState->fractionateLiq))
+                if ((ret != FALSE) && (previousSilminState == NULL))
                     previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
                 if        (ret == FALSE) {
@@ -2903,6 +2909,8 @@ int main (int argc, char *argv[])
                 free (sFileName);
 
                 if ((meltsStatus.status != SILMIN_SUCCESS) && (meltsStatus.status != LIQUIDUS_SUCCESS)) break;
+                else if ((silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq))
+                    previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
             }
 
@@ -2985,8 +2993,7 @@ int main (int argc, char *argv[])
                         (void) strcat(sFileName, "-status.xml");
 
                         ret = batchInputDataFromXmlFile(iFileName);
-                        if ((ret != FALSE) && (silminState->fractionateSol || silminState->fractionateFlu ||
-                            silminState->fractionateLiq))
+                        if ((ret != FALSE) && (previousSilminState == NULL))
                             previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
                         /* Rename file so -sequence.xml file is written in same location as .tbl files */
@@ -3036,6 +3043,8 @@ int main (int argc, char *argv[])
                         }
 
                         if (fileOpenAttempts > 2) { ret = TRUE; fileOpenAttempts = 0; }
+                        else if ((silminState->fractionateSol || silminState->fractionateFlu || silminState->fractionateLiq))
+                            previousSilminState = copySilminStateStructure(silminState, previousSilminState);
 
                         if (ret) {
                             if (rename(iFileName, pFileName))
