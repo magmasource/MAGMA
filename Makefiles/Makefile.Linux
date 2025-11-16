@@ -34,6 +34,11 @@ DYFLAGS	      = xv
 CC            = clang
 CPP           = clang++
 LD            = clang++
+ifneq ($(USEGCC),)
+CC            = gcc
+CPP           = g++
+LD            = g++
+endif
 FC            = gfortran
 ifneq ($(DEBUG),)
 CFLAGS   	  = -c -gdwarf-4 -DDEBUG

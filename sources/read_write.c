@@ -904,43 +904,14 @@ int putOutputDataToFile(char *fileName)
 #if defined(_WIN32) //Addition ES
     static const char *liquidFile = "tables/melts-liquid.tbl";
 #else //Addition ES/PMA
-    char *liquidFile;
-    if (access("tables/", F_OK) == 0) {
-        liquidFile = (char *) calloc((unsigned) (strlen("tables/") + strlen("melts-liquid.tbl") + 1), sizeof(char));
-        strcpy(liquidFile, "tables/melts-liquid.tbl");
-    } else {
-        liquidFile = (char *) calloc((unsigned) (strlen("tables/") + strlen("melts-liquid.tbl") + 1), sizeof(char));
-        strcpy(liquidFile, "melts-liquid.tbl");
-    }
+    char *liquidFile = (char *) calloc((unsigned) (strlen("tables/") + strlen("melts-liquid.tbl") + 1), sizeof(char));
 #endif
 #else
     static const char *liquidFile = "melts-liquid.tbl";
 #endif
     static FILE **tableSol;
     static int rowIndex = 0;
-
-#ifdef BATCH_VERSION
-    /*Addition ES/PMA - for macOS the tables folder is made by easyMelts.command */
-#ifdef _WIN32
-    char buffer[FILENAME_MAX];
-    GetCurrentDir(buffer, FILENAME_MAX);
-    strcat(buffer, "/tables");
-    if (stat(buffer, &st) == -1) {
-        _mkdir(buffer);
-    }
-#endif
-#ifdef __linux__
-    char buffer[FILENAME_MAX];
-    GetCurrentDir(buffer, FILENAME_MAX);
-    strcat(buffer, "/tables");
-    if (stat(buffer, &st) == -1) {
-        mkdir(buffer, 0777);
-    }
-#endif
-    /*End addition*/
-#endif
 #endif // MAKE_TABLES
-
     static double *m, *r, *oxVal;
     double moles,        viscosity, gLiq, hLiq, sLiq, vLiq, cpLiq, dvdtLiq, dvdpLiq, mLiq,
         mass,         totalMass,
@@ -959,6 +930,35 @@ int putOutputDataToFile(char *fileName)
     XmString  cstring1, cstring2, cstring3;
     Arg arg_set[20];
 #endif
+
+#ifdef MAKE_TABLES
+#ifdef BATCH_VERSION
+/*Addition ES/PMA - for macOS the tables folder is made by easyMelts.command */
+#ifdef __linux__
+    char buffer[FILENAME_MAX];
+    GetCurrentDir(buffer, FILENAME_MAX);
+    strcat(buffer, "/tables");
+    if (stat(buffer, &st) == -1) {
+        mkdir(buffer, 0777);
+    }
+#endif
+#ifdef _WIN32
+    char buffer[FILENAME_MAX];
+    GetCurrentDir(buffer, FILENAME_MAX);
+    strcat(buffer, "/tables");
+    if (stat(buffer, &st) == -1) {
+        _mkdir(buffer);
+    }
+#else
+    if (access("tables/", F_OK) == 0) {
+        strcpy(liquidFile, "tables/melts-liquid.tbl");
+    } else {
+        strcpy(liquidFile, "melts-liquid.tbl");
+    }
+#endif
+/*End addition*/
+#endif
+#endif // MAKE_TABLES
 
 #ifndef BATCH_VERSION
     if(output == NULL && (output = fopen (meltsEnviron.OUTPUT_FILE, "w")) == NULL) {
@@ -981,14 +981,12 @@ int putOutputDataToFile(char *fileName)
             return GET_INPUT_ERROR_BAD_FILE;
 #else
             printf("Error in SILMIN file output procedure. Cannot open file: %s!\n", (char *) liquidFile);
+#ifndef _WIN32
+            free(liquidFile);
+#endif
             return FALSE;
 #endif /* BATCH_VERSION */
         }
-#ifdef BATCH_VERSION
-#ifndef _WIN32
-        free(liquidFile);
-#endif
-#endif
         fprintf(tableLiq, "Index,T (C),P (kbars),log(10) f O2");
         fprintf(tableLiq, ",liq mass (gm),liq rho (gm/cc)");
         for (i=0; i<nc; i++) fprintf(tableLiq, ",wt%% %s", bulkSystem[i].label);
@@ -1001,6 +999,11 @@ int putOutputDataToFile(char *fileName)
         fprintf(tableLiq, ",liq dVdT (cc/K),liq dVdP (cc/bar),liq alpha (1/K),liq beta (1/bar)");
         fprintf(tableLiq, "\n");
     }
+#ifdef BATCH_VERSION
+#ifndef _WIN32
+        free(liquidFile);
+#endif
+#endif
     if (tableSol == NULL) {
         tableSol  = (FILE **) calloc((unsigned) npc, sizeof(FILE *));
     }
@@ -1637,7 +1640,10 @@ int putSequenceDataToXmlFile(int active) {
     }
 
     /* Zero previous entries - should only be necessary if have never fractionated */
-    if (previousSilminState == NULL) previousSilminState = allocSilminStatePointer();
+    if (previousSilminState == NULL) {
+        previousSilminState = allocSilminStatePointer();
+        previousSilminState->nLiquidCoexist = 1;
+    }
     if (silminState->fractionateSol || silminState->fractionateFlu) {
         if (previousSilminState->nFracCoexist == NULL) {
             previousSilminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
