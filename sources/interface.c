@@ -726,8 +726,13 @@ static int batchInputDataFromXmlFile(char *fileName) {
 
                             if (silminState != NULL)
                                 destroySilminStateStructure(silminState); /*destroy the old state*/
-                                /*if (silminState == NULL) silminState = allocSilminStatePointer();
-                                    was testing to avoid memory leak when destroy was nyi */
+                            if (previousSilminState != NULL)
+                                destroySilminStateStructure(previousSilminState);
+                            silminState = NULL;
+                            previousSilminState = NULL;
+
+                            /*if (silminState == NULL) silminState = allocSilminStatePointer(); 
+                                was testing to avoid memory leak when destroy was nyi */
 
                             while (level2 != NULL) {
                                 if (level2->type == XML_ELEMENT_NODE) {
@@ -777,7 +782,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                                             ret = FALSE;
                                         }
 
-                                        silminState = allocSilminStatePointer();
+                                        if (silminState == NULL) silminState = allocSilminStatePointer();
                                         for (i=0, np=0; i<npc; i++) if (solids[i].type == PHASE) { (silminState->incSolids)[np] = TRUE; np++; }
                                         (silminState->incSolids)[npc] = TRUE;
                                         silminState->nLiquidCoexist  = 1;
@@ -1447,7 +1452,10 @@ static void putOutputDataToXmlFile(char *outputFile) {
     if (oxVal == NULL) oxVal = (double *) malloc((size_t)      nc*sizeof(double));
 
     /* Zero previous entries - should only be necessary if have never fractionated */
-    if (previousSilminState == NULL) previousSilminState = allocSilminStatePointer();
+    if (previousSilminState == NULL) {
+        previousSilminState = allocSilminStatePointer();
+        previousSilminState->nLiquidCoexist = 1;
+    }
     if (silminState->fractionateSol || silminState->fractionateFlu) {
         if (previousSilminState->nFracCoexist == NULL) {
             previousSilminState->fracSComp    = (double **) calloc((unsigned) npc, sizeof(double *));
