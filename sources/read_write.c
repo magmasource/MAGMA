@@ -1074,11 +1074,10 @@ int putOutputDataToFile(char *fileName)
             gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL);
             hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy,     NULL);
             smixLiq (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL, NULL);
-            vmixLiq (FIRST | FOURTH | FIFTH,
-                silminState->T, silminState->P, r, &volume,
+            vmixLiq (FIRST | FOURTH | FIFTH, silminState->T, silminState->P, r, &volume,
                 NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL, NULL, NULL, NULL, NULL);
             cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
-                visLiq  (FIRST, silminState->T, silminState->P, r, &viscosity);
+            visLiq  (FIRST, silminState->T, silminState->P, r, &viscosity);
 
             for (i=0, moles=0.0; i<nlc; i++) moles +=  (silminState->liquidComp)[nl][i];
             gibbsEnergy *= moles; enthalpy	 *= moles; entropy   *= moles;
@@ -1237,9 +1236,8 @@ int putOutputDataToFile(char *fileName)
             (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
             (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
             (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-            (*solids[j].vmix) (FIRST | FOURTH | FIFTH,
-                silminState->T, silminState->P, r, &volume,       
-                NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL);
+            (*solids[j].vmix) (FIRST | FOURTH | FIFTH, silminState->T, silminState->P, r, &volume,
+			       NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL);
             (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
             gibbsEnergy  *= (silminState->solidComp)[j][ns];
             enthalpy     *= (silminState->solidComp)[j][ns];
@@ -1412,9 +1410,8 @@ int putOutputDataToFile(char *fileName)
                     (*solids[j].gmix) (FIRST, silminState->T, silminState->P, r, &gibbsEnergy,  NULL, NULL, NULL);
                     (*solids[j].hmix) (FIRST, silminState->T, silminState->P, r, &enthalpy);
                     (*solids[j].smix) (FIRST, silminState->T, silminState->P, r, &entropy,      NULL, NULL);
-                    (*solids[j].vmix) (FIRST | FOURTH | FIFTH,
-                        silminState->T, silminState->P, r, &volume,       
-                        NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL);
+                    (*solids[j].vmix) (FIRST | FOURTH | FIFTH, silminState->T, silminState->P, r, &volume,
+				       NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL);
                     (*solids[j].cpmix)(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
                     gibbsEnergy  *= (silminState->fracSComp)[j][ns];
                     enthalpy     *= (silminState->fracSComp)[j][ns];
@@ -1476,8 +1473,8 @@ int putOutputDataToFile(char *fileName)
                 gmixLiq (FIRST, silminState->T, silminState->P, r, &gibbsEnergy, NULL, NULL);
                 hmixLiq (FIRST, silminState->T, silminState->P, r, &enthalpy, NULL);
                 smixLiq (FIRST, silminState->T, silminState->P, r, &entropy, NULL, NULL, NULL);
-                vmixLiq (FIRST | FOURTH | FIFTH,
-                                                silminState->T, silminState->P, r, &volume, NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL, NULL);
+                vmixLiq (FIRST | FOURTH | FIFTH, silminState->T, silminState->P, r, &volume,
+			 NULL, NULL, &dVolumeDt, &dVolumeDp, NULL, NULL,  NULL, NULL, NULL, NULL);
                 cpmixLiq(FIRST, silminState->T, silminState->P, r, &heatCapacity, NULL, NULL);
                 gibbsEnergy  *= moles;
                 enthalpy     *= moles;
