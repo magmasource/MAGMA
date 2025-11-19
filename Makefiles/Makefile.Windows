@@ -4,12 +4,12 @@
 # =================================================================================
 
 MAKEFILE = Makefiles/Makefile.Windows
-ifneq ($(wildcard /aarch64-w64-mingw32.static.posix),)
-ROOTDIR1 := aarch64-w64-mingw32.static.posix
-ROOTDIR2 := clangarm64
-else
+ifneq ($(wildcard /x86_64-w64-mingw32.static.posix),)
 ROOTDIR1 := x86_64-w64-mingw32.static.posix
 ROOTDIR2 := mingw64
+else
+ROOTDIR1 := aarch64-w64-mingw32.static.posix
+ROOTDIR2 := clangarm64
 endif
 
 # Compilation options
