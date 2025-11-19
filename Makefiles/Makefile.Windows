@@ -4,12 +4,12 @@
 # =================================================================================
 
 MAKEFILE = Makefiles/Makefile.Windows
-ifneq ($(wildcard /x86_64-w64-mingw32.static.posix),)
-ROOTDIR1 := x86_64-w64-mingw32.static.posix
-ROOTDIR2 := mingw64
-else
+ifneq ($(findstring aarch64-w64-mingw32.static.posix,$(PATH)),)
 ROOTDIR1 := aarch64-w64-mingw32.static.posix
 ROOTDIR2 := clangarm64
+else
+ROOTDIR1 := x86_64-w64-mingw32.static.posix
+ROOTDIR2 := mingw64
 endif
 
 # Compilation options
@@ -84,7 +84,7 @@ endif
 LIBS    = -L/$(ROOTDIR2)/lib -lglfw3 -lopengl32 -lgdi32 -lfmt -L./libxlsxwriter/lib -lxlsxwriter
 PUBLIBS = /$(ROOTDIR2)/lib/libglfw3.a /$(ROOTDIR1)/lib/libopengl32.a /$(ROOTDIR1)/lib/libgdi32.a \
 	 /$(ROOTDIR2)/lib/libfmt.a ./libxlsxwriter/lib/libxlsxwriter.a \
-	 -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-no-whole-archive 
+	 -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-no-whole-archive
 
 LIBF2C =
 LIBXML = -lgsl -lgslcblas -lxml2 -llzma -lz -liconv -lws2_32 -luuid -lm -lmingw32
