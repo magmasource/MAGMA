@@ -8,6 +8,7 @@
  0.2.2 Added LiberationSans_Regular.cpp and removed dependence on external fonts
  0.2.3 Added .melts out, melt fraction in plots, additional fixes
  0.2.4 Added .melts input, additional fixes
+ 0.3.0 New code respository, integrated with MCS development; use libxlsxwriter for Excel output
 
  */
 #include <iostream>
