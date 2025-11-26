@@ -29,7 +29,6 @@ XML_PROCESSED/
 +REGRESSIONS/
 +REGRESSIONS-MS/
 +REGRESSIONS-SACNK/
-easyMelts
 Melts
 Melts-QtzSan
 Melts-OSX-10.5.8
@@ -117,3 +116,7 @@ xMELTS.Rproj
 .Rhistory
 /tests/*/Morb-out.xml
 /tests/*/Morb-sequence.xml
+easyMelts
+glad.o
+libmeltslibwin.a
+
