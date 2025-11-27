@@ -83,7 +83,7 @@ endif
 
 LIBS    = -L/$(ROOTDIR2)/lib -lglfw3 -lopengl32 -lgdi32 -lfmt -L./libxlsxwriter/lib -lxlsxwriter
 PUBLIBS = /$(ROOTDIR2)/lib/libglfw3.a /$(ROOTDIR1)/lib/libopengl32.a /$(ROOTDIR1)/lib/libgdi32.a \
-	 /$(ROOTDIR2)/lib/libfmt.a ./libxlsxwriter/lib/libxlsxwriter.a \
+	 /$(ROOTDIR2)/lib/libfmt.a ./libxlsxwriter/build/libxlsxwriter.a \
 	 -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-no-whole-archive
 
 LIBF2C =

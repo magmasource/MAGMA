@@ -25,6 +25,11 @@ Would be better to build these (especially libxlsxwriter, as the prebuilt packag
 pacman -Syu mingw-w64-x86_64-libxlsxwriter
 pacman -Syu mingw-w64-x86_64-glfw
 
+mkdir build
+cd build
+cmake ..
+cmake --build .
+
 g++ -o easyMelts.exe -std=c++17 -I./include -I./include/imgui -I./include/melts 
 -I/mingw64/include src/*.cpp src/glad.c -L/mingw64/lib -lxlsxwriter 
 -Wl,-Bstatic -L./lib -lmeltslibwin -lglfw3 -lopengl32 -lgdi32 -lxml2 -lz -llzma -liconv
