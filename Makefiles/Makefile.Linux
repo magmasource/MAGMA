@@ -5,10 +5,11 @@
 
 MAKEFILE = Makefiles/Makefile.Linux
 ifneq ($(wildcard /lib/aarch64-linux-gnu),)
-ROOTDIR := aarch64-linux-gnu
+ROOTDIR1 := aarch64-linux-gnu
 else
-ROOTDIR := x86_64-linux-gnu
+ROOTDIR1 := x86_64-linux-gnu
 endif
+ROOTDIR2 := home/linuxbrew/.linuxbrew
 
 # Compilation options
 # ===================
@@ -20,7 +21,7 @@ ACEPLT  = _NO_GRACE_PIPE
 
 INCC   = /usr/include
 INCM   = /usr/include
-INCX   = ./libxlsxwriter/include
+INCX   = /$(ROOTDIR2)/include
 INCGUI = ./include/imgui
 INCF2C = .
 INCXML = /usr/include/libxml2
@@ -82,16 +83,17 @@ endif
 # Libraries for xlsx, glfw, c functions and math functions (install with apt or build)
 # ====================================================================================
 
-LIBS    = -L/usr/lib/$(ROOTDIR)/ -lglfw -lGL -lfmt -L./libxlsxwriter/lib -lxlsxwriter
-PUBLIBS = -L/usr/lib/$(ROOTDIR)/ -lglfw -lGL -lfmt ./libxlsxwriter/lib/libxlsxwriter.a
+LIBS    = -L/usr/lib/$(ROOTDIR1) -L/$(ROOTDIR2)/lib -lglfw -lGL -lfmt -lxlsxwriter
+PUBLIBS = /$(ROOTDIR2)/lib/libglfw3.a /$(ROOTDIR2)/lib/libfmt.a \
+    /$(ROOTDIR2)/lib/libxlsxwriter.a -L/usr/lib/$(ROOTDIR1) -lGL
 
 LIBF2C =
-LIBXML = -L/usr/lib/$(ROOTDIR) -lgsl -lgslcblas -lxml2 -lz -lm
+LIBXML = -L/usr/lib/$(ROOTDIR1) -lgsl -lgslcblas -lxml2 -lz -lm
 
-LIBBATCH = /usr/lib/$(ROOTDIR)/libgsl.a /usr/lib/$(ROOTDIR)/libgslcblas.a \
-	/usr/lib/$(ROOTDIR)/libxml2.a /usr/lib/$(ROOTDIR)/libicuio.a \
-    /usr/lib/$(ROOTDIR)/libicuuc.a /usr/lib/$(ROOTDIR)/libicudata.a \
-	/usr/lib/$(ROOTDIR)/liblzma.a /usr/lib/$(ROOTDIR)/libz.a \
+LIBBATCH = /usr/lib/$(ROOTDIR1)/libgsl.a /usr/lib/$(ROOTDIR1)/libgslcblas.a \
+	/usr/lib/$(ROOTDIR1)/libxml2.a /usr/lib/$(ROOTDIR1)/libicuio.a \
+    /usr/lib/$(ROOTDIR1)/libicuuc.a /usr/lib/$(ROOTDIR1)/libicudata.a \
+	/usr/lib/$(ROOTDIR1)/liblzma.a /usr/lib/$(ROOTDIR1)/libz.a \
 	-static-libstdc++ -lstdc++ -static-libgcc -lpthread -ldl -lm
 
 ifneq ($(DYNAMIC),)

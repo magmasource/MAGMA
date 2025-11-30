@@ -117,3 +117,4 @@ xMELTS.Rproj
 .Rhistory
 /tests/*/Morb-out.xml
 /tests/*/Morb-sequence.xml
+.fuse*
