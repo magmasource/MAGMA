@@ -4,7 +4,7 @@
 Redistribution of 'easyMelts' ('the software') in source and binary form is permitted, under the GNU General Public License version 3 (https://www.gnu.org/licenses/gpl-3.0.html#license-text), provided that redistributions reproduce the contents of this copyright notice.
 
  * The easyMelts source code is  publicly available at https://github/magmasource/MAGMA
- * The GPL v3 requires that redistribution of easyMelts, with or without modification, also use the GPL license and make the source code avaialable
+ * The GPL v3 requires that redistribution of easyMelts, with or without modification, also use the GPL license and make the source code available
  * The software can be used and modified privately without making the source code available
 
 The software comes with no warranty whatsoever; copyright holder is not responsible for any damages (including but not limited to loss of data) arising from the use of the software.
@@ -289,6 +289,7 @@ xlsx file. If you don't want to use this code, and the additional licence, you
 can use OpenSSL's MD5 functions instead by passing `USE_OPENSSL_MD5=1` to
 make. If this functionality isn't required it is possible to compile
 libxlsxwriter without image deduplication by passing `USE_NO_MD5=1` to make.
+
 
 
 
