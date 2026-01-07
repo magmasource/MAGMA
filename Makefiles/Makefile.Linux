@@ -1,5 +1,5 @@
 # =================================================================================
-# Makefile for build of the MELTS package on Linux (Ubuntu - 22.04)
+# Makefile for build of the MELTS package on Linux (CLI & dll; Ubuntu - 22.04)
 # Generic Linux makefile (will try to static link with libxml2 file by default)
 # =================================================================================
 
@@ -16,8 +16,8 @@ ROOTDIR2 := home/linuxbrew/.linuxbrew
 
 ACEPLT  = _NO_GRACE_PIPE
 
-# Include files for GSL (INCM), easyMelts-related (INCX), and C library (INCC)
-# ======================================================================================
+# Include files easyMelts-related (INCM, X, GUI), math and the C library (INCC)
+# =============================================================================
 
 INCC   = /usr/include
 INCM   = /usr/include
@@ -97,7 +97,7 @@ LIBBATCH = /usr/lib/$(ROOTDIR1)/libgsl.a /usr/lib/$(ROOTDIR1)/libgslcblas.a \
 	-static-libstdc++ -lstdc++ -static-libgcc -lpthread -ldl -lm
 
 ifneq ($(DYNAMIC),)
-PUBLIBS  = $(LIBS)
+PUBLIBS  = $(LIBS) $(LIBXML)
 LIBBATCH = $(LIBXML)
 endif
 

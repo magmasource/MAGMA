@@ -1,7 +1,7 @@
-# =================================================================================
-# Makefile for cross-compilation of the xMELTS package on Arch Linux (CLI & dll)
-# Ignore chmod error; see Makefile.Linux for backwards compatibility
-# =================================================================================
+# ===============================================================================
+# Makefile for cross-compilation of the MELTS package on Arch Linux (CLI & dll)
+# Ignore chmod error; easyMelts build not currently supported with this makefile
+# ===============================================================================
 
 MAKEFILE = Makefiles/Makefile.Multiarch
 ROOTDIR := x86_64-w64-mingw32
@@ -11,12 +11,13 @@ ROOTDIR := x86_64-w64-mingw32
 
 ACEPLT  = _NO_GRACE_PIPE
 
-# Include files for Motif (INCXM), Xt (INCXT), X11 (INCX), and the ANSI C library (INCC)
-# ======================================================================================
+# Include files easyMelts-related (INCM, X, GUI), math and the C library (INCC)
+# =============================================================================
 
 INCC   = /usr/$(ROOTDIR)/include
-INCXM  = /usr/$(ROOTDIR)/include
+INCM   = /usr/$(ROOTDIR)/include
 INCX   = /usr/$(ROOTDIR)/include
+INCGUI = ./include/imgui
 INCF2C = .
 INCXML = /usr/$(ROOTDIR)/include/libxml2
 
@@ -33,16 +34,18 @@ override CC   = x86_64-w64-mingw32-gcc
 override LD   = x86_64-w64-mingw32-g++
 endif
 FC            = x86_64-w64-mingw32-gfortran
-CFLAGS        = -c -O3 $(BATCH) -D_USE_ISOC99 -D_ISOC99_SOURCE -DMINGW $(VERSION) \
-                -D$(VLIST) -D$(ACEPLT) -D$(ENTRYC) -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C) -D__osf__
+ifneq ($(DEBUG),)
+CFLAGS   	  = -c -gdwarf-4 -DDEBUG
+else
+CFLAGS   	  = -c -O3
+endif
+CFLAGS        += $(BATCH) $(VERSION) -D_USE_ISOC99 -D_ISOC99_SOURCE -DMINGW -D$(ACEPLT) -D__osf__ \
+                -I./includes -I$(INCC) -I$(INCXM) -I$(INCX) -I$(INCXML) -I$(INCF2C)
 FFLAGS        = -O3
 RANLIB        = ranlib
 RANLIBFG      =
 RM            = rm
 RMFLAGS       = -f
-MPICC         = mpicc
-MPICCFLAGS    = -D_REENTRANT -DUSE_MPI -DDO_NOT_USE_LAM_XLED -I/usr/include
-MPILDFLAGS    = -L/usr/lib -lmpi
 CP            = cp
 CPFLAGS       = -R
 MKDIR         = mkdir
@@ -68,25 +71,20 @@ ifneq ($(DYNAMIC),)
 override DYNAMIC = -shared
 endif
 
-# Libraries for grace_np, Mrm, Motif, Xt and X11, c functions and math functions
-# ==============================================================================
+# Libraries for xlsx, glfw, c functions and math functions (install with pacman or build)
+# =======================================================================================
 
-LIBS    = -L/usr/$(ROOTDIR)/lib/ -lMrm -lXm -lXmu -lXt -lXext -lX11 port3/libport.a -lgfortran
-PUBLIBS = /usr/$(ROOTDIR)/lib/libXm.a \
-	 -L/usr/$(ROOTDIR)/lib/ /usr/$(ROOTDIR)/lib/libXft.a /usr/$(ROOTDIR)/lib/libXmu.a -lXt -lXext -lX11 -lfontconfig \
-	  /usr/$(ROOTDIR)/lib/libjpeg.a \
-	 port3/libport.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libgfortran.a /usr/lib/gcc/$(ARCH)-linux-gnu/5/libquadmath.a
+LIBS    = -L/usr/$(ROOTDIR)/lib -lglfw -lGL -lfmt -lxlsxwriter
+PUBLIBS = 
 
 LIBF2C =
-LIBXML = -L/usr/lib -lxml2 -lm
-LIBXML = /usr/$(ROOTDIR)/lib/libxml2.a /usr/$(ROOTDIR)/lib/libz.a \
-       	/usr/$(ROOTDIR)/lib/libicuuc.a /usr/$(ROOTDIR)/lib/libicudata.a \
-		/usr/$(ROOTDIR)/lib/liblzma.a /usr/$(ROOTDIR)/lib/libz.a /usr/$(ROOTDIR)/lib/libwinpthread.a \
-        -L/usr/$(ROOTDIR)/lib/ -lpng -ldl -lm
+LIBXML = -L/usr/$(ROOTDIR)/lib -lgsl -lgslcblas -lxml2 -lz -lm
 
-LIBBATCH = -L/usr/$(ROOTDIR)/lib -lxml2 -lz -lws2_32 -luuid -lm -lmingw32
-LIBBATCH = /usr/$(ROOTDIR)/lib/libxml2.a /usr/$(ROOTDIR)/lib/libz.a \
-	/usr/$(ROOTDIR)/lib/libssp.a -lws2_32 -luuid -lm -lmingw32
+LIBBATCH = /usr/$(ROOTDIR)/lib/libgsl.a /usr/$(ROOTDIR)/lib/libgslcblas.a \
+	/usr/$(ROOTDIR)/lib/libxml2.a /usr/$(ROOTDIR)/lib/libz.a /usr/$(ROOTDIR)/lib/liblzma.a \
+	/usr/$(ROOTDIR)/lib/libiconv.a /usr/$(ROOTDIR)/lib/libbcrypt.a \
+	/usr/$(ROOTDIR)/lib/libwinpthread.a -L/usr/$(ROOTDIR)/lib/ \
+	-static-libstdc++ -lstdc++ -static-libgcc -lws2_32 -luuid -lm -lmingw32
 
 ifneq ($(DYNAMIC),)
 PUBLIBS  = $(LIBS) $(LIBXML)

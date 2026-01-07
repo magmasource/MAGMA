@@ -18,7 +18,7 @@ endif
 ACEPLT  = _NO_GRACE_PIPE
 
 # Include files easyMelts-related (INCM, X, GUI), math and the C library (INCC)
-# ==========================================================================
+# =============================================================================
 
 INCC   = /$(ROOTDIR1)/include
 INCM   = /$(ROOTDIR2)/include
