@@ -1328,6 +1328,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     m_T0 = sd.T;
                     m_P0 = sd.P;
                 }
+                ImGui::SameLine();
                 HelpMarker("Saving initial T & P will reset state, including this calculation step!");
 
                 ImGui::Text("log 10 fO2: %.3f ", sd.fO2);
@@ -1347,6 +1348,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     for (int i = 0; i < 19; ++i)
                         m_Composition[i] = sd.bulk_comp_n.at(i);
                 }
+                ImGui::SameLine();
                 HelpMarker("Saving initial composition will reset state, including this calculation step!");
 
                 ImGui::Separator();
