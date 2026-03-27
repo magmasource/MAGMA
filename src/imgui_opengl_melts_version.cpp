@@ -618,7 +618,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     //static double P0 = 1000.0;
                     ImGui::InputDouble("Initial P (bar): ", &m_P0, 0.0, 100.0, "%.1f");
 
-                    if (ImGui::Button("Save")) {
+                    /*if (ImGui::Button("Save")) {
                         if (!_MI.GetData().empty()) {
                             fo2_path = 0, _mode = 0;
                             fsolids = false, fliquids = false, ffluids = false, assimilate = false;
@@ -632,7 +632,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                         _MI.SetInitTP(m_T0, m_P0);
                     }
                     ImGui::SameLine();
-                    HelpMarker("Saving initial TP resets state if modeling steps exist!");
+                    HelpMarker("Saving initial TP resets state if modeling steps exist!"); */
 
                     if (ImGui::Button("Clear")) {
                         m_T0 = 0.0;
@@ -689,32 +689,6 @@ void ImGuiOpenGL::UpdateImGUI() {
                         if (m_Composition[i] < 0.0) m_Composition[i] = 0.0;
                     }
 
-                    if (ImGui::Button("Save")) {
-                        if (!_MI.GetData().empty()) {
-                            //reset!
-                            fo2_path = 0;
-                            _mode = 0;
-                            fsolids = false;
-                            fliquids = false;
-                            ffluids = false;
-                            assimilate = false;
-                            m_SetAssimilationValues = std::vector<double>(npc + nc + 1, 0.0);
-                            _MI.CreateSilminState();
-                            ClearPlotData();
-                            ClearLists();
-                        }
-
-                        _MI.SetComposition(m_Composition);
-                    }
-                    ImGui::SameLine();
-                    HelpMarker("Saving initial composition resets state if modeling steps exist!");
-
-                    ImGui::SameLine();
-                    ImGui::Checkbox("Normalize on save", &normalize_on_save);
-                    ImGui::SameLine();
-                    HelpMarker("Normalize initial system to 100 g (~ wt%) when saving\n");
-                    _MI.SetNormalizeOnSave(normalize_on_save);
-
                     if (ImGui::Button("Clear")) {
                         for (size_t i = 0; i < m_Composition.size(); ++i) {
                             m_Composition[i] = 0.0;
@@ -723,10 +697,40 @@ void ImGuiOpenGL::UpdateImGUI() {
 
                     ImGui::PopItemWidth();
                     ImGui::TreePop();
+
                 }
 
+                //ImGui::Dummy(ImVec2(0, 5.f));
+                if (ImGui::Button("Save T & P and composition")) {
+                    if (!_MI.GetData().empty()) {
+                        //reset!
+                        fo2_path = 0;
+                        _mode = 0;
+                        fsolids = false;
+                        fliquids = false;
+                        ffluids = false;
+                        assimilate = false;
+                        m_SetAssimilationValues = std::vector<double>(npc + nc + 1, 0.0);
+                        _MI.CreateSilminState();
+                        ClearPlotData();
+                        ClearLists();
+                    }
+
+                    _MI.SetInitialTP(m_T0, m_P0);
+                    _MI.SetInitTP(m_T0, m_P0);
+                    _MI.SetComposition(m_Composition);
+                }
+                ImGui::SameLine();
+                HelpMarker("Saving initial composition and TP resets state if modeling steps exist!");
+
+                ImGui::SameLine();
+                ImGui::Checkbox("Normalize on save", &normalize_on_save);
+                ImGui::SameLine();
+                HelpMarker("Normalize initial system to 100 g (~ wt%) when saving\n");
+                _MI.SetNormalizeOnSave(normalize_on_save);
+
                 /* FO2 BUFFER*/
-                ImGui::Dummy(ImVec2(0, 5.f));
+                ImGui::Dummy(ImVec2(0, 10.f));
                 ImGui::Text("fO2 path: buffer and offset (log 10 units)");
                 ImGui::SameLine();
                 HelpMarker("Calibrated range ~ HM-15<->HM, NNO-10<->NNO+5, FMQ-9<->FMQ+6, COH-3<->COH+12, IW-5<->IW+10\nWarning: imposing fO2 paths outside the calibrated range is NOT recommended");
@@ -737,8 +741,8 @@ void ImGuiOpenGL::UpdateImGUI() {
                 if (_MI.SilminStateExists()) _MI.GetSilminState()->fo2Delta = (fo2_path != FO2_NONE) ? fo2_offset : 0.0;
 
                 if (_MI.CompositionSet() && _MI.TPSet() && _MI.GetData().empty()) {
-                    ImGui::Dummy(ImVec2(0, 5.f));
-                    if (ImGui::Button("RedistFeOx")) {
+                    //ImGui::Dummy(ImVec2(0, 5.f));
+                    if (ImGui::Button("Redist FeOx and save")) {
                         _MI.RedistributeFeOx(fo2_path);
                     }
                     ImGui::SameLine();
@@ -749,7 +753,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     HelpMarker("Normalize initial system to 100 g (~ wt%) after redistribution\n");
                     _MI.SetNormalizeOnSave(normalize_on_save);
 
-                    if (ImGui::Button("Liquidus&RedistFeOx")) {
+                    /*if (ImGui::Button("Liquidus&RedistFeOx")) {
                         _MI.Liquidus();
                     }
                     ImGui::SameLine();
@@ -759,30 +763,35 @@ void ImGuiOpenGL::UpdateImGUI() {
                         _MI.WetLiquidus();
                     }
                     ImGui::SameLine();
-                    HelpMarker("Attempt to change T to fluid-saturated liquidus T and redistribute\nFe oxides according to PT-conditions and selected fO2 buffer");
+                    HelpMarker("Attempt to change T to fluid-saturated liquidus T and redistribute\nFe oxides according to PT-conditions and selected fO2 buffer");*/
 
                     //                    if (!std::isnan(_MI.GetLiquidusT())) {
                     //                        ImGui::Text("Liquidus found at: %.2f C", _MI.GetLiquidusT());
                     //                    }
-                }
+                } else if (!_MI.ReadyToEquilibrate())
+                    ImGui::TextColored(ImVec4(1.f, 0.5f, 0.1f, 1.f), "Set Composition and TP");
                 /*END COMPOSITION AND INITIAL TP*/
 
-                /*CALCULATION MODE */
-                ImGui::Dummy(ImVec2(0, 15.f));
-                ImGui::Combo("Calc mode", &_mode, _MI.GetCalculationModes(), (int)_MI.GetCalculationModes().size());
-                ImGui::SameLine();
-                HelpMarker("First calculation is always Isothermal/Isobaric\nSet calculation parameters for subsequent steps");
-                _MI.SetMode(_mode);
-
-                //ImGui::Dummy(ImVec2(0, 5.f));
+                ImGui::Dummy(ImVec2(0, 10.f));
                 /*RUN SETTINGS (i.e steps to calculate and increments between steps)*/
+                static int calc_steps = 1;
+
+                ImGui::Text("Run settings");
+                ImGui::SameLine();
+                HelpMarker("Number of steps and increment between steps");
+                ImGui::InputInt("Calc steps", &calc_steps);
+                MyUtil::Limit<int>(1, 1000, &calc_steps);
+                _MI.SetCalcSteps(calc_steps);
+
+                /*CALCULATION MODE */
                 if (ImGui::TreeNode("Set calculation parameters")) {
 
-                    static int calc_steps = 1;
+                    //ImGui::Dummy(ImVec2(0, 15.f));
+                    ImGui::Combo("Calc mode", &_mode, _MI.GetCalculationModes(), (int)_MI.GetCalculationModes().size());
+                    ImGui::SameLine();
+                    HelpMarker("First calculation is always Isothermal/Isobaric\nSet calculation mode for subsequent steps");
+                    _MI.SetMode(_mode);
 
-                    ImGui::InputInt("Calc steps", &calc_steps);
-                    MyUtil::Limit<int>(1, 1000, &calc_steps);
-                    _MI.SetCalcSteps(calc_steps);
                     ImGui::Text("Increment between steps");
                     ImGui::SameLine();
                     HelpMarker("Isothermal/Isobaric: TP, Isenthalpic: HP\nIsentropic: SP, Isochoric: VT\nNote: the increments are signed quantities");
@@ -824,7 +833,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                         _MI.step_inc.S = 0;
                     }
 
-                    if (ImGui::Button("Reset##parameters")) {
+                    if (ImGui::Button("Clear##parameters")) {
                         inc_t = 0.0;
                         inc_p = 0.0;
                         inc_h = 0.0;
@@ -856,6 +865,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                 /*END FRACTIONATION*/
 
                 /*ASSIMILATION*/
+                //ImGui::Dummy(ImVec2(0, 5.f));
                 ImGui::Text("Assimilate composition");
                 ImGui::Checkbox("Assimilate", &assimilate);
                 if (assimilate)
@@ -1044,7 +1054,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     ImGui::EndPopup();
                 }
                 /*END ASSIMILATION*/
-                ImGui::Dummy(ImVec2(0, 15.f));
+                ImGui::Dummy(ImVec2(0, 10.f));
 
                 /*Suppress phases*/
                 if (ImGui::TreeNode("Suppress phases")) {
@@ -1092,6 +1102,23 @@ void ImGuiOpenGL::UpdateImGUI() {
                 if (_MI.SilminFailed()) {
                     ImGui::TextColored(ImVec4(1.f, 0.5f, 0.1f, 1.f), "Equilibration failed! See log.\n\n-Export results from 'Export' menu\n-Start over by pressing 'Reset state'");
                 } else {
+
+                    if (_MI.CompositionSet() && _MI.TPSet() && _MI.GetData().empty()) {
+
+                        if (ImGui::Button("Find Liquidus")) {
+                            _MI.Liquidus();
+                        }
+                        ImGui::SameLine();
+                        HelpMarker("Attempt to change T to liquidus T and redistribute Fe oxides\naccording to PT-conditions and selected fO2 buffer");
+                        ImGui::SameLine();
+                        if (ImGui::Button("Find Wet Liquidus")) {
+                            _MI.WetLiquidus();
+                        }
+                        ImGui::SameLine();
+                        HelpMarker("Attempt to change T to fluid-saturated liquidus T and redistribute\nFe oxides according to PT-conditions and selected fO2 buffer");
+
+                    }
+
                     if (_MI.ReadyToEquilibrate()) {
                         if (ImGui::Button("Equilibrate")) {
                             //Set assimilation OFF if assimilation is set ON but no assimilants are selected (avoids Melts crash)
@@ -1164,25 +1191,42 @@ void ImGuiOpenGL::UpdateImGUI() {
                 ImGui::Text("Current P (bar): %.1f", _MI.GetSilminState()->P);
 
                 ImGui::Separator();
+
+                ImGui::Text("Bulk composition set: %s", _MI.CompositionSet() ? "Yes" : "No");
+
+                ImGui::Text("fO2 buffer: %s", _MI.GetFO2Paths().at(fo2_path).c_str());
+                ImGui::Text("fO2 offset: %.1f", fo2_offset);
+
+                if (_MI.SilminStateExists())
+                    ImGui::Text("Mass of system: %.2f g", _MI.GetTotal());
+
+                if (ImGui::TreeNode("Initial bulk composition")) {
+                    ImGui::Separator();
+                    /*NOTE: theres 20 in total!*/
+                    for (int i = 0; i < 19; ++i) {
+                        ImGui::Text("%-8s%.3f", _MI.GetOxideNames()[i].c_str(), _MI.GetComposition()[i]);
+                    }
+                    ImGui::TreePop();
+                }
+
+                ImGui::Separator();
                 ImGui::Text("Calculation parameters");
                 ImGui::Text("Steps to calculate: %i", _MI.GetStepsToCalculate());
-                ImGui::Text("Increment T (C): %.1f", _MI.step_inc.T);
-                ImGui::Text("Increment P (bar): %.1f", _MI.step_inc.P);
-                ImGui::Text("Increment H (J): %.1f", _MI.step_inc.H);
-                ImGui::Text("Increment S (J/K): %.1f", _MI.step_inc.S);
-                ImGui::Text("Increment V (cc): %.1f", _MI.step_inc.V);
+
+                ImGui::Text("Mode:");
+                if (_MI.SilminStateExists()) {
+                    ImGui::SameLine();
+                    //ImGui::Text(_MI.GetCalculationModes()[_mode].c_str());
+                    ImGui::Text("%s", _MI.GetCalculationModes()[_mode].c_str());
+                }
+                if (_mode == 0 || _mode == 3) ImGui::Text("Increment T (C): %.1f", _MI.step_inc.T);
+                if (_mode >= 0 && _mode < 3) ImGui::Text("Increment P (bar): %.1f", _MI.step_inc.P);
+                if (_mode == 1) ImGui::Text("Increment H (J): %.1f", _MI.step_inc.H);
+                if (_mode == 2) ImGui::Text("Increment S (J/K): %.1f", _MI.step_inc.S);
+                if (_mode == 3) ImGui::Text("Increment V (cc): %.1f", _MI.step_inc.V);
             }
             ImGui::Separator();
             ImGui::Text("Constraints");
-            ImGui::Text("fO2 buffer: %s", _MI.GetFO2Paths().at(fo2_path).c_str());
-            ImGui::Text("fO2 offset: %.1f", fo2_offset);
-
-            ImGui::Text("Mode:");
-            if (_MI.SilminStateExists()) {
-                ImGui::SameLine();
-                //ImGui::Text(_MI.GetCalculationModes()[_mode].c_str());
-                ImGui::Text("%s", _MI.GetCalculationModes()[_mode].c_str());
-            }
 
             ImGui::Text("Fractionate:");
             if (_MI.SilminStateExists()) {
@@ -1239,21 +1283,6 @@ void ImGuiOpenGL::UpdateImGUI() {
             if (suppressed_phases.size() > 1) suppressed_phases.erase(suppressed_phases.size() - 2, 2);
 
             ImGui::TextWrapped("Suppressed phases: %s", suppressed_phases.c_str());
-            ImGui::Separator();
-
-            ImGui::Text("Bulk composition set: %s", _MI.CompositionSet() ? "Yes" : "No");
-
-            if (_MI.SilminStateExists())
-                ImGui::Text("Mass of system: %.2f g", _MI.GetTotal());
-
-            if (ImGui::TreeNode("Initial bulk composition")) {
-                ImGui::Separator();
-                /*NOTE: theres 20 in total!*/
-                for (int i = 0; i < 19; ++i) {
-                    ImGui::Text("%-8s%.3f", _MI.GetOxideNames()[i].c_str(), _MI.GetComposition()[i]);
-                }
-                ImGui::TreePop();
-            }
 
             ImGui::EndChild();
 
@@ -1299,6 +1328,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     m_T0 = sd.T;
                     m_P0 = sd.P;
                 }
+                HelpMarker("Saving initial T & P will reset state, including this calculation step!");
 
                 ImGui::Text("log 10 fO2: %.3f ", sd.fO2);
                 ImGui::Text("G = %.2f kJ, H = %.02f kJ, S = %.2f J/K", sd.sys_prop_nofrac.gibbs_energy / 1000., sd.sys_prop_nofrac.enthalpy / 1000., sd.sys_prop_nofrac.entropy);
@@ -1317,6 +1347,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     for (int i = 0; i < 19; ++i)
                         m_Composition[i] = sd.bulk_comp_n.at(i);
                 }
+                HelpMarker("Saving initial composition will reset state, including this calculation step!");
 
                 ImGui::Separator();
 

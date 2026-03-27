@@ -1073,15 +1073,19 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
 
     std::string line;
     while (std::getline(input, line)) {
-        if (line.find("Title:") != s_end) {
+        if ((line.find("Title:") != s_end) || (line.find("title:") != s_end)) {
             m_RunTitle = line.substr(7);
             continue;
         }
-        if (line.find("Initial Composition:") != s_end) {
+        else {
+           std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+        }
+        if (line.find("initial composition:") != s_end) {
             m_CompositionSet = true;
-            std::string compstr("Initial Composition: ");
+            std::string compstr("initial composition: ");
             for (int i = 0; i < nc; i++) {
                 std::string label(bulkSystem[i].label);
+                std::transform(label.begin(), label.end(), label.begin(), ::tolower);
                 if (line.find(label) != s_end) {
                     double weight_perc = std::stod(line.substr(std::string(compstr + label).length()));
                     //p_SS->bulkComp[i] = weight_perc / bulkSystem[i].mw;
@@ -1091,100 +1095,101 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
             }
             continue;
         }
-        if (line.find("Initial Temperature:") != s_end) {
+        if (line.find("initial temperature:") != s_end) {
             std::string init_t_string = line.substr(21);
             init_temp = std::stod(init_t_string);
             continue;
         }
-        if (line.find("Initial Pressure:") != s_end) {
+        if (line.find("initial pressure:") != s_end) {
             std::string init_p_string = line.substr(18);
             init_pres = std::stod(init_p_string);
             continue;
         }
-        if (line.find("Final Temperature:") != s_end) {
+        if (line.find("final temperature:") != s_end) {
             std::string final_t_string = line.substr(19);
             final_temp = std::stod(final_t_string);
             continue;
         }
-        if (line.find("Final Pressure:") != s_end) {
+        if (line.find("final pressure:") != s_end) {
             std::string final_p_string = line.substr(16);
             final_pres = std::stod(final_p_string);
             continue;
         }
-        if (line.find("Increment Temperature:") != s_end) {
+        if (line.find("increment temperature:") != s_end) {
             step_inc.T = std::stod(line.substr(23));
             continue;
         }
-        if (line.find("Increment Pressure:") != s_end) {
+        if (line.find("increment pressure:") != s_end) {
             step_inc.P = std::stod(line.substr(20));
             continue;
         }
-        if (line.find("Increment Enthalpy:") != s_end) {
+        if (line.find("increment enthalpy:") != s_end) {
             step_inc.H = std::stod(line.substr(20));
             continue;
         }
-        if (line.find("Increment Entropy:") != s_end) {
+        if (line.find("increment entropy:") != s_end) {
             step_inc.S = std::stod(line.substr(19));
             continue;
         }
-        if (line.find("Increment Volume:") != s_end) {
+        if (line.find("increment volume:") != s_end) {
             step_inc.V = std::stod(line.substr(18));
             continue;
         }
-        if (line.find("log fo2 Path:") != s_end) {
+        if (line.find("log fo2 path:") != s_end) {
             std::string path = line.substr(14);
-            if (path.find("None") != s_end)
+            if (path.find("none") != s_end)
                 p_SS->fo2Path = 0;
-            else if (path.find("HM") != s_end)
+            else if (path.find("hm") != s_end)
                 p_SS->fo2Path = 1;
-            else if (path.find("NNO") != s_end)
+            else if (path.find("nno") != s_end)
                 p_SS->fo2Path = 2;
-            else if (path.find("FMQ") != s_end) // need to make sure don't get false positive with +3FMQ etc
+            else if ((path.find("+") == s_end) && (path.find("-") == s_end) &&
+                    (path.find("fmq") != s_end)) // need to make sure don't get false positive with +3FMQ etc
                 p_SS->fo2Path = 3;
-            else if (path.find("COH") != s_end)
+            else if (path.find("coh") != s_end)
                 p_SS->fo2Path = 4;
-            else if (path.find("IW") != s_end)
+            else if (path.find("iw") != s_end)
                 p_SS->fo2Path = 5;
-            else if (path.find("+3FMQ") != s_end) {
+            else if (path.find("+3fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = 3.0; //p_SS->fo2Path = 6;
             }
-            else if (path.find("+2FMQ") != s_end) {
+            else if (path.find("+2fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = 2.0; //p_SS->fo2Path = 7;
             }
-            else if (path.find("+1FMQ") != s_end) {
+            else if (path.find("+1fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = 1.0; //p_SS->fo2Path = 8;
             }
-            else if (path.find("-1FMQ") != s_end) {
+            else if (path.find("-1fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -1.0; //p_SS->fo2Path = 9;
             }
-            else if (path.find("-2FMQ") != s_end) {
+            else if (path.find("-2fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -2.0; //p_SS->fo2Path = 10;
             }
-            else if (path.find("-3FMQ") != s_end) {
+            else if (path.find("-3fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -3.0; //p_SS->fo2Path = 11;
             }
-            else if (path.find("-4FMQ") != s_end) {
+            else if (path.find("-4fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -4.0; //p_SS->fo2Path = 12;
             }
-            else if (path.find("-5FMQ") != s_end) {
+            else if (path.find("-5fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -5.0; //p_SS->fo2Path = 13;
             }
-            else if (path.find("-6FMQ") != s_end) {
+            else if (path.find("-6fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -6.0; //p_SS->fo2Path = 14;
             }
-            else if (path.find("-7FMQ") != s_end) {
+            else if (path.find("-7fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -7.0; //p_SS->fo2Path = 15;
             }
-            else if (path.find("-8FMQ") != s_end) {
+            else if (path.find("-8fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -8.0; //p_SS->fo2Path = 16;
             }
-            else if (path.find("-9FMQ") != s_end) {
+            else if (path.find("-9fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = -9.0; //p_SS->fo2Path = 17;
             }
-            else if (path.find("+0.5FMQ") != s_end) {
+            else if (path.find("+0.5fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = 0.5; //p_SS->fo2Path = 18;
             }
-            else if (path.find("+1.5FMQ") != s_end) {
+            else if (path.find("+1.5fmq") != s_end) {
                 p_SS->fo2Path = 3; p_SS->fo2Delta = 1.5; //p_SS->fo2Path = 19;
             }
             else
@@ -1193,15 +1198,15 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
 
             continue;
         }
-        if (line.find("log fo2 Offset:") != s_end) {
+        if (line.find("log fo2 offset:") != s_end) {
             double offset = std::stod(line.substr(16));
             p_SS->fo2Delta = offset;
             continue;
         }
-        if (line.find("Suppress:") != s_end) {
+        if (line.find("suppress:") != s_end) {
             std::string label = line.substr(10);
             for (int i = 0, j = 0; i < npc; i++) {
-                if (solids[i].type == PHASE) {
+                if (solids[i].type == PHASE) { // solids labels are already lowercase
                     if (label == std::string(solids[i].label)) {
                         p_SS->incSolids[j] = FALSE;
                         break;
@@ -1211,31 +1216,31 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
             }
             continue;
         }
-        if (line.find("Mode: Fractionate Solids") != s_end) {
+        if (line.find("mode: fractionate solids") != s_end) {
             fractionate_sol = true;
             continue;
         }
-        if (line.find("Mode: Fractionate Liquids") != s_end) {
+        if (line.find("mode: fractionate liquids") != s_end) {
             fractionate_liq = true;
             continue;
         }
-        if (line.find("Mode: Fractionate Fluids") != s_end) {
+        if (line.find("mode: fractionate fluids") != s_end) {
             fractionate_flu = true;
             continue;
         }
-        if (line.find("Mode: Multiple Liquids") != s_end) {
+        if (line.find("mode: multiple liquids") != s_end) {
             p_SS->multipleLiqs = TRUE;
             continue;
         }
-        if (line.find("Mode: Isenthalpic") != s_end) {
+        if (line.find("mode: isenthalpic") != s_end) {
             p_SS->isenthalpic = TRUE;
             continue;
         }
-        if (line.find("Mode: Isentropic") != s_end) {
+        if (line.find("mode: isentropic") != s_end) {
             p_SS->isentropic = TRUE;
             continue;
         }
-        if (line.find("Mode: Isochoric") != s_end) {
+        if (line.find("mode: isochoric") != s_end) {
             p_SS->isochoric = TRUE;
             continue;
         }
@@ -1243,26 +1248,26 @@ std::vector<double> MeltsInterface::LoadFromFile(const char *file) {
         //assim increments are always 1
 
         bool found_idx = false;
-        if (line.find("Assimilant: ") != s_end) {
-            if (line.find("Assimilant: Temperature") != s_end) {
+        if (line.find("assimilant: ") != s_end) {
+            if (line.find("assimilant: temperature") != s_end) {
                 double at = std::stod(line.substr(24));
                 p_SS->assimT = at;
                 p_SS->dspAssimT = at;
                 continue;
             }
-            if (line.find("Assimilant: Mass") != s_end) {
+            if (line.find("assimilant: mass") != s_end) {
                 p_SS->dspAssimMass = std::stod(line.substr(17));
                 continue;
             }
-            if (line.find("Assimilant: Liquid Mass") != s_end) {
+            if (line.find("assimilant: liquid mass") != s_end) {
                 p_SS->dspAssimLiqM = std::stod(line.substr(24));
                 assimilation_values[npc + nc] = p_SS->dspAssimLiqM;
                 continue;
             }
-            if (line.find("Units") != s_end) {
+            if (line.find("units") != s_end) {
                 continue;
             }
-            if (line.find("Increments") != s_end) {
+            if (line.find("increments") != s_end) {
                 continue;
             }
             std::vector<std::string> words = GetWords(line);
