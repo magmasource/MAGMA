@@ -51,6 +51,7 @@ static void HelpMarker(const char *help_text) {
         ImGui::EndTooltip();
     }
 }
+
 /*
  Helper to make combos with const std::vector<std::string> & returned by the melts interface
  */
@@ -719,9 +720,10 @@ void ImGuiOpenGL::UpdateImGUI() {
                     _MI.SetInitialTP(m_T0, m_P0);
                     _MI.SetInitTP(m_T0, m_P0);
                     _MI.SetComposition(m_Composition);
+                    _MI.Normalize();
                 }
                 ImGui::SameLine();
-                HelpMarker("Saving initial composition and TP resets state if modeling steps exist!");
+                HelpMarker("Warning: Saving initial composition and TP resets state if modeling steps exist!");
 
                 ImGui::SameLine();
                 ImGui::Checkbox("Normalize on save", &normalize_on_save);
@@ -1329,7 +1331,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                     m_P0 = sd.P;
                 }
                 ImGui::SameLine();
-                HelpMarker("Saving initial T & P will reset state, including this calculation step!");
+                HelpMarker("Warning: Saving initial T & P will reset state, including this calculation step!");
 
                 ImGui::Text("log 10 fO2: %.3f ", sd.fO2);
                 ImGui::Text("G = %.2f kJ, H = %.02f kJ, S = %.2f J/K", sd.sys_prop_nofrac.gibbs_energy / 1000., sd.sys_prop_nofrac.enthalpy / 1000., sd.sys_prop_nofrac.entropy);
@@ -1349,7 +1351,7 @@ void ImGuiOpenGL::UpdateImGUI() {
                         m_Composition[i] = sd.bulk_comp_n.at(i);
                 }
                 ImGui::SameLine();
-                HelpMarker("Saving initial composition will reset state, including this calculation step!");
+                HelpMarker("Warning: Saving initial composition will reset state, including this calculation step!");
 
                 ImGui::Separator();
 

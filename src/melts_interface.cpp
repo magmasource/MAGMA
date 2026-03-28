@@ -87,14 +87,21 @@ void MeltsInterface::DestroySilminState() {
     p_SS = nullptr;
 }
 
-void MeltsInterface::Normalize() {
+bool MeltsInterface::Normalize() {
+    if (!p_SS) return false;
+    if (!m_CompositionSet) return false;
+
     double sum = 0.0;
-    for (double d : m_Composition) {
-        sum += d;
+    if (m_NormalizeOnSave) {
+        for (double d : m_Composition) {
+            sum += d;
+        }
+        for (size_t i = 0; i < m_Composition.size(); i++) {
+            m_Composition.at(i) = m_Composition.at(i) / sum * 100.0;
+        }
+        return SetComposition(m_Composition);
     }
-    for (size_t i = 0; i < m_Composition.size(); i++) {
-        m_Composition.at(i) = m_Composition.at(i) / sum * 100.0;
-    }
+    return true;
 }
 
 void MeltsInterface::InitializeMelts(int melts_version) {
@@ -368,12 +375,15 @@ bool MeltsInterface::SetComposition(std::array<double, 20> composition) {
     /*
      Original: Normalized automatically but this makes restarting a run complicated
      Edit: normalization is optional, controlled by a checkbox in the GUI
+     Update: do not normalize when loading .melts file or finding liquidus
+     Can still (optionally) normalize by clicking save or by redistributing FeOx
      */
-
     for (double &d : m_Composition)
         total += d;
+    m_Total = total;
 
-    if (m_NormalizeOnSave) {
+    /* Moved into RedistributeFeOx */
+    /*if (m_NormalizeOnSave) {
         if (total != 0.0)
             for (double &d : m_Composition)
                 d = d / total * 100.0;
@@ -381,7 +391,7 @@ bool MeltsInterface::SetComposition(std::array<double, 20> composition) {
     }
     else {
         m_Total = total;
-    }
+    }*/
 
     /*
     Calculates bulk composition in moles and total mass of liquid (nc = component oxide)
@@ -603,6 +613,7 @@ bool MeltsInterface::RedistributeFeOx(int fo2_buffer) {
 
     double log10fo2 = getlog10fo2(p_SS->T, p_SS->P, p_SS->fo2Path);
     double *moles = (double *)malloc((unsigned)nc * sizeof(double));
+    double total = 0.0;
 
     for (int j = 0; j < nc; j++)
         moles[j] = m_Composition[j] / bulkSystem[j].mw;
@@ -610,11 +621,18 @@ bool MeltsInterface::RedistributeFeOx(int fo2_buffer) {
     conLiq(FIRST | SEVENTH, FIRST, p_SS->T, p_SS->P, moles, (double *)NULL, (double *)NULL,
            (double *)NULL, (double **)NULL, (double ***)NULL, &log10fo2);
 
-    for (int j = 0; j < nc; j++)
+    for (int j = 0; j < nc; j++) {
         m_Composition[j] = moles[j] * bulkSystem[j].mw;
+        total += m_Composition[j];
+    }
 
     free(moles);
 
+    if (m_NormalizeOnSave) {
+        if (total != 0.0)
+            for (double &d : m_Composition)
+                d = d / total * 100.0;
+    }
     SetComposition(m_Composition);
 
     return true;

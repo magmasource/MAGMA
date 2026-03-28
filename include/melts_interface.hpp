@@ -657,7 +657,7 @@ public:
     int StopEquilibration();
 
     bool RedistributeFeOx(int fo2_buffer);
-    void Normalize();
+    bool Normalize();
 
     bool SetNormalizeOnSave(bool set = true) {
         return m_NormalizeOnSave = set;
