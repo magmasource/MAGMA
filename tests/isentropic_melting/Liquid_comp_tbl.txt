@@ -1,0 +1,5 @@
+Title:depleted
+
+Liquid Composition:
+index Pressure Temperature mass SiO2 TiO2 Al2O3 Fe2O3 Cr2O3 FeO MgO CaO Na2O K2O P2O5 H2O 
+1 20000.00 1398.41 0.273230 44.3281 1.03961 15.7693 0.541024 0 8.78437 14.9384 5.3976 9.20153 0 0 0

@@ -1,0 +1,5 @@
+Title:depleted
+
+Bulk Composition:
+index Pressure Temperature mass SiO2 TiO2 Al2O3 Fe2O3 Cr2O3 FeO MgO CaO Na2O K2O P2O5 H2O 
+1 20000.00 1398.41 99.198999 45.071 0.13105 4.01214 0.192542 0 8.07266 39.0427 3.1956 0.282261 0 0 0

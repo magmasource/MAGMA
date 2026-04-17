@@ -1,0 +1,5 @@
+Title:depleted
+
+System Thermodynamic Data:
+index Pressure Temperature mass F phi H S V Cp dVdP*10^6 dVdT*10^6 fO2-(QFM) fO2(absolute) rhol rhos viscosity aH2O chisqr
+1 20000.00 1398.41 99.198999 0.0027543612707120 0.003094 -1213655.190798 255.014928 30.647066 126.200489 -22.066693 1456.971826 -2.517 -7.534 2.881316 3.237922 0.711 n/a n/a

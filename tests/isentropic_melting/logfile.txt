@@ -1,0 +1,41 @@
+
+! <><> alphaMELTS 2.3 run by psmith <><> 
+! Time started: Apr 9 2026 at 13:56 
+
+! Command line: (none) 
+
+! alphaMELTS menu input used: 
+
+y
+n
+n
+y
+1
+WH-DMM-noKPCr.melts 
+9
+liquid
+1
+x
+x
+3
+0
+7
+2
+x
+9
+liquid
+2
+1
+x
+x
+2
+4
+20000
+x
+3
+7
+x
+4
+1
+1
+x

@@ -1,0 +1,21 @@
+Title:depleted
+
+liquid1 thermodynamic data and composition:
+index Pressure Temperature mass H S V Cp viscosity SiO2 TiO2 Al2O3 Fe2O3 Cr2O3 FeO MgO CaO Na2O K2O P2O5 H2O
+1 20000.00 1398.41 0.273230 -3068.105766 0.799005 0.094828 0.425742 0.711 44.3281 1.03961 15.7693 0.541024 0 8.78437 14.9384 5.3976 9.20153 0 0 0
+
+clinopyroxene1 thermodynamic data and composition:
+index Pressure Temperature mass H S V Cp formula SiO2 TiO2 Al2O3 Fe2O3 Cr2O3 FeO MgO CaO Na2O K2O P2O5 H2O
+1 20000.00 1398.41 16.270846 -200579.638139 41.351367 5.050290 20.089184 Na0.09Ca0.53Fe''0.13Mg1.04Fe'''0.02Ti0.01Al0.32Si1.86O6 52.2631 0.461865 7.66243 0.728214 0 4.19955 19.5427 13.809 1.33318 0 0 0
+
+garnet1 thermodynamic data and composition:
+index Pressure Temperature mass H S V Cp formula SiO2 TiO2 Al2O3 Fe2O3 Cr2O3 FeO MgO CaO Na2O K2O P2O5 H2O
+1 20000.00 1398.41 7.818937 -97863.332016 19.685424 2.187527 9.631042 (Ca0.16Fe''0.14Mg0.70)3Al2Si3O12 42.4957 0 24.038 0 0 7.2874 19.9188 6.26007 0 0 0 0
+
+olivine1 thermodynamic data and composition:
+index Pressure Temperature mass H S V Cp formula SiO2 TiO2 Al2O3 Fe2O3 Cr2O3 FeO MgO CaO Na2O K2O P2O5 H2O
+1 20000.00 1398.41 58.901564 -713348.318779 151.785615 18.335821 75.341432 (Ca0.00Mg0.90Fe''0.10Mn0.00Co0.00Ni0.00)2SiO4 40.8099 0 0 0 0 9.95183 48.987 0.251309 0 0 0 0
+
+orthopyroxene1 thermodynamic data and composition:
+index Pressure Temperature mass H S V Cp formula SiO2 TiO2 Al2O3 Fe2O3 Cr2O3 FeO MgO CaO Na2O K2O P2O5 H2O
+1 20000.00 1398.41 15.934421 -198795.796099 41.393517 4.978600 20.713090 Na0.02Ca0.06Fe''0.16Mg1.65Fe'''0.01Ti0.01Al0.21Si1.89O6 54.7548 0.326401 5.08744 0.445797 0 5.45434 31.993 1.70021 0.238092 0 0 0

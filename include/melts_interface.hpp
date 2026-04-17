@@ -495,6 +495,24 @@ public:
             }
         }
 
+        if (f_liq_mass > 0.0 || state->fractionateLiq) {
+            frac_liq_comp = std::vector<double>(nc, 0.0);
+            double oxSum = 0.0;
+            for (int i = 0; i < nc; i++) {
+                    for (int j = 0; j < nlc; j++) frac_liq_comp[i] += (liquid[j].liqToOx)[i]*(state->fracLComp)[j]; //moles
+                    frac_liq_comp[i] *= bulkSystem[i].mw; //grams
+                    oxSum += frac_liq_comp[i];
+                }
+            if (oxSum != 0.0)
+                for (int i = 0; i < nc; i++) {
+                    frac_liq_comp[i] /= oxSum;
+                    frac_liq_comp[i] *= 100.;
+                }
+
+            frac_liq_mass = oxSum;
+        }
+
+
         sys_properties.viscosity = (vLiq < totalVolume) ? NaN : viscosity - 2.0 * log10(1.0 - 2.0 * totalVolume / (totalVolume + vLiq));
         sys_properties.mass = mLiq + totalMass;
         sys_properties.density = (totalVolume + vLiq == 0.0) ? 0.0 : (mLiq + totalMass) / (10.0 * (vLiq + totalVolume));
@@ -613,7 +631,9 @@ public:
     std::vector<Prop> sol_properties;
 
     std::vector<Prop> frac_properties; //frac solids if present
-    Prop frac_liq_properties; //frac liquid if present
+    Prop frac_liq_properties; //frac liquid if present (for GUI)
+    std::vector<double> frac_liq_comp; //frac liquid if present (for XLS)
+    double frac_liq_mass = NaN;
     double frac_mass = NaN;
 
     std::vector<Prop> assim_properties; //assimilated minerals
