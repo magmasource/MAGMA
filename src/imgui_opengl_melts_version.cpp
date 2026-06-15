@@ -368,6 +368,7 @@ void ImGuiOpenGL::ClearPlotData() {
     if (!m_PlotMeltFraction.empty()) m_PlotMeltFraction.clear();
     if (!m_PlotPhaseMasses.empty()) m_PlotPhaseMasses.clear();
     if (!m_PlotLiquidComp.empty()) m_PlotLiquidComp.clear();
+    if (!m_PlotFracLiquidComp.empty()) m_PlotFracLiquidComp.clear();
     if (!m_PlotPhaseExists.empty()) m_PlotPhaseExists.clear();
     if (!m_PlotFracPhaseMasses.empty()) m_PlotFracPhaseMasses.clear();
     if (!m_PlotFracPhaseExists.empty()) m_PlotFracPhaseExists.clear();
@@ -1461,15 +1462,20 @@ void ImGuiOpenGL::UpdateImGUI() {
                 ImGui::SameLine();
                 ImGui::BeginChild("UpperRight", ImVec2(ImGui::GetWindowContentRegionWidth() / 2.f, 60.f));
                 static int second_plot = 0;
+                static bool liq_fractionated = false;
                 ImGui::Dummy(ImVec2(15.f, 23.f));
                 ImGui::SameLine();
-                ImGui::PushItemWidth(150.f);
-                ImGui::Combo("Right plot", &second_plot, "Phases in magma\0Fractionated phases\0\0");
+                ImGui::PushItemWidth(180.f);
+                ImGui::Combo("Plot choice", &second_plot, "Phases in equilibrium\0Fractionated phases\0\0");
+                ImGui::SameLine();
+                ImGui::TextColored(ImVec4(1, 0, 0, 1), "(?)");
+                if (ImGui::IsItemActive() || ImGui::IsItemHovered())
+                    ImGui::SetTooltip("Fractionated phases displays cumulate solid and fluid phases on right plot or\naggregated (1-D) melt composition on left plot if liquid fractionation is active.\n");
 
                 static int x_axis_v = 0;
                 ImGui::Dummy(ImVec2(15.f, 23.f));
                 ImGui::SameLine();
-                ImGui::Combo("X-axis", &x_axis_v, "Temperature\0Pressure\0Enthalpy\0Entropy\0Melt fraction\0\0");
+                ImGui::Combo("X-axis", &x_axis_v, "Temperature\0Pressure\0Enthalpy\0Entropy\0Melt fraction (total)\0\0");
                 ImGui::PopItemWidth();
                 ImGui::EndChild();
 
@@ -1542,8 +1548,10 @@ void ImGuiOpenGL::UpdateImGUI() {
                     int added_items = plot_items - prev_size;
 
                     if (prev_size == 0) {
-                        for (int i = 0; i < 19; ++i)
+                        for (int i = 0; i < 19; ++i) {
                             m_PlotLiquidComp.push_back(std::vector<float>());
+                            m_PlotFracLiquidComp.push_back(std::vector<float>());
+                        }
 
                         for (size_t i = 0; i < _MI.GetPhasesVec().size(); ++i) {
                             m_PlotPhaseMasses.push_back(std::vector<float>(plot_items, 0.0));
@@ -1553,9 +1561,10 @@ void ImGuiOpenGL::UpdateImGUI() {
                         }
                     } else {
                         for (size_t i = 0; i < _MI.GetPhasesVec().size(); ++i) {
-                            for (int j = 0; j < added_items; ++j)
+                            for (int j = 0; j < added_items; ++j) {
                                 m_PlotPhaseMasses[i].push_back(0.f);
-                            m_PlotFracPhaseMasses[i].push_back(0.f);
+                                m_PlotFracPhaseMasses[i].push_back(0.f);
+                            }
                         }
                     }
 
@@ -1569,17 +1578,29 @@ void ImGuiOpenGL::UpdateImGUI() {
                         m_PlotPressures.push_back((float)_MI.GetData()[i].P);
                         m_PlotEnthalpy.push_back((float)_MI.GetData()[i].sys_prop_nofrac.enthalpy / 1000.f);
                         m_PlotEntropy.push_back((float)_MI.GetData()[i].sys_prop_nofrac.entropy);
-                        if (!_MI.GetData()[i].liq_properties.empty()) {
-			    m_PlotMeltFraction.push_back((float)_MI.GetData()[i].liq_properties.at(0).mass / _MI.GetData()[i].sys_properties.mass);
-			}
-			else {
-			  m_PlotMeltFraction.push_back(0.0f);
-			}
-			for (int j = 0; j < 19; ++j) {
-                            if (!_MI.GetData()[i].liquid_composition.empty())
+                        if (!std::isnan(_MI.GetData()[i].frac_liq_mass) && _MI.GetData()[i].frac_liq_mass > 0.0) {
+                            liq_fractionated = true;
+                            m_PlotMeltFraction.push_back((float)_MI.GetData()[i].frac_liq_mass /
+                                (_MI.GetData()[i].frac_liq_mass + _MI.GetData()[i].sys_properties.mass));
+                        }
+                        else if (!_MI.GetData()[i].liq_properties.empty()) {
+            			    m_PlotMeltFraction.push_back((float)_MI.GetData()[i].liq_properties.at(0).mass / _MI.GetData()[i].sys_properties.mass);
+			            }
+            			else {
+			                m_PlotMeltFraction.push_back(0.0f);
+            			}
+			            for (int j = 0; j < 19; ++j) {
+                            if (!_MI.GetData()[i].liquid_composition.empty()) {
                                 m_PlotLiquidComp.at(j).push_back((float)_MI.GetData()[i].liquid_composition.at(0)[j]);
+                            }
                             else {
                                 m_PlotLiquidComp.at(j).push_back(0.0f);
+                            }
+                            if (!_MI.GetData()[i].frac_liq_comp.empty()) {
+                                m_PlotFracLiquidComp.at(j).push_back((float)_MI.GetData()[i].frac_liq_comp[j]);
+                            }
+                            else {
+                                m_PlotFracLiquidComp.at(j).push_back(0.0f);
                             }
                         }
                         for (const auto &a : _MI.GetData()[i].sol_properties) {
@@ -1627,21 +1648,36 @@ void ImGuiOpenGL::UpdateImGUI() {
                 }
                 if (x_axis_v == 4) {
                     x_data_address = &m_PlotMeltFraction[0];
-                    x_axis_label = "X (melt)";
+                    x_axis_label = "F (total melt)";
                 }
 
                 ImGui::SetNextPlotRange(x_axis_low, x_axis_high, 0.f, 100.f);
-                if (ImGui::BeginPlot("Melt composition", x_axis_label, "Wt.%", {ImGui::GetWindowWidth() - 5.f, ImGui::GetWindowHeight()}, plot_flags, axis_flags, axis_flags_y)) {
-                    ImGui::PushPlotColor(ImPlotCol_MarkerFill, ImVec4(0, 0, 0, 0));
-                    ImGui::PushPlotStyleVar(ImPlotStyleVar_Marker, ImMarker_Circle);
-                    ImGui::PushPlotStyleVar(ImPlotStyleVar_MarkerSize, 3.f);
-                    for (int i = 0; i < 19; ++i) {
-                        if (show_element[i])
-                            ImGui::Plot(_MI.GetOxideNames()[i].c_str(), x_data_address, &m_PlotLiquidComp.at(i)[0], plot_items); //label, data_x, data_y, amount
+                if (!second_plot || !liq_fractionated) {
+                    if (ImGui::BeginPlot("Melt composition (equilibrium)", x_axis_label, "Wt.%", {ImGui::GetWindowWidth() - 5.f, ImGui::GetWindowHeight()}, plot_flags, axis_flags, axis_flags_y)) {
+                        ImGui::PushPlotColor(ImPlotCol_MarkerFill, ImVec4(0, 0, 0, 0));
+                        ImGui::PushPlotStyleVar(ImPlotStyleVar_Marker, ImMarker_Circle);
+                        ImGui::PushPlotStyleVar(ImPlotStyleVar_MarkerSize, 3.f);
+                        for (int i = 0; i < 19; ++i) {
+                            if (show_element[i])
+                                ImGui::Plot(_MI.GetOxideNames()[i].c_str(), x_data_address, &m_PlotLiquidComp.at(i)[0], plot_items); //label, data_x, data_y, amount
+                        }
+                        ImGui::PopPlotStyleVar(2);
+                        ImGui::PopPlotColor();
+                        ImGui::EndPlot();
                     }
-                    ImGui::PopPlotStyleVar(2);
-                    ImGui::PopPlotColor();
-                    ImGui::EndPlot();
+                } else {
+                    if (ImGui::BeginPlot("Melt composition (fractionated)", x_axis_label, "Wt.%", {ImGui::GetWindowWidth() - 5.f, ImGui::GetWindowHeight()}, plot_flags, axis_flags, axis_flags_y)) {
+                        ImGui::PushPlotColor(ImPlotCol_MarkerFill, ImVec4(0, 0, 0, 0));
+                        ImGui::PushPlotStyleVar(ImPlotStyleVar_Marker, ImMarker_Circle);
+                        ImGui::PushPlotStyleVar(ImPlotStyleVar_MarkerSize, 3.f);
+                        for (int i = 0; i < 19; ++i) {
+                            if (show_element[i])
+                                ImGui::Plot(_MI.GetOxideNames()[i].c_str(), x_data_address, &m_PlotFracLiquidComp.at(i)[0], plot_items); //label, data_x, data_y, amount
+                        }
+                        ImGui::PopPlotStyleVar(2);
+                        ImGui::PopPlotColor();
+                        ImGui::EndPlot();
+                    }
                 }
 
                 ImGui::EndChild(); //First child
@@ -1651,8 +1687,8 @@ void ImGuiOpenGL::UpdateImGUI() {
                 ImGui::BeginChild("Halfscreen2", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f - 37.5f, 0));
 
                 ImGui::SetNextPlotRange(x_axis_low, x_axis_high, 0.f, 100.f);
-                if (!second_plot) {
-                    if (ImGui::BeginPlot("Phases in magma", x_axis_label, "Mass (in magma)", {ImGui::GetWindowWidth() - 5.f, ImGui::GetWindowHeight()}, plot_flags, axis_flags, axis_flags_y)) {
+                if (!second_plot || liq_fractionated) {
+                    if (ImGui::BeginPlot("Phases in equilibrium", x_axis_label, "Mass (in magma)", {ImGui::GetWindowWidth() - 5.f, ImGui::GetWindowHeight()}, plot_flags, axis_flags, axis_flags_y)) {
                         ImGui::PushPlotColor(ImPlotCol_MarkerFill, ImVec4(0, 0, 0, 0));
                         ImGui::PushPlotStyleVar(ImPlotStyleVar_Marker, ImMarker_Circle);
                         ImGui::PushPlotStyleVar(ImPlotStyleVar_MarkerSize, 3.f);
@@ -1721,7 +1757,7 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::Text("License");
             ImGui::Separator();
 
-            ImGui::TextWrapped("easyMelts 0.3.0 (beta) Paula Antoshechkina (c) 2025"
+            ImGui::TextWrapped("easyMelts 0.3.0 maintained by Paula Antoshechkina (c) 2025"
                                 "\n\nOriginally created by Einari Suikkanen (c) 2020-2024"
                                 "\n\nSee License.txt distributed with this application for legal information.");
             ImGui::Spacing();
@@ -1729,8 +1765,8 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::Text("Information");
             ImGui::Separator();
             ImGui::TextWrapped(
-                "easyMelts is intended for thermodynamic modeling of phase equilibria\n"
-                "using the Melts engine and thermodynamic database by Mark S. Ghiorso.\n"
+                "easyMelts is intended for thermodynamic modeling of phase equilibria using\n"
+                "the Melts engine and thermodynamic database by Mark S. Ghiorso and co-workers.\n"
                 "Note that easyMelts is not connected to or endorsed by the author(s) of Melts."
                 //"\n\nThe prefix 'easy' does not imply that Melts is simple!\n"
                 //" Instead, it refers to a specific design philosophy:"

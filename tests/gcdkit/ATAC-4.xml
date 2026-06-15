@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MELTSinput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MELTSinput.xsd">
+  <initialize>
+    <modelSelection>MELTS_v1.2.x</modelSelection>
+    <SiO2>57.28</SiO2>
+    <TiO2>0.67</TiO2>
+    <Al2O3>16.5</Al2O3>
+    <Fe2O3>1.443</Fe2O3>
+    <Cr2O3>0.035</Cr2O3>
+    <FeO>6.332</FeO>
+    <MnO>0.12</MnO>
+    <MgO>5.42</MgO>
+    <NiO>0</NiO>
+    <CoO>0</CoO>
+    <CaO>7.12</CaO>
+    <Na2O>3.52</Na2O>
+    <K2O>0.76</K2O>
+    <P2O5>0.14</P2O5>
+    <H2O>5</H2O>
+    <CO2>0</CO2>
+  </initialize>
+  <calculationMode>equilibrate</calculationMode>
+  <title>ATAC-4</title>
+  <constraints>
+    <setTP>
+      <initialT>1200</initialT>
+      <finalT>700</finalT>
+      <incT>5</incT>
+      <initialP>3000</initialP>
+      <finalP>3000</finalP>
+      <incP>0</incP>
+      <dpdt>0</dpdt>
+      <fo2Path>nno</fo2Path>
+      <fo2Offset>0</fo2Offset>
+    </setTP>
+  </constraints>
+  <fractionationMode>fractionateNone</fractionationMode>
+</MELTSinput>

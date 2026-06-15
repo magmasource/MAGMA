@@ -58,6 +58,7 @@ private:
     std::vector<std::vector<float>> m_PlotPhaseMasses;
     std::vector<bool> m_PlotPhaseExists;
 
+    std::vector<std::vector<float>> m_PlotFracLiquidComp;
     std::vector<std::vector<float>> m_PlotFracPhaseMasses;
     std::vector<bool> m_PlotFracPhaseExists;
 
