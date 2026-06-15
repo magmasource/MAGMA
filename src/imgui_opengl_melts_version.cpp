@@ -393,7 +393,7 @@ void ImGuiOpenGL::UpdateImGUI() {
     ImGui::SetNextWindowPos(vec);
     ImGui::SetNextWindowSize(io.DisplaySize);
 
-    ImGui::Begin("easyMelts 0.3.0 (beta)", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse /*ImGuiWindowFlags_None*/);
+    ImGui::Begin("easyMelts 0.3.0", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse /*ImGuiWindowFlags_None*/);
 
     static int current_melts_version = 0;
     static const char *version_string = "";
@@ -1765,13 +1765,15 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::Text("Information");
             ImGui::Separator();
             ImGui::TextWrapped(
-                "easyMelts is intended for thermodynamic modeling of phase equilibria using\n"
-                "the Melts engine and thermodynamic database by Mark S. Ghiorso and co-workers.\n"
+                "easyMelts is intended for thermodynamic modeling of phase equilibria using the\n"
+                "Melts engine and thermodynamic database by Mark S. Ghiorso and co-workers.\n"
                 "Note that easyMelts is not connected to or endorsed by the author(s) of Melts."
-                //"\n\nThe prefix 'easy' does not imply that Melts is simple!\n"
-                //" Instead, it refers to a specific design philosophy:"
-                //" Software tools should be as intuitive and easy as possible, so that"
-                //" the scientist can fully concentrate on the science."
+                "\n\nThe prefix 'easy' does not imply that Melts is simple!\n"
+                "Instead, it refers to Einari's design philosophy: software tools should be as easy\n"
+                "and intuitive as possible, so that the scientist can fully concentrate on the science."
+                "\n\nTo get help: hover the mouse over each red (?) for important tips.\n"
+                "See README and Wiki for more info: https://github.com/magmasource/MAGMA\n"
+                "Check out GeoPlotters for useful Excel templates: https://www.geoplotters.com/"
 
                 "\n\nHave a pleasant day modeling!"
                 //"\n\nContact: einari.suikkanen[at]gmail.com\n\n");

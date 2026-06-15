@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    GLFWwindow* window = glfwCreateWindow(INITIAL_VIEWPORT_X, INITIAL_VIEWPORT_Y, "easyMelts 0.3.0 (beta)", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(INITIAL_VIEWPORT_X, INITIAL_VIEWPORT_Y, "easyMelts 0.3.0", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     glfwSetWindowSizeLimits(window, 1024, 768, GLFW_DONT_CARE, GLFW_DONT_CARE); //sets minimum window size 1024x768
