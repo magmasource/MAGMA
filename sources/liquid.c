@@ -6743,7 +6743,7 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
     int i;
     static double *sCorr;
     double factor = 1.0;
-#ifndef TESTDYNAMICLIB
+#ifdef TESTDYNAMICLIB
     double rSum, s0;
 #endif
 
@@ -6761,7 +6761,7 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
     /*for (i=0; i<NS; i++)  s[i] = 0.0;
     for (i=NS; i<NT; i++) s[i] = 1.0/(((double) NY)+1.0);*/
 
-#ifndef TESTDYNAMICLIB
+#ifdef TESTDYNAMICLIB
     /* A tweak for alkali-rich liquids where SiO2 tends to have negative mole fraction
         in the initial guess. Used for dynamically loaded library to help avoid doAbort. */
     for (i=0, rSum=0.0; i<NR; i++) rSum += r[i];
@@ -6818,7 +6818,7 @@ static void initialGuessOrdering(double r[NR], double s[NT]) {
     } /* end block on simplex method */
 
     for (i=0; i<NS; i++) {
-#ifndef TESTDYNAMICLIB
+#ifdef TESTDYNAMICLIB
         s0 = MAX(rSum - 1.0, 0.0);
         sCorr[i] = s0; s[i] = sCorr[i] + sqrt(DBL_EPSILON);
         if (!rANDsTOx (r, s)) s[i] = sCorr[i];
