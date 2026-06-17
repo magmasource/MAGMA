@@ -1767,11 +1767,11 @@ void ImGuiOpenGL::UpdateImGUI() {
             ImGui::TextWrapped(
                 "easyMelts is intended for thermodynamic modeling of phase equilibria using the\n"
                 "Melts engine and thermodynamic database by Mark S. Ghiorso and co-workers.\n"
-                "Note that easyMelts is not connected to or endorsed by the author(s) of Melts."
-                "\n\nThe prefix 'easy' does not imply that Melts is simple!\n"
-                "Instead, it refers to Einari's design philosophy: software tools should be as easy\n"
-                "and intuitive as possible, so that the scientist can fully concentrate on the science."
-                "\n\nTo get help: hover the mouse over each red (?) for important tips.\n"
+                "Note that easyMelts is not connected to or endorsed by the author(s) of Melts.\n\n"
+                "The prefix 'easy' does not imply that Melts is simple! Instead, it refers to\n"
+                "Einari's design philosophy: software tools should be as easy and intuitive as\n"
+                "possible, so that the scientist can fully concentrate on the science.\n\n"
+                "To get help: hover the mouse over each red (?) for important tips.\n"
                 "See README and Wiki for more info: https://github.com/magmasource/MAGMA\n"
                 "Check out GeoPlotters for useful Excel templates: https://www.geoplotters.com/"
 
