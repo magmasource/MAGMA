@@ -8,6 +8,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <algorithm>
+
 #include <cmath>
 #include <map>
 #include <utility>
