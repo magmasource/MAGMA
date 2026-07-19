@@ -83,16 +83,16 @@ endif
 # Libraries for xlsx, glfw, c functions and math functions (install with apt or build)
 # ====================================================================================
 
-LIBS    = -L/usr/lib/$(ROOTDIR1) -L/$(ROOTDIR2)/lib -lglfw -lGL -lfmt -lxlsxwriter
-PUBLIBS = /$(ROOTDIR2)/lib/libglfw3.a /$(ROOTDIR2)/lib/libfmt.a \
-    /$(ROOTDIR2)/lib/libxlsxwriter.a -L/usr/lib/$(ROOTDIR1) -lGL
+LIBS    = -L/usr/lib/$(ROOTDIR1) -L/$(ROOTDIR2)/lib -lfmt -lxlsxwriter -lglfw -lGL -lGLX -lGLdispatch
+PUBLIBS =  /$(ROOTDIR2)/lib/libfmt.a /$(ROOTDIR2)/lib/libxlsxwriter.a \
+	/$(ROOTDIR2)/lib/libglfw3.a -L/usr/lib/$(ROOTDIR1) -lGL -lGLX -lGLdispatch
 
 LIBF2C =
 LIBXML = -L/usr/lib/$(ROOTDIR1) -lgsl -lgslcblas -lxml2 -lz -lm
 
-LIBBATCH = /usr/lib/$(ROOTDIR1)/libgsl.a /usr/lib/$(ROOTDIR1)/libgslcblas.a \
+LIBBATCH = /$(ROOTDIR2)/lib/libgsl.a /$(ROOTDIR2)/lib/libgslcblas.a \
 	/usr/lib/$(ROOTDIR1)/libxml2.a /usr/lib/$(ROOTDIR1)/libicuio.a \
-    /usr/lib/$(ROOTDIR1)/libicuuc.a /usr/lib/$(ROOTDIR1)/libicudata.a \
+    	/usr/lib/$(ROOTDIR1)/libicuuc.a /usr/lib/$(ROOTDIR1)/libicudata.a \
 	/usr/lib/$(ROOTDIR1)/liblzma.a /usr/lib/$(ROOTDIR1)/libz.a \
 	-static-libstdc++ -lstdc++ -static-libgcc -lpthread -ldl -lm
 
