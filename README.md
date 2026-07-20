@@ -8,4 +8,10 @@ In this repository the original standalone rhyolite-MELTS (v 1.0.2, 1.1.x, 1.2.x
 
 Both easyMelts and Melts-batch are provided for all macOS, Linux and Windows platforms. The Melts-batch executable can be used outside of MCS to simulate the MELTS web services (see the [schema documentation](http://melts.ofm-research.org/web0services.html)) and will be integrated in an upcoming release of the [GeoChemical Data toolkit](https://gcdkit.org/index.php) ([GCDkit](https://gcdkit.org/index.php)). No installation should be required for easyMelts or Melts-batch but more details will be provided in the Wiki soon.
 
-<!--## Downloading and running the software (MacOS, Linux or Windows) ##-->
+## Downloading and running the software (MacOS, Linux or Windows) ##
+
+Compiled executables for easyMelts and Melts-batch can be found by following the links below **Releases** to the right. Clicking the [Latest](https://github.com/magmasource/MAGMA/releases/latest) button will take you to the latest stable release for Intel (x86_64) and ARM64 (also known as AArch64) processors, including Apple silicon, running macOS, Windows 11 or Linux. Click on **Assets** to see the list of the zipped archives and checksums. The Linux executables were built on Ubuntu but are known to work on some Fedora-based systems.
+
+Clicking the link below (e.g. [+4 releases](https://github.com/magmasource/MAGMA/releases)) will take you to the most recent beta version for testing. Not all OS and chipsets will be posted. If your combination is not listed and you are interested in trying out the newest software, please [contact Paula](mailto:psmith@gps.caltech.edu).
+
+Information on running easyMelts and Melts-batch can be found in the repository Wiki linked at the top of the page.
