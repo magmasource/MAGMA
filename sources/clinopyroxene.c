@@ -55,21 +55,21 @@ MELTS Source Code: RCS
  * New Name for Pyroxene.c (orthopyroxene.c has been revised)
  *
 */
- 
+
 /*
 **++
 **  FACILITY:  Silicate Melts Regression/Crystallization Package
 **
 **  MODULE DESCRIPTION:
 **
-**      Routines to compute pyroxene solution properties 
-**      (file: CLINOPYROXENE.C) 
+**      Routines to compute pyroxene solution properties
+**      (file: CLINOPYROXENE.C)
 **
 **  MODIFICATION HISTORY:
 **
 **      V1.0-1  Mark S. Ghiorso  October 19, 1991 Original Version - started
 **              Canalbalized SPINEL.C file
-**                               October 24, 1991 - finished 
+**                   October 24, 1991 - finished
 **              Mark S. Ghiorso  October 31, 1991
 **              (1) Corrected definition of W12 in terms of WFEMG
 **              (2) Added Na (X6) Taylor coefficients
@@ -82,7 +82,7 @@ MELTS Source Code: RCS
 **                  both mg and fe2 by 2 DBL_EPSILON. This insures a decrease
 **                  of at least 1 DBL_EPSILON should round off occur.
 **      V1.0-3  Mark S. Ghiorso  January 29, 1992
-**              (1) Altered initialization of automatic arrays to conform 
+**              (1) Altered initialization of automatic arrays to conform
 **                  with the ANSI standard (DEC C RISC)
 **      V1.0-4  Mark S. Ghiorso  February 19, 1992
 **              Corrected casting violations for ANSI C compliance
@@ -103,10 +103,10 @@ MELTS Source Code: RCS
 **                  of pyroxenes from microprobe analyses
 **      V1.0-10 Mark S. Ghiorso  May 18, 1992
 **              (1) Altered convergence criteria in ordering routine to allow
-**                  for zero ferric, ferrous, magnesium and aluminum 
+**                  for zero ferric, ferrous, magnesium and aluminum
 **                  concentrations
 **      V1.0-11 Mark S. Ghiorso  May 19, 1992
-**              (1) Corrected error in totMg calculation within ordering 
+**              (1) Corrected error in totMg calculation within ordering
 **                  routine
 **      V1.0-12 Mark S. Ghiorso  May 21, 1992
 **              (1) Corrected ferric iron allocation problem in conPyx
@@ -152,9 +152,9 @@ MELTS Source Code: RCS
 **      V3.1-7  Mark S. Ghiorso  July 1, 1993
 **              (1) Added macros for control of regression problem
 **      V3.1-8  Mark S. Ghiorso  July 12, 1993
-**              (1) Modified order() function to test for near zero 
+**              (1) Modified order() function to test for near zero
 **                  quantitites of Fe3+
-**              (2) Modified convert routine to set min and max levels of 
+**              (2) Modified convert routine to set min and max levels of
 **                  Fe2+ and Fe3+ estimated from probe analyses
 **      V3.1-9  Mark S. Ghiorso  July 19, 1993
 **              (1) Updated quadrilateral model with the final solution.
@@ -165,16 +165,16 @@ MELTS Source Code: RCS
 **                  isochoric derivatives
 **      V5.0-2  Mark S. Ghiorso  May 17, 1994
 **              (1) Changed definition of the enthalpy of mixing
-**	V5.0-3  Paul D. Asimow March 30, 1995
-**		Use previous solution as intial guess to order if conditions are not
-**		too different (dT < 5 C, dP < 100 b, dr/r < 2%)
-**	V5.0-4  Paul D. Asimow June 7, 1995
-**		New test in testPyx(FIFTH, SIXTH) for strange high pressure error
-**	V5.0-5  Paul D. Asimow July 25, 1995
-**		(1) New test in testPyx(FIFTH, SIXTH) for NaTiAlSiO6 error
-**		(2) Fix test for Al3+ in testPyx(SIXTH)
-**	V6.0-1  Paul D. Asimow  July 31, 1995
-**		(1) added d3rdm3 to (*convert) and d3gdr3 to (*gmix)
+**      V5.0-3  Paul D. Asimow March 30, 1995
+**              Use previous solution as intial guess to order if conditions are not
+**              too different (dT < 5 C, dP < 100 b, dr/r < 2%)
+**      V5.0-4  Paul D. Asimow June 7, 1995
+**              New test in testPyx(FIFTH, SIXTH) for strange high pressure error
+**      V5.0-5  Paul D. Asimow July 25, 1995
+**              (1) New test in testPyx(FIFTH, SIXTH) for NaTiAlSiO6 error
+**              (2) Fix test for Al3+ in testPyx(SIXTH)
+**      V6.0-1  Paul D. Asimow  July 31, 1995
+**              (1) added d3rdm3 to (*convert) and d3gdr3 to (*gmix)
 **--
 */
 
@@ -196,6 +196,7 @@ MELTS Source Code: RCS
 
 #include "melts_gsl.h"
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
+#include "reinit.h"
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
@@ -380,7 +381,7 @@ MELTS Source Code: RCS
 #define oV027    (oV0FS)-(oV0EN)+2.0*(oV0DI)-2.0*(oV0HD)
 #define cV027    (cV0FS)-(cV0EN)+2.0*(cV0DI)-2.0*(cV0HD)
 #define cH027    (oH027)+(DH3)-(DH2)-2.0*(DH1)-2.0*(DH4)
-#define cS027    (oS027)+(DS3)-(DS2)-2.0*(DS1)-2.0*(DS4) 
+#define cS027    (oS027)+(DS3)-(DS2)-2.0*(DS1)-2.0*(DS4)
 
 #define  DG1     (DH1)-t*(DS1)+(p-1.0)*DV1
 #define  DG2     (DH2)-t*(DS2)+(p-1.0)*DV2
@@ -486,7 +487,7 @@ MELTS Source Code: RCS
 #define  DcTOpG7 (DcTOpH7)-t*(DcTOpS7)+(p-1.0)*(DcTOpV7)
 
 /*
- * Vertices of composition space 
+ * Vertices of composition space
  */
 
          /* (Ca)(Mg)(Si)2 O6 */
@@ -514,7 +515,7 @@ MELTS Source Code: RCS
 #define  S5      (clino) ? 0.0 : (DcTOoS5)
 #define  V5      (clino) ? 0.0 : (DcTOoV5)
 #define  G5      (clino) ? 0.0 : (DcTOoG5)
-         /* (Na) (Al) (Si)2 O6 */ 
+         /* (Na) (Al) (Si)2 O6 */
 #define  H6      (clino) ? 0.0 : (DcTOoH6)
 #define  S6      (clino) ? 0.0 : (DcTOoS6)
 #define  V6      (clino) ? 0.0 : (DcTOoV6)
@@ -551,7 +552,7 @@ MELTS Source Code: RCS
 #define  pS5     (clino) ? (DcTOpS5) : 0.0
 #define  pV5     (clino) ? (DcTOpV5) : 0.0
 #define  pG5     (clino) ? (DcTOpG5) : 0.0
-         /* (Na) (Al) (Si)2 O6 */ 
+         /* (Na) (Al) (Si)2 O6 */
 #define  pHj     (clino) ? (DcTOpHj) : 0.0
 #define  pSj     (clino) ? (DcTOpSj) : 0.0
 #define  pVj     (clino) ? (DcTOpVj) : 0.0
@@ -573,22 +574,22 @@ MELTS Source Code: RCS
 #define HX4   (H4)-(H1) + (W14)
 #define HX5   (H5)-(H1) + 0.5*((W15)+(W15P)+(H55))
 #define HX6   (H6) + 0.5*((H4)-(H1)-(H3)-(H5)) - 0.5*(W13) + 0.5*(W14) \
-              + 0.25*(W15) - 0.75*(W15P) + (W16) - 0.75*(H55)
+                + 0.25*(W15) - 0.75*(W15P) + (W16) - 0.75*(H55)
 #define HX7   (H7)-(H1) + (pH1) + 0.5*((WHCAFE)+(WHCAMG)-(WH12)) \
-              + 0.25*((HEX)+(HX)+(H027)) + 0.5*(DWHCAMG) - 1.5*(DWHCAFE)
+                + 0.25*((HEX)+(HX)+(H027)) + 0.5*(DWHCAMG) - 1.5*(DWHCAFE)
 
 #define HS1   0.5*((W15)-(W15P)-(H55))
 #define HS2   0.5*((WHCAFE)-(WHCAMG)-(WH12)) + 0.25*((HEX)+(HX)+(H027)) \
-              - 0.5*(DWHCAMG) - 1.5*(DWHCAFE)
+                - 0.5*(DWHCAMG) - 1.5*(DWHCAFE)
 
 #define HX2X2 -(WH12)
 #define HX2X3 2.0*(H23) - 0.5*(WH12)
 #define HX2X4 2.0*(H24) - 0.5*(WH12)
 #define HX2X5 0.5*((W25)+(W25P)-(W15)-(W15P)) - (WH12)
 #define HX2X6 (W26)-(W16) + 0.25*((W25)-(W15)) - 0.75*((W25P)-(W15P)) \
-              + (H24) - (H23) - 0.5*(WH12)
+                + (H24) - (H23) - 0.5*(WH12)
 #define HX2X7 (pH2)-(pH1) + (WH12) + 0.5*((H027)-(HEX)) - 2.0*(DWHCAMG) \
-              + 2.0*(DWHCAFE)
+                + 2.0*(DWHCAFE)
 #define HX2S1 0.5*((W25)-(W25P)-(W15)+(W15P))
 #define HX2S2 (WH12) - 0.5*(HX) + 2.0*(DWHCAMG) + 2.0*(DWHCAFE)
 
@@ -596,64 +597,64 @@ MELTS Source Code: RCS
 #define HX3X4 (W34) - (W13) - (W14)
 #define HX3X5 0.5*((W35)+(W35P)-(W15)-(W15P)) - (W13)
 #define HX3X6 (W36)-(W16) + 0.25*((W35)-(W15)) + 0.5*((W34)-(W14)) \
-              - 0.75*((W35P)-(W15P))
+                - 0.75*((W35P)-(W15P))
 #define HX3X7 0.125*((H027)-(HEX)-(HX))+0.5*((W37)+(W3U7U)-(WHCAFE)-(WHCAMG)) \
-              - 1.5*(H23) - (W13) + 0.25*(WH12) - (DWHCAMG) + (DWHCAFE) \
-              + (pH3)-(pH1)
+                - 1.5*(H23) - (W13) + 0.25*(WH12) - (DWHCAMG) + (DWHCAFE) \
+                + (pH3)-(pH1)
 #define HX3S1 0.5*((W35)-(W35P)-(W15)+(W15P))
 #define HX3S2 0.125*((H027)-(HEX)-(HX))+0.5*((W3U7U)-(W37)+(WHCAMG)-(WHCAFE)) \
-              - 1.5*(H23) + 0.25*(WH12) + (DWHCAMG) + (DWHCAFE)
+                - 1.5*(H23) + 0.25*(WH12) + (DWHCAMG) + (DWHCAFE)
 
 #define HX4X4 -(W14)
 #define HX4X5 0.5*((W45)+(W45P)-(W15)-(W15P)) - (W14)
 #define HX4X6 (W46)-(W16)-(W14) + 0.25*((W45)-(W15)) - 0.5*((W34)-(W13)) \
-              - 0.75*((W45P)-(W15P))
+                - 0.75*((W45P)-(W15P))
 #define HX4X7 0.125*((H027)-(HEX)-(HX))+0.5*((W47)+(W4U7U)-(WHCAFE)-(WHCAMG)) \
-              - 1.5*(H24) - (W14) + 0.25*(WH12) - (DWHCAMG) + (DWHCAFE) \
-              + (pH4)-(pH1)
+                - 1.5*(H24) - (W14) + 0.25*(WH12) - (DWHCAMG) + (DWHCAFE) \
+                + (pH4)-(pH1)
 #define HX4S1 0.5*((W45)-(W45P)-(W15)+(W15P))
 #define HX4S2 0.125*((H027)-(HEX)-(HX))+0.5*((W4U7U)-(W47)+(WHCAMG)-(WHCAFE)) \
-              - 1.5*(H24) + 0.25*(WH12) + (DWHCAMG) + (DWHCAFE)
+                - 1.5*(H24) + 0.25*(WH12) + (DWHCAMG) + (DWHCAFE)
 
 #define HX5X5 0.25*(W55) - 0.5*((W15)+(W15P))
 #define HX5X6 0.5*((W56)+(W5P6)-(W15)+(W15P)-2.0*(W16)) - 0.25*(W55) \
-              + 0.25*((W45)+(W45P)-2.0*(W14)) - 0.25*((W35)+(W35P)-2.0*(W13))
+                + 0.25*((W45)+(W45P)-2.0*(W14)) - 0.25*((W35)+(W35P)-2.0*(W13))
 #define HX5X7 0.25*((H027)-(HEX)-(HX)) + 0.25*((W57U)+(W5P7U)+(W57)+(W5P7)) \
-              - 0.5*((WHCAFE)+(WHCAMG)+(W25)+(W25P)-(WH12)) - (DWHCAMG) \
-              + 2.0*(DWHCAFE) + (pH5)-(pH1)
+                - 0.5*((WHCAFE)+(WHCAMG)+(W25)+(W25P)-(WH12)) - (DWHCAMG) \
+                + 2.0*(DWHCAFE) + (pH5)-(pH1)
 #define HX5S1 - 0.5*((W15)-(W15P))
 #define HX5S2 0.25*((H027)-(HEX)-(HX)) + 0.25*((W57U)+(W5P7U)-(W57)-(W5P7)) \
-              + 0.5*((W15)+(W15P)-(W25)-(W25P)+(WHCAMG)-(WHCAFE)+(WH12)) \
-              + (DWHCAMG) + 2.0*(DWHCAFE)
+                + 0.5*((W15)+(W15P)-(W25)-(W25P)+(WHCAMG)-(WHCAFE)+(WH12)) \
+                + (DWHCAMG) + 2.0*(DWHCAFE)
 
 #define HX6X6 0.25*(W56) - 0.75*(W5P6) + 0.5*((W46)-(W36)-(W16)) \
-              - 0.1875*(W55) + 0.125*((W45)-(W35)-(W15)) \
-              - 0.375*((W45P)-(W35P)-(W15P)) - 0.25*((W34)+(W14)-(W13))
+                - 0.1875*(W55) + 0.125*((W45)-(W35)-(W15)) \
+                - 0.375*((W45P)-(W35P)-(W15P)) - 0.25*((W34)+(W14)-(W13))
 #define HX6X7 0.5*((W67)+(W67U)) - 0.375*((W5P7)+(W5P7U)) \
-              + 0.125*((W57)+(W57U)) + 0.25*((W47)+(W4U7U)) \
-              - 0.25*((W37)+(W3U7U)) - (W26) - 0.25*(W25) + 0.75*(W25P) \
-              - 0.5*((W14)-(W13)) + 0.25*(WH12) - 0.25*((WHCAFE)+(WHCAMG)) \
-              - 0.125*((HEX)+(HX)-(H027)) - 0.75*((H24)-(H23)) \
-              - 0.50*(DWHCAMG) + (DWHCAFE) + (pHj)-0.5*((pH1)+(pH3)-(pH4)+(pH5))
+                + 0.125*((W57)+(W57U)) + 0.25*((W47)+(W4U7U)) \
+                - 0.25*((W37)+(W3U7U)) - (W26) - 0.25*(W25) + 0.75*(W25P) \
+                - 0.5*((W14)-(W13)) + 0.25*(WH12) - 0.25*((WHCAFE)+(WHCAMG)) \
+                - 0.125*((HEX)+(HX)-(H027)) - 0.75*((H24)-(H23)) \
+                - 0.50*(DWHCAMG) + (DWHCAFE) + (pHj)-0.5*((pH1)+(pH3)-(pH4)+(pH5))
 #define HX6S1 0.5*((W56)-(W5P6)) + 0.25*((W45)-(W45P)) - 0.25*((W35)-(W35P)) \
-              - 0.25*((W15)-(W15P)) - 0.5*(W55)
+                - 0.25*((W15)-(W15P)) - 0.5*(W55)
 #define HX6S2 0.5*((W67U)-(W67)) + 0.125*((W57U)-(W57)) \
-              + 0.375*((W5P7)-(W5P7U)) + 0.25*((W4U7U)-(W47)) \
-              + 0.25*((W37)-(W3U7U)) + (W16)-(W26) + 0.75*((W25P)-(W15P)) \
-              + 0.25*((W15)-(W25)) + 0.25*(WH12) - 0.25*((WHCAFE)-(WHCAMG)) \
-              - 0.125*((HEX)+(HX)-(H027)) - 0.75*((H24)-(H23)) \
-              + 0.50*(DWHCAMG) + (DWHCAFE)
+                + 0.375*((W5P7)-(W5P7U)) + 0.25*((W4U7U)-(W47)) \
+                + 0.25*((W37)-(W3U7U)) + (W16)-(W26) + 0.75*((W25P)-(W15P)) \
+                + 0.25*((W15)-(W25)) + 0.25*(WH12) - 0.25*((WHCAFE)-(WHCAMG)) \
+                - 0.125*((HEX)+(HX)-(H027)) - 0.75*((H24)-(H23)) \
+                + 0.50*(DWHCAMG) + (DWHCAFE)
 
 #define HX7X7 0.25*((HEX)-(H027)) - 0.5*((WHCAFE)+(WHCAMG)) \
-              + 0.25*((WHFEMG)-(WH12)) + 0.75*(DWHCAMG) + 0.25*(DWHCAFE) \
-              + (pH7)-(pH1)+0.25*((dH027)+(dHEX)+(dHX))
+                + 0.25*((WHFEMG)-(WH12)) + 0.75*(DWHCAMG) + 0.25*(DWHCAFE) \
+                + (pH7)-(pH1)+0.25*((dH027)+(dHEX)+(dHX))
 #define HX7S1 0.25*((W57U)+(W57)-(W5P7U)-(W5P7)) - 0.5*((W25)-(W25P))
 #define HX7S2 0.5*((WHCAMG)-(WHCAFE)-(WH12)) + 0.25*((HEX)+(HX)-(H027)) \
-              + 1.5*(DWHCAMG) - 1.5*(DWHCAFE) + 0.25*((dH027)+(dHEX)+(dHX))    
+                + 1.5*(DWHCAMG) - 1.5*(DWHCAFE) + 0.25*((dH027)+(dHEX)+(dHX))
 
 #define HS1S1 -0.25*(W55)
 #define HS1S2 0.25*((W57U)+(W5P7)-(W5P7U)-(W57)) \
-              + 0.5*((W25P)-(W25)+(W15)-(W15P))
+                + 0.5*((W25P)-(W25)+(W15)-(W15P))
 
 #define HS2S2 0.25*((HX)-(WHFEMG)-(WH12)) - 2.25*(DWHCAMG) - 1.75*(DWHCAFE)
 
@@ -747,13 +748,13 @@ MELTS Source Code: RCS
 
 #define SX5X5 0.0
 #define SX5X6 0.0
-#define SX5X7 0.25*(S027) + (pS5)-(pS1) 
+#define SX5X7 0.25*(S027) + (pS5)-(pS1)
 #define SX5S1 0.0
-#define SX5S2 0.25*(S027) 
+#define SX5S2 0.25*(S027)
 
 #define SX6X6 0.0
 #define SX6X7 0.125*(S027) - 0.75*((S24)-(S23)) \
-              + (pSj)-0.5*((pS1)+(pS3)-(pS4)+(pS5))
+                + (pSj)-0.5*((pS1)+(pS3)-(pS4)+(pS5))
 #define SX6S1 0.0
 #define SX6S2 0.125*(S027) - 0.75*((S24)-(S23))
 
@@ -785,11 +786,11 @@ MELTS Source Code: RCS
 #define VX5   (V5)-(V1)
 #define VX6   (V6) + 0.5*((V4)-(V1)-(V3)-(V5))
 #define VX7   (V7)-(V1) + (pV1) + 0.5*((WVCAFE)+(WVCAMG)-(WV12)) \
-              + 0.25*((VEX)+(VX)+(V027)) + 0.5*(DWVCAMG) - 1.5*(DWVCAFE)
+                + 0.25*((VEX)+(VX)+(V027)) + 0.5*(DWVCAMG) - 1.5*(DWVCAFE)
 
 #define VS1   0.0
 #define VS2   0.5*((WVCAFE)-(WVCAMG)-(WV12)) + 0.25*((VEX)+(VX)+(V027)) \
-              - 0.5*(DWVCAMG) - 1.5*(DWVCAFE)
+                - 0.5*(DWVCAMG) - 1.5*(DWVCAFE)
 
 #define VX2X2 -(WV12)
 #define VX2X3 -0.5*(WV12)
@@ -797,7 +798,7 @@ MELTS Source Code: RCS
 #define VX2X5 -(WV12)
 #define VX2X6 -0.5*(WV12)
 #define VX2X7 (pV2)-(pV1) + (WV12) + 0.5*((V027)-(VEX)) - 2.0*(DWVCAMG) \
-              + 2.0*(DWVCAFE)
+                + 2.0*(DWVCAFE)
 #define VX2S1 0.0
 #define VX2S2 (WV12) - 0.5*(VX) + 2.0*(DWVCAMG) + 2.0*(DWVCAFE)
 
@@ -806,42 +807,42 @@ MELTS Source Code: RCS
 #define VX3X5 0.0
 #define VX3X6 0.0
 #define VX3X7 0.125*((V027)-(VEX)-(VX)) - 0.5*((WVCAFE)+(WVCAMG)) \
-              + 0.25*(WV12) - (DWVCAMG) + (DWVCAFE) + (pV3)-(pV1)
+                + 0.25*(WV12) - (DWVCAMG) + (DWVCAFE) + (pV3)-(pV1)
 #define VX3S1 0.0
 #define VX3S2 0.125*((V027)-(VEX)-(VX)) + 0.5*((WVCAMG)-(WVCAFE)) \
-              + 0.25*(WV12) + (DWVCAMG) + (DWVCAFE)
+                + 0.25*(WV12) + (DWVCAMG) + (DWVCAFE)
 
 #define VX4X4 0.0
 #define VX4X5 0.0
 #define VX4X6 0.0
 #define VX4X7 0.125*((V027)-(VEX)-(VX)) - 0.5*((WVCAFE)+(WVCAMG)) \
-              + 0.25*(WV12) - (DWVCAMG) + (DWVCAFE) + (pV4)-(pV1)
+                + 0.25*(WV12) - (DWVCAMG) + (DWVCAFE) + (pV4)-(pV1)
 #define VX4S1 0.0
 #define VX4S2 0.125*((V027)-(VEX)-(VX)) + 0.5*((WVCAMG)-(WVCAFE)) \
-              + 0.25*(WV12) + (DWVCAMG) + (DWVCAFE)
+                + 0.25*(WV12) + (DWVCAMG) + (DWVCAFE)
 
 #define VX5X5 0.0
 #define VX5X6 0.0
 #define VX5X7 0.25*((V027)-(VEX)-(VX)) - 0.5*((WVCAFE)+(WVCAMG)-(WV12)) \
-              - (DWVCAMG) + 2.0*(DWVCAFE) + (pV5)-(pV1)
+                - (DWVCAMG) + 2.0*(DWVCAFE) + (pV5)-(pV1)
 #define VX5S1 0.0
 #define VX5S2 0.25*((V027)-(VEX)-(VX)) + 0.5*((WVCAMG)-(WVCAFE)+(WV12)) \
-              + (DWVCAMG) + 2.0*(DWVCAFE)
+                + (DWVCAMG) + 2.0*(DWVCAFE)
 
 #define VX6X6 0.0
 #define VX6X7 0.25*(WV12) - 0.25*((WVCAFE)+(WVCAMG)) \
-              - 0.125*((VEX)+(VX)-(V027)) - 0.5*(DWVCAMG) + (DWVCAFE) \
-              + (pVj)-0.5*((pV1)+(pV3)-(pV4)+(pV5))
+                - 0.125*((VEX)+(VX)-(V027)) - 0.5*(DWVCAMG) + (DWVCAFE) \
+                + (pVj)-0.5*((pV1)+(pV3)-(pV4)+(pV5))
 #define VX6S1 0.0
 #define VX6S2 0.25*(WV12) - 0.25*((WVCAFE)-(WVCAMG)) \
-              - 0.125*((VEX)+(VX)-(V027)) + 0.5*(DWVCAMG) + (DWVCAFE)
+                - 0.125*((VEX)+(VX)-(V027)) + 0.5*(DWVCAMG) + (DWVCAFE)
 
 #define VX7X7 0.25*((VEX)-(V027)) - 0.5*((WVCAFE)+(WVCAMG)) \
-              + 0.25*((WVFEMG)-(WV12)) + 0.75*(DWVCAMG) + 0.25*(DWVCAFE) \
-              + (pV7)-(pV1)+0.25*((dV027)+(dVEX)+(dVX))
+                + 0.25*((WVFEMG)-(WV12)) + 0.75*(DWVCAMG) + 0.25*(DWVCAFE) \
+                + (pV7)-(pV1)+0.25*((dV027)+(dVEX)+(dVX))
 #define VX7S1 0.0
 #define VX7S2 0.5*((WVCAMG)-(WVCAFE)-(WV12)) + 0.25*((VEX)+(VX)-(V027)) \
-              + 1.5*(DWVCAMG) - 1.5*(DWVCAFE) + 0.25*((dV027)+(dVEX)+(dVX))
+                + 1.5*(DWVCAMG) - 1.5*(DWVCAFE) + 0.25*((dV027)+(dVEX)+(dVX))
 
 #define VS1S1 0.0
 #define VS1S2 0.0
@@ -898,7 +899,7 @@ MELTS Source Code: RCS
 #define VX7S2S2 2.5*(DWVCAMG) + 1.5*(DWVCAFE) + 0.25*(dVX)
 
 /*
- * Global (to this file): variables 
+ * Global (to this file): variables
  */
 
 /*******************************/
@@ -910,32 +911,32 @@ static MTHREAD_ONCE_T initThreadCBlock = MTHREAD_ONCE_INIT;
 static MTHREAD_KEY_T clinoKey;
 
 static void threadCInit(void) {
-  MTHREAD_KEY_CREATE(&clinoKey, free);
+    MTHREAD_KEY_CREATE(&clinoKey, free);
 }
 
 static int getClino() {
-  int *clinoPt;
-  MTHREAD_ONCE(&initThreadCBlock, threadCInit);
-  
-  clinoPt = (int *) MTHREAD_GETSPECIFIC(clinoKey);   
-  if (clinoPt == NULL) { 
-    clinoPt  = (int *) malloc(sizeof(int)); 
-    *clinoPt = FALSE;    
-    MTHREAD_SETSPECIFIC(clinoKey, (void *) clinoPt);
-  }
-  return *clinoPt;
+    int *clinoPt;
+    MTHREAD_ONCE(&initThreadCBlock, threadCInit);
+
+    clinoPt = (int *) MTHREAD_GETSPECIFIC(clinoKey);
+    if (clinoPt == NULL) {
+        clinoPt  = (int *) malloc(sizeof(int));
+        *clinoPt = FALSE;
+        MTHREAD_SETSPECIFIC(clinoKey, (void *) clinoPt);
+    }
+    return *clinoPt;
 }
 
 static void setClino(int clino) {
-  int *clinoPt;  
-  MTHREAD_ONCE(&initThreadCBlock, threadCInit);
-  
-  clinoPt = (int *) MTHREAD_GETSPECIFIC(clinoKey);   
-  if (clinoPt == NULL) { 
-    clinoPt  = (int *) malloc(sizeof(int));   
-    MTHREAD_SETSPECIFIC(clinoKey, (void *) clinoPt);
-  }
-  *clinoPt = clino;
+    int *clinoPt;
+    MTHREAD_ONCE(&initThreadCBlock, threadCInit);
+
+    clinoPt = (int *) MTHREAD_GETSPECIFIC(clinoKey);
+    if (clinoPt == NULL) {
+        clinoPt  = (int *) malloc(sizeof(int));
+        MTHREAD_SETSPECIFIC(clinoKey, (void *) clinoPt);
+    }
+    *clinoPt = clino;
 }
 
 /*************************************/
@@ -1129,107 +1130,107 @@ static gsl_permutation *getIndexD2gds2() {
 }
 
 static double getTOldPure() {
-  double *tOldPurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPurePt = (double *) MTHREAD_GETSPECIFIC(tOldPureKey);   
-  if (tOldPurePt == NULL) {
-    tOldPurePt  = (double *) malloc(sizeof(double)); 
-    *tOldPurePt = -9999.0;    
-    MTHREAD_SETSPECIFIC(tOldPureKey, (void *) tOldPurePt);
-  }
-  return *tOldPurePt;
+    double *tOldPurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    tOldPurePt = (double *) MTHREAD_GETSPECIFIC(tOldPureKey);
+    if (tOldPurePt == NULL) {
+        tOldPurePt  = (double *) malloc(sizeof(double));
+        *tOldPurePt = -9999.0;
+        MTHREAD_SETSPECIFIC(tOldPureKey, (void *) tOldPurePt);
+    }
+    return *tOldPurePt;
 }
 
 static void setTOldPure(double tOldPure) {
-  double *tOldPurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPurePt = (double *) MTHREAD_GETSPECIFIC(tOldPureKey);   
-  if (tOldPurePt == NULL) {
-    tOldPurePt  = (double *) malloc(sizeof(double)); 
-    *tOldPurePt = -9999.0;    
-    MTHREAD_SETSPECIFIC(tOldPureKey, (void *) tOldPurePt);
-  }
-  *tOldPurePt = tOldPure;
+    double *tOldPurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    tOldPurePt = (double *) MTHREAD_GETSPECIFIC(tOldPureKey);
+    if (tOldPurePt == NULL) {
+        tOldPurePt  = (double *) malloc(sizeof(double));
+        *tOldPurePt = -9999.0;
+        MTHREAD_SETSPECIFIC(tOldPureKey, (void *) tOldPurePt);
+    }
+    *tOldPurePt = tOldPure;
 }
 
 static double getPOldPure() {
-  double *pOldPurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPurePt = (double *) MTHREAD_GETSPECIFIC(pOldPureKey);   
-  if (pOldPurePt == NULL) {
-    pOldPurePt  = (double *) malloc(sizeof(double)); 
-    *pOldPurePt = -9999.0;    
-    MTHREAD_SETSPECIFIC(pOldPureKey, (void *) pOldPurePt);
-  }
-  return *pOldPurePt;
+    double *pOldPurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    pOldPurePt = (double *) MTHREAD_GETSPECIFIC(pOldPureKey);
+    if (pOldPurePt == NULL) {
+        pOldPurePt  = (double *) malloc(sizeof(double));
+        *pOldPurePt = -9999.0;
+        MTHREAD_SETSPECIFIC(pOldPureKey, (void *) pOldPurePt);
+    }
+    return *pOldPurePt;
 }
 
 static void setPOldPure(double pOldPure) {
-  double *pOldPurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPurePt = (double *) MTHREAD_GETSPECIFIC(pOldPureKey);   
-  if (pOldPurePt == NULL) {
-    pOldPurePt  = (double *) malloc(sizeof(double)); 
-    *pOldPurePt = -9999.0;    
-    MTHREAD_SETSPECIFIC(pOldPureKey, (void *) pOldPurePt);
-  }
-  *pOldPurePt = pOldPure;
+    double *pOldPurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    pOldPurePt = (double *) MTHREAD_GETSPECIFIC(pOldPureKey);
+    if (pOldPurePt == NULL) {
+        pOldPurePt  = (double *) malloc(sizeof(double));
+        *pOldPurePt = -9999.0;
+        MTHREAD_SETSPECIFIC(pOldPureKey, (void *) pOldPurePt);
+    }
+    *pOldPurePt = pOldPure;
 }
 
 static double getSOldPure() {
-  double *sOldPurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  sOldPurePt = (double *) MTHREAD_GETSPECIFIC(sOldPureKey);   
-  if (sOldPurePt == NULL) {
-    sOldPurePt  = (double *) malloc(sizeof(double)); 
-    *sOldPurePt = -9999.0;    
-    MTHREAD_SETSPECIFIC(sOldPureKey, (void *) sOldPurePt);
-  }
-  return *sOldPurePt;
+    double *sOldPurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    sOldPurePt = (double *) MTHREAD_GETSPECIFIC(sOldPureKey);
+    if (sOldPurePt == NULL) {
+        sOldPurePt  = (double *) malloc(sizeof(double));
+        *sOldPurePt = -9999.0;
+        MTHREAD_SETSPECIFIC(sOldPureKey, (void *) sOldPurePt);
+    }
+    return *sOldPurePt;
 }
 
 static void setSOldPure(double sOldPure) {
-  double *sOldPurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  sOldPurePt = (double *) MTHREAD_GETSPECIFIC(sOldPureKey);   
-  if (sOldPurePt == NULL) {
-    sOldPurePt  = (double *) malloc(sizeof(double)); 
-    *sOldPurePt = -9999.0;    
-    MTHREAD_SETSPECIFIC(sOldPureKey, (void *) sOldPurePt);
-  }
-  *sOldPurePt = sOldPure;
+    double *sOldPurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    sOldPurePt = (double *) MTHREAD_GETSPECIFIC(sOldPureKey);
+    if (sOldPurePt == NULL) {
+        sOldPurePt  = (double *) malloc(sizeof(double));
+        *sOldPurePt = -9999.0;
+        MTHREAD_SETSPECIFIC(sOldPureKey, (void *) sOldPurePt);
+    }
+    *sOldPurePt = sOldPure;
 }
 
 static double getD2gds2Pure() {
-  double *d2gds2PurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  d2gds2PurePt = (double *) MTHREAD_GETSPECIFIC(d2gds2PureKey);   
-  if (d2gds2PurePt == NULL) {
-    d2gds2PurePt  = (double *) malloc(sizeof(double)); 
-    *d2gds2PurePt = -9999.0;    
-    MTHREAD_SETSPECIFIC(d2gds2PureKey, (void *) d2gds2PurePt);
-  }
-  return *d2gds2PurePt;
+    double *d2gds2PurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    d2gds2PurePt = (double *) MTHREAD_GETSPECIFIC(d2gds2PureKey);
+    if (d2gds2PurePt == NULL) {
+        d2gds2PurePt  = (double *) malloc(sizeof(double));
+        *d2gds2PurePt = -9999.0;
+        MTHREAD_SETSPECIFIC(d2gds2PureKey, (void *) d2gds2PurePt);
+    }
+    return *d2gds2PurePt;
 }
 
 static void setD2gds2Pure(double d2gds2Pure) {
-  double *d2gds2PurePt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  d2gds2PurePt = (double *) MTHREAD_GETSPECIFIC(d2gds2PureKey);   
-  if (d2gds2PurePt == NULL) {
-    d2gds2PurePt  = (double *) malloc(sizeof(double)); 
-    *d2gds2PurePt = -9999.0;    
-    MTHREAD_SETSPECIFIC(d2gds2PureKey, (void *) d2gds2PurePt);
-  }
-  *d2gds2PurePt = d2gds2Pure;
+    double *d2gds2PurePt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    d2gds2PurePt = (double *) MTHREAD_GETSPECIFIC(d2gds2PureKey);
+    if (d2gds2PurePt == NULL) {
+        d2gds2PurePt  = (double *) malloc(sizeof(double));
+        *d2gds2PurePt = -9999.0;
+        MTHREAD_SETSPECIFIC(d2gds2PureKey, (void *) d2gds2PurePt);
+    }
+    *d2gds2PurePt = d2gds2Pure;
 }
 
 /***********************************/
@@ -1237,7 +1238,7 @@ static void setD2gds2Pure(double d2gds2Pure) {
 /***********************************/
 
 #define DECLARE_SITE_FRACTIONS \
-  double xal3m1, xfe2m1, xfe3m1, xmg2m1, xti4m1, xca2m2, xfe2m2, xmg2m2, xna1m2, xal3tet, xfe3tet, xsi4tet;
+    double xal3m1, xfe2m1, xfe3m1, xmg2m1, xti4m1, xca2m2, xfe2m2, xmg2m2, xna1m2, xal3tet, xfe3tet, xsi4tet;
 
 #define XAL3M1   0
 #define XFE2M1   1
@@ -1259,61 +1260,61 @@ static MTHREAD_ONCE_T initThreadXBlock = MTHREAD_ONCE_INIT;
 static MTHREAD_KEY_T xKey[NX];
 
 static void threadXInit(void) {
-  int i;
-  for (i=0; i<NX; i++) MTHREAD_KEY_CREATE(&xKey[i], free);
+    int i;
+    for (i=0; i<NX; i++) MTHREAD_KEY_CREATE(&xKey[i], free);
 }
 
 static double getX(int n) {
-  double *xPt;  
-  MTHREAD_ONCE(&initThreadXBlock, threadXInit);
-  
-  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);   
-  if (xPt == NULL) { 
-    xPt = (double *) malloc(sizeof(double)); *xPt = 0.0;
-    MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
-  }
-  return *xPt;
+    double *xPt;
+    MTHREAD_ONCE(&initThreadXBlock, threadXInit);
+
+    xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);
+    if (xPt == NULL) {
+        xPt = (double *) malloc(sizeof(double)); *xPt = 0.0;
+        MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
+    }
+    return *xPt;
 }
 
 static void setX(int n, double x) {
-  double *xPt;  
-  MTHREAD_ONCE(&initThreadXBlock, threadXInit);
-  
-  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);   
-  if (xPt == NULL) { 
-    xPt = (double *) malloc(sizeof(double));
-    MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
-  }
-  *xPt = x;
+    double *xPt;
+    MTHREAD_ONCE(&initThreadXBlock, threadXInit);
+
+    xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);
+    if (xPt == NULL) {
+        xPt = (double *) malloc(sizeof(double));
+        MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
+    }
+    *xPt = x;
 }
 
 #define GET_SITE_FRACTIONS \
-  xal3m1  = getX(XAL3M1); \
-  xfe2m1  = getX(XFE2M1); \
-  xfe3m1  = getX(XFE3M1); \
-  xmg2m1  = getX(XMG2M1); \
-  xti4m1  = getX(XTI4M1); \
-  xca2m2  = getX(XCA2M2); \
-  xfe2m2  = getX(XFE2M2); \
-  xmg2m2  = getX(XMG2M2); \
-  xna1m2  = getX(XNA1M2); \
-  xal3tet = getX(XAL3TET); \
-  xfe3tet = getX(XFE3TET); \
-  xsi4tet = getX(XSI4TET);
-  
+    xal3m1  = getX(XAL3M1); \
+    xfe2m1  = getX(XFE2M1); \
+    xfe3m1  = getX(XFE3M1); \
+    xmg2m1  = getX(XMG2M1); \
+    xti4m1  = getX(XTI4M1); \
+    xca2m2  = getX(XCA2M2); \
+    xfe2m2  = getX(XFE2M2); \
+    xmg2m2  = getX(XMG2M2); \
+    xna1m2  = getX(XNA1M2); \
+    xal3tet = getX(XAL3TET); \
+    xfe3tet = getX(XFE3TET); \
+    xsi4tet = getX(XSI4TET);
+
 #define SET_SITE_FRACTIONS \
-  setX(XAL3M1,  xal3m1); \
-  setX(XFE2M1,  xfe2m1); \
-  setX(XFE3M1,  xfe3m1); \
-  setX(XMG2M1,  xmg2m1); \
-  setX(XTI4M1,  xti4m1); \
-  setX(XCA2M2,  xca2m2); \
-  setX(XFE2M2,  xfe2m2); \
-  setX(XMG2M2,  xmg2m2); \
-  setX(XNA1M2,  xna1m2); \
-  setX(XAL3TET, xal3tet); \
-  setX(XFE3TET, xfe3tet); \
-  setX(XSI4TET, xsi4tet);
+    setX(XAL3M1,  xal3m1); \
+    setX(XFE2M1,  xfe2m1); \
+    setX(XFE3M1,  xfe3m1); \
+    setX(XMG2M1,  xmg2m1); \
+    setX(XTI4M1,  xti4m1); \
+    setX(XCA2M2,  xca2m2); \
+    setX(XFE2M2,  xfe2m2); \
+    setX(XMG2M2,  xmg2m2); \
+    setX(XNA1M2,  xna1m2); \
+    setX(XAL3TET, xal3tet); \
+    setX(XFE3TET, xfe3tet); \
+    setX(XSI4TET, xsi4tet);
 
 /*
  *=============================================================================
@@ -1338,18 +1339,18 @@ static void setX(int n, double x) {
 #define D3DI_GDP3     0.0
 
 #define EN_S          (S0)+(SX7)-(SS2)+(SX7X7)-(SX7S2)+(SS2S2)+(SX7X7X7) \
-                      -(SX7X7S2)
+                       -(SX7X7S2)
 #define EN_H          (H0)+(HX7)-(HS2)+(HX7X7)-(HX7S2)+(HS2S2)+(HX7X7X7) \
-                      -(HX7X7S2)+(HX7S2S2)  
+                       -(HX7X7S2)+(HX7S2S2)
 #define EN_G          (H0)+(HX7)-(HS2)+(HX7X7)-(HX7S2)+(HS2S2)+(HX7X7X7) \
-                      -(HX7X7S2)+(HX7S2S2) -t*((S0)+(SX7)-(SS2)+(SX7X7)- \
-                      (SX7S2)+(SS2S2)+(SX7X7X7)-(SX7X7S2)) +(p-1.0)*((V0)+ \
-                      (VX7)-(VS2)+(VX7X7)-(VX7S2)+(VS2S2)+(VX7X7X7)-(VX7X7S2)+ \
-                      (VX7S2S2))
+                       -(HX7X7S2)+(HX7S2S2) -t*((S0)+(SX7)-(SS2)+(SX7X7)- \
+                       (SX7S2)+(SS2S2)+(SX7X7X7)-(SX7X7S2)) +(p-1.0)*((V0)+ \
+                       (VX7)-(VS2)+(VX7X7)-(VX7S2)+(VS2S2)+(VX7X7X7)-(VX7X7S2)+ \
+                       (VX7S2S2))
 
 #define DEN_GDT       -(EN_S)
 #define DEN_GDP       (V0)+(VX7)-(VS2)+(VX7X7)-(VX7S2)+(VS2S2)+(VX7X7X7) \
-                      -(VX7X7S2)+(VX7S2S2)  
+                       -(VX7X7S2)+(VX7S2S2)
 
 #define D2EN_GDT2     0.0
 #define D2EN_GDTP     0.0
@@ -1363,7 +1364,7 @@ static void setX(int n, double x) {
 #define HD_S          (S0)+(SX2)+(SX2X2)
 #define HD_H          (H0)+(HX2)+(HX2X2)
 #define HD_G          (H0)+(HX2)+(HX2X2) -t*((S0)+(SX2)+(SX2X2)) \
-                      + (p-1.0)*((V0)+(VX2)+(VX2X2))
+                       + (p-1.0)*((V0)+(VX2)+(VX2X2))
 
 #define DHD_GDT       -(HD_S)
 #define DHD_GDP       (V0)+(VX2)+(VX2X2)
@@ -1380,7 +1381,7 @@ static void setX(int n, double x) {
 #define CA_S          (S0)+(SX3)+(SX3X3)
 #define CA_H          (H0)+(HX3)+(HX3X3)
 #define CA_G          (H0)+(HX3)+(HX3X3) -t*((S0)+(SX3)+(SX3X3)) \
-                      + (p-1.0)*((V0)+(VX3)+(VX3X3))
+                       + (p-1.0)*((V0)+(VX3)+(VX3X3))
 
 #define DCA_GDT       -(CA_S)
 #define DCA_GDP       (V0)+(VX3)+(VX3X3)
@@ -1397,7 +1398,7 @@ static void setX(int n, double x) {
 #define CF_S          (S0)+(SX4)+(SX4X4)
 #define CF_H          (H0)+(HX4)+(HX4X4)
 #define CF_G          (H0)+(HX4)+(HX4X4) - t*((S0)+(SX4)+(SX4X4)) \
-                      + (p-1.0)*((V0)+(VX4)+(VX4X4))
+                       + (p-1.0)*((V0)+(VX4)+(VX4X4))
 
 #define DCF_GDT       -(CF_S)
 #define DCF_GDP       (V0)+(VX4)+(VX4X4)
@@ -1412,23 +1413,23 @@ static void setX(int n, double x) {
 #define D3CF_GDP3     0.0
 
 #define ES_S          -R*((1.0-s)*log(1.0-s) + (1.0+s)*log(1.0+s) \
-                        - 2.0*log(2.0)) + \
+                      - 2.0*log(2.0)) + \
                       (S0)+(SX5)+(SS1)*s+(SX5X5)+(SX5S1)*s+(SS1S1)*s*s
 #define ES_H          (H0)+(HX5)+(HS1)*s+(HX5X5)+(HX5S1)*s+(HS1S1)*s*s
 #define ES_G          R*t*((1.0-s)*log(1.0-s) + (1.0+s)*log(1.0+s) \
-                        - 2.0*log(2.0)) + \
-                      (H0)+(HX5)+(HS1)*s+(HX5X5)+(HX5S1)*s+(HS1S1)*s*s -t*( \
-                      (S0)+(SX5)+(SS1)*s+(SX5X5)+(SX5S1)*s+(SS1S1)*s*s) + \
-                      (p-1.0)*((V0)+(VX5)+(VS1)*s+(VX5X5)+(VX5S1)*s+(VS1S1)*s*s)
+                       - 2.0*log(2.0)) + \
+                       (H0)+(HX5)+(HS1)*s+(HX5X5)+(HX5S1)*s+(HS1S1)*s*s -t*( \
+                       (S0)+(SX5)+(SS1)*s+(SX5X5)+(SX5S1)*s+(SS1S1)*s*s) + \
+                       (p-1.0)*((V0)+(VX5)+(VS1)*s+(VX5X5)+(VX5S1)*s+(VS1S1)*s*s)
 
 #define DES_GDS1      R*t*(log(1.0+s)-log(1.0-s)) + (HS1) + (HX5S1) \
-                      + (HS1S1)*s*2.0 - t*((SS1)+(SX5S1)+(SS1S1)*s*2.0) \
-                      + (p-1.0)*((VS1)+(VX5S1)+(VS1S1)*s*2.0)
+                       + (HS1S1)*s*2.0 - t*((SS1)+(SX5S1)+(SS1S1)*s*2.0) \
+                       + (p-1.0)*((VS1)+(VX5S1)+(VS1S1)*s*2.0)
 #define DES_GDT       -(ES_S)
 #define DES_GDP       (V0)+(VX5)+(VS1)*s+(VX5X5)+(VX5S1)*s+(VS1S1)*s*s
 
 #define D2ES_GDS1S1   R*t*(1.0/(1.0+s) + 1.0/(1.0-s)) + (HS1S1)*2.0 \
-                      - t*(SS1S1)*2.0 + (p-1.0)*(VS1S1)*2.0
+                       - t*(SS1S1)*2.0 + (p-1.0)*(VS1S1)*2.0
 #define D2ES_GDS1DT   R*(log(1.0+s)-log(1.0-s)) - ((SS1)+(SX5S1)+(SS1S1)*s*2.0)
 #define D2ES_GDS1DP   (VS1)+(VX5S1)+(VS1S1)*s*2.0
 #define D2ES_GDT2     0.0
@@ -1447,46 +1448,46 @@ static void setX(int n, double x) {
 #define D3ES_GDP3     0.0
 
 #define JD_S          (S0) + 0.5*(SX3) - 0.5*(SX4) + 0.5*(SX5) + (SX6) \
-                      - (SS1) + 0.25*(SX3X3) - 0.25*(SX3X4) + 0.25*(SX3X5) \
-                      + 0.5*(SX3X6) - 0.5*(SX3S1) + 0.25*(SX4X4) \
-                      - 0.25*(SX4X5) - 0.5*(SX4X6) + 0.5*(SX4S1) \
-                      + 0.25*(SX5X5) + 0.5*(SX5X6) - 0.5*(SX5S1) \
-                      + (SX6X6) - (SX6S1) + (SS1S1)
+                       - (SS1) + 0.25*(SX3X3) - 0.25*(SX3X4) + 0.25*(SX3X5) \
+                       + 0.5*(SX3X6) - 0.5*(SX3S1) + 0.25*(SX4X4) \
+                       - 0.25*(SX4X5) - 0.5*(SX4X6) + 0.5*(SX4S1) \
+                       + 0.25*(SX5X5) + 0.5*(SX5X6) - 0.5*(SX5S1) \
+                       + (SX6X6) - (SX6S1) + (SS1S1)
 #define JD_H          (H0) + 0.5*(HX3) - 0.5*(HX4) + 0.5*(HX5) + (HX6) \
-                      - (HS1) + 0.25*(HX3X3) - 0.25*(HX3X4) + 0.25*(HX3X5) \
-                      + 0.5*(HX3X6) - 0.5*(HX3S1) + 0.25*(HX4X4) \
-                      - 0.25*(HX4X5) - 0.5*(HX4X6) + 0.5*(HX4S1) \
-                      + 0.25*(HX5X5) + 0.5*(HX5X6) - 0.5*(HX5S1) \
-                      + (HX6X6) - (HX6S1) + (HS1S1)
+                       - (HS1) + 0.25*(HX3X3) - 0.25*(HX3X4) + 0.25*(HX3X5) \
+                       + 0.5*(HX3X6) - 0.5*(HX3S1) + 0.25*(HX4X4) \
+                       - 0.25*(HX4X5) - 0.5*(HX4X6) + 0.5*(HX4S1) \
+                       + 0.25*(HX5X5) + 0.5*(HX5X6) - 0.5*(HX5S1) \
+                       + (HX6X6) - (HX6S1) + (HS1S1)
 #define JD_G          (H0)-t*(S0)+(p-1.0)*(V0) \
-                + 0.5*((HX3)-t*(SX3)+(p-1.0)*(VX3)) \
-                - 0.5*((HX4)-t*(SX4)+(p-1.0)*(VX4)) \
-                + 0.5*((HX5)-t*(SX5)+(p-1.0)*(VX5)) \
-                    + ((HX6)-t*(SX6)+(p-1.0)*(VX6)) \
-                    - ((HS1)-t*(SS1)+(p-1.0)*(VS1)) \
-               + 0.25*((HX3X3)-t*(SX3X3)+(p-1.0)*(VX3X3)) \
-               - 0.25*((HX3X4)-t*(SX3X4)+(p-1.0)*(VX3X4)) \
-               + 0.25*((HX3X5)-t*(SX3X5)+(p-1.0)*(VX3X5)) \
-                + 0.5*((HX3X6)-t*(SX3X6)+(p-1.0)*(VX3X6)) \
-                - 0.5*((HX3S1)-t*(SX3S1)+(p-1.0)*(VX3S1)) \
-               + 0.25*((HX4X4)-t*(SX4X4)+(p-1.0)*(VX4X4)) \
-               - 0.25*((HX4X5)-t*(SX4X5)+(p-1.0)*(VX4X5)) \
-                - 0.5*((HX4X6)-t*(SX4X6)+(p-1.0)*(VX4X6)) \
-                + 0.5*((HX4S1)-t*(SX4S1)+(p-1.0)*(VX4S1)) \
-               + 0.25*((HX5X5)-t*(SX5X5)+(p-1.0)*(VX5X5)) \
-                + 0.5*((HX5X6)-t*(SX5X6)+(p-1.0)*(VX5X6)) \
-                - 0.5*((HX5S1)-t*(SX5S1)+(p-1.0)*(VX5S1)) \
-                    + ((HX6X6)-t*(SX6X6)+(p-1.0)*(VX6X6)) \
-                    - ((HX6S1)-t*(SX6S1)+(p-1.0)*(VX6S1)) \
-                    + ((HS1S1)-t*(SS1S1)+(p-1.0)*(VS1S1)) 
+                        + 0.5*((HX3)-t*(SX3)+(p-1.0)*(VX3)) \
+                        - 0.5*((HX4)-t*(SX4)+(p-1.0)*(VX4)) \
+                        + 0.5*((HX5)-t*(SX5)+(p-1.0)*(VX5)) \
+                        + ((HX6)-t*(SX6)+(p-1.0)*(VX6)) \
+                        - ((HS1)-t*(SS1)+(p-1.0)*(VS1)) \
+                        + 0.25*((HX3X3)-t*(SX3X3)+(p-1.0)*(VX3X3)) \
+                        - 0.25*((HX3X4)-t*(SX3X4)+(p-1.0)*(VX3X4)) \
+                        + 0.25*((HX3X5)-t*(SX3X5)+(p-1.0)*(VX3X5)) \
+                        + 0.5*((HX3X6)-t*(SX3X6)+(p-1.0)*(VX3X6)) \
+                        - 0.5*((HX3S1)-t*(SX3S1)+(p-1.0)*(VX3S1)) \
+                        + 0.25*((HX4X4)-t*(SX4X4)+(p-1.0)*(VX4X4)) \
+                        - 0.25*((HX4X5)-t*(SX4X5)+(p-1.0)*(VX4X5)) \
+                        - 0.5*((HX4X6)-t*(SX4X6)+(p-1.0)*(VX4X6)) \
+                        + 0.5*((HX4S1)-t*(SX4S1)+(p-1.0)*(VX4S1)) \
+                        + 0.25*((HX5X5)-t*(SX5X5)+(p-1.0)*(VX5X5)) \
+                        + 0.5*((HX5X6)-t*(SX5X6)+(p-1.0)*(VX5X6)) \
+                        - 0.5*((HX5S1)-t*(SX5S1)+(p-1.0)*(VX5S1)) \
+                        + ((HX6X6)-t*(SX6X6)+(p-1.0)*(VX6X6)) \
+                        - ((HX6S1)-t*(SX6S1)+(p-1.0)*(VX6S1)) \
+                        + ((HS1S1)-t*(SS1S1)+(p-1.0)*(VS1S1))
 
 #define DJD_GDT       -(JD_S)
 #define DJD_GDP       (V0) + 0.5*(VX3) - 0.5*(VX4) + 0.5*(VX5) + (VX6) \
-                      - (VS1) + 0.25*(VX3X3) - 0.25*(VX3X4) + 0.25*(VX3X5) \
-                      + 0.5*(VX3X6) - 0.5*(VX3S1) + 0.25*(VX4X4) \
-                      - 0.25*(VX4X5) - 0.5*(VX4X6) + 0.5*(VX4S1) \
-                      + 0.25*(VX5X5) + 0.5*(VX5X6) - 0.5*(VX5S1) \
-                      + (VX6X6) - (VX6S1) + (VS1S1)
+                       - (VS1) + 0.25*(VX3X3) - 0.25*(VX3X4) + 0.25*(VX3X5) \
+                       + 0.5*(VX3X6) - 0.5*(VX3S1) + 0.25*(VX4X4) \
+                       - 0.25*(VX4X5) - 0.5*(VX4X6) + 0.5*(VX4S1) \
+                       + 0.25*(VX5X5) + 0.5*(VX5X6) - 0.5*(VX5S1) \
+                       + (VX6X6) - (VX6S1) + (VS1S1)
 
 #define D2JD_GDT2     0.0
 #define D2JD_GDTP     0.0
@@ -1497,25 +1498,25 @@ static void setX(int n, double x) {
 #define D3JD_GDTDP2   0.0
 #define D3JD_GDP3     0.0
 
-/* 
+/*
  In the endmember properties routines, a static variable clino overrides the
- current global variable clino. This insures that the solution properties 
- returned by the global functions in this file are always reference to a 
- monoclinic state (i.e. the thermodynamic constants stored 
+ current global variable clino. This insures that the solution properties
+ returned by the global functions in this file are always reference to a
+ monoclinic state (i.e. the thermodynamic constants stored
  SOLID_STRUCT_DATA.H and used in GIBBS.C refer to the monoclinic structure).
  If the C 2/c -> Pbam transition occurs, the solution properties will
  contain the standard state contribution.
 */
 
-static void 
-pureOrder(int mask, double t, double p, 
-      double *s,   /* s1       BINARY MASK: 000001 */
-      double *dt,  /* ds1/dt   BINARY MASK: 000010 */
-      double *dp,  /* ds1/dp   BINARY MASK: 000100 */
-      double *dt2, /* d2s1/dt2 BINARY MASK: 001000 */
-      double *dtp, /* d2s1/dtp BINARY MASK: 010000 */
-      double *dp2  /* d2s1/dp2 BINARY MASK: 100000 */
-      )
+static void
+pureOrder(int mask, double t, double p,
+            double *s,   /* s1       BINARY MASK: 000001 */
+            double *dt,  /* ds1/dt   BINARY MASK: 000010 */
+            double *dp,  /* ds1/dp   BINARY MASK: 000100 */
+            double *dt2, /* d2s1/dt2 BINARY MASK: 001000 */
+            double *dtp, /* d2s1/dtp BINARY MASK: 010000 */
+            double *dp2  /* d2s1/dp2 BINARY MASK: 100000 */
+            )
 {
     double tOld   = getTOldPure();
     double pOld   = getPOldPure();
@@ -1578,260 +1579,260 @@ pureOrder(int mask, double t, double p,
         *dtp = - ((D3ES_GDS1DTDP) + (D3ES_GDS1S1DT)*dsdp + (D3ES_GDS1S1DP)*dsdt
          + (D3ES_GDS1S1S1)*dsdt*dsdp)/d2gds2;
 
-  }
+    }
 
-  if (mask & SIXTH  ) {   /* compute d2s/dp2 */
-    double s = sOld;
-    double dsdp = - (D2ES_GDS1DP)/d2gds2;
-    *dp2 = - ((D3ES_GDS1DP2) + 2.0*(D3ES_GDS1S1DP)*dsdp
+    if (mask & SIXTH  ) {   /* compute d2s/dp2 */
+        double s = sOld;
+        double dsdp = - (D2ES_GDS1DP)/d2gds2;
+        *dp2 = - ((D3ES_GDS1DP2) + 2.0*(D3ES_GDS1S1DP)*dsdp
          + (D3ES_GDS1S1S1)*dsdp*dsdp)/d2gds2;
-  }
+    }
 }
 
-static void 
-purePyx(int mask, double t, double p, 
-  double a[NA],        /* activities              BINARY MASK: 0000000000001 */
-  double mu[NA],       /* chemical potentials     BINARY MASK: 0000000000010 */
-  double gmix[NA],     /* Gibbs energy            BINARY MASK: 0000000000100 */
-  double hmix[NA],     /* Enthalpy of mixing      BINARY MASK: 0000000001000 */
-  double smix[NA],     /* Entropy of mixing       BINARY MASK: 0000000010000 */
-  double cpmix[NA],    /* Heat capacity of mixing BINARY MASK: 0000000100000 */
-  double cpmixdt[NA],  /* d(cp)/d(t)              BINARY MASK: 0000001000000 */
-  double vmix[NA],     /* Volume of mixing        BINARY MASK: 0000010000000 */
-  double vmixdt[NA],   /* d(v)/d(t)               BINARY MASK: 0000100000000 */
-  double vmixdp[NA],   /* d(v)/d(p)               BINARY MASK: 0001000000000 */
-  double vmixdt2[NA],  /* d2(v)/d(t)2             BINARY MASK: 0010000000000 */
-  double vmixdtdp[NA], /* d2(v)/d(t)d(p)          BINARY MASK: 0100000000000 */
-  double vmixdp2[NA]   /* d2(v)/d(p)2             BINARY MASK: 1000000000000 */
-  )
+static void
+purePyx(int mask, double t, double p,
+    double a[NA],        /*activities              BINARY MASK: 0000000000001 */
+    double mu[NA],       /* chemical potentials     BINARY MASK: 0000000000010 */
+    double gmix[NA],     /* Gibbs energy            BINARY MASK: 0000000000100 */
+    double hmix[NA],     /* Enthalpy of mixing      BINARY MASK: 0000000001000 */
+    double smix[NA],     /* Entropy of mixing       BINARY MASK: 0000000010000 */
+    double cpmix[NA],    /* Heat capacity of mixing BINARY MASK: 0000000100000 */
+    double cpmixdt[NA],  /* d(cp)/d(t)              BINARY MASK: 0000001000000 */
+    double vmix[NA],     /* Volume of mixing        BINARY MASK: 0000010000000 */
+    double vmixdt[NA],   /* d(v)/d(t)               BINARY MASK: 0000100000000 */
+    double vmixdp[NA],   /* d(v)/d(p)               BINARY MASK: 0001000000000 */
+    double vmixdt2[NA],  /* d2(v)/d(t)2             BINARY MASK: 0010000000000 */
+    double vmixdtdp[NA], /* d2(v)/d(t)d(p)          BINARY MASK: 0100000000000 */
+    double vmixdp2[NA]   /* d2(v)/d(p)2             BINARY MASK: 1000000000000 */
+    )
 {
-  double s;
-  int i;
-  static const int clino = TRUE; 
-  
-  pureOrder(FIRST, t, p, 
-            &s,              (double *) NULL, (double *) NULL, (double *) NULL, 
+    double s;
+    int i;
+    static const int clino = TRUE;
+
+    pureOrder(FIRST, t, p,
+            &s,              (double *) NULL, (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
 
-  if (mask & FIRST) {
-    a[0] = DI_G;
-    a[0] = exp(a[0]/(R*t));
-    a[1] = EN_G;
-    a[1] = exp(a[1]/(R*t));
-    a[2] = HD_G;
-    a[2] = exp(a[2]/(R*t));
-    a[3] = CA_G;
-    a[3] = exp(a[3]/(R*t));
-    a[4] = CF_G;
-    a[4] = exp(a[4]/(R*t));
-    a[5] = ES_G;
-    a[5] = exp(a[5]/(R*t));
-    a[6] = JD_G;
-    a[6] = exp(a[6]/(R*t));
-  }
+    if (mask & FIRST) {
+        a[0] = DI_G;
+        a[0] = exp(a[0]/(R*t));
+        a[1] = EN_G;
+        a[1] = exp(a[1]/(R*t));
+        a[2] = HD_G;
+        a[2] = exp(a[2]/(R*t));
+        a[3] = CA_G;
+        a[3] = exp(a[3]/(R*t));
+        a[4] = CF_G;
+        a[4] = exp(a[4]/(R*t));
+        a[5] = ES_G;
+        a[5] = exp(a[5]/(R*t));
+        a[6] = JD_G;
+        a[6] = exp(a[6]/(R*t));
+    }
 
-  if (mask & SECOND) {
-    mu[0] = DI_G;
-    mu[1] = EN_G;
-    mu[2] = HD_G;
-    mu[3] = CA_G;
-    mu[4] = CF_G;
-    mu[5] = ES_G;
-    mu[6] = JD_G;
-  }
+    if (mask & SECOND) {
+        mu[0] = DI_G;
+        mu[1] = EN_G;
+        mu[2] = HD_G;
+        mu[3] = CA_G;
+        mu[4] = CF_G;
+        mu[5] = ES_G;
+        mu[6] = JD_G;
+    }
 
-  if (mask & THIRD) {
-    gmix[0] = DI_G;
-    gmix[1] = EN_G;
-    gmix[2] = HD_G;
-    gmix[3] = CA_G;
-    gmix[4] = CF_G;
-    gmix[5] = ES_G;
-    gmix[6] = JD_G;
-  }
+    if (mask & THIRD) {
+        gmix[0] = DI_G;
+        gmix[1] = EN_G;
+        gmix[2] = HD_G;
+        gmix[3] = CA_G;
+        gmix[4] = CF_G;
+        gmix[5] = ES_G;
+        gmix[6] = JD_G;
+    }
 
-  if (mask & FOURTH) {
-    hmix[0] = (DI_G) + t*(DI_S);
-    hmix[1] = (EN_G) + t*(EN_S);
-    hmix[2] = (HD_G) + t*(HD_S);
-    hmix[3] = (CA_G) + t*(CA_S);
-    hmix[4] = (CF_G) + t*(CF_S);
-    hmix[5] = (ES_G) + t*(ES_S);
-    hmix[6] = (JD_G) + t*(JD_S);
-  }
+    if (mask & FOURTH) {
+        hmix[0] = (DI_G) + t*(DI_S);
+        hmix[1] = (EN_G) + t*(EN_S);
+        hmix[2] = (HD_G) + t*(HD_S);
+        hmix[3] = (CA_G) + t*(CA_S);
+        hmix[4] = (CF_G) + t*(CF_S);
+        hmix[5] = (ES_G) + t*(ES_S);
+        hmix[6] = (JD_G) + t*(JD_S);
+    }
 
-  if (mask & FIFTH) {
-    smix[0] = DI_S;
-    smix[1] = EN_S;
-    smix[2] = HD_S;
-    smix[3] = CA_S;
-    smix[4] = CF_S;
-    smix[5] = ES_S;
-    smix[6] = JD_S;
-  }
-  
-  if (mask & SIXTH) {
-    double dsdt;        
+    if (mask & FIFTH) {
+        smix[0] = DI_S;
+        smix[1] = EN_S;
+        smix[2] = HD_S;
+        smix[3] = CA_S;
+        smix[4] = CF_S;
+        smix[5] = ES_S;
+        smix[6] = JD_S;
+    }
 
-    pureOrder(SECOND, t, p, 
-            (double *) NULL, &dsdt,           (double *) NULL, (double *) NULL, 
+    if (mask & SIXTH) {
+        double dsdt;
+
+        pureOrder(SECOND, t, p,
+            (double *) NULL, &dsdt,           (double *) NULL, (double *) NULL,
             (double *) NULL, (double *) NULL);
 
-    cpmix[0]  = D2DI_GDT2;
-    cpmix[1]  = D2EN_GDT2;
-    cpmix[2]  = D2HD_GDT2;
-    cpmix[3]  = D2CA_GDT2;
-    cpmix[4]  = D2CF_GDT2;
-    cpmix[5]  = D2ES_GDT2;
-    cpmix[5] += 2.0*(D2ES_GDS1DT)*dsdt;
-    cpmix[5] += (D2ES_GDS1S1)*SQUARE(dsdt);
-    cpmix[6]  = D2JD_GDT2;
+        cpmix[0]  = D2DI_GDT2;
+        cpmix[1]  = D2EN_GDT2;
+        cpmix[2]  = D2HD_GDT2;
+        cpmix[3]  = D2CA_GDT2;
+        cpmix[4]  = D2CF_GDT2;
+        cpmix[5]  = D2ES_GDT2;
+        cpmix[5] += 2.0*(D2ES_GDS1DT)*dsdt;
+        cpmix[5] += (D2ES_GDS1S1)*SQUARE(dsdt);
+        cpmix[6]  = D2JD_GDT2;
 
-    for (i=0; i<NA; i++) cpmix[i] *= -t;
-  }
+        for (i=0; i<NA; i++) cpmix[i] *= -t;
+    }
 
-  if(mask & SEVENTH) {
-    double d2gdt2[NA], d3gdt3[NA], dsdt, d2sdt2;
+    if(mask & SEVENTH) {
+        double d2gdt2[NA], d3gdt3[NA], dsdt, d2sdt2;
 
-    d2gdt2[0] = D2DI_GDT2; d2gdt2[1] = D2EN_GDT2; d2gdt2[2] = D2HD_GDT2;
-    d2gdt2[3] = D2CA_GDT2; d2gdt2[4] = D2CF_GDT2; d2gdt2[5] = D2ES_GDT2;
-    d2gdt2[6] = D2JD_GDT2;
+        d2gdt2[0] = D2DI_GDT2; d2gdt2[1] = D2EN_GDT2; d2gdt2[2] = D2HD_GDT2;
+        d2gdt2[3] = D2CA_GDT2; d2gdt2[4] = D2CF_GDT2; d2gdt2[5] = D2ES_GDT2;
+        d2gdt2[6] = D2JD_GDT2;
 
-    d3gdt3[0] = D3DI_GDT3; d3gdt3[1] = D3EN_GDT3; d3gdt3[2] = D3HD_GDT3;
-    d3gdt3[3] = D3CA_GDT3; d3gdt3[4] = D3CF_GDT3; d3gdt3[5] = D3ES_GDT3;
-    d3gdt3[6] = D3JD_GDT3;
+        d3gdt3[0] = D3DI_GDT3; d3gdt3[1] = D3EN_GDT3; d3gdt3[2] = D3HD_GDT3;
+        d3gdt3[3] = D3CA_GDT3; d3gdt3[4] = D3CF_GDT3; d3gdt3[5] = D3ES_GDT3;
+        d3gdt3[6] = D3JD_GDT3;
 
-    pureOrder(SECOND | FOURTH, t, p, 
+        pureOrder(SECOND | FOURTH, t, p,
             (double *) NULL, &dsdt,           (double *) NULL, &d2sdt2,
             (double *) NULL, (double *) NULL);
 
-    d2gdt2[5] += 2.0*(D2ES_GDS1DT)*dsdt;
-    d2gdt2[5] += (D2ES_GDS1S1)*SQUARE(dsdt);
+        d2gdt2[5] += 2.0*(D2ES_GDS1DT)*dsdt;
+        d2gdt2[5] += (D2ES_GDS1S1)*SQUARE(dsdt);
 
-    d3gdt3[5] += 3.0*(D3ES_GDS1DT2)*dsdt; 
-    d3gdt3[5] += 3.0*(D2ES_GDS1DT)*d2sdt2;
-    d3gdt3[5] += 3.0*(D2ES_GDS1S1)*dsdt*d2sdt2;
-    d3gdt3[5] += 3.0*(D3ES_GDS1S1DT)*dsdt*dsdt;
-    d3gdt3[5] += (D3ES_GDS1S1S1)*CUBE(dsdt);
+        d3gdt3[5] += 3.0*(D3ES_GDS1DT2)*dsdt;
+        d3gdt3[5] += 3.0*(D2ES_GDS1DT)*d2sdt2;
+        d3gdt3[5] += 3.0*(D2ES_GDS1S1)*dsdt*d2sdt2;
+        d3gdt3[5] += 3.0*(D3ES_GDS1S1DT)*dsdt*dsdt;
+        d3gdt3[5] += (D3ES_GDS1S1S1)*CUBE(dsdt);
 
-    for (i=0; i<NA; i++) cpmixdt[i] = -t*d3gdt3[i] - d2gdt2[i];
-  }
+        for (i=0; i<NA; i++) cpmixdt[i] = -t*d3gdt3[i] - d2gdt2[i];
+    }
 
-  if (mask & EIGHTH) {
-    vmix[0] = DDI_GDP;
-    vmix[1] = DEN_GDP;
-    vmix[2] = DHD_GDP;
-    vmix[3] = DCA_GDP;
-    vmix[4] = DCF_GDP;
-    vmix[5] = DES_GDP;
-    vmix[6] = DJD_GDP;
-  }
+    if (mask & EIGHTH) {
+        vmix[0] = DDI_GDP;
+        vmix[1] = DEN_GDP;
+        vmix[2] = DHD_GDP;
+        vmix[3] = DCA_GDP;
+        vmix[4] = DCF_GDP;
+        vmix[5] = DES_GDP;
+        vmix[6] = DJD_GDP;
+    }
 
-  if(mask & NINTH) {
-    double dsdt, dsdp;
+    if(mask & NINTH) {
+        double dsdt, dsdp;
 
-    pureOrder(SECOND | THIRD, t, p, 
-            (double *) NULL, &dsdt,           &dsdp,           (double *) NULL, 
+        pureOrder(SECOND | THIRD, t, p,
+            (double *) NULL, &dsdt,           &dsdp,           (double *) NULL,
             (double *) NULL, (double *) NULL);
 
-    vmixdt[0]  = D2DI_GDTP;
-    vmixdt[1]  = D2EN_GDTP;
-    vmixdt[2]  = D2HD_GDTP;
-    vmixdt[3]  = D2CA_GDTP;
-    vmixdt[4]  = D2CF_GDTP;
-    vmixdt[5]  = D2ES_GDTP;
-    vmixdt[5] += (D2ES_GDS1DT)*dsdp;
-    vmixdt[5] += (D2ES_GDS1DP)*dsdt; 
-    vmixdt[5] += (D2ES_GDS1S1)*dsdt*dsdp;
-    vmixdt[6]  = D2JD_GDTP;
-  }
+        vmixdt[0]  = D2DI_GDTP;
+        vmixdt[1]  = D2EN_GDTP;
+        vmixdt[2]  = D2HD_GDTP;
+        vmixdt[3]  = D2CA_GDTP;
+        vmixdt[4]  = D2CF_GDTP;
+        vmixdt[5]  = D2ES_GDTP;
+        vmixdt[5] += (D2ES_GDS1DT)*dsdp;
+        vmixdt[5] += (D2ES_GDS1DP)*dsdt;
+        vmixdt[5] += (D2ES_GDS1S1)*dsdt*dsdp;
+        vmixdt[6]  = D2JD_GDTP;
+    }
 
-  if(mask & TENTH) {
-    double dsdp;
+    if(mask & TENTH) {
+        double dsdp;
 
-    pureOrder(THIRD, t, p, 
-            (double *) NULL, (double *) NULL, &dsdp,           (double *) NULL, 
+        pureOrder(THIRD, t, p,
+            (double *) NULL, (double *) NULL, &dsdp,           (double *) NULL,
             (double *) NULL, (double *) NULL);
 
-    vmixdp[0]  = D2DI_GDP2;
-    vmixdp[1]  = D2EN_GDP2;
-    vmixdp[2]  = D2HD_GDP2;
-    vmixdp[3]  = D2CA_GDP2;
-    vmixdp[4]  = D2CF_GDP2;
-    vmixdp[5]  = D2ES_GDP2;
-    vmixdp[5] += 2.0*(D2ES_GDS1DP)*dsdp;
-    vmixdp[5] += (D2ES_GDS1S1)*dsdp*dsdp;
-    vmixdp[6]  = D2JD_GDP2;
-  }
+        vmixdp[0]  = D2DI_GDP2;
+        vmixdp[1]  = D2EN_GDP2;
+        vmixdp[2]  = D2HD_GDP2;
+        vmixdp[3]  = D2CA_GDP2;
+        vmixdp[4]  = D2CF_GDP2;
+        vmixdp[5]  = D2ES_GDP2;
+        vmixdp[5] += 2.0*(D2ES_GDS1DP)*dsdp;
+        vmixdp[5] += (D2ES_GDS1S1)*dsdp*dsdp;
+        vmixdp[6]  = D2JD_GDP2;
+    }
 
-  if(mask & ELEVENTH) {
-    double dsdt, dsdp, d2sdt2, d2sdtdp;
+    if(mask & ELEVENTH) {
+        double dsdt, dsdp, d2sdt2, d2sdtdp;
 
-    pureOrder(SECOND | THIRD | FOURTH | FIFTH, t, p, 
-            (double *) NULL, &dsdt,           &dsdp,           &d2sdt2,       
+        pureOrder(SECOND | THIRD | FOURTH | FIFTH, t, p,
+            (double *) NULL, &dsdt,           &dsdp,           &d2sdt2,
             &d2sdtdp,        (double *) NULL);
 
-    vmixdt2[0]  = D3DI_GDT2DP;
-    vmixdt2[1]  = D3EN_GDT2DP; 
-    vmixdt2[2]  = D3HD_GDT2DP; 
-    vmixdt2[3]  = D3CA_GDT2DP; 
-    vmixdt2[4]  = D3CF_GDT2DP; 
-    vmixdt2[5]  = D3ES_GDT2DP;
-    vmixdt2[5] += (D3ES_GDS1DT2)*dsdp;
-    vmixdt2[5] += 2.0*(D2ES_GDS1DT)*d2sdtdp; 
-    vmixdt2[5] += (D2ES_GDS1DP)*d2sdt2;
-    vmixdt2[5] += 2.0*(D3ES_GDS1DTDP)*dsdt;
-    vmixdt2[5] += 2.0*(D3ES_GDS1S1DT)*dsdt*dsdp; 
-    vmixdt2[5] += (D2ES_GDS1S1)*(d2sdt2*dsdp + 2.0*dsdt*d2sdtdp);
-    vmixdt2[5] += (D3ES_GDS1S1DP)*dsdt*dsdt;
-    vmixdt2[5] += (D3ES_GDS1S1S1)*dsdt*dsdt*dsdp;
-    vmixdt2[6]  = D3JD_GDT2DP; 
-  }
+        vmixdt2[0]  = D3DI_GDT2DP;
+        vmixdt2[1]  = D3EN_GDT2DP;
+        vmixdt2[2]  = D3HD_GDT2DP;
+        vmixdt2[3]  = D3CA_GDT2DP;
+        vmixdt2[4]  = D3CF_GDT2DP;
+        vmixdt2[5]  = D3ES_GDT2DP;
+        vmixdt2[5] += (D3ES_GDS1DT2)*dsdp;
+        vmixdt2[5] += 2.0*(D2ES_GDS1DT)*d2sdtdp;
+        vmixdt2[5] += (D2ES_GDS1DP)*d2sdt2;
+        vmixdt2[5] += 2.0*(D3ES_GDS1DTDP)*dsdt;
+        vmixdt2[5] += 2.0*(D3ES_GDS1S1DT)*dsdt*dsdp;
+        vmixdt2[5] += (D2ES_GDS1S1)*(d2sdt2*dsdp + 2.0*dsdt*d2sdtdp);
+        vmixdt2[5] += (D3ES_GDS1S1DP)*dsdt*dsdt;
+        vmixdt2[5] += (D3ES_GDS1S1S1)*dsdt*dsdt*dsdp;
+        vmixdt2[6]  = D3JD_GDT2DP;
+    }
 
-  if(mask & TWELFTH) {
-    double dsdt, dsdp, d2sdtdp, d2sdp2;
+    if(mask & TWELFTH) {
+        double dsdt, dsdp, d2sdtdp, d2sdp2;
 
-    pureOrder(SECOND | THIRD | FIFTH | SIXTH, t, p, 
-            (double *) NULL, &dsdt,           &dsdp,           (double *) NULL, 
+        pureOrder(SECOND | THIRD | FIFTH | SIXTH, t, p,
+            (double *) NULL, &dsdt,           &dsdp,           (double *) NULL,
             &d2sdtdp,        &d2sdp2);
 
-    vmixdtdp[0]  = D3DI_GDTDP2;
-    vmixdtdp[1]  = D3EN_GDTDP2;
-    vmixdtdp[2]  = D3HD_GDTDP2;
-    vmixdtdp[3]  = D3CA_GDTDP2;
-    vmixdtdp[4]  = D3CF_GDTDP2;
-    vmixdtdp[5]  = D3ES_GDTDP2;
-    vmixdtdp[5] += 2.0*(D3ES_GDS1DTDP)*dsdp;
-    vmixdtdp[5] += (D2ES_GDS1DT)*d2sdp2;
-    vmixdtdp[5] += 2.0*(D2ES_GDS1DP)*d2sdtdp;
-    vmixdtdp[5] += (D3ES_GDS1DP2)*dsdt;
-    vmixdtdp[5] += 2.0*(D3ES_GDS1S1DP)*dsdt*dsdp; 
-    vmixdtdp[5] += (D2ES_GDS1S1)*(dsdt*d2sdp2 + 2.0*d2sdtdp*dsdp);
-    vmixdtdp[5] += (D3ES_GDS1S1DT)*dsdp*dsdp;
-    vmixdtdp[5] += (D3ES_GDS1S1S1)*dsdt*dsdp*dsdp;
-    vmixdtdp[6]  = D3JD_GDTDP2;
-  }
+        vmixdtdp[0]  = D3DI_GDTDP2;
+        vmixdtdp[1]  = D3EN_GDTDP2;
+        vmixdtdp[2]  = D3HD_GDTDP2;
+        vmixdtdp[3]  = D3CA_GDTDP2;
+        vmixdtdp[4]  = D3CF_GDTDP2;
+        vmixdtdp[5]  = D3ES_GDTDP2;
+        vmixdtdp[5] += 2.0*(D3ES_GDS1DTDP)*dsdp;
+        vmixdtdp[5] += (D2ES_GDS1DT)*d2sdp2;
+        vmixdtdp[5] += 2.0*(D2ES_GDS1DP)*d2sdtdp;
+        vmixdtdp[5] += (D3ES_GDS1DP2)*dsdt;
+        vmixdtdp[5] += 2.0*(D3ES_GDS1S1DP)*dsdt*dsdp;
+        vmixdtdp[5] += (D2ES_GDS1S1)*(dsdt*d2sdp2 + 2.0*d2sdtdp*dsdp);
+        vmixdtdp[5] += (D3ES_GDS1S1DT)*dsdp*dsdp;
+        vmixdtdp[5] += (D3ES_GDS1S1S1)*dsdt*dsdp*dsdp;
+        vmixdtdp[6]  = D3JD_GDTDP2;
+    }
 
-  if(mask & THIRTEENTH) {
-    double dsdp, d2sdp2;
+    if(mask & THIRTEENTH) {
+        double dsdp, d2sdp2;
 
-    pureOrder(THIRD | SIXTH, t, p, 
-            (double *) NULL, (double *) NULL, &dsdp,           (double *) NULL, 
+        pureOrder(THIRD | SIXTH, t, p,
+            (double *) NULL, (double *) NULL, &dsdp,           (double *) NULL,
             (double *) NULL, &d2sdp2);
 
-    vmixdp2[0]  = D3DI_GDP3;
-    vmixdp2[1]  = D3EN_GDP3;
-    vmixdp2[2]  = D3HD_GDP3;
-    vmixdp2[3]  = D3CA_GDP3;
-    vmixdp2[4]  = D3CF_GDP3;
-    vmixdp2[5]  = D3ES_GDP3;
-    vmixdp2[5] += 3.0*(D3ES_GDS1DP2)*dsdp;
-    vmixdp2[5] += 3.0*(D2ES_GDS1DP)*d2sdp2;
-    vmixdp2[5] += 3.0*(D2ES_GDS1S1)*dsdp*d2sdp2;
-    vmixdp2[5] += 3.0*(D3ES_GDS1S1DP)*dsdp*dsdp;
-    vmixdp2[5] += (D3ES_GDS1S1S1)*dsdp*dsdp*dsdp;
-    vmixdp2[6]  = D3JD_GDP3;
-  }
+        vmixdp2[0]  = D3DI_GDP3;
+        vmixdp2[1]  = D3EN_GDP3;
+        vmixdp2[2]  = D3HD_GDP3;
+        vmixdp2[3]  = D3CA_GDP3;
+        vmixdp2[4]  = D3CF_GDP3;
+        vmixdp2[5]  = D3ES_GDP3;
+        vmixdp2[5] += 3.0*(D3ES_GDS1DP2)*dsdp;
+        vmixdp2[5] += 3.0*(D2ES_GDS1DP)*d2sdp2;
+        vmixdp2[5] += 3.0*(D2ES_GDS1S1)*dsdp*d2sdp2;
+        vmixdp2[5] += 3.0*(D3ES_GDS1S1DP)*dsdp*dsdp;
+        vmixdp2[5] += (D3ES_GDS1S1S1)*dsdp*dsdp*dsdp;
+        vmixdp2[6]  = D3JD_GDP3;
+    }
 
 }
 
@@ -1979,23 +1980,23 @@ purePyx(int mask, double t, double p,
  */
 
 #define SIC -R*(xmg2m1*log(xmg2m1) \
-              + xfe2m1*log(xfe2m1) \
-              + xal3m1*log(xal3m1) \
-              + xfe3m1*log(xfe3m1) \
-              + xti4m1*log(xti4m1) \
-              + (xmg2m1+xfe2m1-xti4m1)*log(xmg2m1+xfe2m1-xti4m1) \
-              - (1.0-xti4m1)*log(1.0-xti4m1) \
-              - (xmg2m1+xfe2m1)*log(xmg2m1+xfe2m1) \
-              - 2.0*(1.0-xsi4tet)*log(1.0-xsi4tet) \
-              + 2.0*xal3tet*log(xal3tet) \
-              + 2.0*xfe3tet*log(xfe3tet) \
-              + xca2m2*log(xca2m2) \
-              + xna1m2*log(xna1m2) \
-              + xmg2m2*log(xmg2m2) \
-              + xfe2m2*log(xfe2m2) \
-              + (1.0-xmg2m1-xfe2m1-xna1m2)*log(1.0-xmg2m1-xfe2m1-xna1m2) \
-              - (1.0-xmg2m1-xfe2m1)*log(1.0-xmg2m1-xfe2m1) \
-              - (1.0-xna1m2)*log(1.0-xna1m2) )
+            + xfe2m1*log(xfe2m1) \
+            + xal3m1*log(xal3m1) \
+            + xfe3m1*log(xfe3m1) \
+            + xti4m1*log(xti4m1) \
+            + (xmg2m1+xfe2m1-xti4m1)*log(xmg2m1+xfe2m1-xti4m1) \
+            - (1.0-xti4m1)*log(1.0-xti4m1) \
+            - (xmg2m1+xfe2m1)*log(xmg2m1+xfe2m1) \
+            - 2.0*(1.0-xsi4tet)*log(1.0-xsi4tet) \
+            + 2.0*xal3tet*log(xal3tet) \
+            + 2.0*xfe3tet*log(xfe3tet) \
+            + xca2m2*log(xca2m2) \
+            + xna1m2*log(xna1m2) \
+            + xmg2m2*log(xmg2m2) \
+            + xfe2m2*log(xfe2m2) \
+            + (1.0-xmg2m1-xfe2m1-xna1m2)*log(1.0-xmg2m1-xfe2m1-xna1m2) \
+            - (1.0-xmg2m1-xfe2m1)*log(1.0-xmg2m1-xfe2m1) \
+            - (1.0-xna1m2)*log(1.0-xna1m2) )
 #define S   (SIC) + (S0) + \
             (SX2)*r[0] + (SX3)*r[1] + (SX4)*r[2] + (SX5)*r[3] + \
             (SX6)*r[4] + (SX7)*r[5] + (SS1)*s[0] + (SS2)*s[1] + \
@@ -2055,7 +2056,7 @@ purePyx(int mask, double t, double p,
             (HX6X6X7)*r[4]*r[4]*r[5] + (HX6X6S2)*r[4]*r[4]*s[1] + \
             (HX6X7X7)*r[4]*r[5]*r[5] + (HX6X7S2)*r[4]*r[5]*s[1] + \
             (HX6S2S2)*r[4]*s[1]*s[1] + (HX7X7X7)*r[5]*r[5]*r[5] + \
-            (HX7X7S2)*r[5]*r[5]*s[1] + (HX7S2S2)*r[5]*s[1]*s[1]  
+            (HX7X7S2)*r[5]*r[5]*s[1] + (HX7S2S2)*r[5]*s[1]*s[1]
 #define V   (V0) + \
             (VX2)*r[0] + (VX3)*r[1] + (VX4)*r[2] + (VX5)*r[3] + \
             (VX6)*r[4] + (VX7)*r[5] + (VS1)*s[0] + (VS2)*s[1] + \
@@ -2094,7 +2095,7 @@ purePyx(int mask, double t, double p,
             (VX6X6X7)*r[4]*r[4]*r[5] + (VX6X6S2)*r[4]*r[4]*s[1] + \
             (VX6X7X7)*r[4]*r[5]*r[5] + (VX6X7S2)*r[4]*r[5]*s[1] + \
             (VX6S2S2)*r[4]*s[1]*s[1] + (VX7X7X7)*r[5]*r[5]*r[5] + \
-            (VX7X7S2)*r[5]*r[5]*s[1] + (VX7S2S2)*r[5]*s[1]*s[1]  
+            (VX7X7S2)*r[5]*r[5]*s[1] + (VX7S2S2)*r[5]*s[1]*s[1]
 #define G   -t*(SIC) + (H0)-t*(S0)+(p-1.0)*(V0) + \
             ((HX2)-t*(SX2)+(p-1.0)*(VX2))*r[0] + \
             ((HX3)-t*(SX3)+(p-1.0)*(VX3))*r[1] + \
@@ -2192,220 +2193,220 @@ purePyx(int mask, double t, double p,
 /*----------------------------------------------------------------------------*/
 
 #define DGDR0 R*t*(log(xfe2m1) - log(xmg2m1)) + \
-              ((HX2)-t*(SX2)+(p-1.0)*(VX2)) + \
-              ((HX2X2)-t*(SX2X2)+(p-1.0)*(VX2X2))*r[0]*2.0 + \
-              ((HX2X3)-t*(SX2X3)+(p-1.0)*(VX2X3))*r[1] + \
-              ((HX2X4)-t*(SX2X4)+(p-1.0)*(VX2X4))*r[2] + \
-              ((HX2X5)-t*(SX2X5)+(p-1.0)*(VX2X5))*r[3] + \
-              ((HX2X6)-t*(SX2X6)+(p-1.0)*(VX2X6))*r[4] + \
-              ((HX2X7)-t*(SX2X7)+(p-1.0)*(VX2X7))*r[5] + \
-              ((HX2S1)-t*(SX2S1)+(p-1.0)*(VX2S1))*s[0] + \
-              ((HX2S2)-t*(SX2S2)+(p-1.0)*(VX2S2))*s[1] + \
-              ((HX2X2X7)+(p-1.0)*(VX2X2X7))*r[0]*r[5]*2.0 + \
-              ((HX2X2S2)+(p-1.0)*(VX2X2S2))*r[0]*s[1]*2.0 + \
-              ((HX2X3X7)+(p-1.0)*(VX2X3X7))*r[1]*r[5] + \
-              ((HX2X3S2)+(p-1.0)*(VX2X3S2))*r[1]*s[1] + \
-              ((HX2X4X7)+(p-1.0)*(VX2X4X7))*r[2]*r[5] + \
-              ((HX2X4S2)+(p-1.0)*(VX2X4S2))*r[2]*s[1] + \
-              ((HX2X5X7)+(p-1.0)*(VX2X5X7))*r[3]*r[5] + \
-              ((HX2X5S2)+(p-1.0)*(VX2X5S2))*r[3]*s[1] + \
-              ((HX2X6X7)+(p-1.0)*(VX2X6X7))*r[4]*r[5] + \
-              ((HX2X6S2)+(p-1.0)*(VX2X6S2))*r[4]*s[1] + \
-              ((HX2X7X7)-t*(SX2X7X7)+(p-1.0)*(VX2X7X7))*r[5]*r[5] + \
-              ((HX2X7S2)+(p-1.0)*(VX2X7S2))*r[5]*s[1] + \
-              ((HX2S2S2)+(p-1.0)*(VX2S2S2))*s[1]*s[1]
+                ((HX2)-t*(SX2)+(p-1.0)*(VX2)) + \
+                ((HX2X2)-t*(SX2X2)+(p-1.0)*(VX2X2))*r[0]*2.0 + \
+                ((HX2X3)-t*(SX2X3)+(p-1.0)*(VX2X3))*r[1] + \
+                ((HX2X4)-t*(SX2X4)+(p-1.0)*(VX2X4))*r[2] + \
+                ((HX2X5)-t*(SX2X5)+(p-1.0)*(VX2X5))*r[3] + \
+                ((HX2X6)-t*(SX2X6)+(p-1.0)*(VX2X6))*r[4] + \
+                ((HX2X7)-t*(SX2X7)+(p-1.0)*(VX2X7))*r[5] + \
+                ((HX2S1)-t*(SX2S1)+(p-1.0)*(VX2S1))*s[0] + \
+                ((HX2S2)-t*(SX2S2)+(p-1.0)*(VX2S2))*s[1] + \
+                ((HX2X2X7)+(p-1.0)*(VX2X2X7))*r[0]*r[5]*2.0 + \
+                ((HX2X2S2)+(p-1.0)*(VX2X2S2))*r[0]*s[1]*2.0 + \
+                ((HX2X3X7)+(p-1.0)*(VX2X3X7))*r[1]*r[5] + \
+                ((HX2X3S2)+(p-1.0)*(VX2X3S2))*r[1]*s[1] + \
+                ((HX2X4X7)+(p-1.0)*(VX2X4X7))*r[2]*r[5] + \
+                ((HX2X4S2)+(p-1.0)*(VX2X4S2))*r[2]*s[1] + \
+                ((HX2X5X7)+(p-1.0)*(VX2X5X7))*r[3]*r[5] + \
+                ((HX2X5S2)+(p-1.0)*(VX2X5S2))*r[3]*s[1] + \
+                ((HX2X6X7)+(p-1.0)*(VX2X6X7))*r[4]*r[5] + \
+                ((HX2X6S2)+(p-1.0)*(VX2X6S2))*r[4]*s[1] + \
+                ((HX2X7X7)-t*(SX2X7X7)+(p-1.0)*(VX2X7X7))*r[5]*r[5] + \
+                ((HX2X7S2)+(p-1.0)*(VX2X7S2))*r[5]*s[1] + \
+                ((HX2S2S2)+(p-1.0)*(VX2S2S2))*s[1]*s[1]
 #define DGDR1 R*t*(0.5*log(xti4m1) - 0.5*log(xmg2m1) + 0.5*log(1.0-xti4m1) \
-                - log(xmg2m1+xfe2m1-xti4m1) + 0.5*log(xmg2m1+xfe2m1) \
-                + 0.5*log(1.0-xmg2m1-xfe2m1-xna1m2) - log(1.0-xsi4tet) \
-                - 0.5*log(1.0-xmg2m1-xfe2m1) + log(xal3tet)) + \
-              ((HX3)-t*(SX3)+(p-1.0)*(VX3)) + \
-              ((HX2X3)-t*(SX2X3)+(p-1.0)*(VX2X3))*r[0] + \
-              ((HX3X3)-t*(SX3X3)+(p-1.0)*(VX3X3))*r[1]*2.0 + \
-              ((HX3X4)-t*(SX3X4)+(p-1.0)*(VX3X4))*r[2] + \
-              ((HX3X5)-t*(SX3X5)+(p-1.0)*(VX3X5))*r[3] + \
-              ((HX3X6)-t*(SX3X6)+(p-1.0)*(VX3X6))*r[4] + \
-              ((HX3X7)-t*(SX3X7)+(p-1.0)*(VX3X7))*r[5] + \
-              ((HX3S1)-t*(SX3S1)+(p-1.0)*(VX3S1))*s[0] + \
-              ((HX3S2)-t*(SX3S2)+(p-1.0)*(VX3S2))*s[1] + \
-              ((HX2X3X7)+(p-1.0)*(VX2X3X7))*r[0]*r[5] + \
-              ((HX2X3S2)+(p-1.0)*(VX2X3S2))*r[0]*s[1] + \
-              ((HX3X3X7)+(p-1.0)*(VX3X3X7))*r[1]*r[5]*2.0 + \
-              ((HX3X3S2)+(p-1.0)*(VX3X3S2))*r[1]*s[1]*2.0 + \
-              ((HX3X4X7)+(p-1.0)*(VX3X4X7))*r[2]*r[5] + \
-              ((HX3X4S2)+(p-1.0)*(VX3X4S2))*r[2]*s[1] + \
-              ((HX3X5X7)+(p-1.0)*(VX3X5X7))*r[3]*r[5] + \
-              ((HX3X5S2)+(p-1.0)*(VX3X5S2))*r[3]*s[1] + \
-              ((HX3X6X7)+(p-1.0)*(VX3X6X7))*r[4]*r[5] + \
-              ((HX3X6S2)+(p-1.0)*(VX3X6S2))*r[4]*s[1] + \
-              ((HX3X7X7)-t*(SX3X7X7)+(p-1.0)*(VX3X7X7))*r[5]*r[5] + \
-              ((HX3X7S2)-t*(SX3X7S2)+(p-1.0)*(VX3X7S2))*r[5]*s[1] + \
-              ((HX3S2S2)+(p-1.0)*(VX3S2S2))*s[1]*s[1]
+                    - log(xmg2m1+xfe2m1-xti4m1) + 0.5*log(xmg2m1+xfe2m1) \
+                    + 0.5*log(1.0-xmg2m1-xfe2m1-xna1m2) - log(1.0-xsi4tet) \
+                    - 0.5*log(1.0-xmg2m1-xfe2m1) + log(xal3tet)) + \
+                ((HX3)-t*(SX3)+(p-1.0)*(VX3)) + \
+                ((HX2X3)-t*(SX2X3)+(p-1.0)*(VX2X3))*r[0] + \
+                ((HX3X3)-t*(SX3X3)+(p-1.0)*(VX3X3))*r[1]*2.0 + \
+                ((HX3X4)-t*(SX3X4)+(p-1.0)*(VX3X4))*r[2] + \
+                ((HX3X5)-t*(SX3X5)+(p-1.0)*(VX3X5))*r[3] + \
+                ((HX3X6)-t*(SX3X6)+(p-1.0)*(VX3X6))*r[4] + \
+                ((HX3X7)-t*(SX3X7)+(p-1.0)*(VX3X7))*r[5] + \
+                ((HX3S1)-t*(SX3S1)+(p-1.0)*(VX3S1))*s[0] + \
+                ((HX3S2)-t*(SX3S2)+(p-1.0)*(VX3S2))*s[1] + \
+                ((HX2X3X7)+(p-1.0)*(VX2X3X7))*r[0]*r[5] + \
+                ((HX2X3S2)+(p-1.0)*(VX2X3S2))*r[0]*s[1] + \
+                ((HX3X3X7)+(p-1.0)*(VX3X3X7))*r[1]*r[5]*2.0 + \
+                ((HX3X3S2)+(p-1.0)*(VX3X3S2))*r[1]*s[1]*2.0 + \
+                ((HX3X4X7)+(p-1.0)*(VX3X4X7))*r[2]*r[5] + \
+                ((HX3X4S2)+(p-1.0)*(VX3X4S2))*r[2]*s[1] + \
+                ((HX3X5X7)+(p-1.0)*(VX3X5X7))*r[3]*r[5] + \
+                ((HX3X5S2)+(p-1.0)*(VX3X5S2))*r[3]*s[1] + \
+                ((HX3X6X7)+(p-1.0)*(VX3X6X7))*r[4]*r[5] + \
+                ((HX3X6S2)+(p-1.0)*(VX3X6S2))*r[4]*s[1] + \
+                ((HX3X7X7)-t*(SX3X7X7)+(p-1.0)*(VX3X7X7))*r[5]*r[5] + \
+                ((HX3X7S2)-t*(SX3X7S2)+(p-1.0)*(VX3X7S2))*r[5]*s[1] + \
+                ((HX3S2S2)+(p-1.0)*(VX3S2S2))*s[1]*s[1]
 #define DGDR2 R*t*(0.5*log(xti4m1) - 0.5*log(xmg2m1) + 0.5*log(1.0-xti4m1) \
-                - log(xmg2m1+xfe2m1-xti4m1) + 0.5*log(xmg2m1+xfe2m1) \
-                + 0.5*log(1.0-xmg2m1-xfe2m1-xna1m2) - log(1.0-xsi4tet) \
-                - 0.5*log(1.0-xmg2m1-xfe2m1) + log(xfe3tet)) + \
-              ((HX4)-t*(SX4)+(p-1.0)*(VX4)) + \
-              ((HX2X4)-t*(SX2X4)+(p-1.0)*(VX2X4))*r[0] + \
-              ((HX3X4)-t*(SX3X4)+(p-1.0)*(VX3X4))*r[1] + \
-              ((HX4X4)-t*(SX4X4)+(p-1.0)*(VX4X4))*r[2]*2.0 + \
-              ((HX4X5)-t*(SX4X5)+(p-1.0)*(VX4X5))*r[3] + \
-              ((HX4X6)-t*(SX4X6)+(p-1.0)*(VX4X6))*r[4] + \
-              ((HX4X7)-t*(SX4X7)+(p-1.0)*(VX4X7))*r[5] + \
-              ((HX4S1)-t*(SX4S1)+(p-1.0)*(VX4S1))*s[0] + \
-              ((HX4S2)-t*(SX4S2)+(p-1.0)*(VX4S2))*s[1] + \
-              ((HX2X4X7)+(p-1.0)*(VX2X4X7))*r[0]*r[5] + \
-              ((HX2X4S2)+(p-1.0)*(VX2X4S2))*r[0]*s[1] + \
-              ((HX3X4X7)+(p-1.0)*(VX3X4X7))*r[1]*r[5] + \
-              ((HX3X4S2)+(p-1.0)*(VX3X4S2))*r[1]*s[1] + \
-              ((HX4X4X7)+(p-1.0)*(VX4X4X7))*r[2]*r[5]*2.0 + \
-              ((HX4X4S2)+(p-1.0)*(VX4X4S2))*r[2]*s[1]*2.0 + \
-              ((HX4X5X7)+(p-1.0)*(VX4X5X7))*r[3]*r[5] + \
-              ((HX4X5S2)+(p-1.0)*(VX4X5S2))*r[3]*s[1] + \
-              ((HX4X6X7)+(p-1.0)*(VX4X6X7))*r[4]*r[5] + \
-              ((HX4X6S2)+(p-1.0)*(VX4X6S2))*r[4]*s[1] + \
-              ((HX4X7X7)-t*(SX4X7X7)+(p-1.0)*(VX4X7X7))*r[5]*r[5] + \
-              ((HX4X7S2)-t*(SX4X7S2)+(p-1.0)*(VX4X7S2))*r[5]*s[1] + \
-              ((HX4S2S2)+(p-1.0)*(VX4S2S2))*s[1]*s[1]
+                    - log(xmg2m1+xfe2m1-xti4m1) + 0.5*log(xmg2m1+xfe2m1) \
+                    + 0.5*log(1.0-xmg2m1-xfe2m1-xna1m2) - log(1.0-xsi4tet) \
+                    - 0.5*log(1.0-xmg2m1-xfe2m1) + log(xfe3tet)) + \
+                ((HX4)-t*(SX4)+(p-1.0)*(VX4)) + \
+                ((HX2X4)-t*(SX2X4)+(p-1.0)*(VX2X4))*r[0] + \
+                ((HX3X4)-t*(SX3X4)+(p-1.0)*(VX3X4))*r[1] + \
+                ((HX4X4)-t*(SX4X4)+(p-1.0)*(VX4X4))*r[2]*2.0 + \
+                ((HX4X5)-t*(SX4X5)+(p-1.0)*(VX4X5))*r[3] + \
+                ((HX4X6)-t*(SX4X6)+(p-1.0)*(VX4X6))*r[4] + \
+                ((HX4X7)-t*(SX4X7)+(p-1.0)*(VX4X7))*r[5] + \
+                ((HX4S1)-t*(SX4S1)+(p-1.0)*(VX4S1))*s[0] + \
+                ((HX4S2)-t*(SX4S2)+(p-1.0)*(VX4S2))*s[1] + \
+                ((HX2X4X7)+(p-1.0)*(VX2X4X7))*r[0]*r[5] + \
+                ((HX2X4S2)+(p-1.0)*(VX2X4S2))*r[0]*s[1] + \
+                ((HX3X4X7)+(p-1.0)*(VX3X4X7))*r[1]*r[5] + \
+                ((HX3X4S2)+(p-1.0)*(VX3X4S2))*r[1]*s[1] + \
+                ((HX4X4X7)+(p-1.0)*(VX4X4X7))*r[2]*r[5]*2.0 + \
+                ((HX4X4S2)+(p-1.0)*(VX4X4S2))*r[2]*s[1]*2.0 + \
+                ((HX4X5X7)+(p-1.0)*(VX4X5X7))*r[3]*r[5] + \
+                ((HX4X5S2)+(p-1.0)*(VX4X5S2))*r[3]*s[1] + \
+                ((HX4X6X7)+(p-1.0)*(VX4X6X7))*r[4]*r[5] + \
+                ((HX4X6S2)+(p-1.0)*(VX4X6S2))*r[4]*s[1] + \
+                ((HX4X7X7)-t*(SX4X7X7)+(p-1.0)*(VX4X7X7))*r[5]*r[5] + \
+                ((HX4X7S2)-t*(SX4X7S2)+(p-1.0)*(VX4X7S2))*r[5]*s[1] + \
+                ((HX4S2S2)+(p-1.0)*(VX4S2S2))*s[1]*s[1]
 #define DGDR3 R*t*(0.5*log(xal3m1) + 0.5*log(xfe3m1) - log(xmg2m1) \
-                - log(xmg2m1+xfe2m1-xti4m1) + log(xmg2m1+xfe2m1) \
-                - log(1.0-xsi4tet) + 0.5*log(xal3tet) + 0.5*log(xfe3tet) \
-                + log(1.0-xmg2m1-xfe2m1-xna1m2) - log(1.0-xmg2m1-xfe2m1)) + \
-              ((HX5)-t*(SX5)+(p-1.0)*(VX5)) + \
-              ((HX2X5)-t*(SX2X5)+(p-1.0)*(VX2X5))*r[0] + \
-              ((HX3X5)-t*(SX3X5)+(p-1.0)*(VX3X5))*r[1] + \
-              ((HX4X5)-t*(SX4X5)+(p-1.0)*(VX4X5))*r[2] + \
-              ((HX5X5)-t*(SX5X5)+(p-1.0)*(VX5X5))*r[3]*2.0 + \
-              ((HX5X6)-t*(SX5X6)+(p-1.0)*(VX5X6))*r[4] + \
-              ((HX5X7)-t*(SX5X7)+(p-1.0)*(VX5X7))*r[5] + \
-              ((HX5S1)-t*(SX5S1)+(p-1.0)*(VX5S1))*s[0] + \
-              ((HX5S2)-t*(SX5S2)+(p-1.0)*(VX5S2))*s[1] + \
-              ((HX2X5X7)+(p-1.0)*(VX2X5X7))*r[0]*r[5] + \
-              ((HX2X5S2)+(p-1.0)*(VX2X5S2))*r[0]*s[1] + \
-              ((HX3X5X7)+(p-1.0)*(VX3X5X7))*r[1]*r[5] + \
-              ((HX3X5S2)+(p-1.0)*(VX3X5S2))*r[1]*s[1] + \
-              ((HX4X5X7)+(p-1.0)*(VX4X5X7))*r[2]*r[5] + \
-              ((HX4X5S2)+(p-1.0)*(VX4X5S2))*r[2]*s[1] + \
-              ((HX5X5X7)+(p-1.0)*(VX5X5X7))*r[3]*r[5]*2.0 + \
-              ((HX5X5S2)+(p-1.0)*(VX5X5S2))*r[3]*s[1]*2.0 + \
-              ((HX5X6X7)+(p-1.0)*(VX5X6X7))*r[4]*r[5] + \
-              ((HX5X6S2)+(p-1.0)*(VX5X6S2))*r[4]*s[1] + \
-              ((HX5X7X7)-t*(SX5X7X7)+(p-1.0)*(VX5X7X7))*r[5]*r[5] + \
-              ((HX5X7S2)-t*(SX5X7S2)+(p-1.0)*(VX5X7S2))*r[5]*s[1] + \
-              ((HX5S2S2)+(p-1.0)*(VX5S2S2))*s[1]*s[1]
+                    - log(xmg2m1+xfe2m1-xti4m1) + log(xmg2m1+xfe2m1) \
+                    - log(1.0-xsi4tet) + 0.5*log(xal3tet) + 0.5*log(xfe3tet) \
+                    + log(1.0-xmg2m1-xfe2m1-xna1m2) - log(1.0-xmg2m1-xfe2m1)) + \
+                ((HX5)-t*(SX5)+(p-1.0)*(VX5)) + \
+                ((HX2X5)-t*(SX2X5)+(p-1.0)*(VX2X5))*r[0] + \
+                ((HX3X5)-t*(SX3X5)+(p-1.0)*(VX3X5))*r[1] + \
+                ((HX4X5)-t*(SX4X5)+(p-1.0)*(VX4X5))*r[2] + \
+                ((HX5X5)-t*(SX5X5)+(p-1.0)*(VX5X5))*r[3]*2.0 + \
+                ((HX5X6)-t*(SX5X6)+(p-1.0)*(VX5X6))*r[4] + \
+                ((HX5X7)-t*(SX5X7)+(p-1.0)*(VX5X7))*r[5] + \
+                ((HX5S1)-t*(SX5S1)+(p-1.0)*(VX5S1))*s[0] + \
+                ((HX5S2)-t*(SX5S2)+(p-1.0)*(VX5S2))*s[1] + \
+                ((HX2X5X7)+(p-1.0)*(VX2X5X7))*r[0]*r[5] + \
+                ((HX2X5S2)+(p-1.0)*(VX2X5S2))*r[0]*s[1] + \
+                ((HX3X5X7)+(p-1.0)*(VX3X5X7))*r[1]*r[5] + \
+                ((HX3X5S2)+(p-1.0)*(VX3X5S2))*r[1]*s[1] + \
+                ((HX4X5X7)+(p-1.0)*(VX4X5X7))*r[2]*r[5] + \
+                ((HX4X5S2)+(p-1.0)*(VX4X5S2))*r[2]*s[1] + \
+                ((HX5X5X7)+(p-1.0)*(VX5X5X7))*r[3]*r[5]*2.0 + \
+                ((HX5X5S2)+(p-1.0)*(VX5X5S2))*r[3]*s[1]*2.0 + \
+                ((HX5X6X7)+(p-1.0)*(VX5X6X7))*r[4]*r[5] + \
+                ((HX5X6S2)+(p-1.0)*(VX5X6S2))*r[4]*s[1] + \
+                ((HX5X7X7)-t*(SX5X7X7)+(p-1.0)*(VX5X7X7))*r[5]*r[5] + \
+                ((HX5X7S2)-t*(SX5X7S2)+(p-1.0)*(VX5X7S2))*r[5]*s[1] + \
+                ((HX5S2S2)+(p-1.0)*(VX5S2S2))*s[1]*s[1]
 #define DGDR4 R*t*(0.25*log(xal3m1) + 0.25*log(xfe3m1) - 0.5*log(xmg2m1) \
-                - 0.5*log(xmg2m1+xfe2m1-xti4m1) + 0.5*log(xmg2m1+xfe2m1) \
-                + 0.5*log(1.0-xsi4tet) - 0.25*log(xal3tet) \
-                - 0.25*log(xfe3tet) - log(xca2m2) + log(xna1m2) \
-                - 0.5*log(1.0-xmg2m1-xfe2m1-xna1m2) \
-                - 0.5*log(1.0-xmg2m1-xfe2m1) + log(1.0-xna1m2)) + \
-              ((HX6)-t*(SX6)+(p-1.0)*(VX6)) + \
-              ((HX2X6)-t*(SX2X6)+(p-1.0)*(VX2X6))*r[0] + \
-              ((HX3X6)-t*(SX3X6)+(p-1.0)*(VX3X6))*r[1] + \
-              ((HX4X6)-t*(SX4X6)+(p-1.0)*(VX4X6))*r[2] + \
-              ((HX5X6)-t*(SX5X6)+(p-1.0)*(VX5X6))*r[3] + \
-              ((HX6X6)-t*(SX6X6)+(p-1.0)*(VX6X6))*r[4]*2.0 + \
-              ((HX6X7)-t*(SX6X7)+(p-1.0)*(VX6X7))*r[5] + \
-              ((HX6S1)-t*(SX6S1)+(p-1.0)*(VX6S1))*s[0] + \
-              ((HX6S2)-t*(SX6S2)+(p-1.0)*(VX6S2))*s[1] + \
-              ((HX2X6X7)+(p-1.0)*(VX2X6X7))*r[0]*r[5] + \
-              ((HX2X6S2)+(p-1.0)*(VX2X6S2))*r[0]*s[1] + \
-              ((HX3X6X7)+(p-1.0)*(VX3X6X7))*r[1]*r[5] + \
-              ((HX3X6S2)+(p-1.0)*(VX3X6S2))*r[1]*s[1] + \
-              ((HX4X6X7)+(p-1.0)*(VX4X6X7))*r[2]*r[5] + \
-              ((HX4X6S2)+(p-1.0)*(VX4X6S2))*r[2]*s[1] + \
-              ((HX5X6X7)+(p-1.0)*(VX5X6X7))*r[3]*r[5] + \
-              ((HX5X6S2)+(p-1.0)*(VX5X6S2))*r[3]*s[1] + \
-              ((HX6X6X7)+(p-1.0)*(VX6X6X7))*r[4]*r[5]*2.0 + \
-              ((HX6X6S2)+(p-1.0)*(VX6X6S2))*r[4]*s[1]*2.0 + \
-              ((HX6X7X7)-t*(SX6X7X7)+(p-1.0)*(VX6X7X7))*r[5]*r[5] + \
-              ((HX6X7S2)-t*(SX6X7S2)+(p-1.0)*(VX6X7S2))*r[5]*s[1] + \
-              ((HX6S2S2)+(p-1.0)*(VX6S2S2))*s[1]*s[1]
+                    - 0.5*log(xmg2m1+xfe2m1-xti4m1) + 0.5*log(xmg2m1+xfe2m1) \
+                    + 0.5*log(1.0-xsi4tet) - 0.25*log(xal3tet) \
+                    - 0.25*log(xfe3tet) - log(xca2m2) + log(xna1m2) \
+                    - 0.5*log(1.0-xmg2m1-xfe2m1-xna1m2) \
+                    - 0.5*log(1.0-xmg2m1-xfe2m1) + log(1.0-xna1m2)) + \
+                ((HX6)-t*(SX6)+(p-1.0)*(VX6)) + \
+                ((HX2X6)-t*(SX2X6)+(p-1.0)*(VX2X6))*r[0] + \
+                ((HX3X6)-t*(SX3X6)+(p-1.0)*(VX3X6))*r[1] + \
+                ((HX4X6)-t*(SX4X6)+(p-1.0)*(VX4X6))*r[2] + \
+                ((HX5X6)-t*(SX5X6)+(p-1.0)*(VX5X6))*r[3] + \
+                ((HX6X6)-t*(SX6X6)+(p-1.0)*(VX6X6))*r[4]*2.0 + \
+                ((HX6X7)-t*(SX6X7)+(p-1.0)*(VX6X7))*r[5] + \
+                ((HX6S1)-t*(SX6S1)+(p-1.0)*(VX6S1))*s[0] + \
+                ((HX6S2)-t*(SX6S2)+(p-1.0)*(VX6S2))*s[1] + \
+                ((HX2X6X7)+(p-1.0)*(VX2X6X7))*r[0]*r[5] + \
+                ((HX2X6S2)+(p-1.0)*(VX2X6S2))*r[0]*s[1] + \
+                ((HX3X6X7)+(p-1.0)*(VX3X6X7))*r[1]*r[5] + \
+                ((HX3X6S2)+(p-1.0)*(VX3X6S2))*r[1]*s[1] + \
+                ((HX4X6X7)+(p-1.0)*(VX4X6X7))*r[2]*r[5] + \
+                ((HX4X6S2)+(p-1.0)*(VX4X6S2))*r[2]*s[1] + \
+                ((HX5X6X7)+(p-1.0)*(VX5X6X7))*r[3]*r[5] + \
+                ((HX5X6S2)+(p-1.0)*(VX5X6S2))*r[3]*s[1] + \
+                ((HX6X6X7)+(p-1.0)*(VX6X6X7))*r[4]*r[5]*2.0 + \
+                ((HX6X6S2)+(p-1.0)*(VX6X6S2))*r[4]*s[1]*2.0 + \
+                ((HX6X7X7)-t*(SX6X7X7)+(p-1.0)*(VX6X7X7))*r[5]*r[5] + \
+                ((HX6X7S2)-t*(SX6X7S2)+(p-1.0)*(VX6X7S2))*r[5]*s[1] + \
+                ((HX6S2S2)+(p-1.0)*(VX6S2S2))*s[1]*s[1]
 #define DGDR5 0.5*R*t*(log(xmg2m1) - 2.0*log(xca2m2) \
-                + log(xmg2m2) + log(xfe2m2/xfe2m1)) + \
-              ((HX7)-t*(SX7)+(p-1.0)*(VX7)) + \
-              ((HX2X7)-t*(SX2X7)+(p-1.0)*(VX2X7))*r[0] + \
-              ((HX3X7)-t*(SX3X7)+(p-1.0)*(VX3X7))*r[1] + \
-              ((HX4X7)-t*(SX4X7)+(p-1.0)*(VX4X7))*r[2] + \
-              ((HX5X7)-t*(SX5X7)+(p-1.0)*(VX5X7))*r[3] + \
-              ((HX6X7)-t*(SX6X7)+(p-1.0)*(VX6X7))*r[4] + \
-              ((HX7X7)-t*(SX7X7)+(p-1.0)*(VX7X7))*r[5]*2.0 + \
-              ((HX7S1)-t*(SX7S1)+(p-1.0)*(VX7S1))*s[0] + \
-              ((HX7S2)-t*(SX7S2)+(p-1.0)*(VX7S2))*s[1] + \
-              ((HX2X2X7)+(p-1.0)*(VX2X2X7))*r[0]*r[0] + \
-              ((HX2X3X7)+(p-1.0)*(VX2X3X7))*r[0]*r[1] + \
-              ((HX2X4X7)+(p-1.0)*(VX2X4X7))*r[0]*r[2] + \
-              ((HX2X5X7)+(p-1.0)*(VX2X5X7))*r[0]*r[3] + \
-              ((HX2X6X7)+(p-1.0)*(VX2X6X7))*r[0]*r[4] + \
-              ((HX2X7X7)-t*(SX2X7X7)+(p-1.0)*(VX2X7X7))*r[0]*r[5]*2.0 + \
-              ((HX2X7S2)+(p-1.0)*(VX2X7S2))*r[0]*s[1] + \
-              ((HX3X3X7)+(p-1.0)*(VX3X3X7))*r[1]*r[1] + \
-              ((HX3X4X7)+(p-1.0)*(VX3X4X7))*r[1]*r[2] + \
-              ((HX3X5X7)+(p-1.0)*(VX3X5X7))*r[1]*r[3] + \
-              ((HX3X6X7)+(p-1.0)*(VX3X6X7))*r[1]*r[4] + \
-              ((HX3X7X7)-t*(SX3X7X7)+(p-1.0)*(VX3X7X7))*r[1]*r[5]*2.0 + \
-              ((HX3X7S2)-t*(SX3X7S2)+(p-1.0)*(VX3X7S2))*r[1]*s[1] + \
-              ((HX4X4X7)+(p-1.0)*(VX4X4X7))*r[2]*r[2] + \
-              ((HX4X5X7)+(p-1.0)*(VX4X5X7))*r[2]*r[3] + \
-              ((HX4X6X7)+(p-1.0)*(VX4X6X7))*r[2]*r[4] + \
-              ((HX4X7X7)-t*(SX4X7X7)+(p-1.0)*(VX4X7X7))*r[2]*r[5]*2.0 + \
-              ((HX4X7S2)-t*(SX4X7S2)+(p-1.0)*(VX4X7S2))*r[2]*s[1] + \
-              ((HX5X5X7)+(p-1.0)*(VX5X5X7))*r[3]*r[3] + \
-              ((HX5X6X7)+(p-1.0)*(VX5X6X7))*r[3]*r[4] + \
-              ((HX5X7X7)-t*(SX5X7X7)+(p-1.0)*(VX5X7X7))*r[3]*r[5]*2.0 + \
-              ((HX5X7S2)-t*(SX5X7S2)+(p-1.0)*(VX5X7S2))*r[3]*s[1] + \
-              ((HX6X6X7)+(p-1.0)*(VX6X6X7))*r[4]*r[4] + \
-              ((HX6X7X7)-t*(SX6X7X7)+(p-1.0)*(VX6X7X7))*r[4]*r[5]*2.0 + \
-              ((HX6X7S2)-t*(SX6X7S2)+(p-1.0)*(VX6X7S2))*r[4]*s[1] + \
-              ((HX7X7X7)-t*(SX7X7X7)+(p-1.0)*(VX7X7X7))*r[5]*r[5]*3.0 + \
-              ((HX7X7S2)-t*(SX7X7S2)+(p-1.0)*(VX7X7S2))*r[5]*s[1]*2.0 + \
-              ((HX7S2S2)+(p-1.0)*(VX7S2S2))*s[1]*s[1]
+                    + log(xmg2m2) + log(xfe2m2/xfe2m1)) + \
+                ((HX7)-t*(SX7)+(p-1.0)*(VX7)) + \
+                ((HX2X7)-t*(SX2X7)+(p-1.0)*(VX2X7))*r[0] + \
+                ((HX3X7)-t*(SX3X7)+(p-1.0)*(VX3X7))*r[1] + \
+                ((HX4X7)-t*(SX4X7)+(p-1.0)*(VX4X7))*r[2] + \
+                ((HX5X7)-t*(SX5X7)+(p-1.0)*(VX5X7))*r[3] + \
+                ((HX6X7)-t*(SX6X7)+(p-1.0)*(VX6X7))*r[4] + \
+                ((HX7X7)-t*(SX7X7)+(p-1.0)*(VX7X7))*r[5]*2.0 + \
+                ((HX7S1)-t*(SX7S1)+(p-1.0)*(VX7S1))*s[0] + \
+                ((HX7S2)-t*(SX7S2)+(p-1.0)*(VX7S2))*s[1] + \
+                ((HX2X2X7)+(p-1.0)*(VX2X2X7))*r[0]*r[0] + \
+                ((HX2X3X7)+(p-1.0)*(VX2X3X7))*r[0]*r[1] + \
+                ((HX2X4X7)+(p-1.0)*(VX2X4X7))*r[0]*r[2] + \
+                ((HX2X5X7)+(p-1.0)*(VX2X5X7))*r[0]*r[3] + \
+                ((HX2X6X7)+(p-1.0)*(VX2X6X7))*r[0]*r[4] + \
+                ((HX2X7X7)-t*(SX2X7X7)+(p-1.0)*(VX2X7X7))*r[0]*r[5]*2.0 + \
+                ((HX2X7S2)+(p-1.0)*(VX2X7S2))*r[0]*s[1] + \
+                ((HX3X3X7)+(p-1.0)*(VX3X3X7))*r[1]*r[1] + \
+                ((HX3X4X7)+(p-1.0)*(VX3X4X7))*r[1]*r[2] + \
+                ((HX3X5X7)+(p-1.0)*(VX3X5X7))*r[1]*r[3] + \
+                ((HX3X6X7)+(p-1.0)*(VX3X6X7))*r[1]*r[4] + \
+                ((HX3X7X7)-t*(SX3X7X7)+(p-1.0)*(VX3X7X7))*r[1]*r[5]*2.0 + \
+                ((HX3X7S2)-t*(SX3X7S2)+(p-1.0)*(VX3X7S2))*r[1]*s[1] + \
+                ((HX4X4X7)+(p-1.0)*(VX4X4X7))*r[2]*r[2] + \
+                ((HX4X5X7)+(p-1.0)*(VX4X5X7))*r[2]*r[3] + \
+                ((HX4X6X7)+(p-1.0)*(VX4X6X7))*r[2]*r[4] + \
+                ((HX4X7X7)-t*(SX4X7X7)+(p-1.0)*(VX4X7X7))*r[2]*r[5]*2.0 + \
+                ((HX4X7S2)-t*(SX4X7S2)+(p-1.0)*(VX4X7S2))*r[2]*s[1] + \
+                ((HX5X5X7)+(p-1.0)*(VX5X5X7))*r[3]*r[3] + \
+                ((HX5X6X7)+(p-1.0)*(VX5X6X7))*r[3]*r[4] + \
+                ((HX5X7X7)-t*(SX5X7X7)+(p-1.0)*(VX5X7X7))*r[3]*r[5]*2.0 + \
+                ((HX5X7S2)-t*(SX5X7S2)+(p-1.0)*(VX5X7S2))*r[3]*s[1] + \
+                ((HX6X6X7)+(p-1.0)*(VX6X6X7))*r[4]*r[4] + \
+                ((HX6X7X7)-t*(SX6X7X7)+(p-1.0)*(VX6X7X7))*r[4]*r[5]*2.0 + \
+                ((HX6X7S2)-t*(SX6X7S2)+(p-1.0)*(VX6X7S2))*r[4]*s[1] + \
+                ((HX7X7X7)-t*(SX7X7X7)+(p-1.0)*(VX7X7X7))*r[5]*r[5]*3.0 + \
+                ((HX7X7S2)-t*(SX7X7S2)+(p-1.0)*(VX7X7S2))*r[5]*s[1]*2.0 + \
+                ((HX7S2S2)+(p-1.0)*(VX7S2S2))*s[1]*s[1]
 #define DGDS0 0.5*R*t*(log(xfe3m1)-log(xal3m1)+log(xal3tet)-log(xfe3tet)) + \
-              ((HS1)-t*(SS1)+(p-1.0)*(VS1)) + \
-              ((HX2S1)-t*(SX2S1)+(p-1.0)*(VX2S1))*r[0] + \
-              ((HX3S1)-t*(SX3S1)+(p-1.0)*(VX3S1))*r[1] + \
-              ((HX4S1)-t*(SX4S1)+(p-1.0)*(VX4S1))*r[2] + \
-              ((HX5S1)-t*(SX5S1)+(p-1.0)*(VX5S1))*r[3] + \
-              ((HX6S1)-t*(SX6S1)+(p-1.0)*(VX6S1))*r[4] + \
-              ((HX7S1)-t*(SX7S1)+(p-1.0)*(VX7S1))*r[5] + \
-              ((HS1S1)-t*(SS1S1)+(p-1.0)*(VS1S1))*s[0]*2.0 + \
-              ((HS1S2)-t*(SS1S2)+(p-1.0)*(VS1S2))*s[1]
+                ((HS1)-t*(SS1)+(p-1.0)*(VS1)) + \
+                ((HX2S1)-t*(SX2S1)+(p-1.0)*(VX2S1))*r[0] + \
+                ((HX3S1)-t*(SX3S1)+(p-1.0)*(VX3S1))*r[1] + \
+                ((HX4S1)-t*(SX4S1)+(p-1.0)*(VX4S1))*r[2] + \
+                ((HX5S1)-t*(SX5S1)+(p-1.0)*(VX5S1))*r[3] + \
+                ((HX6S1)-t*(SX6S1)+(p-1.0)*(VX6S1))*r[4] + \
+                ((HX7S1)-t*(SX7S1)+(p-1.0)*(VX7S1))*r[5] + \
+                ((HS1S1)-t*(SS1S1)+(p-1.0)*(VS1S1))*s[0]*2.0 + \
+                ((HS1S2)-t*(SS1S2)+(p-1.0)*(VS1S2))*s[1]
 #define DGDS1 0.5*R*t*(log(xmg2m1)-log(xfe2m1)+log(xfe2m2)-log(xmg2m2)) + \
-              ((HS2)-t*(SS2)+(p-1.0)*(VS2)) + \
-              ((HX2S2)-t*(SX2S2)+(p-1.0)*(VX2S2))*r[0] + \
-              ((HX3S2)-t*(SX3S2)+(p-1.0)*(VX3S2))*r[1] + \
-              ((HX4S2)-t*(SX4S2)+(p-1.0)*(VX4S2))*r[2] + \
-              ((HX5S2)-t*(SX5S2)+(p-1.0)*(VX5S2))*r[3] + \
-              ((HX6S2)-t*(SX6S2)+(p-1.0)*(VX6S2))*r[4] + \
-              ((HX7S2)-t*(SX7S2)+(p-1.0)*(VX7S2))*r[5] + \
-              ((HS1S2)-t*(SS1S2)+(p-1.0)*(VS1S2))*s[0] + \
-              ((HS2S2)-t*(SS2S2)+(p-1.0)*(VS2S2))*s[1]*2.0 + \
-              ((HX2X2S2)+(p-1.0)*(VX2X2S2))*r[0]*r[0] + \
-              ((HX2X3S2)+(p-1.0)*(VX2X3S2))*r[0]*r[1] + \
-              ((HX2X4S2)+(p-1.0)*(VX2X4S2))*r[0]*r[2] + \
-              ((HX2X5S2)+(p-1.0)*(VX2X5S2))*r[0]*r[3] + \
-              ((HX2X6S2)+(p-1.0)*(VX2X6S2))*r[0]*r[4] + \
-              ((HX2X7S2)+(p-1.0)*(VX2X7S2))*r[0]*r[5] + \
-              ((HX2S2S2)+(p-1.0)*(VX2S2S2))*r[0]*s[1]*2.0 + \
-              ((HX3X3S2)+(p-1.0)*(VX3X3S2))*r[1]*r[1] + \
-              ((HX3X4S2)+(p-1.0)*(VX3X4S2))*r[1]*r[2] + \
-              ((HX3X5S2)+(p-1.0)*(VX3X5S2))*r[1]*r[3] + \
-              ((HX3X6S2)+(p-1.0)*(VX3X6S2))*r[1]*r[4] + \
-              ((HX3X7S2)-t*(SX3X7S2)+(p-1.0)*(VX3X7S2))*r[1]*r[5] + \
-              ((HX3S2S2)+(p-1.0)*(VX3S2S2))*r[1]*s[1]*2.0 + \
-              ((HX4X4S2)+(p-1.0)*(VX4X4S2))*r[2]*r[2] + \
-              ((HX4X5S2)+(p-1.0)*(VX4X5S2))*r[2]*r[3] + \
-              ((HX4X6S2)+(p-1.0)*(VX4X6S2))*r[2]*r[4] + \
-              ((HX4X7S2)-t*(SX4X7S2)+(p-1.0)*(VX4X7S2))*r[2]*r[5] + \
-              ((HX4S2S2)+(p-1.0)*(VX4S2S2))*r[2]*s[1]*2.0 + \
-              ((HX5X5S2)+(p-1.0)*(VX5X5S2))*r[3]*r[3] + \
-              ((HX5X6S2)+(p-1.0)*(VX5X6S2))*r[3]*r[4] + \
-              ((HX5X7S2)-t*(SX5X7S2)+(p-1.0)*(VX5X7S2))*r[3]*r[5] + \
-              ((HX5S2S2)+(p-1.0)*(VX5S2S2))*r[3]*s[1]*2.0 + \
-              ((HX6X6S2)+(p-1.0)*(VX6X6S2))*r[4]*r[4] + \
-              ((HX6X7S2)-t*(SX6X7S2)+(p-1.0)*(VX6X7S2))*r[4]*r[5] + \
-              ((HX6S2S2)+(p-1.0)*(VX6S2S2))*r[4]*s[1]*2.0 + \
-              ((HX7X7S2)-t*(SX7X7S2)+(p-1.0)*(VX7X7S2))*r[5]*r[5] + \
-              ((HX7S2S2)+(p-1.0)*(VX7S2S2))*r[5]*s[1]*2.0
+                ((HS2)-t*(SS2)+(p-1.0)*(VS2)) + \
+                ((HX2S2)-t*(SX2S2)+(p-1.0)*(VX2S2))*r[0] + \
+                ((HX3S2)-t*(SX3S2)+(p-1.0)*(VX3S2))*r[1] + \
+                ((HX4S2)-t*(SX4S2)+(p-1.0)*(VX4S2))*r[2] + \
+                ((HX5S2)-t*(SX5S2)+(p-1.0)*(VX5S2))*r[3] + \
+                ((HX6S2)-t*(SX6S2)+(p-1.0)*(VX6S2))*r[4] + \
+                ((HX7S2)-t*(SX7S2)+(p-1.0)*(VX7S2))*r[5] + \
+                ((HS1S2)-t*(SS1S2)+(p-1.0)*(VS1S2))*s[0] + \
+                ((HS2S2)-t*(SS2S2)+(p-1.0)*(VS2S2))*s[1]*2.0 + \
+                ((HX2X2S2)+(p-1.0)*(VX2X2S2))*r[0]*r[0] + \
+                ((HX2X3S2)+(p-1.0)*(VX2X3S2))*r[0]*r[1] + \
+                ((HX2X4S2)+(p-1.0)*(VX2X4S2))*r[0]*r[2] + \
+                ((HX2X5S2)+(p-1.0)*(VX2X5S2))*r[0]*r[3] + \
+                ((HX2X6S2)+(p-1.0)*(VX2X6S2))*r[0]*r[4] + \
+                ((HX2X7S2)+(p-1.0)*(VX2X7S2))*r[0]*r[5] + \
+                ((HX2S2S2)+(p-1.0)*(VX2S2S2))*r[0]*s[1]*2.0 + \
+                ((HX3X3S2)+(p-1.0)*(VX3X3S2))*r[1]*r[1] + \
+                ((HX3X4S2)+(p-1.0)*(VX3X4S2))*r[1]*r[2] + \
+                ((HX3X5S2)+(p-1.0)*(VX3X5S2))*r[1]*r[3] + \
+                ((HX3X6S2)+(p-1.0)*(VX3X6S2))*r[1]*r[4] + \
+                ((HX3X7S2)-t*(SX3X7S2)+(p-1.0)*(VX3X7S2))*r[1]*r[5] + \
+                ((HX3S2S2)+(p-1.0)*(VX3S2S2))*r[1]*s[1]*2.0 + \
+                ((HX4X4S2)+(p-1.0)*(VX4X4S2))*r[2]*r[2] + \
+                ((HX4X5S2)+(p-1.0)*(VX4X5S2))*r[2]*r[3] + \
+                ((HX4X6S2)+(p-1.0)*(VX4X6S2))*r[2]*r[4] + \
+                ((HX4X7S2)-t*(SX4X7S2)+(p-1.0)*(VX4X7S2))*r[2]*r[5] + \
+                ((HX4S2S2)+(p-1.0)*(VX4S2S2))*r[2]*s[1]*2.0 + \
+                ((HX5X5S2)+(p-1.0)*(VX5X5S2))*r[3]*r[3] + \
+                ((HX5X6S2)+(p-1.0)*(VX5X6S2))*r[3]*r[4] + \
+                ((HX5X7S2)-t*(SX5X7S2)+(p-1.0)*(VX5X7S2))*r[3]*r[5] + \
+                ((HX5S2S2)+(p-1.0)*(VX5S2S2))*r[3]*s[1]*2.0 + \
+                ((HX6X6S2)+(p-1.0)*(VX6X6S2))*r[4]*r[4] + \
+                ((HX6X7S2)-t*(SX6X7S2)+(p-1.0)*(VX6X7S2))*r[4]*r[5] + \
+                ((HX6S2S2)+(p-1.0)*(VX6S2S2))*r[4]*s[1]*2.0 + \
+                ((HX7X7S2)-t*(SX7X7S2)+(p-1.0)*(VX7X7S2))*r[5]*r[5] + \
+                ((HX7S2S2)+(p-1.0)*(VX7S2S2))*r[5]*s[1]*2.0
 #define DGDT  -(S)
 #define DGDP  (V)
 
@@ -2773,7 +2774,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR0R0R3 R*t*(1.0/SQUARE(xmg2m1) )
 #define D3GDR0R0R4 R*t*(0.5/SQUARE(xmg2m1) )
 #define D3GDR0R0R5 R*t*(0.5/SQUARE(xfe2m1) - 0.5/SQUARE(xmg2m1) ) \
-		   + 2.0*((HX2X2X7) + (p-1.0)*(VX2X2X7) )
+                   + 2.0*((HX2X2X7) + (p-1.0)*(VX2X2X7) )
 #define D3GDR0R0S0 0.0
 #define D3GDR0R0S1 -R*t*(-0.5/SQUARE(xfe2m1) + 0.5/SQUARE(xmg2m1)) + \
                    ((HX2X2S2)+(p-1.0)*(VX2X2S2))*2.0
@@ -2793,7 +2794,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR0R2R2 R*t*(0.25/SQUARE(xmg2m1) )
 #define D3GDR0R2R3 R*t*(0.5/SQUARE(xmg2m1) )
 #define D3GDR0R2R4 R*t*(0.25/SQUARE(xmg2m1) )
-#define D3GDR0R2R5 -R*t*0.25/SQUARE(xmg2m1) + ((HX2X4X7)+(p-1.0)*(VX2X4X7))  
+#define D3GDR0R2R5 -R*t*0.25/SQUARE(xmg2m1) + ((HX2X4X7)+(p-1.0)*(VX2X4X7))
 #define D3GDR0R2S0 0.0
 #define D3GDR0R2S1 -R*t*0.25/SQUARE(xmg2m1) + ((HX2X4S2)+(p-1.0)*(VX2X4S2))
 #define D3GDR0R2DT R*(0.5/xmg2m1) - (SX2X4)
@@ -2815,7 +2816,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR0R4DP (VX2X6) + (VX2X6X7)*r[5] + (VX2X6S2)*s[1]
 
 #define D3GDR0R5R5 R*t*(-0.25/SQUARE(xfe2m1) + 0.25/SQUARE(xmg2m1) ) \
-		   + 2.0*((HX2X7X7)-t*(SX2X7X7)+(p-1.0)*(VX2X7X7) )
+                   + 2.0*((HX2X7X7)-t*(SX2X7X7)+(p-1.0)*(VX2X7X7) )
 #define D3GDR0R5S0 0.0
 #define D3GDR0R5S1 -R*t*(0.25/SQUARE(xfe2m1) - 0.25/SQUARE(xmg2m1)) + \
                    ((HX2X7S2)+(p-1.0)*(VX2X7S2))
@@ -2823,7 +2824,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR0R5DP (VX2X7) + (VX2X2X7)*r[0]*2.0 + (VX2X3X7)*r[1] + \
                    (VX2X4X7)*r[2] + (VX2X5X7)*r[3] + (VX2X6X7)*r[4] + \
                    (VX2X7X7)*r[5]*2.0 + (VX2X7S2)*s[1]
-  
+
 #define D3GDR0S0S0 0.0
 #define D3GDR0S0S1 0.0
 #define D3GDR0S0DT -(SX2S1)
@@ -2837,21 +2838,21 @@ purePyx(int mask, double t, double p,
                    (VX2X7S2)*r[5] + (VX2S2S2)*s[1]*2.0
 
 #define D3GDR1R1R1 R*t*(-0.125/SQUARE(xti4m1) + 0.125/SQUARE(xmg2m1) \
-		   -0.125/SQUARE(1.0-xti4m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                   -0.125/SQUARE(1.0-xti4m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) - 0.25/SQUARE(xal3tet) )
 #define D3GDR1R1R2 R*t*(-0.125/SQUARE(xti4m1) + 0.125/SQUARE(xmg2m1) \
-		   -0.125/SQUARE(1.0-xti4m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                   -0.125/SQUARE(1.0-xti4m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) )
 #define D3GDR1R1R3 R*t*(0.25/SQUARE(xmg2m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.25/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                    -0.25/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.25/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.25/SQUARE(1.0-xmg2m1-xfe2m1) - 0.125/SQUARE(xal3tet) )
 #define D3GDR1R1R4 R*t*(0.125/SQUARE(xmg2m1)+0.5/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) + 0.0625/SQUARE(xal3tet) )
 #define D3GDR1R1R5 -R*t*0.125/SQUARE(xmg2m1)+((HX3X3X7)+(p-1.0)*(VX3X3X7))*2.0
@@ -2864,16 +2865,16 @@ purePyx(int mask, double t, double p,
 #define D3GDR1R1DP (VX3X3)*2.0 + (VX3X3X7)*r[5]*2.0 + (VX3X3S2)*s[1]*2.0
 
 #define D3GDR1R2R2 R*t*(-0.125/SQUARE(xti4m1) + 0.125/SQUARE(xmg2m1) \
-		   -0.125/SQUARE(1.0-xti4m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                   -0.125/SQUARE(1.0-xti4m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) )
 #define D3GDR1R2R3 R*t*(0.25/SQUARE(xmg2m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.25/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                    -0.25/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.25/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.25/SQUARE(1.0-xmg2m1-xfe2m1) )
 #define D3GDR1R2R4 R*t*(0.125/SQUARE(xmg2m1)+0.5/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) )
 #define D3GDR1R2R5 -R*t*0.125/SQUARE(xmg2m1)+((HX3X4X7)+(p-1.0)*(VX3X4X7))
@@ -2886,11 +2887,11 @@ purePyx(int mask, double t, double p,
 #define D3GDR1R2DP (VX3X4) + (VX3X4X7)*r[5] + (VX3X4S2)*s[1]
 
 #define D3GDR1R3R3 R*t*(0.5/SQUARE(xmg2m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.5/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                    -0.5/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.5/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.5/SQUARE(1.0-xmg2m1-xfe2m1) - 0.0625/SQUARE(xal3tet) )
 #define D3GDR1R3R4 R*t*(0.25/SQUARE(xmg2m1)+0.5/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.25/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
+                    -0.25/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
                    + 0.25/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.25/SQUARE(1.0-xmg2m1-xfe2m1) + 0.03125/SQUARE(xal3tet) )
 #define D3GDR1R3R5 -R*t*0.25/SQUARE(xmg2m1)+((HX3X5X7)+(p-1.0)*(VX3X5X7))
@@ -2903,7 +2904,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR1R3DP (VX3X5) + (VX3X5X7)*r[5] + (VX3X5S2)*s[1]
 
 #define D3GDR1R4R4 R*t*(0.125/SQUARE(xmg2m1)+0.25/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) + 0.0625/SQUARE(1.0-xsi4tet) \
+            -0.125/SQUARE(xmg2m1+xfe2m1) + 0.0625/SQUARE(1.0-xsi4tet) \
                    - 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) - 0.015625/SQUARE(xal3tet) )
 #define D3GDR1R4R5 -R*t*0.125/SQUARE(xmg2m1)+((HX3X6X7)+(p-1.0)*(VX3X6X7))
@@ -2916,7 +2917,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR1R4DP (VX3X6) + (VX3X6X7)*r[5] + (VX3X6S2)*s[1]
 
 #define D3GDR1R5R5 R*t*0.125/SQUARE(xmg2m1)+ \
-		   ((HX3X7X7)-t*(SX3X7X7)+(p-1.0)*(VX3X7X7))*2.0
+                   ((HX3X7X7)-t*(SX3X7X7)+(p-1.0)*(VX3X7X7))*2.0
 #define D3GDR1R5S0 0.0
 #define D3GDR1R5S1 R*t*0.125/SQUARE(xmg2m1) + \
                    ((HX3X7S2)-t*(SX3X7S2)+(p-1.0)*(VX3X7S2))
@@ -2938,16 +2939,16 @@ purePyx(int mask, double t, double p,
                    (VX3X7S2)*r[5] + (VX3S2S2)*s[1]*2.0
 
 #define D3GDR2R2R2 R*t*(-0.125/SQUARE(xti4m1) + 0.125/SQUARE(xmg2m1) \
-		   -0.125/SQUARE(1.0-xti4m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                   -0.125/SQUARE(1.0-xti4m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) - 0.25/SQUARE(xfe3tet) )
 #define D3GDR2R2R3 R*t*(0.25/SQUARE(xmg2m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.25/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                    -0.25/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.25/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.25/SQUARE(1.0-xmg2m1-xfe2m1) - 0.125/SQUARE(xfe3tet) )
 #define D3GDR2R2R4 R*t*(0.125/SQUARE(xmg2m1)+0.5/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) + 0.0625/SQUARE(xfe3tet) )
 #define D3GDR2R2R5 -R*t*0.125/SQUARE(xmg2m1)+((HX4X4X7)+(p-1.0)*(VX4X4X7))*2.0
@@ -2960,11 +2961,11 @@ purePyx(int mask, double t, double p,
 #define D3GDR2R2DP (VX4X4)*2.0 + (VX4X4X7)*r[5]*2.0 + (VX4X4S2)*s[1]*2.0
 
 #define D3GDR2R3R3 R*t*(0.5/SQUARE(xmg2m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.5/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                    -0.5/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
                    - 0.5/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.5/SQUARE(1.0-xmg2m1-xfe2m1) - 0.0625/SQUARE(xfe3tet) )
 #define D3GDR2R3R4 R*t*(0.25/SQUARE(xmg2m1)+0.5/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.25/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
+                    -0.25/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
                    + 0.25/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.25/SQUARE(1.0-xmg2m1-xfe2m1) + 0.03125/SQUARE(xfe3tet) )
 #define D3GDR2R3R5 -R*t*0.25/SQUARE(xmg2m1)+((HX4X5X7)+(p-1.0)*(VX4X5X7))
@@ -2977,7 +2978,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR2R3DP (VX4X5) + (VX4X5X7)*r[5] + (VX4X5S2)*s[1]
 
 #define D3GDR2R4R4 R*t*(0.125/SQUARE(xmg2m1)+0.25/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) + 0.0625/SQUARE(1.0-xsi4tet) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) + 0.0625/SQUARE(1.0-xsi4tet) \
                    - 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) - 0.015625/SQUARE(xfe3tet) )
 #define D3GDR2R4R5 -R*t*0.125/SQUARE(xmg2m1)+((HX4X6X7)+(p-1.0)*(VX4X6X7))
@@ -2990,7 +2991,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR2R4DP (VX4X6) + (VX4X6X7)*r[5] + (VX4X6S2)*s[1]
 
 #define D3GDR2R5R5 R*t*0.125/SQUARE(xmg2m1)+ \
-		   ((HX4X7X7)-t*(SX4X7X7)+(p-1.0)*(VX4X7X7))*2.0
+                   ((HX4X7X7)-t*(SX4X7X7)+(p-1.0)*(VX4X7X7))*2.0
 #define D3GDR2R5S0 0.0
 #define D3GDR2R5S1 R*t*0.125/SQUARE(xmg2m1) + \
                    ((HX4X7S2)-t*(SX4X7S2)+(p-1.0)*(VX4X7S2))
@@ -3012,15 +3013,15 @@ purePyx(int mask, double t, double p,
                    (VX4X7S2)*r[5] + (VX4S2S2)*s[1]*2.0
 
 #define D3GDR3R3R3 R*t*(-.125/SQUARE(xal3m1)-.125/SQUARE(xfe3m1)+ \
-		   1.0/SQUARE(xmg2m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -1.0/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
-		   -0.03125/SQUARE(xal3tet)-0.03125/SQUARE(xfe3tet) \
+                   1.0/SQUARE(xmg2m1)+1.0/SQUARE(xmg2m1+xfe2m1-xti4m1) \
+                    -1.0/SQUARE(xmg2m1+xfe2m1) + 0.25/SQUARE(1.0-xsi4tet) \
+                   -0.03125/SQUARE(xal3tet)-0.03125/SQUARE(xfe3tet) \
                    - 1.0/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 1.0/SQUARE(1.0-xmg2m1-xfe2m1) )
 #define D3GDR3R3R4 R*t*(-.0625/SQUARE(xal3m1)-.0625/SQUARE(xfe3m1)+ \
-		   0.5/SQUARE(xmg2m1)+0.5/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.5/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
-		   +0.015625/SQUARE(xal3tet)+0.015625/SQUARE(xfe3tet) \
+                   0.5/SQUARE(xmg2m1)+0.5/SQUARE(xmg2m1+xfe2m1-xti4m1) \
+                    -0.5/SQUARE(xmg2m1+xfe2m1) - 0.125/SQUARE(1.0-xsi4tet) \
+                   +0.015625/SQUARE(xal3tet)+0.015625/SQUARE(xfe3tet) \
                    + 0.5/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.5/SQUARE(1.0-xmg2m1-xfe2m1) )
 #define D3GDR3R3R5 -R*t*0.5/SQUARE(xmg2m1)+((HX5X5X7)+(p-1.0)*(VX5X5X7))*2.0
@@ -3035,9 +3036,9 @@ purePyx(int mask, double t, double p,
 #define D3GDR3R3DP (VX5X5)*2.0 + (VX5X5X7)*r[5]*2.0 + (VX5X5S2)*s[1]*2.0
 
 #define D3GDR3R4R4 R*t*(-.03125/SQUARE(xal3m1)-.03125/SQUARE(xfe3m1)+ \
-		   0.25/SQUARE(xmg2m1)+0.25/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.25/SQUARE(xmg2m1+xfe2m1) + 0.0625/SQUARE(1.0-xsi4tet) \
-		   -0.0078125/SQUARE(xal3tet)-0.0078125/SQUARE(xfe3tet) \
+                   0.25/SQUARE(xmg2m1)+0.25/SQUARE(xmg2m1+xfe2m1-xti4m1) \
+                    -0.25/SQUARE(xmg2m1+xfe2m1) + 0.0625/SQUARE(1.0-xsi4tet) \
+                   -0.0078125/SQUARE(xal3tet)-0.0078125/SQUARE(xfe3tet) \
                    - 0.25/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.25/SQUARE(1.0-xmg2m1-xfe2m1) )
 #define D3GDR3R4R5 -R*t*0.25/SQUARE(xmg2m1)+((HX5X6X7)+(p-1.0)*(VX5X6X7))
@@ -3052,7 +3053,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR3R4DP (VX5X6) + (VX5X6X7)*r[5] + (VX5X6S2)*s[1]
 
 #define D3GDR3R5R5 R*t*0.25/SQUARE(xmg2m1)+ \
-		   ((HX5X7X7)-t*(SX5X7X7)+(p-1.0)*(VX5X7X7))*2.0
+                   ((HX5X7X7)-t*(SX5X7X7)+(p-1.0)*(VX5X7X7))*2.0
 #define D3GDR3R5S0 0.0
 #define D3GDR3R5S1 R*t*0.25/SQUARE(xmg2m1) + \
                    ((HX5X7S2)-t*(SX5X7S2)+(p-1.0)*(VX5X7S2))
@@ -3076,14 +3077,14 @@ purePyx(int mask, double t, double p,
                    (VX5X7S2)*r[5] + (VX5S2S2)*s[1]*2.0
 
 #define D3GDR4R4R4 R*t*(-.015625/SQUARE(xal3m1)-.015625/SQUARE(xfe3m1)+ \
-		   0.125/SQUARE(xmg2m1)+0.125/SQUARE(xmg2m1+xfe2m1-xti4m1) \
- 		   -0.125/SQUARE(xmg2m1+xfe2m1) - 0.03125/SQUARE(1.0-xsi4tet) \
-		   +0.00390625/SQUARE(xal3tet)+0.00390625/SQUARE(xfe3tet) \
+                   0.125/SQUARE(xmg2m1)+0.125/SQUARE(xmg2m1+xfe2m1-xti4m1) \
+                    -0.125/SQUARE(xmg2m1+xfe2m1) - 0.03125/SQUARE(1.0-xsi4tet) \
+                   +0.00390625/SQUARE(xal3tet)+0.00390625/SQUARE(xfe3tet) \
                    +1.0/SQUARE(xca2m2)-1.0/SQUARE(xna1m2) \
-		   + 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
+                   + 0.125/SQUARE(1.0-xmg2m1-xfe2m1-xna1m2) \
                    + 0.125/SQUARE(1.0-xmg2m1-xfe2m1) - 1.0/SQUARE(1.0-xna1m2) )
 #define D3GDR4R4R5 R*t*(-0.125/SQUARE(xmg2m1)+1.0/SQUARE(xca2m2) ) + \
-		   2.0*((HX6X6X7)+(p-1.0)*(VX6X6X7))
+                   2.0*((HX6X6X7)+(p-1.0)*(VX6X6X7))
 #define D3GDR4R4S0 -R*t*(-0.03125/SQUARE(xal3m1) + 0.03125/SQUARE(xfe3m1) \
                    + 0.0078125/SQUARE(xal3tet) - 0.0078125/SQUARE(xfe3tet))
 #define D3GDR4R4S1 -R*t*0.125/SQUARE(xmg2m1) + ((HX6X6S2)+(p-1.0)*(VX6X6S2))*2.0
@@ -3095,7 +3096,7 @@ purePyx(int mask, double t, double p,
 #define D3GDR4R4DP (VX6X6)*2.0 + (VX6X6X7)*r[5]*2.0 + (VX6X6S2)*s[1]*2.0
 
 #define D3GDR4R5R5 R*t*(0.125/SQUARE(xmg2m1)+1.0/SQUARE(xca2m2) ) + \
-		   2.0*((HX6X7X7)-t*(SX6X7X7)+(p-1.0)*(VX6X7X7))
+                   2.0*((HX6X7X7)-t*(SX6X7X7)+(p-1.0)*(VX6X7X7))
 #define D3GDR4R5S0 0.0
 #define D3GDR4R5S1 R*t*0.125/SQUARE(xmg2m1) + \
                    ((HX6X7S2)-t*(SX6X7S2)+(p-1.0)*(VX6X7S2))
@@ -3119,9 +3120,9 @@ purePyx(int mask, double t, double p,
                    (VX6X7S2)*r[5] + (VX6S2S2)*s[1]*2.0
 
 #define D3GDR5R5R5 R*t*(-0.125/SQUARE(xmg2m1)+0.125/SQUARE(xfe2m1) \
-		   +1.0/SQUARE(xca2m2)-0.125/SQUARE(xmg2m2) \
-		   -0.125/SQUARE(xfe2m2) ) + 6.0*((HX7X7X7)- \
-		   t*(SX7X7X7)+(p-1.0)*(VX7X7X7) )
+                   +1.0/SQUARE(xca2m2)-0.125/SQUARE(xmg2m2) \
+                   -0.125/SQUARE(xfe2m2) ) + 6.0*((HX7X7X7)- \
+                   t*(SX7X7X7)+(p-1.0)*(VX7X7X7) )
 #define D3GDR5R5S0 0.0
 #define D3GDR5R5S1 -R*t*(0.125/SQUARE(xmg2m1) - 0.125/SQUARE(xfe2m1) \
                    - 0.125/SQUARE(xmg2m2) + 0.125/SQUARE(xfe2m2)) + \
@@ -3163,7 +3164,7 @@ purePyx(int mask, double t, double p,
 #define D3GDS0DT2  0.0
 #define D3GDS0DTDP 0.0
 #define D3GDS0DP2  0.0
-  
+
 #define D3GDS1S1S1 -R*t*(0.125/SQUARE(xmg2m1) - 0.125/SQUARE(xfe2m1) \
                    + 0.125/SQUARE(xfe2m2) - 0.125/SQUARE(xmg2m2))
 #define D3GDS1S1DT R*(0.25/xmg2m1+0.25/xfe2m1+0.25/xfe2m2+0.25/xmg2m2) \
@@ -3174,7 +3175,7 @@ purePyx(int mask, double t, double p,
 #define D3GDS1DT2  0.0
 #define D3GDS1DTDP 0.0
 #define D3GDS1DP2  0.0
-  
+
 #define D3GDT3     0.0
 #define D3GDT2DP   0.0
 #define D3GDTDP2   0.0
@@ -3250,114 +3251,114 @@ purePyx(int mask, double t, double p,
  d2gdsdp[0] = D2GDS0DP;  d2gdsdp[1] = D2GDS1DP;
 
 #define fillD3GDR3 \
- d3gdr3[0][0][0] = D3GDR0R0R0;		d3gdr3[0][0][1] = D3GDR0R0R1; \
- d3gdr3[0][0][2] = D3GDR0R0R2;		d3gdr3[0][0][3] = D3GDR0R0R3; \
- d3gdr3[0][0][4] = D3GDR0R0R4;		d3gdr3[0][0][5] = D3GDR0R0R5; \
- d3gdr3[0][1][0] = d3gdr3[0][0][1];	d3gdr3[0][1][1] = D3GDR0R1R1; \
- d3gdr3[0][1][2] = D3GDR0R1R2;		d3gdr3[0][1][3] = D3GDR0R1R3; \
- d3gdr3[0][1][4] = D3GDR0R1R4;		d3gdr3[0][1][5] = D3GDR0R1R5; \
- d3gdr3[0][2][0] = d3gdr3[0][0][2];	d3gdr3[0][2][1] = d3gdr3[0][1][2]; \
- d3gdr3[0][2][2] = D3GDR0R2R2;		d3gdr3[0][2][3] = D3GDR0R2R3; \
- d3gdr3[0][2][4] = D3GDR0R2R4;		d3gdr3[0][2][5] = D3GDR0R2R5; \
- d3gdr3[0][3][0] = d3gdr3[0][0][3];	d3gdr3[0][3][1] = d3gdr3[0][1][3]; \
- d3gdr3[0][3][2] = d3gdr3[0][2][3];	d3gdr3[0][3][3] = D3GDR0R3R3; \
- d3gdr3[0][3][4] = D3GDR0R3R4;		d3gdr3[0][3][5] = D3GDR0R3R5; \
- d3gdr3[0][4][0] = d3gdr3[0][0][4];	d3gdr3[0][4][1] = d3gdr3[0][1][4]; \
- d3gdr3[0][4][2] = d3gdr3[0][2][4];	d3gdr3[0][4][3] = d3gdr3[0][3][4]; \
- d3gdr3[0][4][4] = D3GDR0R4R4;		d3gdr3[0][4][5] = D3GDR0R4R5; \
- d3gdr3[0][5][0] = d3gdr3[0][0][5];	d3gdr3[0][5][1] = d3gdr3[0][1][5]; \
- d3gdr3[0][5][2] = d3gdr3[0][2][5];	d3gdr3[0][5][3] = d3gdr3[0][3][5]; \
- d3gdr3[0][5][4] = d3gdr3[0][4][5];	d3gdr3[0][5][5] = D3GDR0R5R5; \
- d3gdr3[1][0][0] = d3gdr3[0][0][1];	d3gdr3[1][0][1] = d3gdr3[0][1][1]; \
- d3gdr3[1][0][2] = d3gdr3[0][1][2];	d3gdr3[1][0][3] = d3gdr3[0][1][3]; \
- d3gdr3[1][0][4] = d3gdr3[0][1][4];	d3gdr3[1][0][5] = d3gdr3[0][1][5]; \
- d3gdr3[1][1][0] = d3gdr3[0][1][1];	d3gdr3[1][1][1] = D3GDR1R1R1; \
- d3gdr3[1][1][2] = D3GDR1R1R2;		d3gdr3[1][1][3] = D3GDR1R1R3; \
- d3gdr3[1][1][4] = D3GDR1R1R4;		d3gdr3[1][1][5] = D3GDR1R1R5; \
- d3gdr3[1][2][0] = d3gdr3[0][1][2];	d3gdr3[1][2][1] = d3gdr3[1][1][2]; \
- d3gdr3[1][2][2] = D3GDR1R2R2;		d3gdr3[1][2][3] = D3GDR1R2R3; \
- d3gdr3[1][2][4] = D3GDR1R2R4;		d3gdr3[1][2][5] = D3GDR1R2R5; \
- d3gdr3[1][3][0] = d3gdr3[0][1][3];	d3gdr3[1][3][1] = d3gdr3[1][1][3]; \
- d3gdr3[1][3][2] = d3gdr3[1][2][3];	d3gdr3[1][3][3] = D3GDR1R3R3; \
- d3gdr3[1][3][4] = D3GDR1R3R4;		d3gdr3[1][3][5] = D3GDR1R3R5; \
- d3gdr3[1][4][0] = d3gdr3[0][1][4];	d3gdr3[1][4][1] = d3gdr3[1][1][4]; \
- d3gdr3[1][4][2] = d3gdr3[1][2][4];	d3gdr3[1][4][3] = d3gdr3[1][3][4]; \
- d3gdr3[1][4][4] = D3GDR1R4R4;		d3gdr3[1][4][5] = D3GDR1R4R5; \
- d3gdr3[1][5][0] = d3gdr3[0][1][5];	d3gdr3[1][5][1] = d3gdr3[1][1][5]; \
- d3gdr3[1][5][2] = d3gdr3[1][2][5];	d3gdr3[1][5][3] = d3gdr3[1][3][5]; \
- d3gdr3[1][5][4] = d3gdr3[1][4][5];	d3gdr3[1][5][5] = D3GDR1R5R5; \
- d3gdr3[2][0][0] = d3gdr3[0][0][2];	d3gdr3[2][0][1] = d3gdr3[0][1][2]; \
- d3gdr3[2][0][2] = d3gdr3[0][2][2];	d3gdr3[2][0][3] = d3gdr3[0][2][3]; \
- d3gdr3[2][0][4] = d3gdr3[0][2][4];	d3gdr3[2][0][5] = d3gdr3[0][2][5]; \
- d3gdr3[2][1][0] = d3gdr3[0][1][2];	d3gdr3[2][1][1] = d3gdr3[1][1][2]; \
- d3gdr3[2][1][2] = d3gdr3[1][2][2];	d3gdr3[2][1][3] = d3gdr3[1][2][3]; \
- d3gdr3[2][1][4] = d3gdr3[1][2][4];	d3gdr3[2][1][5] = d3gdr3[1][2][5]; \
- d3gdr3[2][2][0] = d3gdr3[0][2][2];	d3gdr3[2][2][1] = d3gdr3[1][2][2]; \
- d3gdr3[2][2][2] = D3GDR2R2R2;		d3gdr3[2][2][3] = D3GDR2R2R3; \
- d3gdr3[2][2][4] = D3GDR2R2R4;		d3gdr3[2][2][5] = D3GDR2R2R5; \
- d3gdr3[2][3][0] = d3gdr3[0][2][3];	d3gdr3[2][3][1] = d3gdr3[1][2][3]; \
- d3gdr3[2][3][2] = d3gdr3[2][2][3];	d3gdr3[2][3][3] = D3GDR2R3R3; \
- d3gdr3[2][3][4] = D3GDR2R3R4;		d3gdr3[2][3][5] = D3GDR2R3R5; \
- d3gdr3[2][4][0] = d3gdr3[0][2][4];	d3gdr3[2][4][1] = d3gdr3[1][2][4]; \
- d3gdr3[2][4][2] = d3gdr3[2][2][4];	d3gdr3[2][4][3] = d3gdr3[2][3][4]; \
- d3gdr3[2][4][4] = D3GDR2R4R4;		d3gdr3[2][4][5] = D3GDR2R4R5; \
- d3gdr3[2][5][0] = d3gdr3[0][2][5];	d3gdr3[2][5][1] = d3gdr3[1][2][5]; \
- d3gdr3[2][5][2] = d3gdr3[2][2][5];	d3gdr3[2][5][3] = d3gdr3[2][3][5]; \
- d3gdr3[2][5][4] = d3gdr3[2][4][5];	d3gdr3[2][5][5] = D3GDR2R5R5; \
- d3gdr3[3][0][0] = d3gdr3[0][0][3];	d3gdr3[3][0][1] = d3gdr3[0][1][3]; \
- d3gdr3[3][0][2] = d3gdr3[0][2][3];	d3gdr3[3][0][3] = d3gdr3[0][3][3]; \
- d3gdr3[3][0][4] = d3gdr3[0][3][4];	d3gdr3[3][0][5] = d3gdr3[0][3][5]; \
- d3gdr3[3][1][0] = d3gdr3[0][1][3];	d3gdr3[3][1][1] = d3gdr3[1][1][3]; \
- d3gdr3[3][1][2] = d3gdr3[1][2][3];	d3gdr3[3][1][3] = d3gdr3[1][3][3]; \
- d3gdr3[3][1][4] = d3gdr3[1][3][4];	d3gdr3[3][1][5] = d3gdr3[1][3][5]; \
- d3gdr3[3][2][0] = d3gdr3[0][2][3];	d3gdr3[3][2][1] = d3gdr3[1][2][3]; \
- d3gdr3[3][2][2] = d3gdr3[2][2][3];	d3gdr3[3][2][3] = d3gdr3[2][3][3]; \
- d3gdr3[3][2][4] = d3gdr3[2][3][4];	d3gdr3[3][2][5] = d3gdr3[2][3][5]; \
- d3gdr3[3][3][0] = d3gdr3[0][3][3];	d3gdr3[3][3][1] = d3gdr3[1][3][3]; \
- d3gdr3[3][3][2] = d3gdr3[2][3][3];	d3gdr3[3][3][3] = D3GDR3R3R3; \
- d3gdr3[3][3][4] = D3GDR3R3R4;		d3gdr3[3][3][5] = D3GDR3R3R5; \
- d3gdr3[3][4][0] = d3gdr3[0][3][4];	d3gdr3[3][4][1] = d3gdr3[1][3][4]; \
- d3gdr3[3][4][2] = d3gdr3[2][3][4];	d3gdr3[3][4][3] = d3gdr3[3][3][4]; \
- d3gdr3[3][4][4] = D3GDR3R4R4;		d3gdr3[3][4][5] = D3GDR3R4R5; \
- d3gdr3[3][5][0] = d3gdr3[0][3][5];	d3gdr3[3][5][1] = d3gdr3[1][3][5]; \
- d3gdr3[3][5][2] = d3gdr3[2][3][5];	d3gdr3[3][5][3] = d3gdr3[3][3][5]; \
- d3gdr3[3][5][4] = d3gdr3[3][4][5];	d3gdr3[3][5][5] = D3GDR3R5R5; \
- d3gdr3[4][0][0] = d3gdr3[0][0][4];	d3gdr3[4][0][1] = d3gdr3[0][1][4]; \
- d3gdr3[4][0][2] = d3gdr3[0][2][4];	d3gdr3[4][0][3] = d3gdr3[0][3][4]; \
- d3gdr3[4][0][4] = d3gdr3[0][4][4];	d3gdr3[4][0][5] = d3gdr3[0][4][5]; \
- d3gdr3[4][1][0] = d3gdr3[0][1][4];	d3gdr3[4][1][1] = d3gdr3[1][1][4]; \
- d3gdr3[4][1][2] = d3gdr3[1][2][4];	d3gdr3[4][1][3] = d3gdr3[1][3][4]; \
- d3gdr3[4][1][4] = d3gdr3[1][4][4];	d3gdr3[4][1][5] = d3gdr3[1][4][5]; \
- d3gdr3[4][2][0] = d3gdr3[0][2][4];	d3gdr3[4][2][1] = d3gdr3[1][2][4]; \
- d3gdr3[4][2][2] = d3gdr3[2][2][4];	d3gdr3[4][2][3] = d3gdr3[2][3][4]; \
- d3gdr3[4][2][4] = d3gdr3[2][4][4];	d3gdr3[4][2][5] = d3gdr3[2][4][5]; \
- d3gdr3[4][3][0] = d3gdr3[0][3][4];	d3gdr3[4][3][1] = d3gdr3[1][3][4]; \
- d3gdr3[4][3][2] = d3gdr3[2][3][4];	d3gdr3[4][3][3] = d3gdr3[3][3][4]; \
- d3gdr3[4][3][4] = d3gdr3[3][4][4];	d3gdr3[4][3][5] = d3gdr3[3][4][5]; \
- d3gdr3[4][4][0] = d3gdr3[0][4][4];	d3gdr3[4][4][1] = d3gdr3[1][4][4]; \
- d3gdr3[4][4][2] = d3gdr3[2][4][4];	d3gdr3[4][4][3] = d3gdr3[3][4][4]; \
- d3gdr3[4][4][4] = D3GDR4R4R4;		d3gdr3[4][4][5] = D3GDR4R4R5; \
- d3gdr3[4][5][0] = d3gdr3[0][4][5];	d3gdr3[4][5][1] = d3gdr3[1][4][5]; \
- d3gdr3[4][5][2] = d3gdr3[2][4][5];	d3gdr3[4][5][3] = d3gdr3[3][4][5]; \
- d3gdr3[4][5][4] = d3gdr3[4][4][5];	d3gdr3[4][5][5] = D3GDR4R5R5; \
- d3gdr3[5][0][0] = d3gdr3[0][0][5];	d3gdr3[5][0][1] = d3gdr3[0][1][5]; \
- d3gdr3[5][0][2] = d3gdr3[0][2][5];	d3gdr3[5][0][3] = d3gdr3[0][3][5]; \
- d3gdr3[5][0][4] = d3gdr3[0][4][5];	d3gdr3[5][0][5] = d3gdr3[0][5][5]; \
- d3gdr3[5][1][0] = d3gdr3[0][1][5];	d3gdr3[5][1][1] = d3gdr3[1][1][5]; \
- d3gdr3[5][1][2] = d3gdr3[1][2][5];	d3gdr3[5][1][3] = d3gdr3[1][3][5]; \
- d3gdr3[5][1][4] = d3gdr3[1][4][5];	d3gdr3[5][1][5] = d3gdr3[1][5][5]; \
- d3gdr3[5][2][0] = d3gdr3[0][2][5];	d3gdr3[5][2][1] = d3gdr3[1][2][5]; \
- d3gdr3[5][2][2] = d3gdr3[2][2][5];	d3gdr3[5][2][3] = d3gdr3[2][3][5]; \
- d3gdr3[5][2][4] = d3gdr3[2][4][5];	d3gdr3[5][2][5] = d3gdr3[2][5][5]; \
- d3gdr3[5][3][0] = d3gdr3[0][3][5];	d3gdr3[5][3][1] = d3gdr3[1][3][5]; \
- d3gdr3[5][3][2] = d3gdr3[2][3][5];	d3gdr3[5][3][3] = d3gdr3[3][3][5]; \
- d3gdr3[5][3][4] = d3gdr3[3][4][5];	d3gdr3[5][3][5] = d3gdr3[3][5][5]; \
- d3gdr3[5][4][0] = d3gdr3[0][4][5];	d3gdr3[5][4][1] = d3gdr3[1][4][5]; \
- d3gdr3[5][4][2] = d3gdr3[2][4][5];	d3gdr3[5][4][3] = d3gdr3[3][4][5]; \
- d3gdr3[5][4][4] = d3gdr3[4][4][5];	d3gdr3[5][4][5] = d3gdr3[4][5][5]; \
- d3gdr3[5][5][0] = d3gdr3[0][5][5];	d3gdr3[5][5][1] = d3gdr3[1][5][5]; \
- d3gdr3[5][5][2] = d3gdr3[2][5][5];	d3gdr3[5][5][3] = d3gdr3[3][5][5]; \
- d3gdr3[5][5][4] = d3gdr3[4][5][5];	d3gdr3[5][5][5] = D3GDR5R5R5; \
+ d3gdr3[0][0][0] = D3GDR0R0R0;          d3gdr3[0][0][1] = D3GDR0R0R1; \
+ d3gdr3[0][0][2] = D3GDR0R0R2;          d3gdr3[0][0][3] = D3GDR0R0R3; \
+ d3gdr3[0][0][4] = D3GDR0R0R4;          d3gdr3[0][0][5] = D3GDR0R0R5; \
+ d3gdr3[0][1][0] = d3gdr3[0][0][1];     d3gdr3[0][1][1] = D3GDR0R1R1; \
+ d3gdr3[0][1][2] = D3GDR0R1R2;          d3gdr3[0][1][3] = D3GDR0R1R3; \
+ d3gdr3[0][1][4] = D3GDR0R1R4;          d3gdr3[0][1][5] = D3GDR0R1R5; \
+ d3gdr3[0][2][0] = d3gdr3[0][0][2];     d3gdr3[0][2][1] = d3gdr3[0][1][2]; \
+ d3gdr3[0][2][2] = D3GDR0R2R2;          d3gdr3[0][2][3] = D3GDR0R2R3; \
+ d3gdr3[0][2][4] = D3GDR0R2R4;          d3gdr3[0][2][5] = D3GDR0R2R5; \
+ d3gdr3[0][3][0] = d3gdr3[0][0][3];     d3gdr3[0][3][1] = d3gdr3[0][1][3]; \
+ d3gdr3[0][3][2] = d3gdr3[0][2][3];     d3gdr3[0][3][3] = D3GDR0R3R3; \
+ d3gdr3[0][3][4] = D3GDR0R3R4;          d3gdr3[0][3][5] = D3GDR0R3R5; \
+ d3gdr3[0][4][0] = d3gdr3[0][0][4];     d3gdr3[0][4][1] = d3gdr3[0][1][4]; \
+ d3gdr3[0][4][2] = d3gdr3[0][2][4];     d3gdr3[0][4][3] = d3gdr3[0][3][4]; \
+ d3gdr3[0][4][4] = D3GDR0R4R4;          d3gdr3[0][4][5] = D3GDR0R4R5; \
+ d3gdr3[0][5][0] = d3gdr3[0][0][5];     d3gdr3[0][5][1] = d3gdr3[0][1][5]; \
+ d3gdr3[0][5][2] = d3gdr3[0][2][5];     d3gdr3[0][5][3] = d3gdr3[0][3][5]; \
+ d3gdr3[0][5][4] = d3gdr3[0][4][5];     d3gdr3[0][5][5] = D3GDR0R5R5; \
+ d3gdr3[1][0][0] = d3gdr3[0][0][1];     d3gdr3[1][0][1] = d3gdr3[0][1][1]; \
+ d3gdr3[1][0][2] = d3gdr3[0][1][2];     d3gdr3[1][0][3] = d3gdr3[0][1][3]; \
+ d3gdr3[1][0][4] = d3gdr3[0][1][4];     d3gdr3[1][0][5] = d3gdr3[0][1][5]; \
+ d3gdr3[1][1][0] = d3gdr3[0][1][1];     d3gdr3[1][1][1] = D3GDR1R1R1; \
+ d3gdr3[1][1][2] = D3GDR1R1R2;          d3gdr3[1][1][3] = D3GDR1R1R3; \
+ d3gdr3[1][1][4] = D3GDR1R1R4;          d3gdr3[1][1][5] = D3GDR1R1R5; \
+ d3gdr3[1][2][0] = d3gdr3[0][1][2];     d3gdr3[1][2][1] = d3gdr3[1][1][2]; \
+ d3gdr3[1][2][2] = D3GDR1R2R2;          d3gdr3[1][2][3] = D3GDR1R2R3; \
+ d3gdr3[1][2][4] = D3GDR1R2R4;          d3gdr3[1][2][5] = D3GDR1R2R5; \
+ d3gdr3[1][3][0] = d3gdr3[0][1][3];     d3gdr3[1][3][1] = d3gdr3[1][1][3]; \
+ d3gdr3[1][3][2] = d3gdr3[1][2][3];     d3gdr3[1][3][3] = D3GDR1R3R3; \
+ d3gdr3[1][3][4] = D3GDR1R3R4;          d3gdr3[1][3][5] = D3GDR1R3R5; \
+ d3gdr3[1][4][0] = d3gdr3[0][1][4];     d3gdr3[1][4][1] = d3gdr3[1][1][4]; \
+ d3gdr3[1][4][2] = d3gdr3[1][2][4];     d3gdr3[1][4][3] = d3gdr3[1][3][4]; \
+ d3gdr3[1][4][4] = D3GDR1R4R4;          d3gdr3[1][4][5] = D3GDR1R4R5; \
+ d3gdr3[1][5][0] = d3gdr3[0][1][5];     d3gdr3[1][5][1] = d3gdr3[1][1][5]; \
+ d3gdr3[1][5][2] = d3gdr3[1][2][5];     d3gdr3[1][5][3] = d3gdr3[1][3][5]; \
+ d3gdr3[1][5][4] = d3gdr3[1][4][5];     d3gdr3[1][5][5] = D3GDR1R5R5; \
+ d3gdr3[2][0][0] = d3gdr3[0][0][2];     d3gdr3[2][0][1] = d3gdr3[0][1][2]; \
+ d3gdr3[2][0][2] = d3gdr3[0][2][2];     d3gdr3[2][0][3] = d3gdr3[0][2][3]; \
+ d3gdr3[2][0][4] = d3gdr3[0][2][4];     d3gdr3[2][0][5] = d3gdr3[0][2][5]; \
+ d3gdr3[2][1][0] = d3gdr3[0][1][2];     d3gdr3[2][1][1] = d3gdr3[1][1][2]; \
+ d3gdr3[2][1][2] = d3gdr3[1][2][2];     d3gdr3[2][1][3] = d3gdr3[1][2][3]; \
+ d3gdr3[2][1][4] = d3gdr3[1][2][4];     d3gdr3[2][1][5] = d3gdr3[1][2][5]; \
+ d3gdr3[2][2][0] = d3gdr3[0][2][2];     d3gdr3[2][2][1] = d3gdr3[1][2][2]; \
+ d3gdr3[2][2][2] = D3GDR2R2R2;          d3gdr3[2][2][3] = D3GDR2R2R3; \
+ d3gdr3[2][2][4] = D3GDR2R2R4;          d3gdr3[2][2][5] = D3GDR2R2R5; \
+ d3gdr3[2][3][0] = d3gdr3[0][2][3];     d3gdr3[2][3][1] = d3gdr3[1][2][3]; \
+ d3gdr3[2][3][2] = d3gdr3[2][2][3];     d3gdr3[2][3][3] = D3GDR2R3R3; \
+ d3gdr3[2][3][4] = D3GDR2R3R4;          d3gdr3[2][3][5] = D3GDR2R3R5; \
+ d3gdr3[2][4][0] = d3gdr3[0][2][4];     d3gdr3[2][4][1] = d3gdr3[1][2][4]; \
+ d3gdr3[2][4][2] = d3gdr3[2][2][4];     d3gdr3[2][4][3] = d3gdr3[2][3][4]; \
+ d3gdr3[2][4][4] = D3GDR2R4R4;          d3gdr3[2][4][5] = D3GDR2R4R5; \
+ d3gdr3[2][5][0] = d3gdr3[0][2][5];     d3gdr3[2][5][1] = d3gdr3[1][2][5]; \
+ d3gdr3[2][5][2] = d3gdr3[2][2][5];     d3gdr3[2][5][3] = d3gdr3[2][3][5]; \
+ d3gdr3[2][5][4] = d3gdr3[2][4][5];     d3gdr3[2][5][5] = D3GDR2R5R5; \
+ d3gdr3[3][0][0] = d3gdr3[0][0][3];     d3gdr3[3][0][1] = d3gdr3[0][1][3]; \
+ d3gdr3[3][0][2] = d3gdr3[0][2][3];     d3gdr3[3][0][3] = d3gdr3[0][3][3]; \
+ d3gdr3[3][0][4] = d3gdr3[0][3][4];     d3gdr3[3][0][5] = d3gdr3[0][3][5]; \
+ d3gdr3[3][1][0] = d3gdr3[0][1][3];     d3gdr3[3][1][1] = d3gdr3[1][1][3]; \
+ d3gdr3[3][1][2] = d3gdr3[1][2][3];     d3gdr3[3][1][3] = d3gdr3[1][3][3]; \
+ d3gdr3[3][1][4] = d3gdr3[1][3][4];     d3gdr3[3][1][5] = d3gdr3[1][3][5]; \
+ d3gdr3[3][2][0] = d3gdr3[0][2][3];     d3gdr3[3][2][1] = d3gdr3[1][2][3]; \
+ d3gdr3[3][2][2] = d3gdr3[2][2][3];     d3gdr3[3][2][3] = d3gdr3[2][3][3]; \
+ d3gdr3[3][2][4] = d3gdr3[2][3][4];     d3gdr3[3][2][5] = d3gdr3[2][3][5]; \
+ d3gdr3[3][3][0] = d3gdr3[0][3][3];     d3gdr3[3][3][1] = d3gdr3[1][3][3]; \
+ d3gdr3[3][3][2] = d3gdr3[2][3][3];     d3gdr3[3][3][3] = D3GDR3R3R3; \
+ d3gdr3[3][3][4] = D3GDR3R3R4;          d3gdr3[3][3][5] = D3GDR3R3R5; \
+ d3gdr3[3][4][0] = d3gdr3[0][3][4];     d3gdr3[3][4][1] = d3gdr3[1][3][4]; \
+ d3gdr3[3][4][2] = d3gdr3[2][3][4];     d3gdr3[3][4][3] = d3gdr3[3][3][4]; \
+ d3gdr3[3][4][4] = D3GDR3R4R4;          d3gdr3[3][4][5] = D3GDR3R4R5; \
+ d3gdr3[3][5][0] = d3gdr3[0][3][5];     d3gdr3[3][5][1] = d3gdr3[1][3][5]; \
+ d3gdr3[3][5][2] = d3gdr3[2][3][5];     d3gdr3[3][5][3] = d3gdr3[3][3][5]; \
+ d3gdr3[3][5][4] = d3gdr3[3][4][5];     d3gdr3[3][5][5] = D3GDR3R5R5; \
+ d3gdr3[4][0][0] = d3gdr3[0][0][4];     d3gdr3[4][0][1] = d3gdr3[0][1][4]; \
+ d3gdr3[4][0][2] = d3gdr3[0][2][4];     d3gdr3[4][0][3] = d3gdr3[0][3][4]; \
+ d3gdr3[4][0][4] = d3gdr3[0][4][4];     d3gdr3[4][0][5] = d3gdr3[0][4][5]; \
+ d3gdr3[4][1][0] = d3gdr3[0][1][4];     d3gdr3[4][1][1] = d3gdr3[1][1][4]; \
+ d3gdr3[4][1][2] = d3gdr3[1][2][4];     d3gdr3[4][1][3] = d3gdr3[1][3][4]; \
+ d3gdr3[4][1][4] = d3gdr3[1][4][4];     d3gdr3[4][1][5] = d3gdr3[1][4][5]; \
+ d3gdr3[4][2][0] = d3gdr3[0][2][4];     d3gdr3[4][2][1] = d3gdr3[1][2][4]; \
+ d3gdr3[4][2][2] = d3gdr3[2][2][4];     d3gdr3[4][2][3] = d3gdr3[2][3][4]; \
+ d3gdr3[4][2][4] = d3gdr3[2][4][4];     d3gdr3[4][2][5] = d3gdr3[2][4][5]; \
+ d3gdr3[4][3][0] = d3gdr3[0][3][4];     d3gdr3[4][3][1] = d3gdr3[1][3][4]; \
+ d3gdr3[4][3][2] = d3gdr3[2][3][4];     d3gdr3[4][3][3] = d3gdr3[3][3][4]; \
+ d3gdr3[4][3][4] = d3gdr3[3][4][4];     d3gdr3[4][3][5] = d3gdr3[3][4][5]; \
+ d3gdr3[4][4][0] = d3gdr3[0][4][4];     d3gdr3[4][4][1] = d3gdr3[1][4][4]; \
+ d3gdr3[4][4][2] = d3gdr3[2][4][4];     d3gdr3[4][4][3] = d3gdr3[3][4][4]; \
+ d3gdr3[4][4][4] = D3GDR4R4R4;          d3gdr3[4][4][5] = D3GDR4R4R5; \
+ d3gdr3[4][5][0] = d3gdr3[0][4][5];     d3gdr3[4][5][1] = d3gdr3[1][4][5]; \
+ d3gdr3[4][5][2] = d3gdr3[2][4][5];     d3gdr3[4][5][3] = d3gdr3[3][4][5]; \
+ d3gdr3[4][5][4] = d3gdr3[4][4][5];     d3gdr3[4][5][5] = D3GDR4R5R5; \
+ d3gdr3[5][0][0] = d3gdr3[0][0][5];     d3gdr3[5][0][1] = d3gdr3[0][1][5]; \
+ d3gdr3[5][0][2] = d3gdr3[0][2][5];     d3gdr3[5][0][3] = d3gdr3[0][3][5]; \
+ d3gdr3[5][0][4] = d3gdr3[0][4][5];     d3gdr3[5][0][5] = d3gdr3[0][5][5]; \
+ d3gdr3[5][1][0] = d3gdr3[0][1][5];     d3gdr3[5][1][1] = d3gdr3[1][1][5]; \
+ d3gdr3[5][1][2] = d3gdr3[1][2][5];     d3gdr3[5][1][3] = d3gdr3[1][3][5]; \
+ d3gdr3[5][1][4] = d3gdr3[1][4][5];     d3gdr3[5][1][5] = d3gdr3[1][5][5]; \
+ d3gdr3[5][2][0] = d3gdr3[0][2][5];     d3gdr3[5][2][1] = d3gdr3[1][2][5]; \
+ d3gdr3[5][2][2] = d3gdr3[2][2][5];     d3gdr3[5][2][3] = d3gdr3[2][3][5]; \
+ d3gdr3[5][2][4] = d3gdr3[2][4][5];     d3gdr3[5][2][5] = d3gdr3[2][5][5]; \
+ d3gdr3[5][3][0] = d3gdr3[0][3][5];     d3gdr3[5][3][1] = d3gdr3[1][3][5]; \
+ d3gdr3[5][3][2] = d3gdr3[2][3][5];     d3gdr3[5][3][3] = d3gdr3[3][3][5]; \
+ d3gdr3[5][3][4] = d3gdr3[3][4][5];     d3gdr3[5][3][5] = d3gdr3[3][5][5]; \
+ d3gdr3[5][4][0] = d3gdr3[0][4][5];     d3gdr3[5][4][1] = d3gdr3[1][4][5]; \
+ d3gdr3[5][4][2] = d3gdr3[2][4][5];     d3gdr3[5][4][3] = d3gdr3[3][4][5]; \
+ d3gdr3[5][4][4] = d3gdr3[4][4][5];     d3gdr3[5][4][5] = d3gdr3[4][5][5]; \
+ d3gdr3[5][5][0] = d3gdr3[0][5][5];     d3gdr3[5][5][1] = d3gdr3[1][5][5]; \
+ d3gdr3[5][5][2] = d3gdr3[2][5][5];     d3gdr3[5][5][3] = d3gdr3[3][5][5]; \
+ d3gdr3[5][5][4] = d3gdr3[4][5][5];     d3gdr3[5][5][5] = D3GDR5R5R5; \
 
 #define fillD3GDR2DS \
  d3gdr2ds[0][0][0] = D3GDR0R0S0;        d3gdr2ds[0][0][1] = D3GDR0R0S1; \
@@ -3415,7 +3416,7 @@ purePyx(int mask, double t, double p,
  d3gdr2dt[4][4] = D3GDR4R4DT;     d3gdr2dt[4][5] = D3GDR4R5DT; \
  d3gdr2dt[5][0] = d3gdr2dt[0][5]; d3gdr2dt[5][1] = d3gdr2dt[1][5]; \
  d3gdr2dt[5][2] = d3gdr2dt[2][5]; d3gdr2dt[5][3] = d3gdr2dt[3][5]; \
- d3gdr2dt[5][4] = d3gdr2dt[4][5]; d3gdr2dt[5][5] = D3GDR5R5DT; 
+ d3gdr2dt[5][4] = d3gdr2dt[4][5]; d3gdr2dt[5][5] = D3GDR5R5DT;
 
 #define fillD3GDR2DP \
  d3gdr2dp[0][0] = D3GDR0R0DP;     d3gdr2dp[0][1] = D3GDR0R1DP; \
@@ -3479,7 +3480,7 @@ purePyx(int mask, double t, double p,
 
 #define fillD3GDS2DP \
  d3gds2dp[0][0] = D3GDS0S0DP;     d3gds2dp[0][1] = D3GDS0S1DP; \
- d3gds2dp[1][0] = d3gds2dp[0][1]; d3gds2dp[1][1] = D3GDS1S1DP; 
+ d3gds2dp[1][0] = d3gds2dp[0][1]; d3gds2dp[1][1] = D3GDS1S1DP;
 
 #define fillD3GDSDT2 \
  d3gdsdt2[0] = D3GDS0DT2; d3gdsdt2[1] = D3GDS1DT2;
@@ -3509,20 +3510,21 @@ purePyx(int mask, double t, double p,
  *=============================================================================
  * Local function to compute ordering state and associated derivatives
  */
+void resetCpxOrder(void) { setTOld(-9999.0); setPOld(-9999.0); setTOldPure(-9999.0); setPOldPure(-9999.0); }
 
-static void 
-order(int mask, double t, double p, double r[NR], 
-      double s[NS],           /* s[NS]                BINARY MASK: 0000000001 */
-      double dr[NS][NR] ,     /* ds[NS]/dr[NR]        BINARY MASK: 0000000010 */
-      double dt[NS],          /* ds[NS]/dt            BINARY MASK: 0000000100 */
-      double dp[NS],          /* ds[NS]/dp            BINARY MASK: 0000001000 */
-      double dr2[NS][NR][NR], /* d2s[NS]/dr[NR]dr[NR] BINARY MASK: 0000010000 */
-      double drt[NS][NR],     /* d2s[NS]/dr[NR]dt     BINARY MASK: 0000100000 */
-      double drp[NS][NR],     /* d2s[NS]/dr[NR]dp     BINARY MASK: 0001000000 */
-      double dt2[NS],         /* d2s[NS]/dt2          BINARY MASK: 0010000000 */
-      double dtp[NS],         /* d2s[NS]/dtp          BINARY MASK: 0100000000 */
-      double dp2[NS]          /* d2s[NS]/dp2          BINARY MASK: 1000000000 */
-      )
+static void
+order(int mask, double t, double p, double r[NR],
+            double s[NS],           /* s[NS]                BINARY MASK: 0000000001 */
+            double dr[NS][NR] ,     /* ds[NS]/dr[NR]        BINARY MASK: 0000000010 */
+            double dt[NS],          /* ds[NS]/dt            BINARY MASK: 0000000100 */
+            double dp[NS],          /* ds[NS]/dp            BINARY MASK: 0000001000 */
+            double dr2[NS][NR][NR], /* d2s[NS]/dr[NR]dr[NR] BINARY MASK: 0000010000 */
+            double drt[NS][NR],     /* d2s[NS]/dr[NR]dt     BINARY MASK: 0000100000 */
+            double drp[NS][NR],     /* d2s[NS]/dr[NR]dp     BINARY MASK: 0001000000 */
+            double dt2[NS],         /* d2s[NS]/dt2          BINARY MASK: 0010000000 */
+            double dtp[NS],         /* d2s[NS]/dtp          BINARY MASK: 0100000000 */
+            double dp2[NS]          /* d2s[NS]/dp2          BINARY MASK: 1000000000 */
+            )
 {
     DECLARE_SITE_FRACTIONS
     int clino           = getClino();
@@ -3570,9 +3572,9 @@ order(int mask, double t, double p, double r[NR],
                 (fabs((r[4]-rOld[4])/((rOld[4] != 0.0) ? rOld[4] : 1.0)) > .02) ||
                 (fabs((r[5]-rOld[5])/((rOld[5] != 0.0) ? rOld[5] : 1.0)) > .02) ) {
             sNew[0] = (totFe3+totAl != 0.0) ?
-                            (1.0-totM1)*(totFe3-totAl)/(totFe3+totAl) : 0.0;
+                (1.0-totM1)*(totFe3-totAl)/(totFe3+totAl) : 0.0;
             sNew[1] = (totFe2+totMg != 0.0) ?
-                            (1.0-totM2)*(totFe2-totMg)/(totFe2+totMg) : 0.0;
+                (1.0-totM2)*(totFe2-totMg)/(totFe2+totMg) : 0.0;
         } else {
             sNew[0] = sOld[0]; sNew[1] = sOld[1];
         }
@@ -3637,7 +3639,7 @@ order(int mask, double t, double p, double r[NR],
         while ( ((ABS(sNew[0]-sOld[0]) > 10.0*DBL_EPSILON) ||
              (ABS(sNew[1]-sOld[1]) > 10.0*DBL_EPSILON) ) && (iter < MAX_ITER)) {
             double s[NS], sCorr[NS];
-            gsl_vector_view	vvToSCorr = gsl_vector_view_array(sCorr, (size_t) NS);
+            gsl_vector_view     vvToSCorr = gsl_vector_view_array(sCorr, (size_t) NS);
 
             for (i=0; i<NS; i++) s[i] = sNew[i];
 
@@ -3676,7 +3678,7 @@ order(int mask, double t, double p, double r[NR],
 
             d2gds2[0][0] = (totFe3 != 0.0 && totAl != 0.0) ? D2GDS0S0 : 0.0; // was 1.0 with gaussj
             d2gds2[0][1] = (totFe3 != 0.0 && totAl != 0.0 &&
-                                            totFe2 != 0.0 && totMg != 0.0) ? D2GDS0S1 : 0.0;
+                       totFe2 != 0.0 && totMg != 0.0) ? D2GDS0S1 : 0.0;
             d2gds2[1][0] = d2gds2[0][1];
             d2gds2[1][1] = (totFe2 != 0.0 && totMg != 0.0) ? D2GDS1S1 : 0.0; // was 1.0 with gaussj
 
@@ -3708,15 +3710,15 @@ order(int mask, double t, double p, double r[NR],
             }
 
             if (totFe2+totMg != 0.0) {
-                s[1] = MAX(s[1],-r[5]                        +2.0*r[0]-2.0+DBL_EPSILON);
+                s[1] = MAX(s[1],-r[5]            +2.0*r[0]-2.0+DBL_EPSILON);
                 s[1] = MAX(s[1],-r[5]+r[4]+2.0*r[3]+r[2]+r[1]+2.0*r[0]-2.0+DBL_EPSILON);
-                s[1] = MAX(s[1],-r[5]                                     +DBL_EPSILON);
-                s[1] = MAX(s[1], r[5]                                 -2.0+DBL_EPSILON);
+                s[1] = MAX(s[1],-r[5]                         +DBL_EPSILON);
+                s[1] = MAX(s[1], r[5]                     -2.0+DBL_EPSILON);
 
-                s[1] = MIN(s[1],-r[5]                        +2.0*r[0]    -DBL_EPSILON);
+                s[1] = MIN(s[1],-r[5]            +2.0*r[0]    -DBL_EPSILON);
                 s[1] = MIN(s[1],-r[5]+r[4]+2.0*r[3]+r[2]+r[1]+2.0*r[0]    -DBL_EPSILON);
-                s[1] = MIN(s[1],-r[5]                                 +2.0-DBL_EPSILON);
-                s[1] = MIN(s[1], r[5]                                     -DBL_EPSILON);
+                s[1] = MIN(s[1],-r[5]                     +2.0-DBL_EPSILON);
+                s[1] = MIN(s[1], r[5]                         -DBL_EPSILON);
             }
 
             for (i=0; i<NS; i++) sNew[i] = s[i];
@@ -3732,55 +3734,55 @@ order(int mask, double t, double p, double r[NR],
             dgds[1] = 0.0;
 
 #ifdef DEBUG
-    for (i=0; i<NS; i++) {
-      if (dgds[i] > sqrt(DBL_EPSILON) && ABS(sOld[i]) > DBL_EPSILON) {
-        printf("ERROR in CLINOPYROXENE.C (function ORDER). Failed to converge!\n");
-        printf("  X2    = %13.6g, X3    = %13.6g, X4    = %13.6g\n",
-          r[0], r[1], r[2]);
-        printf("  X5    = %13.6g, X6    = %13.6g, X7    = %13.6g\n", 
-          r[3], r[4], r[5]); 
-        printf("  s1    = %13.6g, s2    = %13.6g\n", sOld[0], sOld[1]);
-        printf("  dgds1 = %13.6g, dgds2 = %13.6g\n", dgds[0], dgds[1]);
-        printf("  X Na+  m2:  %13.6g\n",                    xna1m2         ); 
-        printf("  X Ca2+ m2:  %13.6g\n",                    xca2m2         ); 
-        printf("  X Mg2+ m2:  %13.6g  X Mg2+ m1: %13.6g\n", xmg2m2 , xmg2m1); 
-        printf("  X Fe2+ m2:  %13.6g  X Fe2+ m1: %13.6g\n", xfe2m2 , xfe2m1); 
-        printf("                             X Ti4+ m1: %13.6g\n",   xti4m1); 
-        printf("  X Fe3+ tet: %13.6g  X Fe3+ m1: %13.6g\n", xfe3tet, xfe3m1); 
-        printf("  X Al3+ tet: %13.6g  X Al3+ m1: %13.6g\n", xal3tet, xal3m1); 
-        printf("  X Si4+ tet: %13.6g\n",                    xsi4tet        ); 
-        break;
-      }
-    }
+        for (i=0; i<NS; i++) {
+            if (dgds[i] > sqrt(DBL_EPSILON) && ABS(sOld[i]) > DBL_EPSILON) {
+                printf("ERROR in CLINOPYROXENE.C (function ORDER). Failed to converge!\n");
+                printf("  X2    = %13.6g, X3    = %13.6g, X4    = %13.6g\n",
+                    r[0], r[1], r[2]);
+                printf("  X5    = %13.6g, X6    = %13.6g, X7    = %13.6g\n",
+                    r[3], r[4], r[5]);
+                printf("  s1    = %13.6g, s2    = %13.6g\n", sOld[0], sOld[1]);
+                printf("  dgds1 = %13.6g, dgds2 = %13.6g\n", dgds[0], dgds[1]);
+                printf("  X Na+  m2:  %13.6g\n",                    xna1m2         );
+                printf("  X Ca2+ m2:  %13.6g\n",                    xca2m2         );
+                printf("  X Mg2+ m2:  %13.6g  X Mg2+ m1: %13.6g\n", xmg2m2 , xmg2m1);
+                printf("  X Fe2+ m2:  %13.6g  X Fe2+ m1: %13.6g\n", xfe2m2 , xfe2m1);
+                printf("                         X Ti4+ m1: %13.6g\n",   xti4m1);
+                printf("  X Fe3+ tet: %13.6g  X Fe3+ m1: %13.6g\n", xfe3tet, xfe3m1);
+                printf("  X Al3+ tet: %13.6g  X Al3+ m1: %13.6g\n", xal3tet, xal3m1);
+                printf("  X Si4+ tet: %13.6g\n",                    xsi4tet        );
+                break;
+            }
+        }
 #endif
 
-    setTOld(tOld);
-    setPOld(pOld);
-    setStructOld(structOld);
-    /* arrays (rOld, sOld, d2gds2) should be preserved automatically */
+        setTOld(tOld);
+        setPOld(pOld);
+        setStructOld(structOld);
+        /* arrays (rOld, sOld, d2gds2, indexD2gds2) should be preserved automatically */
 
-    SET_SITE_FRACTIONS
-  }
+        SET_SITE_FRACTIONS
+    }
 
 /*
-  printf("xmg2m1                     = %e\n", xmg2m1);
-  printf("xfe2m1                     = %e\n", xfe2m1);
-  printf("xal3m1                     = %e\n", xal3m1);
-  printf("xfe3m1                     = %e\n", xfe3m1);
-  printf("xti4m1                     = %e\n", xti4m1);
-  printf("(xmg2m1+xfe2m1-xti4m1)     = %e\n", (xmg2m1+xfe2m1-xti4m1));
-  printf("(1.0-xti4m1)               = %e\n", (1.0-xti4m1));
-  printf("(xmg2m1+xfe2m1)            = %e\n", (xmg2m1+xfe2m1));
-  printf("(1.0-xsi4tet)              = %e\n", (1.0-xsi4tet));
-  printf("xal3tet                    = %e\n", xal3tet);
-  printf("xfe3tet                    = %e\n", xfe3tet);
-  printf("xca2m2                     = %e\n", xca2m2);
-  printf("xna1m2                     = %e\n", xna1m2);
-  printf("xmg2m2                     = %e\n", xmg2m2);
-  printf("xfe2m2                     = %e\n", xfe2m2);
-  printf("(1.0-xmg2m1-xfe2m1-xna1m2) = %e\n", (1.0-xmg2m1-xfe2m1-xna1m2));
-  printf("(1.0-xmg2m1-xfe2m1)        = %e\n", (1.0-xmg2m1-xfe2m1));
-  printf("(1.0-xna1m2)               = %e\n", (1.0-xna1m2));
+    printf("xmg2m1                     = %e\n", xmg2m1);
+    printf("xfe2m1                     = %e\n", xfe2m1);
+    printf("xal3m1                     = %e\n", xal3m1);
+    printf("xfe3m1                     = %e\n", xfe3m1);
+    printf("xti4m1                     = %e\n", xti4m1);
+    printf("(xmg2m1+xfe2m1-xti4m1)     = %e\n", (xmg2m1+xfe2m1-xti4m1));
+    printf("(1.0-xti4m1)               = %e\n", (1.0-xti4m1));
+    printf("(xmg2m1+xfe2m1)            = %e\n", (xmg2m1+xfe2m1));
+    printf("(1.0-xsi4tet)              = %e\n", (1.0-xsi4tet));
+    printf("xal3tet                    = %e\n", xal3tet);
+    printf("xfe3tet                    = %e\n", xfe3tet);
+    printf("xca2m2                     = %e\n", xca2m2);
+    printf("xna1m2                     = %e\n", xna1m2);
+    printf("xmg2m2                     = %e\n", xmg2m2);
+    printf("xfe2m2                     = %e\n", xfe2m2);
+    printf("(1.0-xmg2m1-xfe2m1-xna1m2) = %e\n", (1.0-xmg2m1-xfe2m1-xna1m2));
+    printf("(1.0-xmg2m1-xfe2m1)        = %e\n", (1.0-xmg2m1-xfe2m1));
+    printf("(1.0-xna1m2)               = %e\n", (1.0-xna1m2));
 */
 
     if (mask & FIRST  ) {   /* return s        */
@@ -3797,7 +3799,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDr = gsl_matrix_column(&mvToDr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDr.vector);
         }
     }
@@ -3841,7 +3843,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -3851,12 +3853,12 @@ order(int mask, double t, double p, double r[NR],
                 for (l=0; l<NS; l++) {
                     temp[l] = d3gdr2ds[j][k][l];
                     for (m=0; m<NS; m++) {
-                        temp[l] += d3gdrds2[j][l][m]*dsdr[m][k]
-                            + d3gdrds2[k][l][m]*dsdr[m][j];
-                        for (n=0; n<NS; n++)
-                            temp[l] += d3gds3[l][m][n]*dsdr[m][j]*dsdr[n][k];
+            temp[l] += d3gdrds2[j][l][m]*dsdr[m][k]
+                + d3gdrds2[k][l][m]*dsdr[m][j];
+            for (n=0; n<NS; n++)
+                temp[l] += d3gds3[l][m][n]*dsdr[m][j]*dsdr[n][k];
                     }
-            	}
+                }
                 /* original: dr2[i][j][k] += - d2gds2[i][l]*temp[l]; */
                 melts_LU_svx(ptToD2gds2, indexD2gds2, &vvToTemp.vector);
                 for (l=0; l<NS; l++) dr2[l][j][k] = temp[l];
@@ -3887,7 +3889,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -3933,7 +3935,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -4068,94 +4070,94 @@ order(int mask, double t, double p, double r[NR],
 static int isClino(double t, double p, double r[NR])
 {
 #ifdef ISCLINO
-  DECLARE_SITE_FRACTIONS
-  double gOrtho, gClino, s[NS];
-  int clino;
+    DECLARE_SITE_FRACTIONS
+    double gOrtho, gClino, s[NS];
+    int clino;
 
 #ifndef DEBUG
-  if ((1.0-r[5]) > 0.20) return TRUE;  /* Ca + Na on M2 > 20 % */
+    if ((1.0-r[5]) > 0.20) return TRUE;  /* Ca + Na on M2 > 20 % */
 #endif
 
-  clino = TRUE;
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-        
-  GET_SITE_FRACTIONS
-  gClino = G;  
+    clino = TRUE;
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
-  clino = FALSE; 
-  setClino(clino);
+    GET_SITE_FRACTIONS
+    gClino = G;
 
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-        
-  GET_SITE_FRACTIONS
-  gOrtho = G;
+    clino = FALSE;
+    setClino(clino);
+
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+    GET_SITE_FRACTIONS
+    gOrtho = G;
 
 #ifdef DEBUG
-  {
-    char string[] = { "_px Na_.__Ca_.__Fe''_.__Mg_.__Fe'''_.__Ti_.__Al_.__Si_.__O6" };
-    double totAl, totCa, totFe2, totFe3, totMg, totNa, totTi, totSi;
-    char n[5];
-    int i;
-    if (gOrtho < gClino) string[0] = 'o'; else string[0] = 'c';
+    {
+        char string[] = { "_px Na_.__Ca_.__Fe''_.__Mg_.__Fe'''_.__Ti_.__Al_.__Si_.__O6" };
+        double totAl, totCa, totFe2, totFe3, totMg, totNa, totTi, totSi;
+        char n[5];
+        int i;
+        if (gOrtho < gClino) string[0] = 'o'; else string[0] = 'c';
 
-    totAl  = r[1] + r[3];
-    totCa  = 1.0 - r[4] - r[5];
-    totFe2 = r[0];
-    totFe3 = r[2] + r[3];
-    totMg  = 1.0 - r[0] - 0.5*r[1] - 0.5*r[2] - r[3] - 0.5*r[4] + r[5];
-    totNa  = r[4];
-    totTi  = 0.5*(r[1]+r[2]);
-    totSi  = 2.0 - r[1] - r[2] - r[3] + r[4]/2.0;
+        totAl  = r[1] + r[3];
+        totCa  = 1.0 - r[4] - r[5];
+        totFe2 = r[0];
+        totFe3 = r[2] + r[3];
+        totMg  = 1.0 - r[0] - 0.5*r[1] - 0.5*r[2] - r[3] - 0.5*r[4] + r[5];
+        totNa  = r[4];
+        totTi  = 0.5*(r[1]+r[2]);
+        totSi  = 2.0 - r[1] - r[2] - r[3] + r[4]/2.0;
 
-    (void) snprintf(n, 5, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 6+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[12+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[20+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[26+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[35+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totTi);  for (i=0; i<4; i++) string[41+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totAl);  for (i=0; i<4; i++) string[47+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totSi);  for (i=0; i<4; i++) string[53+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 6+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[12+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[20+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[26+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[35+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totTi);  for (i=0; i<4; i++) string[41+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totAl);  for (i=0; i<4; i++) string[47+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totSi);  for (i=0; i<4; i++) string[53+i] = n[i];
 
-    printf("ISCLINO: G(c->o) = %f %s\n", gOrtho-gClino, string);
-  }
+        printf("ISCLINO: G(c->o) = %f %s\n", gOrtho-gClino, string);
+    }
 #endif
-  if (gOrtho < gClino) return FALSE; else return TRUE;
+    if (gOrtho < gClino) return FALSE; else return TRUE;
 #else
-  return TRUE;
+    return TRUE;
 #endif
 }
 
-/* 
+/*
  *=========================================================
- * Unique public function for testing CPXs in LEPR database 
+ * Unique public function for testing CPXs in LEPR database
  */
 
 int isOrthopyroxene(double t, double p, double r[NR])
 {
-  DECLARE_SITE_FRACTIONS
-  double gOrtho, gClino, s[NS];
-  int clino;
+    DECLARE_SITE_FRACTIONS
+    double gOrtho, gClino, s[NS];
+    int clino;
 
-  clino = FALSE; 
-  setClino(clino);
+    clino = FALSE;
+    setClino(clino);
 
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-	
-  GET_SITE_FRACTIONS
-  gOrtho = G;
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
-  clino = TRUE;
-  setClino(clino);
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-	
-  GET_SITE_FRACTIONS
-  gClino = G;  
+    GET_SITE_FRACTIONS
+    gOrtho = G;
 
-  if (gOrtho < gClino) return TRUE; else return FALSE;
+    clino = TRUE;
+    setClino(clino);
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+    GET_SITE_FRACTIONS
+    gClino = G;
+
+    if (gOrtho < gClino) return TRUE; else return FALSE;
 }
 
 /*
@@ -4168,244 +4170,280 @@ int isOrthopyroxene(double t, double p, double r[NR])
  */
 int
 testCpx(int mask, double t, double p,
-  int na,          /* Expected number of endmember components                 */
-  int nr,          /* Expected number of independent compositional variables  */
-  char **names,    /* array of strings of names of endmember components       */
-  char **formulas, /* array of strings of formulas of endmember components    */
-  double *r,       /* array of indepependent compos variables, check bounds   */
-  double *m)       /* array of moles of endmember components, check bounds    */
+    int na,          /* Expected number of endmember components                 */
+    int nr,          /* Expected number of independent compositional variables  */
+    char **names,    /* array of strings of names of endmember components       */
+    char **formulas, /* array of strings of formulas of endmember components    */
+    double *r,       /* array of indepependent compos variables, check bounds   */
+    double *m)       /* array of moles of endmember components, check bounds    */
 {
-  const char *phase = "clinopyroxene.c";
-  const char *NAMES[NA]    = { "diopside", "clinoenstatite", "hedenbergite", 
-                               "alumino-buffonite", "buffonite",
-                               "essenite", "jadeite" };
-  const char *FORMULAS[NA] = { "CaMgSi2O6", "Mg2Si2O6", "CaFeSi2O6", 
-                               "CaTi0.5Mg0.5AlSiO6", "CaTi0.5Mg0.5FeSiO6",
-                               "CaFeAlSiO6", "NaAlSi2O6" };
-  int result = TRUE, i;
-  double sum;
+    const char *phase = "clinopyroxene.c";
+    const char *NAMES[NA]    = { "diopside", "clinoenstatite", "hedenbergite",
+                   "alumino-buffonite", "buffonite",
+                   "essenite", "jadeite" };
+    const char *FORMULAS[NA] = { "CaMgSi2O6", "Mg2Si2O6", "CaFeSi2O6",
+                   "CaTi0.5Mg0.5AlSiO6", "CaTi0.5Mg0.5FeSiO6",
+                   "CaFeAlSiO6", "NaAlSi2O6" };
+    int result = TRUE, i;
+    double sum;
 
-  if (mask & FIRST) {
-    result = result && (na == NA);
-    if (!result) printf("<<%s>> Wrong number of components!\n", phase);
-  }
-  if (mask & SECOND) {
-    result = result && (nr == NR);
-    if (!result) printf("<<%s>> Wrong number of indep variables!\n", phase);
-  }
-  if (mask & THIRD) {
-    for (i=0; i<NA; i++) {
-      result = result && (strcmp(names[i],NAMES[i]) == 0);
-      if (!result)
-        printf("<<%s>> Component[%d] should be %s not %s.\n",
-          phase, i, NAMES[i], names[i]);
+    if (mask & FIRST) {
+        result = result && (na == NA);
+        if (!result) printf("<<%s>> Wrong number of components!\n", phase);
     }
-  }
-  if (mask & FOURTH) {
-    for (i=0; i<NA; i++) {
-      result = result && (strcmp(formulas[i],FORMULAS[i]) == 0);
-      if (!result)
-        printf("<<%s>> Component[%d] should have formula %s not %s.\n",
-          phase, i, FORMULAS[i], formulas[i]);
+    if (mask & SECOND) {
+        result = result && (nr == NR);
+        if (!result) printf("<<%s>> Wrong number of indep variables!\n", phase);
     }
-  }
-  /* Check bounds on the independent compositional variables */
-  if (mask & FIFTH) {
-    result = result && (r[0] >= 0.0)      && (r[0] <= 2.0);          /* Fe2+ */
-    result = result && (r[4] >= 0.0)      && (r[4] <= 1.0);          /* Na+  */
-    result = result && (r[1]+r[3] >= 0.0) && (r[1]+r[3] <= 2.0);     /* Al3+ */
-    result = result && (r[2]+r[3] >= 0.0) && (r[2]+r[3] <= 2.0);     /* Fe3+ */
-    result = result && (r[1]+r[2] >= 0.0) && (r[1]+r[2] <= 1.0);     /* Ti4+ */
-    result = result && (r[4]+r[5] >= 0.0) && (r[4]+r[5] <= 1.0);     /* Ca2+ */
-    result = result && 
-                (1.0-r[0]-r[3]+r[5]-0.5*(r[1]+r[2]+r[4]) >= 0.0)     /* Mg2+ */ 
+    if (mask & THIRD) {
+        for (i=0; i<NA; i++) {
+            result = result && (strcmp(names[i],NAMES[i]) == 0);
+            if (!result)
+                printf("<<%s>> Component[%d] should be %s not %s.\n",
+                    phase, i, NAMES[i], names[i]);
+        }
+    }
+    if (mask & FOURTH) {
+        for (i=0; i<NA; i++) {
+            result = result && (strcmp(formulas[i],FORMULAS[i]) == 0);
+            if (!result)
+                printf("<<%s>> Component[%d] should have formula %s not %s.\n",
+                    phase, i, FORMULAS[i], formulas[i]);
+        }
+    }
+    /* Check bounds on the independent compositional variables */
+    if (mask & FIFTH) {
+        result = result && (r[0] >= 0.0)      && (r[0] <= 2.0);          /* Fe2+ */
+        result = result && (r[4] >= 0.0)      && (r[4] <= 1.0);          /* Na+  */
+        result = result && (r[1]+r[3] >= 0.0) && (r[1]+r[3] <= 2.0);     /* Al3+ */
+        result = result && (r[2]+r[3] >= 0.0) && (r[2]+r[3] <= 2.0);     /* Fe3+ */
+        result = result && (r[1]+r[2] >= 0.0) && (r[1]+r[2] <= 1.0);     /* Ti4+ */
+        result = result && (r[4]+r[5] >= 0.0) && (r[4]+r[5] <= 1.0);     /* Ca2+ */
+        result = result &&
+                    (1.0-r[0]-r[3]+r[5]-0.5*(r[1]+r[2]+r[4]) >= 0.0)     /* Mg2+ */
              && (1.0-r[0]-r[3]+r[5]-0.5*(r[1]+r[2]+r[4]) <= 2.0);
-    result = result && (2.0-r[1]-r[2]-r[3]+r[4]/2.0 >= 1.0)          /* Si4+ */ 
-                    && (2.0-r[1]-r[2]-r[3]+r[4]/2.0 <= 2.0);
-    result = result && (1.0-r[5] <= 1.0);                /* Na+ + Ca2+ on M2 */
-    result = result && (2.0+r[3]+r[4]/2.0 >= 2.0); /* Al3+ + Fe3+ + Si4+ tet */
-    result = result && (r[1]/2.0+r[2]/2.0+r[3]-r[4]/2.0 >= 0.0);  /*Na+,Ti4+?*/
-    result = result && (1.0-r[1]-r[2]-r[3]-r[4]/2.0 >= 0.0);    /*Na,Ti again*/
-  }
-  /* Check bounds on moles of endmember components */
-  if (mask & SIXTH) {
-    for (i=0, sum=0.0; i<NA; i++) sum += m[i];
-    result = result && (sum > 0.0);
-    if (sum > 0.0) {
-      result = result && (m[2]/sum >= 0.0) && (m[2]/sum <= 2.0);     /* Fe2+ */
-      result = result && (m[6]/sum >= 0.0) && (m[6]/sum <= 1.0);     /* Na+  */
-      result = result && ((m[3]+m[5]+m[6])/sum >= 0.0)               /* Al3+ */
-                      && ((m[3]+m[5]+m[6])/sum <= 2.0);
-      result = result && ((m[4]+m[5])/sum >= 0.0)                    /* Fe3+ */
-                      && ((m[4]+m[5])/sum <= 2.0);
-      result = result && ((m[3]+m[4])/sum >= 0.0)                    /* Ti4+ */
-                      && ((m[3]+m[4])/sum <= 1.0);
-      result = result &&                                             /* Ca2+ */
+        result = result && (2.0-r[1]-r[2]-r[3]+r[4]/2.0 >= 1.0)          /* Si4+ */
+                   && (2.0-r[1]-r[2]-r[3]+r[4]/2.0 <= 2.0);
+        result = result && (1.0-r[5] <= 1.0);                /* Na+ + Ca2+ on M2 */
+        result = result && (2.0+r[3]+r[4]/2.0 >= 2.0); /* Al3+ + Fe3+ + Si4+ tet */
+        result = result && (r[1]/2.0+r[2]/2.0+r[3]-r[4]/2.0 >= 0.0);  /*Na+,Ti4+?*/
+        result = result && (1.0-r[1]-r[2]-r[3]-r[4]/2.0 >= 0.0);    /*Na,Ti again*/
+    }
+    /* Check bounds on moles of endmember components */
+    if (mask & SIXTH) {
+        for (i=0, sum=0.0; i<NA; i++) sum += m[i];
+        result = result && (sum > 0.0);
+        if (sum > 0.0) {
+            result = result && (m[2]/sum >= 0.0) && (m[2]/sum <= 2.0);     /* Fe2+ */
+            result = result && (m[6]/sum >= 0.0) && (m[6]/sum <= 1.0);     /* Na+  */
+            result = result && ((m[3]+m[5]+m[6])/sum >= 0.0)               /* Al3+ */
+                       && ((m[3]+m[5]+m[6])/sum <= 2.0);
+            result = result && ((m[4]+m[5])/sum >= 0.0)                    /* Fe3+ */
+                       && ((m[4]+m[5])/sum <= 2.0);
+            result = result && ((m[3]+m[4])/sum >= 0.0)                    /* Ti4+ */
+                       && ((m[3]+m[4])/sum <= 1.0);
+            result = result &&            /* Ca2+ */
          ((m[0]+m[2]+m[3]+m[4]+m[5])/sum >= 0.0) &&
          ((m[0]+m[2]+m[3]+m[4]+m[5])/sum <= 1.0);
-      result = result &&                                             /* Mg2+ */
+            result = result &&            /* Mg2+ */
          ((m[0]+2.0*m[1]+(m[3]+m[4])/2.0)/sum >= 0.0) &&
          ((m[0]+2.0*m[1]+(m[3]+m[4])/2.0)/sum <= 2.0);
 #ifdef NEVER_DEFINED  /* redundant; Si is not accounted for in mole assignments within conCpx */
-      result = result &&                                             /* Si4+ */
+            result = result &&            /* Si4+ */
          ((2.0*(m[0]+m[1]+m[2]+m[6])+m[3]+m[4]+m[5])/sum >= 1.0) &&
          ((2.0*(m[0]+m[1]+m[2]+m[6])+m[3]+m[4]+m[5])/sum <= 2.0);
 #endif
+        }
     }
-  }
 
-  return result;
+    return result;
 }
 
 void
 conCpx(int inpMask, int outMask, double t, double p,
-  double *e,      /* comp of spinel in moles of elements                      */
-  double *m,      /* comp of spinel in moles of endmember components          */
-  double *r,      /* comp of spinel in terms of the independent comp var      */
-  double *x,      /* comp of spinel in mole fractions of endmember comp       */
-  double **dm,    /* Jacobian matrix: dm[i][j] = dr[i]/dm[j]                  */
-  double ***d2m,  /* vector of matrices: d2m[i][j][k] = d2r[i]/dm[j]dm[k]     */
-  double **dr,    /* Jacobian matrix: dr[i][j] = dx[i]/dr[j]                  */
-  double ****d3m) /* 3rd deriv matrix: d3m[i][j][k][l]=d3r[i]/dm[j]dm[k]dm[l] */
+    double *e,      /* comp of spinel in moles of elements                      */
+    double *m,      /* comp of spinel in moles of endmember components          */
+    double *r,      /* comp of spinel in terms of the independent comp var      */
+    double *x,      /* comp of spinel in mole fractions of endmember comp       */
+    double **dm,    /* Jacobian matrix: dm[i][j] = dr[i]/dm[j]                  */
+    double ***d2m,  /* vector of matrices: d2m[i][j][k] = d2r[i]/dm[j]dm[k]     */
+    double **dr,    /* Jacobian matrix: dr[i][j] = dx[i]/dr[j]                  */
+    double ****d3m) /* 3rd deriv matrix: d3m[i][j][k][l]=d3r[i]/dm[j]dm[k]dm[l] */
 {
-  /*---------------------------------------------------------------------------
-  Not all combinations of inpMask and outMask are feasible. Valid
-    combinations are:
+    /*---------------------------------------------------------------------------
+    Not all combinations of inpMask and outMask are feasible. Valid
+        combinations are:
 
        inpMask          outMask
-  (1)  FIRST            SECOND
-  (2)  SECOND           THIRD  | FOURTH  | FIFTH | SIXTH | EIGHTH
-  (3)  THIRD            FOURTH | SEVENTH
+    (0)  FIRST            FIRST
+    (1)  FIRST            SECOND
+    (2)  SECOND           THIRD  | FOURTH  | FIFTH | SIXTH | EIGHTH
+    (3)  THIRD            FOURTH | SEVENTH
 
-  (1) converts a vector of moles of elements into a vector of moles of
-      endmember pyroxene components.
-  (2) calculates from a vector of moles of endmember components, one or
-      all of: r[], x[], dr[]/dm[] d2r[]/dm[]dm[], or d3r[]/dm[]dm[]dm[]
-  (3) calculates from a vector of independent compositional variables
-      mole fractions of endmember components and/or the Jacobian matrix
-      dx[]/dr[]
+    (0) use input Fe2O3 for Opx/Cpx as entered in alphaMELTS (see marc.c)
+    (1) converts a vector of moles of elements into a vector of moles of
+            endmember pyroxene components.
+    (2) calculates from a vector of moles of endmember components, one or
+            all of: r[], x[], dr[]/dm[] d2r[]/dm[]dm[], or d3r[]/dm[]dm[]dm[]
+    (3) calculates from a vector of independent compositional variables
+            mole fractions of endmember components and/or the Jacobian matrix
+            dx[]/dr[]
 
-  In this routine it is assumed that the elements are in the order of atomic
-  numbers and that the order of pyroxene components has been verified as:
-      m[0] = diopside              (CaMgSi2O6) ,
-      m[1] = enstatite             (Mg2Si2O6), 
-      m[2] = hedenbergite          (CaFeSi2O6),
-      m[3] = Ca(Ti,Mg)(Al,Si)2O6   (CaTi0.5Mg0.5AlSiO6),
-      m[4] = Ca(Ti,Mg)(Fe3+,Si)2O6 (CaTi0.5Mg0.5FeSiO6),
-      m[5] = essenite              (CaFeAlSiO6)
-      m[6] = jadeite               (NaAlSi2O6) 
+    In this routine it is assumed that the elements are in the order of atomic
+    numbers and that the order of pyroxene components has been verified as:
+            m[0] = diopside              (CaMgSi2O6) ,
+            m[1] = enstatite             (Mg2Si2O6),
+            m[2] = hedenbergite          (CaFeSi2O6),
+            m[3] = Ca(Ti,Mg)(Al,Si)2O6   (CaTi0.5Mg0.5AlSiO6),
+            m[4] = Ca(Ti,Mg)(Fe3+,Si)2O6 (CaTi0.5Mg0.5FeSiO6),
+            m[5] = essenite              (CaFeAlSiO6)
+            m[6] = jadeite               (NaAlSi2O6)
 
-  ----------------------------------------------------------------------------*/
+    ----------------------------------------------------------------------------*/
 
-  int i, j, k;
+    int i, j, k;
 
-  if (inpMask == FIRST && outMask == SECOND) {
-    /* Converts a vector of moles of elements into a vector of moles of
-       end-member components.                                                 */
-    double sumcat, sumchg, fe2, fe3, corrSi;
-    static const int Na = 11;
-    static const int Mg = 12;
-    static const int Al = 13;
-    static const int Si = 14;
-    static const int Ca = 20;
-    static const int Ti = 22;
-    static const int Cr = 24;
-    static const int Mn = 25;
-    static const int Fe = 26;
+    if (inpMask == FIRST && outMask == SECOND) {
+        /* Converts a vector of moles of elements into a vector of moles of
+       end-member components.                */
+        double sumcat, sumchg, fe2, fe3, corrSi;
+        static const int Na = 11;
+        static const int Mg = 12;
+        static const int Al = 13;
+        static const int Si = 14;
+        static const int Ca = 20;
+        static const int Ti = 22;
+        static const int Cr = 24;
+        static const int Mn = 25;
+        static const int Fe = 26;
 
-    /* Sum the cations and correct the analysis for silica deficiency */
-    sumcat  = e[Na] +     e[Mg] +     e[Al] +     e[Si] +     e[Ca] +     e[Ti] +     e[Cr] +     e[Mn] + e[Fe];
-    sumchg  = e[Na] + 2.0*e[Mg] + 3.0*e[Al] + 4.0*e[Si] + 2.0*e[Ca] + 4.0*e[Ti] + 3.0*e[Cr] + 2.0*e[Mn];
-    corrSi  = (e[Na]+e[Ca] > 0.25*sumcat) ? 4.0*(e[Na]+e[Ca]) - sumcat : 0.0;
-    sumcat += corrSi;
+        /* Sum the cations and correct the analysis for silica deficiency */
+        sumcat  = e[Na] +     e[Mg] +     e[Al] +     e[Si] +     e[Ca] +     e[Ti] +     e[Cr] +     e[Mn] + e[Fe];
+        sumchg  = e[Na] + 2.0*e[Mg] + 3.0*e[Al] + 4.0*e[Si] + 2.0*e[Ca] + 4.0*e[Ti] + 3.0*e[Cr] + 2.0*e[Mn];
+        corrSi  = (e[Na]+e[Ca] > 0.25*sumcat) ? 4.0*(e[Na]+e[Ca]) - sumcat : 0.0;
+        sumcat += corrSi;
 
-    if ( (p < 1000.0) || (e[Na] > e[Al]) ) { /* catch low-P oxidized samples and acmites */ 
-      /* Compute the ferric/ferrous ratio */
-      fe3 = 3.0*sumcat - sumchg - 2.0*e[Fe];
-      fe2 = e[Fe] - fe3;
+        if ( (p < 1000.0) || (e[Na] > e[Al]) ) { /* catch low-P oxidized samples and acmites */
+            /* Compute the ferric/ferrous ratio */
+            fe3 = 3.0*sumcat - sumchg - 2.0*e[Fe];
+            fe2 = e[Fe] - fe3;
 
-      if (fe3 < 0.01*e[Fe]) { fe3 = 0.01*e[Fe]; fe2 = 0.99*e[Fe]; }
-      if (fe2 < 0.01*e[Fe]) { fe2 = 0.01*e[Fe]; fe3 = 0.99*e[Fe]; }
-    } else {
-      fe2 = e[Fe];
-      fe3 = 0.0;
-    }
-
-    /* Assign moles of endmembers */
-    m[0] = -fe3/2.0 - fe2 - e[Mn] - e[Al]/2.0 - e[Cr]/2.0 + e[Ca] + e[Na]/2.0 - e[Ti];
-    m[1] =  fe3/4.0 + fe2/2.0 + e[Mn]/2.0 + e[Al]/4.0 + e[Cr]/4.0 - e[Ca]/2.0 + e[Mg]/2.0 - e[Na]/4.0;
-    m[2] =  fe2 + e[Mn];
-    m[3] = -fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 + e[Ti];
-    m[4] =  fe3/2.0 - e[Al]/2.0 - e[Cr]/2.0 + e[Na]/2.0 + e[Ti];
-    m[5] =  fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 - e[Ti];
-    m[6] =  e[Na];
-
-  } else if (inpMask == SECOND) {
-    double sum;
-
-    if (outMask & ~(THIRD | FOURTH | FIFTH | SIXTH | EIGHTH))
-      printf("Illegal call to conCpx with inpMask = %o and outMask = %o\n",
-        inpMask, outMask);
-
-    for (i=0, sum=0.0; i<NA; i++) sum += m[i];
-
-    if (outMask & THIRD) {
-      /* Converts a vector of moles of end-member components (m) into a vector 
-         of independent compositional variables (r) required as input for the 
-         remaining public functions.                                          */
-      r[0] = (sum != 0.0) ? m[2]/sum            : 0.0;
-      r[1] = (sum != 0.0) ? (m[3]+m[6]/2.0)/sum : 0.0;
-      r[2] = (sum != 0.0) ? (m[4]-m[6]/2.0)/sum : 0.0;
-      r[3] = (sum != 0.0) ? (m[5]+m[6]/2.0)/sum : 0.0;
-      r[4] = (sum != 0.0) ? m[6]/sum            : 0.0;
-      r[5] = (sum != 0.0) ? m[1]/sum            : 0.0;
-    }
-
-    if (outMask & FOURTH) {
-      /* Converts a vector of moles of end-member components (m) into a vector
-         of mole fractions of endmember components                            */
-      for (i=0; i<NA; i++) x[i] = (sum != 0.0) ? m[i]/sum : 0.0;
-    }
-
-    if (outMask & FIFTH) {
-      /* Calculates the matrix dr[i]/dm[j] using m[] as input                 */
-
-      if (sum == 0.0) {
-        for (i=0; i<NR; i++) { for (j=0; j<NA; j++) dm[i][j] = 0.0; }
-      } else {
-        for (j=0; j<NA; j++) {
-          dm[0][j]  = -m[2]/SQUARE(sum);
-          dm[0][j] += (j == 2) ? 1.0/sum : 0.0;
-          dm[1][j]  = -(m[3]+m[6]/2.0)/SQUARE(sum);
-          dm[1][j] += (j == 3) ? 1.0/sum : 0.0;  
-          dm[1][j] += (j == 6) ? 0.5/sum : 0.0;
-          dm[2][j]  = -(m[4]-m[6]/2.0)/SQUARE(sum);
-          dm[2][j] += (j == 4) ? 1.0/sum : 0.0;  
-          dm[2][j] -= (j == 6) ? 0.5/sum : 0.0;
-          dm[3][j]  = -(m[5]+m[6]/2.0)/SQUARE(sum);
-          dm[3][j] += (j == 5) ? 1.0/sum : 0.0;  
-          dm[3][j] += (j == 6) ? 0.5/sum : 0.0;
-          dm[4][j]  = -m[6]/SQUARE(sum);
-          dm[4][j] += (j == 6) ? 1.0/sum : 0.0;
-          dm[5][j]  = -m[1]/SQUARE(sum);
-          dm[5][j] += (j == 1) ? 1.0/sum : 0.0;
+            if (fe3 < 0.01*e[Fe]) { fe3 = 0.01*e[Fe]; fe2 = 0.99*e[Fe]; }
+            if (fe2 < 0.01*e[Fe]) { fe2 = 0.01*e[Fe]; fe3 = 0.99*e[Fe]; }
+        } else {
+            fe2 = e[Fe];
+            fe3 = 0.0;
         }
-      }
 
-    }
+        /* Assign moles of endmembers */
+        m[0] = -fe3/2.0 - fe2 - e[Mn] - e[Al]/2.0 - e[Cr]/2.0 + e[Ca] + e[Na]/2.0 - e[Ti];
+        m[1] =  fe3/4.0 + fe2/2.0 + e[Mn]/2.0 + e[Al]/4.0 + e[Cr]/4.0 - e[Ca]/2.0 + e[Mg]/2.0 - e[Na]/4.0;
+        m[2] =  fe2 + e[Mn];
+        m[3] = -fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 + e[Ti];
+        m[4] =  fe3/2.0 - e[Al]/2.0 - e[Cr]/2.0 + e[Na]/2.0 + e[Ti];
+        m[5] =  fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 - e[Ti];
+        m[6] =  e[Na];
 
-    if (outMask & SIXTH) {
-      /* Calculates the matrix d2r[i]/dm[j]dm[k] using m[] as input           */
+#ifdef ALPHAMELTS_UPDATE_SYSTEM
+    }   if (inpMask == FIRST && outMask == FIRST) {
+                // use input Fe2O3 for Opx/Cpx as entered (see marc.c)
+                double sumcat, sumchg, fe2, fe3;
+                static const int Na = 11;
+                static const int Mg = 12;
+                static const int Al = 13;
+                static const int Si = 14;
+                static const int Ca = 20;
+                static const int Ti = 22;
+                static const int Cr = 24;
+                static const int Mn = 25;
+                static const int Fe = 26;
 
-      if (sum == 0.0) {
-        for (i=0; i<NR; i++) {
-          for (j=0; j<NA; j++)  {
+                /* Sum the cations and correct the analysis for silica deficiency */
+                sumcat  = e[Na] +     e[Mg] +     e[Al] +     e[Si] +     e[Ca] +     e[Ti] +     e[Cr] +     e[Mn] + e[Fe];
+                sumchg  = e[Na] + 2.0*e[Mg] + 3.0*e[Al] + 4.0*e[Si] + 2.0*e[Ca] + 4.0*e[Ti] + 3.0*e[Cr] + 2.0*e[Mn];
+
+                /* Compute the ferric/ferrous ratio */
+                fe3 = 3.0*sumcat - sumchg - 2.0*e[Fe];
+                fe2 = e[Fe] - fe3;
+                if (fe3 < 0.0) { fe3 = 0.0; fe2 = e[Fe]; }
+                if (fe2 < 0.0) { fe2 = 0.0; fe3 = e[Fe]; }
+
+                /* Assign moles of endmembers */
+                m[0] = -fe3/2.0 - fe2 - e[Mn] - e[Al]/2.0 - e[Cr]/2.0 + e[Ca] + e[Na]/2.0 - e[Ti];
+                m[1] =  fe3/4.0 + fe2/2.0 + e[Mn]/2.0 + e[Al]/4.0 + e[Cr]/4.0 - e[Ca]/2.0 + e[Mg]/2.0 - e[Na]/4.0;
+                m[2] =  fe2 + e[Mn];
+                m[3] = -fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 + e[Ti];
+                m[4] =  fe3/2.0 - e[Al]/2.0 - e[Cr]/2.0 + e[Na]/2.0 + e[Ti];
+                m[5] =  fe3/2.0 + e[Al]/2.0 + e[Cr]/2.0 - e[Na]/2.0 - e[Ti];
+                m[6] =  e[Na];
+
+#endif
+    } else if (inpMask == SECOND) {
+        double sum;
+
+        if (outMask & ~(THIRD | FOURTH | FIFTH | SIXTH | EIGHTH))
+            printf("Illegal call to conCpx with inpMask = %o and outMask = %o\n",
+                inpMask, outMask);
+
+        for (i=0, sum=0.0; i<NA; i++) sum += m[i];
+
+        if (outMask & THIRD) {
+            /* Converts a vector of moles of end-member components (m) into a vector
+         of independent compositional variables (r) required as input for the
+         remaining public functions.                     */
+            r[0] = (sum != 0.0) ? m[2]/sum            : 0.0;
+            r[1] = (sum != 0.0) ? (m[3]+m[6]/2.0)/sum : 0.0;
+            r[2] = (sum != 0.0) ? (m[4]-m[6]/2.0)/sum : 0.0;
+            r[3] = (sum != 0.0) ? (m[5]+m[6]/2.0)/sum : 0.0;
+            r[4] = (sum != 0.0) ? m[6]/sum            : 0.0;
+            r[5] = (sum != 0.0) ? m[1]/sum            : 0.0;
+        }
+
+        if (outMask & FOURTH) {
+            /* Converts a vector of moles of end-member components (m) into a vector
+         of mole fractions of endmember components                */
+            for (i=0; i<NA; i++) x[i] = (sum != 0.0) ? m[i]/sum : 0.0;
+        }
+
+        if (outMask & FIFTH) {
+            /* Calculates the matrix dr[i]/dm[j] using m[] as input                 */
+
+            if (sum == 0.0) {
+                for (i=0; i<NR; i++) { for (j=0; j<NA; j++) dm[i][j] = 0.0; }
+            } else {
+                for (j=0; j<NA; j++) {
+                    dm[0][j]  = -m[2]/SQUARE(sum);
+                    dm[0][j] += (j == 2) ? 1.0/sum : 0.0;
+                    dm[1][j]  = -(m[3]+m[6]/2.0)/SQUARE(sum);
+                    dm[1][j] += (j == 3) ? 1.0/sum : 0.0;
+                    dm[1][j] += (j == 6) ? 0.5/sum : 0.0;
+                    dm[2][j]  = -(m[4]-m[6]/2.0)/SQUARE(sum);
+                    dm[2][j] += (j == 4) ? 1.0/sum : 0.0;
+                    dm[2][j] -= (j == 6) ? 0.5/sum : 0.0;
+                    dm[3][j]  = -(m[5]+m[6]/2.0)/SQUARE(sum);
+                    dm[3][j] += (j == 5) ? 1.0/sum : 0.0;
+                    dm[3][j] += (j == 6) ? 0.5/sum : 0.0;
+                    dm[4][j]  = -m[6]/SQUARE(sum);
+                    dm[4][j] += (j == 6) ? 1.0/sum : 0.0;
+                    dm[5][j]  = -m[1]/SQUARE(sum);
+                    dm[5][j] += (j == 1) ? 1.0/sum : 0.0;
+                }
+            }
+
+        }
+
+        if (outMask & SIXTH) {
+            /* Calculates the matrix d2r[i]/dm[j]dm[k] using m[] as input           */
+
+            if (sum == 0.0) {
+                for (i=0; i<NR; i++) {
+                    for (j=0; j<NA; j++)  {
             for (k=0; k<NA; k++) d2m[i][j][k] = 0.0;
-          }
-        }
-      } else {
-        for (j=0; j<NA; j++) {
-          for (k=0; k<NA; k++) {
+                    }
+                }
+            } else {
+                for (j=0; j<NA; j++) {
+                    for (k=0; k<NA; k++) {
             d2m[0][j][k]  = 2.0*m[2]/CUBE(sum);
             d2m[0][j][k] -= (j == 2) ? 1.0/SQUARE(sum) : 0.0;
             d2m[0][j][k] -= (k == 2) ? 1.0/SQUARE(sum) : 0.0;
@@ -4435,244 +4473,245 @@ conCpx(int inpMask, int outMask, double t, double p,
             d2m[5][j][k]  = 2.0*m[1]/CUBE(sum);
             d2m[5][j][k] -= (j == 1) ? 1.0/SQUARE(sum) : 0.0;
             d2m[5][j][k] -= (k == 1) ? 1.0/SQUARE(sum) : 0.0;
-          }
+                    }
+                }
+            }
+
         }
-      }
 
-    }
+        if (outMask & EIGHTH) {
+            /* calculates the matrix d3r[i]/dm[j]dm[k]dm[l] using m[] as input        */
+            int l;
 
-    if (outMask & EIGHTH) {
-      /* calculates the matrix d3r[i]/dm[j]dm[k]dm[l] using m[] as input        */
-      int l;
-
-      if (sum == 0.0) {
-        for (i=0; i<NR; i++) {
-          for (j=0; j<NA; j++)  {
+            if (sum == 0.0) {
+                for (i=0; i<NR; i++) {
+                    for (j=0; j<NA; j++)  {
             for (k=0; k<NA; k++)  {
-              for (l=0; l<NA; l++) d3m[i][j][k][l] = 0.0;
+                for (l=0; l<NA; l++) d3m[i][j][k][l] = 0.0;
             }
-          }
-        }
-      } else {
-        for (j=0; j<NA; j++)  {
-          for (k=0; k<NA; k++)  {
+                    }
+                }
+            } else {
+                for (j=0; j<NA; j++)  {
+                    for (k=0; k<NA; k++)  {
             for (l=0; l<NA; l++)  {
-              d3m[0][j][k][l]  = -6.0*m[2]/QUARTIC(sum);
-              d3m[0][j][k][l] += (j == 2) ? 2.0/CUBE(sum) : 0.0;
-              d3m[0][j][k][l] += (k == 2) ? 2.0/CUBE(sum) : 0.0;
-              d3m[0][j][k][l] += (l == 2) ? 2.0/CUBE(sum) : 0.0;
+                d3m[0][j][k][l]  = -6.0*m[2]/QUARTIC(sum);
+                d3m[0][j][k][l] += (j == 2) ? 2.0/CUBE(sum) : 0.0;
+                d3m[0][j][k][l] += (k == 2) ? 2.0/CUBE(sum) : 0.0;
+                d3m[0][j][k][l] += (l == 2) ? 2.0/CUBE(sum) : 0.0;
 
-              d3m[1][j][k][l]  = -6.0*(m[3]+m[6]/2.0)/QUARTIC(sum);
-              d3m[1][j][k][l] += (j == 3) ? 2.0/CUBE(sum) : 0.0;
-              d3m[1][j][k][l] += (k == 3) ? 2.0/CUBE(sum) : 0.0;
-              d3m[1][j][k][l] += (l == 3) ? 2.0/CUBE(sum) : 0.0;
-              d3m[1][j][k][l] += (j == 6) ? 1.0/CUBE(sum) : 0.0;
-              d3m[1][j][k][l] += (k == 6) ? 1.0/CUBE(sum) : 0.0;
-              d3m[1][j][k][l] += (l == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[1][j][k][l]  = -6.0*(m[3]+m[6]/2.0)/QUARTIC(sum);
+                d3m[1][j][k][l] += (j == 3) ? 2.0/CUBE(sum) : 0.0;
+                d3m[1][j][k][l] += (k == 3) ? 2.0/CUBE(sum) : 0.0;
+                d3m[1][j][k][l] += (l == 3) ? 2.0/CUBE(sum) : 0.0;
+                d3m[1][j][k][l] += (j == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[1][j][k][l] += (k == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[1][j][k][l] += (l == 6) ? 1.0/CUBE(sum) : 0.0;
 
-              d3m[2][j][k][l]  = -6.0*(m[4]-m[6]/2.0)/QUARTIC(sum);
-              d3m[2][j][k][l] += (j == 4) ? 2.0/CUBE(sum) : 0.0;
-              d3m[2][j][k][l] += (k == 4) ? 2.0/CUBE(sum) : 0.0;
-              d3m[2][j][k][l] += (l == 4) ? 2.0/CUBE(sum) : 0.0;
-              d3m[2][j][k][l] -= (j == 6) ? 1.0/CUBE(sum) : 0.0;
-              d3m[2][j][k][l] -= (k == 6) ? 1.0/CUBE(sum) : 0.0;
-              d3m[2][j][k][l] -= (l == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[2][j][k][l]  = -6.0*(m[4]-m[6]/2.0)/QUARTIC(sum);
+                d3m[2][j][k][l] += (j == 4) ? 2.0/CUBE(sum) : 0.0;
+                d3m[2][j][k][l] += (k == 4) ? 2.0/CUBE(sum) : 0.0;
+                d3m[2][j][k][l] += (l == 4) ? 2.0/CUBE(sum) : 0.0;
+                d3m[2][j][k][l] -= (j == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[2][j][k][l] -= (k == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[2][j][k][l] -= (l == 6) ? 1.0/CUBE(sum) : 0.0;
 
-              d3m[3][j][k][l]  = -6.0*(m[5]+m[6]/2.0)/QUARTIC(sum);
-              d3m[3][j][k][l] += (j == 5) ? 2.0/CUBE(sum) : 0.0;
-              d3m[3][j][k][l] += (k == 5) ? 2.0/CUBE(sum) : 0.0;
-              d3m[3][j][k][l] += (l == 5) ? 2.0/CUBE(sum) : 0.0;
-              d3m[3][j][k][l] += (j == 6) ? 1.0/CUBE(sum) : 0.0;
-              d3m[3][j][k][l] += (k == 6) ? 1.0/CUBE(sum) : 0.0;
-              d3m[3][j][k][l] += (l == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[3][j][k][l]  = -6.0*(m[5]+m[6]/2.0)/QUARTIC(sum);
+                d3m[3][j][k][l] += (j == 5) ? 2.0/CUBE(sum) : 0.0;
+                d3m[3][j][k][l] += (k == 5) ? 2.0/CUBE(sum) : 0.0;
+                d3m[3][j][k][l] += (l == 5) ? 2.0/CUBE(sum) : 0.0;
+                d3m[3][j][k][l] += (j == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[3][j][k][l] += (k == 6) ? 1.0/CUBE(sum) : 0.0;
+                d3m[3][j][k][l] += (l == 6) ? 1.0/CUBE(sum) : 0.0;
 
-              d3m[4][j][k][l]  = -6.0*m[6]/QUARTIC(sum);
-              d3m[4][j][k][l] += (j == 6) ? 2.0/CUBE(sum) : 0.0;
-              d3m[4][j][k][l] += (k == 6) ? 2.0/CUBE(sum) : 0.0;
-              d3m[4][j][k][l] += (l == 6) ? 2.0/CUBE(sum) : 0.0;
+                d3m[4][j][k][l]  = -6.0*m[6]/QUARTIC(sum);
+                d3m[4][j][k][l] += (j == 6) ? 2.0/CUBE(sum) : 0.0;
+                d3m[4][j][k][l] += (k == 6) ? 2.0/CUBE(sum) : 0.0;
+                d3m[4][j][k][l] += (l == 6) ? 2.0/CUBE(sum) : 0.0;
 
-              d3m[5][j][k][l]  = -6.0*m[1]/QUARTIC(sum);
-              d3m[5][j][k][l] += (j == 1) ? 2.0/CUBE(sum) : 0.0;
-              d3m[5][j][k][l] += (k == 1) ? 2.0/CUBE(sum) : 0.0;
-              d3m[5][j][k][l] += (l == 1) ? 2.0/CUBE(sum) : 0.0;
+                d3m[5][j][k][l]  = -6.0*m[1]/QUARTIC(sum);
+                d3m[5][j][k][l] += (j == 1) ? 2.0/CUBE(sum) : 0.0;
+                d3m[5][j][k][l] += (k == 1) ? 2.0/CUBE(sum) : 0.0;
+                d3m[5][j][k][l] += (l == 1) ? 2.0/CUBE(sum) : 0.0;
             }
-          }
+                    }
+                }
+            }
         }
-      }
-    }
 
-  } else if (inpMask == THIRD) {
+    } else if (inpMask == THIRD) {
 
-    if (outMask & ~(FOURTH | SEVENTH))
-      printf("Illegal call to conCpx with inpMask = %o and outMask = %o\n",
-        inpMask, outMask);
+        if (outMask & ~(FOURTH | SEVENTH))
+            printf("Illegal call to conCpx with inpMask = %o and outMask = %o\n",
+                inpMask, outMask);
 
-    if (outMask & FOURTH) {
-      /* Converts a vector of independent compositional variables (r) into a
+        if (outMask & FOURTH) {
+            /* Converts a vector of independent compositional variables (r) into a
          vector of mole fractions of endmember components (x).                */
-      x[0] = 1.0 - r[0] - r[1] - r[2] - r[3] - r[4]/2.0 - r[5];
-      x[1] = r[5];
-      x[2] = r[0];
-      x[3] = r[1] - r[4]/2.0;
-      x[4] = r[2] + r[4]/2.0;
-      x[5] = r[3] - r[4]/2.0;
-      x[6] = r[4];
-    }
+            x[0] = 1.0 - r[0] - r[1] - r[2] - r[3] - r[4]/2.0 - r[5];
+            x[1] = r[5];
+            x[2] = r[0];
+            x[3] = r[1] - r[4]/2.0;
+            x[4] = r[2] + r[4]/2.0;
+            x[5] = r[3] - r[4]/2.0;
+            x[6] = r[4];
+        }
 
-    if (outMask & SEVENTH) {
-      /* computes the Jacobian matrix dr[i][j] = dx[i]/dr[j] */
-      for (i=0; i<NA; i++) for (j=0; j<NR; j++) dr[i][j] = 0.0;
-      dr[0][0] = -1.0; dr[0][1] = -1.0; dr[0][2] = -1.0; dr[0][3] = -1.0;
+        if (outMask & SEVENTH) {
+            /* computes the Jacobian matrix dr[i][j] = dx[i]/dr[j] */
+            for (i=0; i<NA; i++) for (j=0; j<NR; j++) dr[i][j] = 0.0;
+            dr[0][0] = -1.0; dr[0][1] = -1.0; dr[0][2] = -1.0; dr[0][3] = -1.0;
                        dr[0][4] = -0.5; dr[0][5] = -1.0;
-      dr[1][5] =  1.0; 
-      dr[2][0] =  1.0;
-      dr[3][1] =  1.0; dr[3][4] = -0.5;
-      dr[4][2] =  1.0; dr[4][4] =  0.5;
-      dr[5][3] =  1.0; dr[5][4] = -0.5;
-      dr[6][4] =  1.0;
+            dr[1][5] =  1.0;
+            dr[2][0] =  1.0;
+            dr[3][1] =  1.0; dr[3][4] = -0.5;
+            dr[4][2] =  1.0; dr[4][4] =  0.5;
+            dr[5][3] =  1.0; dr[5][4] = -0.5;
+            dr[6][4] =  1.0;
+        }
+
+    } else  {
+        printf("Illegal call to conCpx with inpMask = %o and outMask = %o\n",
+            inpMask, outMask);
     }
 
-  } else  {
-    printf("Illegal call to conCpx with inpMask = %o and outMask = %o\n",
-      inpMask, outMask);
-  }
-
 }
 
-void 
-dispCpx(int mask, double t, double p, double *x, 
-  char **formula            /* Mineral formula for interface display MASK: 1 */
-  )
+void
+dispCpx(int mask, double t, double p, double *x,
+    char **formula            /* Mineral formula for interface display MASK: 1 */
+    )
 {
-  double *r = x;
-  static char masterString[] = { 
-/*             1111111111222222222233333333334444444444555555555566666666667
-     01234567890123456789012345678901234567890123456789012345678901234567890 */
-    "_px Na_.__Ca_.__Fe''_.__Mg_.__Fe'''_.__Ti_.__Al_.__Si_.__O6" };
-  
-  if (mask & FIRST) {
-    char *string = strcpy((char *) malloc((size_t) (strlen(masterString)+1)*sizeof(char)), masterString);
-    double totAl, totCa, totFe2, totFe3, totMg, totNa, totTi, totSi;
-    char n[5];
-    int i;
-    if (isClino(t, p, r) == TRUE) string[0] = 'c'; else string[0] = 'o';
+    double *r = x;
+    static char masterString[] = {
+/*                 1111111111222222222233333333334444444444555555555566666666667
+         01234567890123456789012345678901234567890123456789012345678901234567890 */
+        "_px Na_.__Ca_.__Fe''_.__Mg_.__Fe'''_.__Ti_.__Al_.__Si_.__O6" };
 
-    totAl  = r[1] + r[3];
-    totCa  = 1.0 - r[4] - r[5];
-    totFe2 = r[0];
-    totFe3 = r[2] + r[3];
-    totMg  = 1.0 - r[0] - 0.5*r[1] - 0.5*r[2] - r[3] - 0.5*r[4] + r[5];
-    totNa  = r[4];
-    totTi  = 0.5*(r[1]+r[2]);
-    totSi  = 2.0 - r[1] - r[2] - r[3] + r[4]/2.0;
+    if (mask & FIRST) {
+        char *string = strcpy((char *) malloc((size_t) (strlen(masterString)+1)*sizeof(char)), masterString);
+        double totAl, totCa, totFe2, totFe3, totMg, totNa, totTi, totSi;
+        char n[5];
+        int i;
+        if (isClino(t, p, r) == TRUE) string[0] = 'c'; else string[0] = 'o';
 
-    (void) snprintf(n, 5, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 6+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[12+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[20+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[26+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[35+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totTi);  for (i=0; i<4; i++) string[41+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totAl);  for (i=0; i<4; i++) string[47+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totSi);  for (i=0; i<4; i++) string[53+i] = n[i];
+        totAl  = r[1] + r[3];
+        totCa  = 1.0 - r[4] - r[5];
+        totFe2 = r[0];
+        totFe3 = r[2] + r[3];
+        totMg  = 1.0 - r[0] - 0.5*r[1] - 0.5*r[2] - r[3] - 0.5*r[4] + r[5];
+        totNa  = r[4];
+        totTi  = 0.5*(r[1]+r[2]);
+        totSi  = 2.0 - r[1] - r[2] - r[3] + r[4]/2.0;
 
-    *formula = string;
-  }
+        (void) snprintf(n, 5, "%4.2f", totNa);  for (i=0; i<4; i++) string[ 6+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totCa);  for (i=0; i<4; i++) string[12+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[20+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[26+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totFe3); for (i=0; i<4; i++) string[35+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totTi);  for (i=0; i<4; i++) string[41+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totAl);  for (i=0; i<4; i++) string[47+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totSi);  for (i=0; i<4; i++) string[53+i] = n[i];
+
+        *formula = string;
+    }
 }
 
-void 
-actCpx(int mask, double t, double p, double *x, 
-  double *a,  /* (pointer to a[]) activities              BINARY MASK: 0001 */
-  double *mu, /* (pointer to mu[]) chemical potentials    BINARY MASK: 0010 */
-  double **dx /* (pointer to dx[][]) d(a[])/d(x[])        BINARY MASK: 0100 */
-  )           /* exclusion criteria applied to results if BINARY MASK: 1000 */
+void
+actCpx(int mask, double t, double p, double *x,
+    double *a,  /* (pointer to a[]) activities              BINARY MASK: 0001 */
+    double *mu, /* (pointer to mu[]) chemical potentials    BINARY MASK: 0010 */
+    double **dx /* (pointer to dx[][]) d(a[])/d(x[])        BINARY MASK: 0100 */
+    )           /* exclusion criteria applied to results if BINARY MASK: 1000 */
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS], g, dgdr[NR];
-  double fr[NA][NR];
-  int i, j, clino;
-  
-  for(i=0; i<NA; i++) {
-     fr[i][0] = FR2(i); /* X2 */
-     fr[i][1] = FR3(i); /* X3 */
-     fr[i][2] = FR4(i); /* X4 */
-     fr[i][3] = FR5(i); /* X5 */
-     fr[i][4] = FR6(i); /* X6 */
-     fr[i][5] = FR7(i); /* X7 */
-  }
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS], g, dgdr[NR];
+    double fr[NA][NR];
+    int i, j, clino;
 
-  clino = isClino(t, p, r);
-  setClino(clino);
+    for(i=0; i<NA; i++) {
+        fr[i][0] = FR2(i); /* X2 */
+        fr[i][1] = FR3(i); /* X3 */
+        fr[i][2] = FR4(i); /* X4 */
+        fr[i][3] = FR5(i); /* X5 */
+        fr[i][4] = FR6(i); /* X6 */
+        fr[i][5] = FR7(i); /* X7 */
+    }
 
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    clino = isClino(t, p, r);
+    setClino(clino);
 
-  g       = G;
-  dgdr[0] = DGDR0;          
-  dgdr[1] = DGDR1;
-  dgdr[2] = DGDR2;
-  dgdr[3] = DGDR3;
-  dgdr[4] = DGDR4;
-  dgdr[5] = DGDR5;
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
+
+    g       = G;
+    dgdr[0] = DGDR0;
+    dgdr[1] = DGDR1;
+    dgdr[2] = DGDR2;
+    dgdr[3] = DGDR3;
+    dgdr[4] = DGDR4;
+    dgdr[5] = DGDR5;
 
 #ifdef TESTDYNAMICLIB
-  if (!mask && a != NULL) {
-    for(i=0; i<NA; i++) {
-       for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
-       a[i] = exp(a[i]/(R*t));
+    /* activities for library */
+    if (!mask && a != NULL) {
+        for(i=0; i<NA; i++) {
+            for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
+            a[i] = exp(a[i]/(R*t));
+        }
     }
-  }
 #endif
 
-  if (mask & FIRST) {
-    double a0[NA];
+    if (mask & FIRST) {
+        double a0[NA];
 
-    purePyx(FIRST, t, p, 
+        purePyx(FIRST, t, p,
        a0,              (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    for(i=0; i<NA; i++) {
+        for(i=0; i<NA; i++) {
        for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
        a[i] = exp(a[i]/(R*t));
        if (a0[i] != 0.0) a[i] = a[i]/a0[i];
+        }
+
     }
 
-  }
+    if (mask & SECOND) {
+        double mu0[NA];
 
-  if (mask & SECOND) {
-    double mu0[NA];
-
-    purePyx(SECOND, t, p, 
+        purePyx(SECOND, t, p,
        (double *) NULL, mu0,             (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    for(i=0; i<NA; i++) {
+        for(i=0; i<NA; i++) {
        for (mu[i]=g-mu0[i], j=0; j<NR; j++) mu[i] += fr[i][j]*dgdr[j];
+        }
+
     }
 
-  }
+    if (mask & THIRD) {
+        double d2gdr2[NR][NR], d2gdrds[NR][NS], d2gds2[NS][NS], dsdr[NS][NR],
+            dfrdr[NA][NR], gs[NA][NS], dgsds[NA][NS], sum, a0[NA];
+        int k, l;
 
-  if (mask & THIRD) {
-    double d2gdr2[NR][NR], d2gdrds[NR][NS], d2gds2[NS][NS], dsdr[NS][NR], 
-      dfrdr[NA][NR], gs[NA][NS], dgsds[NA][NS], sum, a0[NA];
-    int k, l;
+        fillD2GDR2
+        fillD2GDRDS
+        fillD2GDS2
 
-    fillD2GDR2
-    fillD2GDRDS
-    fillD2GDS2    
-
-    purePyx(FIRST, t, p, 
+        purePyx(FIRST, t, p,
        a0,              (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    for(i=0; i<NA; i++) {
+        for(i=0; i<NA; i++) {
        gs[i][0] = FS1(i); /* s1 */
        gs[i][1] = FS2(i); /* s2 */
        dfrdr[i][0] = DFR2DR2(i); /* X2 */
@@ -4683,871 +4722,871 @@ actCpx(int mask, double t, double p, double *x,
        dfrdr[i][5] = DFR7DR7(i); /* X7 */
        dgsds[i][0] = DFS1DS1(i); /* s1 */
        dgsds[i][1] = DFS2DS2(i); /* s2 */
+        }
+
+        order(SECOND, t, p, r,
+                NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NA; i++) {
+            for (k=0; k<NR; k++) {
+                /* compute activity of the i-th component */
+                for (dx[i][k]=g, j=0; j<NR; j++) dx[i][k] += fr[i][j]*dgdr[j];
+                dx[i][k] = exp(dx[i][k]/(R*t));
+                if (a0[i] != 0.0) dx[i][k]  = dx[i][k]/a0[i];
+
+                /* compute derivative of i-th activity with respect to r(k) */
+                sum = (1.0+dfrdr[i][k])*dgdr[k];
+                for (j=0; j<NR; j++) {
+                    sum += fr[i][j]*d2gdr2[j][k];
+                    for (l=0; l<NS; l++) sum += fr[i][j]*d2gdrds[j][l]*dsdr[l][k];
+                }
+                for (j=0; j<NS; j++) {
+                    sum += gs[i][j]*d2gdrds[k][j];
+                    for (l=0; l<NS; l++) sum += gs[i][j]*d2gds2[j][l]*dsdr[l][k];
+                }
+                dx[i][k] *= sum/(R*t);
+            }
+        }
     }
 
-    order(SECOND, t, p, r, 
-        NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    if (mask & FOURTH) {
+        int flags[NA];
 
-    for (i=0; i<NA; i++) {
-      for (k=0; k<NR; k++) {
-        /* compute activity of the i-th component */
-        for (dx[i][k]=g, j=0; j<NR; j++) dx[i][k] += fr[i][j]*dgdr[j];
-        dx[i][k] = exp(dx[i][k]/(R*t));
-        if (a0[i] != 0.0) dx[i][k]  = dx[i][k]/a0[i];
-
-        /* compute derivative of i-th activity with respect to r(k) */
-        sum = (1.0+dfrdr[i][k])*dgdr[k];
-        for (j=0; j<NR; j++) {
-          sum += fr[i][j]*d2gdr2[j][k];
-          for (l=0; l<NS; l++) sum += fr[i][j]*d2gdrds[j][l]*dsdr[l][k];
-        }
-        for (j=0; j<NS; j++) {
-          sum += gs[i][j]*d2gdrds[k][j];
-          for (l=0; l<NS; l++) sum += gs[i][j]*d2gds2[j][l]*dsdr[l][k];
-        }
-        dx[i][k] *= sum/(R*t);
-      }
-    }
-  }
-
-  if (mask & FOURTH) {
-    int flags[NA];
-
-    flags[0] = (xca2m2  < 0.05) | (xmg2m1  < 0.05) | (xsi4tet < 0.05); 
-    flags[1] = (xmg2m2  < 0.05) | (xmg2m1  < 0.05) | (xsi4tet < 0.05); 
-    flags[2] = (xca2m2  < 0.05) | (xfe2m1  < 0.05) | (xsi4tet < 0.05); 
-    flags[3] = (xca2m2  < 0.05) | (xmg2m1  < 0.05) | (xti4m1  < 0.05) |
+        flags[0] = (xca2m2  < 0.05) | (xmg2m1  < 0.05) | (xsi4tet < 0.05);
+        flags[1] = (xmg2m2  < 0.05) | (xmg2m1  < 0.05) | (xsi4tet < 0.05);
+        flags[2] = (xca2m2  < 0.05) | (xfe2m1  < 0.05) | (xsi4tet < 0.05);
+        flags[3] = (xca2m2  < 0.05) | (xmg2m1  < 0.05) | (xti4m1  < 0.05) |
                (xal3tet < 0.05) | (xsi4tet < 0.05);
-    flags[4] = (xca2m2  < 0.05) | (xmg2m1  < 0.05) | (xti4m1  < 0.05) |
-               (xfe3tet < 0.05) | (xsi4tet < 0.05); 
-    flags[5] = (xca2m2  < 0.05) | (xfe3m1  < 0.05) | (xal3tet < 0.05) |
-               (xsi4tet < 0.05); 
-    flags[6] = (xna1m2  < 0.05) | (xal3m1 < 0.05)  | (xsi4tet < 0.05); 
+        flags[4] = (xca2m2  < 0.05) | (xmg2m1  < 0.05) | (xti4m1  < 0.05) |
+               (xfe3tet < 0.05) | (xsi4tet < 0.05);
+        flags[5] = (xca2m2  < 0.05) | (xfe3m1  < 0.05) | (xal3tet < 0.05) |
+               (xsi4tet < 0.05);
+        flags[6] = (xna1m2  < 0.05) | (xal3m1 < 0.05)  | (xsi4tet < 0.05);
 
 #ifdef REGRESS_DI_EN_HD_ONLY
-    flags[3] = 1;
-    flags[4] = 1;
-    flags[5] = 1;
-    flags[6] = 1;
+        flags[3] = 1;
+        flags[4] = 1;
+        flags[5] = 1;
+        flags[6] = 1;
 #endif
 
 #ifdef REGRESS_LOW_P_ONLY
-    if (p > 2.0) {
-      flags[0] = 1;
-      flags[1] = 1;
-      flags[2] = 1;
-      flags[3] = 1;
-      flags[4] = 1;
-      flags[5] = 1;
-      flags[6] = 1;
-    }
+        if (p > 2.0) {
+            flags[0] = 1;
+            flags[1] = 1;
+            flags[2] = 1;
+            flags[3] = 1;
+            flags[4] = 1;
+            flags[5] = 1;
+            flags[6] = 1;
+        }
 #endif
 
-    for (i=0; i<NA; i++) {
-      if (flags[i]) {
-        if (mask & FIRST)  a[i]  = 0.0;
-        if (mask & SECOND) mu[i] = 0.0;
-        if (mask & THIRD)  for (j=0; j<NR; j++) dx[i][j] = 0.0;
-      }
-    }
-    
-  }
-
-}
-
-void 
-gmixCpx(int mask, double t, double p, double *x, 
-  double *gmix, /* Gibbs energy of mixing             BINARY MASK: 0001 */
-  double *dx,   /* (pointer to dx[]) d(g)/d(x[])      BINARY MASK: 0010 */
-  double **dx2, /* (pointer to dx2[][]) d2(g)/d(x[])2 BINARY MASK: 0100 */
-  double ***dx3 /* (pointer to dx3[][][]) d3(g)/d(x[])3 NARY MASK: 1000 */
-  )
-{
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS];
-  int clino;
-  
-  clino = isClino(t, p, r);
-  setClino(clino);
-
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
-
-  if (mask & FIRST) {
-    double ends[NA];
-
-    *gmix = G;
-
-    purePyx(THIRD, t, p, 
-       (double *) NULL, (double *) NULL, ends,            (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL);
-
-    *gmix -= ENDMEMBERS;
-  }
-  
-  if(mask & SECOND) {
-    double ends[NA];
-
-    dx[0] = DGDR0;
-    dx[1] = DGDR1;
-    dx[2] = DGDR2;
-    dx[3] = DGDR3;
-    dx[4] = DGDR4;
-    dx[5] = DGDR5;
-
-    purePyx(THIRD, t, p, 
-       (double *) NULL, (double *) NULL, ends,            (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL);
-
-    dx[0] -= DENDDR0;
-    dx[1] -= DENDDR1;
-    dx[2] -= DENDDR2;
-    dx[3] -= DENDDR3;
-    dx[4] -= DENDDR4;
-    dx[5] -= DENDDR5;
-  }
-
-  if(mask & THIRD) {
-    double d2gdr2[NR][NR], d2gdrds[NR][NS], d2gds2[NS][NS], dsdr[NS][NR];
-    int i, j, k, l;
-
-    fillD2GDR2
-    fillD2GDRDS
-    fillD2GDS2
-
-    order(SECOND, t, p, r, 
-        NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) {
-        dx2[i][j] = d2gdr2[i][j];
-        for (k=0; k<NS; k++) {
-          dx2[i][j] += d2gdrds[i][k]*dsdr[k][j] + d2gdrds[j][k]*dsdr[k][i]; 
-          for (l=0; l<NS; l++) dx2[i][j] += d2gds2[k][l]*dsdr[k][i]*dsdr[l][j];
-        }
-      }
-    }
-
-  }
-
-  if(mask & FOURTH) {
-    double d3gdr3[NR][NR][NR], d3gdr2ds[NR][NR][NS], d3gdrds2[NR][NS][NS];
-    double d3gds3[NS][NS][NS], dsdr[NS][NR];
-    int i, j, k, l, m, n;
-
-    fillD3GDR3
-    fillD3GDR2DS
-    fillD3GDRDS2
-    fillD3GDS3
-
-    order(SECOND, t, p, r, 
-          NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) {
-        for (k=0; k<NR; k++) {
-          dx3[i][j][k] = d3gdr3[i][j][k];
-          for (l=0; l<NS; l++) {
-            dx3[i][j][k] += d3gdr2ds[i][j][l]*dsdr[l][k] +
-              d3gdr2ds[j][k][l]*dsdr[l][i] + d3gdr2ds[k][i][l]*dsdr[l][j];
-            for (m=0; m<NS; m++) {
-              dx3[i][j][k] += 
-                d3gdrds2[i][l][m]*dsdr[l][j]*dsdr[m][k] +
-                d3gdrds2[j][l][m]*dsdr[l][k]*dsdr[m][i] +
-                d3gdrds2[k][l][m]*dsdr[l][i]*dsdr[m][j];
-              for (n=0; n<NS; n++)
-                dx3[i][j][k] +=
-                  d3gds3[l][m][n]*dsdr[l][i]*dsdr[m][j]*dsdr[n][k];
+        for (i=0; i<NA; i++) {
+            if (flags[i]) {
+                if (mask & FIRST)  a[i]  = 0.0;
+                if (mask & SECOND) mu[i] = 0.0;
+                if (mask & THIRD)  for (j=0; j<NR; j++) dx[i][j] = 0.0;
             }
-          }
         }
-      }
-    }
 
-  }
+    }
 
 }
 
-void 
-hmixCpx(int mask, double t, double p, double *x, 
-  double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
-  )
+void
+gmixCpx(int mask, double t, double p, double *x,
+    double *gmix, /* Gibbs energy of mixing             BINARY MASK: 0001 */
+    double *dx,   /* (pointer to dx[]) d(g)/d(x[])      BINARY MASK: 0010 */
+    double **dx2, /* (pointer to dx2[][]) d2(g)/d(x[])2 BINARY MASK: 0100 */
+    double ***dx3 /* (pointer to dx3[][][]) d3(g)/d(x[])3 NARY MASK: 1000 */
+    )
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS], ends[NA];
-  int clino;
-  
-  clino = isClino(t, p, r);
-  setClino(clino);
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS];
+    int clino;
 
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    clino = isClino(t, p, r);
+    setClino(clino);
 
-  *hmix = (G) + t*(S);
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
 
-  purePyx(FOURTH, t, p, 
+    if (mask & FIRST) {
+        double ends[NA];
+
+        *gmix = G;
+
+        purePyx(THIRD, t, p,
+       (double *) NULL, (double *) NULL, ends,            (double *) NULL,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL);
+
+        *gmix -= ENDMEMBERS;
+    }
+
+    if(mask & SECOND) {
+        double ends[NA];
+
+        dx[0] = DGDR0;
+        dx[1] = DGDR1;
+        dx[2] = DGDR2;
+        dx[3] = DGDR3;
+        dx[4] = DGDR4;
+        dx[5] = DGDR5;
+
+        purePyx(THIRD, t, p,
+       (double *) NULL, (double *) NULL, ends,            (double *) NULL,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL);
+
+        dx[0] -= DENDDR0;
+        dx[1] -= DENDDR1;
+        dx[2] -= DENDDR2;
+        dx[3] -= DENDDR3;
+        dx[4] -= DENDDR4;
+        dx[5] -= DENDDR5;
+    }
+
+    if(mask & THIRD) {
+        double d2gdr2[NR][NR], d2gdrds[NR][NS], d2gds2[NS][NS], dsdr[NS][NR];
+        int i, j, k, l;
+
+        fillD2GDR2
+        fillD2GDRDS
+        fillD2GDS2
+
+        order(SECOND, t, p, r,
+                NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            for (j=0; j<NR; j++) {
+                dx2[i][j] = d2gdr2[i][j];
+                for (k=0; k<NS; k++) {
+                    dx2[i][j] += d2gdrds[i][k]*dsdr[k][j] + d2gdrds[j][k]*dsdr[k][i];
+                    for (l=0; l<NS; l++) dx2[i][j] += d2gds2[k][l]*dsdr[k][i]*dsdr[l][j];
+                }
+            }
+        }
+
+    }
+
+    if(mask & FOURTH) {
+        double d3gdr3[NR][NR][NR], d3gdr2ds[NR][NR][NS], d3gdrds2[NR][NS][NS];
+        double d3gds3[NS][NS][NS], dsdr[NS][NR];
+        int i, j, k, l, m, n;
+
+        fillD3GDR3
+        fillD3GDR2DS
+        fillD3GDRDS2
+        fillD3GDS3
+
+        order(SECOND, t, p, r,
+                    NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            for (j=0; j<NR; j++) {
+                for (k=0; k<NR; k++) {
+                    dx3[i][j][k] = d3gdr3[i][j][k];
+                    for (l=0; l<NS; l++) {
+            dx3[i][j][k] += d3gdr2ds[i][j][l]*dsdr[l][k] +
+                d3gdr2ds[j][k][l]*dsdr[l][i] + d3gdr2ds[k][i][l]*dsdr[l][j];
+            for (m=0; m<NS; m++) {
+                dx3[i][j][k] +=
+                    d3gdrds2[i][l][m]*dsdr[l][j]*dsdr[m][k] +
+                    d3gdrds2[j][l][m]*dsdr[l][k]*dsdr[m][i] +
+                    d3gdrds2[k][l][m]*dsdr[l][i]*dsdr[m][j];
+                for (n=0; n<NS; n++)
+                    dx3[i][j][k] +=
+                        d3gds3[l][m][n]*dsdr[l][i]*dsdr[m][j]*dsdr[n][k];
+            }
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+void
+hmixCpx(int mask, double t, double p, double *x,
+    double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
+    )
+{
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS], ends[NA];
+    int clino;
+
+    clino = isClino(t, p, r);
+    setClino(clino);
+
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
+
+    *hmix = (G) + t*(S);
+
+    purePyx(FOURTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, ends,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-  *hmix -= ENDMEMBERS;
+    *hmix -= ENDMEMBERS;
 }
 
-void 
-smixCpx(int mask, double t, double p, double *x, 
-  double *smix, /* Entropy of mixing                  BINARY MASK: 001 */
-  double *dx,   /* (pointer to dx[]) d(s)/d(x[])      BINARY MASK: 010 */
-  double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
-  )
+void
+smixCpx(int mask, double t, double p, double *x,
+    double *smix, /* Entropy of mixing                  BINARY MASK: 001 */
+    double *dx,   /* (pointer to dx[]) d(s)/d(x[])      BINARY MASK: 010 */
+    double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
+    )
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS];
-  int clino;
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS];
+    int clino;
 
-  clino = isClino(t, p, r);
-  setClino(clino);
+    clino = isClino(t, p, r);
+    setClino(clino);
 
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
 
-  if (mask & FIRST) {
-    double ends[NA];
+    if (mask & FIRST) {
+        double ends[NA];
 
-    *smix = S; 
+        *smix = S;
 
-    purePyx(FIFTH, t, p, 
+        purePyx(FIFTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        ends,            (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    *smix -= ENDMEMBERS;
-  }
-  
-  if(mask & SECOND) {
-    double d2gdrds[NR][NS], d2gdrdt[NR], d2gds2[NS][NS], d2gdsdt[NS], 
-      dsdr[NS][NR], dsdt[NS], ends[NA];
-    int i, k, l;
-
-    fillD2GDRDS
-    fillD2GDRDT
-    fillD2GDS2
-    fillD2GDSDT
-
-    order(SECOND | THIRD, t, p, r, 
-        NULL, dsdr, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-    
-    for (i=0; i<NR; i++) {
-      dx[i] = d2gdrdt[i];
-      for (k=0; k<NS; k++) {
-        dx[i] += d2gdrds[i][k]*dsdt[k] + d2gdsdt[k]*dsdr[k][i];
-        for (l=0; l<NS; l++) dx[i] += d2gds2[k][l]*dsdt[k]*dsdr[l][i] ;
-      }
-      dx[i] *= -1.0;
+        *smix -= ENDMEMBERS;
     }
 
-    purePyx(FIFTH, t, p, 
+    if(mask & SECOND) {
+        double d2gdrds[NR][NS], d2gdrdt[NR], d2gds2[NS][NS], d2gdsdt[NS],
+            dsdr[NS][NR], dsdt[NS], ends[NA];
+        int i, k, l;
+
+        fillD2GDRDS
+        fillD2GDRDT
+        fillD2GDS2
+        fillD2GDSDT
+
+        order(SECOND | THIRD, t, p, r,
+                NULL, dsdr, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            dx[i] = d2gdrdt[i];
+            for (k=0; k<NS; k++) {
+                dx[i] += d2gdrds[i][k]*dsdt[k] + d2gdsdt[k]*dsdr[k][i];
+                for (l=0; l<NS; l++) dx[i] += d2gds2[k][l]*dsdt[k]*dsdr[l][i] ;
+            }
+            dx[i] *= -1.0;
+        }
+
+        purePyx(FIFTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        ends,            (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    dx[0] -= DENDDR0;
-    dx[1] -= DENDDR1;
-    dx[2] -= DENDDR2;
-    dx[3] -= DENDDR3;
-    dx[4] -= DENDDR4;
-    dx[5] -= DENDDR5;
-  }
+        dx[0] -= DENDDR0;
+        dx[1] -= DENDDR1;
+        dx[2] -= DENDDR2;
+        dx[3] -= DENDDR3;
+        dx[4] -= DENDDR4;
+        dx[5] -= DENDDR5;
+    }
 
-  if(mask & THIRD) {
-    double d2gdrds[NR][NS], d2gds2[NS][NS], d2gdsdt[NS], d3gdr2ds[NR][NR][NS],
-      d3gdr2dt[NR][NR], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
-      d3gds3[NS][NS][NS], d3gds2dt[NS][NS], dsdr[NS][NR], dsdt[NS], 
-      d2sdr2[NS][NR][NR], d2sdrdt[NS][NR];
-    int i, j, k, l, m;
+    if(mask & THIRD) {
+        double d2gdrds[NR][NS], d2gds2[NS][NS], d2gdsdt[NS], d3gdr2ds[NR][NR][NS],
+            d3gdr2dt[NR][NR], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
+            d3gds3[NS][NS][NS], d3gds2dt[NS][NS], dsdr[NS][NR], dsdt[NS],
+            d2sdr2[NS][NR][NR], d2sdrdt[NS][NR];
+        int i, j, k, l, m;
 
-    fillD2GDRDS
-    fillD2GDS2
-    fillD2GDSDT
-    fillD3GDR2DS
-    fillD3GDR2DT
-    fillD3GDRDS2
-    fillD3GDRDSDT
-    fillD3GDS3
-    fillD3GDS2DT
+        fillD2GDRDS
+        fillD2GDS2
+        fillD2GDSDT
+        fillD3GDR2DS
+        fillD3GDR2DT
+        fillD3GDRDS2
+        fillD3GDRDSDT
+        fillD3GDS3
+        fillD3GDS2DT
 
-    order(SECOND | THIRD | FIFTH | SIXTH, t, p, r, 
-          NULL, dsdr, dsdt, NULL, d2sdr2, d2sdrdt, NULL, NULL, NULL, NULL);
+        order(SECOND | THIRD | FIFTH | SIXTH, t, p, r,
+                    NULL, dsdr, dsdt, NULL, d2sdr2, d2sdrdt, NULL, NULL, NULL, NULL);
 
-    for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) { 
-        dx2[i][j] = d3gdr2dt[i][j];
-        for (k=0; k<NS; k++) {
-          dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k] 
-                     + d3gdrdsdt[i][k]*dsdr[k][j] 
-                     + d3gdrdsdt[j][k]*dsdr[k][i] 
+        for (i=0; i<NR; i++) {
+            for (j=0; j<NR; j++) {
+                dx2[i][j] = d3gdr2dt[i][j];
+                for (k=0; k<NS; k++) {
+                    dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k]
+                     + d3gdrdsdt[i][k]*dsdr[k][j]
+                     + d3gdrdsdt[j][k]*dsdr[k][i]
                      + d2gdsdt[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdt[k][j] 
+                     + d2gdrds[i][k]*d2sdrdt[k][j]
                      + d2gdrds[j][k]*d2sdrdt[k][i];
-          for (l=0; l<NS; l++) {
+                    for (l=0; l<NS; l++) {
             dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdt[l]
                        + d3gdrds2[j][k][l]*dsdr[k][i]*dsdt[l]
-                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l] 
+                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l]
                        + d3gds2dt[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j] 
+                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j]
                        + d2gds2[k][l]*dsdr[l][j]*d2sdrdt[k][i];
-            for (m=0; m<NS; m++) 
-              dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdt[m];
-          }
+            for (m=0; m<NS; m++)
+                dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdt[m];
+                    }
+                }
+                dx2[i][j] *= -1.0;
+            }
         }
-        dx2[i][j] *= -1.0;
-      }
-    }
 
-  }
+    }
 
 }
 
-void 
-cpmixCpx(int mask, double t, double p, double *x, 
-  double *cpmix, /* Heat capacity of mixing               BINARY MASK: 001 */
-  double *dt,    /* d(cp)/d(t)                            BINARY MASK: 010 */
-  double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
-  )
+void
+cpmixCpx(int mask, double t, double p, double *x,
+    double *cpmix, /* Heat capacity of mixing               BINARY MASK: 001 */
+    double *dt,    /* d(cp)/d(t)                BINARY MASK: 010 */
+    double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
+    )
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS], dsdt[NS], d2gdsdt[NS], d2gds2[NS][NS], d2gdt2;
-  int clino, i, j;
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS], dsdt[NS], d2gdsdt[NS], d2gds2[NS][NS], d2gdt2;
+    int clino, i, j;
 
-  clino = isClino(t, p, r);
-  setClino(clino);
+    clino = isClino(t, p, r);
+    setClino(clino);
 
-  order(FIRST | THIRD, t, p, r, 
-        s, NULL, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    order(FIRST | THIRD, t, p, r,
+                s, NULL, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
 
-  fillD2GDS2
-  fillD2GDSDT
-  d2gdt2 = D2GDT2;
+    fillD2GDS2
+    fillD2GDSDT
+    d2gdt2 = D2GDT2;
 
-  if (mask & FIRST) {
-    double ends[NA];
+    if (mask & FIRST) {
+        double ends[NA];
 
-    *cpmix = d2gdt2;
-    for (i=0; i<NS; i++) {
-      *cpmix += 2.0*d2gdsdt[i]*dsdt[i];
-      for (j=0; j<NS; j++) *cpmix += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
-    }
-    *cpmix *= -t;
+        *cpmix = d2gdt2;
+        for (i=0; i<NS; i++) {
+            *cpmix += 2.0*d2gdsdt[i]*dsdt[i];
+            for (j=0; j<NS; j++) *cpmix += d2gds2[i][j]*dsdt[i]*dsdt[j];
+        }
+        *cpmix *= -t;
 
-    purePyx(SIXTH, t, p, 
+        purePyx(SIXTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, ends,            (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    *cpmix -= ENDMEMBERS;
-  }
-
-  if(mask & SECOND) {
-    double d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gdsdt2[NS], d2sdt2[NS], 
-      temp, ends[NA];
-    double d3gdt3 = D3GDT3;
-    int k;
-
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDSDT2
-
-    order(EIGHTH, t, p, r, 
-          NULL, NULL, NULL, NULL, NULL, NULL, NULL, d2sdt2, NULL, NULL);
-
-    /* compute d2gdt2 */
-    temp = d2gdt2;
-    for (i=0; i<NS; i++) {
-      temp += 2.0*d2gdsdt[i]*dsdt[i];
-      for (j=0; j<NS; j++) temp += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
+        *cpmix -= ENDMEMBERS;
     }
 
-    *dt = d3gdt3;
-    for (i=0; i<NS; i++) {
-      *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i]; 
-      for (j=0; j<NS; j++) {
-        *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j] 
+    if(mask & SECOND) {
+        double d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gdsdt2[NS], d2sdt2[NS],
+            temp, ends[NA];
+        double d3gdt3 = D3GDT3;
+        int k;
+
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDSDT2
+
+        order(EIGHTH, t, p, r,
+                    NULL, NULL, NULL, NULL, NULL, NULL, NULL, d2sdt2, NULL, NULL);
+
+        /* compute d2gdt2 */
+        temp = d2gdt2;
+        for (i=0; i<NS; i++) {
+            temp += 2.0*d2gdsdt[i]*dsdt[i];
+            for (j=0; j<NS; j++) temp += d2gds2[i][j]*dsdt[i]*dsdt[j];
+        }
+
+        *dt = d3gdt3;
+        for (i=0; i<NS; i++) {
+            *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i];
+            for (j=0; j<NS; j++) {
+                *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j]
              + 3.0*d3gds2dt[i][j]*dsdt[i]*dsdt[j];
-        for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k]; 
-      }
-    }
-    *dt = -t*(*dt) - temp;
+                for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k];
+            }
+        }
+        *dt = -t*(*dt) - temp;
 
-    purePyx(SEVENTH, t, p, 
+        purePyx(SEVENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, ends,            (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    *dt -= ENDMEMBERS;
-  }
+        *dt -= ENDMEMBERS;
+    }
 
-  if(mask & THIRD) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS], 
-      d3gds2dt[NS][NS], d2gdrds[NR][NS], d3gdrdt2[NR], d3gdsdt2[NS],
-      dsdr[NS][NR], d2sdrdt[NS][NR], d2sdt2[NS], ends[NA];
-    int k, l;
+    if(mask & THIRD) {
+        double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
+            d3gds2dt[NS][NS], d2gdrds[NR][NS], d3gdrdt2[NR], d3gdsdt2[NS],
+            dsdr[NS][NR], d2sdrdt[NS][NR], d2sdt2[NS], ends[NA];
+        int k, l;
 
-    fillD2GDRDS
-    fillD3GDRDS2
-    fillD3GDRDSDT
-    fillD3GDRDT2
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDSDT2
+        fillD2GDRDS
+        fillD3GDRDS2
+        fillD3GDRDSDT
+        fillD3GDRDT2
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDSDT2
 
-    order(SECOND | SIXTH | EIGHTH, t, p, r, 
-          NULL, dsdr, NULL, NULL, NULL, d2sdrdt, NULL, d2sdt2, NULL, NULL);
+        order(SECOND | SIXTH | EIGHTH, t, p, r,
+                    NULL, dsdr, NULL, NULL, NULL, d2sdrdt, NULL, d2sdt2, NULL, NULL);
 
-    for (i=0; i<NR; i++) {
-      for (j=0,dx[i]=d3gdrdt2[i]; j<NS; j++) {
-        dx[i] += d3gdsdt2[j]*dsdr[j][i] + 2.0*d2gdsdt[j]*d2sdrdt[j][i] +
+        for (i=0; i<NR; i++) {
+            for (j=0,dx[i]=d3gdrdt2[i]; j<NS; j++) {
+                dx[i] += d3gdsdt2[j]*dsdr[j][i] + 2.0*d2gdsdt[j]*d2sdrdt[j][i] +
                  2.0*d3gdrdsdt[i][j]*dsdt[j] + d2gdrds[i][j]*d2sdt2[j];
-        for (k=0; k<NS; k++) {
-          dx[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdt[k] + 
+                for (k=0; k<NS; k++) {
+                    dx[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdt[k] +
                    2.0*d2gds2[j][k]*dsdt[j]*d2sdrdt[k][i] +
                    2.0*d3gds2dt[j][k]*dsdr[j][i]*dsdt[k] +
                    d2gds2[j][k]*dsdr[j][i]*d2sdt2[k];
-          for (l=0; l<NS; l++) 
+                    for (l=0; l<NS; l++)
             dx[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdt[l];
+                }
+            }
+            dx[i] *= -t;
         }
-      }
-      dx[i] *= -t;
-    }
 
-    purePyx(SIXTH, t, p, 
+        purePyx(SIXTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, ends,            (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    dx[0] -= DENDDR0;
-    dx[1] -= DENDDR1;
-    dx[2] -= DENDDR2;
-    dx[3] -= DENDDR3;
-    dx[4] -= DENDDR4;
-    dx[5] -= DENDDR5;
-  }
+        dx[0] -= DENDDR0;
+        dx[1] -= DENDDR1;
+        dx[2] -= DENDDR2;
+        dx[3] -= DENDDR3;
+        dx[4] -= DENDDR4;
+        dx[5] -= DENDDR5;
+    }
 
 }
 
-void 
-vmixCpx(int mask, double t, double p, double *x, 
-  double *vmix, /* Volume of mixing                BINARY MASK: 0000000001 */
-  double *dx,   /* (pointer to dx[]) d(v)/d(x[])   BINARY MASK: 0000000010 */
-  double **dx2, /* (point to dx2[][]) d(v)/d(x[])2 BINARY MASK: 0000000100 */
-  double *dt,   /* d(v)/d(t)                       BINARY MASK: 0000001000 */
-  double *dp,   /* d(v)/d(p)                       BINARY MASK: 0000010000 */
-  double *dt2,  /* d2(v)/d(t)2                     BINARY MASK: 0000100000 */
-  double *dtdp, /* d2(v)/d(t)d(p)                  BINARY MASK: 0001000000 */
-  double *dp2,  /* d2(v)/d(p)2                     BINARY MASK: 0010000000 */
-  double *dxdt, /* d2(v)/d(x[])d(t)                BINARY MASK: 0100000000 */
-  double *dxdp  /* d2(v)/d(x[])d(p)                BINARY MASK: 1000000000 */
-  )
+void
+vmixCpx(int mask, double t, double p, double *x,
+    double *vmix, /* Volume of mixing                BINARY MASK: 0000000001 */
+    double *dx,   /* (pointer to dx[]) d(v)/d(x[])   BINARY MASK: 0000000010 */
+    double **dx2, /* (point to dx2[][]) d(v)/d(x[])2 BINARY MASK: 0000000100 */
+    double *dt,   /* d(v)/d(t)                       BINARY MASK: 0000001000 */
+    double *dp,   /* d(v)/d(p)                       BINARY MASK: 0000010000 */
+    double *dt2,  /* d2(v)/d(t)2                     BINARY MASK: 0000100000 */
+    double *dtdp, /* d2(v)/d(t)d(p)                  BINARY MASK: 0001000000 */
+    double *dp2,  /* d2(v)/d(p)2                     BINARY MASK: 0010000000 */
+    double *dxdt, /* d2(v)/d(x[])d(t)                BINARY MASK: 0100000000 */
+    double *dxdp  /* d2(v)/d(x[])d(p)                BINARY MASK: 1000000000 */
+    )
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS];
-  int clino;
-    
-  clino = isClino(t, p, r);
-  setClino(clino);
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS];
+    int clino;
 
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    clino = isClino(t, p, r);
+    setClino(clino);
 
-  if (mask & FIRST) {
-    double ends[NA];
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
 
-    *vmix = DGDP;
+    if (mask & FIRST) {
+        double ends[NA];
 
-    purePyx(EIGHTH, t, p, 
+        *vmix = DGDP;
+
+        purePyx(EIGHTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, ends,           
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, ends,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    *vmix -= ENDMEMBERS;
-  }
-
-  if(mask & SECOND) {
-    double d2gdrds[NR][NS], d2gdrdp[NR], d2gds2[NS][NS], d2gdsdp[NS],
-      dsdr[NS][NR], dsdp[NS], ends[NA];
-    int i, j, k;
-
-    fillD2GDRDS
-    fillD2GDRDP
-    fillD2GDS2
-    fillD2GDSDP
-
-    order(SECOND | FOURTH, t, p, r, 
-          NULL, dsdr, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    for (i=0; i<NR; i++) {
-      dx[i] = d2gdrdp[i];
-      for (j=0; j<NS; j++) {
-        dx[i] += d2gdrds[i][j]*dsdp[j] + d2gdsdp[j]*dsdr[j][i];
-        for (k=0; k<NS; k++) dx[i] += d2gds2[j][k]*dsdp[j]*dsdr[k][i];
-      }
+        *vmix -= ENDMEMBERS;
     }
 
-    purePyx(EIGHTH, t, p, 
+    if(mask & SECOND) {
+        double d2gdrds[NR][NS], d2gdrdp[NR], d2gds2[NS][NS], d2gdsdp[NS],
+            dsdr[NS][NR], dsdp[NS], ends[NA];
+        int i, j, k;
+
+        fillD2GDRDS
+        fillD2GDRDP
+        fillD2GDS2
+        fillD2GDSDP
+
+        order(SECOND | FOURTH, t, p, r,
+                    NULL, dsdr, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            dx[i] = d2gdrdp[i];
+            for (j=0; j<NS; j++) {
+                dx[i] += d2gdrds[i][j]*dsdp[j] + d2gdsdp[j]*dsdr[j][i];
+                for (k=0; k<NS; k++) dx[i] += d2gds2[j][k]*dsdp[j]*dsdr[k][i];
+            }
+        }
+
+        purePyx(EIGHTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, ends,           
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, ends,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    dx[0] -= DENDDR0;
-    dx[1] -= DENDDR1;
-    dx[2] -= DENDDR2;
-    dx[3] -= DENDDR3;
-    dx[4] -= DENDDR4;
-    dx[5] -= DENDDR5;
-  }
+        dx[0] -= DENDDR0;
+        dx[1] -= DENDDR1;
+        dx[2] -= DENDDR2;
+        dx[3] -= DENDDR3;
+        dx[4] -= DENDDR4;
+        dx[5] -= DENDDR5;
+    }
 
-  if(mask & THIRD) {
-    double d2gdrds[NR][NS], d2gds2[NS][NS], d2gdsdp[NS], d3gdr2ds[NR][NR][NS],
-      d3gdr2dp[NR][NR], d3gdrds2[NR][NS][NS], d3gdrdsdp[NR][NS],
-      d3gds3[NS][NS][NS], d3gds2dp[NS][NS], dsdr[NS][NR], dsdp[NS], 
-      d2sdr2[NS][NR][NR], d2sdrdp[NS][NR];
-    int i, j, k, l, m;
+    if(mask & THIRD) {
+        double d2gdrds[NR][NS], d2gds2[NS][NS], d2gdsdp[NS], d3gdr2ds[NR][NR][NS],
+            d3gdr2dp[NR][NR], d3gdrds2[NR][NS][NS], d3gdrdsdp[NR][NS],
+            d3gds3[NS][NS][NS], d3gds2dp[NS][NS], dsdr[NS][NR], dsdp[NS],
+            d2sdr2[NS][NR][NR], d2sdrdp[NS][NR];
+        int i, j, k, l, m;
 
-    fillD2GDRDS
-    fillD2GDS2
-    fillD2GDSDP
-    fillD3GDR2DS
-    fillD3GDR2DP
-    fillD3GDRDS2
-    fillD3GDRDSDP
-    fillD3GDS3
-    fillD3GDS2DP
+        fillD2GDRDS
+        fillD2GDS2
+        fillD2GDSDP
+        fillD3GDR2DS
+        fillD3GDR2DP
+        fillD3GDRDS2
+        fillD3GDRDSDP
+        fillD3GDS3
+        fillD3GDS2DP
 
-    order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r, 
-          NULL, dsdr, NULL, dsdp, d2sdr2, NULL, d2sdrdp, NULL, NULL, NULL);
+        order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r,
+                    NULL, dsdr, NULL, dsdp, d2sdr2, NULL, d2sdrdp, NULL, NULL, NULL);
 
-    for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) {
-        dx2[i][j] = d3gdr2dp[i][j]; 
-        for (k=0; k<NS; k++) {
-          dx2[i][j] += d3gdr2ds[i][j][k]*dsdp[k]
-                     + d3gdrdsdp[i][k]*dsdr[k][j] 
+        for (i=0; i<NR; i++) {
+            for (j=0; j<NR; j++) {
+                dx2[i][j] = d3gdr2dp[i][j];
+                for (k=0; k<NS; k++) {
+                    dx2[i][j] += d3gdr2ds[i][j][k]*dsdp[k]
+                     + d3gdrdsdp[i][k]*dsdr[k][j]
                      + d3gdrdsdp[j][k]*dsdr[k][i]
                      + d2gdsdp[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdp[k][j] 
+                     + d2gdrds[i][k]*d2sdrdp[k][j]
                      + d2gdrds[j][k]*d2sdrdp[k][i];
-          for (l=0; l<NS; l++) {
+                    for (l=0; l<NS; l++) {
             dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdp[l]
                        + d3gdrds2[j][k][l]*dsdr[k][i]*dsdp[l]
                        + d2gds2[k][l]*d2sdr2[k][i][j]*dsdp[l]
                        + d3gds2dp[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j] 
-                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];  
-            for (m=0; m<NS; m++) 
-              dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdp[m];
-          }
+                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j]
+                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];
+            for (m=0; m<NS; m++)
+                dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdp[m];
+                    }
+                }
+            }
         }
-      }
+
     }
 
-  }
+    if(mask & FOURTH) {
+        double d2gdtdp = D2GDTDP;
+        double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], dsdt[NS], dsdp[NS],
+            ends[NA];
+        int i, j;
 
-  if(mask & FOURTH) {
-    double d2gdtdp = D2GDTDP;
-    double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], dsdt[NS], dsdp[NS], 
-      ends[NA];
-    int i, j;
+        fillD2GDS2
+        fillD2GDSDT
+        fillD2GDSDP
 
-    fillD2GDS2
-    fillD2GDSDT
-    fillD2GDSDP
+        order(THIRD | FOURTH, t, p, r,
+                    NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
-    order(THIRD | FOURTH, t, p, r, 
-          NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
+        *dt = d2gdtdp;
+        for (i=0; i<NS; i++) {
+            *dt += d2gdsdt[i]*dsdp[i] + d2gdsdp[i]*dsdt[i];
+            for (j=0; j<NS; j++) *dt += d2gds2[i][j]*dsdt[i]*dsdp[j];
+        }
 
-    *dt = d2gdtdp;
-    for (i=0; i<NS; i++) {
-      *dt += d2gdsdt[i]*dsdp[i] + d2gdsdp[i]*dsdt[i];
-      for (j=0; j<NS; j++) *dt += d2gds2[i][j]*dsdt[i]*dsdp[j];
-    } 
-
-    purePyx(NINTH, t, p, 
+        purePyx(NINTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       ends,            (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       ends,            (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    *dt -= ENDMEMBERS;
-  }
-
-  if(mask & FIFTH) {
-    double d2gdp2 = D2GDP2;
-    double d2gds2[NS][NS], d2gdsdp[NS], dsdp[NS], ends[NA];
-    int i,j;
-
-    fillD2GDS2
-    fillD2GDSDP
-
-    order(FOURTH, t, p, r, 
-          NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    *dp = d2gdp2;
-    for (i=0; i<NS; i++) {
-      *dp += 2.0*d2gdsdp[i]*dsdp[i];
-      for (j=0; j<NS; j++) *dp += d2gds2[i][j]*dsdp[i]*dsdp[j];
+        *dt -= ENDMEMBERS;
     }
 
-    purePyx(TENTH, t, p, 
+    if(mask & FIFTH) {
+        double d2gdp2 = D2GDP2;
+        double d2gds2[NS][NS], d2gdsdp[NS], dsdp[NS], ends[NA];
+        int i,j;
+
+        fillD2GDS2
+        fillD2GDSDP
+
+        order(FOURTH, t, p, r,
+                    NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        *dp = d2gdp2;
+        for (i=0; i<NS; i++) {
+            *dp += 2.0*d2gdsdp[i]*dsdp[i];
+            for (j=0; j<NS; j++) *dp += d2gds2[i][j]*dsdp[i]*dsdp[j];
+        }
+
+        purePyx(TENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL, ends,            (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, ends,            (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    *dp -= ENDMEMBERS;
-  }
+        *dp -= ENDMEMBERS;
+    }
 
-  if(mask & SIXTH) {
-    double d3gdt2dp = D3GDT2DP;
-    double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS],
-      d3gds2dp[NS][NS], d3gds2dt[NS][NS], d3gdsdtdp[NS], d3gdsdt2[NS],
-      dsdt[NS], dsdp[NS], d2sdt2[NS], d2sdtdp[NS], ends[NA];
-    int i, j, k;
+    if(mask & SIXTH) {
+        double d3gdt2dp = D3GDT2DP;
+        double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS],
+            d3gds2dp[NS][NS], d3gds2dt[NS][NS], d3gdsdtdp[NS], d3gdsdt2[NS],
+            dsdt[NS], dsdp[NS], d2sdt2[NS], d2sdtdp[NS], ends[NA];
+        int i, j, k;
 
-    fillD2GDS2
-    fillD2GDSDT
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDS2DP
-    fillD3GDSDT2
-    fillD3GDSDTDP 
+        fillD2GDS2
+        fillD2GDSDT
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDS2DP
+        fillD3GDSDT2
+        fillD3GDSDTDP
 
-    order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r, 
-          NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, d2sdt2, d2sdtdp, NULL);
+        order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r,
+                    NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, d2sdt2, d2sdtdp, NULL);
 
-    *dt2 = d3gdt2dp;
-    for (i=0; i<NS; i++) {
-      *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i] 
+        *dt2 = d3gdt2dp;
+        for (i=0; i<NS; i++) {
+            *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i]
             + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
-      for (j=0; j<NS; j++) {
-        *dt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
-              + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
-              + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
-              + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
-        for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k]; 
-      }
-    }
+            for (j=0; j<NS; j++) {
+                *dt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
+                + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
+                + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
+                + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
+                for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k];
+            }
+        }
 
-    purePyx(ELEVENTH, t, p, 
+        purePyx(ELEVENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL, (double *) NULL, ends,            (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, (double *) NULL, ends,            (double *) NULL,
        (double *) NULL);
 
-    *dt2 -= ENDMEMBERS;
-  }
-  
-  if(mask & SEVENTH) {
-    double d3gdtdp2 = D3GDTDP2;
-    double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS],
-      d3gds2dt[NS][NS], d3gds2dp[NS][NS], d3gdsdtdp[NS], d3gdsdp2[NS],
-      dsdt[NS], dsdp[NS], d2sdtdp[NS], d2sdp2[NS], ends[NA];
-    int i, j, k;
+        *dt2 -= ENDMEMBERS;
+    }
 
-    fillD2GDS2
-    fillD2GDSDT
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDS2DP
-    fillD3GDSDTDP
-    fillD3GDSDP2
+    if(mask & SEVENTH) {
+        double d3gdtdp2 = D3GDTDP2;
+        double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS],
+            d3gds2dt[NS][NS], d3gds2dp[NS][NS], d3gdsdtdp[NS], d3gdsdp2[NS],
+            dsdt[NS], dsdp[NS], d2sdtdp[NS], d2sdp2[NS], ends[NA];
+        int i, j, k;
 
-    order(THIRD | FOURTH | NINTH | TENTH, t, p, r, 
-          NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, d2sdtdp, d2sdp2);
+        fillD2GDS2
+        fillD2GDSDT
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDS2DP
+        fillD3GDSDTDP
+        fillD3GDSDP2
 
-    *dtdp = d3gdtdp2;
-    for (i=0; i<NS; i++) {
-      *dtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]  
-             + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i]; 
-      for (j=0; j<NS; j++) {
-        *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j] 
-               + d2gds2[i][j]*dsdt[i]*d2sdp2[j] 
+        order(THIRD | FOURTH | NINTH | TENTH, t, p, r,
+                    NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, d2sdtdp, d2sdp2);
+
+        *dtdp = d3gdtdp2;
+        for (i=0; i<NS; i++) {
+            *dtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]
+             + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i];
+            for (j=0; j<NS; j++) {
+                *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j]
+               + d2gds2[i][j]*dsdt[i]*d2sdp2[j]
                + 2.0*d2gds2[i][j]*d2sdtdp[i]*dsdp[j]
                + d3gds2dt[i][j]*dsdp[i]*dsdp[j];
-        for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k]; 
-      }
-    }
+                for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k];
+            }
+        }
 
-    purePyx(TWELFTH, t, p, 
+        purePyx(TWELFTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL, (double *) NULL, (double *) NULL, ends,       
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, (double *) NULL, (double *) NULL, ends,
        (double *) NULL);
 
-    *dtdp -= ENDMEMBERS;
-  }
-
-  if(mask & EIGHTH) {
-    double d3gdp3 = D3GDP3;
-    double d2gds2[NS][NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS],
-      d3gdsdp2[NS], dsdp[NS], d2sdp2[NS], ends[NA];
-    int i, j, k;
-
-    fillD2GDS2
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DP
-    fillD3GDSDP2
-
-    order(FOURTH | TENTH, t, p, r, 
-          NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, d2sdp2);
-
-    *dp2 = d3gdp3;
-    for (i=0; i<NS; i++) {
-      *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i]; 
-      for (j=0; j<NS; j++) {
-        *dp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
-              + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
-        for (k=0; k<NS; k++) *dp2 += d3gds3[i][j][k]*dsdp[i]*dsdp[j]*dsdp[k];
-      }
+        *dtdp -= ENDMEMBERS;
     }
 
-    purePyx(THIRTEENTH, t, p, 
+    if(mask & EIGHTH) {
+        double d3gdp3 = D3GDP3;
+        double d2gds2[NS][NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS],
+            d3gdsdp2[NS], dsdp[NS], d2sdp2[NS], ends[NA];
+        int i, j, k;
+
+        fillD2GDS2
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DP
+        fillD3GDSDP2
+
+        order(FOURTH | TENTH, t, p, r,
+                    NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, d2sdp2);
+
+        *dp2 = d3gdp3;
+        for (i=0; i<NS; i++) {
+            *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i];
+            for (j=0; j<NS; j++) {
+                *dp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
+                + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
+                for (k=0; k<NS; k++) *dp2 += d3gds3[i][j][k]*dsdp[i]*dsdp[j]*dsdp[k];
+            }
+        }
+
+        purePyx(THIRTEENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
-       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL, 
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
+       (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        ends);
 
-    *dp2 -= ENDMEMBERS;
-  }
+        *dp2 -= ENDMEMBERS;
+    }
 
-  if(mask & NINTH) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
-      d3gds2dp[NS][NS], d2gdrds[NR][NS], d3gdrdtdp[NR], d3gdsdtdp[NS],
-      dsdt[NS], dsdp[NS], dsdr[NS][NR], d2sdrdt[NS][NR], d2sdrdp[NS][NR],
-      d2gds2[NS][NS], d2gdsdt[NS], d3gdrdsdp[NR][NS], d2gdsdp[NS],
-      d2sdtdp[NS], d3gds2dt[NS][NS], ends[NA];
-    int i, j, k, l;
+    if(mask & NINTH) {
+        double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
+            d3gds2dp[NS][NS], d2gdrds[NR][NS], d3gdrdtdp[NR], d3gdsdtdp[NS],
+            dsdt[NS], dsdp[NS], dsdr[NS][NR], d2sdrdt[NS][NR], d2sdrdp[NS][NR],
+            d2gds2[NS][NS], d2gdsdt[NS], d3gdrdsdp[NR][NS], d2gdsdp[NS],
+            d2sdtdp[NS], d3gds2dt[NS][NS], ends[NA];
+        int i, j, k, l;
 
-    fillD2GDRDS
-    fillD2GDS2
-    fillD2GDSDT
-    fillD2GDSDP
-    fillD3GDRDS2
-    fillD3GDRDSDT
-    fillD3GDRDSDP
-    fillD3GDRDTDP
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDSDTDP
-    fillD3GDS2DP
+        fillD2GDRDS
+        fillD2GDS2
+        fillD2GDSDT
+        fillD2GDSDP
+        fillD3GDRDS2
+        fillD3GDRDSDT
+        fillD3GDRDSDP
+        fillD3GDRDTDP
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDSDTDP
+        fillD3GDS2DP
 
-    order(SECOND | THIRD | FOURTH | SIXTH | SEVENTH | NINTH, t, p, r,
-      NULL, dsdr, dsdt, dsdp, NULL, d2sdrdt, d2sdrdp, NULL, d2sdtdp, NULL);
+        order(SECOND | THIRD | FOURTH | SIXTH | SEVENTH | NINTH, t, p, r,
+            NULL, dsdr, dsdt, dsdp, NULL, d2sdrdt, d2sdrdp, NULL, d2sdtdp, NULL);
 
-    for (i=0; i<NR; i++) {
-      for (j=0,dxdt[i]=d3gdrdtdp[i]; j<NS; j++) {
-        dxdt[i] += d3gdsdtdp[j]*dsdr[j][i] + d2gdsdt[j]*d2sdrdp[j][i] +
+        for (i=0; i<NR; i++) {
+            for (j=0,dxdt[i]=d3gdrdtdp[i]; j<NS; j++) {
+                dxdt[i] += d3gdsdtdp[j]*dsdr[j][i] + d2gdsdt[j]*d2sdrdp[j][i] +
                    d3gdrdsdt[i][j]*dsdp[j] + d2gdrds[i][j]*d2sdtdp[j] +
                    d3gdrdsdp[i][j]*dsdt[j] + d2gdsdp[j]*d2sdrdt[j][i];
-        for (k=0; k<NS; k++) {
-          dxdt[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdp[k] +
+                for (k=0; k<NS; k++) {
+                    dxdt[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdp[k] +
                      d2gds2[j][k]*dsdt[j]*d2sdrdp[k][i] +
                      d2gds2[j][k]*dsdp[j]*d2sdrdt[k][i] +
                      d3gds2dt[j][k]*dsdr[j][i]*dsdp[k] +
                      d3gds2dp[j][k]*dsdr[j][i]*dsdt[k] +
                      d2gds2[j][k]*dsdr[j][i]*d2sdtdp[k];
-          for (l=0; l<NS; l++)
+                    for (l=0; l<NS; l++)
             dxdt[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdp[l];
+                }
+            }
         }
-      }
-    }
 
-    purePyx(NINTH, t, p,
+        purePyx(NINTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        ends,            (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    dxdt[0] -= DENDDR0;
-    dxdt[1] -= DENDDR1;
-    dxdt[2] -= DENDDR2;
-    dxdt[3] -= DENDDR3;
-    dxdt[4] -= DENDDR4;
-    dxdt[5] -= DENDDR5;
-  }
+        dxdt[0] -= DENDDR0;
+        dxdt[1] -= DENDDR1;
+        dxdt[2] -= DENDDR2;
+        dxdt[3] -= DENDDR3;
+        dxdt[4] -= DENDDR4;
+        dxdt[5] -= DENDDR5;
+    }
 
-  if(mask & TENTH) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gds2dp[NS][NS],
-      d2gdrds[NR][NS], dsdp[NS], dsdr[NS][NR], d2sdrdp[NS][NR], d2gds2[NS][NS],
-      d3gdrdsdp[NR][NS], d3gdrdp2[NR], d3gdsdp2[NS], d2gdsdp[NS], d2sdp2[NS],
-      ends[NA];
-    int i, j, k, l;
+    if(mask & TENTH) {
+        double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gds2dp[NS][NS],
+            d2gdrds[NR][NS], dsdp[NS], dsdr[NS][NR], d2sdrdp[NS][NR], d2gds2[NS][NS],
+            d3gdrdsdp[NR][NS], d3gdrdp2[NR], d3gdsdp2[NS], d2gdsdp[NS], d2sdp2[NS],
+            ends[NA];
+        int i, j, k, l;
 
-    fillD2GDRDS
-    fillD2GDS2
-    fillD2GDSDP
-    fillD3GDRDS2
-    fillD3GDRDSDP
-    fillD3GDRDP2
-    fillD3GDS3
-    fillD3GDS2DP
-    fillD3GDSDP2
+        fillD2GDRDS
+        fillD2GDS2
+        fillD2GDSDP
+        fillD3GDRDS2
+        fillD3GDRDSDP
+        fillD3GDRDP2
+        fillD3GDS3
+        fillD3GDS2DP
+        fillD3GDSDP2
 
-    order(SECOND | FOURTH | SEVENTH | TENTH, t, p, r,
-      NULL, dsdr, NULL, dsdp, NULL, NULL, d2sdrdp, NULL, NULL, d2sdp2);
+        order(SECOND | FOURTH | SEVENTH | TENTH, t, p, r,
+            NULL, dsdr, NULL, dsdp, NULL, NULL, d2sdrdp, NULL, NULL, d2sdp2);
 
-    for (i=0; i<NR; i++) {
-      for (j=0,dxdp[i]=d3gdrdp2[i]; j<NS; j++) {
-        dxdp[i] += d3gdsdp2[j]*dsdr[j][i] + d2gdsdp[j]*d2sdrdp[j][i] +
+        for (i=0; i<NR; i++) {
+            for (j=0,dxdp[i]=d3gdrdp2[i]; j<NS; j++) {
+                dxdp[i] += d3gdsdp2[j]*dsdr[j][i] + d2gdsdp[j]*d2sdrdp[j][i] +
                    2.0*d3gdrdsdp[i][j]*dsdp[j] + d2gdrds[i][j]*d2sdp2[j] +
                    d2gdsdp[j]*d2sdrdp[j][i];
-        for (k=0; k<NS; k++) {
-          dxdp[i] += d3gdrds2[i][j][k]*dsdp[j]*dsdp[k] +
+                for (k=0; k<NS; k++) {
+                    dxdp[i] += d3gdrds2[i][j][k]*dsdp[j]*dsdp[k] +
                      2.0*d2gds2[j][k]*dsdp[j]*d2sdrdp[k][i] +
                      2.0*d3gds2dp[j][k]*dsdr[j][i]*dsdp[k] +
                      d2gds2[j][k]*dsdr[j][i]*d2sdp2[k];
-          for (l=0; l<NS; l++)
+                    for (l=0; l<NS; l++)
             dxdp[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdp[k]*dsdp[l];
+                }
+            }
         }
-      }
-    }
 
-    purePyx(TENTH, t, p,
+        purePyx(TENTH, t, p,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, (double *) NULL, (double *) NULL, (double *) NULL,
        (double *) NULL, ends,            (double *) NULL, (double *) NULL,
        (double *) NULL);
 
-    dxdp[0] -= DENDDR0;
-    dxdp[1] -= DENDDR1;
-    dxdp[2] -= DENDDR2;
-    dxdp[3] -= DENDDR3;
-    dxdp[4] -= DENDDR4;
-    dxdp[5] -= DENDDR5;
-  }
-  
+        dxdp[0] -= DENDDR0;
+        dxdp[1] -= DENDDR1;
+        dxdp[2] -= DENDDR2;
+        dxdp[3] -= DENDDR3;
+        dxdp[4] -= DENDDR4;
+        dxdp[5] -= DENDDR5;
+    }
+
 }
 
 /* end of file CLINOPYROXENE.C */

@@ -68,6 +68,7 @@ MELTS Source Code: RCS
 
 #include "melts_gsl.h"
 #include "silmin.h"   /* Structure definitions for SILMIN package      */
+#include "reinit.h"
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
@@ -179,20 +180,20 @@ MELTS Source Code: RCS
 #define  HRS13      5.0*(W123)/14.0 - 6.0*(W4)/7.0 - 5.0*(GX123_4)/28.0 + (DZ)/2.0
 #define  HRS2       15.0*(W123)/14.0 - 4.0*(W4)/7.0 - (GX123_4)/28.0 - (DZ)/2.0
 #define  HS13S13   -125.0*(W123)/98.0 - 18.0*(W4)/49.0 - 43.0*(GX123_4)/196.0 \
-                                        + (GX13_24)/2.0 - (DZ)/14.0
+                    + (GX13_24)/2.0 - (DZ)/14.0
 #define  HS13S2     115.0*(W123)/49.0 - 24.0*(W4)/49.0 + 30.0*(GX123_4)/49.0 \
-                                        - (GX13_24)/2.0 - (GX134_2)/2.0 - (DZ)/7.0
+                    - (GX13_24)/2.0 - (GX134_2)/2.0 - (DZ)/7.0
 #define  HS2S2     -145.0*(W123)/98.0 - 8.0*(W4)/49.0 - 37.0*(GX123_4)/196.0 \
-                                        + (GX134_2)/2.0 + 3.0*(DZ)/14.0
+                    + (GX134_2)/2.0 + 3.0*(DZ)/14.0
 
 #define  HP        -(H1) + (H3) - (W4) + (WCAFE) + (WCAMG) + (GXCA_13)/2.0 \
-                                        + (GXCA_2) - (DWCAFE)/2.0 - (DWCAMG)/2.0
+                    + (GXCA_2) - (DWCAFE)/2.0 - (DWCAMG)/2.0
 #define  HRP       -(W4) + (WCAFE) - (WCAMG) + (GXCA_13)/2.0 + (GXCA_2) \
-                                        - (DWCAFE) + (DWCAMG)
+                    - (DWCAFE) + (DWCAMG)
 #define  HPS13     -6.0*(W4)/7.0 + 6.0*(WCAFE)/7.0 - 6.0*(WCAMG)/7.0 \
-                                        - 4.0*(GXCA_13)/7.0 - (GXCA_2)/7.0 - 6.0*(DWCAFE)/7.0 + 6.0*(DWCAMG)/7.0
+                    - 4.0*(GXCA_13)/7.0 - (GXCA_2)/7.0 - 6.0*(DWCAFE)/7.0 + 6.0*(DWCAMG)/7.0
 #define  HPS2      -4.0*(W4)/7.0 + 4.0*(WCAFE)/7.0 - 4.0*(WCAMG)/7.0 \
-                                        + 2.0*(GXCA_13)/7.0 - 3.0*(GXCA_2)/7.0 - 4.0*(DWCAFE)/7.0 + 4.0*(DWCAMG)/7.0
+                    + 2.0*(GXCA_13)/7.0 - 3.0*(GXCA_2)/7.0 - 4.0*(DWCAFE)/7.0 + 4.0*(DWCAMG)/7.0
 #define  HPP       -2.0*(WCAMG) + (DWCAFE) + 3.0*(DWCAMG)
 
 #define  HPS13S13  -18.0*(DWCAFE)/49.0 - 18.0*(DWCAMG)/49.0
@@ -270,20 +271,20 @@ MELTS Source Code: RCS
 #define  GRS13      5.0*(W123)/14.0 - 6.0*(W4)/7.0 - 5.0*(GX123_4)/28.0 + (DZ)/2.0
 #define  GRS2       15.0*(W123)/14.0 - 4.0*(W4)/7.0 - (GX123_4)/28.0 - (DZ)/2.0
 #define  GS13S13   -125.0*(W123)/98.0 - 18.0*(W4)/49.0 - 43.0*(GX123_4)/196.0 \
-                                        + (GX13_24)/2.0 - (DZ)/14.0
+                    + (GX13_24)/2.0 - (DZ)/14.0
 #define  GS13S2     115.0*(W123)/49.0 - 24.0*(W4)/49.0 + 30.0*(GX123_4)/49.0 \
-                                        - (GX13_24)/2.0 - (GX134_2)/2.0 - (DZ)/7.0
+                    - (GX13_24)/2.0 - (GX134_2)/2.0 - (DZ)/7.0
 #define  GS2S2     -145.0*(W123)/98.0 - 8.0*(W4)/49.0 - 37.0*(GX123_4)/196.0 \
-                                        + (GX134_2)/2.0 + 3.0*(DZ)/14.0
+                    + (GX134_2)/2.0 + 3.0*(DZ)/14.0
 
 #define  GP        -(G1) + (G3) - (W4) + (WCAFE) + (WCAMG) + (GXCA_13)/2.0 \
-                                        + (GXCA_2) - (DWCAFE)/2.0 - (DWCAMG)/2.0
+                    + (GXCA_2) - (DWCAFE)/2.0 - (DWCAMG)/2.0
 #define  GRP       -(W4) + (WCAFE) - (WCAMG) + (GXCA_13)/2.0 + (GXCA_2) \
-                                        - (DWCAFE) + (DWCAMG)
+                    - (DWCAFE) + (DWCAMG)
 #define  GPS13     -6.0*(W4)/7.0 + 6.0*(WCAFE)/7.0 - 6.0*(WCAMG)/7.0 \
-                                        - 4.0*(GXCA_13)/7.0 - (GXCA_2)/7.0 - 6.0*(DWCAFE)/7.0 + 6.0*(DWCAMG)/7.0
+                    - 4.0*(GXCA_13)/7.0 - (GXCA_2)/7.0 - 6.0*(DWCAFE)/7.0 + 6.0*(DWCAMG)/7.0
 #define  GPS2      -4.0*(W4)/7.0 + 4.0*(WCAFE)/7.0 - 4.0*(WCAMG)/7.0 \
-                                        + 2.0*(GXCA_13)/7.0 - 3.0*(GXCA_2)/7.0 - 4.0*(DWCAFE)/7.0 + 4.0*(DWCAMG)/7.0
+                    + 2.0*(GXCA_13)/7.0 - 3.0*(GXCA_2)/7.0 - 4.0*(DWCAFE)/7.0 + 4.0*(DWCAMG)/7.0
 #define  GPP       -2.0*(WCAMG) + (DWCAFE) + 3.0*(DWCAMG)
 
 #define  GPS13S13  -18.0*(DWCAFE)/49.0 - 18.0*(DWCAMG)/49.0
@@ -611,12 +612,12 @@ static void setX(int n, double x) {
  * Global (to this file): derivative definitions
  */
 
-#define SIC -R*(2.0*xfe2m4*log(xfe2m4) + 2.0*xmg2m4*log(xmg2m4) \
-                                + 2.0*xca2m4*log(xca2m4) + 3.0*xfe2m13*log(xfe2m13) \
-                                + 3.0*xmg2m13*log(xmg2m13) + 2.0*xfe2m2*log(xfe2m2) \
-                                + 2.0*xmg2m2*log(xmg2m2) )
-#define S   (SIC) + \
-                        (S0) + (SR)*r[0] + (SS13)*s[0] + (SS2)*s[1] + (SRR)*r[0]*r[0] \
+#define SIC     -R*(2.0*xfe2m4*log(xfe2m4) + 2.0*xmg2m4*log(xmg2m4) \
+                    + 2.0*xca2m4*log(xca2m4) + 3.0*xfe2m13*log(xfe2m13) \
+                    + 3.0*xmg2m13*log(xmg2m13) + 2.0*xfe2m2*log(xfe2m2) \
+                    + 2.0*xmg2m2*log(xmg2m2) )
+#define S       (SIC) + \
+                      (S0) + (SR)*r[0] + (SS13)*s[0] + (SS2)*s[1] + (SRR)*r[0]*r[0] \
                     + (SRS13)*r[0]*s[0] + (SRS2)*r[0]*s[1] + (SS13S13)*s[0]*s[0] \
                     + (SS13S2)*s[0]*s[1] + (SS2S2)*s[1]*s[1] + (SP)*r[1] + (SRP)*r[0]*r[1] \
                     + (SPS13)*r[1]*s[0] + (SPS2)*r[1]*s[1] + (SPP)*r[1]*r[1] \
@@ -624,7 +625,7 @@ static void setX(int n, double x) {
                     + (SPPS2)*r[1]*r[1]*s[1] + (SRPS13)*r[0]*r[1]*s[0] + (SRPS2)*r[0]*r[1]*s[1] \
                     + (SPS2S2)*r[1]*s[1]*s[1] + (SPS13S2)*r[1]*s[0]*s[1] + (SRRP)*r[0]*r[0]*r[1] \
                     + (SRPP)*r[0]*r[1]*r[1] + (SPPP)*r[1]*r[1]*r[1]
-#define H   (H0) + (HR)*r[0] + (HS13)*s[0] + (HS2)*s[1] + (HRR)*r[0]*r[0] \
+#define H       (H0) + (HR)*r[0] + (HS13)*s[0] + (HS2)*s[1] + (HRR)*r[0]*r[0] \
                     + (HRS13)*r[0]*s[0] + (HRS2)*r[0]*s[1] + (HS13S13)*s[0]*s[0] \
                     + (HS13S2)*s[0]*s[1] + (HS2S2)*s[1]*s[1] + (HP)*r[1] + (HRP)*r[0]*r[1] \
                     + (HPS13)*r[1]*s[0] + (HPS2)*r[1]*s[1] + (HPP)*r[1]*r[1] \
@@ -632,7 +633,7 @@ static void setX(int n, double x) {
                     + (HPPS2)*r[1]*r[1]*s[1] + (HRPS13)*r[0]*r[1]*s[0] + (HRPS2)*r[0]*r[1]*s[1] \
                     + (HPS2S2)*r[1]*s[1]*s[1] + (HPS13S2)*r[1]*s[0]*s[1] + (HRRP)*r[0]*r[0]*r[1] \
                     + (HRPP)*r[0]*r[1]*r[1] + (HPPP)*r[1]*r[1]*r[1]
-#define V   (V0) + (VR)*r[0] + (VS13)*s[0] + (VS2)*s[1] + (VRR)*r[0]*r[0] \
+#define V       (V0) + (VR)*r[0] + (VS13)*s[0] + (VS2)*s[1] + (VRR)*r[0]*r[0] \
                     + (VRS13)*r[0]*s[0] + (VRS2)*r[0]*s[1] + (VS13S13)*s[0]*s[0] \
                     + (VS13S2)*s[0]*s[1] + (VS2S2)*s[1]*s[1] + (VP)*r[1] + (VRP)*r[0]*r[1] \
                     + (VPS13)*r[1]*s[0] + (VPS2)*r[1]*s[1] + (VPP)*r[1]*r[1] \
@@ -640,8 +641,8 @@ static void setX(int n, double x) {
                     + (VPPS2)*r[1]*r[1]*s[1] + (VRPS13)*r[0]*r[1]*s[0] + (VRPS2)*r[0]*r[1]*s[1] \
                     + (VPS2S2)*r[1]*s[1]*s[1] + (VPS13S2)*r[1]*s[0]*s[1] + (VRRP)*r[0]*r[0]*r[1] \
                     + (VRPP)*r[0]*r[1]*r[1] + (VPPP)*r[1]*r[1]*r[1]
-#define G   -t*(SIC) + \
-                        (G0) + (GR)*r[0] + (GS13)*s[0] + (GS2)*s[1] + (GRR)*r[0]*r[0] \
+#define G       -t*(SIC) + \
+                      (G0) + (GR)*r[0] + (GS13)*s[0] + (GS2)*s[1] + (GRR)*r[0]*r[0] \
                     + (GRS13)*r[0]*s[0] + (GRS2)*r[0]*s[1] + (GS13S13)*s[0]*s[0] \
                     + (GS13S2)*s[0]*s[1] + (GS2S2)*s[1]*s[1] + (GP)*r[1] + (GRP)*r[0]*r[1] \
                     + (GPS13)*r[1]*s[0] + (GPS2)*r[1]*s[1] + (GPP)*r[1]*r[1] \
@@ -652,26 +653,26 @@ static void setX(int n, double x) {
 
 /*----------------------------------------------------------------------------*/
 
-#define DGDR0 R*t*(log(xfe2m4) - log(xmg2m4) + 3.0*log(xfe2m13)/2.0 \
-                 - 3.0*log(xmg2m13)/2.0 + log(xfe2m2) - log(xmg2m2) ) \
+#define DGDR0       R*t*(log(xfe2m4) - log(xmg2m4) + 3.0*log(xfe2m13)/2.0 \
+                        - 3.0*log(xmg2m13)/2.0 + log(xfe2m2) - log(xmg2m2) ) \
                         + (GR) + 2.0*(GRR)*r[0] + (GRS13)*s[0] + (GRS2)*s[1] \
                         + (GRP)*r[1] + (GRPS13)*r[1]*s[0] + (GRPS2)*r[1]*s[1] \
                         + 2.0*(GRRP)*r[0]*r[1] + (GRPP)*r[1]*r[1]
-#define DGDR1 R*t*(-2.0*log(xmg2m4) + 2.0*log(xca2m4) ) \
+#define DGDR1       R*t*(-2.0*log(xmg2m4) + 2.0*log(xca2m4) ) \
                         + (GP) + (GRP)*r[0] + (GPS13)*s[0] + (GPS2)*s[1] + 2.0*(GPP)*r[1] \
                         + (GPS13S13)*s[0]*s[0] + 2.0*(GPPS13)*r[1]*s[0] \
                         + 2.0*(GPPS2)*r[1]*s[1] + (GRPS13)*r[0]*s[0] + (GRPS2)*r[0]*s[1] \
                         + (GPS2S2)*s[1]*s[1] + (GPS13S2)*s[0]*s[1] + (GRRP)*r[0]*r[0] \
                         + 2.0*(GRPP)*r[0]*r[1] + 3.0*(GPPP)*r[1]*r[1]
-#define DGDS0 R*t*(6.0*log(xfe2m4)/7.0 - 6.0*log(xmg2m4)/7.0 \
-                 - 12.0*log(xfe2m13)/7.0 + 12.0*log(xmg2m13)/7.0 \
-                 + 6.0*log(xfe2m2)/7.0 - 6.0*log(xmg2m2)/7.0 ) \
+#define DGDS0       R*t*(6.0*log(xfe2m4)/7.0 - 6.0*log(xmg2m4)/7.0 \
+                        - 12.0*log(xfe2m13)/7.0 + 12.0*log(xmg2m13)/7.0 \
+                        + 6.0*log(xfe2m2)/7.0 - 6.0*log(xmg2m2)/7.0 ) \
                         + (GS13) + (GRS13)*r[0] + 2.0*(GS13S13)*s[0] + (GS13S2)*s[1] \
                         + (GPS13)*r[1] + 2.0*(GPS13S13)*r[1]*s[0] + (GPPS13)*r[1]*r[1] \
                         + (GRPS13)*r[0]*r[1] + (GPS13S2)*r[1]*s[1]
-#define DGDS1 R*t*(4.0*log(xfe2m4)/7.0 - 4.0*log(xmg2m4)/7.0 \
-                 + 6.0*log(xfe2m13)/7.0 - 6.0*log(xmg2m13)/7.0 \
-                 - 10.0*log(xfe2m2)/7.0 + 10.0*log(xmg2m2)/7.0 ) \
+#define DGDS1       R*t*(4.0*log(xfe2m4)/7.0 - 4.0*log(xmg2m4)/7.0 \
+                        + 6.0*log(xfe2m13)/7.0 - 6.0*log(xmg2m13)/7.0 \
+                        - 10.0*log(xfe2m2)/7.0 + 10.0*log(xmg2m2)/7.0 ) \
                         + (GS2) + (GRS2)*r[0] + (GS13S2)*s[0] + 2.0*(GS2S2)*s[1] \
                         + (GPS2)*r[1] + (GPPS2)*r[1]*r[1] + (GRPS2)*r[0]*r[1] \
                         + 2.0*(GPS2S2)*r[1]*s[1] + (GPS13S2)*r[1]*s[0]
@@ -681,18 +682,18 @@ static void setX(int n, double x) {
 /*----------------------------------------------------------------------------*/
 
 #define D2GDR0R0 R*t*(1.0/(2.0*xfe2m4) + 1.0/(2.0*xmg2m4) + 3.0/(4.0*xfe2m13) \
-                                        + 3.0/(4.0*xmg2m13) + 1.0/(2.0*xfe2m2) + 1.0/(2.0*xmg2m2) ) \
+               + 3.0/(4.0*xmg2m13) + 1.0/(2.0*xfe2m2) + 1.0/(2.0*xmg2m2) ) \
                + 2.0*(GRR) + 2.0*(GRRP)*r[1]
 #define D2GDR0R1 R*t*(1.0/xmg2m4) + (GRP) + (GRPS13)*s[0] + (GRPS2)*s[1] \
                + 2.0*(GRRP)*r[0] + 2.0*(GRPP)*r[1]
 #define D2GDR0S0 R*t*(3.0/(7.0*xfe2m4) + 3.0/(7.0*xmg2m4) - 6.0/(7.0*xfe2m13) \
-                                        - 6.0/(7.0*xmg2m13) + 3.0/(7.0*xfe2m2) + 3.0/(7.0*xmg2m2) ) \
+               - 6.0/(7.0*xmg2m13) + 3.0/(7.0*xfe2m2) + 3.0/(7.0*xmg2m2) ) \
                + (GRS13) + (GRPS13)*r[1]
 #define D2GDR0S1 R*t*(2.0/(7.0*xfe2m4) + 2.0/(7.0*xmg2m4) + 3.0/(7.0*xfe2m13) \
-                                        + 3.0/(7.0*xmg2m13) - 5.0/(7.0*xfe2m2) - 5.0/(7.0*xmg2m2) ) \
+               + 3.0/(7.0*xmg2m13) - 5.0/(7.0*xfe2m2) - 5.0/(7.0*xmg2m2) ) \
                + (GRS2) + (GRPS2)*r[1]
 #define D2GDR0DT R*(log(xfe2m4) - log(xmg2m4) + 3.0*log(xfe2m13)/2.0 \
-                                    - 3.0*log(xmg2m13)/2.0 + log(xfe2m2) - log(xmg2m2) ) \
+                    - 3.0*log(xmg2m13)/2.0 + log(xfe2m2) - log(xmg2m2) ) \
                - (SR) - 2.0*(SRR)*r[0] - (SRS13)*s[0] - (SRS2)*s[1] \
                - (SRP)*r[1] - (SRPS13)*r[1]*s[0] - (SRPS2)*r[1]*s[1] \
                - 2.0*(SRRP)*r[0]*r[1] - (SRPP)*r[1]*r[1]
@@ -722,30 +723,30 @@ static void setX(int n, double x) {
                + 2.0*(VRPP)*r[0]*r[1] + 3.0*(VPPP)*r[1]*r[1]
 
 #define D2GDS0S0 R*t*(6.0*3.0/(7.0*7.0*xfe2m4) + 6.0*3.0/(7.0*7.0*xmg2m4) \
-                                        + 12.0*4.0/(7.0*7.0*xfe2m13) + 12.0*4.0/(7.0*7.0*xmg2m13) \
-                                        + 6.0*3.0/(7.0*7.0*xfe2m2) + 6.0*3.0/(7.0*7.0*xmg2m2) ) \
+               + 12.0*4.0/(7.0*7.0*xfe2m13) + 12.0*4.0/(7.0*7.0*xmg2m13) \
+               + 6.0*3.0/(7.0*7.0*xfe2m2) + 6.0*3.0/(7.0*7.0*xmg2m2) ) \
                + 2.0*(GS13S13) + 2.0*(GPS13S13)*r[1]
 #define D2GDS0S1 R*t*(6.0*2.0/(7.0*7.0*xfe2m4) + 6.0*2.0/(7.0*7.0*xmg2m4) \
-                                        - 12.0*2.0/(7.0*7.0*xfe2m13) - 12.0*2.0/(7.0*7.0*xmg2m13) \
-                                        - 6.0*5.0/(7.0*7.0*xfe2m2) - 6.0*5.0/(7.0*7.0*xmg2m2) ) \
+               - 12.0*2.0/(7.0*7.0*xfe2m13) - 12.0*2.0/(7.0*7.0*xmg2m13) \
+               - 6.0*5.0/(7.0*7.0*xfe2m2) - 6.0*5.0/(7.0*7.0*xmg2m2) ) \
                + (GS13S2) + (GPS13S2)*r[1]
 #define D2GDS0DT R*(6.0*log(xfe2m4)/7.0 - 6.0*log(xmg2m4)/7.0 \
-                                    - 12.0*log(xfe2m13)/7.0 + 12.0*log(xmg2m13)/7.0 \
-                                    + 6.0*log(xfe2m2)/7.0 - 6.0*log(xmg2m2)/7.0 ) \
+                    - 12.0*log(xfe2m13)/7.0 + 12.0*log(xmg2m13)/7.0 \
+                    + 6.0*log(xfe2m2)/7.0 - 6.0*log(xmg2m2)/7.0 ) \
                - (SS13) - (SRS13)*r[0] - 2.0*(SS13S13)*s[0] - (SS13S2)*s[1] \
                - (SPS13)*r[1] - 2.0*(SPS13S13)*r[1]*s[0] - (SPPS13)*r[1]*r[1] \
                - (SRPS13)*r[0]*r[1] - (SPS13S2)*r[1]*s[1]
 #define D2GDS0DP (VS13) + (VRS13)*r[0] + 2.0*(VS13S13)*s[0] + (VS13S2)*s[1] \
-                                + (VPS13)*r[1] + 2.0*(VPS13S13)*r[1]*s[0] + (VPPS13)*r[1]*r[1] \
-                                + (VRPS13)*r[0]*r[1] + (VPS13S2)*r[1]*s[1]
+                + (VPS13)*r[1] + 2.0*(VPS13S13)*r[1]*s[0] + (VPPS13)*r[1]*r[1] \
+                + (VRPS13)*r[0]*r[1] + (VPS13S2)*r[1]*s[1]
 
 #define D2GDS1S1 R*t*(4.0*2.0/(7.0*7.0*xfe2m4) + 4.0*2.0/(7.0*7.0*xmg2m4) \
-                                        + 6.0*2.0/(7.0*7.0*xfe2m13) + 6.0*2.0/(7.0*7.0*xmg2m13) \
-                                        + 10.0*5.0/(7.0*7.0*xfe2m2) + 10.0*5.0/(7.0*7.0*xmg2m2) ) \
+               + 6.0*2.0/(7.0*7.0*xfe2m13) + 6.0*2.0/(7.0*7.0*xmg2m13) \
+               + 10.0*5.0/(7.0*7.0*xfe2m2) + 10.0*5.0/(7.0*7.0*xmg2m2) ) \
                + 2.0*(GS2S2) + 2.0*(GPS2S2)*r[1]
 #define D2GDS1DT R*(4.0*log(xfe2m4)/7.0 - 4.0*log(xmg2m4)/7.0 \
-                                    + 6.0*log(xfe2m13)/7.0 - 6.0*log(xmg2m13)/7.0 \
-                                    - 10.0*log(xfe2m2)/7.0 + 10.0*log(xmg2m2)/7.0 ) \
+                    + 6.0*log(xfe2m13)/7.0 - 6.0*log(xmg2m13)/7.0 \
+                    - 10.0*log(xfe2m2)/7.0 + 10.0*log(xmg2m2)/7.0 ) \
                - (SS2) - (SRS2)*r[0] - (SS13S2)*s[0] - 2.0*(SS2S2)*s[1] \
                - (SPS2)*r[1] - (SPPS2)*r[1]*r[1] - (SRPS2)*r[0]*r[1] \
                - 2.0*(SPS2S2)*r[1]*s[1] - (SPS13S2)*r[1]*s[0]
@@ -760,18 +761,18 @@ static void setX(int n, double x) {
 /*----------------------------------------------------------------------------*/
 
 #define D3GDR0R0R0 R*t*(-1.0/(4.0*xfe2m4*xfe2m4) + 1.0/(4.0*xmg2m4*xmg2m4) \
-                                            - 3.0/(8.0*xfe2m13*xfe2m13) + 3.0/(8.0*xmg2m13*xmg2m13) \
-                                            - 1.0/(4.0*xfe2m2*xfe2m2) + 1.0/(4.0*xmg2m2*xmg2m2) )
+                   - 3.0/(8.0*xfe2m13*xfe2m13) + 3.0/(8.0*xmg2m13*xmg2m13) \
+                   - 1.0/(4.0*xfe2m2*xfe2m2) + 1.0/(4.0*xmg2m2*xmg2m2) )
 #define D3GDR0R0R1 R*t*(1.0/(2.0*xmg2m4*xmg2m4) ) + 2.0*(GRRP)
 #define D3GDR0R0S0 R*t*(-3.0/(2.0*7.0*xfe2m4*xfe2m4) + 3.0/(2.0*7.0*xmg2m4*xmg2m4) \
-                                            + 3.0*4.0/(4.0*7.0*xfe2m13*xfe2m13) - 3.0*4.0/(4.0*7.0*xmg2m13*xmg2m13) \
-                                            - 3.0/(2.0*7.0*xfe2m2*xfe2m2) + 3.0/(2.0*7.0*xmg2m2*xmg2m2) )
+                   + 3.0*4.0/(4.0*7.0*xfe2m13*xfe2m13) - 3.0*4.0/(4.0*7.0*xmg2m13*xmg2m13) \
+                   - 3.0/(2.0*7.0*xfe2m2*xfe2m2) + 3.0/(2.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDR0R0S1 R*t*(-2.0/(2.0*7.0*xfe2m4*xfe2m4) + 2.0/(2.0*7.0*xmg2m4*xmg2m4) \
-                                            - 3.0*2.0/(4.0*7.0*xfe2m13*xfe2m13) + 3.0*2.0/(4.0*7.0*xmg2m13*xmg2m13) \
-                                            + 5.0/(2.0*7.0*xfe2m2*xfe2m2) - 5.0/(2.0*7.0*xmg2m2*xmg2m2) )
+                   - 3.0*2.0/(4.0*7.0*xfe2m13*xfe2m13) + 3.0*2.0/(4.0*7.0*xmg2m13*xmg2m13) \
+                   + 5.0/(2.0*7.0*xfe2m2*xfe2m2) - 5.0/(2.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDR0R0DT R*(1.0/(2.0*xfe2m4) + 1.0/(2.0*xmg2m4) + 3.0/(4.0*xfe2m13) \
-                                            + 3.0/(4.0*xmg2m13) + 1.0/(2.0*xfe2m2) + 1.0/(2.0*xmg2m2) ) \
-                                            - 2.0*(SRR) - 2.0*(SRRP)*r[1]
+                   + 3.0/(4.0*xmg2m13) + 1.0/(2.0*xfe2m2) + 1.0/(2.0*xmg2m2) ) \
+                   - 2.0*(SRR) - 2.0*(SRRP)*r[1]
 #define D3GDR0R0DP 2.0*(VRR) + 2.0*(VRRP)*r[1]
 
 #define D3GDR0R1R1 R*t*(1.0/(xmg2m4*xmg2m4)) + 2.0*(GRPP)
@@ -783,21 +784,21 @@ static void setX(int n, double x) {
                    + 2.0*(VRPP)*r[1]
 
 #define D3GDR0S0S0 R*t*(-3.0*3.0/(7.0*7.0*xfe2m4*xfe2m4) + 3.0*3.0/(7.0*7.0*xmg2m4*xmg2m4) \
-                                            - 6.0*4.0/(7.0*7.0*xfe2m13*xfe2m13) + 6.0*4.0/(7.0*7.0*xmg2m13*xmg2m13) \
-                                            - 3.0*3.0/(7.0*7.0*xfe2m2*xfe2m2) + 3.0*3.0/(7.0*7.0*xmg2m2*xmg2m2) )
+                   - 6.0*4.0/(7.0*7.0*xfe2m13*xfe2m13) + 6.0*4.0/(7.0*7.0*xmg2m13*xmg2m13) \
+                   - 3.0*3.0/(7.0*7.0*xfe2m2*xfe2m2) + 3.0*3.0/(7.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDR0S0S1 R*t*(-3.0*2.0/(7.0*7.0*xfe2m4*xfe2m4) + 3.0*2.0/(7.0*7.0*xmg2m4*xmg2m4) \
-                                            + 6.0*2.0/(7.0*7.0*xfe2m13*xfe2m13) - 6.0*2.0/(7.0*7.0*xmg2m13*xmg2m13) \
-                                            + 3.0*5.0/(7.0*7.0*xfe2m2*xfe2m2) - 3.0*5.0/(7.0*7.0*xmg2m2*xmg2m2) )
+                   + 6.0*2.0/(7.0*7.0*xfe2m13*xfe2m13) - 6.0*2.0/(7.0*7.0*xmg2m13*xmg2m13) \
+                   + 3.0*5.0/(7.0*7.0*xfe2m2*xfe2m2) - 3.0*5.0/(7.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDR0S0DT R*(3.0/(7.0*xfe2m4) + 3.0/(7.0*xmg2m4) - 6.0/(7.0*xfe2m13) \
-                                        - 6.0/(7.0*xmg2m13) + 3.0/(7.0*xfe2m2) + 3.0/(7.0*xmg2m2) ) \
+                    - 6.0/(7.0*xmg2m13) + 3.0/(7.0*xfe2m2) + 3.0/(7.0*xmg2m2) ) \
                    - (SRS13) - (SRPS13)*r[1]
 #define D3GDR0S0DP (VRS13) + (VRPS13)*r[1]
 
 #define D3GDR0S1S1 R*t*(-2.0*2.0/(7.0*7.0*xfe2m4*xfe2m4) + 2.0*2.0/(7.0*7.0*xmg2m4*xmg2m4) \
-                                            - 3.0*2.0/(7.0*7.0*xfe2m13*xfe2m13) + 3.0*2.0/(7.0*7.0*xmg2m13*xmg2m13) \
-                                            - 5.0*5.0/(7.0*7.0*xfe2m2*xfe2m2) + 5.0*5.0/(7.0*7.0*xmg2m2*xmg2m2) )
+                   - 3.0*2.0/(7.0*7.0*xfe2m13*xfe2m13) + 3.0*2.0/(7.0*7.0*xmg2m13*xmg2m13) \
+                   - 5.0*5.0/(7.0*7.0*xfe2m2*xfe2m2) + 5.0*5.0/(7.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDR0S1DT R*(2.0/(7.0*xfe2m4) + 2.0/(7.0*xmg2m4) + 3.0/(7.0*xfe2m13) \
-                                        + 3.0/(7.0*xmg2m13) - 5.0/(7.0*xfe2m2) - 5.0/(7.0*xmg2m2) ) \
+                    + 3.0/(7.0*xmg2m13) - 5.0/(7.0*xfe2m2) - 5.0/(7.0*xmg2m2) ) \
                    - (SRS2) - (SRPS2)*r[1]
 #define D3GDR0S1DP (VRS2) + (VRPS2)*r[1]
 
@@ -825,24 +826,24 @@ static void setX(int n, double x) {
                    + 2.0*(VPS2S2)*s[1] + (VPS13S2)*s[0]
 
 #define D3GDS0S0S0 R*t*(-6.0*3.0*3.0/(7.0*7.0*7.0*xfe2m4*xfe2m4) + 6.0*3.0*3.0/(7.0*7.0*7.0*xmg2m4*xmg2m4) \
-                                            + 12.0*4.0*4.0/(7.0*7.0*7.0*xfe2m13*xfe2m13) - 12.0*4.0*4.0/(7.0*7.0*7.0*xmg2m13*xmg2m13) \
-                                            - 6.0*3.0*3.0/(7.0*7.0*7.0*xfe2m2*xfe2m2) + 6.0*3.0*3.0/(7.0*7.0*7.0*xmg2m2*xmg2m2) )
+                   + 12.0*4.0*4.0/(7.0*7.0*7.0*xfe2m13*xfe2m13) - 12.0*4.0*4.0/(7.0*7.0*7.0*xmg2m13*xmg2m13) \
+                   - 6.0*3.0*3.0/(7.0*7.0*7.0*xfe2m2*xfe2m2) + 6.0*3.0*3.0/(7.0*7.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDS0S0S1 R*t*(-6.0*3.0*2.0/(7.0*7.0*7.0*xfe2m4*xfe2m4) + 6.0*3.0*2.0/(7.0*7.0*7.0*xmg2m4*xmg2m4) \
-                                            - 12.0*4.0*2.0/(7.0*7.0*7.0*xfe2m13*xfe2m13) + 12.0*4.0*2.0/(7.0*7.0*7.0*xmg2m13*xmg2m13) \
-                                            + 6.0*3.0*5.0/(7.0*7.0*7.0*xfe2m2*xfe2m2) - 6.0*3.0*5.0/(7.0*7.0*7.0*xmg2m2*xmg2m2) )
+                   - 12.0*4.0*2.0/(7.0*7.0*7.0*xfe2m13*xfe2m13) + 12.0*4.0*2.0/(7.0*7.0*7.0*xmg2m13*xmg2m13) \
+                   + 6.0*3.0*5.0/(7.0*7.0*7.0*xfe2m2*xfe2m2) - 6.0*3.0*5.0/(7.0*7.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDS0S0DT R*(6.0*3.0/(7.0*7.0*xfe2m4) + 6.0*3.0/(7.0*7.0*xmg2m4) \
-                                        + 12.0*4.0/(7.0*7.0*xfe2m13) + 12.0*4.0/(7.0*7.0*xmg2m13) \
-                                        + 6.0*3.0/(7.0*7.0*xfe2m2) + 6.0*3.0/(7.0*7.0*xmg2m2) ) \
-                                        - 2.0*(SS13S13) - 2.0*(SPS13S13)*r[1]
+                    + 12.0*4.0/(7.0*7.0*xfe2m13) + 12.0*4.0/(7.0*7.0*xmg2m13) \
+                    + 6.0*3.0/(7.0*7.0*xfe2m2) + 6.0*3.0/(7.0*7.0*xmg2m2) ) \
+                    - 2.0*(SS13S13) - 2.0*(SPS13S13)*r[1]
 #define D3GDS0S0DP 2.0*(VS13S13) + 2.0*(VPS13S13)*r[1]
 
 #define D3GDS0S1S1 R*t*(-6.0*2.0*2.0/(7.0*7.0*7.0*xfe2m4*xfe2m4) + 6.0*2.0*2.0/(7.0*7.0*7.0*xmg2m4*xmg2m4) \
-                                            + 12.0*2.0*2.0/(7.0*7.0*7.0*xfe2m13*xfe2m13) - 12.0*2.0*2.0/(7.0*7.0*7.0*xmg2m13*xmg2m13) \
-                                            - 6.0*5.0*5.0/(7.0*7.0*7.0*xfe2m2*xfe2m2) + 6.0*5.0*5.0/(7.0*7.0*7.0*xmg2m2*xmg2m2) )
+                   + 12.0*2.0*2.0/(7.0*7.0*7.0*xfe2m13*xfe2m13) - 12.0*2.0*2.0/(7.0*7.0*7.0*xmg2m13*xmg2m13) \
+                   - 6.0*5.0*5.0/(7.0*7.0*7.0*xfe2m2*xfe2m2) + 6.0*5.0*5.0/(7.0*7.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDS0S1DT R*(6.0*2.0/(7.0*7.0*xfe2m4) + 6.0*2.0/(7.0*7.0*xmg2m4) \
-                                        - 12.0*2.0/(7.0*7.0*xfe2m13) - 12.0*2.0/(7.0*7.0*xmg2m13) \
-                                        - 6.0*5.0/(7.0*7.0*xfe2m2) - 6.0*5.0/(7.0*7.0*xmg2m2) ) \
-                                        - (SS13S2) - (SPS13S2)*r[1]
+                    - 12.0*2.0/(7.0*7.0*xfe2m13) - 12.0*2.0/(7.0*7.0*xmg2m13) \
+                    - 6.0*5.0/(7.0*7.0*xfe2m2) - 6.0*5.0/(7.0*7.0*xmg2m2) ) \
+                    - (SS13S2) - (SPS13S2)*r[1]
 #define D3GDS0S1DP (VS13S2) + (VPS13S2)*r[1]
 
 #define D3GDS0DT2  0.0
@@ -850,12 +851,12 @@ static void setX(int n, double x) {
 #define D3GDS0DP2  0.0
 
 #define D3GDS1S1S1 R*t*(-4.0*2.0*2.0/(7.0*7.0*7.0*xfe2m4*xfe2m4) + 4.0*2.0*2.0/(7.0*7.0*7.0*xmg2m4*xmg2m4) \
-                                            - 6.0*2.0*2.0/(7.0*7.0*7.0*xfe2m13*xfe2m13) + 6.0*2.0*2.0/(7.0*7.0*7.0*xmg2m13*xmg2m13) \
-                                            + 10.0*5.0*5.0/(7.0*7.0*7.0*xfe2m2*xfe2m2) - 10.0*5.0*5.0/(7.0*7.0*7.0*xmg2m2*xmg2m2) )
+                   - 6.0*2.0*2.0/(7.0*7.0*7.0*xfe2m13*xfe2m13) + 6.0*2.0*2.0/(7.0*7.0*7.0*xmg2m13*xmg2m13) \
+                   + 10.0*5.0*5.0/(7.0*7.0*7.0*xfe2m2*xfe2m2) - 10.0*5.0*5.0/(7.0*7.0*7.0*xmg2m2*xmg2m2) )
 #define D3GDS1S1DT R*(4.0*2.0/(7.0*7.0*xfe2m4) + 4.0*2.0/(7.0*7.0*xmg2m4) \
-                                        + 6.0*2.0/(7.0*7.0*xfe2m13) + 6.0*2.0/(7.0*7.0*xmg2m13) \
-                                        + 10.0*5.0/(7.0*7.0*xfe2m2) + 10.0*5.0/(7.0*7.0*xmg2m2) ) \
-                                        - 2.0*(SS2S2) - 2.0*(SPS2S2)*r[1]
+                    + 6.0*2.0/(7.0*7.0*xfe2m13) + 6.0*2.0/(7.0*7.0*xmg2m13) \
+                    + 10.0*5.0/(7.0*7.0*xfe2m2) + 10.0*5.0/(7.0*7.0*xmg2m2) ) \
+                    - 2.0*(SS2S2) - 2.0*(SPS2S2)*r[1]
 #define D3GDS1S1DP 2.0*(VS2S2) + 2.0*(VPS2S2)*r[1]
 
 #define D3GDS1DT2  0.0
@@ -903,10 +904,10 @@ static void setX(int n, double x) {
  d2gdsdp[0] = D2GDS0DP;  d2gdsdp[1] = D2GDS1DP;
 
 #define fillD3GDR3 \
- d3gdr3[0][0][0] = D3GDR0R0R0;		d3gdr3[0][0][1] = D3GDR0R0R1; \
- d3gdr3[0][1][0] = d3gdr3[0][0][1];	d3gdr3[0][1][1] = D3GDR0R1R1; \
- d3gdr3[1][0][0] = d3gdr3[0][0][1];	d3gdr3[1][0][1] = d3gdr3[0][1][1]; \
- d3gdr3[1][1][0] = d3gdr3[0][1][1];	d3gdr3[1][1][1] = D3GDR1R1R1;
+ d3gdr3[0][0][0] = D3GDR0R0R0;          d3gdr3[0][0][1] = D3GDR0R0R1; \
+ d3gdr3[0][1][0] = d3gdr3[0][0][1];     d3gdr3[0][1][1] = D3GDR0R1R1; \
+ d3gdr3[1][0][0] = d3gdr3[0][0][1];     d3gdr3[1][0][1] = d3gdr3[0][1][1]; \
+ d3gdr3[1][1][0] = d3gdr3[0][1][1];     d3gdr3[1][1][1] = D3GDR1R1R1;
 
 #define fillD3GDR2DS \
  d3gdr2ds[0][0][0] = D3GDR0R0S0;        d3gdr2ds[0][0][1] = D3GDR0R0S1; \
@@ -972,6 +973,7 @@ static void setX(int n, double x) {
  *=============================================================================
  * Local function to compute ordering state and associated derivatives
  */
+void resetAphOrder(void) { setTOld(-9999.0); setPOld(-9999.0); }
 
 static void
 order(int mask, double t, double p, double r[NR],
@@ -985,7 +987,7 @@ order(int mask, double t, double p, double r[NR],
             double dt2[NS],         /* d2s[NS]/dt2          BINARY MASK: 0010000000 */
             double dtp[NS],         /* d2s[NS]/dtp          BINARY MASK: 0100000000 */
             double dp2[NS]          /* d2s[NS]/dp2          BINARY MASK: 1000000000 */
-            )
+        )
 {
     DECLARE_SITE_FRACTIONS
     int clino           = getClino();
@@ -1058,10 +1060,10 @@ order(int mask, double t, double p, double r[NR],
             for (i=0; i<NS; i++) sOld[i] = s[i];
 
             /* original: gaussj(ptToD2gds2, NS, (double **) NULL, 0);
-            	for (i=0; i<NS; i++) {
+                for (i=0; i<NS; i++) {
                     for(j=0, sCorr[i]=0.0; j<NS; j++) sCorr[i] += - d2gds2[i][j]*dgds[j];
                     s[i] = sOld[i] + lambda*sCorr[i];
-        	  }*/
+                  }*/
 
             gsl_matrix_scale(ptToD2gds2, -1.0);
             melts_LU_decomp(ptToD2gds2, indexD2gds2, &signum);
@@ -1077,8 +1079,8 @@ order(int mask, double t, double p, double r[NR],
             xmg2m2  = 1.0 - xfe2m2;
 
             while ((   xfe2m4  < 0.0 || xfe2m4  > 1.0 || xmg2m4  < 0.0 || xmg2m4  > 1.0
-                            || xfe2m13 < 0.0 || xfe2m13 > 1.0 || xmg2m13 < 0.0 || xmg2m13 > 1.0
-                            || xfe2m2  < 0.0 || xfe2m2  > 1.0 || xmg2m2  < 0.0 || xmg2m2  > 1.0)
+                    || xfe2m13 < 0.0 || xfe2m13 > 1.0 || xmg2m13 < 0.0 || xmg2m13 > 1.0
+                    || xfe2m2  < 0.0 || xfe2m2  > 1.0 || xmg2m2  < 0.0 || xmg2m2  > 1.0)
              && lambda > DBL_EPSILON ) {
                 lambda /= 2.0;
                 for (i=0; i<NS; i++) s[i] = sOld[i] + lambda*sCorr[i];
@@ -1134,7 +1136,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDr = gsl_matrix_column(&mvToDr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDr.vector);
         }
     }
@@ -1178,7 +1180,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -1224,7 +1226,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -1270,7 +1272,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -1483,10 +1485,10 @@ testAph(int mask, double t, double p,
     /* Check bounds on the independent compositional variables */
     if (mask & FIFTH) {
         result = result && ((r[0]+1.0)/2.0 >= 0.0)
-                                        && ((r[0]+1.0)/2.0 <= 1.0-2.0*r[1]/7.0 );         /* Fe2+ */
+               && ((r[0]+1.0)/2.0 <= 1.0-2.0*r[1]/7.0 );         /* Fe2+ */
         result = result && (r[1] >= 0.0) && (r[1] <= 1.0);                /* Ca2+ */
         result = result && (1.0-(r[0]+1.0)/2.0-r[1]+5.0*r[1]/7.0 >= 0.0)  /* Mg2+ */
-                                        && (1.0-(r[0]+1.0)/2.0-r[1]+5.0*r[1]/7.0 <= 1.0-2.0*r[1]/7.0);
+               && (1.0-(r[0]+1.0)/2.0-r[1]+5.0*r[1]/7.0 <= 1.0-2.0*r[1]/7.0);
     }
     /* Check bounds on moles of endmember components */
     if (mask & SIXTH) {
@@ -1494,10 +1496,10 @@ testAph(int mask, double t, double p,
         result = result && (sum >= 0.0);
         if (sum > 0.0) {
             result = result && (m[1]/sum >= 0.0)
-                                            && (m[1]/sum <= 1.0-2.0*m[2]/(7.0*sum));        /* Fe2+ */
+                   && (m[1]/sum <= 1.0-2.0*m[2]/(7.0*sum));        /* Fe2+ */
             result = result && (m[2]/sum >= 0.0) && (m[2]/sum <= 1.0);      /* Ca2+ */
             result = result && (m[0]/sum+5.0*m[2]/(7.0*sum) >= 0.0)         /* Mg2+ */
-                                            && (m[0]/sum+5.0*m[2]/(7.0*sum) <= 1.0-2.0*m[2]/(7.0*sum));
+                   && (m[0]/sum+5.0*m[2]/(7.0*sum) <= 1.0-2.0*m[2]/(7.0*sum));
         }
     }
 
@@ -1525,18 +1527,18 @@ conAph(int inpMask, int outMask, double t, double p,
     (3)  THIRD            FOURTH | SEVENTH
 
     (1) converts a vector of moles of elements into a vector of moles of
-            endmember amphibole components.
+        endmember amphibole components.
     (2) calculates from a vector of moles of endmember components, one or
-            all of: r[], x[], dr[]/dm[] d2r[]/dm[]dm[], or d3r[]/dm[]dm[]dm[]
+        all of: r[], x[], dr[]/dm[] d2r[]/dm[]dm[], or d3r[]/dm[]dm[]dm[]
     (3) calculates from a vector of independent compositional variables
-            mole fractions of endmember components and/or the Jacobian matrix
-            dx[]/dr[]
+        mole fractions of endmember components and/or the Jacobian matrix
+        dx[]/dr[]
 
     In this routine it is assumed that the elements are in the order of atomic
     numbers and that the order of amphibole components has been verified as:
-            m[0] = cummingtonite  (Mg7Si8O22(OH)2),
-            m[1] = grunerite      (Fe7Si8O22(OH)2),
-            m[2] = tremolite      (Ca2Mg5Si8O22(OH)2),
+        m[0] = cummingtonite  (Mg7Si8O22(OH)2),
+        m[1] = grunerite      (Fe7Si8O22(OH)2),
+        m[2] = tremolite      (Ca2Mg5Si8O22(OH)2),
 
     ----------------------------------------------------------------------------*/
 
@@ -1544,7 +1546,7 @@ conAph(int inpMask, int outMask, double t, double p,
 
     if (inpMask == FIRST && outMask == SECOND) {
         /* Converts a vector of moles of elements into a vector of moles of
-       end-member components.                                                 */
+       end-member components.                        */
         double sumcat, sumchg, fe2, fe3;
         static const int Hy =  1;
         static const int O  =  8;
@@ -1592,7 +1594,7 @@ conAph(int inpMask, int outMask, double t, double p,
         if (outMask & THIRD) {
             /* Converts a vector of moles of end-member components (m) into a vector
          of independent compositional variables (r) required as input for the
-         remaining public functions.                                          */
+         remaining public functions.                 */
             r[0] = (sum != 0.0) ? 2.0*m[1]/sum - 1.0 : 0.0;
             r[1] = (sum != 0.0) ?     m[2]/sum : 0.0;
         }
@@ -1715,8 +1717,8 @@ dispAph(int mask, double t, double p, double *x,
 {
     double *r = x;
     static char masterString[] = {
-/*             1111111111222222222233333333334444444444555555555566666666667
-     01234567890123456789012345678901234567890123456789012345678901234567890 */
+/*                 1111111111222222222233333333334444444444555555555566666666667
+         01234567890123456789012345678901234567890123456789012345678901234567890 */
         "_Aph Ca_.__Fe_.__Mg_.__Si8O22(OH)2" };
 
     if (mask & FIRST) {
@@ -1767,6 +1769,7 @@ actAph(int mask, double t, double p, double *x,
     dgdr[1] = DGDR1;
 
 #ifdef TESTDYNAMICLIB
+    /* activities for library */
     if (!mask && a != NULL) {
         for(i=0; i<NA; i++) {
        for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
@@ -1778,8 +1781,8 @@ actAph(int mask, double t, double p, double *x,
     if (mask & FIRST) {
 
         for(i=0; i<NA; i++) {
-       for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
-       a[i] = exp(a[i]/(R*t));
+            for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
+            a[i] = exp(a[i]/(R*t));
         }
 
     }
@@ -1787,7 +1790,7 @@ actAph(int mask, double t, double p, double *x,
     if (mask & SECOND) {
 
         for(i=0; i<NA; i++) {
-       for (mu[i]=g, j=0; j<NR; j++) mu[i] += fr[i][j]*dgdr[j];
+            for (mu[i]=g, j=0; j<NR; j++) mu[i] += fr[i][j]*dgdr[j];
         }
 
     }
@@ -1802,16 +1805,16 @@ actAph(int mask, double t, double p, double *x,
         fillD2GDS2
 
         for(i=0; i<NA; i++) {
-       gs[i][0] = FS13(i);         /* s13 */
-       gs[i][1] = FS2(i);          /* s2  */
-       dfrdr[i][0] = DFRDR(i);     /* R   */
-       dfrdr[i][1] = DFPDP(i);     /* P   */
-       dgsds[i][0] = DFS13DS13(i); /* s13 */
-       dgsds[i][1] = DFS2DS2(i);   /* s2  */
+            gs[i][0] = FS13(i);         /* s13 */
+            gs[i][1] = FS2(i);          /* s2  */
+            dfrdr[i][0] = DFRDR(i);     /* R   */
+            dfrdr[i][1] = DFPDP(i);     /* P   */
+            dgsds[i][0] = DFS13DS13(i); /* s13 */
+            dgsds[i][1] = DFS2DS2(i);   /* s2  */
         }
 
         order(SECOND, t, p, r,
-                NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+            NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
         for (i=0; i<NA; i++) {
             for (k=0; k<NR; k++) {
@@ -1957,7 +1960,7 @@ hmixAph(int mask, double t, double p, double *x,
     setClino(clino);
 
     order(FIRST, t, p, r,
-                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
     GET_SITE_FRACTIONS
 
     *hmix = (G) + t*(S);
@@ -2027,25 +2030,25 @@ smixAph(int mask, double t, double p, double *x,
         fillD3GDS2DT
 
         order(SECOND | THIRD | FIFTH | SIXTH, t, p, r,
-                    NULL, dsdr, dsdt, NULL, d2sdr2, d2sdrdt, NULL, NULL, NULL, NULL);
+            NULL, dsdr, dsdt, NULL, d2sdr2, d2sdrdt, NULL, NULL, NULL, NULL);
 
         for (i=0; i<NR; i++) {
             for (j=0; j<NR; j++) {
                 dx2[i][j] = d3gdr2dt[i][j];
                 for (k=0; k<NS; k++) {
                     dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k]
-                     + d3gdrdsdt[i][k]*dsdr[k][j]
-                     + d3gdrdsdt[j][k]*dsdr[k][i]
-                     + d2gdsdt[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdt[k][j]
-                     + d2gdrds[j][k]*d2sdrdt[k][i];
+                        + d3gdrdsdt[i][k]*dsdr[k][j]
+                        + d3gdrdsdt[j][k]*dsdr[k][i]
+                        + d2gdsdt[k]*d2sdr2[k][i][j]
+                        + d2gdrds[i][k]*d2sdrdt[k][j]
+                        + d2gdrds[j][k]*d2sdrdt[k][i];
                     for (l=0; l<NS; l++) {
                         dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdt[l]
-                       + d3gdrds2[j][k][l]*dsdr[k][i]*dsdt[l]
-                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l]
-                       + d3gds2dt[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j]
-                       + d2gds2[k][l]*dsdr[l][j]*d2sdrdt[k][i];
+                            + d3gdrds2[j][k][l]*dsdr[k][i]*dsdt[l]
+                            + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l]
+                            + d3gds2dt[k][l]*dsdr[k][i]*dsdr[l][j]
+                            + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j]
+                            + d2gds2[k][l]*dsdr[l][j]*d2sdrdt[k][i];
                         for (m=0; m<NS; m++)
                             dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdt[m];
                     }
@@ -2115,7 +2118,7 @@ cpmixAph(int mask, double t, double p, double *x,
             *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i];
             for (j=0; j<NS; j++) {
                 *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j]
-             + 3.0*d3gds2dt[i][j]*dsdt[i]*dsdt[j];
+                     + 3.0*d3gds2dt[i][j]*dsdt[i]*dsdt[j];
                 for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k];
             }
         }
@@ -2181,7 +2184,7 @@ vmixAph(int mask, double t, double p, double *x,
     setClino(clino);
 
     order(FIRST, t, p, r,
-                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
     GET_SITE_FRACTIONS
 
     if (mask & FIRST) {
@@ -2199,7 +2202,7 @@ vmixAph(int mask, double t, double p, double *x,
         fillD2GDSDP
 
         order(SECOND | FOURTH, t, p, r,
-                    NULL, dsdr, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
+            NULL, dsdr, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
         for (i=0; i<NR; i++) {
             dx[i] = d2gdrdp[i];
@@ -2228,25 +2231,25 @@ vmixAph(int mask, double t, double p, double *x,
         fillD3GDS2DP
 
         order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r,
-                    NULL, dsdr, NULL, dsdp, d2sdr2, NULL, d2sdrdp, NULL, NULL, NULL);
+            NULL, dsdr, NULL, dsdp, d2sdr2, NULL, d2sdrdp, NULL, NULL, NULL);
 
         for (i=0; i<NR; i++) {
             for (j=0; j<NR; j++) {
                 dx2[i][j] = d3gdr2dp[i][j];
                 for (k=0; k<NS; k++) {
                     dx2[i][j] += d3gdr2ds[i][j][k]*dsdp[k]
-                     + d3gdrdsdp[i][k]*dsdr[k][j]
-                     + d3gdrdsdp[j][k]*dsdr[k][i]
-                     + d2gdsdp[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdp[k][j]
-                     + d2gdrds[j][k]*d2sdrdp[k][i];
+                        + d3gdrdsdp[i][k]*dsdr[k][j]
+                        + d3gdrdsdp[j][k]*dsdr[k][i]
+                        + d2gdsdp[k]*d2sdr2[k][i][j]
+                        + d2gdrds[i][k]*d2sdrdp[k][j]
+                        + d2gdrds[j][k]*d2sdrdp[k][i];
                     for (l=0; l<NS; l++) {
                         dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdp[l]
-                       + d3gdrds2[j][k][l]*dsdr[k][i]*dsdp[l]
-                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdp[l]
-                       + d3gds2dp[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j]
-                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];
+                            + d3gdrds2[j][k][l]*dsdr[k][i]*dsdp[l]
+                            + d2gds2[k][l]*d2sdr2[k][i][j]*dsdp[l]
+                            + d3gds2dp[k][l]*dsdr[k][i]*dsdr[l][j]
+                            + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j]
+                            + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];
                         for (m=0; m<NS; m++)
                             dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdp[m];
                     }
@@ -2284,7 +2287,7 @@ vmixAph(int mask, double t, double p, double *x,
         fillD2GDSDP
 
         order(FOURTH, t, p, r,
-                    NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
+            NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
         *dp = d2gdp2;
         for (i=0; i<NS; i++) {
@@ -2310,17 +2313,17 @@ vmixAph(int mask, double t, double p, double *x,
         fillD3GDSDTDP
 
         order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r,
-                    NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, d2sdt2, d2sdtdp, NULL);
+            NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, d2sdt2, d2sdtdp, NULL);
 
         *dt2 = d3gdt2dp;
         for (i=0; i<NS; i++) {
             *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i]
-                        + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
+                    + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
             for (j=0; j<NS; j++) {
                 *dt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
-                            + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
-                            + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
-                            + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
+                        + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
+                        + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
+                        + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
                 for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k];
             }
         }
@@ -2343,7 +2346,7 @@ vmixAph(int mask, double t, double p, double *x,
         fillD3GDSDP2
 
         order(THIRD | FOURTH | NINTH | TENTH, t, p, r,
-                    NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, d2sdtdp, d2sdp2);
+            NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, d2sdtdp, d2sdp2);
 
         *dtdp = d3gdtdp2;
         for (i=0; i<NS; i++) {
@@ -2351,9 +2354,9 @@ vmixAph(int mask, double t, double p, double *x,
              + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i];
             for (j=0; j<NS; j++) {
                 *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j]
-               + d2gds2[i][j]*dsdt[i]*d2sdp2[j]
-               + 2.0*d2gds2[i][j]*d2sdtdp[i]*dsdp[j]
-               + d3gds2dt[i][j]*dsdp[i]*dsdp[j];
+                    + d2gds2[i][j]*dsdt[i]*d2sdp2[j]
+                    + 2.0*d2gds2[i][j]*d2sdtdp[i]*dsdp[j]
+                    + d3gds2dt[i][j]*dsdp[i]*dsdp[j];
                 for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k];
             }
         }
@@ -2372,14 +2375,14 @@ vmixAph(int mask, double t, double p, double *x,
         fillD3GDSDP2
 
         order(FOURTH | TENTH, t, p, r,
-                    NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, d2sdp2);
+            NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, d2sdp2);
 
         *dp2 = d3gdp3;
         for (i=0; i<NS; i++) {
             *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i];
             for (j=0; j<NS; j++) {
                 *dp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
-                            + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
+                        + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
                 for (k=0; k<NS; k++) *dp2 += d3gds3[i][j][k]*dsdp[i]*dsdp[j]*dsdp[k];
             }
         }
@@ -2416,11 +2419,11 @@ vmixAph(int mask, double t, double p, double *x,
                    d3gdrdsdp[i][j]*dsdt[j] + d2gdsdp[j]*d2sdrdt[j][i];
                 for (k=0; k<NS; k++) {
                     dxdt[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdp[k] +
-                     d2gds2[j][k]*dsdt[j]*d2sdrdp[k][i] +
-                     d2gds2[j][k]*dsdp[j]*d2sdrdt[k][i] +
-                     d3gds2dt[j][k]*dsdr[j][i]*dsdp[k] +
-                     d3gds2dp[j][k]*dsdr[j][i]*dsdt[k] +
-                     d2gds2[j][k]*dsdr[j][i]*d2sdtdp[k];
+                        d2gds2[j][k]*dsdt[j]*d2sdrdp[k][i] +
+                        d2gds2[j][k]*dsdp[j]*d2sdrdt[k][i] +
+                        d3gds2dt[j][k]*dsdr[j][i]*dsdp[k] +
+                        d3gds2dp[j][k]*dsdr[j][i]*dsdt[k] +
+                        d2gds2[j][k]*dsdr[j][i]*d2sdtdp[k];
                     for (l=0; l<NS; l++)
                         dxdt[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdp[l];
                 }
@@ -2454,9 +2457,9 @@ vmixAph(int mask, double t, double p, double *x,
                    d2gdsdp[j]*d2sdrdp[j][i];
                 for (k=0; k<NS; k++) {
                     dxdp[i] += d3gdrds2[i][j][k]*dsdp[j]*dsdp[k] +
-                     2.0*d2gds2[j][k]*dsdp[j]*d2sdrdp[k][i] +
-                     2.0*d3gds2dp[j][k]*dsdr[j][i]*dsdp[k] +
-                     d2gds2[j][k]*dsdr[j][i]*d2sdp2[k];
+                        2.0*d2gds2[j][k]*dsdp[j]*d2sdrdp[k][i] +
+                        2.0*d3gds2dp[j][k]*dsdr[j][i]*dsdp[k] +
+                        d2gds2[j][k]*dsdr[j][i]*d2sdp2[k];
                     for (l=0; l<NS; l++)
                         dxdp[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdp[k]*dsdp[l];
                 }

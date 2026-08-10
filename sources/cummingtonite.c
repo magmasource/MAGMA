@@ -65,8 +65,8 @@ MELTS Source Code: RCS
 **
 **  MODULE DESCRIPTION:
 **
-**      Routines to compute cummingtonite solution properties 
-**      (file: CUMMINGTONITE.C) 
+**      Routines to compute cummingtonite solution properties
+**      (file: CUMMINGTONITE.C)
 **
 **  MODIFICATION HISTORY:
 **
@@ -85,15 +85,16 @@ MELTS Source Code: RCS
 **      V3.0-2  Mark S. Ghiorso  May 17, 1994
 **              (1) Changed definition of the enthalpy of mixing
 **      V3.1-1  Mark S. Ghiorso  February 28, 1995
-**              (1) Updated mixing parameters to conform to Ghiorso et al. 
+**              (1) Updated mixing parameters to conform to Ghiorso et al.
 **                  (1995) (Note: also updated sol_struct_data.h)
-**	V4.0-1  Paul D. Asimow  July 27, 1995
-**		(1) added d3rdm3 to (*convert) and d3gdr3 to (*gmix)
+**      V4.0-1  Paul D. Asimow  July 27, 1995
+**              (1) added d3rdm3 to (*convert) and d3gdr3 to (*gmix)
 **--
 */
 
 #include "melts_gsl.h"
 #include "silmin.h"  /* Structure definitions foor SILMIN package */
+#include "reinit.h"
 
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x)   ((x)*(x)*(x))
@@ -147,7 +148,7 @@ MELTS Source Code: RCS
 
 /*
  * Definitions of Taylor expansion coefficients in terms of solution
- * parameters. 
+ * parameters.
  */
 
 #define H0      (5.0*WH123/4.0+WH4/2.0+HX123_4/4.0)
@@ -199,7 +200,7 @@ MELTS Source Code: RCS
                  +2.0*GX134_2/7.0)
 
 /*
- * Global (to this file): variables 
+ * Global (to this file): variables
  */
 
 #define R   8.3143
@@ -246,55 +247,55 @@ static void threadOInit(void) {
 }
 
 static double getTOld() {
-  double *tOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);   
-  if (tOldPt == NULL) {
-    tOldPt  = (double *) malloc(sizeof(double)); 
-    *tOldPt = -9999.0;    
-    MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
-  }
-  return *tOldPt;
+    double *tOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);
+    if (tOldPt == NULL) {
+        tOldPt  = (double *) malloc(sizeof(double));
+        *tOldPt = -9999.0;
+        MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
+    }
+    return *tOldPt;
 }
 
 static void setTOld(double tOld) {
-  double *tOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);   
-  if (tOldPt == NULL) {
-    tOldPt  = (double *) malloc(sizeof(double)); 
-    *tOldPt = -9999.0;    
-    MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
-  }
-  *tOldPt = tOld;
+    double *tOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    tOldPt = (double *) MTHREAD_GETSPECIFIC(tOldKey);
+    if (tOldPt == NULL) {
+        tOldPt  = (double *) malloc(sizeof(double));
+        *tOldPt = -9999.0;
+        MTHREAD_SETSPECIFIC(tOldKey, (void *) tOldPt);
+    }
+    *tOldPt = tOld;
 }
 
 static double getPOld() {
-  double *pOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);   
-  if (pOldPt == NULL) {
-    pOldPt  = (double *) malloc(sizeof(double)); 
-    *pOldPt = -9999.0;    
-    MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
-  }
-  return *pOldPt; 
+    double *pOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);
+    if (pOldPt == NULL) {
+        pOldPt  = (double *) malloc(sizeof(double));
+        *pOldPt = -9999.0;
+        MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
+    }
+    return *pOldPt;
 }
 
 static void setPOld(double pOld) {
-  double *pOldPt;
-  MTHREAD_ONCE(&initThreadOBlock, threadOInit);
-  
-  pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);   
-  if (pOldPt == NULL) {
-    pOldPt  = (double *) malloc(sizeof(double)); 
-    *pOldPt = -9999.0;    
-    MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
-  }
-  *pOldPt = pOld; 
+    double *pOldPt;
+    MTHREAD_ONCE(&initThreadOBlock, threadOInit);
+
+    pOldPt = (double *) MTHREAD_GETSPECIFIC(pOldKey);
+    if (pOldPt == NULL) {
+        pOldPt  = (double *) malloc(sizeof(double));
+        *pOldPt = -9999.0;
+        MTHREAD_SETSPECIFIC(pOldKey, (void *) pOldPt);
+    }
+    *pOldPt = pOld;
 }
 
 static double *getROld() {
@@ -369,7 +370,7 @@ static gsl_permutation *getIndexD2gds2() {
 /***********************************/
 
 #define DECLARE_SITE_FRACTIONS \
-  double xfe2m13, xmg2m13, xfe2m2, xmg2m2, xfe2m4, xmg2m4;
+    double xfe2m13, xmg2m13, xfe2m2, xmg2m2, xfe2m4, xmg2m4;
 
 #define XFE2M13 0
 #define XMG2M13 1
@@ -385,49 +386,49 @@ static MTHREAD_ONCE_T initThreadXBlock = MTHREAD_ONCE_INIT;
 static MTHREAD_KEY_T xKey[NX];
 
 static void threadXInit(void) {
-  int i;
-  for (i=0; i<NX; i++) MTHREAD_KEY_CREATE(&xKey[i], free);
+    int i;
+    for (i=0; i<NX; i++) MTHREAD_KEY_CREATE(&xKey[i], free);
 }
 
 static double getX(int n) {
-  double *xPt;  
-  MTHREAD_ONCE(&initThreadXBlock, threadXInit);
-  
-  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);   
-  if (xPt == NULL) { 
-    xPt = (double *) malloc(sizeof(double)); *xPt = 0.0;
-    MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
-  }
-  return *xPt;
+    double *xPt;
+    MTHREAD_ONCE(&initThreadXBlock, threadXInit);
+
+    xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);
+    if (xPt == NULL) {
+        xPt = (double *) malloc(sizeof(double)); *xPt = 0.0;
+        MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
+    }
+    return *xPt;
 }
 
 static void setX(int n, double x) {
-  double *xPt;  
-  MTHREAD_ONCE(&initThreadXBlock, threadXInit);
-  
-  xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);   
-  if (xPt == NULL) { 
-    xPt = (double *) malloc(sizeof(double));
-    MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
-  }
-  *xPt = x;
+    double *xPt;
+    MTHREAD_ONCE(&initThreadXBlock, threadXInit);
+
+    xPt = (double *) MTHREAD_GETSPECIFIC(xKey[n]);
+    if (xPt == NULL) {
+        xPt = (double *) malloc(sizeof(double));
+        MTHREAD_SETSPECIFIC(xKey[n], (void *) xPt);
+    }
+    *xPt = x;
 }
 
 #define GET_SITE_FRACTIONS \
-  xfe2m13 = getX(XFE2M13); \
-  xmg2m13 = getX(XMG2M13); \
-  xfe2m2  = getX(XFE2M2); \
-  xmg2m2  = getX(XMG2M2); \
-  xfe2m4  = getX(XFE2M4); \
-  xmg2m4  = getX(XMG2M4);
-  
+    xfe2m13 = getX(XFE2M13); \
+    xmg2m13 = getX(XMG2M13); \
+    xfe2m2  = getX(XFE2M2); \
+    xmg2m2  = getX(XMG2M2); \
+    xfe2m4  = getX(XFE2M4); \
+    xmg2m4  = getX(XMG2M4);
+
 #define SET_SITE_FRACTIONS \
-  setX(XFE2M13, xfe2m13); \
-  setX(XMG2M13, xmg2m13); \
-  setX(XFE2M2,  xfe2m2); \
-  setX(XMG2M2,  xmg2m2); \
-  setX(XFE2M4,  xfe2m4); \
-  setX(XMG2M4,  xmg2m4);
+    setX(XFE2M13, xfe2m13); \
+    setX(XMG2M13, xmg2m13); \
+    setX(XFE2M2,  xfe2m2); \
+    setX(XMG2M2,  xmg2m2); \
+    setX(XFE2M4,  xfe2m4); \
+    setX(XMG2M4,  xmg2m4);
 
 /*
  * Global (to this file): activity definitions and component transforms
@@ -449,30 +450,30 @@ static void setX(int n, double x) {
  */
 
 #define S  -R*(2.0*xfe2m4 *log(xfe2m4)  + 2.0*xmg2m4 *log(xmg2m4)  \
-             + 3.0*xfe2m13*log(xfe2m13) + 3.0*xmg2m13*log(xmg2m13) \
-             + 2.0*xfe2m2 *log(xfe2m2)  + 2.0*xmg2m2 *log(xmg2m2)  )
+            + 3.0*xfe2m13*log(xfe2m13) + 3.0*xmg2m13*log(xmg2m13) \
+            + 2.0*xfe2m2 *log(xfe2m2)  + 2.0*xmg2m2 *log(xmg2m2)  )
 #define H  H0 + HR*r[0] + HS13*s[0] + HS2*s[1] + HRR*r[0]*r[0] \
-           + HRS13*r[0]*s[0] + HRS2*r[0]*s[1] + HS13S13*s[0]*s[0] \
-           + HS13S2*s[0]*s[1] + HS2S2*s[1]*s[1]
+            + HRS13*r[0]*s[0] + HRS2*r[0]*s[1] + HS13S13*s[0]*s[0] \
+            + HS13S2*s[0]*s[1] + HS2S2*s[1]*s[1]
 #define V  V0 + VR*r[0] + VS13*s[0] + VS2*s[1] + VRR*r[0]*r[0] \
-           + VRS13*r[0]*s[0] + VRS2*r[0]*s[1] + VS13S13*s[0]*s[0] \
-           + VS13S2*s[0]*s[1] + VS2S2*s[1]*s[1]
+            + VRS13*r[0]*s[0] + VRS2*r[0]*s[1] + VS13S13*s[0]*s[0] \
+            + VS13S2*s[0]*s[1] + VS2S2*s[1]*s[1]
 #define G  H - t*(S) + (p-1.0)*(V)
 
 /*----------------------------------------------------------------------------*/
 
 #define DGDR0  R*t*(      log(xfe2m4)      -     log(xmg2m4) \
-                    + 3.0*log(xfe2m13)/2.0 - 3.0*log(xmg2m13)/2.0 \
-                    +     log(xfe2m2)      -     log(xmg2m2) ) \
-               + GR + 2.0*GRR*r[0] + GRS13*s[0] + GRS2*s[1]
+                + 3.0*log(xfe2m13)/2.0 - 3.0*log(xmg2m13)/2.0 \
+                +     log(xfe2m2)      -     log(xmg2m2) ) \
+                + GR + 2.0*GRR*r[0] + GRS13*s[0] + GRS2*s[1]
 #define DGDS0  R*t*(   6.0*log(xfe2m4)/7.0  -  6.0*log(xmg2m4)/7.0  \
-                    - 12.0*log(xfe2m13)/7.0 + 12.0*log(xmg2m13)/7.0 \
-                    +  6.0*log(xfe2m2)/7.0  -  6.0*log(xmg2m2)/7.0 ) \
-               + GS13 + GRS13*r[0] + 2.0*GS13S13*s[0] + GS13S2*s[1]
+                - 12.0*log(xfe2m13)/7.0 + 12.0*log(xmg2m13)/7.0 \
+                +  6.0*log(xfe2m2)/7.0  -  6.0*log(xmg2m2)/7.0 ) \
+                + GS13 + GRS13*r[0] + 2.0*GS13S13*s[0] + GS13S2*s[1]
 #define DGDS1  R*t*(   4.0*log(xfe2m4)/7.0  -  4.0*log(xmg2m4)/7.0  \
-                    +  6.0*log(xfe2m13)/7.0 -  6.0*log(xmg2m13)/7.0 \
-                    - 10.0*log(xfe2m2)/7.0  + 10.0*log(xmg2m2)/7.0 ) \
-               + GS2 + GRS2*r[0] + GS13S2*s[0] + 2.0*GS2S2*s[1]
+                +  6.0*log(xfe2m13)/7.0 -  6.0*log(xmg2m13)/7.0 \
+                - 10.0*log(xfe2m2)/7.0  + 10.0*log(xmg2m2)/7.0 ) \
+                + GS2 + GRS2*r[0] + GS13S2*s[0] + 2.0*GS2S2*s[1]
 #define DGDT   -(S)
 #define DGDP   (V)
 
@@ -494,11 +495,11 @@ static void setX(int n, double x) {
 #define D2GDS0S0  R*t*(  (18.0/49.0)/xfe2m4  + (18.0/49.0)/xmg2m4  \
                        + (48.0/49.0)/xfe2m13 + (48.0/49.0)/xmg2m13 \
                        + (18.0/49.0)/xfe2m2  + (18.0/49.0)/xmg2m2 ) \
-                  + 2.0*GS13S13
+                    + 2.0*GS13S13
 #define D2GDS0S1  R*t*(  (12.0/49.0)/xfe2m4  + (12.0/49.0)/xmg2m4  \
                        - (24.0/49.0)/xfe2m13 - (24.0/49.0)/xmg2m13 \
                        - (30.0/49.0)/xfe2m2  - (30.0/49.0)/xmg2m2 ) \
-                  + GS13S2
+                    + GS13S2
 #define D2GDS0DT  R*(   6.0*log(xfe2m4)/7.0  -  6.0*log(xmg2m4)/7.0  \
                      - 12.0*log(xfe2m13)/7.0 + 12.0*log(xmg2m13)/7.0 \
                      +  6.0*log(xfe2m2)/7.0  -  6.0*log(xmg2m2)/7.0 )
@@ -507,7 +508,7 @@ static void setX(int n, double x) {
 #define D2GDS1S1  R*t*(  (8.0/49.0)/xfe2m4   + (8.0/49.0)/xmg2m4   \
                        + (12.0/49.0)/xfe2m13 + (12.0/49.0)/xmg2m13 \
                        + (50.0/49.0)/xfe2m2  + (50.0/49.0)/xmg2m2 ) \
-                  + 2.0*GS2S2
+                    + 2.0*GS2S2
 #define D2GDS1DT  R*(   4.0*log(xfe2m4)/7.0  -  4.0*log(xmg2m4)/7.0  \
                      +  6.0*log(xfe2m13)/7.0 -  6.0*log(xmg2m13)/7.0 \
                      - 10.0*log(xfe2m2)/7.0  + 10.0*log(xmg2m2)/7.0 )
@@ -520,59 +521,59 @@ static void setX(int n, double x) {
 /*----------------------------------------------------------------------------*/
 
 #define D3GDR0R0R0  R*t*(-0.25/SQUARE(xfe2m2)+0.25/SQUARE(xmg2m2)- \
-		    0.375/SQUARE(xfe2m13)+0.375/SQUARE(xmg2m13)- \
-		    0.25/SQUARE(xfe2m4)+0.25/SQUARE(xmg2m4))
+            0.375/SQUARE(xfe2m13)+0.375/SQUARE(xmg2m13)- \
+            0.25/SQUARE(xfe2m4)+0.25/SQUARE(xmg2m4))
 #define D3GDR0R0S0  -R*t*((3.0/14.0)/SQUARE(xfe2m4)-(3.0/14.0)/SQUARE(xmg2m4) \
-                    - (12.0/28.0)/SQUARE(xfe2m13)+(12.0/28.0)/SQUARE(xmg2m13) \
-                    + (3.0/14.0)/SQUARE(xfe2m2) - (3.0/14.0)/SQUARE(xmg2m2) )
+                     - (12.0/28.0)/SQUARE(xfe2m13)+(12.0/28.0)/SQUARE(xmg2m13) \
+                     + (3.0/14.0)/SQUARE(xfe2m2) - (3.0/14.0)/SQUARE(xmg2m2) )
 #define D3GDR0R0S1  -R*t*((1.0/7.0)/SQUARE(xfe2m4)-(1.0/7.0)/SQUARE(xmg2m4) \
-                    + (6.0/28.0)/SQUARE(xfe2m13)-(6.0/28.0)/SQUARE(xmg2m13) \
-                    - (5.0/14.0)/SQUARE(xfe2m2) + (5.0/14.0)/SQUARE(xmg2m2) )
+                     + (6.0/28.0)/SQUARE(xfe2m13)-(6.0/28.0)/SQUARE(xmg2m13) \
+                     - (5.0/14.0)/SQUARE(xfe2m2) + (5.0/14.0)/SQUARE(xmg2m2) )
 #define D3GDR0R0DT  R*(0.5/xfe2m4 + 0.5/xmg2m4 + 0.75/xfe2m13 + 0.75/xmg2m13 \
                        + 0.5/xfe2m2 + 0.5/xmg2m2)
 #define D3GDR0R0DP  2.0*VRR
 
 #define D3GDR0S0S0  -R*t*((9.0/49.0)/SQUARE(xfe2m4)-(9.0/49.0)/SQUARE(xmg2m4) \
-                    + (24.0/49.0)/SQUARE(xfe2m13)-(24.0/49.0)/SQUARE(xmg2m13) \
-                    + (9.0/49.0)/SQUARE(xfe2m2)-(9.0/49.0)/SQUARE(xmg2m2) )
+                     + (24.0/49.0)/SQUARE(xfe2m13)-(24.0/49.0)/SQUARE(xmg2m13) \
+                     + (9.0/49.0)/SQUARE(xfe2m2)-(9.0/49.0)/SQUARE(xmg2m2) )
 #define D3GDR0S0S1  -R*t*((6.0/49.0)/SQUARE(xfe2m4)-(6.0/49.0)/SQUARE(xmg2m4) \
-                    - (12.0/49.0)/SQUARE(xfe2m13)+(12.0/49.0)/SQUARE(xmg2m13) \
-                    - (15.0/49.0)/SQUARE(xfe2m2)+(15.0/49.0)/SQUARE(xmg2m2) )
+                     - (12.0/49.0)/SQUARE(xfe2m13)+(12.0/49.0)/SQUARE(xmg2m13) \
+                     - (15.0/49.0)/SQUARE(xfe2m2)+(15.0/49.0)/SQUARE(xmg2m2) )
 #define D3GDR0S0DT  R*(  (3.0/7.0)/xfe2m4  + (3.0/7.0)/xmg2m4  \
                        - (6.0/7.0)/xfe2m13 - (6.0/7.0)/xmg2m13 \
                        + (3.0/7.0)/xfe2m2  + (3.0/7.0)/xmg2m2 )
 #define D3GDR0S0DP  VRS13
 
 #define D3GDR0S1S1  -R*t*((4.0/49.0)/SQUARE(xfe2m4)-(4.0/49.0)/SQUARE(xmg2m4) \
-                    + (6.0/49.0)/SQUARE(xfe2m13)-(6.0/49.0)/SQUARE(xmg2m13) \
-                    + (25.0/49.0)/SQUARE(xfe2m2)-(25.0/49.0)/SQUARE(xmg2m2) )
+                     + (6.0/49.0)/SQUARE(xfe2m13)-(6.0/49.0)/SQUARE(xmg2m13) \
+                     + (25.0/49.0)/SQUARE(xfe2m2)-(25.0/49.0)/SQUARE(xmg2m2) )
 #define D3GDR0S1DT  R*(  (2.0/7.0)/xfe2m4  + (2.0/7.0)/xmg2m4  \
                        + (3.0/7.0)/xfe2m13 + (3.0/7.0)/xmg2m13 \
                        - (5.0/7.0)/xfe2m2  - (5.0/7.0)/xmg2m2 )
-#define D3GDR0S1DP  VRS2 
+#define D3GDR0S1DP  VRS2
 
 #define D3GDS0S0S0  -R*t*(  (54.0/343.0)/SQUARE(xfe2m4)   \
-                          - (54.0/343.0)/SQUARE(xmg2m4)   \
-                          - (192.0/343.0)/SQUARE(xfe2m13) \
-                          + (192.0/343.0)/SQUARE(xmg2m13) \
-                          + (54.0/343.0)/SQUARE(xfe2m2)   \
-                          - (54.0/343.0)/SQUARE(xmg2m2) ) 
+                         - (54.0/343.0)/SQUARE(xmg2m4)   \
+                         - (192.0/343.0)/SQUARE(xfe2m13) \
+                         + (192.0/343.0)/SQUARE(xmg2m13) \
+                         + (54.0/343.0)/SQUARE(xfe2m2)   \
+                         - (54.0/343.0)/SQUARE(xmg2m2) )
 #define D3GDS0S0S1  -R*t*(  (36.0/343.0)/SQUARE(xfe2m4)   \
-                          - (36.0/343.0)/SQUARE(xmg2m4)   \
-                          + (96.0/343.0)/SQUARE(xfe2m13)  \
-                          - (96.0/343.0)/SQUARE(xmg2m13)  \
-                          - (90.0/343.0)/SQUARE(xfe2m2)   \
-                          + (90.0/343.0)/SQUARE(xmg2m2) ) 
+                         - (36.0/343.0)/SQUARE(xmg2m4)   \
+                         + (96.0/343.0)/SQUARE(xfe2m13)  \
+                         - (96.0/343.0)/SQUARE(xmg2m13)  \
+                         - (90.0/343.0)/SQUARE(xfe2m2)   \
+                         + (90.0/343.0)/SQUARE(xmg2m2) )
 #define D3GDS0S0DT  R*(  (18.0/49.0)/xfe2m4  + (18.0/49.0)/xmg2m4  \
                        + (48.0/49.0)/xfe2m13 + (48.0/49.0)/xmg2m13 \
-                       + (18.0/49.0)/xfe2m2  + (18.0/49.0)/xmg2m2 ) 
+                       + (18.0/49.0)/xfe2m2  + (18.0/49.0)/xmg2m2 )
 #define D3GDS0S0DP  2.0*VS13S13
 #define D3GDS0S1S1  -R*t*(  (24.0/343.0)/SQUARE(xfe2m4)  \
-                          - (24.0/343.0)/SQUARE(xmg2m4)  \
-                          - (48.0/343.0)/SQUARE(xfe2m13) \
-                          + (48.0/343.0)/SQUARE(xmg2m13) \
-                          + (150.0/343.0)/SQUARE(xfe2m2) \
-                          - (150.0/343.0)/SQUARE(xmg2m2) )
+                         - (24.0/343.0)/SQUARE(xmg2m4)  \
+                         - (48.0/343.0)/SQUARE(xfe2m13) \
+                         + (48.0/343.0)/SQUARE(xmg2m13) \
+                         + (150.0/343.0)/SQUARE(xfe2m2) \
+                         - (150.0/343.0)/SQUARE(xmg2m2) )
 #define D3GDS0S1DT  R*(  (12.0/49.0)/xfe2m4  + (12.0/49.0)/xmg2m4  \
                        - (24.0/49.0)/xfe2m13 - (24.0/49.0)/xmg2m13 \
                        - (30.0/49.0)/xfe2m2  - (30.0/49.0)/xmg2m2 )
@@ -580,13 +581,13 @@ static void setX(int n, double x) {
 #define D3GDS0DT2   0.0
 #define D3GDS0DTDP  0.0
 #define D3GDS0DP2   0.0
-  
+
 #define D3GDS1S1S1  -R*t*(  (16.0/343.0)/SQUARE(xfe2m4)  \
-                          - (16.0/343.0)/SQUARE(xmg2m4)  \
-                          + (24.0/343.0)/SQUARE(xfe2m13) \
-                          - (24.0/343.0)/SQUARE(xmg2m13) \
-                          - (250.0/343.0)/SQUARE(xfe2m2) \
-                          + (250.0/343.0)/SQUARE(xmg2m2) )
+                         - (16.0/343.0)/SQUARE(xmg2m4)  \
+                         + (24.0/343.0)/SQUARE(xfe2m13) \
+                         - (24.0/343.0)/SQUARE(xmg2m13) \
+                         - (250.0/343.0)/SQUARE(xfe2m2) \
+                         + (250.0/343.0)/SQUARE(xmg2m2) )
 #define D3GDS1S1DT  R*(  (8.0/49.0)/xfe2m4   + (8.0/49.0)/xmg2m4   \
                        + (12.0/49.0)/xfe2m13 + (12.0/49.0)/xmg2m13 \
                        + (50.0/49.0)/xfe2m2  + (50.0/49.0)/xmg2m2 )
@@ -594,7 +595,7 @@ static void setX(int n, double x) {
 #define D3GDS1DT2   0.0
 #define D3GDS1DTDP  0.0
 #define D3GDS1DP2   0.0
-  
+
 #define D3GDT3      0.0
 #define D3GDT2DP    0.0
 #define D3GDTDP2    0.0
@@ -610,18 +611,18 @@ static void setX(int n, double x) {
  */
 #define fillD2GDR2  d2gdr2[0][0]  = D2GDR0R0;
 
-#define fillD2GDRDS d2gdrds[0][0] = D2GDR0S0;     d2gdrds[0][1] = D2GDR0S1; 
+#define fillD2GDRDS d2gdrds[0][0] = D2GDR0S0;     d2gdrds[0][1] = D2GDR0S1;
 
-#define fillD2GDRDT d2gdrdt[0]    = D2GDR0DT; 
+#define fillD2GDRDT d2gdrdt[0]    = D2GDR0DT;
 
-#define fillD2GDRDP d2gdrdp[0]    = D2GDR0DP; 
+#define fillD2GDRDP d2gdrdp[0]    = D2GDR0DP;
 
 #define fillD2GDS2  d2gds2[0][0]  = D2GDS0S0;     d2gds2[0][1] = D2GDS0S1; \
-                    d2gds2[1][0]  = d2gds2[0][1]; d2gds2[1][1] = D2GDS1S1;
+                     d2gds2[1][0]  = d2gds2[0][1]; d2gds2[1][1] = D2GDS1S1;
 
-#define fillD2GDSDT d2gdsdt[0]    = D2GDS0DT;     d2gdsdt[1] = D2GDS1DT; 
+#define fillD2GDSDT d2gdsdt[0]    = D2GDS0DT;     d2gdsdt[1] = D2GDS1DT;
 
-#define fillD2GDSDP d2gdsdp[0]    = D2GDS0DP;     d2gdsdp[1] = D2GDS1DP; 
+#define fillD2GDSDP d2gdsdp[0]    = D2GDS0DP;     d2gdsdp[1] = D2GDS1DP;
 
 #define fillD3GDR3 d3gdr3[0][0][0] = D3GDR0R0R0;
 
@@ -634,7 +635,7 @@ static void setX(int n, double x) {
 
 #define fillD3GDRDS2 \
  d3gdrds2[0][0][0] = D3GDR0S0S0;        d3gdrds2[0][0][1] = D3GDR0S0S1; \
- d3gdrds2[0][1][0] = d3gdrds2[0][0][1]; d3gdrds2[0][1][1] = D3GDR0S1S1; 
+ d3gdrds2[0][1][0] = d3gdrds2[0][0][1]; d3gdrds2[0][1][1] = D3GDR0S1S1;
 
 #define fillD3GDRDSDT \
  d3gdrdsdt[0][0] = D3GDR0S0DT; d3gdrdsdt[0][1] = D3GDR0S1DT;
@@ -657,19 +658,19 @@ static void setX(int n, double x) {
  d3gds2dp[1][0] = d3gds2dp[0][1]; d3gds2dp[1][1] = D3GDS1S1DP;
 
 #define fillD3GDSDT2 \
- d3gdsdt2[0] = D3GDS0DT2; d3gdsdt2[1] = D3GDS1DT2; 
+ d3gdsdt2[0] = D3GDS0DT2; d3gdsdt2[1] = D3GDS1DT2;
 
 #define fillD3GDSDTDP \
  d3gdsdtdp[0] = D3GDS0DTDP; d3gdsdtdp[1] = D3GDS1DTDP;
 
 #define fillD3GDSDP2 \
- d3gdsdp2[0] = D3GDS0DP2; d3gdsdp2[1] = D3GDS1DP2; 
+ d3gdsdp2[0] = D3GDS0DP2; d3gdsdp2[1] = D3GDS1DP2;
 
 #define fillD3GDRDT2 \
- d3gdrdt2[0] = D3GDR0DT2; 
+ d3gdrdt2[0] = D3GDR0DT2;
 
 #define fillD3GDRDTDP \
- d3gdrdtdp[0] = D3GDR0DTDP; 
+ d3gdrdtdp[0] = D3GDR0DTDP;
 
 #define fillD3GDRDP2 \
  d3gdrdp2[0] = D3GDR0DP2;
@@ -678,20 +679,21 @@ static void setX(int n, double x) {
  *=============================================================================
  * Local function to compute ordering state and associated derivatives
  */
+void resetCumOrder(void) { setTOld(-9999.0); setPOld(-9999.0); }
 
-static void 
-order(int mask, double t, double p, double r[NR], 
-      double s[NS],           /* s[NS]                BINARY MASK: 0000000001 */
-      double dr[NS][NR] ,     /* ds[NS]/dr[NR]        BINARY MASK: 0000000010 */
-      double dt[NS],          /* ds[NS]/dt            BINARY MASK: 0000000100 */
-      double dp[NS],          /* ds[NS]/dp            BINARY MASK: 0000001000 */
-      double dr2[NS][NR][NR], /* d2s[NS]/dr[NR]dr[NR] BINARY MASK: 0000010000 */
-      double drt[NS][NR],     /* d2s[NS]/dr[NR]dt     BINARY MASK: 0000100000 */
-      double drp[NS][NR],     /* d2s[NS]/dr[NR]dp     BINARY MASK: 0001000000 */
-      double dt2[NS],         /* d2s[NS]/dt2          BINARY MASK: 0010000000 */
-      double dtp[NS],         /* d2s[NS]/dtp          BINARY MASK: 0100000000 */
-      double dp2[NS]          /* d2s[NS]/dp2          BINARY MASK: 1000000000 */
-      )
+static void
+order(int mask, double t, double p, double r[NR],
+            double s[NS],           /* s[NS]                BINARY MASK: 0000000001 */
+            double dr[NS][NR] ,     /* ds[NS]/dr[NR]        BINARY MASK: 0000000010 */
+            double dt[NS],          /* ds[NS]/dt            BINARY MASK: 0000000100 */
+            double dp[NS],          /* ds[NS]/dp            BINARY MASK: 0000001000 */
+            double dr2[NS][NR][NR], /* d2s[NS]/dr[NR]dr[NR] BINARY MASK: 0000010000 */
+            double drt[NS][NR],     /* d2s[NS]/dr[NR]dt     BINARY MASK: 0000100000 */
+            double drp[NS][NR],     /* d2s[NS]/dr[NR]dp     BINARY MASK: 0001000000 */
+            double dt2[NS],         /* d2s[NS]/dt2          BINARY MASK: 0010000000 */
+            double dtp[NS],         /* d2s[NS]/dtp          BINARY MASK: 0100000000 */
+            double dp2[NS]          /* d2s[NS]/dp2          BINARY MASK: 1000000000 */
+            )
 {
     DECLARE_SITE_FRACTIONS
     double tOld         = getTOld();
@@ -829,7 +831,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDr = gsl_matrix_column(&mvToDr.matrix, j),
-	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDr.vector);
         }
     }
@@ -871,7 +873,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -916,7 +918,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -962,7 +964,7 @@ order(int mask, double t, double p, double r[NR],
         /* original: dsdr[i][j] += - d2gds2[i][k]*d2gdrds[j][k]; */
         for (j=0; j<NR; j++) {
             gsl_vector_view vvToDsdr = gsl_matrix_column(&mvToDsdr.matrix, j),
-            	vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
+                vvToD2gdrds = gsl_matrix_row(&mvToD2gdrds.matrix, j);
             melts_LU_solve(ptToD2gds2, indexD2gds2, &vvToD2gdrds.vector, &vvToDsdr.vector);
         }
 
@@ -1098,945 +1100,946 @@ order(int mask, double t, double p, double r[NR],
  */
 int
 testCum(int mask, double t, double p,
-  int na,          /* Expected number of endmember components                 */
-  int nr,          /* Expected number of independent compositional variables  */
-  char **names,    /* array of strings of names of endmember components       */
-  char **formulas, /* array of strings of formulas of endmember components    */
-  double *r,       /* array of indepependent compos variables, check bounds   */
-  double *m)       /* array of moles of endmember components, check bounds    */
+    int na,          /* Expected number of endmember components                 */
+    int nr,          /* Expected number of independent compositional variables  */
+    char **names,    /* array of strings of names of endmember components       */
+    char **formulas, /* array of strings of formulas of endmember components    */
+    double *r,       /* array of indepependent compos variables, check bounds   */
+    double *m)       /* array of moles of endmember components, check bounds    */
 {
-  const char *phase = "cummingtonite.c";
-  const char *NAMES[NA]    = { "cummingtonite", "grunerite" };
-  const char *FORMULAS[NA] = { "Mg7Si8O22(OH)2", "Fe7Si8O22(OH)2" };
-  int result = TRUE, i;
-  double sum;
+    const char *phase = "cummingtonite.c";
+    const char *NAMES[NA]    = { "cummingtonite", "grunerite" };
+    const char *FORMULAS[NA] = { "Mg7Si8O22(OH)2", "Fe7Si8O22(OH)2" };
+    int result = TRUE, i;
+    double sum;
 
-  if (mask & FIRST) {
-    result = result && (na == NA);
-    if (!result) printf("<<%s>> Wrong number of components!\n", phase);
-  }
-  if (mask & SECOND) {
-    result = result && (nr == NR);
-    if (!result) printf("<<%s>> Wrong number of indep variables!\n", phase);
-  }
-  if (mask & THIRD) {
-    for (i=0; i<NA; i++) {
-      result = result && (strcmp(names[i],NAMES[i]) == 0);
-      if (!result)
-        printf("<<%s>> Component[%d] should be %s not %s.\n",
-          phase, i, NAMES[i], names[i]);
+    if (mask & FIRST) {
+        result = result && (na == NA);
+        if (!result) printf("<<%s>> Wrong number of components!\n", phase);
     }
-  }
-  if (mask & FOURTH) {
-    for (i=0; i<NA; i++) {
-      result = result && (strcmp(formulas[i],FORMULAS[i]) == 0);
-      if (!result)
-        printf("<<%s>> Component[%d] should have formula %s not %s.\n",
-          phase, i, FORMULAS[i], formulas[i]);
+    if (mask & SECOND) {
+        result = result && (nr == NR);
+        if (!result) printf("<<%s>> Wrong number of indep variables!\n", phase);
     }
-  }
-  /* Check bounds on the independent compositional variables */
-  if (mask & FIFTH) {
-    result = result && (r[0] >= -1.0) && (r[0] <= 1.0);
-  }
-  /* Check bounds on moles of endmember components */
-  if (mask & SIXTH) {
-    for (i=0, sum=0.0; i<NA; i++) sum += m[i];
-    result = result && (sum >= 0.0);
-    if (sum > 0.0) {
-      result = result && (m[0]/sum >= 0.0) && (m[0]/sum <= 1.0);
-      result = result && (m[1]/sum >= 0.0) && (m[1]/sum <= 1.0);
+    if (mask & THIRD) {
+        for (i=0; i<NA; i++) {
+            result = result && (strcmp(names[i],NAMES[i]) == 0);
+            if (!result)
+                printf("<<%s>> Component[%d] should be %s not %s.\n",
+                    phase, i, NAMES[i], names[i]);
+        }
     }
-  }
+    if (mask & FOURTH) {
+        for (i=0; i<NA; i++) {
+            result = result && (strcmp(formulas[i],FORMULAS[i]) == 0);
+            if (!result)
+                printf("<<%s>> Component[%d] should have formula %s not %s.\n",
+                    phase, i, FORMULAS[i], formulas[i]);
+        }
+    }
+    /* Check bounds on the independent compositional variables */
+    if (mask & FIFTH) {
+        result = result && (r[0] >= -1.0) && (r[0] <= 1.0);
+    }
+    /* Check bounds on moles of endmember components */
+    if (mask & SIXTH) {
+        for (i=0, sum=0.0; i<NA; i++) sum += m[i];
+        result = result && (sum >= 0.0);
+        if (sum > 0.0) {
+            result = result && (m[0]/sum >= 0.0) && (m[0]/sum <= 1.0);
+            result = result && (m[1]/sum >= 0.0) && (m[1]/sum <= 1.0);
+        }
+    }
 
-  return result;
+    return result;
 }
 
 void
 conCum(int inpMask, int outMask, double t, double p,
-  double *e,      /* comp of spinel in moles of elements                      */
-  double *m,      /* comp of spinel in moles of endmember components          */
-  double *r,      /* comp of spinel in terms of the independent comp var      */
-  double *x,      /* comp of spinel in mole fractions of endmember comp       */
-  double **dm,    /* Jacobian matrix: dm[i][j] = dr[i]/dm[j]                  */
-  double ***d2m,  /* vector of matrices: d2m[i][j][k] = d2r[i]/dm[j]dm[k]     */
-  double **dr,    /* Jacobian matrix: dr[i][j] = dx[i]/dr[j]                  */
-  double ****d3m) /* 3rd deriv matrix: d3m[i][j][k][l]=d3r[i]/dm[j]dm[k]dm[l] */
+    double *e,      /* comp of spinel in moles of elements                      */
+    double *m,      /* comp of spinel in moles of endmember components          */
+    double *r,      /* comp of spinel in terms of the independent comp var      */
+    double *x,      /* comp of spinel in mole fractions of endmember comp       */
+    double **dm,    /* Jacobian matrix: dm[i][j] = dr[i]/dm[j]                  */
+    double ***d2m,  /* vector of matrices: d2m[i][j][k] = d2r[i]/dm[j]dm[k]     */
+    double **dr,    /* Jacobian matrix: dr[i][j] = dx[i]/dr[j]                  */
+    double ****d3m) /* 3rd deriv matrix: d3m[i][j][k][l]=d3r[i]/dm[j]dm[k]dm[l] */
 {
-  /*---------------------------------------------------------------------------
-  Not all combinations of inpMask and outMask are feasible. Valid
-    combinations are:
+    /*---------------------------------------------------------------------------
+    Not all combinations of inpMask and outMask are feasible. Valid
+        combinations are:
 
        inpMask          outMask
-  (1)  FIRST            SECOND
-  (2)  SECOND           THIRD  | FOURTH  | FIFTH | SIXTH | EIGHTH
-  (3)  THIRD            FOURTH | SEVENTH
+    (1)  FIRST            SECOND
+    (2)  SECOND           THIRD  | FOURTH  | FIFTH | SIXTH | EIGHTH
+    (3)  THIRD            FOURTH | SEVENTH
 
-  (1) converts a vector of moles of elements into a vector of moles of
-      endmember spinel components.
-  (2) calculates from a vector of moles of endmember components, one or
-      all of: r[], x[], dr[]/dm[], d2r[]/dm[]dm[], or d3r[]/dm[]dm[]dm[]
-  (3) calculates from a vector of independent compositional variables
-      mole fractions of endmember components and/or the Jacobian matrix
-      dx[]/dr[]
+    (1) converts a vector of moles of elements into a vector of moles of
+        endmember spinel components.
+    (2) calculates from a vector of moles of endmember components, one or
+        all of: r[], x[], dr[]/dm[], d2r[]/dm[]dm[], or d3r[]/dm[]dm[]dm[]
+    (3) calculates from a vector of independent compositional variables
+        mole fractions of endmember components and/or the Jacobian matrix
+        dx[]/dr[]
 
-  In this routine it is assumed that the elements are in the order of atomic
-  numbers and that the order of cummingtonite components has been verified as:
-      m[0] = cummingtonite (Mg7Si8O22(OH)2),
-      m[1] = grunerite     (Fe7Si8O22(OH)2) 
+    In this routine it is assumed that the elements are in the order of atomic
+    numbers and that the order of cummingtonite components has been verified as:
+        m[0] = cummingtonite (Mg7Si8O22(OH)2),
+        m[1] = grunerite     (Fe7Si8O22(OH)2)
 
-  ----------------------------------------------------------------------------*/
+    ----------------------------------------------------------------------------*/
 
-  int i, j, k;
+    int i, j, k;
 
-  if (inpMask == FIRST && outMask == SECOND) {
-    /* Converts a vector of moles of elements into a vector of moles of
-       end-member components.                                                 */
-    static const int Mg = 12;
-    static const int Fe = 26;
+    if (inpMask == FIRST && outMask == SECOND) {
+        /* Converts a vector of moles of elements into a vector of moles of
+       end-member components.                         */
+        static const int Mg = 12;
+        static const int Fe = 26;
 
-    m[0] = e[Mg]/7.0;
-    m[1] = e[Fe]/7.0;
+        m[0] = e[Mg]/7.0;
+        m[1] = e[Fe]/7.0;
 
-  } else if (inpMask == SECOND) {
-    double sum;
+    } else if (inpMask == SECOND) {
+        double sum;
 
-    if (outMask & ~(THIRD | FOURTH | FIFTH | SIXTH | EIGHTH))
-      printf("Illegal call to conCum with inpMask = %o and outMask = %o\n",
-        inpMask, outMask);
+        if (outMask & ~(THIRD | FOURTH | FIFTH | SIXTH | EIGHTH))
+            printf("Illegal call to conCum with inpMask = %o and outMask = %o\n",
+                inpMask, outMask);
 
-    for (i=0, sum=0.0; i<NA; i++) sum += m[i];
+        for (i=0, sum=0.0; i<NA; i++) sum += m[i];
 
-    if (outMask & THIRD) {
-      /* Converts a vector of moles of end-member components (m) into a vector 
-         of independent compositional variables (r) required as input for the 
-         remaining public functions.                                          */
-      r[0] = (sum != 0.0) ? 2.0*m[1]/sum - 1.0 : 0.0;
-    }
+        if (outMask & THIRD) {
+            /* Converts a vector of moles of end-member components (m) into a vector
+         of independent compositional variables (r) required as input for the
+         remaining public functions.                       */
+            r[0] = (sum != 0.0) ? 2.0*m[1]/sum - 1.0 : 0.0;
+        }
 
-    if (outMask & FOURTH) {
-      /* Converts a vector of moles of end-member components (m) into a vector
+        if (outMask & FOURTH) {
+            /* Converts a vector of moles of end-member components (m) into a vector
          of mole fractions of endmember components                            */
-      for (i=0; i<NA; i++) x[i] = (sum != 0.0) ? m[i]/sum : 0.0;
-    }
-
-    if (outMask & FIFTH) {
-      /* Calculates the matrix dr[i]/dm[j] using m[] as input                 */
-
-      if (sum == 0.0) {
-        for (i=0; i<NR; i++) { for (j=0; j<NA; j++) dm[i][j] = 0.0; }
-      } else {
-        for (j=0; j<NA; j++) {
-          dm[0][j] = (j == 1) ? 2.0*(1.0-m[1]/sum)/sum : -2.0*m[1]/SQUARE(sum);
+            for (i=0; i<NA; i++) x[i] = (sum != 0.0) ? m[i]/sum : 0.0;
         }
-      }
 
-    }
+        if (outMask & FIFTH) {
+            /* Calculates the matrix dr[i]/dm[j] using m[] as input                 */
 
-    if (outMask & SIXTH) {
-      /* Calculates the matrix d2r[i]/dm[j]dm[k] using m[] as input           */
-
-      if (sum == 0.0) {
-        for (i=0; i<NR; i++) {
-          for (j=0; j<NA; j++)  {
-            for (k=0; k<NA; k++) d2m[i][j][k] = 0.0;
-          }
-        }
-      } else {
-        for (j=0; j<NA; j++) {
-          for (k=0; k<NA; k++) {
-            d2m[0][j][k]  = 4.0*m[1]/CUBE(sum);
-            d2m[0][j][k] -= (j == 1) ? 2.0/SQUARE(sum) : 0.0;
-            d2m[0][j][k] -= (k == 1) ? 2.0/SQUARE(sum) : 0.0;
-          }
-        }
-      }
-
-    }
-
-    if (outMask & EIGHTH) {
-      /* Calculates the matrix d3r[i]/dm[j]dm[k]dm[l] using m[] as input         */
-      int l;
-
-      if (sum == 0.0) {
-        for (i=0; i<NR; i++) {
-          for (j=0; j<NA; j++)  {
-            for (k=0; k<NA; k++)   {
-	      for (l=0; l<NA; l++) d3m[i][j][k][l] = 0.0;
-	    }
-          }
-        }
-      } else {
-        for (j=0; j<NA; j++) {
-          for (k=0; k<NA; k++) {
-	    for (l=0; l<NA; l++) {
-              d3m[0][j][k][l]  = -12.0*m[1]/SQUARE(SQUARE(sum));
-              d3m[0][j][k][l] += (j == 1) ? 4.0/CUBE(sum) : 0.0;
-              d3m[0][j][k][l] += (k == 1) ? 4.0/CUBE(sum) : 0.0;
-              d3m[0][j][k][l] += (l == 1) ? 4.0/CUBE(sum) : 0.0;
+            if (sum == 0.0) {
+                for (i=0; i<NR; i++) { for (j=0; j<NA; j++) dm[i][j] = 0.0; }
+            } else {
+                for (j=0; j<NA; j++) {
+                    dm[0][j] = (j == 1) ? 2.0*(1.0-m[1]/sum)/sum : -2.0*m[1]/SQUARE(sum);
+                }
             }
-	  }
+
         }
-      }
 
-    }
-  } else if (inpMask == THIRD) {
+        if (outMask & SIXTH) {
+            /* Calculates the matrix d2r[i]/dm[j]dm[k] using m[] as input           */
 
-    if (outMask & ~(FOURTH | SEVENTH))
-      printf("Illegal call to conCum with inpMask = %o and outMask = %o\n",
-        inpMask, outMask);
+            if (sum == 0.0) {
+                for (i=0; i<NR; i++) {
+                    for (j=0; j<NA; j++)  {
+                        for (k=0; k<NA; k++) d2m[i][j][k] = 0.0;
+                    }
+                }
+            } else {
+                for (j=0; j<NA; j++) {
+                    for (k=0; k<NA; k++) {
+                        d2m[0][j][k]  = 4.0*m[1]/CUBE(sum);
+                        d2m[0][j][k] -= (j == 1) ? 2.0/SQUARE(sum) : 0.0;
+                        d2m[0][j][k] -= (k == 1) ? 2.0/SQUARE(sum) : 0.0;
+                    }
+                }
+            }
 
-    if (outMask & FOURTH) {
-      /* Converts a vector of independent compositional variables (r) into a
+        }
+
+        if (outMask & EIGHTH) {
+            /* Calculates the matrix d3r[i]/dm[j]dm[k]dm[l] using m[] as input         */
+            int l;
+
+            if (sum == 0.0) {
+                for (i=0; i<NR; i++) {
+                    for (j=0; j<NA; j++)  {
+                        for (k=0; k<NA; k++)   {
+              for (l=0; l<NA; l++) d3m[i][j][k][l] = 0.0;
+            }
+                    }
+                }
+            } else {
+                for (j=0; j<NA; j++) {
+                    for (k=0; k<NA; k++) {
+            for (l=0; l<NA; l++) {
+                            d3m[0][j][k][l]  = -12.0*m[1]/SQUARE(SQUARE(sum));
+                            d3m[0][j][k][l] += (j == 1) ? 4.0/CUBE(sum) : 0.0;
+                            d3m[0][j][k][l] += (k == 1) ? 4.0/CUBE(sum) : 0.0;
+                            d3m[0][j][k][l] += (l == 1) ? 4.0/CUBE(sum) : 0.0;
+                        }
+          }
+                }
+            }
+
+        }
+    } else if (inpMask == THIRD) {
+
+        if (outMask & ~(FOURTH | SEVENTH))
+            printf("Illegal call to conCum with inpMask = %o and outMask = %o\n",
+                inpMask, outMask);
+
+        if (outMask & FOURTH) {
+            /* Converts a vector of independent compositional variables (r) into a
          vector of mole fractions of endmember components (x).                */
-      x[0] = (1.0-r[0])/2.0;
-      x[1] = (1.0+r[0])/2.0;
-    }
+            x[0] = (1.0-r[0])/2.0;
+            x[1] = (1.0+r[0])/2.0;
+        }
 
-    if (outMask & SEVENTH) {
-      /* computes the Jacobian matrix dr[i][j] = dx[i]/dr[j] */
-      for (i=0; i<NA; i++) for (j=0; j<NR; j++) dr[i][j] = 0.0;
-      dr[0][0] = -1.0/2.0;
-      dr[1][0] =  1.0/2.0;
-    }
+        if (outMask & SEVENTH) {
+            /* computes the Jacobian matrix dr[i][j] = dx[i]/dr[j] */
+            for (i=0; i<NA; i++) for (j=0; j<NR; j++) dr[i][j] = 0.0;
+            dr[0][0] = -1.0/2.0;
+            dr[1][0] =  1.0/2.0;
+        }
 
-  } else  {
-    printf("Illegal call to conCum with inpMask = %o and outMask = %o\n",
-      inpMask, outMask);
-  }
+    } else  {
+        printf("Illegal call to conCum with inpMask = %o and outMask = %o\n",
+            inpMask, outMask);
+    }
 
 }
 
 void
 dispCum(int mask, double t, double p, double *x,
-  char **formula            /* Mineral formula for interface display MASK: 1 */
-  )
+    char **formula            /* Mineral formula for interface display MASK: 1 */
+    )
 {
-  double *r = x;
-  static char masterString[] = {
+    double *r = x;
+    static char masterString[] = {
 /*             1111111111222222222233333333334444444444555555555566666666667
      01234567890123456789012345678901234567890123456789012345678901234567890 */
-    "(Fe''_.__Mg_.__)7Si8O22(OH)2" };
+        "(Fe''_.__Mg_.__)7Si8O22(OH)2" };
 
-  if (mask & FIRST) {
-    char *string = strcpy((char *) malloc((size_t) (strlen(masterString)+1)*sizeof(char)), masterString);
-    double totFe2, totMg;
-    char n[5];
-    int i;
+    if (mask & FIRST) {
+        char *string = strcpy((char *) malloc((size_t) (strlen(masterString)+1)*sizeof(char)), masterString);
+        double totFe2, totMg;
+        char n[5];
+        int i;
 
-    totFe2 = (1.0+r[0])/2.0;
-    totMg  = (1.0-r[0])/2.0;
+        totFe2 = (1.0+r[0])/2.0;
+        totMg  = (1.0-r[0])/2.0;
 
-    (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[ 5+i] = n[i];
-    (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[11+i] = n[i];
- 
-    *formula = string;
-  }
+        (void) snprintf(n, 5, "%4.2f", totFe2); for (i=0; i<4; i++) string[ 5+i] = n[i];
+        (void) snprintf(n, 5, "%4.2f", totMg);  for (i=0; i<4; i++) string[11+i] = n[i];
+
+        *formula = string;
+    }
 }
 
-void 
-actCum(int mask, double t, double p, double *x, 
-  double *a,  /* (pointer to a[]) activities              BINARY MASK: 0001 */
-  double *mu, /* (pointer to mu[]) chemical potentials    BINARY MASK: 0010 */
-  double **dx /* (pointer to dx[][]) d(a[])/d(x[])        BINARY MASK: 0100 */
-  )           /* exclusion criteria applied to results if BINARY MASK: 1000 */
+void
+actCum(int mask, double t, double p, double *x,
+    double *a,  /* (pointer to a[]) activities              BINARY MASK: 0001 */
+    double *mu, /* (pointer to mu[]) chemical potentials    BINARY MASK: 0010 */
+    double **dx /* (pointer to dx[][]) d(a[])/d(x[])        BINARY MASK: 0100 */
+    )           /* exclusion criteria applied to results if BINARY MASK: 1000 */
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS], g, dgdr[NR];
-  double fr[NA][NR];
-  int i, j;
-  
-  for(i=0; i<NA; i++) {
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS], g, dgdr[NR];
+    double fr[NA][NR];
+    int i, j;
+
+    for(i=0; i<NA; i++) {
      fr[i][0] = FR0(i); /* r */
-  }
+    }
 
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
 
-  g       = G;
-  dgdr[0] = DGDR0;          
+    g       = G;
+    dgdr[0] = DGDR0;
 
 #ifdef TESTDYNAMICLIB
-  if (!mask && a != NULL) {
-    for(i=0; i<NA; i++) {
-       for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
-       a[i] = exp(a[i]/(R*t));
+    /* activities for library */
+    if (!mask && a != NULL) {
+        for(i=0; i<NA; i++) {
+            for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
+            a[i] = exp(a[i]/(R*t));
+        }
     }
-  }
 #endif
 
-  if (mask & FIRST) {
+    if (mask & FIRST) {
 
-    for(i=0; i<NA; i++) {
+        for(i=0; i<NA; i++) {
        for (a[i]=g, j=0; j<NR; j++) a[i] += fr[i][j]*dgdr[j];
        a[i] = exp(a[i]/(R*t));
+        }
+
     }
 
-  }
+    if (mask & SECOND) {
 
-  if (mask & SECOND) {
-
-    for(i=0; i<NA; i++) {
+        for(i=0; i<NA; i++) {
        for (mu[i]=g, j=0; j<NR; j++) mu[i] += fr[i][j]*dgdr[j];
+        }
+
     }
 
-  }
+    if (mask & THIRD) {
+        double d2gdr2[NR][NR], d2gdrds[NR][NS], d2gds2[NS][NS], dsdr[NS][NR],
+            dfrdr[NA][NR], gs[NA][NS], dgsds[NA][NS], sum;
+        int k, l;
 
-  if (mask & THIRD) {
-    double d2gdr2[NR][NR], d2gdrds[NR][NS], d2gds2[NS][NS], dsdr[NS][NR],
-      dfrdr[NA][NR], gs[NA][NS], dgsds[NA][NS], sum;
-    int k, l;
+        fillD2GDR2
+        fillD2GDRDS
+        fillD2GDS2
 
-    fillD2GDR2
-    fillD2GDRDS
-    fillD2GDS2
-
-    for(i=0; i<NA; i++) {
+        for(i=0; i<NA; i++) {
        gs[i][0]    = GS0(i);     /* s13 */
        gs[i][1]    = GS1(i);     /* s2  */
        dfrdr[i][0] = DFR0DR0(i); /* r   */
        dgsds[i][0] = DGS0DS0(i); /* s13 */
        dgsds[i][1] = DGS1DS1(i); /* s2  */
+        }
+
+        order(SECOND, t, p, r,
+                    NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NA; i++) {
+            for (k=0; k<NR; k++) {
+                /* compute activity of the i-th component */
+                for (dx[i][k]=g, j=0; j<NR; j++) dx[i][k] += fr[i][j]*dgdr[j];
+                dx[i][k] = exp(dx[i][k]/(R*t));
+
+                /* compute derivative of i-th activity with respect to r(k) */
+                sum = (1.0+dfrdr[i][k])*dgdr[k];
+                for (j=0; j<NR; j++) {
+                    sum += fr[i][j]*d2gdr2[j][k];
+                    for (l=0; l<NS; l++) sum += fr[i][j]*d2gdrds[j][l]*dsdr[l][k];
+                }
+                for (j=0; j<NS; j++) {
+                    sum += gs[i][j]*d2gdrds[k][j];
+                    for (l=0; l<NS; l++) sum += gs[i][j]*d2gds2[j][l]*dsdr[l][k];
+                }
+                dx[i][k] *= sum/(R*t);
+            }
+        }
     }
 
-    order(SECOND, t, p, r, 
-          NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    for (i=0; i<NA; i++) {
-      for (k=0; k<NR; k++) {
-        /* compute activity of the i-th component */
-        for (dx[i][k]=g, j=0; j<NR; j++) dx[i][k] += fr[i][j]*dgdr[j];
-        dx[i][k] = exp(dx[i][k]/(R*t));
-
-        /* compute derivative of i-th activity with respect to r(k) */
-        sum = (1.0+dfrdr[i][k])*dgdr[k];
-        for (j=0; j<NR; j++) {
-          sum += fr[i][j]*d2gdr2[j][k];
-          for (l=0; l<NS; l++) sum += fr[i][j]*d2gdrds[j][l]*dsdr[l][k];
-        }
-        for (j=0; j<NS; j++) {
-          sum += gs[i][j]*d2gdrds[k][j];
-          for (l=0; l<NS; l++) sum += gs[i][j]*d2gds2[j][l]*dsdr[l][k];
-        }
-        dx[i][k] *= sum/(R*t);
-      }
-    }
-  }
-
-  if (mask & FOURTH) {
-    /* implement exclusion criteria on quantities for preclb routines         */
-    static const double exclusion[NA] = {
+    if (mask & FOURTH) {
+        /* implement exclusion criteria on quantities for preclb routines         */
+        static const double exclusion[NA] = {
        0.05,  /* exclusion criteria on the mole fraction of cummingtonite     */
        0.05   /* exclusion criteria on the mole fraction of grunerite         */
-    };
-    double x[NA];
-    
-    x[0] = (1.0-r[0])/2.0;
-    x[1] = (1.0+r[0])/2.0;
+        };
+        double x[NA];
 
-    for (i=0; i<NA; i++) {
-      if (x[i] < exclusion[i]) {
-        if (mask & FIRST)  a[i]  = 0.0;
-        if (mask & SECOND) mu[i] = 0.0;
-        if (mask & THIRD)  for (j=0; j<NR; j++) dx[i][j] = 0.0;
-      }
-    }
-  }
+        x[0] = (1.0-r[0])/2.0;
+        x[1] = (1.0+r[0])/2.0;
 
-}
-
-void 
-gmixCum(int mask, double t, double p, double *x, 
-  double *gmix, /* Gibbs energy of mixing             BINARY MASK: 0001 */
-  double *dx,   /* (pointer to dx[]) d(g)/d(x[])      BINARY MASK: 0010 */
-  double **dx2, /* (pointer to dx2[][]) d2(g)/d(x[])2 BINARY MASK: 0100 */
-  double ***dx3 /* (pointer to dx3[][][]) d3(g)/d(x[])3 NARY MASK: 1000 */
-  )
-{
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS];
-  
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
-
-  if (mask & FIRST) {
-    *gmix = G;
-  }
-  
-  if(mask & SECOND) {
-    dx[0] = DGDR0;
-  }
-
-  if(mask & THIRD) {
-    double d2gdr2[NR][NR], d2gdrds[NR][NS], d2gds2[NS][NS], dsdr[NS][NR];
-    int i, j, k, l;
-
-    fillD2GDR2
-    fillD2GDRDS
-    fillD2GDS2
-
-    order(SECOND, t, p, r, 
-          NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) {
-        dx2[i][j] = d2gdr2[i][j];
-        for (k=0; k<NS; k++) {
-          dx2[i][j] += d2gdrds[i][k]*dsdr[k][j] + d2gdrds[j][k]*dsdr[k][i]; 
-          for (l=0; l<NS; l++) dx2[i][j] += d2gds2[k][l]*dsdr[k][i]*dsdr[l][j];
-        }
-      }
-    }
-
-  }
-
-  if(mask & FOURTH) {
-    double d3gdr3[NR][NR][NR], d3gdr2ds[NR][NR][NS], d3gdrds2[NR][NS][NS];
-    double d3gds3[NS][NS][NS], dsdr[NS][NR];
-    int i, j, k, l, m, n;
-
-    fillD3GDR3
-    fillD3GDR2DS
-    fillD3GDRDS2
-    fillD3GDS3
-
-    order(SECOND, t, p, r, 
-          NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) {
-        for (k=0; k<NR; k++) {
-          dx3[i][j][k] = d3gdr3[i][j][k];
-          for (l=0; l<NS; l++) {
-            dx3[i][j][k] += d3gdr2ds[i][j][l]*dsdr[l][k] +
-              d3gdr2ds[j][k][l]*dsdr[l][i] + d3gdr2ds[k][i][l]*dsdr[l][j];
-            for (m=0; m<NS; m++) {
-              dx3[i][j][k] += 
-                d3gdrds2[i][l][m]*dsdr[l][j]*dsdr[m][k] +
-                d3gdrds2[j][l][m]*dsdr[l][k]*dsdr[m][i] +
-                d3gdrds2[k][l][m]*dsdr[l][i]*dsdr[m][j];
-              for (n=0; n<NS; n++)
-                dx3[i][j][k] +=
-                  d3gds3[l][m][n]*dsdr[l][i]*dsdr[m][j]*dsdr[n][k];
+        for (i=0; i<NA; i++) {
+            if (x[i] < exclusion[i]) {
+                if (mask & FIRST)  a[i]  = 0.0;
+                if (mask & SECOND) mu[i] = 0.0;
+                if (mask & THIRD)  for (j=0; j<NR; j++) dx[i][j] = 0.0;
             }
-          }
         }
-      }
     }
 
-  }
 }
 
-void 
-hmixCum(int mask, double t, double p, double *x, 
-  double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
-  )
+void
+gmixCum(int mask, double t, double p, double *x,
+    double *gmix, /* Gibbs energy of mixing             BINARY MASK: 0001 */
+    double *dx,   /* (pointer to dx[]) d(g)/d(x[])      BINARY MASK: 0010 */
+    double **dx2, /* (pointer to dx2[][]) d2(g)/d(x[])2 BINARY MASK: 0100 */
+    double ***dx3 /* (pointer to dx3[][][]) d3(g)/d(x[])3 NARY MASK: 1000 */
+    )
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS];
-  
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS];
 
-  *hmix = (G) + t*(S);
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
+
+    if (mask & FIRST) {
+        *gmix = G;
+    }
+
+    if(mask & SECOND) {
+        dx[0] = DGDR0;
+    }
+
+    if(mask & THIRD) {
+        double d2gdr2[NR][NR], d2gdrds[NR][NS], d2gds2[NS][NS], dsdr[NS][NR];
+        int i, j, k, l;
+
+        fillD2GDR2
+        fillD2GDRDS
+        fillD2GDS2
+
+        order(SECOND, t, p, r,
+                    NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            for (j=0; j<NR; j++) {
+                dx2[i][j] = d2gdr2[i][j];
+                for (k=0; k<NS; k++) {
+                    dx2[i][j] += d2gdrds[i][k]*dsdr[k][j] + d2gdrds[j][k]*dsdr[k][i];
+                    for (l=0; l<NS; l++) dx2[i][j] += d2gds2[k][l]*dsdr[k][i]*dsdr[l][j];
+                }
+            }
+        }
+
+    }
+
+    if(mask & FOURTH) {
+        double d3gdr3[NR][NR][NR], d3gdr2ds[NR][NR][NS], d3gdrds2[NR][NS][NS];
+        double d3gds3[NS][NS][NS], dsdr[NS][NR];
+        int i, j, k, l, m, n;
+
+        fillD3GDR3
+        fillD3GDR2DS
+        fillD3GDRDS2
+        fillD3GDS3
+
+        order(SECOND, t, p, r,
+                    NULL, dsdr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            for (j=0; j<NR; j++) {
+                for (k=0; k<NR; k++) {
+                    dx3[i][j][k] = d3gdr3[i][j][k];
+                    for (l=0; l<NS; l++) {
+                        dx3[i][j][k] += d3gdr2ds[i][j][l]*dsdr[l][k] +
+                            d3gdr2ds[j][k][l]*dsdr[l][i] + d3gdr2ds[k][i][l]*dsdr[l][j];
+                        for (m=0; m<NS; m++) {
+                            dx3[i][j][k] +=
+                                d3gdrds2[i][l][m]*dsdr[l][j]*dsdr[m][k] +
+                                d3gdrds2[j][l][m]*dsdr[l][k]*dsdr[m][i] +
+                                d3gdrds2[k][l][m]*dsdr[l][i]*dsdr[m][j];
+                            for (n=0; n<NS; n++)
+                                dx3[i][j][k] +=
+                                    d3gds3[l][m][n]*dsdr[l][i]*dsdr[m][j]*dsdr[n][k];
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 }
 
-void 
-smixCum(int mask, double t, double p, double *x, 
-  double *smix, /* Entropy of mixing                  BINARY MASK: 001 */
-  double *dx,   /* (pointer to dx[]) d(s)/d(x[])      BINARY MASK: 010 */
-  double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
-  )
+void
+hmixCum(int mask, double t, double p, double *x,
+    double *hmix /* Enthalpy of mixing BINARY MASK: 1 */
+    )
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS];
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS];
 
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
 
-  if (mask & FIRST) {
-    *smix = S; 
-  }
-  
-  if(mask & SECOND) {
-    double d2gdrds[NR][NS], d2gdrdt[NR], d2gds2[NS][NS], d2gdsdt[NS],
-      dsdr[NS][NR], dsdt[NS];
-    int i, k, l;
+    *hmix = (G) + t*(S);
+}
 
-    fillD2GDRDS
-    fillD2GDRDT
+void
+smixCum(int mask, double t, double p, double *x,
+    double *smix, /* Entropy of mixing                  BINARY MASK: 001 */
+    double *dx,   /* (pointer to dx[]) d(s)/d(x[])      BINARY MASK: 010 */
+    double **dx2  /* (pointer to dx2[][]) d2(s)/d(x[])2 BINARY MASK: 100 */
+    )
+{
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS];
+
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
+
+    if (mask & FIRST) {
+        *smix = S;
+    }
+
+    if(mask & SECOND) {
+        double d2gdrds[NR][NS], d2gdrdt[NR], d2gds2[NS][NS], d2gdsdt[NS],
+            dsdr[NS][NR], dsdt[NS];
+        int i, k, l;
+
+        fillD2GDRDS
+        fillD2GDRDT
+        fillD2GDS2
+        fillD2GDSDT
+
+        order(SECOND | THIRD, t, p, r,
+                    NULL, dsdr, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            dx[i] = d2gdrdt[i];
+            for (k=0; k<NS; k++) {
+                dx[i] += d2gdrds[i][k]*dsdt[k] + d2gdsdt[k]*dsdr[k][i];
+                for (l=0; l<NS; l++) dx[i] += d2gds2[k][l]*dsdt[k]*dsdr[l][i] ;
+            }
+            dx[i] *= -1.0;
+        }
+    }
+
+    if(mask & THIRD) {
+        double d2gdrds[NR][NS], d2gds2[NS][NS], d2gdsdt[NS], d3gdr2ds[NR][NR][NS],
+            d3gdr2dt[NR][NR], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
+            d3gds3[NS][NS][NS], d3gds2dt[NS][NS], dsdr[NS][NR], dsdt[NS],
+            d2sdr2[NS][NR][NR], d2sdrdt[NS][NR];
+        int i, j, k, l, m;
+
+        fillD2GDRDS
+        fillD2GDS2
+        fillD2GDSDT
+        fillD3GDR2DS
+        fillD3GDR2DT
+        fillD3GDRDS2
+        fillD3GDRDSDT
+        fillD3GDS3
+        fillD3GDS2DT
+
+        order(SECOND | THIRD | FIFTH | SIXTH, t, p, r,
+                    NULL, dsdr, dsdt, NULL, d2sdr2, d2sdrdt, NULL, NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            for (j=0; j<NR; j++) {
+                dx2[i][j] = d3gdr2dt[i][j];
+                for (k=0; k<NS; k++) {
+                    dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k]
+                        + d3gdrdsdt[i][k]*dsdr[k][j]
+                        + d3gdrdsdt[j][k]*dsdr[k][i]
+                        + d2gdsdt[k]*d2sdr2[k][i][j]
+                        + d2gdrds[i][k]*d2sdrdt[k][j]
+                        + d2gdrds[j][k]*d2sdrdt[k][i];
+                    for (l=0; l<NS; l++) {
+                        dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdt[l]
+                            + d3gdrds2[j][k][l]*dsdr[k][i]*dsdt[l]
+                            + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l]
+                            + d3gds2dt[k][l]*dsdr[k][i]*dsdr[l][j]
+                            + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j]
+                            + d2gds2[k][l]*dsdr[k][j]*d2sdrdt[l][i];
+                        for (m=0; m<NS; m++)
+                            dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdt[m];
+                    }
+                }
+                dx2[i][j] *= -1.0;
+            }
+        }
+
+    }
+
+}
+
+void
+cpmixCum(int mask, double t, double p, double *x,
+    double *cpmix, /* Heat capacity of mixing               BINARY MASK: 001 */
+    double *dt,    /* d(cp)/d(t)                            BINARY MASK: 010 */
+    double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
+    )
+{
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS], dsdt[NS], d2gdsdt[NS], d2gds2[NS][NS], d2gdt2;
+    int i, j;
+
+    order(FIRST | THIRD, t, p, r,
+                s, NULL, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
+
     fillD2GDS2
     fillD2GDSDT
+    d2gdt2  = D2GDT2;
 
-    order(SECOND | THIRD, t, p, r, 
-          NULL, dsdr, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-    
-    for (i=0; i<NR; i++) {
-      dx[i] = d2gdrdt[i];
-      for (k=0; k<NS; k++) {
-        dx[i] += d2gdrds[i][k]*dsdt[k] + d2gdsdt[k]*dsdr[k][i];
-        for (l=0; l<NS; l++) dx[i] += d2gds2[k][l]*dsdt[k]*dsdr[l][i] ;
-      }
-      dx[i] *= -1.0;
-    }
-  }
-
-  if(mask & THIRD) {
-    double d2gdrds[NR][NS], d2gds2[NS][NS], d2gdsdt[NS], d3gdr2ds[NR][NR][NS],
-      d3gdr2dt[NR][NR], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
-      d3gds3[NS][NS][NS], d3gds2dt[NS][NS], dsdr[NS][NR], dsdt[NS],
-      d2sdr2[NS][NR][NR], d2sdrdt[NS][NR];
-    int i, j, k, l, m;
-
-    fillD2GDRDS
-    fillD2GDS2
-    fillD2GDSDT
-    fillD3GDR2DS
-    fillD3GDR2DT
-    fillD3GDRDS2
-    fillD3GDRDSDT
-    fillD3GDS3
-    fillD3GDS2DT
-
-    order(SECOND | THIRD | FIFTH | SIXTH, t, p, r, 
-          NULL, dsdr, dsdt, NULL, d2sdr2, d2sdrdt, NULL, NULL, NULL, NULL);
-
-    for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) { 
-        dx2[i][j] = d3gdr2dt[i][j];
-        for (k=0; k<NS; k++) {
-          dx2[i][j] += d3gdr2ds[i][j][k]*dsdt[k] 
-                     + d3gdrdsdt[i][k]*dsdr[k][j] 
-                     + d3gdrdsdt[j][k]*dsdr[k][i] 
-                     + d2gdsdt[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdt[k][j] 
-                     + d2gdrds[j][k]*d2sdrdt[k][i];
-          for (l=0; l<NS; l++) {
-            dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdt[l]
-                       + d3gdrds2[j][k][l]*dsdr[k][i]*dsdt[l]
-                       + d2gds2[k][l]*d2sdr2[k][i][j]*dsdt[l] 
-                       + d3gds2dt[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdt[l][j] 
-                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdt[l][i];
-            for (m=0; m<NS; m++) 
-              dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdt[m];
-          }
+    if (mask & FIRST) {
+        *cpmix = d2gdt2;
+        for (i=0; i<NS; i++) {
+            *cpmix += 2.0*d2gdsdt[i]*dsdt[i];
+            for (j=0; j<NS; j++) *cpmix += d2gds2[i][j]*dsdt[i]*dsdt[j];
         }
-        dx2[i][j] *= -1.0;
-      }
+        *cpmix *= -t;
     }
 
-  }
+    if(mask & SECOND) {
+        double d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gdsdt2[NS], d2sdt2[NS],
+            temp;
+        double d3gdt3 = D3GDT3;
+        int k;
 
-}
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDSDT2
 
-void 
-cpmixCum(int mask, double t, double p, double *x, 
-  double *cpmix, /* Heat capacity of mixing               BINARY MASK: 001 */
-  double *dt,    /* d(cp)/d(t)                            BINARY MASK: 010 */
-  double *dx     /* d(cp)/d(x[])d(t)                      BINARY MASK: 100 */
-  )
-{
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS], dsdt[NS], d2gdsdt[NS], d2gds2[NS][NS], d2gdt2;
-  int i, j;
+        order(EIGHTH, t, p, r,
+                    NULL, NULL, NULL, NULL, NULL, NULL, NULL, d2sdt2, NULL, NULL);
 
-  order(FIRST | THIRD, t, p, r, 
-        s, NULL, dsdt, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+        /* compute d2gdt2 */
+        temp = d2gdt2;
+        for (i=0; i<NS; i++) {
+            temp += 2.0*d2gdsdt[i]*dsdt[i];
+            for (j=0; j<NS; j++) temp += d2gds2[i][j]*dsdt[i]*dsdt[j];
+        }
 
-  fillD2GDS2
-  fillD2GDSDT
-  d2gdt2  = D2GDT2;
-
-  if (mask & FIRST) {
-    *cpmix = d2gdt2;
-    for (i=0; i<NS; i++) {
-      *cpmix += 2.0*d2gdsdt[i]*dsdt[i];
-      for (j=0; j<NS; j++) *cpmix += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
-    }
-    *cpmix *= -t;
-  }
-
-  if(mask & SECOND) {
-    double d3gds3[NS][NS][NS], d3gds2dt[NS][NS], d3gdsdt2[NS], d2sdt2[NS],
-      temp;
-    double d3gdt3 = D3GDT3;
-    int k;
-
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDSDT2
-
-    order(EIGHTH, t, p, r, 
-          NULL, NULL, NULL, NULL, NULL, NULL, NULL, d2sdt2, NULL, NULL);
-
-    /* compute d2gdt2 */
-    temp = d2gdt2;
-    for (i=0; i<NS; i++) {
-      temp += 2.0*d2gdsdt[i]*dsdt[i];
-      for (j=0; j<NS; j++) temp += d2gds2[i][j]*dsdt[i]*dsdt[j]; 
-    }
-
-    *dt = d3gdt3;
-    for (i=0; i<NS; i++) {
-      *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i]; 
-      for (j=0; j<NS; j++) {
-        *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j] 
+        *dt = d3gdt3;
+        for (i=0; i<NS; i++) {
+            *dt += 3.0*d3gdsdt2[i]*dsdt[i] + 3.0*d2gdsdt[i]*d2sdt2[i];
+            for (j=0; j<NS; j++) {
+                *dt += 3.0*d2gds2[i][j]*dsdt[i]*d2sdt2[j]
              + 3.0*d3gds2dt[i][j]*dsdt[i]*dsdt[j];
-        for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k]; 
-      }
+                for (k=0; k<NS; k++) *dt += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdt[k];
+            }
+        }
+        *dt = -t*(*dt) - temp;
     }
-    *dt = -t*(*dt) - temp;
-  }
 
-  if(mask & THIRD) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS], 
-      d3gds2dt[NS][NS], d2gdrds[NR][NS], d3gdrdt2[NR], d3gdsdt2[NS],
-      dsdr[NS][NR], d2sdrdt[NS][NR], d2sdt2[NS];
-    int k, l;
+    if(mask & THIRD) {
+        double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
+            d3gds2dt[NS][NS], d2gdrds[NR][NS], d3gdrdt2[NR], d3gdsdt2[NS],
+            dsdr[NS][NR], d2sdrdt[NS][NR], d2sdt2[NS];
+        int k, l;
 
-    fillD2GDRDS
-    fillD3GDRDS2
-    fillD3GDRDSDT
-    fillD3GDRDT2
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDSDT2
+        fillD2GDRDS
+        fillD3GDRDS2
+        fillD3GDRDSDT
+        fillD3GDRDT2
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDSDT2
 
-    order(SECOND | SIXTH | EIGHTH, t, p, r, 
-          NULL, dsdr, NULL, NULL, NULL, d2sdrdt, NULL, d2sdt2, NULL, NULL);
+        order(SECOND | SIXTH | EIGHTH, t, p, r,
+                    NULL, dsdr, NULL, NULL, NULL, d2sdrdt, NULL, d2sdt2, NULL, NULL);
 
-    for (i=0; i<NR; i++) {
-      for (j=0,dx[i]=d3gdrdt2[i]; j<NS; j++) {
-        dx[i] += d3gdsdt2[j]*dsdr[j][i] + 2.0*d2gdsdt[j]*d2sdrdt[j][i] +
+        for (i=0; i<NR; i++) {
+            for (j=0,dx[i]=d3gdrdt2[i]; j<NS; j++) {
+                dx[i] += d3gdsdt2[j]*dsdr[j][i] + 2.0*d2gdsdt[j]*d2sdrdt[j][i] +
                  2.0*d3gdrdsdt[i][j]*dsdt[j] + d2gdrds[i][j]*d2sdt2[j];
-        for (k=0; k<NS; k++) {
-          dx[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdt[k] + 
+                for (k=0; k<NS; k++) {
+                    dx[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdt[k] +
                    2.0*d2gds2[j][k]*dsdt[j]*d2sdrdt[k][i] +
                    2.0*d3gds2dt[j][k]*dsdr[j][i]*dsdt[k] +
                    d2gds2[j][k]*dsdr[j][i]*d2sdt2[k];
-          for (l=0; l<NS; l++) 
-            dx[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdt[l];
+                    for (l=0; l<NS; l++)
+                        dx[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdt[l];
+                }
+            }
+            dx[i] *= -t;
         }
-      }
-      dx[i] *= -t;
-    }
 
-  }
+    }
 
 }
 
-void 
-vmixCum(int mask, double t, double p, double *x, 
-  double *vmix, /* Volume of mixing                BINARY MASK: 0000000001 */
-  double *dx,   /* (pointer to dx[]) d(v)/d(x[])   BINARY MASK: 0000000010 */
-  double **dx2, /* (point to dx2[][]) d(v)/d(x[])2 BINARY MASK: 0000000100 */
-  double *dt,   /* d(v)/d(t)                       BINARY MASK: 0000001000 */
-  double *dp,   /* d(v)/d(p)                       BINARY MASK: 0000010000 */
-  double *dt2,  /* d2(v)/d(t)2                     BINARY MASK: 0000100000 */
-  double *dtdp, /* d2(v)/d(t)d(p)                  BINARY MASK: 0001000000 */
-  double *dp2,  /* d2(v)/d(p)2                     BINARY MASK: 0010000000 */
-  double *dxdt, /* d2(v)/d(x[])d(t)                BINARY MASK: 0100000000 */
-  double *dxdp  /* d2(v)/d(x[])d(p)                BINARY MASK: 1000000000 */
-  )
+void
+vmixCum(int mask, double t, double p, double *x,
+    double *vmix, /* Volume of mixing                BINARY MASK: 0000000001 */
+    double *dx,   /* (pointer to dx[]) d(v)/d(x[])   BINARY MASK: 0000000010 */
+    double **dx2, /* (point to dx2[][]) d(v)/d(x[])2 BINARY MASK: 0000000100 */
+    double *dt,   /* d(v)/d(t)                       BINARY MASK: 0000001000 */
+    double *dp,   /* d(v)/d(p)                       BINARY MASK: 0000010000 */
+    double *dt2,  /* d2(v)/d(t)2                     BINARY MASK: 0000100000 */
+    double *dtdp, /* d2(v)/d(t)d(p)                  BINARY MASK: 0001000000 */
+    double *dp2,  /* d2(v)/d(p)2                     BINARY MASK: 0010000000 */
+    double *dxdt, /* d2(v)/d(x[])d(t)                BINARY MASK: 0100000000 */
+    double *dxdp  /* d2(v)/d(x[])d(p)                BINARY MASK: 1000000000 */
+    )
 {
-  DECLARE_SITE_FRACTIONS
-  double *r = x;
-  double s[NS];
-  
-  order(FIRST, t, p, r, 
-        s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  GET_SITE_FRACTIONS
+    DECLARE_SITE_FRACTIONS
+    double *r = x;
+    double s[NS];
 
-  if (mask & FIRST) {
-    *vmix = DGDP;
-  }
+    order(FIRST, t, p, r,
+                s, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    GET_SITE_FRACTIONS
 
-  if(mask & SECOND) {
-    double d2gdrds[NR][NS], d2gdrdp[NR], d2gds2[NS][NS], d2gdsdp[NS],
-      dsdr[NS][NR], dsdp[NS];
-    int i, j, k;
-
-    fillD2GDRDS
-    fillD2GDRDP
-    fillD2GDS2
-    fillD2GDSDP
-
-    order(SECOND | FOURTH, t, p, r, 
-          NULL, dsdr, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    for (i=0; i<NR; i++) {
-      dx[i] = d2gdrdp[i];
-      for (j=0; j<NS; j++) {
-        dx[i] += d2gdrds[i][j]*dsdp[j] + d2gdsdp[j]*dsdr[j][i];
-        for (k=0; k<NS; k++) dx[i] += d2gds2[j][k]*dsdp[j]*dsdr[k][i];
-      }
+    if (mask & FIRST) {
+        *vmix = DGDP;
     }
-  }
 
-  if(mask & THIRD) {
-    double d2gdrds[NR][NS], d2gds2[NS][NS], d2gdsdp[NS], d3gdr2ds[NR][NR][NS],
-      d3gdr2dp[NR][NR], d3gdrds2[NR][NS][NS], d3gdrdsdp[NR][NS],
-      d3gds3[NS][NS][NS], d3gds2dp[NS][NS], dsdr[NS][NR], dsdp[NS],
-      d2sdr2[NS][NR][NR], d2sdrdp[NS][NR];
-    int i, j, k, l, m;
+    if(mask & SECOND) {
+        double d2gdrds[NR][NS], d2gdrdp[NR], d2gds2[NS][NS], d2gdsdp[NS],
+            dsdr[NS][NR], dsdp[NS];
+        int i, j, k;
 
-    fillD2GDRDS
-    fillD2GDS2
-    fillD2GDSDP
-    fillD3GDR2DS
-    fillD3GDR2DP
-    fillD3GDRDS2
-    fillD3GDRDSDP
-    fillD3GDS3
-    fillD3GDS2DP
+        fillD2GDRDS
+        fillD2GDRDP
+        fillD2GDS2
+        fillD2GDSDP
 
-    order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r, 
-          NULL, dsdr, NULL, dsdp, d2sdr2, NULL, d2sdrdp,  NULL, NULL, NULL);
+        order(SECOND | FOURTH, t, p, r,
+                    NULL, dsdr, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
-    for (i=0; i<NR; i++) {
-      for (j=0; j<NR; j++) {
-        dx2[i][j] = d3gdr2dp[i][j]; 
-        for (k=0; k<NS; k++) {
-          dx2[i][j] += d3gdr2ds[i][j][k]*dsdp[k]
-                     + d3gdrdsdp[i][k]*dsdr[k][j] 
+        for (i=0; i<NR; i++) {
+            dx[i] = d2gdrdp[i];
+            for (j=0; j<NS; j++) {
+                dx[i] += d2gdrds[i][j]*dsdp[j] + d2gdsdp[j]*dsdr[j][i];
+                for (k=0; k<NS; k++) dx[i] += d2gds2[j][k]*dsdp[j]*dsdr[k][i];
+            }
+        }
+    }
+
+    if(mask & THIRD) {
+        double d2gdrds[NR][NS], d2gds2[NS][NS], d2gdsdp[NS], d3gdr2ds[NR][NR][NS],
+            d3gdr2dp[NR][NR], d3gdrds2[NR][NS][NS], d3gdrdsdp[NR][NS],
+            d3gds3[NS][NS][NS], d3gds2dp[NS][NS], dsdr[NS][NR], dsdp[NS],
+            d2sdr2[NS][NR][NR], d2sdrdp[NS][NR];
+        int i, j, k, l, m;
+
+        fillD2GDRDS
+        fillD2GDS2
+        fillD2GDSDP
+        fillD3GDR2DS
+        fillD3GDR2DP
+        fillD3GDRDS2
+        fillD3GDRDSDP
+        fillD3GDS3
+        fillD3GDS2DP
+
+        order(SECOND | FOURTH | FIFTH | SEVENTH, t, p, r,
+                    NULL, dsdr, NULL, dsdp, d2sdr2, NULL, d2sdrdp,  NULL, NULL, NULL);
+
+        for (i=0; i<NR; i++) {
+            for (j=0; j<NR; j++) {
+                dx2[i][j] = d3gdr2dp[i][j];
+                for (k=0; k<NS; k++) {
+                    dx2[i][j] += d3gdr2ds[i][j][k]*dsdp[k]
+                     + d3gdrdsdp[i][k]*dsdr[k][j]
                      + d3gdrdsdp[j][k]*dsdr[k][i]
                      + d2gdsdp[k]*d2sdr2[k][i][j]
-                     + d2gdrds[i][k]*d2sdrdp[k][j] 
+                     + d2gdrds[i][k]*d2sdrdp[k][j]
                      + d2gdrds[j][k]*d2sdrdp[k][i];
-          for (l=0; l<NS; l++) {
-            dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdp[l]
+                    for (l=0; l<NS; l++) {
+                        dx2[i][j] += d3gdrds2[i][k][l]*dsdr[k][j]*dsdp[l]
                        + d3gdrds2[j][k][l]*dsdr[k][i]*dsdp[l]
                        + d2gds2[k][l]*d2sdr2[k][i][j]*dsdp[l]
                        + d3gds2dp[k][l]*dsdr[k][i]*dsdr[l][j]
-                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j] 
-                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];  
-            for (m=0; m<NS; m++) 
-              dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdp[m];
-          }
+                       + d2gds2[k][l]*dsdr[k][i]*d2sdrdp[l][j]
+                       + d2gds2[k][l]*dsdr[k][j]*d2sdrdp[l][i];
+                        for (m=0; m<NS; m++)
+                            dx2[i][j] += d3gds3[k][l][m]*dsdr[k][i]*dsdr[l][j]*dsdp[m];
+                    }
+                }
+            }
         }
-      }
+
     }
 
-  }
+    if(mask & FOURTH) {
+        double d2gdtdp = D2GDTDP;
+        double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], dsdt[NS], dsdp[NS];
+        int i, j;
 
-  if(mask & FOURTH) {
-    double d2gdtdp = D2GDTDP;
-    double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], dsdt[NS], dsdp[NS];
-    int i, j;
+        fillD2GDS2
+        fillD2GDSDT
+        fillD2GDSDP
 
-    fillD2GDS2
-    fillD2GDSDT
-    fillD2GDSDP
+        order(THIRD | FOURTH, t, p, r,
+                    NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
-    order(THIRD | FOURTH, t, p, r, 
-          NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    *dt = d2gdtdp;
-    for (i=0; i<NS; i++) {
-      *dt += d2gdsdt[i]*dsdp[i] + d2gdsdp[i]*dsdt[i];
-      for (j=0; j<NS; j++) *dt += d2gds2[i][j]*dsdt[i]*dsdp[j];
-    } 
-  }
-
-  if(mask & FIFTH) {
-    double d2gdp2 = D2GDP2;
-    double d2gds2[NS][NS], d2gdsdp[NS], dsdp[NS];
-    int i,j;
-
-    fillD2GDS2
-    fillD2GDSDP
-
-    order(FOURTH, t, p, r, 
-          NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
-
-    *dp = d2gdp2;
-    for (i=0; i<NS; i++) {
-      *dp += 2.0*d2gdsdp[i]*dsdp[i];
-      for (j=0; j<NS; j++) *dp += d2gds2[i][j]*dsdp[i]*dsdp[j];
+        *dt = d2gdtdp;
+        for (i=0; i<NS; i++) {
+            *dt += d2gdsdt[i]*dsdp[i] + d2gdsdp[i]*dsdt[i];
+            for (j=0; j<NS; j++) *dt += d2gds2[i][j]*dsdt[i]*dsdp[j];
+        }
     }
-  }
 
-  if(mask & SIXTH) {
-    double d3gdt2dp = D3GDT2DP;
-    double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS],
-      d3gds2dp[NS][NS], d3gds2dt[NS][NS], d3gdsdtdp[NS], d3gdsdt2[NS],
-      dsdt[NS], dsdp[NS], d2sdt2[NS], d2sdtdp[NS];
-    int i, j, k;
+    if(mask & FIFTH) {
+        double d2gdp2 = D2GDP2;
+        double d2gds2[NS][NS], d2gdsdp[NS], dsdp[NS];
+        int i,j;
 
-    fillD2GDS2
-    fillD2GDSDT
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDS2DP
-    fillD3GDSDT2
-    fillD3GDSDTDP
+        fillD2GDS2
+        fillD2GDSDP
 
-    order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r, 
-          NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, d2sdt2, d2sdtdp, NULL);
+        order(FOURTH, t, p, r,
+                    NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, NULL);
 
-    *dt2 = d3gdt2dp;
-    for (i=0; i<NS; i++) {
-      *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i] 
-            + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
-      for (j=0; j<NS; j++) {
-        *dt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
-              + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
-              + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
-              + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
-        for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k]; 
-      }
+        *dp = d2gdp2;
+        for (i=0; i<NS; i++) {
+            *dp += 2.0*d2gdsdp[i]*dsdp[i];
+            for (j=0; j<NS; j++) *dp += d2gds2[i][j]*dsdp[i]*dsdp[j];
+        }
     }
-  }
 
-  if(mask & SEVENTH) {
-    double d3gdtdp2 = D3GDTDP2;
-    double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS],
-      d3gds2dt[NS][NS], d3gds2dp[NS][NS], d3gdsdtdp[NS], d3gdsdp2[NS],
-      dsdt[NS], dsdp[NS], d2sdtdp[NS], d2sdp2[NS];
-    int i, j, k;
+    if(mask & SIXTH) {
+        double d3gdt2dp = D3GDT2DP;
+        double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS],
+            d3gds2dp[NS][NS], d3gds2dt[NS][NS], d3gdsdtdp[NS], d3gdsdt2[NS],
+            dsdt[NS], dsdp[NS], d2sdt2[NS], d2sdtdp[NS];
+        int i, j, k;
 
-    fillD2GDS2
-    fillD2GDSDT
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDS2DP
-    fillD3GDSDTDP
-    fillD3GDSDP2
+        fillD2GDS2
+        fillD2GDSDT
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDS2DP
+        fillD3GDSDT2
+        fillD3GDSDTDP
 
-    order(THIRD | FOURTH | NINTH | TENTH, t, p, r, 
-          NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, d2sdtdp, d2sdp2);
+        order(THIRD | FOURTH | EIGHTH | NINTH, t, p, r,
+                    NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, d2sdt2, d2sdtdp, NULL);
 
-    *dtdp = d3gdtdp2;
-    for (i=0; i<NS; i++) {
-      *dtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]  
-             + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i]; 
-      for (j=0; j<NS; j++) {
-        *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j] 
-               + d2gds2[i][j]*dsdt[i]*d2sdp2[j] 
+        *dt2 = d3gdt2dp;
+        for (i=0; i<NS; i++) {
+            *dt2 += d3gdsdt2[i]*dsdp[i] + 2.0*d2gdsdt[i]*d2sdtdp[i]
+                        + d2gdsdp[i]*d2sdt2[i] + 2.0*d3gdsdtdp[i]*dsdt[i];
+            for (j=0; j<NS; j++) {
+                *dt2 += 2.0*d3gds2dt[i][j]*dsdt[i]*dsdp[j]
+                            + d2gds2[i][j]*d2sdt2[i]*dsdp[j]
+                            + 2.0*d2gds2[i][j]*dsdt[i]*d2sdtdp[j]
+                            + d3gds2dp[i][j]*dsdt[i]*dsdt[j];
+                for (k=0; k<NS; k++) *dt2 += d3gds3[i][j][k]*dsdt[i]*dsdt[j]*dsdp[k];
+            }
+        }
+    }
+
+    if(mask & SEVENTH) {
+        double d3gdtdp2 = D3GDTDP2;
+        double d2gds2[NS][NS], d2gdsdt[NS], d2gdsdp[NS], d3gds3[NS][NS][NS],
+            d3gds2dt[NS][NS], d3gds2dp[NS][NS], d3gdsdtdp[NS], d3gdsdp2[NS],
+            dsdt[NS], dsdp[NS], d2sdtdp[NS], d2sdp2[NS];
+        int i, j, k;
+
+        fillD2GDS2
+        fillD2GDSDT
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDS2DP
+        fillD3GDSDTDP
+        fillD3GDSDP2
+
+        order(THIRD | FOURTH | NINTH | TENTH, t, p, r,
+                    NULL, NULL, dsdt, dsdp, NULL, NULL, NULL, NULL, d2sdtdp, d2sdp2);
+
+        *dtdp = d3gdtdp2;
+        for (i=0; i<NS; i++) {
+            *dtdp += 2.0*d3gdsdtdp[i]*dsdp[i] + d2gdsdt[i]*d2sdp2[i]
+             + 2.0*d2gdsdp[i]*d2sdtdp[i] + d3gdsdp2[i]*dsdt[i];
+            for (j=0; j<NS; j++) {
+                *dtdp += 2.0*d3gds2dp[i][j]*dsdt[i]*dsdp[j]
+               + d2gds2[i][j]*dsdt[i]*d2sdp2[j]
                + 2.0*d2gds2[i][j]*d2sdtdp[i]*dsdp[j]
                + d3gds2dt[i][j]*dsdp[i]*dsdp[j];
-        for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k]; 
-      }
+                for (k=0; k<NS; k++) *dtdp += d3gds3[i][j][k]*dsdt[i]*dsdp[j]*dsdp[k];
+            }
+        }
     }
-  }
 
-  if(mask & EIGHTH) {
-    double d3gdp3 = D3GDP3;
-    double d2gds2[NS][NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS],
-      d3gdsdp2[NS], dsdp[NS], d2sdp2[NS];
-    int i, j, k;
+    if(mask & EIGHTH) {
+        double d3gdp3 = D3GDP3;
+        double d2gds2[NS][NS], d2gdsdp[NS], d3gds3[NS][NS][NS], d3gds2dp[NS][NS],
+            d3gdsdp2[NS], dsdp[NS], d2sdp2[NS];
+        int i, j, k;
 
-    fillD2GDS2
-    fillD2GDSDP
-    fillD3GDS3
-    fillD3GDS2DP
-    fillD3GDSDP2
+        fillD2GDS2
+        fillD2GDSDP
+        fillD3GDS3
+        fillD3GDS2DP
+        fillD3GDSDP2
 
-    order(FOURTH | TENTH, t, p, r, 
-          NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, d2sdp2);
+        order(FOURTH | TENTH, t, p, r,
+                    NULL, NULL, NULL, dsdp, NULL, NULL, NULL, NULL, NULL, d2sdp2);
 
-    *dp2 = d3gdp3;
-    for (i=0; i<NS; i++) {
-      *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i]; 
-      for (j=0; j<NS; j++) {
-        *dp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
-              + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
-        for (k=0; k<NS; k++) *dp2 += d3gds3[i][j][k]*dsdp[i]*dsdp[j]*dsdp[k];
-      }
+        *dp2 = d3gdp3;
+        for (i=0; i<NS; i++) {
+            *dp2 += 3.0*d3gdsdp2[i]*dsdp[i] + 3.0*d2gdsdp[i]*d2sdp2[i];
+            for (j=0; j<NS; j++) {
+                *dp2 += 3.0*d2gds2[i][j]*dsdp[i]*d2sdp2[j]
+                            + 3.0*d3gds2dp[i][j]*dsdp[i]*dsdp[j];
+                for (k=0; k<NS; k++) *dp2 += d3gds3[i][j][k]*dsdp[i]*dsdp[j]*dsdp[k];
+            }
+        }
     }
-  }
 
-  if(mask & NINTH) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
-      d3gds2dp[NS][NS], d2gdrds[NR][NS], d3gdrdtdp[NR], d3gdsdtdp[NS],
-      dsdt[NS], dsdp[NS], dsdr[NS][NR], d2sdrdt[NS][NR], d2sdrdp[NS][NR],
-      d2gds2[NS][NS], d2gdsdt[NS], d3gdrdsdp[NR][NS], d2gdsdp[NS],
-      d2sdtdp[NS], d3gds2dt[NS][NS];
-    int i, j, k, l;
+    if(mask & NINTH) {
+        double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gdrdsdt[NR][NS],
+            d3gds2dp[NS][NS], d2gdrds[NR][NS], d3gdrdtdp[NR], d3gdsdtdp[NS],
+            dsdt[NS], dsdp[NS], dsdr[NS][NR], d2sdrdt[NS][NR], d2sdrdp[NS][NR],
+            d2gds2[NS][NS], d2gdsdt[NS], d3gdrdsdp[NR][NS], d2gdsdp[NS],
+            d2sdtdp[NS], d3gds2dt[NS][NS];
+        int i, j, k, l;
 
-    fillD2GDRDS
-    fillD2GDS2
-    fillD2GDSDT
-    fillD2GDSDP
-    fillD3GDRDS2
-    fillD3GDRDSDT
-    fillD3GDRDSDP
-    fillD3GDRDTDP
-    fillD3GDS3
-    fillD3GDS2DT
-    fillD3GDSDTDP
-    fillD3GDS2DP
+        fillD2GDRDS
+        fillD2GDS2
+        fillD2GDSDT
+        fillD2GDSDP
+        fillD3GDRDS2
+        fillD3GDRDSDT
+        fillD3GDRDSDP
+        fillD3GDRDTDP
+        fillD3GDS3
+        fillD3GDS2DT
+        fillD3GDSDTDP
+        fillD3GDS2DP
 
-    order(SECOND | THIRD | FOURTH | SIXTH | SEVENTH | NINTH, t, p, r,
-      NULL, dsdr, dsdt, dsdp, NULL, d2sdrdt, d2sdrdp, NULL, d2sdtdp, NULL);
+        order(SECOND | THIRD | FOURTH | SIXTH | SEVENTH | NINTH, t, p, r,
+            NULL, dsdr, dsdt, dsdp, NULL, d2sdrdt, d2sdrdp, NULL, d2sdtdp, NULL);
 
-    for (i=0; i<NR; i++) {
-      for (j=0,dxdt[i]=d3gdrdtdp[i]; j<NS; j++) {
-        dxdt[i] += d3gdsdtdp[j]*dsdr[j][i] + d2gdsdt[j]*d2sdrdp[j][i] +
+        for (i=0; i<NR; i++) {
+            for (j=0,dxdt[i]=d3gdrdtdp[i]; j<NS; j++) {
+                dxdt[i] += d3gdsdtdp[j]*dsdr[j][i] + d2gdsdt[j]*d2sdrdp[j][i] +
                    d3gdrdsdt[i][j]*dsdp[j] + d2gdrds[i][j]*d2sdtdp[j] +
                    d3gdrdsdp[i][j]*dsdt[j] + d2gdsdp[j]*d2sdrdt[j][i];
-        for (k=0; k<NS; k++) {
-          dxdt[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdp[k] +
+                for (k=0; k<NS; k++) {
+                    dxdt[i] += d3gdrds2[i][j][k]*dsdt[j]*dsdp[k] +
                      d2gds2[j][k]*dsdt[j]*d2sdrdp[k][i] +
                      d2gds2[j][k]*dsdp[j]*d2sdrdt[k][i] +
                      d3gds2dt[j][k]*dsdr[j][i]*dsdp[k] +
                      d3gds2dp[j][k]*dsdr[j][i]*dsdt[k] +
                      d2gds2[j][k]*dsdr[j][i]*d2sdtdp[k];
-          for (l=0; l<NS; l++)
-            dxdt[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdp[l];
+                    for (l=0; l<NS; l++)
+                        dxdt[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdt[k]*dsdp[l];
+                }
+            }
         }
-      }
     }
-  }
 
-  if(mask & TENTH) {
-    double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gds2dp[NS][NS],
-      d2gdrds[NR][NS], dsdp[NS], dsdr[NS][NR], d2sdrdp[NS][NR], d2gds2[NS][NS],
-      d3gdrdsdp[NR][NS], d3gdrdp2[NR], d3gdsdp2[NS], d2gdsdp[NS], d2sdp2[NS];    
-    int i, j, k, l;
+    if(mask & TENTH) {
+        double d3gds3[NS][NS][NS], d3gdrds2[NR][NS][NS], d3gds2dp[NS][NS],
+            d2gdrds[NR][NS], dsdp[NS], dsdr[NS][NR], d2sdrdp[NS][NR], d2gds2[NS][NS],
+            d3gdrdsdp[NR][NS], d3gdrdp2[NR], d3gdsdp2[NS], d2gdsdp[NS], d2sdp2[NS];
+        int i, j, k, l;
 
-    fillD2GDRDS
-    fillD2GDS2
-    fillD2GDSDP
-    fillD3GDRDS2
-    fillD3GDRDSDP
-    fillD3GDRDP2
-    fillD3GDS3
-    fillD3GDS2DP
-    fillD3GDSDP2
+        fillD2GDRDS
+        fillD2GDS2
+        fillD2GDSDP
+        fillD3GDRDS2
+        fillD3GDRDSDP
+        fillD3GDRDP2
+        fillD3GDS3
+        fillD3GDS2DP
+        fillD3GDSDP2
 
-    order(SECOND | FOURTH | SEVENTH | TENTH, t, p, r,
-      NULL, dsdr, NULL, dsdp, NULL, NULL, d2sdrdp, NULL, NULL, d2sdp2);
+        order(SECOND | FOURTH | SEVENTH | TENTH, t, p, r,
+            NULL, dsdr, NULL, dsdp, NULL, NULL, d2sdrdp, NULL, NULL, d2sdp2);
 
-    for (i=0; i<NR; i++) {
-      for (j=0,dxdp[i]=d3gdrdp2[i]; j<NS; j++) {
-        dxdp[i] += d3gdsdp2[j]*dsdr[j][i] + d2gdsdp[j]*d2sdrdp[j][i] +
+        for (i=0; i<NR; i++) {
+            for (j=0,dxdp[i]=d3gdrdp2[i]; j<NS; j++) {
+                dxdp[i] += d3gdsdp2[j]*dsdr[j][i] + d2gdsdp[j]*d2sdrdp[j][i] +
                    2.0*d3gdrdsdp[i][j]*dsdp[j] + d2gdrds[i][j]*d2sdp2[j] +
                    d2gdsdp[j]*d2sdrdp[j][i];
-        for (k=0; k<NS; k++) {
-          dxdp[i] += d3gdrds2[i][j][k]*dsdp[j]*dsdp[k] +
+                for (k=0; k<NS; k++) {
+                    dxdp[i] += d3gdrds2[i][j][k]*dsdp[j]*dsdp[k] +
                      2.0*d2gds2[j][k]*dsdp[j]*d2sdrdp[k][i] +
                      2.0*d3gds2dp[j][k]*dsdr[j][i]*dsdp[k] +
                      d2gds2[j][k]*dsdr[j][i]*d2sdp2[k];
-          for (l=0; l<NS; l++)
-            dxdp[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdp[k]*dsdp[l];
+                    for (l=0; l<NS; l++)
+                        dxdp[i] += d3gds3[j][k][l]*dsdr[j][i]*dsdp[k]*dsdp[l];
+                }
+            }
         }
-      }
     }
-  }
 
 }
 
