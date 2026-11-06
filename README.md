@@ -6,7 +6,7 @@ This repository is a fork of the **MAGMA** branch of Mark Ghiorso's **[xMELTS](h
 
 In this repository the original standalone rhyolite-MELTS (v 1.0.2, 1.1.x, 1.2.x) and pMELTS (v 5.6.1) graphical user interface (GUI) is replaced by Einari Suikkanen's easyMelts software, which has the same capabilities - plus working plots - in a modern and easy-to-use package. For additional documentation on the original GUI, visit the [MELTS website](http://melts.ofm-research.org/index.html). There you can find preconfigured executables for MacOS and Ubuntu platforms (though your mileage may vary, especially with the Linux ones).
 
-Both easyMelts and Melts-batch are provided for all macOS, Linux and Windows platforms. The Melts-batch executable can be used outside of MCS to simulate the MELTS web services (see the [schema documentation](http://melts.ofm-research.org/web0services.html)) and will be integrated in an upcoming release of the [GeoChemical Data toolkit](https://gcdkit.org/index.php) ([GCDkit](https://gcdkit.org/index.php)). No installation should be required for easyMelts or Melts-batch but more details will be provided in the Wiki soon.
+Both easyMelts and Melts-batch are provided for all macOS, Linux and Windows platforms. The Melts-batch executable can be used outside of MCS to simulate the MELTS web services (see the [schema documentation](http://melts.ofm-research.org/web-services.html)) and will be integrated in an upcoming release of the [GeoChemical Data toolkit](https://gcdkit.org/index.php) ([GCDkit](https://gcdkit.org/index.php)). No installation should be required for easyMelts or Melts-batch but more details will be provided in the Wiki soon.
 
 ## Downloading and running the software (MacOS, Linux or Windows) ##
 
