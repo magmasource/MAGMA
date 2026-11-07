@@ -731,7 +731,7 @@ static int batchInputDataFromXmlFile(char *fileName) {
                             silminState = NULL;
                             previousSilminState = NULL;
 
-                            /*if (silminState == NULL) silminState = allocSilminStatePointer(); 
+                            /*if (silminState == NULL) silminState = allocSilminStatePointer();
                                 was testing to avoid memory leak when destroy was nyi */
 
                             while (level2 != NULL) {
@@ -2725,19 +2725,9 @@ int main (int argc, char *argv[])
                 silminState->fractionateLiq = fractionateLiq;
             }
             else if (!strncmp(argv[2], "wetliquidus", 11)) {
-                int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu,
-                    fractionateLiq = silminState->fractionateLiq;
-                silminState->fractionateSol = FALSE;
-                silminState->fractionateFlu = FALSE;
-                silminState->fractionateLiq = FALSE;
-
                 (void) findWetLiquidus();
                 printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
                 (void) putOutputDataToFile(NULL);
-
-                silminState->fractionateSol = fractionateSol;
-                silminState->fractionateFlu = fractionateFlu;
-                silminState->fractionateLiq = fractionateLiq;
             }
             if ((argc == 2) || !strncmp(argv[2], "equilibrate", 11)) {
                 if ((silminState->fractionateSol || silminState->fractionateFlu) && silminState->fracSComp == (double **) NULL) {
@@ -2821,11 +2811,12 @@ int main (int argc, char *argv[])
                 exit(0);
             } else if (ret == RUN_WETLIQUIDUS_CALC) {
                 (void) findWetLiquidus();
-                printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
+                printf("Liquidus temperature is: %f\n", silminState->T-273.15);
                 putOutputDataToXmlFile(outputFile);
+                putSequenceDataToXmlFile(FALSE); /* finalize and close file (can only do one type of calculation in this mode) */
             } else if (ret == RUN_LIQUIDUS_CALC) {
                 while(!liquidus());
-                printf("Liquidus temperature is: %f\n", silminState->T-273.15); silminState->dspTstart = silminState->T;
+                printf("Liquidus temperature is: %f\n", silminState->T-273.15);
                 putOutputDataToXmlFile(outputFile);
             } else if (ret == RUN_EQUILIBRATE_CALC) {
                 while(!silmin());
@@ -2880,30 +2871,25 @@ int main (int argc, char *argv[])
                 } else if (ret == RUN_WETLIQUIDUS_CALC) {
                     meltsStatus.status = GENERIC_INTERNAL_ERROR;
                     (void) findWetLiquidus();
-                    (void) strcpy(silminInputData.name, iFileName);
                     putOutputDataToXmlFile(oFileName);
                     putStatusDataToXmlFile(sFileName);
                 } else if (ret == RUN_LIQUIDUS_CALC) {
                     meltsStatus.status = GENERIC_INTERNAL_ERROR;
                     while(!liquidus());
-                    (void) strcpy(silminInputData.name, iFileName);
                     putOutputDataToXmlFile(oFileName);
                     putStatusDataToXmlFile(sFileName);
                 } else if (ret == RUN_EQUILIBRATE_CALC) {
                     meltsStatus.status = GENERIC_INTERNAL_ERROR;
                     while(!silmin());
-                    (void) strcpy(silminInputData.name, iFileName);
                     putOutputDataToXmlFile(oFileName);
                     putStatusDataToXmlFile(sFileName);
                 } else if (ret == RETURN_WITHOUT_CALC) {
                     meltsStatus.status = SILMIN_SUCCESS;
-                    (void) strcpy(silminInputData.name, iFileName);
                     putOutputDataToXmlFile(oFileName);
                     putStatusDataToXmlFile(sFileName);
                 } else if (ret == RETURN_DO_FRACTIONATION) {
                     doBatchFractionation();
                     meltsStatus.status = SILMIN_SUCCESS;
-                    (void) strcpy(silminInputData.name, iFileName);
                     putOutputDataToXmlFile(oFileName);
                     putStatusDataToXmlFile(sFileName);
                 } else if (ret == RETURN_FINALIZED) {

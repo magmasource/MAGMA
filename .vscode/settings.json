@@ -56,5 +56,6 @@
         "vector": "cpp",
         "algorithm": "cpp",
         "chrono": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/Users/psmith/Developer/MAGMA/libxlsxwriter"
 }

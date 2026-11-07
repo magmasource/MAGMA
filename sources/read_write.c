@@ -1007,7 +1007,7 @@ int putOutputDataToFile(char *fileName)
     if (tableSol == NULL) {
         tableSol  = (FILE **) calloc((unsigned) npc, sizeof(FILE *));
     }
-#endif /* MAKES_TABLES */
+#endif /* MAKE_TABLES */
     if (r     == NULL) r     = (double *) malloc((unsigned) nlc*sizeof(double));
     if (m     == NULL) m     = (double *) malloc((unsigned) nlc*sizeof(double));
     if (oxVal == NULL) oxVal = (double *) malloc((unsigned) nc*sizeof(double));
@@ -1124,13 +1124,23 @@ int putOutputDataToFile(char *fileName)
             fprintf(output, "\n");
 
 #ifdef MAKE_TABLES
-            fprintf(tableLiq, "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
-            fprintf(tableLiq, ",%.13e,%.4f", oxSum, (volume == 0.0) ? 0.0 : oxSum/(10.0*volume));
-            for (i=0; i<nc; i++) fprintf(tableLiq, ",%.4f", oxVal[i]*100.0);
-            fprintf(tableLiq, ",%.13e,%.13e,%.13e,%.13e,%.13e", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
-            actLiq(FIRST, silminState->T, silminState->P, r, m, NULL, NULL, NULL);
-            for (i=0; i<nlc; i++) fprintf(tableLiq, ",%.7e", m[i]);
-            fprintf(tableLiq, ",%.4f", viscosity);
+            if (strstr(silminInputData.name, ".xml")   != NULL) {
+                fprintf(tableLiq, "%d,%23.16e,%23.16e,%23.16e", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
+                fprintf(tableLiq, ",%23.16e,%23.16e", oxSum, (volume == 0.0) ? 0.0 : oxSum/(10.0*volume));
+                for (i=0; i<nc; i++) fprintf(tableLiq, ",%23.16e", oxVal[i]*100.0);
+                fprintf(tableLiq, ",%23.16e,%23.16e,%23.16e,%23.16e,%23.16e", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
+                actLiq(FIRST, silminState->T, silminState->P, r, m, NULL, NULL, NULL);
+                for (i=0; i<nlc; i++) fprintf(tableLiq, ",%23.16e", m[i]);
+                fprintf(tableLiq, ",%23.16e", viscosity);
+            } else {
+                fprintf(tableLiq, "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
+                fprintf(tableLiq, ",%.13e,%.4f", oxSum, (volume == 0.0) ? 0.0 : oxSum/(10.0*volume));
+                for (i=0; i<nc; i++) fprintf(tableLiq, ",%.4f", oxVal[i]*100.0);
+                fprintf(tableLiq, ",%.13e,%.13e,%.13e,%.13e,%.13e", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
+                actLiq(FIRST, silminState->T, silminState->P, r, m, NULL, NULL, NULL);
+                for (i=0; i<nlc; i++) fprintf(tableLiq, ",%.7e", m[i]);
+                fprintf(tableLiq, ",%.4f", viscosity);
+            }
 #endif
         }
     } else {
@@ -1213,16 +1223,26 @@ int putOutputDataToFile(char *fileName)
                 fprintf(tableSol[j], "\n");
             }
 
+            if (strstr(silminInputData.name, ".xml")   != NULL) {
+                fprintf(tableSol[j], "%d,%23.16e,%23.16e,%23.16e", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
+                fprintf(tableSol[j], ",%23.16e,%23.16e", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+            } else {
                 fprintf(tableSol[j], "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
                 fprintf(tableSol[j], ",%.4f,%.4f", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+            }
 
             for (i=0, oxSum=0.0; i<nc; i++) {
                 oxVal[i]  = (solids[j].solToOx)[i]*bulkSystem[i].mw;
                 oxSum	 += oxVal[i];
             }
             if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
-            for (i=0; i<nc; i++) fprintf(tableSol[j], ",%.4f", oxVal[i]*100.0);
-            fprintf(tableSol[j], ",%.3f,%.3f,%.3f,%.3f,%.3f", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
+            if (strstr(silminInputData.name, ".xml")   != NULL) {
+                for (i=0; i<nc; i++) fprintf(tableSol[j], ",%23.16e", oxVal[i]*100.0);
+                fprintf(tableSol[j], ",%23.16e,%23.16e,%23.16e,%23.16e,%23.16e", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
+            } else{
+                for (i=0; i<nc; i++) fprintf(tableSol[j], ",%.4f", oxVal[i]*100.0);
+                fprintf(tableSol[j], ",%.3f,%.3f,%.3f,%.3f,%.3f", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
+            }
             fprintf(tableSol[j], "\n");
 #endif /* MAKE_TABLES */
         } else {
@@ -1325,8 +1345,14 @@ int putOutputDataToFile(char *fileName)
                 for (i=0; i<solids[j].na; i++) fprintf(tableSol[j], ",%13.13s", solids[j+1+i].label);
                 fprintf(tableSol[j], "\n");
             }
-            fprintf(tableSol[j], "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
-            fprintf(tableSol[j], ",%.4f,%.4f", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+
+            if (strstr(silminInputData.name, ".xml")   != NULL) {
+                fprintf(tableSol[j], "%d,%23.16e,%23.16e,%23.16e", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
+                fprintf(tableSol[j], ",%23.16e,%23.16e", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+            } else {
+                fprintf(tableSol[j], "%d,%.2f,%.3f,%.3f", rowIndex, silminState->T-273.15, silminState->P/1000.0, silminState->fo2);
+                fprintf(tableSol[j], ",%.4f,%.4f", mass, (volume == 0.0) ? 0.0 : mass/(10.0*volume));
+            }
 
             for (i=0, oxSum=0.0; i<nc; i++) {
                 int k;
@@ -1334,10 +1360,15 @@ int putOutputDataToFile(char *fileName)
             	oxSum += oxVal[i];
             }
             if (oxSum != 0.0) for (i=0; i<nc; i++) oxVal[i] /= oxSum;
-            for (i=0; i<nc; i++) fprintf(tableSol[j], ",%.4f", oxVal[i]*100.0);
-
-            fprintf(tableSol[j], ",%.3f,%.3f,%.3f,%.3f,%.3f", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
-            for (i=0; i<solids[j].na; i++) fprintf(tableSol[j], ",%.6f", m[i]/(silminState->solidComp)[j][ns]);
+            if (strstr(silminInputData.name, ".xml")   != NULL) {
+                for (i=0; i<nc; i++) fprintf(tableSol[j], ",%23.16e", oxVal[i]*100.0);
+                fprintf(tableSol[j], ",%23.16e,%23.16e,%23.16e,%23.16e,%23.16e", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
+                for (i=0; i<solids[j].na; i++) fprintf(tableSol[j], ",%23.16e", m[i]/(silminState->solidComp)[j][ns]);
+            } else{
+                for (i=0; i<nc; i++) fprintf(tableSol[j], ",%.4f", oxVal[i]*100.0);
+                fprintf(tableSol[j], ",%.3f,%.3f,%.3f,%.3f,%.3f", gibbsEnergy/1000.0, enthalpy/1000.0, entropy, volume*10.0, heatCapacity);
+                for (i=0; i<solids[j].na; i++) fprintf(tableSol[j], ",%.6f", m[i]/(silminState->solidComp)[j][ns]);
+            }
             fprintf(tableSol[j], "\n");
 #endif /* MAKE_TABLES */
         }
@@ -1353,8 +1384,13 @@ int putOutputDataToFile(char *fileName)
     fprintf(output, "\n");
 #ifdef MAKE_TABLES
     if (hasLiquid) {
-        fprintf(tableLiq, ",%.13e,%.4f", totalMass, (totalVolume == 0.0) ? 0.0 : totalMass/(10.0*totalVolume));
-        fprintf(tableLiq, ",%.13e,%.13e,%.13e,%.13e,%.13e", totalGibbsEnergy/1000.0, totalEnthalpy/1000.0, totalEntropy, totalVolume*10.0, totalHeatCapacity);
+        if (strstr(silminInputData.name, ".xml")   != NULL) {
+            fprintf(tableLiq, ",%23.16e,%23.16e", totalMass, (totalVolume == 0.0) ? 0.0 : totalMass/(10.0*totalVolume));
+            fprintf(tableLiq, ",%23.16e,%23.16e,%23.16e,%23.16e,%23.16e", totalGibbsEnergy/1000.0, totalEnthalpy/1000.0, totalEntropy, totalVolume*10.0, totalHeatCapacity);
+        } else{
+            fprintf(tableLiq, ",%.13e,%.4f", totalMass, (totalVolume == 0.0) ? 0.0 : totalMass/(10.0*totalVolume));
+            fprintf(tableLiq, ",%.13e,%.13e,%.13e,%.13e,%.13e", totalGibbsEnergy/1000.0, totalEnthalpy/1000.0, totalEntropy, totalVolume*10.0, totalHeatCapacity);
+        }
     }
 #endif
 
@@ -1527,19 +1563,35 @@ int putOutputDataToFile(char *fileName)
         fprintf(output, "\n");
 #ifdef MAKE_TABLES
         if (hasLiquid) {
-            fprintf(tableLiq, ",%20.13e", (gLiq+totalGibbsEnergy)/1000.0);
-            fprintf(tableLiq, ",%20.13e", (hLiq+totalEnthalpy)/1000.0);
-            fprintf(tableLiq, ",%20.13e", (sLiq+totalEntropy));
-            fprintf(tableLiq, ",%20.13e", (vLiq+totalVolume)*10.0);
-            fprintf(tableLiq, ",%20.13e", (cpLiq+totalHeatCapacity));
-            fprintf(tableLiq, ",%20.13e", (dvdtLiq+totaldVolumeDt)*10.0);
-            fprintf(tableLiq, ",%20.13e", (dvdpLiq+totaldVolumeDp)*10.0);
-            fprintf(tableLiq, ",%20.13e", ((vLiq+totalVolume) != 0.0) ?  (dvdtLiq+totaldVolumeDt)/(vLiq+totalVolume) : 0.0);
-            fprintf(tableLiq, ",%20.13e", ((vLiq+totalVolume) != 0.0) ? -(dvdpLiq+totaldVolumeDp)/(vLiq+totalVolume) : 0.0);
-            fprintf(tableLiq, ",%20.13e", dvdtLiq*10.0);
-            fprintf(tableLiq, ",%20.13e", dvdpLiq*10.0);
-            fprintf(tableLiq, ",%20.13e", (vLiq != 0.0) ?  dvdtLiq/vLiq : 0.0);
-            fprintf(tableLiq, ",%20.13e", (vLiq != 0.0) ? -dvdpLiq/vLiq : 0.0);
+            if (strstr(silminInputData.name, ".xml")   != NULL) {
+                fprintf(tableLiq, ",%23.16e", (gLiq+totalGibbsEnergy)/1000.0);
+                fprintf(tableLiq, ",%23.16e", (hLiq+totalEnthalpy)/1000.0);
+                fprintf(tableLiq, ",%23.16e", (sLiq+totalEntropy));
+                fprintf(tableLiq, ",%23.16e", (vLiq+totalVolume)*10.0);
+                fprintf(tableLiq, ",%23.16e", (cpLiq+totalHeatCapacity));
+                fprintf(tableLiq, ",%23.16e", (dvdtLiq+totaldVolumeDt)*10.0);
+                fprintf(tableLiq, ",%23.16e", (dvdpLiq+totaldVolumeDp)*10.0);
+                fprintf(tableLiq, ",%23.16e", ((vLiq+totalVolume) != 0.0) ?  (dvdtLiq+totaldVolumeDt)/(vLiq+totalVolume) : 0.0);
+                fprintf(tableLiq, ",%23.16e", ((vLiq+totalVolume) != 0.0) ? -(dvdpLiq+totaldVolumeDp)/(vLiq+totalVolume) : 0.0);
+                fprintf(tableLiq, ",%23.16e", dvdtLiq*10.0);
+                fprintf(tableLiq, ",%23.16e", dvdpLiq*10.0);
+                fprintf(tableLiq, ",%23.16e", (vLiq != 0.0) ?  dvdtLiq/vLiq : 0.0);
+                fprintf(tableLiq, ",%23.16e", (vLiq != 0.0) ? -dvdpLiq/vLiq : 0.0);
+            } else{
+                fprintf(tableLiq, ",%20.13e", (gLiq+totalGibbsEnergy)/1000.0);
+                fprintf(tableLiq, ",%20.13e", (hLiq+totalEnthalpy)/1000.0);
+                fprintf(tableLiq, ",%20.13e", (sLiq+totalEntropy));
+                fprintf(tableLiq, ",%20.13e", (vLiq+totalVolume)*10.0);
+                fprintf(tableLiq, ",%20.13e", (cpLiq+totalHeatCapacity));
+                fprintf(tableLiq, ",%20.13e", (dvdtLiq+totaldVolumeDt)*10.0);
+                fprintf(tableLiq, ",%20.13e", (dvdpLiq+totaldVolumeDp)*10.0);
+                fprintf(tableLiq, ",%20.13e", ((vLiq+totalVolume) != 0.0) ?  (dvdtLiq+totaldVolumeDt)/(vLiq+totalVolume) : 0.0);
+                fprintf(tableLiq, ",%20.13e", ((vLiq+totalVolume) != 0.0) ? -(dvdpLiq+totaldVolumeDp)/(vLiq+totalVolume) : 0.0);
+                fprintf(tableLiq, ",%20.13e", dvdtLiq*10.0);
+                fprintf(tableLiq, ",%20.13e", dvdpLiq*10.0);
+                fprintf(tableLiq, ",%20.13e", (vLiq != 0.0) ?  dvdtLiq/vLiq : 0.0);
+                fprintf(tableLiq, ",%20.13e", (vLiq != 0.0) ? -dvdpLiq/vLiq : 0.0);
+            }
             fprintf(tableLiq, "\n");
         }
 #endif

@@ -347,12 +347,19 @@ int findWetLiquidus(void) {
     int *oldIncSolids = (int *) malloc((size_t) npc*sizeof(int));
     double oldT = 0.0, dspTstart, dspTstop, dspTinc;
     int i, j, iter = 0, failure = TRUE;
+    int fractionateSol = silminState->fractionateSol, fractionateFlu = silminState->fractionateFlu,
+        fractionateLiq = silminState->fractionateLiq;
+
 
     if ((silminState->solidMass > 0.0) || (silminState->nLiquidCoexist > 1)) {
         meltsStatus.status = LIQUIDUS_MULTIPLE;
         printf("<><><><> !!! <><><><> Unable to locate (Wet) liquidus with solids/multiple liquids present.\n");
     }
     else {
+      silminState->fractionateSol = FALSE;
+      silminState->fractionateFlu = FALSE;
+      silminState->fractionateLiq = FALSE;
+
       dspTstart = silminState->dspTstart;
       dspTstop  = silminState->dspTstop;
       dspTinc   = silminState->dspTinc;
@@ -383,6 +390,8 @@ int findWetLiquidus(void) {
 
             for (i=0, j=0; i<npc; i++) if ((solids[i].type == PHASE) && (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL))) {
                     (silminState->incSolids)[j] = oldIncSolids[j];
+                    if (!strcmp("water", solids[i].label)) (silminState->incSolids)[j] = FALSE; // rMELTSframework has only "water"
+                    if (!strcmp("fluid", solids[i].label)) (silminState->incSolids)[j] = FALSE; // alphaMELTS has only "fluid"
                     j++;
                 }
             silminState->solidMass = 0.0; // added to make sure liquidus() doesn't fail
@@ -397,11 +406,19 @@ int findWetLiquidus(void) {
             silminState->dspTstop  = silminState->T;
             iter++;
         } while ((fabs(oldT - silminState->T) > 0.5) && (iter < 50));
+
+        for (i=0, j=0; i<npc; i++) if ((solids[i].type == PHASE) && (solids[i].nr == 0 || (solids[i].nr > 0 && solids[i].convert != NULL))) {
+            (silminState->incSolids)[j] = oldIncSolids[j];
+            j++;
+        }
+        silminState->fractionateSol = fractionateSol;
+        silminState->fractionateFlu = fractionateFlu;
+        silminState->fractionateLiq = fractionateLiq;
+        silminState->dspTstop    = dspTstop;
         silminState->dspTinc     = dspTinc;
 
         if (iter == 50) {
             silminState->dspTstart   = dspTstart;
-            silminState->dspTstop    = dspTstop;
             meltsStatus.status = GENERIC_INTERNAL_ERROR;
             printf("<><><><> !!! <><><><> Unable to locate (Wet) liquidus.\n");
         } else {

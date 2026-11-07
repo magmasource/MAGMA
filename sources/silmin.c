@@ -1513,7 +1513,8 @@ int silmin(int calc_index)
 
                 for (nl=0; nl<silminState->nLiquidCoexist; nl++) {
                     double mass = 0.0;
-                    for (i=0; i<nlc; i++) for (j=0; j<nc; j++) mass += silminState->liquidComp[nl][i]*(liquid[i].liqToOx)[j]*bulkSystem[j].mw;
+                    //for (i=0; i<nlc; i++) for (j=0; j<nc; j++) mass += silminState->liquidComp[nl][i]*(liquid[i].liqToOx)[j]*bulkSystem[j].mw;
+                    for (i=0; i<nlc; i++) mass += silminState->liquidComp[nl][i]; // use moles like solid phases
 
                     if (mass < MASSOUT) {
 #ifndef BATCH_VERSION
@@ -1559,7 +1560,12 @@ int silmin(int calc_index)
 
             /* check if liquid is trying to disappear - if the liquid mass is this low, there will only be one liquid */
             if (hasLiquid) {
-                if (silminState->liquidMass < MASSOUT) {
+                double mass = 0.0;
+                //for (i=0; i<nlc; i++) for (j=0; j<nc; j++) mass += silminState->liquidComp[nl][i]*(liquid[i].liqToOx)[j]*bulkSystem[j].mw;
+                for (i=0; i<nlc; i++) mass += silminState->liquidComp[nl][i]; // use moles like solid phases
+
+                if (mass < MASSOUT) {
+                //if (silminState->liquidMass < MASSOUT) {
                     int success;
                     double *deltaBulkComp = (double *) calloc((size_t) nc,sizeof(double));
 #ifndef BATCH_VERSION
