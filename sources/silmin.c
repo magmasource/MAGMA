@@ -1562,7 +1562,7 @@ int silmin(int calc_index)
             if (hasLiquid) {
                 double mass = 0.0;
                 //for (i=0; i<nlc; i++) for (j=0; j<nc; j++) mass += silminState->liquidComp[nl][i]*(liquid[i].liqToOx)[j]*bulkSystem[j].mw;
-                for (i=0; i<nlc; i++) mass += silminState->liquidComp[nl][i]; // use moles like solid phases
+                for (i=0; i<nlc; i++) mass += silminState->liquidComp[0][i]; // use moles like solid phases
 
                 if (mass < MASSOUT) {
                 //if (silminState->liquidMass < MASSOUT) {
